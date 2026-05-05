@@ -1,4 +1,22 @@
 # ============================================================================
+#  !!!! WARNING — READ BEFORE EDITING !!!!
+#
+#  This .py file is the Python SOURCE for the notebook. The canonical runnable
+#  artifact is `cukd_xai_colab.ipynb`, which contains a STATUS BANNER cell at
+#  the top that is NOT present in this .py file.
+#
+#  DO NOT run `python3 make_notebook.py` after editing this file — it will
+#  regenerate the .ipynb and OVERWRITE the Status Banner. You will lose your
+#  primary orientation tool inside Colab.
+#
+#  If you need to propagate a code edit, do it by editing the .ipynb directly
+#  (cell-by-cell) or ask Claude to re-apply the Status Banner after regenerating.
+#
+#  Bug fixes applied April 11, 2026 are marked `# FIXED 2026-04-11:` inline.
+#  See RESUME_HERE.md for full project context.
+# ============================================================================
+
+# ============================================================================
 # CuKD-XAI: Curriculum-Guided Knowledge Distillation with Explainability
 # for Lightweight WSN Intrusion Detection
 #
@@ -73,7 +91,20 @@ TRAIN_CONFIG = {
 # Teacher dropout is set in TeacherMLP constructor, not passed through TRAIN_CONFIG
 
 # CL pacing stages: list of (fraction, epochs)
-CL_STAGES = [(0.33, 7), (0.66, 7), (1.0, 11)]
+#
+# FIXED 2026-04-11 (v2.3): Two variants are now tested in parallel to rule out
+# compute-budget unfairness as a confounder.
+#
+#   FAIR   — 3+3+24 = 30 total epochs, matches Config B's budget exactly.
+#            Fair comparison: "does CL help when we hold total compute constant?"
+#   EXT    — 5+5+30 = 40 total epochs, gives CL extra training time.
+#            Generous comparison: "does CL help when we give it a larger budget?"
+#
+# Original (v2.0, broken) was [(0.33,7),(0.66,7),(1.0,11)] = 25 total with
+# only 11 epochs on the full distribution, which badly under-trained Stage 3.
+CL_STAGES_FAIR = [(0.33, 3), (0.66, 3), (1.0, 24)]       # 30 total, matches B
+CL_STAGES_EXT  = [(0.33, 5), (0.66, 5), (1.0, 30)]       # 40 total, extended
+CL_STAGES = CL_STAGES_FAIR  # default when called with no explicit stages arg
 
 # Student architectures to test
 STUDENT_A_HIDDEN = (32, 16)   # Ultra-compact: 1,189 params
@@ -260,7 +291,12 @@ def _batched_probs(model: nn.Module, X: torch.Tensor, batch_size: int = 4096):
 
 
 def evaluate_model(model: nn.Module, X: torch.Tensor, y: torch.Tensor) -> dict:
-    """Return dict of evaluation metrics."""
+    """Return dict of evaluation metrics.
+
+    FIXED 2026-04-11 (v2.3): Now also returns per-class precision and recall
+    (previously only per-class F1). Useful for analyzing the Grayhole<->Blackhole
+    confusion pattern seen in the v2.0 run.
+    """
     preds = _batched_predict(model, X)
     y_np = y.cpu().numpy() if torch.is_tensor(y) else np.asarray(y)
 
@@ -268,14 +304,18 @@ def evaluate_model(model: nn.Module, X: torch.Tensor, y: torch.Tensor) -> dict:
     prec, rec, f1, _ = precision_recall_fscore_support(
         y_np, preds, average='macro', zero_division=0
     )
-    per_class_f1 = f1_score(y_np, preds, average=None, zero_division=0)
+    per_class_prec, per_class_rec, per_class_f1_arr, _ = precision_recall_fscore_support(
+        y_np, preds, average=None, zero_division=0
+    )
     cm = confusion_matrix(y_np, preds)
     return {
         'accuracy': float(acc),
         'macro_precision': float(prec),
         'macro_recall': float(rec),
         'macro_f1': float(f1),
-        'per_class_f1': per_class_f1.tolist(),
+        'per_class_precision': per_class_prec.tolist(),
+        'per_class_recall': per_class_rec.tolist(),
+        'per_class_f1': per_class_f1_arr.tolist(),
         'confusion_matrix': cm.tolist(),
     }
 
@@ -412,6 +452,7 @@ def train_with_curriculum(model: nn.Module, X: torch.Tensor, y: torch.Tensor,
                           class_weights: torch.Tensor = None,
                           batch_size: int = 256, lr: float = 1e-3,
                           weight_decay: float = 1e-3,
+                          patience: int = 8,
                           return_loss_curve: bool = False,
                           verbose: bool = False):
     """Curriculum learning with discrete stage pacing.
@@ -419,10 +460,18 @@ def train_with_curriculum(model: nn.Module, X: torch.Tensor, y: torch.Tensor,
     stages: list of (fraction, epochs). Samples with difficulty_order[:n]
     are used in each stage (easy-first if difficulty_order is loss-ascending).
     """
+    # FIXED 2026-04-11 (v2.2): Previously one global optimizer + cosine scheduler
+    # spanning all stages. With CL_STAGES = [(0.33,7),(0.66,7),(1.0,11)] the LR
+    # was nearly half-decayed by the time Stage 3 reached the full dataset. We
+    # now create a FRESH optimizer + per-stage cosine schedule at each stage
+    # transition, so Stage 3 gets a full cosine cycle on the full data.
+    #
+    # FIXED 2026-04-11 (v2.3): Added early stopping with `patience` parameter
+    # (defaults to 8, same as train_standard). Without this, CL got unlimited
+    # training time while train_standard (Config B) had early stopping —
+    # an unfair compute comparison. Patience is GLOBAL across stages so the
+    # two functions have symmetric compute budgets.
     model = model.to(device)
-    total_epochs = sum(s[1] for s in stages)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=total_epochs)
 
     if class_weights is not None:
         class_weights = class_weights.to(device)
@@ -437,17 +486,25 @@ def train_with_curriculum(model: nn.Module, X: torch.Tensor, y: torch.Tensor,
     val_curve = []
     best_val = 0.0
     best_state = None
+    bad = 0
+    stopped_early = False
     n_total = len(X)
 
     for stage_idx, (frac, n_epochs) in enumerate(stages):
+        if stopped_early:
+            break
         n_use = int(n_total * frac)
         idx = torch.tensor(np.asarray(difficulty_order[:n_use]),
                            dtype=torch.long, device=device)
         stage_ds = TensorDataset(X_d[idx], y_d[idx])
         stage_loader = DataLoader(stage_ds, batch_size=batch_size, shuffle=True)
 
+        # Per-stage fresh optimizer + cosine schedule scoped to this stage's epochs
+        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
+
         if verbose:
-            print(f"  Stage {stage_idx+1}: {n_use}/{n_total} samples, {n_epochs} epochs")
+            print(f"  Stage {stage_idx+1}: {n_use}/{n_total} samples, {n_epochs} epochs, fresh optimizer+scheduler")
 
         for epoch in range(n_epochs):
             model.train()
@@ -471,6 +528,14 @@ def train_with_curriculum(model: nn.Module, X: torch.Tensor, y: torch.Tensor,
             if val_f1 > best_val:
                 best_val = val_f1
                 best_state = copy.deepcopy(model.state_dict())
+                bad = 0
+            else:
+                bad += 1
+                if bad >= patience:
+                    if verbose:
+                        print(f"  Early stopping at stage {stage_idx+1}, epoch {epoch+1}")
+                    stopped_early = True
+                    break
 
     if best_state is not None:
         model.load_state_dict(best_state)
@@ -771,35 +836,74 @@ def run_all_configs(seed: int,
     )
     domain_order = compute_difficulty_domain_based(y_train, CLASS_NAMES)
 
-    # ----- Config C: CL-trained MLP teacher (loss-based difficulty) -----
-    if verbose: print("[C] CL-trained MLP (loss-based)...")
+    # FIXED 2026-04-11 (v2.3): Train TWO CL variants side-by-side.
+    # C_fair   — CL with fair compute budget (matches Config B exactly)
+    # C_ext    — CL with extended compute budget (+33% total epochs)
+    # This lets us separate "CL doesn't help" from "CL needs more compute".
+    # Config F (KD student) is similarly forked into F_fair and F_ext.
+
+    # ----- Config C (fair): CL teacher, loss-based difficulty, matched budget -----
+    if verbose: print("[C_fair] CL-trained MLP (loss-based, fair budget)...")
     t0 = time.perf_counter()
-    teacher_c = TeacherMLP(INPUT_DIM, NUM_CLASSES)
-    teacher_c, c_curve = train_with_curriculum(
-        teacher_c, X_train_t, y_train_t, loss_order, X_val_t, y_val_t,
-        stages=CL_STAGES, class_weights=class_weights,
+    teacher_c_fair = TeacherMLP(INPUT_DIM, NUM_CLASSES)
+    teacher_c_fair, c_fair_curve = train_with_curriculum(
+        teacher_c_fair, X_train_t, y_train_t, loss_order, X_val_t, y_val_t,
+        stages=CL_STAGES_FAIR, class_weights=class_weights,
         return_loss_curve=True
     )
-    c_time = time.perf_counter() - t0
-    m_c = evaluate_model(teacher_c, X_test_t, y_test_t)
-    m_c['ece'] = expected_calibration_error(
-        _batched_probs(teacher_c, X_test_t), y_test
+    c_fair_time = time.perf_counter() - t0
+    m_c_fair = evaluate_model(teacher_c_fair, X_test_t, y_test_t)
+    m_c_fair['ece'] = expected_calibration_error(
+        _batched_probs(teacher_c_fair, X_test_t), y_test
     )
-    m_c['params'] = count_params(teacher_c)
-    m_c['model_size_kb'] = model_size_kb(teacher_c)
-    m_c['train_time_sec'] = c_time
-    m_c['loss_curve'] = c_curve
-    results['C_CL_MLP_loss'] = m_c
+    m_c_fair['params'] = count_params(teacher_c_fair)
+    m_c_fair['model_size_kb'] = model_size_kb(teacher_c_fair)
+    m_c_fair['train_time_sec'] = c_fair_time
+    m_c_fair['loss_curve'] = c_fair_curve
+    results['C_CL_MLP_loss_fair'] = m_c_fair
+    models['C_CL_MLP_loss_fair'] = teacher_c_fair
+
+    # ----- Config C (ext): CL teacher, loss-based difficulty, extended budget -----
+    if verbose: print("[C_ext] CL-trained MLP (loss-based, extended budget)...")
+    t0 = time.perf_counter()
+    teacher_c_ext = TeacherMLP(INPUT_DIM, NUM_CLASSES)
+    teacher_c_ext, c_ext_curve = train_with_curriculum(
+        teacher_c_ext, X_train_t, y_train_t, loss_order, X_val_t, y_val_t,
+        stages=CL_STAGES_EXT, class_weights=class_weights,
+        return_loss_curve=True
+    )
+    c_ext_time = time.perf_counter() - t0
+    m_c_ext = evaluate_model(teacher_c_ext, X_test_t, y_test_t)
+    m_c_ext['ece'] = expected_calibration_error(
+        _batched_probs(teacher_c_ext, X_test_t), y_test
+    )
+    m_c_ext['params'] = count_params(teacher_c_ext)
+    m_c_ext['model_size_kb'] = model_size_kb(teacher_c_ext)
+    m_c_ext['train_time_sec'] = c_ext_time
+    m_c_ext['loss_curve'] = c_ext_curve
+    results['C_CL_MLP_loss_ext'] = m_c_ext
+    models['C_CL_MLP_loss_ext'] = teacher_c_ext
+
+    # FIXED 2026-04-11 (v2.3): alias C_CL_MLP_loss DETERMINISTICALLY to the FAIR
+    # variant (not data-dependent). A data-dependent alias breaks aggregation
+    # across seeds because different seeds might pick different underlying variants,
+    # turning the aggregate into a chimera. The "fair" variant is also the more
+    # reviewer-defensible primary result, so we use it as the canonical CL teacher.
+    teacher_c = teacher_c_fair
+    results['C_CL_MLP_loss'] = {**m_c_fair, '_source': 'fair (alias)'}
     models['C_CL_MLP_loss'] = teacher_c
 
-    # ----- Config C2: CL teacher with domain-based difficulty -----
-    if verbose: print("[C2] CL-trained MLP (domain-based)...")
+    # ----- Config C2: CL teacher with domain-based difficulty (fair budget) -----
+    if verbose: print("[C2] CL-trained MLP (domain-based, fair budget)...")
     teacher_c2 = TeacherMLP(INPUT_DIM, NUM_CLASSES)
     teacher_c2 = train_with_curriculum(
         teacher_c2, X_train_t, y_train_t, domain_order, X_val_t, y_val_t,
-        stages=CL_STAGES, class_weights=class_weights,
+        stages=CL_STAGES_FAIR, class_weights=class_weights,
     )
     m_c2 = evaluate_model(teacher_c2, X_test_t, y_test_t)
+    m_c2['ece'] = expected_calibration_error(
+        _batched_probs(teacher_c2, X_test_t), y_test
+    )
     m_c2['params'] = count_params(teacher_c2)
     m_c2['model_size_kb'] = model_size_kb(teacher_c2)
     results['C2_CL_MLP_domain'] = m_c2
@@ -847,6 +951,10 @@ def run_all_configs(seed: int,
     m_e = evaluate_model(student_e, X_test_t, y_test_t)
     m_e['params'] = count_params(student_e)
     m_e['model_size_kb'] = model_size_kb(student_e)
+    m_e['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+    m_e['ece'] = expected_calibration_error(
+        _batched_probs(student_e, X_test_t), y_test
+    )
     m_e['train_time_sec'] = e_time
     results['E_KD_from_RF'] = m_e
     models['E_KD_from_RF'] = student_e
@@ -862,31 +970,69 @@ def run_all_configs(seed: int,
     m_e2 = evaluate_model(student_e2, X_test_t, y_test_t)
     m_e2['params'] = count_params(student_e2)
     m_e2['model_size_kb'] = model_size_kb(student_e2)
+    m_e2['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+    m_e2['ece'] = expected_calibration_error(
+        _batched_probs(student_e2, X_test_t), y_test
+    )
     results['E2_KD_from_MLP'] = m_e2
     models['E2_KD_from_MLP'] = student_e2
 
-    # ----- Config F: KD from CL-trained MLP (CORE CLAIM) -----
-    if verbose: print("[F] KD from CL-MLP (CORE CLAIM)...")
-    student_f = StudentMLP(INPUT_DIM, student_hidden, NUM_CLASSES)
-    student_f = train_kd(
-        student_f, teacher_c, X_train_t, y_train_t, X_val_t, y_val_t,
+    # FIXED 2026-04-11 (v2.3): Config F is now two configs — F_fair and F_ext —
+    # distilling from the two CL teacher variants. Comparing F_fair vs E2 tells
+    # us whether CL helps at equal budget. F_ext vs E2 tells us whether CL helps
+    # with extra budget.
+
+    # ----- Config F_fair: KD from CL-trained MLP (fair budget) -----
+    if verbose: print("[F_fair] KD from fair-budget CL-MLP...")
+    student_f_fair = StudentMLP(INPUT_DIM, student_hidden, NUM_CLASSES)
+    student_f_fair = train_kd(
+        student_f_fair, teacher_c_fair, X_train_t, y_train_t, X_val_t, y_val_t,
         T=kd_T, alpha=kd_alpha, class_weights=class_weights,
         epochs=TRAIN_CONFIG['epochs'], batch_size=TRAIN_CONFIG['batch_size']
     )
-    m_f = evaluate_model(student_f, X_test_t, y_test_t)
-    m_f['params'] = count_params(student_f)
-    m_f['model_size_kb'] = model_size_kb(student_f)
-    results['F_KD_from_CL_MLP'] = m_f
-    models['F_KD_from_CL_MLP'] = student_f
+    m_f_fair = evaluate_model(student_f_fair, X_test_t, y_test_t)
+    m_f_fair['params'] = count_params(student_f_fair)
+    m_f_fair['model_size_kb'] = model_size_kb(student_f_fair)
+    m_f_fair['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+    m_f_fair['ece'] = expected_calibration_error(
+        _batched_probs(student_f_fair, X_test_t), y_test
+    )
+    results['F_KD_from_CL_MLP_fair'] = m_f_fair
+    models['F_KD_from_CL_MLP_fair'] = student_f_fair
 
-    # ----- Config G: KD from random-pacing MLP (control) -----
+    # ----- Config F_ext: KD from CL-trained MLP (extended budget) -----
+    if verbose: print("[F_ext] KD from extended-budget CL-MLP...")
+    student_f_ext = StudentMLP(INPUT_DIM, student_hidden, NUM_CLASSES)
+    student_f_ext = train_kd(
+        student_f_ext, teacher_c_ext, X_train_t, y_train_t, X_val_t, y_val_t,
+        T=kd_T, alpha=kd_alpha, class_weights=class_weights,
+        epochs=TRAIN_CONFIG['epochs'], batch_size=TRAIN_CONFIG['batch_size']
+    )
+    m_f_ext = evaluate_model(student_f_ext, X_test_t, y_test_t)
+    m_f_ext['params'] = count_params(student_f_ext)
+    m_f_ext['model_size_kb'] = model_size_kb(student_f_ext)
+    m_f_ext['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+    m_f_ext['ece'] = expected_calibration_error(
+        _batched_probs(student_f_ext, X_test_t), y_test
+    )
+    results['F_KD_from_CL_MLP_ext'] = m_f_ext
+    models['F_KD_from_CL_MLP_ext'] = student_f_ext
+
+    # FIXED 2026-04-11 (v2.3): Alias F_KD_from_CL_MLP DETERMINISTICALLY to F_fair.
+    # Same reasoning as C_CL_MLP_loss above: a data-dependent alias breaks
+    # multi-seed aggregation. F_fair is also the reviewer-defensible primary.
+    results['F_KD_from_CL_MLP'] = {**m_f_fair, '_source': 'fair (alias)'}
+    models['F_KD_from_CL_MLP'] = student_f_fair
+
+    # ----- Config G: KD from random-pacing MLP (control, fair budget) -----
     if verbose: print("[G] KD from random-pacing MLP (control)...")
     random_order = np.random.RandomState(seed).permutation(len(X_train))
     teacher_g = TeacherMLP(INPUT_DIM, NUM_CLASSES)
     teacher_g = train_with_curriculum(
         teacher_g, X_train_t, y_train_t, random_order, X_val_t, y_val_t,
-        stages=CL_STAGES, class_weights=class_weights,
+        stages=CL_STAGES_FAIR, class_weights=class_weights,
     )
+    # Compute ECE for Config G teacher
     student_g = StudentMLP(INPUT_DIM, student_hidden, NUM_CLASSES)
     student_g = train_kd(
         student_g, teacher_g, X_train_t, y_train_t, X_val_t, y_val_t,
@@ -896,6 +1042,14 @@ def run_all_configs(seed: int,
     m_g = evaluate_model(student_g, X_test_t, y_test_t)
     m_g['params'] = count_params(student_g)
     m_g['model_size_kb'] = model_size_kb(student_g)
+    m_g['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+    m_g['ece'] = expected_calibration_error(
+        _batched_probs(student_g, X_test_t), y_test
+    )
+    # Also save teacher G ECE for the "CL improves calibration" analysis
+    m_g['teacher_ece'] = expected_calibration_error(
+        _batched_probs(teacher_g, X_test_t), y_test
+    )
     results['G_KD_random_pacing'] = m_g
     models['G_KD_random_pacing'] = student_g
 
@@ -923,6 +1077,13 @@ def run_all_configs(seed: int,
         m_i = evaluate_model(student_i, X_test_t, y_test_t)
         m_i['params'] = count_params(student_i)
         m_i['model_size_kb'] = model_size_kb(student_i)
+        m_i['flops'] = compute_flops_mlp(INPUT_DIM, student_hidden, NUM_CLASSES)
+        m_i['ece'] = expected_calibration_error(
+            _batched_probs(student_i, X_test_t), y_test
+        )
+        m_i['teacher_ece'] = expected_calibration_error(
+            _batched_probs(teacher_i, X_test_t), y_test
+        )
         results['I_KD_from_SMOTE_MLP'] = m_i
         models['I_KD_from_SMOTE_MLP'] = student_i
     except ImportError:
@@ -1122,23 +1283,48 @@ print("\n" + "=" * 60)
 print("KEY WILCOXON COMPARISONS (Student A)")
 print("=" * 60)
 key_comparisons = [
-    ('C_CL_MLP_loss', 'B_Full_MLP',     "Does CL help teacher? (C vs B)"),
-    ('F_KD_from_CL_MLP', 'E2_KD_from_MLP', "Does CL cascade through KD? (F vs E2, CORE)"),
+    # Teacher-level CL question
+    ('C_CL_MLP_loss_fair', 'B_Full_MLP', "Does CL help teacher at FAIR budget? (C_fair vs B)"),
+    ('C_CL_MLP_loss_ext',  'B_Full_MLP', "Does CL help teacher at EXT budget? (C_ext vs B)"),
+    # Student-level CL question (the core claim)
+    ('F_KD_from_CL_MLP_fair', 'E2_KD_from_MLP', "Does CL cascade at FAIR budget? (F_fair vs E2)"),
+    ('F_KD_from_CL_MLP_ext',  'E2_KD_from_MLP', "Does CL cascade at EXT budget? (F_ext vs E2)"),
+    # KD-effectiveness question
     ('F_KD_from_CL_MLP', 'D_Small_MLP', "Does KD beat scratch? (F vs D)"),
+    ('E2_KD_from_MLP',   'D_Small_MLP', "Does KD work at all? (E2 vs D)"),
+    # Difficulty-ordering vs pacing
     ('F_KD_from_CL_MLP', 'G_KD_random_pacing', "Order vs random pacing? (F vs G)"),
+    # CL vs SMOTE alternative
     ('F_KD_from_CL_MLP', 'I_KD_from_SMOTE_MLP', "CL vs SMOTE teacher? (F vs I)"),
-    ('E2_KD_from_MLP', 'D_Small_MLP',     "Does KD work at all? (E2 vs D)"),
+    # Tree vs NN teacher
     ('E_KD_from_RF', 'E2_KD_from_MLP',    "RF teacher vs MLP teacher? (E vs E2)"),
 ]
+# FIXED 2026-04-11: Wilcoxon results were previously only printed to stdout.
+# Now we persist them to a dict so they can be saved to the final JSON output.
+wilcoxon_results = {}
 for a, b, desc in key_comparisons:
     if a not in agg_A['Config'].values or b not in agg_A['Config'].values:
         print(f"{desc}: one or both configs missing, skipping")
+        wilcoxon_results[f"{a}_vs_{b}"] = {"status": "skipped", "desc": desc}
         continue
     w = wilcoxon_test(all_seed_results_A, a, b)
+    a_mean = float(agg_A[agg_A['Config']==a]['MacroF1_mean'].iloc[0])
+    b_mean = float(agg_A[agg_A['Config']==b]['MacroF1_mean'].iloc[0])
     print(f"{desc}")
-    print(f"  {a}: {agg_A[agg_A['Config']==a]['MacroF1_mean'].iloc[0]:.4f}")
-    print(f"  {b}: {agg_A[agg_A['Config']==b]['MacroF1_mean'].iloc[0]:.4f}")
+    print(f"  {a}: {a_mean:.4f}")
+    print(f"  {b}: {b_mean:.4f}")
     print(f"  diff: {w['diff_mean']:+.4f}  |  p={w['p']}  |  {w['verdict']}\n")
+    wilcoxon_results[f"{a}_vs_{b}"] = {
+        "desc": desc,
+        "a_config": a,
+        "b_config": b,
+        "a_macro_f1_mean": a_mean,
+        "b_macro_f1_mean": b_mean,
+        "diff_mean": w['diff_mean'],
+        "stat": w['stat'],
+        "p": w['p'],
+        "verdict": w['verdict'],
+    }
 
 # ============================================================================
 # CELL 12: SHAP analysis — DeepExplainer on student + TreeExplainer on RF teacher
@@ -1234,6 +1420,25 @@ try:
     print(f"\nFeature ranking agreement (Spearman): rho={rho:.4f}, p={rho_p:.4e}")
     print(f"Interpretation: {'Student preserves teacher reasoning' if rho > 0.7 else 'Student diverges from teacher reasoning'}")
 
+    # FIXED 2026-04-11: Per-class Spearman correlation — strengthens the novel
+    # "feature alignment gap" finding by showing whether misalignment is uniform
+    # across attack classes or concentrated in specific classes.
+    per_class_spearman = {}
+    for class_idx, class_name in enumerate(CLASS_NAMES):
+        student_class_imp = np.abs(student_shap_list[class_idx]).mean(axis=0)
+        rf_class_imp = np.abs(rf_shap_list[class_idx]).mean(axis=0)
+        s_ranks = pd.Series(student_class_imp).rank(ascending=False)
+        t_ranks = pd.Series(rf_class_imp).rank(ascending=False)
+        try:
+            class_rho, class_p = spearmanr(s_ranks, t_ranks)
+        except Exception:
+            class_rho, class_p = float('nan'), float('nan')
+        per_class_spearman[class_name] = {
+            'rho': float(class_rho) if class_rho == class_rho else None,
+            'p': float(class_p) if class_p == class_p else None,
+        }
+        print(f"  {class_name:12s} rho={class_rho:+.4f}  p={class_p:.4e}")
+
     # Save student SHAP summary plot
     try:
         shap.summary_plot(
@@ -1248,12 +1453,64 @@ try:
     except Exception as e:
         print(f"Failed to save student summary plot: {e}")
 
+    # FIXED 2026-04-11 (v2.3): Bootstrap SHAP stability test. Repeatedly compute
+    # the global Spearman with different random background samples. This gives a
+    # confidence interval on rho, defending against "your ~0 correlation might
+    # just be SHAP sampling noise".
+    print("\nBootstrap SHAP stability (5 different backgrounds)...")
+    bootstrap_rhos = []
+    bootstrap_ps = []
+    for bs_i in range(5):
+        bs_rng = np.random.RandomState(42 + bs_i * 37)
+        bs_bg_idx = bs_rng.choice(len(X_train_shap_t), 100, replace=False)
+        bs_explain_idx = bs_rng.choice(len(X_test_shap_t), 500, replace=False)
+
+        try:
+            bs_bg = X_train_shap_t[bs_bg_idx].to(device)
+            bs_expl = X_test_shap_t[bs_explain_idx].to(device)
+            bs_explainer = shap.DeepExplainer(student_for_shap, bs_bg)
+            bs_shap_vals = bs_explainer.shap_values(bs_expl)
+            if isinstance(bs_shap_vals, np.ndarray) and bs_shap_vals.ndim == 3:
+                bs_shap_list = [bs_shap_vals[:, :, i] for i in range(NUM_CLASSES)]
+            else:
+                bs_shap_list = bs_shap_vals
+            bs_student_global = np.abs(np.stack(bs_shap_list)).mean(axis=(0, 1))
+
+            bs_rf_shap = rf_explainer.shap_values(X_test_np[bs_explain_idx])
+            if isinstance(bs_rf_shap, np.ndarray) and bs_rf_shap.ndim == 3:
+                bs_rf_shap_list = [bs_rf_shap[:, :, i] for i in range(NUM_CLASSES)]
+            else:
+                bs_rf_shap_list = bs_rf_shap
+            bs_rf_global = np.abs(np.stack(bs_rf_shap_list)).mean(axis=(0, 1))
+
+            bs_s_ranks = pd.Series(bs_student_global).rank(ascending=False)
+            bs_t_ranks = pd.Series(bs_rf_global).rank(ascending=False)
+            bs_rho, bs_p = spearmanr(bs_s_ranks, bs_t_ranks)
+            bootstrap_rhos.append(float(bs_rho))
+            bootstrap_ps.append(float(bs_p))
+            print(f"  bootstrap {bs_i+1}/5: rho={bs_rho:+.4f}  p={bs_p:.4e}")
+        except Exception as ex:
+            print(f"  bootstrap {bs_i+1}/5 failed: {ex}")
+
+    if bootstrap_rhos:
+        bs_rho_mean = float(np.mean(bootstrap_rhos))
+        bs_rho_std = float(np.std(bootstrap_rhos))
+        print(f"\nBootstrap Spearman (mean ± std): {bs_rho_mean:+.4f} ± {bs_rho_std:.4f}")
+        print(f"95% bootstrap CI (approx): [{bs_rho_mean - 1.96*bs_rho_std:+.4f}, {bs_rho_mean + 1.96*bs_rho_std:+.4f}]")
+    else:
+        bs_rho_mean, bs_rho_std = None, None
+
     shap_results = {
         'student_global_importance': student_imp_df.to_dict('records'),
         'teacher_global_importance': teacher_imp_df.to_dict('records'),
         'student_per_class_top3': student_per_class,
         'ranking_agreement_spearman': float(rho),
         'ranking_agreement_p': float(rho_p),
+        'per_class_spearman': per_class_spearman,
+        'bootstrap_spearman_values': bootstrap_rhos,
+        'bootstrap_spearman_ps': bootstrap_ps,
+        'bootstrap_spearman_mean': bs_rho_mean,
+        'bootstrap_spearman_std': bs_rho_std,
     }
 except ImportError:
     print("shap not installed. Install with: !pip install shap")
@@ -1263,56 +1520,75 @@ except Exception as e:
     traceback.print_exc()
 
 # ============================================================================
-# CELL 13: Actual INT8 quantization experiment
+# CELL 13: Actual INT8 quantization experiment — SWEEP over all student configs
 # ============================================================================
+# FIXED 2026-04-11: Previously quantized only Config F. Now sweeps over every
+# student config present in final_models, so we can see whether the ~3% F1 drop
+# we saw on F is unique to F (because its teacher was broken) or systematic
+# across all students.
 print("\n" + "=" * 60)
-print("INT8 QUANTIZATION EXPERIMENT (Student F)")
+print("INT8 QUANTIZATION SWEEP — all student configs")
 print("=" * 60)
 
-quant_results = {}
-try:
-    if 'F_KD_from_CL_MLP' not in final_models:
-        raise RuntimeError("Config F model missing from final_models")
-    student_to_quantize = final_models['F_KD_from_CL_MLP']
-    student_fp32_size = model_size_on_disk_kb(student_to_quantize)
-    print(f"fp32 student size on disk: {student_fp32_size:.2f} KB")
+# FIXED 2026-04-11 (v2.3): Quantize both F_fair and F_ext separately so the paper
+# can report INT8 quantization effect on each CL budget variant independently.
+# We keep F_KD_from_CL_MLP in the list for backward-compat with tooling that
+# reads the canonical name, but its values duplicate F_fair.
+STUDENT_CONFIGS_TO_QUANTIZE = [
+    'D_Small_MLP',
+    'E_KD_from_RF',
+    'E2_KD_from_MLP',
+    'F_KD_from_CL_MLP_fair',
+    'F_KD_from_CL_MLP_ext',
+    'F_KD_from_CL_MLP',   # alias — duplicates fair, keeps tooling compatibility
+    'G_KD_random_pacing',
+    'I_KD_from_SMOTE_MLP',
+]
 
-    student_int8 = quantize_dynamic_int8(student_to_quantize)
-    student_int8_size = model_size_on_disk_kb(student_int8)
-    print(f"int8 student size on disk: {student_int8_size:.2f} KB")
+quant_results = {}  # keyed by config name
 
-    # Evaluate int8 student on CPU
-    X_test_cpu = torch.tensor(X_test_np, dtype=torch.float32)
-    student_int8.eval()
-    with torch.no_grad():
-        preds_int8 = []
-        for i in range(0, len(X_test_cpu), 4096):
-            logits = student_int8(X_test_cpu[i:i + 4096])
-            preds_int8.append(logits.argmax(dim=1).numpy())
-    preds_int8 = np.concatenate(preds_int8)
-    acc_int8 = accuracy_score(y_test_np, preds_int8)
-    f1_int8 = f1_score(y_test_np, preds_int8, average='macro', zero_division=0)
-    print(f"int8 student accuracy: {acc_int8:.4f}, macro F1: {f1_int8:.4f}")
+X_test_cpu = torch.tensor(X_test_np, dtype=torch.float32)
 
-    acc_fp32 = final_results['F_KD_from_CL_MLP']['accuracy']
-    f1_fp32 = final_results['F_KD_from_CL_MLP']['macro_f1']
-    print(f"fp32 → int8 accuracy delta: {(acc_int8 - acc_fp32) * 100:+.3f}%")
-    print(f"fp32 → int8 macro F1 delta: {(f1_int8 - f1_fp32) * 100:+.3f}%")
+for cfg_name in STUDENT_CONFIGS_TO_QUANTIZE:
+    if cfg_name not in final_models:
+        print(f"  [{cfg_name}] skipped — not in final_models")
+        continue
+    try:
+        m_fp32 = final_models[cfg_name]
+        fp32_size = model_size_on_disk_kb(m_fp32)
+        m_int8 = quantize_dynamic_int8(m_fp32)
+        int8_size = model_size_on_disk_kb(m_int8)
 
-    quant_results = {
-        'fp32_size_kb': student_fp32_size,
-        'int8_size_kb': student_int8_size,
-        'size_reduction_pct': (1 - student_int8_size / student_fp32_size) * 100,
-        'fp32_accuracy': float(acc_fp32),
-        'int8_accuracy': float(acc_int8),
-        'fp32_macro_f1': float(f1_fp32),
-        'int8_macro_f1': float(f1_int8),
-    }
-except Exception as e:
-    print(f"INT8 quantization / evaluation failed: {e}")
-    import traceback
-    traceback.print_exc()
-    quant_results = {}
+        m_int8.eval()
+        with torch.no_grad():
+            preds_int8 = []
+            for i in range(0, len(X_test_cpu), 4096):
+                logits = m_int8(X_test_cpu[i:i + 4096])
+                preds_int8.append(logits.argmax(dim=1).numpy())
+        preds_int8 = np.concatenate(preds_int8)
+        acc_int8 = float(accuracy_score(y_test_np, preds_int8))
+        f1_int8 = float(f1_score(y_test_np, preds_int8, average='macro', zero_division=0))
+
+        acc_fp32 = float(final_results[cfg_name]['accuracy'])
+        f1_fp32 = float(final_results[cfg_name]['macro_f1'])
+
+        quant_results[cfg_name] = {
+            'fp32_size_kb': fp32_size,
+            'int8_size_kb': int8_size,
+            'size_reduction_pct': (1 - int8_size / fp32_size) * 100,
+            'fp32_accuracy': acc_fp32,
+            'int8_accuracy': acc_int8,
+            'fp32_macro_f1': f1_fp32,
+            'int8_macro_f1': f1_int8,
+            'acc_delta_pct': (acc_int8 - acc_fp32) * 100,
+            'f1_delta_pct': (f1_int8 - f1_fp32) * 100,
+        }
+        print(f"  [{cfg_name}] fp32 {fp32_size:.2f}KB F1={f1_fp32:.4f} → "
+              f"int8 {int8_size:.2f}KB F1={f1_int8:.4f} "
+              f"(F1 {((f1_int8 - f1_fp32)*100):+.3f}%)")
+    except Exception as e:
+        print(f"  [{cfg_name}] INT8 quantization failed: {e}")
+        quant_results[cfg_name] = {'error': str(e)}
 
 # ============================================================================
 # CELL 14: Inference time & throughput benchmarks
@@ -1324,10 +1600,20 @@ print("=" * 60)
 X_bench = torch.tensor(X_test_np[:1024], dtype=torch.float32)
 bench_results = {}
 
+# FIXED 2026-04-11 (v2.3): Benchmarks now include both F_fair and F_ext variants
+# in addition to the canonical F alias, so we can report latency for each CL
+# budget variant. All students share the same architecture (student_hidden),
+# so they have identical latency, but we still run all to verify consistency.
 candidate_models = [
     ('Teacher_MLP', 'B_Full_MLP'),
-    ('Student_scratch', 'D_Small_MLP'),
-    ('Student_KD_F', 'F_KD_from_CL_MLP'),
+    ('Student_D_scratch', 'D_Small_MLP'),
+    ('Student_E_KD_RF', 'E_KD_from_RF'),
+    ('Student_E2_KD_MLP', 'E2_KD_from_MLP'),
+    ('Student_F_KD_CL', 'F_KD_from_CL_MLP'),
+    ('Student_F_KD_CL_fair', 'F_KD_from_CL_MLP_fair'),
+    ('Student_F_KD_CL_ext', 'F_KD_from_CL_MLP_ext'),
+    ('Student_G_rand_pacing', 'G_KD_random_pacing'),
+    ('Student_I_KD_SMOTE', 'I_KD_from_SMOTE_MLP'),
 ]
 models_to_bench = {
     name: final_models[key] for name, key in candidate_models if key in final_models
@@ -1357,8 +1643,18 @@ print("GENERATING FIGURES")
 print("=" * 60)
 
 # --- Per-class F1 comparison (mean ± std across seeds) ---
-configs_to_plot = ['B_Full_MLP', 'C_CL_MLP_loss', 'D_Small_MLP',
-                   'E_KD_from_RF', 'E2_KD_from_MLP', 'F_KD_from_CL_MLP']
+# FIXED 2026-04-11 (v2.3): Use explicit fair/ext CL variants (not the alias) so
+# the bar chart shows genuinely distinct configurations with no duplicates.
+configs_to_plot = [
+    'B_Full_MLP',
+    'C_CL_MLP_loss_fair',
+    'C_CL_MLP_loss_ext',
+    'D_Small_MLP',
+    'E_KD_from_RF',
+    'E2_KD_from_MLP',
+    'F_KD_from_CL_MLP_fair',
+    'F_KD_from_CL_MLP_ext',
+]
 configs_present = [c for c in configs_to_plot if c in agg_A['Config'].values]
 
 fig, ax = plt.subplots(figsize=(12, 6))
@@ -1381,59 +1677,80 @@ plt.savefig('per_class_f1.png', dpi=150, bbox_inches='tight')
 plt.close()
 print("Saved per_class_f1.png")
 
-# --- Confusion matrix heatmap for Config F ---
-f_cm = np.array(final_results['F_KD_from_CL_MLP']['confusion_matrix'])
-fig, ax = plt.subplots(figsize=(7, 6))
-sns.heatmap(f_cm, annot=True, fmt='d', cmap='Blues',
-            xticklabels=CLASS_NAMES, yticklabels=CLASS_NAMES, ax=ax)
-ax.set_xlabel('Predicted')
-ax.set_ylabel('True')
-ax.set_title('Confusion Matrix — Config F (CL+KD Student)')
-plt.tight_layout()
-plt.savefig('confusion_matrix_F.png', dpi=150, bbox_inches='tight')
-plt.close()
-print("Saved confusion_matrix_F.png")
+# FIXED 2026-04-11 (v2.3): Generate confusion matrices for BOTH Config E (winner)
+# and Config F (core claim). Previous version only had F.
+for cfg_name, fig_suffix in [('E_KD_from_RF', 'E'),
+                              ('F_KD_from_CL_MLP', 'F'),
+                              ('F_KD_from_CL_MLP_fair', 'F_fair'),
+                              ('F_KD_from_CL_MLP_ext', 'F_ext')]:
+    if cfg_name in final_results and 'confusion_matrix' in final_results[cfg_name]:
+        cm = np.array(final_results[cfg_name]['confusion_matrix'])
+        fig, ax = plt.subplots(figsize=(7, 6))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                    xticklabels=CLASS_NAMES, yticklabels=CLASS_NAMES, ax=ax)
+        ax.set_xlabel('Predicted')
+        ax.set_ylabel('True')
+        ax.set_title(f'Confusion Matrix — {cfg_name}')
+        plt.tight_layout()
+        plt.savefig(f'confusion_matrix_{fig_suffix}.png', dpi=150, bbox_inches='tight')
+        plt.close()
+        print(f"Saved confusion_matrix_{fig_suffix}.png")
 
-# --- Pareto frontier: size vs accuracy ---
-fig, ax = plt.subplots(figsize=(9, 6))
-for _, row in agg_A.iterrows():
-    cfg = row['Config']
-    size = row['size_kb'] if row['size_kb'] else 1.0
-    acc = row['MacroF1_mean']
-    acc_err = row['MacroF1_std']
-    ax.errorbar(size, acc, yerr=acc_err, fmt='o', markersize=8, capsize=3)
-    ax.annotate(cfg.replace('_', ' '), (size, acc),
-                xytext=(6, 4), textcoords='offset points', fontsize=8)
+# FIXED 2026-04-11 (v2.3): Pareto frontier now includes BOTH student sizes
+# (A=32-16 and B=64-32) when both agg tables are available.
+fig, ax = plt.subplots(figsize=(10, 6))
+
+def _plot_agg(agg_df, marker_style, size_label):
+    for _, row in agg_df.iterrows():
+        cfg = row['Config']
+        size_kb = row['size_kb'] if row['size_kb'] else 1.0
+        acc = row['MacroF1_mean']
+        acc_err = row['MacroF1_std']
+        ax.errorbar(size_kb, acc, yerr=acc_err, fmt=marker_style,
+                    markersize=8, capsize=3, label=f'{cfg} ({size_label})' if cfg.startswith(('D_', 'E_', 'E2_', 'F_', 'G_', 'I_')) else None)
+        ax.annotate(cfg.replace('_', ' '), (size_kb, acc),
+                    xytext=(6, 4), textcoords='offset points', fontsize=7)
+
+_plot_agg(agg_A, 'o', 'Student A 32-16')
+# If Student B was also run, overlay its points
+if len(all_seed_results_B) > 0:
+    agg_B_local = aggregate_multi_seed(all_seed_results_B)
+    _plot_agg(agg_B_local, 's', 'Student B 64-32')
+
 ax.set_xscale('log')
 ax.set_xlabel('Model size (KB, fp32) — log scale')
 ax.set_ylabel('Macro F1 (test)')
-ax.set_title('Model size vs. Macro F1 (Pareto frontier)')
+ax.set_title('Model size vs. Macro F1 (Pareto frontier, both student sizes)')
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('pareto_frontier.png', dpi=150, bbox_inches='tight')
 plt.close()
 print("Saved pareto_frontier.png")
 
-# --- Training loss curves: Config B vs C (non-CL vs CL) ---
-if 'loss_curve' in final_results.get('B_Full_MLP', {}) and \
-   'loss_curve' in final_results.get('C_CL_MLP_loss', {}):
-    fig, axes = plt.subplots(1, 2, figsize=(13, 4))
-    b_curve = final_results['B_Full_MLP']['loss_curve']
-    c_curve = final_results['C_CL_MLP_loss']['loss_curve']
+# --- Training loss curves: Config B vs C_fair vs C_ext (non-CL vs both CL budgets) ---
+# FIXED 2026-04-11 (v2.3): Now plots all three for direct compute-budget comparison.
+curve_configs = [
+    ('B_Full_MLP', 'B (no CL)', 'C0'),
+    ('C_CL_MLP_loss_fair', 'C_fair (CL, fair budget)', 'C1'),
+    ('C_CL_MLP_loss_ext', 'C_ext (CL, +33% budget)', 'C2'),
+]
+curves_available = [(cfg, label, color) for cfg, label, color in curve_configs
+                    if cfg in final_results and 'loss_curve' in final_results.get(cfg, {})]
 
-    axes[0].plot(b_curve['loss'], label='B (no CL)', color='C0')
-    axes[0].plot(c_curve['loss'], label='C (CL)', color='C1')
+if len(curves_available) >= 2:
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4))
+    for cfg, label, color in curves_available:
+        curve = final_results[cfg]['loss_curve']
+        axes[0].plot(curve['loss'], label=label, color=color)
+        axes[1].plot(curve['val_f1'], label=label, color=color)
     axes[0].set_xlabel('Epoch')
     axes[0].set_ylabel('Training loss')
-    axes[0].set_title('Training loss — B vs C')
+    axes[0].set_title('Training loss curves — B vs C_fair vs C_ext')
     axes[0].legend()
     axes[0].grid(True, alpha=0.3)
-
-    axes[1].plot(b_curve['val_f1'], label='B (no CL)', color='C0')
-    axes[1].plot(c_curve['val_f1'], label='C (CL)', color='C1')
     axes[1].set_xlabel('Epoch')
     axes[1].set_ylabel('Validation macro F1')
-    axes[1].set_title('Validation F1 — B vs C')
+    axes[1].set_title('Validation F1 — B vs C_fair vs C_ext')
     axes[1].legend()
     axes[1].grid(True, alpha=0.3)
     plt.tight_layout()
@@ -1588,6 +1905,7 @@ final_output = {
     'quantization': quant_results,
     'inference_benchmarks': bench_results,
     'ciciot_results': ciciot_results,
+    'wilcoxon_results': wilcoxon_results if 'wilcoxon_results' in dir() else {},
     'seeds': SEEDS,
     'class_names': CLASS_NAMES,
     'feature_names': FEATURE_NAMES,
