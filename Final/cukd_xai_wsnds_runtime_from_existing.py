@@ -293,7 +293,10 @@ def load_existing_student_model(model_name: str) -> StudentMLP:
     if not artifact_path.exists():
         raise FileNotFoundError(f"Missing existing fp32 artifact: {artifact_path}")
     model = StudentMLP(INPUT_DIM, spec["hidden"], NUM_CLASSES)
-    state = torch.load(artifact_path, map_location="cpu")
+    try:
+        state = torch.load(artifact_path, map_location="cpu", weights_only=True)
+    except TypeError:
+        state = torch.load(artifact_path, map_location="cpu")
     model.load_state_dict(state)
     model.eval()
     return model
