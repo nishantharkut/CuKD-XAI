@@ -1,6 +1,6 @@
 # WSN Mote Hardware Request for CuKD-XAI
 
-Use this when asking for lab hardware. The software artifact now cross-compiles for MSP430F1611 and fits the target memory budget. The remaining hardware experiment is to flash an actual WSN-class mote, run serial self-tests, and measure latency/energy under the lab firmware stack.
+Use this when asking for lab hardware. The goal is not to rebuild the full WSN-DS data-collection pipeline immediately; the first hardware experiment is to prove that the fixed-point IDS model core and integer normalization helper compile and execute within a WSN-class mote budget.
 
 ## Best Hardware to Ask For
 
@@ -32,19 +32,19 @@ Please ask for these details before changing the code for a specific board:
 
 ## First Hardware Experiment
 
-1. Start from the MSP430F1611 cross-compiled smoke result in `hardware_export/msp430_build_v2/`.
-2. Rebuild for the exact board/MCU if the lab mote is not MSP430F1611.
+1. Generate the fixed-point artifacts using `hardware_export/run_wsnds_student_a_rfkd_e2e.py`.
+2. Compile `wsnds_preprocess_int16.c` and `wsnds_student_a_rfkd_int8_inference.c` for the board target.
 3. Include a small subset of generated `test_vectors.h`, not the full 56,200 vectors, to avoid Flash pressure.
 4. Print serial pass/fail for the generated vectors.
-5. Record compiled `.text`, `.rodata`, `.data`, `.bss`, heap, and stack usage.
-6. Measure inference latency in cycles or microseconds using a hardware timer.
-7. Optional: measure energy per inference with a power analyzer or shunt setup.
+5. Record compiled `.text`, `.data`, `.bss`, and estimated stack usage.
+6. Measure inference latency in cycles or microseconds if a timer is available.
+7. Optional: measure energy per inference.
 
 ## Paper-Safe Claim After This Experiment
 
 Safe if it passes:
 
-> The fixed-point CuKD-XAI Student A RF-KD inference core and integer StandardScaler normalization helper cross-compile for MSP430F1611 and fit within TelosB-class memory. If flashed and tested on the actual mote, we can additionally report measured Flash/RAM footprint, serial self-test status, latency, and energy.
+> The fixed-point CuKD-XAI Student A RF-KD inference core and integer StandardScaler normalization helper compile and pass generated vector tests on a WSN-class mote/toolchain, with measured Flash/RAM footprint and latency.
 
 Still unsafe unless separately implemented:
 
@@ -59,7 +59,6 @@ Already covered:
 - integer StandardScaler metadata and C normalization helper.
 - generated test vectors and host C self-test.
 - full-test software agreement evidence when `--num-test-vectors 56200` is used.
-- MSP430F1611 cross-compiled smoke firmware: `2,842 B` Flash-class text, `0 B` `.data`, `6 B` `.bss`, and bounded project-function stack usage.
 
 Not covered yet:
 
@@ -67,4 +66,3 @@ Not covered yet:
 - mote OS integration.
 - radio duty-cycle impact.
 - real board latency and energy.
-- interrupt/OS/network-stack stack-pressure measurement during live traffic.

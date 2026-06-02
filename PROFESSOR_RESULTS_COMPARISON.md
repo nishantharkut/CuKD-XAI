@@ -126,6 +126,46 @@ The `hardware_export/` path is now an end-to-end software export proof, not just
 
 Expected generated parameter storage remains about `1,348 bytes` before compiler/code overhead. The additional StandardScaler proof represents normalization as `17` integer subtracts, `17` integer multiplies, `17` shifts, and `17` saturations per sample after the raw WSN-DS features already exist. The full 56,200-vector software export on `origin/main` showed fixed-vs-FP32 agreement `0.9947`, fixed accuracy `0.98635` vs FP32 accuracy `0.98637`, zero input saturation (`0 / 955400`), and final fixed logits inside `[-19507, 9228]`, safely within signed int16 range. The correct claim is stronger but still bounded: this proves a reproducible software path to a calibrated integer C model core plus integer normalization metadata. It is still not a physical TelosB deployment, and WSN-DS feature extraction on the mote remains outside the current artifact.
 
+### 4.2 MSP430F1611 Cross-Compile Evidence
+
+The fixed-point preprocessing and inference core was cross-compiled for `msp430f1611` using Mitto Systems MSP430-GCC `9.3.1.11`, MSP430 support files `1.212`, and `-Os`. This is target-toolchain footprint evidence for TelosB/Tmote Sky-class constraints, not a physical hardware deployment.
+
+Object-level footprint:
+
+| Object | `.text` | `.rodata` | `.data` | `.bss` |
+|---|---:|---:|---:|---:|
+| `wsnds_preprocess_int16_msp430.o` | `412 B` | `136 B` | `0 B` | `0 B` |
+| `wsnds_student_a_rfkd_int8_inference_msp430.o` | `494 B` | `1,348 B` | `0 B` | `0 B` |
+
+Linked smoke firmware footprint:
+
+| Metric | Value |
+|---|---:|
+| `msp430-elf-size` text | `2,842 B` |
+| `.data` | `0 B` |
+| `.bss` | `6 B` |
+| total `text + data + bss` | `2,848 B` |
+| `.rodata` section | `1,484 B` |
+| `.text` section | `1,356 B` |
+
+Compiler-reported stack usage with `-fstack-usage`:
+
+| Function | Stack usage |
+|---|---:|
+| `main` | `104 B` |
+| `cukd_standardize_raw_q` | `26 B` |
+| `cukd_dense_i8_q15` | `26 B` |
+| `cukd_forward_q15` | `106 B` |
+| `cukd_predict_q15` | `12 B` |
+
+Interpretation: the linked smoke firmware uses about `2.8 KB` Flash-class storage and `6 B` static RAM/heap before stack, which is comfortably inside an MSP430F1611/TelosB-class 48 KB Flash and 10 KB RAM budget. A conservative project-function call-chain estimate is about `248 B` stack during prediction, excluding ABI helper internals, interrupt nesting, and OS/network-stack pressure.
+
+Disassembly confirmed wider-arithmetic helper routines: `__mulhisi2`, `__mulsi2`, `__mspabi_mpyll`, `__mspabi_srai`, `__mspabi_sral`, and `__mspabi_srall`. This is an important limitation: MSP430 memory feasibility is now supported, but latency and energy still require physical mote measurement.
+
+Paper-safe wording:
+
+> We additionally cross-compiled the fixed-point preprocessing and inference core for MSP430F1611. A linked smoke firmware required `2,842 B` Flash-class `text` storage, `0 B` `.data`, and `6 B` `.bss`, with bounded compiler-reported project-function stack usage. Disassembly confirms helper routines for wider integer arithmetic, so this supports target-toolchain memory feasibility but not final latency or energy claims.
+
 ## 5. Edge-IIoT Strict Generalization Stress Test
 
 Source: `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/edgeiiot_v23_results_student_A.csv` and `student_B.csv`.
@@ -304,7 +344,7 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 | Novelty axis | Defensible claim |
 |---|---|
 | WSN-DS compression | KD-based compression of WSN-DS multiclass IDS into KB-scale MLP students. |
-| Deployment | ONNX/OpenVINO software deployment proof plus fixed-point C export with integer StandardScaler metadata, byte counts, and generated self-test vectors. |
+| Deployment | ONNX/OpenVINO software deployment proof plus fixed-point C export with integer StandardScaler metadata, generated self-test vectors, and MSP430F1611 target-toolchain footprint evidence. |
 | Explanation audit | Quantitative SHAP teacher-student rank-alignment analysis after compression. |
 | Multi-seed evidence | 10-seed WSN-DS evaluation with Student A/B capacity comparison and multiple KD baselines. |
 | Generalization stress | Edge-IIoT strict and literature-comparable routes expose capacity and protocol sensitivity. |
@@ -316,7 +356,7 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 | Not WSN-DS accuracy SOTA | "Our method is not designed to beat oversampled tree-ensemble SOTA accuracy; it targets KB-scale deployment." |
 | RF teacher still much better in macro-F1 | "The compressed student keeps useful accuracy but does not close the full teacher-student gap." |
 | Edge-IIoT strict result is modest | "Strict 15-class Edge-IIoT exposes a capacity-complexity bottleneck." |
-| No physical WSN mote yet | "Deployment is currently software-runtime and fixed-point C proof; real WSN mote Flash/RAM/latency/energy measurements remain future work." |
+| No physical WSN mote yet | "Deployment is currently software-runtime, fixed-point C, and MSP430 cross-compile footprint proof; real WSN mote flashing, latency, and energy measurements remain future work." |
 | INT8 not beneficial in current runtime test | "Dynamic INT8 reduced artifact size but did not improve latency or F1 in this CPU runtime." |
 | SHAP alignment low | "This is not a failure of prediction; it is an explanation-faithfulness warning." |
 
@@ -324,7 +364,7 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 
 - Do not claim "first SHAP on WSN-DS." Birahim 2025 and MLSTL-WSN already use SHAP on WSN-DS.
 - Do not claim "best WSN-DS accuracy." SOTA papers report around `99.7-99.94%`.
-- Do not claim "hardware deployment" unless real WSN mote measurements are added.
+- Do not claim "hardware deployment" unless real WSN mote measurements are added. MSP430 cross-compilation supports memory feasibility only.
 - Do not claim full on-mote WSN-DS feature extraction; the current artifact covers integer StandardScaler normalization after raw features exist.
 - Do not claim "INT8 speedup" from the current deployment result.
 - Do not claim co-distillation always improves. It helps some settings but RF-KD is often as good or better.
