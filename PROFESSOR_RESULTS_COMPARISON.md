@@ -116,15 +116,15 @@ Deployment interpretation:
 - ONNX FP32 is the cleanest deployability result: tiny artifacts, very low CPU inference latency, and no accuracy conversion loss.
 - OpenVINO is useful as portability proof, not speed proof in this run. It exactly matches ONNX predictions but is slower for batch-1 on this CPU setup.
 - Dynamic INT8 ONNX reduced size slightly but lowered macro-F1 and was not faster in this CPU measurement. Do not claim INT8 speedup from the current evidence.
-- This is still not a real Raspberry Pi, Jetson Nano, or microcontroller experiment. Present it as software deployment proof, not hardware deployment proof.
+- This is still not a real WSN mote or microcontroller experiment. Present it as software deployment proof, not hardware deployment proof.
 
 ### 4.1 Fixed-Point C Export Path
 
 After the hardware-focused review, the embedded headline should use Student A `E_KD_from_RF`, not Config J. Student A RF-KD is the best ultra-small WSN-DS result: macro-F1 `0.9200`, `1,189` params, and `4.64 KB` FP32. Student A `J_CoDistill_RF_CL` is lower at macro-F1 `0.9181`, so J belongs in the ablation/capacity discussion, not the embedded headline.
 
-The `hardware_export/` path is now an end-to-end software export proof, not just a small weight dump. The runner loads the trained Student A RF-KD state dict, reproduces the v2.3 WSN-DS preprocessing metadata, exports int8/calibrated-int16 C headers, generates held-out representative test vectors, compiles the dependency-free C inference kernel, runs a generated C self-test, and writes an equivalence report comparing fixed-point behavior against the FP32 tensor forward pass.
+The `hardware_export/` path is now an end-to-end software export proof, not just a small weight dump. The runner loads the trained Student A RF-KD state dict, reproduces the v2.3 WSN-DS preprocessing metadata, exports int8/calibrated-int16 C headers, exports integer StandardScaler metadata, generates held-out representative test vectors, compiles the dependency-free C preprocessing and inference sources, runs a generated C self-test, and writes an equivalence report comparing fixed-point behavior against the FP32 tensor forward pass.
 
-Expected generated parameter storage remains about `1,348 bytes` before compiler/code overhead. The correct claim is now stronger but still bounded: this proves a reproducible software path to an calibrated integer C inference core with preprocessing metadata and self-test vectors. It is still not a physical TelosB deployment, and WSN-DS feature extraction on the mote remains outside the current artifact.
+Expected generated parameter storage remains about `1,348 bytes` before compiler/code overhead. The additional StandardScaler proof represents normalization as `17` integer subtracts, `17` integer multiplies, `17` shifts, and `17` saturations per sample after the raw WSN-DS features already exist. The full 56,200-vector software export on `origin/main` showed fixed-vs-FP32 agreement `0.9947`, fixed accuracy `0.98635` vs FP32 accuracy `0.98637`, zero input saturation (`0 / 955400`), and final fixed logits inside `[-19507, 9228]`, safely within signed int16 range. The correct claim is stronger but still bounded: this proves a reproducible software path to a calibrated integer C model core plus integer normalization metadata. It is still not a physical TelosB deployment, and WSN-DS feature extraction on the mote remains outside the current artifact.
 
 ## 5. Edge-IIoT Strict Generalization Stress Test
 
@@ -304,7 +304,7 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 | Novelty axis | Defensible claim |
 |---|---|
 | WSN-DS compression | KD-based compression of WSN-DS multiclass IDS into KB-scale MLP students. |
-| Deployment | ONNX/OpenVINO software deployment proof with measured latency and serialized model size. |
+| Deployment | ONNX/OpenVINO software deployment proof plus fixed-point C export with integer StandardScaler metadata, byte counts, and generated self-test vectors. |
 | Explanation audit | Quantitative SHAP teacher-student rank-alignment analysis after compression. |
 | Multi-seed evidence | 10-seed WSN-DS evaluation with Student A/B capacity comparison and multiple KD baselines. |
 | Generalization stress | Edge-IIoT strict and literature-comparable routes expose capacity and protocol sensitivity. |
@@ -316,7 +316,7 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 | Not WSN-DS accuracy SOTA | "Our method is not designed to beat oversampled tree-ensemble SOTA accuracy; it targets KB-scale deployment." |
 | RF teacher still much better in macro-F1 | "The compressed student keeps useful accuracy but does not close the full teacher-student gap." |
 | Edge-IIoT strict result is modest | "Strict 15-class Edge-IIoT exposes a capacity-complexity bottleneck." |
-| No physical hardware yet | "Deployment is currently software-runtime proof; real Raspberry Pi/Jetson/microcontroller energy measurements remain future work." |
+| No physical WSN mote yet | "Deployment is currently software-runtime and fixed-point C proof; real WSN mote Flash/RAM/latency/energy measurements remain future work." |
 | INT8 not beneficial in current runtime test | "Dynamic INT8 reduced artifact size but did not improve latency or F1 in this CPU runtime." |
 | SHAP alignment low | "This is not a failure of prediction; it is an explanation-faithfulness warning." |
 
@@ -324,7 +324,8 @@ For Edge-IIoT, show it as ongoing robustness evidence:
 
 - Do not claim "first SHAP on WSN-DS." Birahim 2025 and MLSTL-WSN already use SHAP on WSN-DS.
 - Do not claim "best WSN-DS accuracy." SOTA papers report around `99.7-99.94%`.
-- Do not claim "hardware deployment" unless real device measurements are added.
+- Do not claim "hardware deployment" unless real WSN mote measurements are added.
+- Do not claim full on-mote WSN-DS feature extraction; the current artifact covers integer StandardScaler normalization after raw features exist.
 - Do not claim "INT8 speedup" from the current deployment result.
 - Do not claim co-distillation always improves. It helps some settings but RF-KD is often as good or better.
 

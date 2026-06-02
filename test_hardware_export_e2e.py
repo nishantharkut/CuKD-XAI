@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from hardware_export import export_wsnds_student_a_rfkd_int8 as exp
+from hardware_export.archive import export_wsnds_student_a_rfkd_int8 as exp
 
 
 class HardwareExportE2ETests(unittest.TestCase):
