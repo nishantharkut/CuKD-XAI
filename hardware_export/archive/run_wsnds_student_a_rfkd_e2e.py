@@ -3,9 +3,9 @@
 
 This orchestrates the full software E2E path:
   1. export model_weights.h from the trained FP32 PyTorch state_dict
-  2. reproduce WSN-DS v2.3 preprocessing and write scaler metadata
-  3. generate representative calibrated-int16 test vectors
-  4. compile the dependency-free integer preprocessing and inference sources
+  2. reproduce WSN-DS v2.3 preprocessing and write preprocess metadata
+  3. generate representative standardized-Q15 test vectors
+  4. compile the dependency-free integer C inference and self-test
   5. run the generated self-test and write e2e_run_report.json
 """
 
@@ -99,7 +99,6 @@ def main() -> int:
             "-Os",
             "-I",
             str(output_dir),
-            str(script_dir / "wsnds_preprocess_int16.c"),
             str(script_dir / "wsnds_student_a_rfkd_int8_inference.c"),
             str(script_dir / "wsnds_student_a_rfkd_self_test.c"),
             "-o",

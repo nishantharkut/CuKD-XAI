@@ -1,0 +1,83 @@
+{
+  "dataset": "WSN-DS",
+  "preprocessing_contract": "v2.3-compatible: strip column names, drop id/Id/ID, label-encode the target alphabetically, fit StandardScaler on all rows, then use the seed-42 stratified 70/15/15 split used by the deployment proof.",
+  "target_col": "Attack type",
+  "feature_names": [
+    "Time",
+    "Is_CH",
+    "who CH",
+    "Dist_To_CH",
+    "ADV_S",
+    "ADV_R",
+    "JOIN_S",
+    "JOIN_R",
+    "SCH_S",
+    "SCH_R",
+    "Rank",
+    "DATA_S",
+    "DATA_R",
+    "Data_Sent_To_BS",
+    "dist_CH_To_BS",
+    "send_code",
+    "Expaned Energy"
+  ],
+  "class_names": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "input_dim": 17,
+  "num_classes": 5,
+  "scaler": {
+    "mean": [
+      1064.7487115018644,
+      0.11576598578448251,
+      274980.4111076413,
+      22.599380404019513,
+      0.2676979989910879,
+      6.940562268290535,
+      0.7799050341508724,
+      0.7374933606647076,
+      0.2889839081196068,
+      0.7474516963334855,
+      9.687103808509558,
+      44.85792489744062,
+      73.89004460031869,
+      4.569448114428777,
+      22.56273518932624,
+      2.4979568196316135,
+      0.305660779909583
+    ],
+    "scale": [
+      899.6449631818919,
+      0.31994409249090616,
+      389910.7013821279,
+      21.955764807356374,
+      2.061144757133331,
+      7.044309540767165,
+      0.4143104776094843,
+      4.691492053389307,
+      2.75474231605849,
+      0.43447400150259907,
+      14.68188173436901,
+      42.574407148305006,
+      230.24602784777565,
+      19.679128851645615,
+      50.261536735020364,
+      2.407333394484946,
+      0.6694608681946702
+    ]
+  },
+  "split_sizes": {
+    "train": 262252,
+    "val": 56209,
+    "test": 56200
+  },
+  "limitations": [
+    "Feature extraction is not implemented on TelosB in this artifact.",
+    "Scaler constants are exported for reproducibility and host/gateway preprocessing.",
+    "The fixed-point C core consumes already standardized and quantized feature vectors."
+  ]
+}

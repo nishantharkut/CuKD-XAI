@@ -51,7 +51,7 @@ The runner performs the complete software proof path:
 
 ## Generated Files
 
-The default output directory is `hardware_export/generated_student_a_rfkd_e2e/`. The final full-test output used for reporting is `hardware_export/generated_student_a_rfkd_e2e_v2/`.
+The default output directory is `hardware_export/generated_student_a_rfkd_e2e/`.
 
 | File | Purpose |
 |---|---|
@@ -80,7 +80,7 @@ This strengthens the no-FPU argument for normalization, but it still does not im
 
 ## Numerical Precision Evidence
 
-From the full 56,200-vector WSN-DS software export already recorded in `origin/main:hardware_export/generated_student_a_rfkd_e2e_v2/equivalence_report.json`:
+From the full 56,200-vector WSN-DS software export already recorded in `origin/main:hardware_export/generated_student_a_rfkd_e2e_full/equivalence_report.json`:
 
 | Field | Value | Interpretation |
 |---|---:|---|
@@ -92,42 +92,6 @@ From the full 56,200-vector WSN-DS software export already recorded in `origin/m
 
 The generated layer metadata uses calibrated fractional widths: input Q8, layer output Q9/Q8/Q7, and shifts 4/7/7. These numbers are evidence for numerical stability of the generated software artifact, not a substitute for real board timing or energy measurements.
 
-## MSP430F1611 Target-Toolchain Evidence
-
-The final fixed-point model core was also cross-compiled for `msp430f1611` using Mitto Systems MSP430-GCC `9.3.1.11`, MSP430 support files `1.212`, and `-Os`. This directly addresses the host-vs-target compiler objection, but it still does not measure physical mote latency or energy.
-
-Object-level results:
-
-| Object | `.text` | `.rodata` | `.data` | `.bss` |
-|---|---:|---:|---:|---:|
-| `wsnds_preprocess_int16_msp430.o` | `412 B` | `136 B` | `0 B` | `0 B` |
-| `wsnds_student_a_rfkd_int8_inference_msp430.o` | `494 B` | `1,348 B` | `0 B` | `0 B` |
-
-Linked MSP430 smoke firmware results:
-
-| Metric | Value |
-|---|---:|
-| `msp430-elf-size` text | `2,842 B` |
-| `.data` | `0 B` |
-| `.bss` | `6 B` |
-| total `text + data + bss` | `2,848 B` |
-| `.rodata` section | `1,484 B` |
-| `.text` section | `1,356 B` |
-
-Compiler-reported stack usage with `-fstack-usage`:
-
-| Function | Stack usage |
-|---|---:|
-| `main` | `104 B` |
-| `cukd_standardize_raw_q` | `26 B` |
-| `cukd_dense_i8_q15` | `26 B` |
-| `cukd_forward_q15` | `106 B` |
-| `cukd_predict_q15` | `12 B` |
-
-Disassembly confirms MSP430 helper routines for wider arithmetic: `__mulhisi2`, `__mulsi2`, `__mspabi_mpyll`, `__mspabi_srai`, `__mspabi_sral`, and `__mspabi_srall`. This is expected because MSP430 is a 16-bit architecture. The wider arithmetic is retained to avoid overflow and preserve the observed fixed-point stability; therefore the evidence supports memory feasibility, not final cycle latency.
-
-See `hardware_export/MSP430_CROSS_COMPILE_REPORT.md` for the full MSP430 report.
-
 ## WSN Mote Next Step
 
 Use `hardware_export/WSN_MOTE_HARDWARE_REQUEST.md` when asking for lab hardware. The immediate experiment should be compile-size plus serial self-test on an actual WSN-class board, not Raspberry Pi benchmarking.
@@ -138,30 +102,23 @@ If you want to compile manually after generating the headers:
 
 ```bash
 gcc -std=c99 -Wall -Wextra -Os \
-  -Ihardware_export/generated_student_a_rfkd_e2e_v2 \
-  hardware_export/wsnds_preprocess_int16.c \
+  -Ihardware_export/generated_student_a_rfkd_e2e \
   hardware_export/wsnds_student_a_rfkd_int8_inference.c \
   hardware_export/wsnds_student_a_rfkd_self_test.c \
-  -o hardware_export/generated_student_a_rfkd_e2e_v2/cukd_student_a_rfkd_self_test
+  -o hardware_export/generated_student_a_rfkd_e2e/cukd_student_a_rfkd_self_test
 
-hardware_export/generated_student_a_rfkd_e2e_v2/cukd_student_a_rfkd_self_test
+hardware_export/generated_student_a_rfkd_e2e/cukd_student_a_rfkd_self_test
 ```
 
-For MSP430F1611, if the MSP430-GCC toolchain and support files are installed:
+For MSP430, if the toolchain is installed:
 
 ```bash
 msp430-elf-gcc -mmcu=msp430f1611 -std=c99 -Wall -Wextra -Os \
-  -Ihardware_export/generated_student_a_rfkd_e2e_v2 \
-  -c hardware_export/wsnds_preprocess_int16.c \
-  -o hardware_export/msp430_build_v2/wsnds_preprocess_int16_msp430.o
-
-msp430-elf-gcc -mmcu=msp430f1611 -std=c99 -Wall -Wextra -Os \
-  -Ihardware_export/generated_student_a_rfkd_e2e_v2 \
+  -Ihardware_export/generated_student_a_rfkd_e2e \
   -c hardware_export/wsnds_student_a_rfkd_int8_inference.c \
-  -o hardware_export/msp430_build_v2/wsnds_student_a_rfkd_int8_inference_msp430.o
+  -o /tmp/wsnds_student_a_rfkd_int8_msp430.o
 
-msp430-elf-size -A hardware_export/msp430_build_v2/wsnds_preprocess_int16_msp430.o
-msp430-elf-size -A hardware_export/msp430_build_v2/wsnds_student_a_rfkd_int8_inference_msp430.o
+msp430-elf-size /tmp/wsnds_student_a_rfkd_int8_msp430.o
 ```
 
 ## What Counts as Evidence
@@ -172,8 +129,6 @@ Use these fields in the paper/report:
 - `equivalence_report.json`: whether the fixed-point export agrees with FP32 on representative held-out WSN-DS vectors.
 - `equivalence_report.json -> input_quantization`: whether standardized features saturate after calibrated int16 encoding.
 - `e2e_run_report.json`: whether the integer C kernel compiled and matched the generated fixed-point vectors.
-- `hardware_export/msp430_build_v2/`: MSP430F1611 cross-compiled smoke firmware, object files, and disassembly evidence.
-- `*.su`: compiler-reported stack-usage files for the MSP430 smoke build.
 
 The C self-test passing means the generated C implementation matches the generated fixed-point reference. It does not by itself prove the fixed-point model preserves the FP32 macro-F1. That claim requires the agreement/accuracy fields in `equivalence_report.json`, and ideally a larger vector count or full-test export.
 
@@ -198,14 +153,13 @@ This is stronger than a desktop-only PyTorch/ONNX latency claim because it gives
 - `preprocess_metadata.h` contains float scaler constants for reproducibility/host preprocessing; `preprocess_int_metadata.h` contains the no-FPU integer StandardScaler constants.
 - The generated integer preprocessing covers normalization only; WSN-DS raw feature extraction on the mote remains outside this artifact.
 - Even calibrated int16 encoding can saturate if future data exceeds calibration ranges; check `equivalence_report.json` before claiming fixed-point accuracy preservation.
-- MSP430F1611 cross-compilation shows memory feasibility, but does not provide physical latency or energy.
-- MSP430 disassembly includes helper routines for 32-bit/64-bit arithmetic; cycle cost must be measured on hardware.
+- MSP430 `.text`, `.data`, and `.bss` numbers require `msp430-elf-gcc` or another MSP430 toolchain.
 
 ## Paper-Safe Claim
 
 Safe:
 
-> We provide an end-to-end software export path for the best ultra-small WSN-DS student, including v2.3 preprocessing metadata, fixed-point integer C inference, generated held-out test vectors, host C self-test, and MSP430F1611 target-toolchain footprint evidence for the preprocessing and inference core.
+> We provide an end-to-end software export path for the best ultra-small WSN-DS student, including v2.3 preprocessing metadata, fixed-point integer C inference, generated held-out test vectors, and a host self-test that verifies the C kernel against the Python fixed-point reference.
 
 Unsafe:
 

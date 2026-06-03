@@ -4,14 +4,12 @@
 This is intentionally separate from the notebooks. It turns the trained
 Student A E_KD_from_RF FP32 state_dict into:
 
-  - model_weights.h: int8 weights, int32 biases, calibrated int16 metadata
-  - preprocess_int_metadata.h: integer StandardScaler constants
+  - model_weights.h: int8 weights, int32 biases, Q15 activation metadata
   - export_summary.json: byte counts, quantization settings, tensor errors
 
-The generated C path is for hardware-facing feasibility evidence. It exports
-an integer StandardScaler normalization contract, then expects the 17 WSN-DS
-features to already exist as fixed-point raw feature values. It does not
-implement WSN-DS feature extraction on a mote.
+The generated C path is for hardware-facing feasibility evidence. It expects
+preprocessed/standardized WSN-DS features already converted to signed Q15.
+It does not include WSN-DS feature extraction or StandardScaler constants.
 """
 
 from __future__ import annotations
@@ -216,7 +214,7 @@ def write_preprocessing_header(output_path: Path, metadata: dict[str, Any]) -> d
         "",
         "/* Metadata for reproducing the Python WSN-DS v2.3 preprocessing contract.",
         " * These float scaler constants are for host/gateway preprocessing or audit.",
-        " * The no-FPU integer inference core consumes standardized calibrated-int16 vectors.",
+        " * The no-FPU integer inference core consumes standardized Q15 vectors.",
         " */",
         "",
         f"#define CUKD_PREPROCESS_INPUT_DIM {len(feature_names)}",
@@ -235,122 +233,6 @@ def write_preprocessing_header(output_path: Path, metadata: dict[str, Any]) -> d
         "input_dim": len(feature_names),
         "num_classes": len(class_names),
         "has_scaler_constants": True,
-    }
-
-
-def _c_array_1d_int32_plain(name: str, values: list[int]) -> str:
-    body = ", ".join(str(int(v)) for v in values)
-    return f"static const int32_t {name}[{len(values)}] = {{{body}}};\n"
-
-
-def build_integer_preprocessing_metadata(
-    metadata: dict[str, Any],
-    *,
-    output_q_frac: int,
-    raw_q_frac: int = 8,
-    inv_scale_q_frac: int = 20,
-) -> dict[str, Any]:
-    """Convert StandardScaler constants to subtract/multiply/shift metadata.
-
-    This covers only x_std = (x_raw - mean) / scale. It deliberately does not
-    implement the WSN-DS feature extraction that produces the raw 17 features.
-    """
-    feature_names = list(metadata["feature_names"])
-    means = [float(v) for v in metadata["scaler"]["mean"]]
-    scales = [float(v) for v in metadata["scaler"]["scale"]]
-    if len(feature_names) != len(means) or len(feature_names) != len(scales):
-        raise ValueError("feature_names, scaler mean, and scaler scale must have the same length")
-    if raw_q_frac < 0 or inv_scale_q_frac < 0 or output_q_frac < 0:
-        raise ValueError("fixed-point fractional widths must be non-negative")
-
-    right_shift = int(raw_q_frac) + int(inv_scale_q_frac) - int(output_q_frac)
-    if right_shift < 0:
-        raise ValueError("output_q_frac cannot exceed raw_q_frac + inv_scale_q_frac")
-
-    scaler_mean_q = [int(round(v * (1 << int(raw_q_frac)))) for v in means]
-    scaler_inv_scale_q: list[int] = []
-    for idx, scale in enumerate(scales):
-        if scale == 0.0 or not math.isfinite(scale):
-            raise ValueError(f"Invalid scaler scale at feature {idx}: {scale!r}")
-        scaler_inv_scale_q.append(int(round((1.0 / scale) * (1 << int(inv_scale_q_frac)))))
-
-    n_features = len(feature_names)
-    operation_counts = {
-        "features": n_features,
-        "subtracts": n_features,
-        "multiplies": n_features,
-        "shifts": n_features,
-        "saturations": n_features,
-    }
-    return {
-        "dataset": metadata.get("dataset", "WSN-DS"),
-        "scope": "Integer metadata for StandardScaler normalization only; WSN-DS feature extraction is outside this artifact.",
-        "formula": "standardized_q = ((raw_q - scaler_mean_q) * scaler_inv_scale_q) >> right_shift",
-        "input_dim": n_features,
-        "feature_names": feature_names,
-        "raw_q_frac": int(raw_q_frac),
-        "inv_scale_q_frac": int(inv_scale_q_frac),
-        "output_q_frac": int(output_q_frac),
-        "right_shift": int(right_shift),
-        "scaler_mean_q": scaler_mean_q,
-        "scaler_inv_scale_q": scaler_inv_scale_q,
-        "operation_counts": operation_counts,
-        "integer_preprocess_ops_per_sample": sum(operation_counts.values()) - operation_counts["features"],
-        "limitations": [
-            "This covers StandardScaler normalization only.",
-            "It does not implement WSN-DS feature extraction on a mote.",
-            "Raw feature inputs must already be represented with raw_q_frac fixed-point scaling.",
-        ],
-    }
-
-
-def write_integer_preprocessing_header(output_path: Path, fixed: dict[str, Any]) -> dict[str, Any]:
-    """Write integer StandardScaler constants for no-FPU preprocessing proof."""
-    input_dim = int(fixed["input_dim"])
-    mean_q = [int(v) for v in fixed["scaler_mean_q"]]
-    inv_scale_q = [int(v) for v in fixed["scaler_inv_scale_q"]]
-    if len(mean_q) != input_dim or len(inv_scale_q) != input_dim:
-        raise ValueError("integer scaler arrays must match input_dim")
-
-    op_counts = {str(k): int(v) for k, v in fixed.get("operation_counts", {}).items()}
-    ops_per_sample = int(
-        op_counts.get("subtracts", 0)
-        + op_counts.get("multiplies", 0)
-        + op_counts.get("shifts", 0)
-        + op_counts.get("saturations", 0)
-    )
-    lines = [
-        "#ifndef CUKD_WSNDS_PREPROCESS_INT_METADATA_H",
-        "#define CUKD_WSNDS_PREPROCESS_INT_METADATA_H",
-        "",
-        "#include <stdint.h>",
-        "",
-        "/* Integer StandardScaler metadata for WSN-DS fixed-point preprocessing.",
-        " * Feature extraction is handled before this normalization step.",
-        " */",
-        "",
-        f"#define CUKD_PREPROCESS_INPUT_DIM {input_dim}",
-        f"#define CUKD_PREPROCESS_RAW_Q_FRAC {int(fixed['raw_q_frac'])}",
-        f"#define CUKD_PREPROCESS_INV_SCALE_Q_FRAC {int(fixed['inv_scale_q_frac'])}",
-        f"#define CUKD_PREPROCESS_OUTPUT_Q_FRAC {int(fixed['output_q_frac'])}",
-        f"#define CUKD_PREPROCESS_RIGHT_SHIFT {int(fixed['right_shift'])}",
-        f"#define CUKD_PREPROCESS_OPS_PER_SAMPLE {ops_per_sample}",
-        "",
-        _c_array_1d_int32_plain("cukd_scaler_mean_q", mean_q),
-        _c_array_1d_int32_plain("cukd_scaler_inv_scale_q", inv_scale_q),
-        "",
-        "#endif /* CUKD_WSNDS_PREPROCESS_INT_METADATA_H */",
-        "",
-    ]
-    output_path.write_text("\n".join(lines), encoding="ascii")
-    return {
-        "input_dim": input_dim,
-        "raw_q_frac": int(fixed["raw_q_frac"]),
-        "inv_scale_q_frac": int(fixed["inv_scale_q_frac"]),
-        "output_q_frac": int(fixed["output_q_frac"]),
-        "right_shift": int(fixed["right_shift"]),
-        "integer_preprocess_ops_per_sample": ops_per_sample,
-        "has_integer_scaler_constants": True,
     }
 
 def load_state_dict(path: str) -> dict[str, Any]:
@@ -784,16 +666,6 @@ def generate_e2e_artifacts(
     preprocessing_header_summary = write_preprocessing_header(output_dir / "preprocess_metadata.h", metadata)
     (output_dir / "preprocess_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="ascii")
 
-    integer_preprocess = build_integer_preprocessing_metadata(metadata, output_q_frac=input_frac)
-    integer_preprocess_summary = write_integer_preprocessing_header(
-        output_dir / "preprocess_int_metadata.h",
-        integer_preprocess,
-    )
-    (output_dir / "preprocess_int_metadata.json").write_text(
-        json.dumps(integer_preprocess, indent=2),
-        encoding="ascii",
-    )
-
     vector_summary = write_test_vectors_header(
         output_dir / "test_vectors.h",
         q_inputs,
@@ -825,8 +697,6 @@ def generate_e2e_artifacts(
     return {
         "dataset_csv": str(dataset_csv),
         "preprocess_metadata_header": preprocessing_header_summary,
-        "integer_preprocess_metadata_header": integer_preprocess_summary,
-        "integer_preprocess_metadata": integer_preprocess,
         "fixed_point_calibration": calibration_summary,
         "test_vectors": vector_summary,
         "equivalence_report": equivalence_report,
@@ -834,8 +704,6 @@ def generate_e2e_artifacts(
             "model_weights.h",
             "preprocess_metadata.h",
             "preprocess_metadata.json",
-            "preprocess_int_metadata.h",
-            "preprocess_int_metadata.json",
             "test_vectors.h",
             "equivalence_report.json",
         ],
@@ -932,8 +800,8 @@ def main() -> int:
         **byte_summary,
         "e2e": e2e_summary,
         "limitations": [
-            "Inputs must follow the Python pipeline's feature order and StandardScaler constants before calibrated int16 quantization.",
-            "This exporter proves fixed-point model-core feasibility and integer StandardScaler metadata, not full on-mote feature extraction.",
+            "Inputs must be preprocessed exactly like the Python pipeline before calibrated int16 quantization.",
+            "This exporter proves fixed-point model-core feasibility, not full on-mote feature extraction.",
             "Run host/device equivalence tests before claiming deployed accuracy.",
             "The current C inference core consumes standardized calibrated-int16 vectors; feature extraction on TelosB remains outside this artifact.",
         ],
