@@ -43,22 +43,36 @@ class SerialReplay:
     def __init__(self, port: str, baud: int, timeout: float) -> None:
         if serial is None:
             raise RuntimeError("pyserial is required; install hardware_hil/host/requirements.txt")
+        self.timeout = float(timeout)
         self.device = serial.Serial(port=port, baudrate=baud, timeout=timeout, write_timeout=timeout)
 
     def close(self) -> None:
         self.device.close()
 
+    def drain_startup(self) -> None:
+        if hasattr(self.device, "reset_input_buffer"):
+            self.device.reset_input_buffer()
+        if hasattr(self.device, "reset_output_buffer"):
+            self.device.reset_output_buffer()
+
     def transact(self, row_id: int, features: list[int]) -> dict[str, object]:
         line = encode_request_line(row_id=row_id, features=features)
         self.device.write(line.encode("ascii"))
         self.device.flush()
-        response = self.device.readline().decode("ascii", errors="replace")
-        if not response:
-            raise TimeoutError(f"timeout waiting for row_id={row_id}")
-        decoded = decode_response_line(response)
-        if int(decoded["row_id"]) != int(row_id):
-            raise ValueError(f"row mismatch: sent {row_id}, received {decoded['row_id']}")
-        return decoded
+
+        for _ in range(25):
+            response = self.device.readline().decode("ascii", errors="replace")
+            if not response:
+                raise TimeoutError(f"timeout waiting for row_id={row_id}")
+            if not response.startswith("CUKD1R,"):
+                continue
+
+            decoded = decode_response_line(response)
+            if int(decoded["row_id"]) != int(row_id):
+                raise ValueError(f"row mismatch: sent {row_id}, received {decoded['row_id']}")
+            return decoded
+
+        raise TimeoutError(f"too many non-protocol serial lines before row_id={row_id}")
 
 
 def write_outputs(
@@ -112,6 +126,7 @@ def main() -> int:
     replay_error: dict[str, object] | None = None
     try:
         time.sleep(args.settle_seconds)
+        replay.drain_startup()
         for row in rows:
             responses.append(replay.transact(int(row["row_id"]), list(row["features"])))
     except Exception as exc:
