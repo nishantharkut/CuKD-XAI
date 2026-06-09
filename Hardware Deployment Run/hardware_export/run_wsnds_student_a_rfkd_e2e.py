@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the complete WSN-DS Student A RF-KD fixed-point export proof.
+"""Run the complete WSN-DS RF-KD student fixed-point export proof.
 
 This orchestrates the full software E2E path:
   1. export model_weights.h from the trained FP32 PyTorch state_dict
@@ -29,12 +29,47 @@ def run_command(cmd: list[str], cwd: Path) -> dict[str, Any]:
     }
 
 
+def build_export_command(
+    *,
+    python_executable: str,
+    exporter: Path,
+    state_dict: str,
+    output_dir: Path,
+    dataset_csv: str,
+    num_test_vectors: int,
+    test_vector_seed: int,
+    model_label: str | None,
+) -> list[str]:
+    cmd = [
+        python_executable,
+        str(exporter),
+        "--state-dict",
+        state_dict,
+        "--output-dir",
+        str(output_dir),
+        "--dataset-csv",
+        dataset_csv,
+        "--num-test-vectors",
+        str(num_test_vectors),
+        "--test-vector-seed",
+        str(test_vector_seed),
+    ]
+    if model_label:
+        cmd.extend(["--model-label", model_label])
+    return cmd
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--state-dict",
         default="origin/main:Final/wsnds_deployment_qat_outputs/tmp/E_student_A_KD_from_RF_fp32.pt",
-        help="Local .pt path or git object path for the trained Student A RF-KD state_dict.",
+        help="Local .pt path or git object path for the trained WSN-DS student state_dict.",
+    )
+    parser.add_argument(
+        "--model-label",
+        default=None,
+        help="Human-readable model label to store in export_summary.json.",
     )
     parser.add_argument(
         "--dataset-csv",
@@ -49,6 +84,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--num-test-vectors", type=int, default=256)
     parser.add_argument("--test-vector-seed", type=int, default=42)
     parser.add_argument("--cc", default="gcc", help="C compiler for host self-test, e.g. gcc or clang.")
+    parser.add_argument(
+        "--self-test-name",
+        default="cukd_student_a_rfkd_self_test",
+        help="Executable name for the host C self-test inside --output-dir.",
+    )
     parser.add_argument("--skip-compile", action="store_true", help="Only export artifacts; skip C compile and self-test.")
     return parser.parse_args()
 
@@ -61,20 +101,16 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     exporter = script_dir / "export_wsnds_student_a_rfkd_int8.py"
-    export_cmd = [
-        sys.executable,
-        str(exporter),
-        "--state-dict",
-        args.state_dict,
-        "--output-dir",
-        str(output_dir),
-        "--dataset-csv",
-        args.dataset_csv,
-        "--num-test-vectors",
-        str(args.num_test_vectors),
-        "--test-vector-seed",
-        str(args.test_vector_seed),
-    ]
+    export_cmd = build_export_command(
+        python_executable=sys.executable,
+        exporter=exporter,
+        state_dict=args.state_dict,
+        output_dir=output_dir,
+        dataset_csv=args.dataset_csv,
+        num_test_vectors=args.num_test_vectors,
+        test_vector_seed=args.test_vector_seed,
+        model_label=args.model_label,
+    )
 
     report: dict[str, Any] = {
         "output_dir": str(output_dir),
@@ -90,7 +126,7 @@ def main() -> int:
         return report["export"]["returncode"]
 
     if not args.skip_compile:
-        exe_path = output_dir / "cukd_student_a_rfkd_self_test"
+        exe_path = output_dir / args.self_test_name
         compile_cmd = [
             args.cc,
             "-std=c99",

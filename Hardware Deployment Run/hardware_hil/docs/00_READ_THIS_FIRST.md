@@ -57,3 +57,8 @@ Use USB serial only. Do not wire Raspberry Pi GPIO pins to ESP32-C3 or Arduino R
 ## Optional Breadboard Practice
 
 If you want to use jumper wires and a breadboard, first read `hardware_hil/docs/09_OPTIONAL_BREADBOARD_AND_JUMPER_GUIDE.md`. Treat it as practice/debugging only; it is not part of the core HIL evidence.
+
+
+## Student B Capacity Extension
+
+After Student A evidence is preserved, use `hardware_hil/docs/10_STUDENT_B_HIL_RUNBOOK.md` for the separate Student B RF-KD run. Keep Student B generated folders, firmware bundles, and result folders separate from Student A.

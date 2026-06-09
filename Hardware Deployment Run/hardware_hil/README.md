@@ -78,3 +78,5 @@ Start with `hardware_hil/docs/00_READ_THIS_FIRST.md`, then follow:
 7. `hardware_hil/docs/07_TROUBLESHOOTING.md` if serial or agreement issues appear
 
 Official hardware documentation links are collected in `hardware_hil/docs/OFFICIAL_REFERENCES.md`.
+
+Student B optional capacity runbook: `hardware_hil/docs/10_STUDENT_B_HIL_RUNBOOK.md`.

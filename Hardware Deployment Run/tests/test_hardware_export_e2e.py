@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from hardware_export import export_wsnds_student_a_rfkd_int8 as exp
+from hardware_export import run_wsnds_student_a_rfkd_e2e as run_e2e
 
 
 class HardwareExportE2ETests(unittest.TestCase):
@@ -105,6 +106,77 @@ class HardwareExportE2ETests(unittest.TestCase):
             self.assertNotIn("float", text.lower())
             self.assertEqual(summary["input_dim"], 2)
             self.assertEqual(summary["integer_preprocess_ops_per_sample"], 8)
+
+    def test_write_header_supports_student_b_rfkd_dimensions(self):
+        class Matrix:
+            def __init__(self, rows, cols):
+                self.shape = (rows, cols)
+                self.size = rows * cols
+                self._rows = [[0 for _ in range(cols)] for _ in range(rows)]
+
+            def __iter__(self):
+                return iter(self._rows)
+
+        class Vector:
+            def __init__(self, size):
+                self.shape = (size,)
+                self.size = size
+                self._values = [0 for _ in range(size)]
+
+            def __iter__(self):
+                return iter(self._values)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output_path = Path(tmp) / "model_weights.h"
+            quantized_layers = [
+                {
+                    "weight": Matrix(64, 17),
+                    "bias": Vector(64),
+                    "input_frac": 8,
+                    "weight_frac": 5,
+                    "accum_frac": 13,
+                    "output_frac": 9,
+                    "output_shift": 4,
+                },
+                {
+                    "weight": Matrix(32, 64),
+                    "bias": Vector(32),
+                    "input_frac": 9,
+                    "weight_frac": 6,
+                    "accum_frac": 15,
+                    "output_frac": 8,
+                    "output_shift": 7,
+                },
+                {
+                    "weight": Matrix(5, 32),
+                    "bias": Vector(5),
+                    "input_frac": 8,
+                    "weight_frac": 6,
+                    "accum_frac": 14,
+                    "output_frac": 7,
+                    "output_shift": 7,
+                },
+            ]
+
+            summary = exp.write_header(
+                output_path,
+                quantized_layers,
+                "Final/wsnds_deployment_qat_outputs/tmp/E_student_B_KD_from_RF_fp32.pt",
+            )
+
+            text = output_path.read_text(encoding="ascii")
+            self.assertEqual(summary["dims"], [17, 64, 32, 5])
+            self.assertEqual(summary["weight_bytes"], 3296)
+            self.assertEqual(summary["bias_bytes"], 404)
+            self.assertEqual(summary["param_bytes"], 3700)
+            self.assertEqual(summary["activation_bytes_est"], 236)
+            self.assertEqual(summary["macs_per_inference"], 3296)
+            self.assertIn("#define CUKD_INPUT_DIM 17", text)
+            self.assertIn("#define CUKD_H1_DIM 64", text)
+            self.assertIn("#define CUKD_H2_DIM 32", text)
+            self.assertIn("#define CUKD_OUTPUT_DIM 5", text)
+            self.assertIn("#define CUKD_L1_IN 64", text)
+            self.assertIn("#define CUKD_L2_OUT 5", text)
 
     def test_integer_preprocessing_c_core_compiles_with_generated_metadata(self):
         import shutil
@@ -327,6 +399,28 @@ class HardwareExportE2ETests(unittest.TestCase):
         self.assertEqual(metadata["output_frac"], 12)
         self.assertEqual(metadata["accum_frac"], 16)
         self.assertEqual(metadata["output_shift"], 4)
+
+    def test_e2e_runner_passes_model_label_to_exporter_command(self):
+        cmd = run_e2e.build_export_command(
+            python_executable="python",
+            exporter=Path("exporter.py"),
+            state_dict="Final/wsnds_deployment_qat_outputs/tmp/E_student_B_KD_from_RF_fp32.pt",
+            output_dir=Path("hardware_export/generated_student_b_rfkd_hil_full"),
+            dataset_csv="WSN-DS.csv",
+            num_test_vectors=56200,
+            test_vector_seed=42,
+            model_label="WSN-DS Student B E_KD_from_RF",
+        )
+
+        self.assertEqual(cmd[0], "python")
+        self.assertIn("--model-label", cmd)
+        self.assertIn("WSN-DS Student B E_KD_from_RF", cmd)
+        self.assertIn("--state-dict", cmd)
+        state_idx = cmd.index("--state-dict") + 1
+        self.assertEqual(
+            cmd[state_idx],
+            "Final/wsnds_deployment_qat_outputs/tmp/E_student_B_KD_from_RF_fp32.pt",
+        )
 
     def test_build_equivalence_report_keeps_fixed_and_fp32_metrics_separate(self):
         labels = [0, 1, 1, 2]

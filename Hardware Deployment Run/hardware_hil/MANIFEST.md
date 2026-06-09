@@ -18,6 +18,7 @@ evidence package.
 - `docs/07_TROUBLESHOOTING.md`
 - `docs/08_PHYSICAL_CONNECTIONS_AND_CABLES.md`
 - `docs/09_OPTIONAL_BREADBOARD_AND_JUMPER_GUIDE.md`
+- `docs/10_STUDENT_B_HIL_RUNBOOK.md`
 - `docs/OFFICIAL_REFERENCES.md`
 - `firmware/common/cukd_model.h`
 - `firmware/common/cukd_model.c`

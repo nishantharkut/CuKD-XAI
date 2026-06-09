@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Export the WSN-DS Student A RF-KD MLP to fixed-point C artifacts.
+"""Export a WSN-DS RF-KD student MLP to fixed-point C artifacts.
 
-This is intentionally separate from the notebooks. It turns the trained
-Student A E_KD_from_RF FP32 state_dict into:
+This is intentionally separate from the notebooks. It turns a trained
+WSN-DS student FP32 state_dict into:
 
   - model_weights.h: int8 weights, int32 biases, calibrated int16 metadata
   - preprocess_int_metadata.h: integer StandardScaler constants
@@ -17,6 +17,7 @@ implement WSN-DS feature extraction on a mote.
 from __future__ import annotations
 
 import argparse
+import csv
 import io
 import json
 import math
@@ -137,6 +138,12 @@ def _c_array_2d_int16_dim(name: str, matrix: list[list[int]], col_count: int) ->
     return f"static const int16_t {name}[{len(matrix)}][{col_count}] = {{\n" + ",\n".join(rows) + "\n};\n"
 
 
+def _c_array_2d_int32_dim(name: str, matrix: list[list[int]], col_count: int) -> str:
+    rows = []
+    for row in matrix:
+        rows.append("    {" + ", ".join(str(int(v)) for v in row) + "}")
+    return f"static const int32_t {name}[{len(matrix)}][{col_count}] = {{\n" + ",\n".join(rows) + "\n};\n"
+
 def _c_array_1d_uint8(name: str, values: list[int]) -> str:
     return f"static const uint8_t {name}[{len(values)}] = {{" + ", ".join(str(int(v)) for v in values) + "};\n"
 
@@ -148,6 +155,8 @@ def write_test_vectors_header(
     fp32_preds: Any,
     fixed_preds: Any,
     fixed_logits: Any,
+    raw_inputs_q: Any | None = None,
+    expected_preprocessed_q: Any | None = None,
 ) -> dict[str, Any]:
     """Write generated representative vectors for host/C self-tests."""
     inputs_m = [[int(v) for v in row] for row in _to_matrix(q_inputs)]
@@ -155,8 +164,11 @@ def write_test_vectors_header(
     fp32_l = [int(v) for v in _to_list(fp32_preds)]
     fixed_l = [int(v) for v in _to_list(fixed_preds)]
     logits_m = [[int(v) for v in row] for row in _to_matrix(fixed_logits)]
+    raw_m = [[int(v) for v in row] for row in _to_matrix(raw_inputs_q)] if raw_inputs_q is not None else []
+    pre_m = [[int(v) for v in row] for row in _to_matrix(expected_preprocessed_q)] if expected_preprocessed_q is not None else []
     input_dim = len(inputs_m[0]) if inputs_m else 0
     output_dim = len(logits_m[0]) if logits_m else 0
+    has_raw_preprocess = bool(raw_m and pre_m)
 
     lines = [
         "#ifndef CUKD_WSNDS_STUDENT_A_RFKD_TEST_VECTORS_H",
@@ -167,8 +179,13 @@ def write_test_vectors_header(
         f"#define CUKD_TEST_VECTOR_COUNT {len(inputs_m)}",
         f"#define CUKD_TEST_INPUT_DIM {input_dim}",
         f"#define CUKD_TEST_OUTPUT_DIM {output_dim}",
+        f"#define CUKD_TEST_HAS_RAW_PREPROCESS {1 if has_raw_preprocess else 0}",
         "",
         _c_array_2d_int16("cukd_test_inputs_q15", inputs_m),
+        *([
+            _c_array_2d_int32_dim("cukd_test_raw_inputs_q", raw_m, input_dim),
+            _c_array_2d_int16_dim("cukd_test_expected_preprocessed_q15", pre_m, input_dim),
+        ] if has_raw_preprocess else []),
         _c_array_1d_uint8("cukd_test_labels", labels_l),
         _c_array_1d_uint8("cukd_test_fp32_pred", fp32_l),
         _c_array_1d_uint8("cukd_test_expected_fixed_pred", fixed_l),
@@ -186,8 +203,62 @@ def write_test_vectors_header(
         "fp32_accuracy_on_vectors": _accuracy(labels_l, fp32_l),
         "fixed_accuracy_on_vectors": _accuracy(labels_l, fixed_l),
         "fixed_vs_fp32_agreement": _agreement(fp32_l, fixed_l),
+        "has_raw_preprocess_vectors": has_raw_preprocess,
     }
 
+
+
+def write_hil_replay_csvs(
+    *,
+    vectors_path: Path,
+    reference_path: Path,
+    q_inputs: Any,
+    labels: Any,
+    fp32_preds: Any,
+    fixed_preds: Any,
+    raw_inputs_q: Any | None = None,
+) -> dict[str, Any]:
+    """Write host-streamable vectors and prediction references for HIL replay."""
+    q_matrix = [[int(v) for v in row] for row in _to_matrix(q_inputs)]
+    raw_matrix = [[int(v) for v in row] for row in _to_matrix(raw_inputs_q)] if raw_inputs_q is not None else []
+    feature_matrix = raw_matrix if raw_matrix else q_matrix
+    labels_l = [int(v) for v in _to_list(labels)]
+    fp32_l = [int(v) for v in _to_list(fp32_preds)]
+    fixed_l = [int(v) for v in _to_list(fixed_preds)]
+    if not feature_matrix:
+        raise ValueError("at least one vector is required")
+    if not (len(feature_matrix) == len(labels_l) == len(fp32_l) == len(fixed_l)):
+        raise ValueError("vectors, labels, fp32_preds, and fixed_preds must have matching lengths")
+
+    vectors_path.parent.mkdir(parents=True, exist_ok=True)
+    with vectors_path.open("w", newline="", encoding="utf-8") as handle:
+        fieldnames = ["row_id", *[f"f{i}" for i in range(len(feature_matrix[0]))]]
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row_id, features in enumerate(feature_matrix):
+            writer.writerow({"row_id": row_id, **{f"f{i}": int(v) for i, v in enumerate(features)}})
+
+    reference_path.parent.mkdir(parents=True, exist_ok=True)
+    with reference_path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["row_id", "true_label", "fixed_pred", "fp32_pred"])
+        writer.writeheader()
+        for row_id, (label, fixed_pred, fp32_pred) in enumerate(zip(labels_l, fixed_l, fp32_l)):
+            writer.writerow({
+                "row_id": row_id,
+                "true_label": label,
+                "fixed_pred": fixed_pred,
+                "fp32_pred": fp32_pred,
+            })
+
+    return {
+        "vectors_csv": str(vectors_path),
+        "reference_csv": str(reference_path),
+        "rows": len(feature_matrix),
+        "input_dim": len(feature_matrix[0]),
+        "feature_source": (
+            "raw_fixed_point_preprocess_input" if raw_matrix else "standardized_fixed_point_model_input"
+        ),
+    }
 
 
 def _c_string_array(name: str, values: list[str]) -> str:
@@ -474,25 +545,41 @@ def c_array_1d_int32(name: str, arr) -> str:
 
 
 def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], source: str) -> dict[str, Any]:
-    dims = []
-    for layer in quantized_layers:
-        q_weight = layer["weight"]
-        if not dims:
-            dims.append(int(q_weight.shape[1]))
-        dims.append(int(q_weight.shape[0]))
+    dims: list[int] = []
+    for idx, layer in enumerate(quantized_layers):
+        weight = layer["weight"]
+        bias = layer["bias"]
+        if len(weight.shape) != 2:
+            raise ValueError(f"Layer {idx} weight must be 2D, got shape {weight.shape}")
+        in_dim = int(weight.shape[1])
+        out_dim = int(weight.shape[0])
+        if int(bias.shape[0]) != out_dim:
+            raise ValueError(
+                f"Layer {idx} bias length {bias.shape[0]} does not match output dim {out_dim}"
+            )
+        if idx == 0:
+            dims.append(in_dim)
+        elif dims[-1] != in_dim:
+            raise ValueError(
+                f"Layer {idx} input dim {in_dim} does not match previous output dim {dims[-1]}"
+            )
+        dims.append(out_dim)
 
-    if dims != [17, 32, 16, 5]:
-        raise ValueError(f"Expected Student A dims [17, 32, 16, 5], got {dims}")
+    if len(dims) != 4:
+        raise ValueError(f"Expected 3 Linear layers for a 17->H1->H2->5 WSN-DS MLP, got dims {dims}")
+    if dims[0] != 17 or dims[-1] != 5:
+        raise ValueError(f"Expected WSN-DS dims [17, H1, H2, 5], got {dims}")
 
-    weight_bytes = sum(layer["weight"].size for layer in quantized_layers)
-    bias_bytes = sum(layer["bias"].size * 4 for layer in quantized_layers)
-    activation_bytes = (17 + 32 + 16 + 5) * 2
+    weight_bytes = sum(int(layer["weight"].size) for layer in quantized_layers)
+    bias_bytes = sum(int(layer["bias"].size) * 4 for layer in quantized_layers)
+    activation_bytes = sum(dims) * 2
     param_bytes = weight_bytes + bias_bytes
-    macs = 17 * 32 + 32 * 16 + 16 * 5
+    macs = sum(dims[i] * dims[i + 1] for i in range(len(dims) - 1))
+    guard = "CUKD_WSNDS_RFKD_INT8_MODEL_H"
 
     lines = [
-        "#ifndef CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H",
-        "#define CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H",
+        f"#ifndef {guard}",
+        f"#define {guard}",
         "",
         "#include <stdint.h>",
         "",
@@ -503,10 +590,10 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
         " * using CUKD_INPUT_Q_FRAC.",
         " */",
         "",
-        "#define CUKD_INPUT_DIM 17",
-        "#define CUKD_H1_DIM 32",
-        "#define CUKD_H2_DIM 16",
-        "#define CUKD_OUTPUT_DIM 5",
+        f"#define CUKD_INPUT_DIM {dims[0]}",
+        f"#define CUKD_H1_DIM {dims[1]}",
+        f"#define CUKD_H2_DIM {dims[2]}",
+        f"#define CUKD_OUTPUT_DIM {dims[3]}",
         f"#define CUKD_INPUT_Q_FRAC {quantized_layers[0]['input_frac']}",
         "#define CUKD_ACTIVATION_STORAGE_BITS 16",
         f"#define CUKD_WEIGHT_BYTES {weight_bytes}",
@@ -535,7 +622,7 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
     for idx, name in enumerate(CLASS_NAMES):
         lines.append(f"#define CUKD_CLASS_{idx} \"{name}\"")
 
-    lines.extend(["", "#endif /* CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H */", ""])
+    lines.extend(["", f"#endif /* {guard} */", ""])
     output_path.write_text("\n".join(lines), encoding="ascii")
 
     return {
@@ -557,7 +644,6 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
             for layer in quantized_layers
         ],
     }
-
 
 
 def prepare_wsnds_dataset_for_e2e(csv_path: Path) -> dict[str, Any]:
@@ -590,8 +676,8 @@ def prepare_wsnds_dataset_for_e2e(csv_path: Path) -> dict[str, Any]:
     scaler = StandardScaler()
     x_all_std = scaler.fit_transform(x_all).astype(np.float32)
 
-    x_trainval, x_test, y_trainval, y_test = train_test_split(
-        x_all_std, y_all, test_size=0.15, random_state=42, stratify=y_all
+    x_trainval, x_test, x_trainval_raw, x_test_raw, y_trainval, y_test = train_test_split(
+        x_all_std, x_all, y_all, test_size=0.15, random_state=42, stratify=y_all
     )
     x_train, x_val, y_train, y_val = train_test_split(
         x_trainval, y_trainval, test_size=0.1765, random_state=42, stratify=y_trainval
@@ -610,6 +696,7 @@ def prepare_wsnds_dataset_for_e2e(csv_path: Path) -> dict[str, Any]:
         "x_calibration": x_trainval,
         "y_calibration": y_trainval,
         "x_test": x_test,
+        "x_test_raw": x_test_raw,
         "y_test": y_test,
         "x_train_shape": list(x_train.shape),
         "x_val_shape": list(x_val.shape),
@@ -733,6 +820,25 @@ def _rescale_accumulator_np(acc, shift: int):
     return acc
 
 
+def simulate_integer_preprocess_q(raw_inputs_q: Any, fixed: dict[str, Any]):
+    """Python reference for wsnds_preprocess_int16.c."""
+    import numpy as np
+
+    raw = np.asarray(raw_inputs_q, dtype=np.int64)
+    mean_q = np.asarray(fixed["scaler_mean_q"], dtype=np.int64)
+    inv_scale_q = np.asarray(fixed["scaler_inv_scale_q"], dtype=np.int64)
+    centered = raw - mean_q
+    scaled = centered * inv_scale_q
+    shifted = _rescale_accumulator_np(scaled, int(fixed["right_shift"]))
+    return np.clip(shifted, -32768, 32767).astype(np.int16)
+
+def quantize_raw_features_q(raw_values: Any, raw_q_frac: int):
+    """Encode already extracted raw WSN-DS features into fixed-point int32."""
+    import numpy as np
+
+    raw = np.rint(np.asarray(raw_values, dtype=np.float64) * float(1 << int(raw_q_frac)))
+    return np.clip(raw, -2147483648, 2147483647).astype(np.int32)
+
 def simulate_fixed_point_inference(quantized_layers: list[dict[str, Any]], q_inputs: Any) -> tuple[Any, Any]:
     """Python reference for wsnds_student_a_rfkd_int8_inference.c."""
     import numpy as np
@@ -764,6 +870,7 @@ def generate_e2e_artifacts(
     """Generate dataset-bound artifacts needed for an end-to-end export audit."""
     metadata = dataset["metadata"]
     x_test = dataset["x_test"]
+    x_test_raw = dataset.get("x_test_raw")
     y_test = dataset["y_test"]
 
     if metadata["feature_names"] and len(metadata["feature_names"]) != 17:
@@ -773,13 +880,13 @@ def generate_e2e_artifacts(
 
     indices = select_representative_indices(y_test, num_test_vectors, test_vector_seed)
     x_sample = x_test[indices]
+    x_sample_raw = x_test_raw[indices] if x_test_raw is not None else None
     y_sample = y_test[indices]
 
     fp32_logits = forward_numpy(layers, x_sample)
     fp32_preds = fp32_logits.argmax(axis=1)
     input_frac = int(quantized_layers[0]["input_frac"])
-    q_inputs, q_stats = quantize_standardized_q15(x_sample, input_frac=input_frac)
-    fixed_logits, fixed_preds = simulate_fixed_point_inference(quantized_layers, q_inputs)
+    direct_q_inputs, q_stats = quantize_standardized_q15(x_sample, input_frac=input_frac)
 
     preprocessing_header_summary = write_preprocessing_header(output_dir / "preprocess_metadata.h", metadata)
     (output_dir / "preprocess_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="ascii")
@@ -794,13 +901,42 @@ def generate_e2e_artifacts(
         encoding="ascii",
     )
 
+    raw_inputs_q = None
+    expected_preprocessed_q = None
+    q_inputs_for_replay = direct_q_inputs
+    preprocess_reference_delta = None
+    if x_sample_raw is not None:
+        import numpy as np
+
+        raw_inputs_q = quantize_raw_features_q(x_sample_raw, integer_preprocess["raw_q_frac"])
+        expected_preprocessed_q = simulate_integer_preprocess_q(raw_inputs_q, integer_preprocess)
+        q_inputs_for_replay = expected_preprocessed_q
+        delta = np.asarray(expected_preprocessed_q, dtype=np.int32) - np.asarray(direct_q_inputs, dtype=np.int32)
+        preprocess_reference_delta = {
+            "max_abs_delta_vs_direct_standardized_q": int(np.max(np.abs(delta))) if delta.size else 0,
+            "exact_match_vs_direct_standardized_q": bool(np.all(delta == 0)) if delta.size else True,
+        }
+
+    fixed_logits, fixed_preds = simulate_fixed_point_inference(quantized_layers, q_inputs_for_replay)
+
     vector_summary = write_test_vectors_header(
         output_dir / "test_vectors.h",
-        q_inputs,
+        q_inputs_for_replay,
         y_sample,
         fp32_preds,
         fixed_preds,
         fixed_logits,
+        raw_inputs_q=raw_inputs_q,
+        expected_preprocessed_q=expected_preprocessed_q,
+    )
+    hil_csv_summary = write_hil_replay_csvs(
+        vectors_path=output_dir / "hil_replay_vectors.csv",
+        reference_path=output_dir / "hil_reference_predictions.csv",
+        q_inputs=q_inputs_for_replay,
+        labels=y_sample,
+        fp32_preds=fp32_preds,
+        fixed_preds=fixed_preds,
+        raw_inputs_q=raw_inputs_q,
     )
     equivalence_report = build_equivalence_report(
         labels=y_sample,
@@ -820,6 +956,16 @@ def generate_e2e_artifacts(
     )
     equivalence_report["fixed_point_calibration"] = calibration_summary
     equivalence_report["input_quantization"] = q_stats
+    equivalence_report["hardware_replay_path"] = {
+        "uses_raw_preprocess_vectors": raw_inputs_q is not None,
+        "mcu_input_contract": (
+            "already extracted WSN-DS raw tabular features encoded as fixed-point integers"
+            if raw_inputs_q is not None
+            else "standardized calibrated int16 feature vectors"
+        ),
+        "live_feature_extraction_included": False,
+        "preprocess_reference_delta": preprocess_reference_delta,
+    }
     (output_dir / "equivalence_report.json").write_text(json.dumps(equivalence_report, indent=2), encoding="ascii")
 
     return {
@@ -829,6 +975,7 @@ def generate_e2e_artifacts(
         "integer_preprocess_metadata": integer_preprocess,
         "fixed_point_calibration": calibration_summary,
         "test_vectors": vector_summary,
+        "hil_replay_csvs": hil_csv_summary,
         "equivalence_report": equivalence_report,
         "artifacts": [
             "model_weights.h",
@@ -837,15 +984,40 @@ def generate_e2e_artifacts(
             "preprocess_int_metadata.h",
             "preprocess_int_metadata.json",
             "test_vectors.h",
+            "hil_replay_vectors.csv",
+            "hil_reference_predictions.csv",
             "equivalence_report.json",
         ],
     }
+
+
+def infer_model_label(state_dict_ref: str) -> str:
+    normalized = state_dict_ref.split(":", 1)[-1].replace("\\", "/")
+    name = Path(normalized).name
+    if name.endswith("_fp32.pt"):
+        name = name[: -len("_fp32.pt")]
+    elif name.endswith(".pt"):
+        name = name[:-3]
+    labels = {
+        "E_student_A_KD_from_RF": "WSN-DS Student A E_KD_from_RF",
+        "E_student_B_KD_from_RF": "WSN-DS Student B E_KD_from_RF",
+        "J_student_A_CoDistill_RF_CL": "WSN-DS Student A J_CoDistill_RF_CL",
+        "J_student_B_CoDistill_RF_CL": "WSN-DS Student B J_CoDistill_RF_CL",
+    }
+    return labels.get(name, f"WSN-DS {name or 'student model'}")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--state-dict",
         default="Final/wsnds_deployment_qat_outputs/tmp/E_student_A_KD_from_RF_fp32.pt",
         help="Local .pt path or git object path such as origin/main:Final/...",
+    )
+    parser.add_argument(
+        "--model-label",
+        default=None,
+        help="Human-readable model label for export_summary.json. Inferred from --state-dict when omitted.",
     )
     parser.add_argument(
         "--output-dir",
@@ -880,7 +1052,7 @@ def main() -> int:
     state_dict = load_state_dict(args.state_dict)
     layers = extract_linear_layers(state_dict)
     if len(layers) != 3:
-        raise ValueError(f"Expected 3 Linear layers for Student A MLP, found {len(layers)}")
+        raise ValueError(f"Expected 3 Linear layers for WSN-DS MLP, found {len(layers)}")
 
     dataset = prepare_wsnds_dataset_for_e2e(Path(args.dataset_csv)) if args.dataset_csv else None
     if dataset is not None:
@@ -925,17 +1097,17 @@ def main() -> int:
 
     summary = {
         "source": args.state_dict,
-        "model": "WSN-DS Student A E_KD_from_RF",
+        "model": args.model_label or infer_model_label(args.state_dict),
         "quantization": "int8 weights, int32 biases, calibrated int16 activations",
         "class_names": CLASS_NAMES,
         "layers": layer_summaries,
         **byte_summary,
         "e2e": e2e_summary,
         "limitations": [
-            "Inputs must follow the Python pipeline's feature order and StandardScaler constants before calibrated int16 quantization.",
-            "This exporter proves fixed-point model-core feasibility and integer StandardScaler metadata, not full on-mote feature extraction.",
+            "Inputs must follow the Python pipeline's 17-feature order before fixed-point integer preprocessing.",
+            "This exporter proves fixed-point model-core feasibility and integer StandardScaler replay, not live on-mote feature extraction from radio frames.",
             "Run host/device equivalence tests before claiming deployed accuracy.",
-            "The current C inference core consumes standardized calibrated-int16 vectors; feature extraction on TelosB remains outside this artifact.",
+            "The current hardware replay path consumes already extracted WSN-DS tabular features encoded as fixed-point integers; live feature extraction remains outside this artifact.",
         ],
     }
     (output_dir / "export_summary.json").write_text(json.dumps(summary, indent=2), encoding="ascii")

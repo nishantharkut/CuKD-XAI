@@ -64,6 +64,25 @@ class HardwareHilStaticTests(unittest.TestCase):
         ]:
             self.assertIn(token, runbook)
 
+    def test_student_b_runbook_exists_and_uses_separate_paths(self):
+        runbook = HIL / "docs" / "10_STUDENT_B_HIL_RUNBOOK.md"
+        self.assertTrue(runbook.exists(), f"missing {runbook}")
+
+        text = runbook.read_text(encoding="utf-8")
+        for token in [
+            "E_student_B_KD_from_RF_fp32.pt",
+            "generated_student_b_rfkd_hil_full",
+            "cukd_hil_esp32c3_student_b",
+            "cukd_hil_arduino_r4_student_b",
+            "pi5_esp32c3_student_b",
+            "pi5_arduino_r4_student_b",
+            "17 -> 64 -> 32 -> 5",
+            "Do not overwrite Student A",
+            "not live WSN packet capture",
+            "Do not reuse `generated_student_a_rfkd_hil_full`",
+        ]:
+            self.assertIn(token, text)
+
     def test_protocol_defines_checksum_row_id_and_error_statuses(self):
         text = (HIL / "protocol" / "serial_protocol.md").read_text(encoding="utf-8")
         for token in [

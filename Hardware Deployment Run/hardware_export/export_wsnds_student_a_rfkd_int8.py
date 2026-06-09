@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Export the WSN-DS Student A RF-KD MLP to fixed-point C artifacts.
+"""Export a WSN-DS RF-KD student MLP to fixed-point C artifacts.
 
-This is intentionally separate from the notebooks. It turns the trained
-Student A E_KD_from_RF FP32 state_dict into:
+This is intentionally separate from the notebooks. It turns a trained
+WSN-DS student FP32 state_dict into:
 
   - model_weights.h: int8 weights, int32 biases, calibrated int16 metadata
   - preprocess_int_metadata.h: integer StandardScaler constants
@@ -545,25 +545,41 @@ def c_array_1d_int32(name: str, arr) -> str:
 
 
 def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], source: str) -> dict[str, Any]:
-    dims = []
-    for layer in quantized_layers:
-        q_weight = layer["weight"]
-        if not dims:
-            dims.append(int(q_weight.shape[1]))
-        dims.append(int(q_weight.shape[0]))
+    dims: list[int] = []
+    for idx, layer in enumerate(quantized_layers):
+        weight = layer["weight"]
+        bias = layer["bias"]
+        if len(weight.shape) != 2:
+            raise ValueError(f"Layer {idx} weight must be 2D, got shape {weight.shape}")
+        in_dim = int(weight.shape[1])
+        out_dim = int(weight.shape[0])
+        if int(bias.shape[0]) != out_dim:
+            raise ValueError(
+                f"Layer {idx} bias length {bias.shape[0]} does not match output dim {out_dim}"
+            )
+        if idx == 0:
+            dims.append(in_dim)
+        elif dims[-1] != in_dim:
+            raise ValueError(
+                f"Layer {idx} input dim {in_dim} does not match previous output dim {dims[-1]}"
+            )
+        dims.append(out_dim)
 
-    if dims != [17, 32, 16, 5]:
-        raise ValueError(f"Expected Student A dims [17, 32, 16, 5], got {dims}")
+    if len(dims) != 4:
+        raise ValueError(f"Expected 3 Linear layers for a 17->H1->H2->5 WSN-DS MLP, got dims {dims}")
+    if dims[0] != 17 or dims[-1] != 5:
+        raise ValueError(f"Expected WSN-DS dims [17, H1, H2, 5], got {dims}")
 
-    weight_bytes = sum(layer["weight"].size for layer in quantized_layers)
-    bias_bytes = sum(layer["bias"].size * 4 for layer in quantized_layers)
-    activation_bytes = (17 + 32 + 16 + 5) * 2
+    weight_bytes = sum(int(layer["weight"].size) for layer in quantized_layers)
+    bias_bytes = sum(int(layer["bias"].size) * 4 for layer in quantized_layers)
+    activation_bytes = sum(dims) * 2
     param_bytes = weight_bytes + bias_bytes
-    macs = 17 * 32 + 32 * 16 + 16 * 5
+    macs = sum(dims[i] * dims[i + 1] for i in range(len(dims) - 1))
+    guard = "CUKD_WSNDS_RFKD_INT8_MODEL_H"
 
     lines = [
-        "#ifndef CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H",
-        "#define CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H",
+        f"#ifndef {guard}",
+        f"#define {guard}",
         "",
         "#include <stdint.h>",
         "",
@@ -574,10 +590,10 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
         " * using CUKD_INPUT_Q_FRAC.",
         " */",
         "",
-        "#define CUKD_INPUT_DIM 17",
-        "#define CUKD_H1_DIM 32",
-        "#define CUKD_H2_DIM 16",
-        "#define CUKD_OUTPUT_DIM 5",
+        f"#define CUKD_INPUT_DIM {dims[0]}",
+        f"#define CUKD_H1_DIM {dims[1]}",
+        f"#define CUKD_H2_DIM {dims[2]}",
+        f"#define CUKD_OUTPUT_DIM {dims[3]}",
         f"#define CUKD_INPUT_Q_FRAC {quantized_layers[0]['input_frac']}",
         "#define CUKD_ACTIVATION_STORAGE_BITS 16",
         f"#define CUKD_WEIGHT_BYTES {weight_bytes}",
@@ -606,7 +622,7 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
     for idx, name in enumerate(CLASS_NAMES):
         lines.append(f"#define CUKD_CLASS_{idx} \"{name}\"")
 
-    lines.extend(["", "#endif /* CUKD_WSNDS_STUDENT_A_RFKD_INT8_MODEL_H */", ""])
+    lines.extend(["", f"#endif /* {guard} */", ""])
     output_path.write_text("\n".join(lines), encoding="ascii")
 
     return {
@@ -628,7 +644,6 @@ def write_header(output_path: Path, quantized_layers: list[dict[str, Any]], sour
             for layer in quantized_layers
         ],
     }
-
 
 
 def prepare_wsnds_dataset_for_e2e(csv_path: Path) -> dict[str, Any]:
@@ -974,12 +989,35 @@ def generate_e2e_artifacts(
             "equivalence_report.json",
         ],
     }
+
+
+def infer_model_label(state_dict_ref: str) -> str:
+    normalized = state_dict_ref.split(":", 1)[-1].replace("\\", "/")
+    name = Path(normalized).name
+    if name.endswith("_fp32.pt"):
+        name = name[: -len("_fp32.pt")]
+    elif name.endswith(".pt"):
+        name = name[:-3]
+    labels = {
+        "E_student_A_KD_from_RF": "WSN-DS Student A E_KD_from_RF",
+        "E_student_B_KD_from_RF": "WSN-DS Student B E_KD_from_RF",
+        "J_student_A_CoDistill_RF_CL": "WSN-DS Student A J_CoDistill_RF_CL",
+        "J_student_B_CoDistill_RF_CL": "WSN-DS Student B J_CoDistill_RF_CL",
+    }
+    return labels.get(name, f"WSN-DS {name or 'student model'}")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--state-dict",
         default="Final/wsnds_deployment_qat_outputs/tmp/E_student_A_KD_from_RF_fp32.pt",
         help="Local .pt path or git object path such as origin/main:Final/...",
+    )
+    parser.add_argument(
+        "--model-label",
+        default=None,
+        help="Human-readable model label for export_summary.json. Inferred from --state-dict when omitted.",
     )
     parser.add_argument(
         "--output-dir",
@@ -1014,7 +1052,7 @@ def main() -> int:
     state_dict = load_state_dict(args.state_dict)
     layers = extract_linear_layers(state_dict)
     if len(layers) != 3:
-        raise ValueError(f"Expected 3 Linear layers for Student A MLP, found {len(layers)}")
+        raise ValueError(f"Expected 3 Linear layers for WSN-DS MLP, found {len(layers)}")
 
     dataset = prepare_wsnds_dataset_for_e2e(Path(args.dataset_csv)) if args.dataset_csv else None
     if dataset is not None:
@@ -1059,7 +1097,7 @@ def main() -> int:
 
     summary = {
         "source": args.state_dict,
-        "model": "WSN-DS Student A E_KD_from_RF",
+        "model": args.model_label or infer_model_label(args.state_dict),
         "quantization": "int8 weights, int32 biases, calibrated int16 activations",
         "class_names": CLASS_NAMES,
         "layers": layer_summaries,
