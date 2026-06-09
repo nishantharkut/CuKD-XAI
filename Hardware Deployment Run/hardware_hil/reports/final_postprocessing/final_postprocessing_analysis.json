@@ -1,0 +1,434 @@
+{
+  "hil_rows": [
+    {
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "vectors": 56200,
+      "accuracy": 0.9856227758007118,
+      "macro_f1": 0.9140138730454984,
+      "weighted_f1": 0.98573203786054,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.995,
+      "mean_total_us": 118.403256227758,
+      "p99_total_us": 125,
+      "source": "hardware_hil\\results\\pi5_esp32c3\\full_56200_metrics.json"
+    },
+    {
+      "model": "Student A RF-KD",
+      "board": "Arduino R4 WiFi",
+      "vectors": 56200,
+      "accuracy": 0.9856227758007118,
+      "macro_f1": 0.9140138730454984,
+      "weighted_f1": 0.98573203786054,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.995,
+      "mean_total_us": 301.6335053380783,
+      "p99_total_us": 305,
+      "source": "hardware_hil\\results\\pi5_arduino_r4\\full_56200_metrics.json"
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "vectors": 56200,
+      "accuracy": 0.9869572953736655,
+      "macro_f1": 0.9180992145299044,
+      "weighted_f1": 0.9869459425951487,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9938967971530249,
+      "mean_total_us": 332.32699288256225,
+      "p99_total_us": 338,
+      "source": "hardware_hil\\results\\pi5_esp32c3_student_b\\full_56200_metrics.json"
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "Arduino R4 WiFi",
+      "vectors": 56200,
+      "accuracy": 0.9869572953736655,
+      "macro_f1": 0.9180992145299044,
+      "weighted_f1": 0.9869459425951487,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9938967971530249,
+      "mean_total_us": 791.5659964412812,
+      "p99_total_us": 795,
+      "source": "hardware_hil\\results\\pi5_arduino_r4_student_b\\full_56200_metrics.json"
+    }
+  ],
+  "efficiency_rows": [
+    {
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "clock_mhz": 160.0,
+      "macs": 1136,
+      "mean_inference_us": 112.31238434163701,
+      "mean_total_us": 118.403256227758,
+      "inference_cycles": 17969.981494661923,
+      "cycles_per_mac": 15.818645681920707,
+      "total_throughput_per_s": 8445.713672573507
+    },
+    {
+      "model": "Student A RF-KD",
+      "board": "Arduino R4 WiFi",
+      "clock_mhz": 48.0,
+      "macs": 1136,
+      "mean_inference_us": 280.36225978647684,
+      "mean_total_us": 301.6335053380783,
+      "inference_cycles": 13457.388469750887,
+      "cycles_per_mac": 11.846292667034232,
+      "total_throughput_per_s": 3315.28156621452
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "clock_mhz": 160.0,
+      "macs": 3296,
+      "mean_inference_us": 325.07896797153023,
+      "mean_total_us": 332.32699288256225,
+      "inference_cycles": 52012.63487544484,
+      "cycles_per_mac": 15.78053242580244,
+      "total_throughput_per_s": 3009.0844903272123
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "Arduino R4 WiFi",
+      "clock_mhz": 48.0,
+      "macs": 3296,
+      "mean_inference_us": 770.6794306049823,
+      "mean_total_us": 791.5659964412812,
+      "inference_cycles": 36992.61266903915,
+      "cycles_per_mac": 11.223486853470614,
+      "total_throughput_per_s": 1263.3185413418407
+    }
+  ],
+  "footprint_rows": [
+    {
+      "model": "Student A RF-KD",
+      "architecture": "17-32-16-5",
+      "macs": 1136,
+      "weight_bytes": 1136,
+      "bias_bytes": 212,
+      "param_bytes": 1348,
+      "numeric_format": "int8 weights + int32 biases + int16 activations"
+    },
+    {
+      "model": "Student B RF-KD",
+      "architecture": "17-64-32-5",
+      "macs": 3296,
+      "weight_bytes": 3296,
+      "bias_bytes": 404,
+      "param_bytes": 3700,
+      "numeric_format": "int8 weights + int32 biases + int16 activations"
+    }
+  ],
+  "compile_rows": [
+    {
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "program_bytes": 278836,
+      "global_bytes": 13556,
+      "serial_baseline_program_bytes": 274156,
+      "serial_baseline_global_bytes": 13164,
+      "program_delta_vs_serial_baseline": 4680,
+      "global_delta_vs_serial_baseline": 392,
+      "compile_log": "hardware_hil/compile_logs/esp32c3_student_a_compile.txt",
+      "baseline_log": "hardware_hil/compile_logs/esp32c3_serial_baseline_compile.txt"
+    },
+    {
+      "model": "Student A RF-KD",
+      "board": "Arduino R4 WiFi",
+      "program_bytes": 56104,
+      "global_bytes": 7128,
+      "serial_baseline_program_bytes": 51856,
+      "serial_baseline_global_bytes": 6740,
+      "program_delta_vs_serial_baseline": 4248,
+      "global_delta_vs_serial_baseline": 388,
+      "compile_log": "hardware_hil/compile_logs/arduino_r4_student_a_compile.txt",
+      "baseline_log": "hardware_hil/compile_logs/arduino_r4_serial_baseline_compile.txt"
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3 DevKitM-1",
+      "program_bytes": 281192,
+      "global_bytes": 13556,
+      "serial_baseline_program_bytes": 274156,
+      "serial_baseline_global_bytes": 13164,
+      "program_delta_vs_serial_baseline": 7036,
+      "global_delta_vs_serial_baseline": 392,
+      "compile_log": "hardware_hil/compile_logs/esp32c3_student_b_compile.txt",
+      "baseline_log": "hardware_hil/compile_logs/esp32c3_serial_baseline_compile.txt"
+    },
+    {
+      "model": "Student B RF-KD",
+      "board": "Arduino R4 WiFi",
+      "program_bytes": 58440,
+      "global_bytes": 7128,
+      "serial_baseline_program_bytes": 51856,
+      "serial_baseline_global_bytes": 6740,
+      "program_delta_vs_serial_baseline": 6584,
+      "global_delta_vs_serial_baseline": 388,
+      "compile_log": "hardware_hil/compile_logs/arduino_r4_student_b_compile.txt",
+      "baseline_log": "hardware_hil/compile_logs/arduino_r4_serial_baseline_compile.txt"
+    }
+  ],
+  "drift_summary_rows": [
+    {
+      "model": "Student A RF-KD",
+      "reference_rows": 56200,
+      "drift_count": 281,
+      "drift_fraction": 0.005,
+      "reference_csv": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student B RF-KD",
+      "reference_rows": 56200,
+      "drift_count": 343,
+      "drift_fraction": 0.006103202846975089,
+      "reference_csv": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv"
+    }
+  ],
+  "drift_by_class_rows": [
+    {
+      "model": "Student A RF-KD",
+      "true_label": 0,
+      "true_class": "Blackhole",
+      "drift_count": 107,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.0019039145907473309,
+      "reference_csv": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student A RF-KD",
+      "true_label": 2,
+      "true_class": "Grayhole",
+      "drift_count": 150,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.0026690391459074734,
+      "reference_csv": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student A RF-KD",
+      "true_label": 3,
+      "true_class": "Normal",
+      "drift_count": 23,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.0004092526690391459,
+      "reference_csv": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student A RF-KD",
+      "true_label": 4,
+      "true_class": "TDMA",
+      "drift_count": 1,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 1.779359430604982e-05,
+      "reference_csv": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student B RF-KD",
+      "true_label": 0,
+      "true_class": "Blackhole",
+      "drift_count": 261,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.004644128113879003,
+      "reference_csv": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student B RF-KD",
+      "true_label": 2,
+      "true_class": "Grayhole",
+      "drift_count": 65,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.0011565836298932384,
+      "reference_csv": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student B RF-KD",
+      "true_label": 3,
+      "true_class": "Normal",
+      "drift_count": 16,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 0.00028469750889679714,
+      "reference_csv": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv"
+    },
+    {
+      "model": "Student B RF-KD",
+      "true_label": 4,
+      "true_class": "TDMA",
+      "drift_count": 1,
+      "total_reference_rows": 56200,
+      "drift_fraction_of_all_rows": 1.779359430604982e-05,
+      "reference_csv": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv"
+    }
+  ],
+  "drift_pair_rows": [
+    {
+      "model": "Student A RF-KD",
+      "fp32_pred": 2,
+      "fp32_class": "Grayhole",
+      "fixed_pred": 0,
+      "fixed_class": "Blackhole",
+      "count": 235
+    },
+    {
+      "model": "Student A RF-KD",
+      "fp32_pred": 0,
+      "fp32_class": "Blackhole",
+      "fixed_pred": 2,
+      "fixed_class": "Grayhole",
+      "count": 16
+    },
+    {
+      "model": "Student A RF-KD",
+      "fp32_pred": 3,
+      "fp32_class": "Normal",
+      "fixed_pred": 2,
+      "fixed_class": "Grayhole",
+      "count": 15
+    },
+    {
+      "model": "Student A RF-KD",
+      "fp32_pred": 4,
+      "fp32_class": "TDMA",
+      "fixed_pred": 3,
+      "fixed_class": "Normal",
+      "count": 14
+    },
+    {
+      "model": "Student A RF-KD",
+      "fp32_pred": 2,
+      "fp32_class": "Grayhole",
+      "fixed_pred": 3,
+      "fixed_class": "Normal",
+      "count": 1
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 0,
+      "fp32_class": "Blackhole",
+      "fixed_pred": 2,
+      "fixed_class": "Grayhole",
+      "count": 297
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 2,
+      "fp32_class": "Grayhole",
+      "fixed_pred": 0,
+      "fixed_class": "Blackhole",
+      "count": 26
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 3,
+      "fp32_class": "Normal",
+      "fixed_pred": 4,
+      "fixed_class": "TDMA",
+      "count": 13
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 2,
+      "fp32_class": "Grayhole",
+      "fixed_pred": 3,
+      "fixed_class": "Normal",
+      "count": 4
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 3,
+      "fp32_class": "Normal",
+      "fixed_pred": 2,
+      "fixed_class": "Grayhole",
+      "count": 2
+    },
+    {
+      "model": "Student B RF-KD",
+      "fp32_pred": 2,
+      "fp32_class": "Grayhole",
+      "fixed_pred": 4,
+      "fixed_class": "TDMA",
+      "count": 1
+    }
+  ],
+  "evidence_rows": [
+    {
+      "claim": "Student A RF-KD ESP32-C3 DevKitM-1 HIL metrics",
+      "source": "hardware_hil\\results\\pi5_esp32c3\\full_56200_metrics.json",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD ESP32-C3 DevKitM-1 raw MCU replay CSV",
+      "source": "hardware_hil/results/pi5_esp32c3/full_56200_mcu.csv OR hardware_hil/results/esp32c3/full_56200_mcu.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD ESP32-C3 DevKitM-1 compile summary",
+      "source": "hardware_hil/compile_logs/esp32c3_student_a_compile.txt",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD FP32-to-fixed drift profile",
+      "source": "hardware_export\\generated_student_a_rfkd_hil_full\\hil_reference_predictions.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD Arduino R4 WiFi HIL metrics",
+      "source": "hardware_hil\\results\\pi5_arduino_r4\\full_56200_metrics.json",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD Arduino R4 WiFi raw MCU replay CSV",
+      "source": "hardware_hil/results/pi5_arduino_r4/full_56200_mcu.csv OR hardware_hil/results/arduino_r4/full_56200_mcu.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student A RF-KD Arduino R4 WiFi compile summary",
+      "source": "hardware_hil/compile_logs/arduino_r4_student_a_compile.txt",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD ESP32-C3 DevKitM-1 HIL metrics",
+      "source": "hardware_hil\\results\\pi5_esp32c3_student_b\\full_56200_metrics.json",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD ESP32-C3 DevKitM-1 raw MCU replay CSV",
+      "source": "hardware_hil/results/pi5_esp32c3_student_b/full_56200_mcu.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD ESP32-C3 DevKitM-1 compile summary",
+      "source": "hardware_hil/compile_logs/esp32c3_student_b_compile.txt",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD FP32-to-fixed drift profile",
+      "source": "hardware_export\\generated_student_b_rfkd_hil_full\\hil_reference_predictions.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD Arduino R4 WiFi HIL metrics",
+      "source": "hardware_hil\\results\\pi5_arduino_r4_student_b\\full_56200_metrics.json",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD Arduino R4 WiFi raw MCU replay CSV",
+      "source": "hardware_hil/results/pi5_arduino_r4_student_b/full_56200_mcu.csv",
+      "status": "present"
+    },
+    {
+      "claim": "Student B RF-KD Arduino R4 WiFi compile summary",
+      "source": "hardware_hil/compile_logs/arduino_r4_student_b_compile.txt",
+      "status": "present"
+    },
+    {
+      "claim": "ESP32-C3 DevKitM-1 serial baseline compile summary",
+      "source": "hardware_hil/compile_logs/esp32c3_serial_baseline_compile.txt",
+      "status": "present"
+    },
+    {
+      "claim": "Arduino R4 WiFi serial baseline compile summary",
+      "source": "hardware_hil/compile_logs/arduino_r4_serial_baseline_compile.txt",
+      "status": "present"
+    }
+  ]
+}
