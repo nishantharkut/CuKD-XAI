@@ -1,17 +1,17 @@
 # CuKD-XAI Hardware HIL Package
 
 This folder contains the dedicated hardware-in-the-loop validation package for
-the CuKD-XAI WSN-DS Student A `E_KD_from_RF` model.
+the CuKD-XAI WSN-DS RF-KD student models.
 
 ## Scope
 
-This package validates MCU-class test-vector replay for the WSN-DS Student A
-fixed-point model:
+This package validates MCU-class test-vector replay for the WSN-DS RF-KD
+fixed-point student models:
 
 - dataset: WSN-DS
 - feature contract: 17-feature records
-- model: Student A `E_KD_from_RF`
-- architecture: `17 -> 32 -> 16 -> 5`
+- Student A model: `E_KD_from_RF`, architecture `17 -> 32 -> 16 -> 5`
+- Student B model: `E_KD_from_RF`, architecture `17 -> 64 -> 32 -> 5`
 - host: Raspberry Pi 5
 - primary MCU: ESP32-C3
 - secondary MCU: Arduino R4
@@ -40,6 +40,7 @@ This package reuses:
 - `hardware_export/wsnds_preprocess_int16.c`
 - `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`
 - trained artifact path `origin/main:Final/wsnds_deployment_qat_outputs/tmp/E_student_A_KD_from_RF_fp32.pt`
+- trained artifact path `origin/main:Final/wsnds_deployment_qat_outputs/tmp/E_student_B_KD_from_RF_fp32.pt`
 
 Generated headers such as `model_weights.h` and `preprocess_int_metadata.h`
 must be copied or included in the board firmware build.
@@ -58,10 +59,10 @@ must be copied or included in the board firmware build.
 ## Paper-Safe Claim
 
 The hardware experiments validate firmware-level fixed-point execution of the
-compressed WSN-DS Student A IDS core on available MCU-class development boards
-using replayed 17-feature WSN-DS records. They do not claim live WSN packet
-capture, raw packet-to-feature extraction, energy profiling, or physical TelosB
-deployment.
+compressed WSN-DS Student A and Student B IDS cores on available MCU-class
+development boards using replayed 17-feature WSN-DS records. They do not claim
+live WSN packet capture, raw packet-to-feature extraction, energy profiling, or
+physical TelosB deployment.
 
 
 
@@ -79,4 +80,6 @@ Start with `hardware_hil/docs/00_READ_THIS_FIRST.md`, then follow:
 
 Official hardware documentation links are collected in `hardware_hil/docs/OFFICIAL_REFERENCES.md`.
 
-Student B optional capacity runbook: `hardware_hil/docs/10_STUDENT_B_HIL_RUNBOOK.md`.
+Student B capacity runbook: `hardware_hil/docs/10_STUDENT_B_HIL_RUNBOOK.md`.
+
+Final compact evidence table: `hardware_hil/reports/final_hardware_hil_results_table.md`.

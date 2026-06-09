@@ -35,6 +35,11 @@ evidence package.
 - `host/generate_report.py`
 - `host/prepare_firmware_bundle.py`
 - `host/requirements.txt`
+- `compile_logs/esp32c3_student_a_compile.txt`
+- `compile_logs/arduino_r4_student_a_compile.txt`
+- `compile_logs/esp32c3_student_b_compile.txt`
+- `compile_logs/arduino_r4_student_b_compile.txt`
+- `reports/final_hardware_hil_results_table.md`
 
 ## Generated Evidence
 
