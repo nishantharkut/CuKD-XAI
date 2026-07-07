@@ -1,112 +1,236 @@
-# CuKD-XAI Colab Notebook — Quick Start
+<div align="center">
 
-## Files
+# CuKD-XAI
 
-- **`cukd_xai_colab.ipynb`** — Main Jupyter notebook (upload to Colab)
-- **`cukd_xai_colab.py`** — Same code as .py (reference only)
-- **`CuKD_XAI_MASTER_DOCUMENT.md`** — Full research context
+### Resource-Aware Explainable Intrusion Detection Compression for WSN/IoT Security
 
-## How to run (10 min setup)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-Training-EE4C2C?logo=pytorch&logoColor=white)
+![ONNX](https://img.shields.io/badge/ONNX-Export-005CED)
+![OpenVINO](https://img.shields.io/badge/OpenVINO-Runtime-734F96)
+![Hardware](https://img.shields.io/badge/Hardware-HIL-0B7A3B)
+![Datasets](https://img.shields.io/badge/Datasets-WSN--DS%20%7C%20Edge--IIoT-555555)
+![Status](https://img.shields.io/badge/Status-Research%20Evidence-lightgrey)
 
-### Step 1: Open in Colab
-1. Go to https://colab.research.google.com
-2. File → Upload notebook → select `cukd_xai_colab.ipynb`
-3. Runtime → Change runtime type → **GPU (T4)**
+**CuKD-XAI compresses high-performing intrusion-detection teachers into KB-scale neural students, then audits the resulting models for accuracy, class behavior, explanation alignment, software deployment readiness, and microcontroller replay feasibility.**
 
-### Step 2: Get WSN-DS dataset
-**Option A (easiest):** Upload manually
-1. Click the Files icon (📁) in left sidebar
-2. Download WSN-DS from https://www.kaggle.com/datasets/bassamkasasbeh1/wsnds
-3. Upload `WSN-DS.csv` to Colab root
+</div>
 
-**Option B:** Kaggle API
+---
+
+## At A Glance
+
+| Item | Current evidence |
+|---|---|
+| Primary dataset | WSN-DS multiclass intrusion detection |
+| Supporting dataset | Edge-IIoTset, used for robustness and literature-positioning support |
+| Main compression point | RF teacher to Student A RF-KD: about 18,300x smaller by serialized size |
+| Best compact WSN-DS point in README | Student B co-distillation: 0.989133 accuracy, 0.933526 macro-F1, 13.27 KB |
+| Fixed-point firmware scope | Student A and Student B RF-KD exported to integer C/preprocessing artifacts |
+| Hardware replay scope | 56,200 WSN-DS test vectors replayed on ESP32-C3 and Arduino R4 |
+| Active artifact status | Evidence-preserved, smoke-tested, and path-audited for paper writing |
+
+---
+
+## Research Objective
+
+Wireless sensor and IoT intrusion-detection models often report high accuracy, but many are too large or insufficiently deployment-audited for constrained devices. CuKD-XAI studies a practical question:
+
+> Can a strong tabular IDS teacher be compressed into tiny neural students while retaining useful detection behavior and producing realistic deployment evidence?
+
+The main experimental line uses **WSN-DS** multiclass intrusion detection. **Edge-IIoTset** is used as supporting robustness evidence, not as the main claim.
+
+---
+
+## What This Repository Contains
+
+| Area | Evidence |
+|---|---|
+| Predictive compression | RF/MLP teachers distilled into compact Student A and Student B neural models |
+| Co-distillation | Student-to-student refinement with consistency and ranking components |
+| Explanation audit | SHAP-based teacher-student feature-rank comparison |
+| Software deployment | ONNX export, OpenVINO execution, dynamic INT8 checks |
+| Firmware deployment | Fixed-point C export with integer preprocessing metadata |
+| Hardware validation | ESP32-C3 and Arduino R4 USB-serial hardware-in-loop replay |
+| Mote feasibility | MSP430F1611/TelosB-class compile and memory-footprint evidence |
+| Robustness support | Edge-IIoT strict and literature-comparable evaluation tracks |
+
+---
+
+## System View
+
+```mermaid
+flowchart LR
+    D["WSN-DS tabular IDS records"] --> P["Preprocessing and split discipline"]
+    P --> T["High-capacity teachers"]
+    T --> K["Knowledge distillation"]
+    K --> A["Student A: ultra-small IDS"]
+    K --> B["Student B: stronger compact IDS"]
+    A --> E["Evaluation"]
+    B --> E
+    E --> X["Explanation audit"]
+    E --> S["Software runtime evidence"]
+    E --> F["Fixed-point firmware export"]
+    F --> H["MCU hardware-in-loop replay"]
+    F --> M["MSP430 memory feasibility"]
 ```
-!pip install -q kaggle
-!mkdir -p ~/.kaggle
-!echo '{"username":"YOUR_USERNAME","key":"YOUR_KEY"}' > ~/.kaggle/kaggle.json
-!chmod 600 ~/.kaggle/kaggle.json
-!kaggle datasets download -d bassamkasasbeh1/wsnds
-!unzip -q wsnds.zip
+
+```mermaid
+flowchart TB
+    R["Research Claim"] --> C1["Accuracy retained under compression"]
+    R --> C2["Compression is measurable and large"]
+    R --> C3["Explanations are audited, not assumed"]
+    R --> C4["Deployment path is tested beyond notebook metrics"]
+
+    C1 --> W["WSN-DS 10-seed tables"]
+    C2 --> P["Model-size and fixed-point footprint tables"]
+    C3 --> X["SHAP rank agreement evidence"]
+    C4 --> H["ONNX/OpenVINO + HIL + MSP430 evidence"]
 ```
 
-### Step 3: Install deps
-In Cell 1, uncomment and run:
+---
+
+## Main Results
+
+### WSN-DS Model Compression
+
+| Model | Accuracy | Macro-F1 | Size | Interpretation |
+|---|---:|---:|---:|---|
+| RF teacher | 0.996600 | 0.978889 | 85064.54 KB | High-performing reference teacher |
+| Student A RF-KD | 0.986875 | 0.919971 | 4.64 KB | Ultra-small compressed IDS |
+| Student B co-distillation | 0.989133 | 0.933526 | 13.27 KB | Stronger compact student |
+
+Student A compresses the RF teacher by roughly **18,300x** by serialized size while retaining high weighted performance. Student B gives a stronger balanced-performance point with a still-small footprint.
+
+### Fixed-Point Firmware Footprint
+
+| Model | Architecture | MACs | Fixed-point parameter bytes |
+|---|---:|---:|---:|
+| Student A RF-KD | 17-32-16-5 | 1,136 | 1,348 B |
+| Student B RF-KD | 17-64-32-5 | 3,296 | 3,700 B |
+
+### Hardware-in-Loop Replay
+
+| Model | Board | Vectors | MCU vs fixed reference | Accuracy | Macro-F1 | Mean total latency |
+|---|---|---:|---:|---:|---:|---:|
+| Student A RF-KD | ESP32-C3 | 56,200 | 1.000000 | 0.985623 | 0.914014 | 118.40 us |
+| Student A RF-KD | Arduino R4 WiFi | 56,200 | 1.000000 | 0.985623 | 0.914014 | 301.63 us |
+| Student B RF-KD | ESP32-C3 | 56,200 | 1.000000 | 0.986957 | 0.918099 | 332.33 us |
+| Student B RF-KD | Arduino R4 WiFi | 56,200 | 1.000000 | 0.986957 | 0.918099 | 791.57 us |
+
+Hardware replay validates the generated fixed-point model execution over saved WSN-DS feature vectors. It does **not** claim live packet capture or energy profiling.
+
+---
+
+## Evidence Index
+
+| Evidence type | Location |
+|---|---|
+| Final WSN-DS tables and figures | [`results/wsnds/final_results/`](results/wsnds/final_results/) |
+| Edge-IIoT support evidence | [`results/edge_iiot/`](results/edge_iiot/) |
+| ONNX/OpenVINO runtime evidence | [`results/runtime/onnx_openvino/wsnds/`](results/runtime/onnx_openvino/wsnds/) |
+| Hardware replay outputs | [`results/hardware_hil/board_replay/`](results/hardware_hil/board_replay/) |
+| Final HIL tables | [`results/hardware_hil/reports/final_postprocessing/`](results/hardware_hil/reports/final_postprocessing/) |
+| Compile footprint logs | [`results/hardware_hil/compile_logs/`](results/hardware_hil/compile_logs/) |
+| Professor-facing evidence ledger | [`docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`](docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md) |
+| End-to-end professor brief | [`docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`](docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md) |
+| Literature comparison material | [`docs/literature/`](docs/literature/) |
+| Artifact review guide | [`ARTIFACT.md`](ARTIFACT.md) |
+| Citation metadata | [`CITATION.cff`](CITATION.cff) |
+| License and data-use notice | [`LICENSE`](LICENSE), [`NOTICE.md`](NOTICE.md) |
+
+---
+
+## How To Review This Repository
+
+| Reviewer goal | Recommended path |
+|---|---|
+| Understand the complete project before a professor discussion | Read [`docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`](docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md), then this README |
+| Check whether a claim is backed by evidence | Use [`docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`](docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md) and the linked result files |
+| Inspect final WSN-DS results | Start with [`results/wsnds/final_results/2026-05-30-10seed-plus-j/`](results/wsnds/final_results/2026-05-30-10seed-plus-j/) |
+| Inspect deployment and hardware evidence | Start with [`results/hardware_hil/reports/final_postprocessing/`](results/hardware_hil/reports/final_postprocessing/) |
+| Inspect Edge-IIoT support evidence | Start with [`results/edge_iiot/literature_metric_gap/`](results/edge_iiot/literature_metric_gap/) |
+| Understand moved historical material | Read [`archive/README.md`](archive/README.md) and [`docs/repository/REPOSITORY_MAP.md`](docs/repository/REPOSITORY_MAP.md) |
+
+---
+
+## Reproducibility Status
+
+| Layer | Status |
+|---|---|
+| Evidence inspection | Tracked reports, tables, figures, firmware bundles, and replay logs are present |
+| Smoke tests | `pytest` and Python compile checks cover active repository structure and tooling |
+| HIL post-processing | Regenerates from moved evidence under `results/hardware_hil/` |
+| Edge-IIoT metric-gap post-processing | Regenerates from moved evidence under `results/edge_iiot/` |
+| Full training rerun | Code is preserved, but full reruns are compute- and data-dependent |
+| Docker image | Not included; this is a research artifact, not a containerized service |
+
+---
+
+## Repository Structure
+
+```text
+CuKD-XAI/
+  data/          Dataset files and preserved dataset copies
+  experiments/   Research experiment implementations
+  results/       Paper-facing metrics, tables, figures, runtime outputs, and HIL evidence
+  deployment/    Firmware export, hardware tooling, and embedded deployment assets
+  docs/          Professor brief, literature notes, reproduction notes, and repository documentation
+  tests/         Static, export, and hardware-HIL checks
+  archive/       Preserved historical runs, old packages, and scratch outputs
 ```
-!pip install -q shap scikit-learn pandas numpy matplotlib seaborn torch
+
+The structure is intentionally separated by purpose: **experiments produce evidence**, **results preserve evidence**, **deployment holds deployable assets**, and **archive keeps historical material without polluting the active research surface**.
+
+---
+
+## Claim Boundaries
+
+Supported by the current evidence:
+
+- WSN-DS teacher-to-student compression with 10-seed metrics.
+- Very large serialized-size reduction from RF teacher to neural students.
+- SHAP-based explanation-rank audit showing that predictive compression does not automatically preserve explanation rankings.
+- ONNX/OpenVINO software deployment checks.
+- Fixed-point C export with integer preprocessing.
+- ESP32-C3 and Arduino R4 hardware-in-loop replay over 56,200 WSN-DS test vectors.
+- MSP430F1611/TelosB-class memory-feasibility compilation evidence.
+- Edge-IIoT support experiments for robustness discussion.
+
+Not claimed:
+
+- Best WSN-DS accuracy.
+- First use of SHAP/XAI for WSN or IoT IDS.
+- Live WSN packet capture.
+- Physical TelosB deployment.
+- Energy or battery-life measurement.
+- Full on-mote packet-to-feature extraction.
+
+---
+
+## Publication Positioning
+
+The defensible novelty is not raw accuracy alone. The contribution is the combined evidence chain:
+
+1. High-performing IDS teacher compressed into KB-scale students.
+2. Compression evaluated across accuracy, macro-F1, per-class behavior, and model footprint.
+3. Explanation behavior audited rather than assumed.
+4. Software and firmware deployment paths tested with concrete evidence files.
+5. MCU replay and MSP430 memory evidence used to narrow the gap between notebook results and constrained-device feasibility.
+
+This makes the work stronger as a **resource-aware explainable IDS compression evidence package** than as a pure leaderboard paper.
+
+---
+
+## Citation
+
+If citing this repository before a manuscript DOI is available, cite the repository and the evidence ledger:
+
+```bibtex
+@misc{cukd_xai_repository,
+  title  = {CuKD-XAI: Resource-Aware Explainable IDS Compression for WSN/IoT Security},
+  author = {Harkut, Nishant},
+  year   = {2026},
+  note   = {Research evidence package with WSN-DS, Edge-IIoT, ONNX/OpenVINO, fixed-point C, and hardware-in-loop evidence}
+}
 ```
-(Most are preinstalled on Colab — only `shap` usually needs installing.)
-
-### Step 4: Run all cells
-Runtime → Run all (or Ctrl+F9)
-
-Expected total runtime on Colab T4 GPU: **~15-25 minutes** for single-seed run of all 10 configs.
-
-## What the notebook does
-
-| Cell | Config | What it trains |
-|------|--------|----------------|
-| 7 | A | Random Forest baseline (500 trees) |
-| 8 | B | Full MLP teacher (~70K params) |
-| 9 | D | Small MLP from scratch (1,189 params) |
-| 10 | — | Difficulty scoring for CL |
-| 11 | C | CL-trained MLP teacher |
-| 13 | E | KD: calibrated RF → student |
-| 14 | E2 | KD: standard MLP → student |
-| 15 | F | **KD: CL-MLP → student (CORE CLAIM)** |
-| 16 | G | KD: random-pacing teacher → student (control) |
-| 17 | — | Results summary table |
-| 18 | H | SHAP explainability analysis |
-| 19 | — | Comparison figures |
-
-## Key outputs
-
-After running:
-- `results.json` — all metrics for all configs
-- `shap_summary.png` — per-attack feature importance
-- `per_class_f1.png` — comparison figure
-
-## Core comparisons to look for
-
-1. **Does CL help the teacher?** Compare `C_CL_MLP` vs `B_Full_MLP` macro F1
-2. **Does KD beat scratch?** Compare `E2_KD_from_MLP` vs `D_Small_MLP_scratch`
-3. **Does CL improve KD? (CORE CLAIM)** Compare `F_KD_from_CL_MLP` vs `E2_KD_from_MLP`
-4. **Is it curriculum or just pacing?** Compare `F_KD_from_CL_MLP` vs `G_KD_random_pacing`
-
-## After first run
-
-Once the single-seed run completes successfully:
-1. Wrap the whole pipeline in a loop for 5 different random seeds
-2. Compute mean ± std
-3. Run Wilcoxon signed-rank tests for F vs E2, F vs D, C vs B
-4. Then run on CICIoT2023 for generalizability
-
-## Troubleshooting
-
-- **OOM on Colab:** Reduce batch_size in train_model from 256 to 128
-- **SHAP error:** `pip install shap --upgrade` — DeepExplainer sometimes breaks with newer PyTorch
-- **Kaggle download fails:** Use Option A (manual upload)
-- **Column name mismatch:** WSN-DS on Kaggle sometimes has `' Attack type'` (with leading space) — the notebook already handles this with `str.strip()`
-
-## Verified architecture numbers
-
-| Model | Params | Size fp32 | Size INT8 | TelosB fit? |
-|-------|--------|-----------|-----------|-------------|
-| RF (500 trees) | N/A | 5-50 MB | 5-50 MB | ❌ |
-| Teacher MLP | ~69,893 | ~273 KB | ~68 KB | ❌ |
-| Student (32-16) | 1,189 | 4.64 KB | 1.16 KB | ✅ |
-| Student (64-32) | 3,397 | 13.27 KB | 3.32 KB | ✅ |
-
-## Hyperparameters (verified from Benaddi et al. 2025)
-
-| Param | Value | Source |
-|-------|-------|--------|
-| Temperature T | 4.0 | Benaddi grid {2,3,4} |
-| Alpha (KD weight) | 0.7 | Benaddi grid {0.5,0.7,0.9} |
-| Optimizer | AdamW | Benaddi |
-| LR | 1e-3 | Benaddi |
-| Weight decay | 1e-3 | Benaddi |
-| Dropout (teacher) | 0.2-0.3 | Benaddi |
-| Batch size | 256 | Standard |
-| Epochs (teacher) | 25 (3 CL stages × 7/7/11) | Our design |
-| Epochs (student KD) | 30 | Standard |
-| Early stopping patience | 8 | Benaddi |

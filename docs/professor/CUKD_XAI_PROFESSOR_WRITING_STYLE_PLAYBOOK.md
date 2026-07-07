@@ -1,4 +1,4 @@
-# CuKD-XAI Professor-Style Writing Playbook
+﻿# CuKD-XAI Professor-Style Writing Playbook
 
 This document prepares you to discuss CuKD-XAI in the writing style seen in the professor's submitted Mamba/channel-prediction paper:
 
@@ -207,7 +207,7 @@ His paper reports results with specific, quantified comparisons. For CuKD-XAI, t
 The RF teacher achieves the strongest detection performance, reaching 0.9966 accuracy and 0.9789 macro-F1. However, its serialized size is approximately 85064.54 KB, motivating compression into compact neural students.
 ```
 
-Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`.
+Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`.
 
 ### 6.2 Result Claim 2: Student A Ultra-Small Point
 
@@ -215,7 +215,7 @@ Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`.
 Student A RF-KD reaches 0.9869 accuracy and 0.9200 macro-F1 with only 1189 parameters and 4.64 KB FP32 storage, corresponding to approximately 18315x size reduction relative to the RF teacher.
 ```
 
-Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`.
+Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`.
 
 ### 6.3 Result Claim 3: Student B Accuracy-Compression Point
 
@@ -223,7 +223,7 @@ Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`.
 Student B reaches up to 0.9891 accuracy and 0.9335 macro-F1 at 13.27 KB. This model is approximately 6411x smaller than the RF teacher while improving over the smaller Student A in macro-F1.
 ```
 
-Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`.
+Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`.
 
 ### 6.4 Result Claim 4: Explanation-Faithfulness Gap
 
@@ -231,7 +231,7 @@ Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`.
 The teacher-student SHAP rank Spearman correlation is near zero, indicating that predictive distillation does not automatically preserve the teacher's global feature-importance ordering.
 ```
 
-Source: `PROFESSOR_RESULTS_COMPARISON.md`, `Results - 10 Seed Run 30 may/cukd_xai_results.json`.
+Source: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 ### 6.5 Result Claim 5: Hardware-Path Validation
 
@@ -239,7 +239,7 @@ Source: `PROFESSOR_RESULTS_COMPARISON.md`, `Results - 10 Seed Run 30 may/cukd_xa
 In HIL replay, Student A and Student B RF-KD fixed-point firmware matched the generated fixed-point reference with 1.0 agreement across all 56200 test vectors on both ESP32-C3 and Arduino R4.
 ```
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/hil_fidelity.csv`.
+Source: `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv`.
 
 ## 7. Figure and Table Plan
 
@@ -251,9 +251,9 @@ His paper uses a figure/table-heavy IEEE structure. CuKD-XAI should have a simil
 |---|---|---|
 | Overall CuKD-XAI pipeline | Shows data -> teachers -> students -> SHAP -> deployment | Mermaid diagram in `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md` |
 | Model compression structure | Shows RF teacher to Student A/B to fixed-point firmware | Mermaid diagram in professor brief |
-| Pareto frontier | Shows accuracy/macro-F1 vs size | Existing: `Results - 10 Seed Run 30 may + J/pareto_frontier_with_J.png` |
-| Per-class F1 | Shows minority-class behavior | Existing: `Results - 10 Seed Run 30 may + J/per_class_f1_student_A_with_J.png`, `per_class_f1_student_B_with_J.png` |
-| SHAP summary or rank comparison | Shows explanation audit | Existing: `Results - 10 Seed Run 30 may + J/shap_summary_student.png`; rank audit in JSON/docs |
+| Pareto frontier | Shows accuracy/macro-F1 vs size | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/pareto_frontier_with_J.png` |
+| Per-class F1 | Shows minority-class behavior | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/per_class_f1_student_A_with_J.png`, `per_class_f1_student_B_with_J.png` |
+| SHAP summary or rank comparison | Shows explanation audit | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/shap_summary_student.png`; rank audit in JSON/docs |
 | Hardware HIL flow | Shows host serial replay and MCU verification | Mermaid diagram in professor brief |
 
 ### 7.2 Must-Have Tables
@@ -263,9 +263,9 @@ His paper uses a figure/table-heavy IEEE structure. CuKD-XAI should have a simil
 | WSN-DS 10-seed Student A results | Ultra-small comparison | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
 | WSN-DS 10-seed Student B results | Accuracy-compression comparison | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
 | Compression table | RF vs students vs fixed-point | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
-| Runtime/deployment table | ONNX/OpenVINO evidence | `Final/wsnds_deployment_qat_outputs/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
-| HIL table | ESP32-C3 and Arduino R4 validation | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
-| Related work table | Honest comparison with WSN-DS and Edge-IIoT papers | `PROFESSOR_RESULTS_COMPARISON.md`, `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| Runtime/deployment table | ONNX/OpenVINO evidence | `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
+| HIL table | ESP32-C3 and Arduino R4 validation | `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
+| Related work table | Honest comparison with WSN-DS and Edge-IIoT papers | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
 
 ## 8. How to Talk to Him in His Writing Language
 
@@ -381,10 +381,10 @@ Before sitting with him, open these files:
 1. `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`
 2. `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`
 3. `docs/professor/CUKD_XAI_PROFESSOR_WRITING_STYLE_PLAYBOOK.md`
-4. `PROFESSOR_RESULTS_COMPARISON.md`
-5. `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
-6. `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`
-7. `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+4. `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+5. `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
+6. `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`
+7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
 
 Start with this:
 
@@ -397,4 +397,6 @@ Then continue with:
 ```text
 The exact gap is that WSN-DS already has high-accuracy papers, but there is still room for a resource-aware study that compresses an accurate teacher into KB-scale students, validates fixed-point execution, and checks whether explanation behavior transfers after distillation.
 ```
+
+
 

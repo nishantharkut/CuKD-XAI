@@ -1,4 +1,4 @@
-# CuKD-XAI Results and Evidence Ledger
+﻿# CuKD-XAI Results and Evidence Ledger
 
 This file records the current project results for professor discussion. Tables are rounded for readability where appropriate. Use the cited source files for exact unrounded values.
 
@@ -8,34 +8,34 @@ This file records the current project results for professor discussion. Tables a
 |---|---|
 | Repo branch checked | `main` |
 | Repo sync status when prepared | `HEAD...origin/main = 0 0` |
-| Main WSN-DS result source | `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`, `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv` |
-| Hardware result source | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` and companion CSV files in the same folder |
-| Edge-IIoT strict source | `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/edgeiiot_v23_config_rankings.csv` |
-| Edge-IIoT literature-comparable source | `Final/edgeiiot_v23_literature_comparable_selected_capacity_outputs/edgeiiot_v23_config_rankings.csv` |
+| Main WSN-DS result source | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv` |
+| Hardware result source | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` and companion CSV files in the same folder |
+| Edge-IIoT strict source | `results/edge_iiot/strict_generalization/edgeiiot_v23_config_rankings.csv` |
+| Edge-IIoT literature-comparable source | `results/edge_iiot/literature_comparable/edgeiiot_v23_config_rankings.csv` |
 
 ## Evidence Index
 
 | Evidence area | Source |
 |---|---|
-| WSN-DS Student A 10-seed table | `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv` |
-| WSN-DS Student B 10-seed table | `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv` |
-| WSN-DS combined J/co-distill output | `Results - 10 Seed Run 30 may + J/cukd_xai_results_with_J.json`, `Results - 10 Seed Run 30 may + J/j_only_results.json` |
-| SHAP explanation alignment summary | `PROFESSOR_RESULTS_COMPARISON.md`, `Results - 10 Seed Run 30 may/cukd_xai_results.json` |
-| ONNX/OpenVINO runtime | `Final/wsnds_deployment_qat_outputs/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
-| HIL fidelity | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
-| HIL cycles/MAC | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/cycles_per_mac.csv` |
-| Fixed-point footprint | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/model_only_footprint.csv` |
-| Compile footprint | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/compile_framework_baseline.csv` |
-| Quantization drift | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/quantization_drift_summary.csv` |
-| HIL source traceability | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/evidence_traceability.csv` |
-| MSP430 cross-compile footprint | `hardware_export/MSP430_CROSS_COMPILE_REPORT.md` |
-| Edge-IIoT strict rankings | `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/edgeiiot_v23_config_rankings.csv` |
-| Edge-IIoT literature-comparable rankings | `Final/edgeiiot_v23_literature_comparable_selected_capacity_outputs/edgeiiot_v23_config_rankings.csv` |
-| Edge-IIoT literature comparison | `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| WSN-DS Student A 10-seed table | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` |
+| WSN-DS Student B 10-seed table | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv` |
+| WSN-DS combined J/co-distill output | `results/wsnds/final_results/2026-05-30-10seed-plus-j/cukd_xai_results_with_J.json`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/j_only_results.json` |
+| SHAP explanation alignment summary | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json` |
+| ONNX/OpenVINO runtime | `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
+| HIL fidelity | `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
+| HIL cycles/MAC | `results/hardware_hil/reports/final_postprocessing/cycles_per_mac.csv` |
+| Fixed-point footprint | `results/hardware_hil/reports/final_postprocessing/model_only_footprint.csv` |
+| Compile footprint | `results/hardware_hil/reports/final_postprocessing/compile_framework_baseline.csv` |
+| Quantization drift | `results/hardware_hil/reports/final_postprocessing/quantization_drift_summary.csv` |
+| HIL source traceability | `results/hardware_hil/reports/final_postprocessing/evidence_traceability.csv` |
+| MSP430 cross-compile footprint | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md` |
+| Edge-IIoT strict rankings | `results/edge_iiot/strict_generalization/edgeiiot_v23_config_rankings.csv` |
+| Edge-IIoT literature-comparable rankings | `results/edge_iiot/literature_comparable/edgeiiot_v23_config_rankings.csv` |
+| Edge-IIoT literature comparison | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
 
 ## WSN-DS 10-Seed Results
 
-Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv` and `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`.
+Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` and `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`.
 
 ### Student A Capacity: 17-32-16-5
 
@@ -83,7 +83,7 @@ Interpretation: Student B `J_CoDistill_RF_CL` has the best Student B mean macro-
 
 ## Compression Results
 
-Sources: WSN-DS CSVs above and `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
+Sources: WSN-DS CSVs above and `results/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
 
 | Model/artifact | Size basis | Size |
 |---|---|---:|
@@ -107,7 +107,7 @@ Sources: WSN-DS CSVs above and `Hardware Deployment Run/hardware_hil/reports/fin
 
 ## SHAP Explanation Alignment
 
-Source: `PROFESSOR_RESULTS_COMPARISON.md` and raw SHAP data in `Results - 10 Seed Run 30 may/cukd_xai_results.json`.
+Source: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md` and raw SHAP data in `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 | Metric | Value |
 |---|---:|
@@ -120,7 +120,7 @@ Interpretation: the student can preserve useful predictive performance without p
 
 ## Deployment Runtime Results
 
-Source: `Final/wsnds_deployment_qat_outputs/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv`.
+Source: `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv`.
 
 ### Deployment Term Definitions
 
@@ -157,7 +157,7 @@ Interpretation: ONNX FP32 gives very small software-runtime artifacts and fast b
 
 ## Hardware HIL Results
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/hil_fidelity.csv`.
+Source: `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv`.
 
 | Board | Model | Vectors | Accuracy | Macro-F1 | MCU vs fixed | MCU vs FP32 | Mean total us | P99 total us |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -170,7 +170,7 @@ Boundary: these are MCU-class USB serial replay tests using already extracted WS
 
 ### HIL Cycles per MAC
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/cycles_per_mac.csv`.
+Source: `results/hardware_hil/reports/final_postprocessing/cycles_per_mac.csv`.
 
 | Board | Model | Clock MHz | MACs | Mean inference us | Inference cycles | Cycles/MAC | Total throughput ceiling/s |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -183,7 +183,7 @@ The throughput ceiling is computed from measured on-device total processing time
 
 ### Fixed-Point Model-Only Footprint
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
+Source: `results/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
 
 | Model | Architecture | MACs | Weight bytes | Bias bytes | Param bytes | Numeric format |
 |---|---|---:|---:|---:|---:|---|
@@ -192,7 +192,7 @@ Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/model
 
 ### Compile Footprint
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/compile_framework_baseline.csv` and compile logs under `Hardware Deployment Run/hardware_hil/compile_logs/`.
+Source: `results/hardware_hil/reports/final_postprocessing/compile_framework_baseline.csv` and compile logs under `results/hardware_hil/compile_logs/`.
 
 | Board | Model | Program bytes | Global bytes | Serial baseline program | Serial baseline globals | Program delta | Global delta |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -203,7 +203,7 @@ Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/compi
 
 ### Quantization Drift
 
-Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/quantization_drift_summary.csv`.
+Source: `results/hardware_hil/reports/final_postprocessing/quantization_drift_summary.csv`.
 
 | Model | Reference rows | Drift count | Drift fraction |
 |---|---:|---:|---:|
@@ -214,7 +214,7 @@ Drift means fixed-point reference prediction differs from FP32 prediction. Becau
 
 ## MSP430F1611 Cross-Compile Evidence
 
-Source: `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`.
+Source: `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`.
 
 | Item | Evidence |
 |---|---|
@@ -231,7 +231,7 @@ Safe interpretation: this supports MSP430/TelosB-class memory feasibility of the
 
 ## Edge-IIoT Strict Generalization Results
 
-Source: `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/edgeiiot_v23_config_rankings.csv`.
+Source: `results/edge_iiot/strict_generalization/edgeiiot_v23_config_rankings.csv`.
 
 Protocol note: strict route removes leakage/identifier/source/payload-style columns, uses multiclass `Attack_type`, train-only preprocessing, continuous-only scaling, and 5 seeds.
 
@@ -258,7 +258,7 @@ Interpretation: strict Edge-IIoT is a stress test and exposes a capacity-complex
 
 ## Edge-IIoT Literature-Comparable Selected-Capacity Results
 
-Source: `Final/edgeiiot_v23_literature_comparable_selected_capacity_outputs/edgeiiot_v23_config_rankings.csv`.
+Source: `results/edge_iiot/literature_comparable/edgeiiot_v23_config_rankings.csv`.
 
 Protocol note: completed 5-seed selected-capacity route.
 
@@ -287,7 +287,7 @@ Interpretation: Student C RF-KD is the best current selected-capacity student by
 
 ## Verified Base and Related-Paper Comparison
 
-Source rule for this table: paper-side numbers are taken from local PDFs in `Papers/`, primary publisher pages, arXiv pages, or the already generated Edge-IIoT comparison file. CuKD-XAI-side numbers are taken from the result files cited earlier in this document. `NR` means the paper did not report that item in the checked source.
+Source rule for this table: paper-side numbers are taken from local PDFs in `docs/literature/papers/`, primary publisher pages, arXiv pages, or the already generated Edge-IIoT comparison file. CuKD-XAI-side numbers are taken from the result files cited earlier in this document. `NR` means the paper did not report that item in the checked source.
 
 Important comparison caution: many IDS papers report a plain `F1-score` without saying whether it is macro, weighted, or micro. For this project, macro-F1 is central because WSN-DS and Edge-IIoT are imbalanced. Do not compare our macro-F1 directly with an unspecified paper F1 unless the averaging basis is known.
 
@@ -296,18 +296,18 @@ Important comparison caution: many IDS papers report a plain `F1-score` without 
 | Paper / work | Dataset and method | Reported paper result | Paper resource evidence | Closest CuKD-XAI comparison | Safe professor interpretation | Source |
 |---|---|---:|---|---|---|---|
 | Almomani et al. 2016, WSN-DS dataset paper | Original WSN-DS dataset and baseline IDS models | ANN baseline around `96.6%` accuracy in older repo context; exact macro-F1 not used here | Model footprint/latency NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; Student A `E`: accuracy `98.688%`, macro-F1 `91.997%`, `4.64 KB` | Use this as the dataset origin and baseline context, not as modern SOTA. | https://doi.org/10.1155/2016/4731953 |
-| Ghadi et al. 2024, IEEE Access review | WSN security review | No direct benchmark table for CuKD-XAI comparison | Review motivates the conflict between energy efficiency and security complexity | Use as motivation only | This is the base/background paper, not a result baseline. It supports the resource-constrained WSN framing. | `Papers/base_paper.pdf`, https://doi.org/10.1109/ACCESS.2024.3355312 |
+| Ghadi et al. 2024, IEEE Access review | WSN security review | No direct benchmark table for CuKD-XAI comparison | Review motivates the conflict between energy efficiency and security complexity | Use as motivation only | This is the base/background paper, not a result baseline. It supports the resource-constrained WSN framing. | `docs/literature/papers/base_paper.pdf`, https://doi.org/10.1109/ACCESS.2024.3355312 |
 | Talukder et al. 2024, MLSTL-WSN | WSN-DS, SMOTE-Tomek, RF/ML models | Binary accuracy `99.78%`; multiclass accuracy `99.92%`; WiSTL RF accuracy/precision/recall/F1 `99.92%` | Time complexity discussed; absolute model size/MCU latency NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; Student A `E`: accuracy `98.688%`, macro-F1 `91.997%`, `4.64 KB` | They are stronger for raw WSN-DS accuracy. They also show SHAP/RF-style WSN-DS work exists, so our novelty must be compression, deployment evidence, and explanation-faithfulness audit. | https://doi.org/10.1007/s10207-024-00833-z |
-| Talukder et al. 2025, Scientific Reports KMS+PCA+RFC | WSN-DS and TON-IoT, KMeans-SMOTE + PCA + RF | WSN-DS accuracy `99.94%`, F1 `99.94%`; TON-IoT accuracy/F1 `99.97%` | Complexity analysis claims reduced training/prediction time; absolute model size/MCU evidence NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | This is a clear WSN-DS accuracy-SOTA comparator. CuKD-XAI should not claim better accuracy; it should claim a much smaller deployable student. | `Papers/sota_wsn_ds_2025.pdf`, https://doi.org/10.1038/s41598-025-87028-1 |
+| Talukder et al. 2025, Scientific Reports KMS+PCA+RFC | WSN-DS and TON-IoT, KMeans-SMOTE + PCA + RF | WSN-DS accuracy `99.94%`, F1 `99.94%`; TON-IoT accuracy/F1 `99.97%` | Complexity analysis claims reduced training/prediction time; absolute model size/MCU evidence NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | This is a clear WSN-DS accuracy-SOTA comparator. CuKD-XAI should not claim better accuracy; it should claim a much smaller deployable student. | `docs/literature/papers/sota_wsn_ds_2025.pdf`, https://doi.org/10.1038/s41598-025-87028-1 |
 | Birahim et al. 2025, IEEE Access PSO explainable ensemble | WSN-DS, PSO + RF/DT/KNN ensemble, SMOTE-Tomek, LIME/SHAP | Accuracy `99.73%`; precision/recall/F1 `99.72%` | Size/latency NR in checked source | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | They are stronger on raw detection and already use SHAP/LIME. Our safe XAI novelty is not "first XAI"; it is teacher-student explanation-faithfulness after compression. | https://doi.org/10.1109/ACCESS.2025.3528341 |
 | Pandey et al. 2025, Scientific Reports TS-RF | WSN-DS, CICIDS2017, CIC-IoT 2023; Tabu Search optimized RF | WSN-DS optimized RF accuracy improves from `99.42%` to `99.67%`; optimized WSN-DS macro average about `0.98`, weighted average about `1.00` | Google Colab/PC setup reported; model size/MCU evidence NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | Again, stronger pure detection. It helps show the WSN-DS leaderboard is saturated by optimized tree models, so the paper should focus on compression and deployability. | https://doi.org/10.1038/s41598-025-03498-3 |
 | Nguyen et al. 2024, Sensors GSWO-CatBoost | WSN-DS, WSNBFSF, NSL-KDD, CICIDS2017; GSWO feature selection + CatBoost | WSN-DS headline accuracy `99.65%`; comparison table reports accuracy `99.65%`, precision `97.27%`, recall `97.78%`, F1 `97.47%` | Inference time `16 ms` for WSN-DS in the paper comparison table | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; Student A `E`: `4.64 KB` | This paper is both accuracy and speed oriented. Our advantage is explicit tiny model storage and firmware/HIL proof, not raw accuracy. | https://doi.org/10.3390/s24113339 |
-| Alfarra and AbuSamra 2025 hybrid IDS | WSN-DS plus ns-3 50-node LoRa simulation; integer rule filter + pruned INT8 CNN-LSTM gateway | Accuracy `98%`, macro-F1 `0.93`, minority recalls `0.84-0.95` | Sensor rule filter about `0.05 mJ` per packet; INT8 CNN-LSTM `28 mJ` per 32-window batch; average latency `42 ms`, p95 `55 ms`; T50 `69 days` | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; HIL replay is not energy measurement | This is close to our macro-F1 range and stronger on energy/lifetime realism. We should not imply we have battery evidence; we have stronger fixed-point/HIL reproducibility. | `Papers/alfarra_2025.pdf`, https://doi.org/10.37936/ecti-cit.2025194.263081 |
-| Xiao and Duan 2025 metaheuristic soft-voting ensemble | WSN-style IDS, DNN + CatBoost soft voting, QIO/OOA tuning | QIO-enabled DCQI test accuracy `95.62%`, test F1-score `96.07%` | QIO-enhanced ensemble training about `175 min`; estimated storage about `125 MB` | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | Our accuracy and storage are favorable, but their F1 averaging is not the same as our macro-F1 unless explicitly confirmed. Use this as a resource-aware ensemble comparator. | `Papers/Metaheuristically optimized deep soft-voting ensemble for explainable and resource-aware signal processing in wireless sensor network intrusion detection.pdf`, https://doi.org/10.1007/s11760-025-04880-4 |
+| Alfarra and AbuSamra 2025 hybrid IDS | WSN-DS plus ns-3 50-node LoRa simulation; integer rule filter + pruned INT8 CNN-LSTM gateway | Accuracy `98%`, macro-F1 `0.93`, minority recalls `0.84-0.95` | Sensor rule filter about `0.05 mJ` per packet; INT8 CNN-LSTM `28 mJ` per 32-window batch; average latency `42 ms`, p95 `55 ms`; T50 `69 days` | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; HIL replay is not energy measurement | This is close to our macro-F1 range and stronger on energy/lifetime realism. We should not imply we have battery evidence; we have stronger fixed-point/HIL reproducibility. | `docs/literature/papers/alfarra_2025.pdf`, https://doi.org/10.37936/ecti-cit.2025194.263081 |
+| Xiao and Duan 2025 metaheuristic soft-voting ensemble | WSN-style IDS, DNN + CatBoost soft voting, QIO/OOA tuning | QIO-enabled DCQI test accuracy `95.62%`, test F1-score `96.07%` | QIO-enhanced ensemble training about `175 min`; estimated storage about `125 MB` | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB` | Our accuracy and storage are favorable, but their F1 averaging is not the same as our macro-F1 unless explicitly confirmed. Use this as a resource-aware ensemble comparator. | `docs/literature/papers/Metaheuristically optimized deep soft-voting ensemble for explainable and resource-aware signal processing in wireless sensor network intrusion detection.pdf`, https://doi.org/10.1007/s11760-025-04880-4 |
 | Vidhya and Varunadevi 2026 binarized simplicial CNN | WSN-DS 5-class DoS/IDS, binarized simplicial CNN with 1-bit weight direction | Abstract reports relative accuracy gains of `4.05%`, `7.52%`, and `2.91%` over named baselines; absolute accuracy and size not verified from full PDF | Full model size/latency not verified; full PDF not available in repo context | Not enough verified numeric detail for direct comparison | This matters because it invalidates any "first compression on WSN-DS" claim. Use only as a compression-related competitor unless the full PDF is obtained. | https://doi.org/10.1002/dac.70277 |
 | Rana et al. 2024 WSN-DS ML benchmarking | WSN-DS case-study benchmarking with standard ML models | Exact metrics not retained in current evidence file | Resource evidence NR | Not enough verified numeric detail for direct comparison | Use as a general WSN-DS benchmarking citation only if the chapter is checked before manuscript use. | https://doi.org/10.1007/978-981-99-8129-8_15 |
-| Salmi and Oughdir 2022/2023 CNN-LSTM WSN DoS | WSN-DS / WSN DoS deep-learning baseline | Older repo notes cite around `97%` accuracy | Resource evidence NR | Student B `J`: `98.913%` accuracy and `13.27 KB` | Use as an earlier deep-learning WSN-DS/DoS baseline, but verify the exact venue/year/metric before manuscript use. | Listed in `Update - 12 april 2026/CuKD_XAI_EXECUTION_PLAN.md`; source URL noted in repo: https://journalofbigdata.springeropen.com/articles/10.1186/s40537-023-00692-w |
-| Benaddi et al. 2025, SHAP-guided Kronecker KD | TON-IoT, not WSN-DS; SHAP feature pruning + KD + Kronecker student | Table II: student FP32 accuracy `0.9968`, macro-F1 `0.9863`; INT8 accuracy `0.9969`, macro-F1 `0.9867` | Table II: teacher `769,922` params / `3021.53 KB`; student `3,042` params / `22.29 KB`; FP32 mean latency `1.29 ms` | CuKD-XAI WSN-DS Student B `13.27 KB`, Student A `4.64 KB`; Edge-IIoT Student C selected-capacity `61.06 KB` | This is the closest KD/compression/XAI-style related work, but on TON-IoT and with Kronecker layers. It helps justify that compression+XAI IDS is active; our distinction is WSN-DS RF-to-student compression plus HIL/MSP430 evidence and SHAP faithfulness audit. | `Papers/benaddi_2025.pdf`, https://arxiv.org/abs/2512.19488 |
+| Salmi and Oughdir 2022/2023 CNN-LSTM WSN DoS | WSN-DS / WSN DoS deep-learning baseline | Older repo notes cite around `97%` accuracy | Resource evidence NR | Student B `J`: `98.913%` accuracy and `13.27 KB` | Use as an earlier deep-learning WSN-DS/DoS baseline, but verify the exact venue/year/metric before manuscript use. | Listed in `docs/archive/updates/2026-04-12/CuKD_XAI_EXECUTION_PLAN.md`; source URL noted in repo: https://journalofbigdata.springeropen.com/articles/10.1186/s40537-023-00692-w |
+| Benaddi et al. 2025, SHAP-guided Kronecker KD | TON-IoT, not WSN-DS; SHAP feature pruning + KD + Kronecker student | Table II: student FP32 accuracy `0.9968`, macro-F1 `0.9863`; INT8 accuracy `0.9969`, macro-F1 `0.9867` | Table II: teacher `769,922` params / `3021.53 KB`; student `3,042` params / `22.29 KB`; FP32 mean latency `1.29 ms` | CuKD-XAI WSN-DS Student B `13.27 KB`, Student A `4.64 KB`; Edge-IIoT Student C selected-capacity `61.06 KB` | This is the closest KD/compression/XAI-style related work, but on TON-IoT and with Kronecker layers. It helps justify that compression+XAI IDS is active; our distinction is WSN-DS RF-to-student compression plus HIL/MSP430 evidence and SHAP faithfulness audit. | `docs/literature/papers/benaddi_2025.pdf`, https://arxiv.org/abs/2512.19488 |
 
 Note on Benaddi et al.: the checked arXiv HTML/PDF table reports `3,042` student parameters, while a method paragraph in the same paper text states `1,282` parameters. Use the table values for comparison unless the professor asks specifically about that inconsistency.
 
@@ -315,7 +315,7 @@ Note on Benaddi et al.: the checked arXiv HTML/PDF table reports `3,042` student
 
 This table is for discussion breadth. Most rows are not direct WSN-DS competitors. Use it to answer "what else exists in the field?" and to show that SHAP, LIME, KD, attention, rule induction, and concept drift are already active directions. Do not use these rows as direct metric competitors unless the dataset, class protocol, and F1 averaging basis match.
 
-Primary local source: `Update - 12 april 2026/XAI_IDS_WSN_IoT_Literature_Map_2023_2026.md`. Verification levels follow that file and `Update - 12 april 2026/CuKD_XAI_EXECUTION_PLAN.md`: **PDF/local** means a local PDF or extracted text exists; **primary-link** means the row is backed by a DOI/publisher/arXiv URL in the repo; **context-only** means useful for positioning but not enough for a numeric claim.
+Primary local source: `docs/archive/updates/2026-04-12/XAI_IDS_WSN_IoT_Literature_Map_2023_2026.md`. Verification levels follow that file and `docs/archive/updates/2026-04-12/CuKD_XAI_EXECUTION_PLAN.md`: **PDF/local** means a local PDF or extracted text exists; **primary-link** means the row is backed by a DOI/publisher/arXiv URL in the repo; **context-only** means useful for positioning but not enough for a numeric claim.
 
 | Work | Main idea | Dataset(s) | Reported result/resource in local literature map | Relation to CuKD-XAI | Use in professor discussion |
 |---|---|---|---|---|---|
@@ -348,7 +348,7 @@ Broad-field conclusion from the local literature map: **SHAP/XAI for IDS is comm
 
 ### Edge-IIoT Papers
 
-The Edge-IIoT comparison is supporting evidence, not the main WSN-DS paper claim. Source table: `Edge-IIOT-run/edgeiiot_literature_metric_gap_outputs/edgeiiot_literature_metric_comparison.md`.
+The Edge-IIoT comparison is supporting evidence, not the main WSN-DS paper claim. Source table: `results/edge_iiot/literature_metric_gap/edgeiiot_literature_metric_comparison.md`.
 
 | Paper / work | Reported paper result | Our closest selected-capacity result | Safe professor interpretation | Source |
 |---|---|---|---|---|
@@ -387,3 +387,5 @@ Use these exact claim boundaries:
 - Energy or battery-life measurement.
 - INT8 speedup.
 - Co-distillation universally improving over RF-KD.
+
+
