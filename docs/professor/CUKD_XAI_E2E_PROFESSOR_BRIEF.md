@@ -1,4 +1,4 @@
-# CuKD-XAI End-to-End Professor Brief
+﻿# CuKD-XAI End-to-End Professor Brief
 
 This document is a discussion guide for explaining the complete CuKD-XAI project end to end. All paths are relative to the repository root. Numeric claims are backed by the result files cited inline and summarized in `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`.
 
@@ -14,13 +14,13 @@ Primary source files:
 
 | Area | Source files |
 |---|---|
-| WSN-DS model training and SHAP | `cukd_xai_colab.py`, `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`, `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`, `Results - 10 Seed Run 30 may/cukd_xai_results.json` |
-| Co-distillation | `Final/cukd_xai_wsnds_j_only_merge.py`, `Results - 10 Seed Run 30 may + J/j_only_results.json` |
-| Deployment runtime | `Final/cukd_xai_wsnds_deployment_qat_proof.py`, `Final/cukd_xai_wsnds_runtime_from_existing.py`, `Final/wsnds_deployment_qat_outputs/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
-| Fixed-point C and MSP430 | `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`, `hardware_export/msp430_build_v2/` |
-| Hardware HIL replay | `Hardware Deployment Run/hardware_hil/host/`, `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
-| Edge-IIoT stress/generalization | `Edge-IIOT-run/cukd_xai_edgeiiot_v23_generalization.py`, `Final/cukd_xai_edgeiiot_v23_literature_comparable.py` |
-| Related work positioning | `PROFESSOR_RESULTS_COMPARISON.md`, `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| WSN-DS model training and SHAP | `experiments/wsnds/main/cukd_xai_colab.py`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json` |
+| Co-distillation | `experiments/wsnds/codistillation/cukd_xai_wsnds_j_only_merge.py`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/j_only_results.json` |
+| Deployment runtime | `experiments/wsnds/deployment_runtime/cukd_xai_wsnds_deployment_qat_proof.py`, `experiments/wsnds/deployment_runtime/cukd_xai_wsnds_runtime_from_existing.py`, `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
+| Fixed-point C and MSP430 | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`, `deployment/msp430/msp430_build_v2/` |
+| Hardware HIL replay | `deployment/hardware_hil/host/`, `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
+| Edge-IIoT stress/generalization | `experiments/edge_iiot/strict_generalization/cukd_xai_edgeiiot_v23_generalization.py`, `experiments/edge_iiot/literature_comparable/cukd_xai_edgeiiot_v23_literature_comparable.py` |
+| Related work positioning | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
 
 ## End-to-End Pipeline
 
@@ -44,12 +44,12 @@ flowchart LR
 1. **Data and preprocessing**
    - The core WSN-DS route uses 17 tabular features and multiclass labels.
    - The Python pipeline performs train/test splitting, scaling, and label handling before training.
-   - Main code reference: `cukd_xai_colab.py`.
+   - Main code reference: `experiments/wsnds/main/cukd_xai_colab.py`.
 
 2. **Teacher training**
    - The strongest WSN-DS teacher is the Random Forest (`A_RF_500`).
    - It reaches `0.9966` accuracy and `0.9789` macro-F1 across 10 seeds, but its serialized size is about `85064.54 KB`.
-   - Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`.
+   - Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`.
 
 3. **Student compression**
    - Student A: `17-32-16-5`, `1,189` params, `4.64 KB` FP32.
@@ -66,12 +66,12 @@ flowchart LR
 5. **Explainability audit**
    - SHAP is used to compare student and teacher feature-importance rankings.
    - The important result is not "we used SHAP"; the important result is that the compressed student has useful prediction performance but low teacher-student global SHAP rank agreement.
-   - Source summary: `PROFESSOR_RESULTS_COMPARISON.md`; raw SHAP block: `Results - 10 Seed Run 30 may/cukd_xai_results.json`.
+   - Source summary: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`; raw SHAP block: `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 6. **Deployment proof**
    - Software deployment route exports/evaluates ONNX and OpenVINO artifacts.
    - Dynamic INT8 reduces artifact size for some models, but current evidence does not support an INT8 speedup claim.
-   - Source: `Final/wsnds_deployment_qat_outputs/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv`.
+   - Source: `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv`.
 
 ### Deployment Terms in Plain Language
 
@@ -87,18 +87,18 @@ flowchart LR
    - RF-KD students are exported to fixed-point C.
    - HIL tests replay the 56,200 WSN-DS test vectors over USB serial to ESP32-C3 and Arduino R4 firmware.
    - The MCU output is checked against generated fixed-point reference predictions and FP32 predictions.
-   - Source: `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`.
+   - Source: `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`.
 
 8. **MSP430/TelosB-class memory feasibility**
    - The Student A fixed-point core cross-compiles for MSP430F1611.
    - This is memory-feasibility evidence only. It is not physical TelosB deployment, energy measurement, radio integration, or live feature extraction.
-   - Source: `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`.
+   - Source: `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`.
 
 9. **Edge-IIoT extension**
    - Edge-IIoT is used as a stress/generalization check.
    - The strict route intentionally removes leakage/identifier/source/payload-style columns and is much harder.
    - The literature-comparable selected-capacity route shows stronger numbers and allows cautious literature comparison.
-   - Sources: `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/`, `Final/edgeiiot_v23_literature_comparable_selected_capacity_outputs/`, and `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`.
+   - Sources: `results/edge_iiot/strict_generalization/`, `results/edge_iiot/literature_comparable/`, and `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`.
 
 ## Model and Compression Structure
 
@@ -153,7 +153,7 @@ Compression facts from current artifacts:
 | Student A fixed-point params vs RF teacher | about `64,619x` smaller |
 | Student B fixed-point params vs RF teacher | about `23,542x` smaller |
 
-Source: `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`, `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`, `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
+Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`, `results/hardware_hil/reports/final_postprocessing/model_only_footprint.csv`.
 
 ## Hardware and Deployment Boundary
 
@@ -180,34 +180,34 @@ Boundary to state clearly:
 
 Use this order if the professor asks to see the code:
 
-1. `cukd_xai_colab.py`
+1. `experiments/wsnds/main/cukd_xai_colab.py`
    - Shows imports, `TeacherMLP`, `StudentMLP`, training functions, KD function, quantization helper, RF teacher, run loop, SHAP section, and result export.
 
-2. `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`
+2. `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`
    - Show the 10-seed evidence for the full WSN-DS result table.
 
-3. `Final/cukd_xai_wsnds_j_only_merge.py`
+3. `experiments/wsnds/codistillation/cukd_xai_wsnds_j_only_merge.py`
    - Shows how the co-distillation result was integrated into the existing result set.
 
-4. `Final/cukd_xai_wsnds_deployment_qat_proof.py`
+4. `experiments/wsnds/deployment_runtime/cukd_xai_wsnds_deployment_qat_proof.py`
    - Shows the deployment-oriented proof and export route.
 
-5. `Final/cukd_xai_wsnds_runtime_from_existing.py`
+5. `experiments/wsnds/deployment_runtime/cukd_xai_wsnds_runtime_from_existing.py`
    - Shows the runtime evaluation from existing artifacts without retraining.
 
-6. `Hardware Deployment Run/hardware_export/export_wsnds_student_a_rfkd_int8.py`
+6. `deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py`
    - Shows fixed-point C export logic and generated headers.
 
-7. `Hardware Deployment Run/hardware_hil/host/stream_vectors.py`
+7. `deployment/hardware_hil/host/stream_vectors.py`
    - Shows how vectors are streamed to the MCU over serial.
 
-8. `Hardware Deployment Run/hardware_hil/host/verify_results.py`
+8. `deployment/hardware_hil/host/verify_results.py`
    - Shows how MCU output is compared against reference predictions.
 
-9. `Edge-IIOT-run/cukd_xai_edgeiiot_v23_generalization.py`
+9. `experiments/edge_iiot/strict_generalization/cukd_xai_edgeiiot_v23_generalization.py`
    - Shows the strict Edge-IIoT route.
 
-10. `Final/cukd_xai_edgeiiot_v23_literature_comparable.py`
+10. `experiments/edge_iiot/literature_comparable/cukd_xai_edgeiiot_v23_literature_comparable.py`
     - Shows the selected-capacity literature-comparable Edge-IIoT route.
 
 ## Related-Work Positioning
@@ -223,8 +223,8 @@ The safest related-work framing is:
 
 Source files:
 
-- `PROFESSOR_RESULTS_COMPARISON.md`
-- `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+- `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+- `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
 
 For exact paper-by-paper numbers, open `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` and use the section **Verified Base and Related-Paper Comparison**. That table separates the paper-reported result, our closest comparable result, and the safe interpretation.
 
@@ -433,11 +433,11 @@ Use these as spoken answers. Keep them factual and bounded; do not add claims th
 
 | Question | Safe answer |
 |---|---|
-| Where is the main training code? | `cukd_xai_colab.py` contains the main WSN-DS teacher/student, KD, curriculum, SHAP, and result-export pipeline. |
-| Where are the final WSN-DS results? | `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`. |
-| Where is hardware evidence? | `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` and its companion CSV files. |
-| Where is MSP430 evidence? | `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`. |
-| Where is Edge-IIoT evidence? | Strict route: `Edge-IIOT-run/edgeiiot_v23_generalization_outputs/`; selected-capacity route: `Final/edgeiiot_v23_literature_comparable_selected_capacity_outputs/`. |
+| Where is the main training code? | `experiments/wsnds/main/cukd_xai_colab.py` contains the main WSN-DS teacher/student, KD, curriculum, SHAP, and result-export pipeline. |
+| Where are the final WSN-DS results? | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` and `wsnds_results_student_B.csv`. |
+| Where is hardware evidence? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` and its companion CSV files. |
+| Where is MSP430 evidence? | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`. |
+| Where is Edge-IIoT evidence? | Strict route: `results/edge_iiot/strict_generalization/`; selected-capacity route: `results/edge_iiot/literature_comparable/`. |
 | What should I open first if asked to show proof? | Open `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`, then the cited CSV/report for the specific number being discussed. |
 
 ### Limitations and Future Work Questions
@@ -453,9 +453,11 @@ Use these as spoken answers. Keep them factual and bounded; do not add claims th
 ## Files to Keep Open During the Discussion
 
 1. `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`
-2. `PROFESSOR_RESULTS_COMPARISON.md`
-3. `Results - 10 Seed Run 30 may + J/wsnds_results_student_A.csv`
-4. `Results - 10 Seed Run 30 may + J/wsnds_results_student_B.csv`
-5. `Hardware Deployment Run/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
-6. `hardware_export/MSP430_CROSS_COMPILE_REPORT.md`
-7. `Edge-IIOT-run/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+2. `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+3. `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`
+4. `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`
+5. `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
+6. `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`
+7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+
+

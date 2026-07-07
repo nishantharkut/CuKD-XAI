@@ -1,0 +1,99 @@
+import csv
+import re
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[2]
+
+OLD_PATH_PATTERN = re.compile(
+    r"Final[\\/]|Hardware Deployment Run|Edge-IIOT-run|Codistillation[\\/]|"
+    r"old-routes|Repository_Archive|"
+    r"deployment[\\/]hardware_hil[\\/](results|reports|compile_logs)|"
+    r"(?<!results[\\/])hardware_hil[\\/](results|reports|compile_logs)|"
+    r"(?<!deployment[\\/]firmware_export[\\/]wsnds_rfkd_hil[\\/])"
+    r"(?<!deployment[\\/]msp430[\\/])hardware_export[\\/]"
+)
+
+TEXT_SUFFIXES = {".py", ".md", ".c", ".h"}
+EXPECTED_TOP_LEVEL = {
+    ".gitattributes",
+    ".gitignore",
+    "ARTIFACT.md",
+    "archive",
+    "CITATION.cff",
+    "CONTRIBUTING.md",
+    "data",
+    "deployment",
+    "docs",
+    "experiments",
+    "LICENSE",
+    "NOTICE.md",
+    "pytest.ini",
+    "README.md",
+    "requirements.txt",
+    "results",
+    "tests",
+}
+
+
+def is_excluded_from_active_scan(path: Path) -> bool:
+    parts = {part.lower() for part in path.parts}
+    rel = path.as_posix()
+    if rel == "tests/repository/test_repository_structure_smoke.py":
+        return True
+    if path.suffix not in TEXT_SUFFIXES:
+        return True
+    if "archive" in parts:
+        return True
+    if "build" in parts:
+        return True
+    if any(part.startswith("generated_") for part in path.parts):
+        return True
+    if rel.startswith("docs/repository/"):
+        return True
+    return False
+
+
+class RepositoryStructureSmokeTests(unittest.TestCase):
+    def test_tracked_top_level_layout_is_professional(self):
+        tracked = ROOT / "docs" / "repository" / "tracked_files_after_restructure.txt"
+        top_levels = {
+            line.split("/", 1)[0]
+            for line in tracked.read_text(encoding="ascii").splitlines()
+            if line.strip()
+        }
+        self.assertEqual(top_levels, EXPECTED_TOP_LEVEL)
+
+    def test_active_files_do_not_reference_old_layout_paths(self):
+        offenders = []
+        for path in ROOT.rglob("*"):
+            if not path.is_file():
+                continue
+            rel_path = path.relative_to(ROOT)
+            if is_excluded_from_active_scan(rel_path):
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                continue
+            if OLD_PATH_PATTERN.search(text):
+                offenders.append(rel_path.as_posix())
+        self.assertEqual(offenders, [])
+
+    def test_path_reference_audit_has_no_active_review_rows(self):
+        audit = ROOT / "docs" / "repository" / "path_reference_audit.csv"
+        with audit.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        active_rows = [row for row in rows if row["category"] == "active_review"]
+        self.assertEqual(active_rows, [])
+
+    def test_archive_is_explicitly_historical(self):
+        readme = ROOT / "archive" / "README.md"
+        text = readme.read_text(encoding="utf-8").lower()
+        for token in ["historical", "traceability", "not the current runnable entrypoints"]:
+            self.assertIn(token, text)
+
+
+if __name__ == "__main__":
+    unittest.main()
