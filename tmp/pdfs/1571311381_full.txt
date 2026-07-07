@@ -1,0 +1,363 @@
+Lightweight and Accurate Channel Prediction Using
+    Mamba in High-Mobility Wireless Networks
+
+   Abstract--In high-mobility environments, precise channel state   [13], but their inference latency is still too high for real-time
+information is essential. Yet, it becomes more challenging due      deployment.
+to practical hardware constraints. This challenge often inspires
+us to conduct studies with cutting-edge models to redefine seam-       State space models (SSMs) have recently emerged as a
+less connectivity. Recently, Mamba, a novel sequence modeling       promising alternative, combining the ability to capture long-
+architecture, combines content-based reasoning with efficient       range dependencies with linear computational complexity. The
+linear computational complexity. This paper attempts to explore     Mamba architecture [14] advances this paradigm through selec-
+Mamba's potential against established temporal networks for         tive state transitions, achieving high efficiency in both language
+predicting fast-fading channels under the 3GPP CDL-A standard.      and time-series tasks. Despite these advantages, its potential
+First, we leverage pilot signals to simulate noisy channel obser-   for complex-valued MIMO channel prediction under standard-
+vations by generating realistic datasets that incorporate Rayleigh  ized 3GPP conditions has yet to be explored. Previous DL
+fading and Doppler effects to analyze prediction accuracy, train-   studies have tended to focus on narrow scenario settings [15],
+ing efficiency, and robustness to channel aging across varying      exhibit limited noise resilience [16], or depend on auxiliary
+horizons. Afterwards, Mamba's state-space processing is adjusted    information such as environmental images [8]. In addition,
+for channel prediction. Results show that Mamba consistently        specialized techniques designed for IRS-assisted systems [17]
+outperforms baselines, achieving up to 10 dB lower error and        or XL-MIMO deployments [18] often lack generalizability to
+15% faster convergence than GRU, with strong resilience in both     conventional cellular environments.
+noise-free and noisy scenarios. These findings highlight Mamba's
+potential as a lightweight and accurate solution for real-time         This work addresses these gaps by adapting the Mamba
+channel prediction in dynamic wireless networks.                    architecture to high-mobility channel prediction within the
+                                                                    3GPP CDL-A model. The main contributions are as follows:
+   Index Terms--Wireless Communication, Channel Prediction,
+Channel State Information, Mamba, GRU, CNN, 3GPP, CDL-A,               · We propose a novel Mamba-based architecture for MIMO
+Doppler shift.                                                            CSI prediction that combines selective state updates with
+                                                                          input-dependent dynamics, enabling superior long-horizon
+                          I. INTRODUCTION                                 forecasting compared with conventional RNN and CNN
+                                                                          baselines.
+   The evolution toward sixth-generation (6G) wireless net-
+works demands unprecedented accuracy in channel state infor-           · Through experiments on CDL-A channel models with
+mation (CSI) acquisition to support emerging applications such            realistic mobility and noise conditions, we show that
+as extended reality, autonomous vehicles, and industrial IoT              Mamba achieves significant improvement in normalized
+[1], [2]. High-mobility scenarios present particular challenges           mean square error (NMSE) over GRU and CNN baselines
+because rapid channel variations and pilot overhead constraints           for long-horizon prediction, while retaining computational
+can degrade the performance of conventional estimation tech-              efficiency.
+niques, including least squares and minimum mean square error
+methods [3], [4]. Deep learning (DL) has shown considerable            · We provide a detailed analysis of Mamba's robust-
+promise in addressing these limitations [1], [5], [6]; however,           ness to signal-to-noise ratio variations and channel
+existing approaches often struggle to maintain stability in long-         Doppler spreads, demonstrating its suitability for mobility-
+horizon predictions and to generalize effectively across diverse          intensive 6G scenarios such as high-speed rail and un-
+mobility patterns [7], [8].                                               manned aerial vehicle communications.
+
+   Traditional channel prediction methods based on autore-          The remainder of this paper is organized as follows. Section II
+gressive models or Kalman filters show noticeable perfor-           describes the detailed methodology, including CDL-A channel
+mance gaps in realistic 3GPP channel conditions [3]. DL-            simulation, OFDM pilot signal generation, input­label pair
+based alternatives such as recurrent neural networks (RNNs)         construction, and the proposed neural network architecture.
+and convolutional neural networks (CNNs) have improved tem-         Section III presents the experimental setup, while Section IV
+poral modeling capabilities, but they encounter computational       discusses the evaluation results. Finally, Section V concludes
+bottlenecks and suffer from error accumulation over extended        the paper and outlines potential directions for future research.
+prediction horizons [9], [10]. More recent approaches incorpo-
+rate attention mechanisms [10] or physics-inspired architectures
+[11] to enhance robustness; however, their complexity can grow
+prohibitively with large antenna arrays and wideband config-
+urations [8], [12]. Generative models offer another direction
+     TABLE I: NR CDL-A Channel Parameters                                   Algorithm 1 Mamba State-Space Processing for Channel
+
+     Parameter              Value          Description                      Prediction
+     Carrier Frequency      2 GHz
+     Subcarrier Spacing     15 kHz         Operating frequency              Require: Hnoisy  C624×4×4×T                 Noisy channel tensor
+     Number of Subcarriers  624                                             Ensure: H^ [t + p]  C624×4×4                    Predicted channel
+     Time Slots             1000           OFDM subcarrier spacing
+     Tx/Rx Antennas         4×4
+     UE Velocity            20 km/h        Total subcarriers                1: Input Encoding
+
+     Doppler Shift          37 Hz          Simulation duration
+     Delay Profile          CDL-A
+     Number of Taps         23             ULA configuration                2: X  concat((Hnoisy), (Hnoisy))                        RB×5×32
+     Cluster Configuration  7 clusters
+                                           Mobility parameter               3: X  LayerNorm(X)                 Normalize per antenna-pair
+
+                                           fd  =     v·fc                   4: Selective State-Space Processing
+                                                       c
+
+                                           Non-line-of-sight scenario       5: for each Mamba block m = 1 to 6 do
+
+                                           Multipath components
+
+                                           23 subpaths/cluster              6:   Softplus(WX)  Time step parameterization
+
+                                                                            7: B, C  LinearProj(X)                      Input-dependent SSM
+
+                                                                                parameters
+
+                                                                            8: A  exp(  Abase)                            Abase  R16 learned
+                                                                            9: B~  B                                 Discretized input matrix
+
+                                                                            10: Y  ParallelScan(A, B~ , C, X)  Linear-time SSM
+
+                                                                                computation
+
+                                                                            11: X  Y + DepthwiseConv1D(X)                           Residual
+
+                                                                                connection
+
+                                                                            12: end for
+
+                                                                            13: Output Projection
+
+                                                                            14: Y^  Linear(X[ :, -1, :])                Last timestep features
+
+                                                                            15: H^  ReconstructComplex(Y^ )  Combine real/imaginary
+
+                                                                            16: Loss Calculation
+
+Fig. 1: Proposed Mamba-based neural network architecture for                17: LdB  10 log10     1      B    H^ i  -  Hclean,i2F
+high-mobility MIMO channel prediction.                                                            B      i=1
+
+                  II. DETAILED METHODOLOGY                                  where F is the 64 × 64 DFT matrix. A cyclic prefix (CP) of
+                                                                            length 16 is appended to mitigate inter-symbol interference.
+A. CDL-A Channel Simulation
+                                                                            C. Noise Injection and Received Signal
+   The channel modeling relies on the 3GPP CDL-A model to
+emulate non-line-of-sight (NLoS) urban macrocell propagation.                   The simulated received time-domain signal is given by:
+The channel impulse response (CIR) is defined by a sum over
+clusters and subpaths:                                                                         K-1
+
+                                                                                         y[n] = Hk[n] x[n - k] + w[n],                  (5)
+
+                                                                                               k=0
+
+                Nclusters Nsubpaths                                         where Hk[n]  CNr×Nt is the kth tap of the channel response,
+                                                                            x[n] is the transmitted pilot symbol, and w[n]  CN (0, w2 I)
+     H(t,  ) =                       c,s(t) ejc,s(t)  ( - c,s) , (1)        models the additive white Gaussian noise (AWGN). The noise
+
+                c=1 s=1                                                     variance is related to the signal-to-noise ratio (SNR)  (in dB)
+
+Here, c,s(t) represents the complex gain of the sth subpath                 by                                y[n]2
+within the cth cluster, and the Doppler phase shift is defined                                                10/10 .
+
+as:                                                                                                  w2  =                              (6)
+
+                c,s(t) = 2fdt cos c,s,                                 (2)
+
+with the Doppler shift given by                                             D. Input-Label Pair Generation
+
+                fd          =  v     · fc  cos c,s,                    (3)     To prepare a dataset for channel prediction, historical noisy
+                                     c                                      channel state information (CSI) is mapped to future (ground-
+                                                                            truth) channels. For each sample i, an input-label pair is
+where v is the UE velocity, fc = 3.5 GHz is the carrier                     constructed with a lookback window L = 5 and a prediction
+frequency, and c denotes the speed of light.                                horizon p. The input is defined as:
+
+B. OFDM Pilot Signal Generation
+
+   Pilot symbols modulated via QPSK are organized into a                       Xi = {Hnoisy[t - L]}, {Hnoisy[t - L]}, . . . ,
+matrix Xpilot  CNsc×Nt with Nsc = 64 subcarriers and                                               {Hnoisy[t]}, {Hnoisy[t]}  RL×NrNt ,
+Nt = 4 transmit antennas. The OFDM signal is generated using
+                                                                            and the corresponding ground-truth is:
+the inverse discrete Fourier transform (IDFT):                                  Yi = [ {Htrue[t + p]} ,  {Htrue[t + p]}]  R2NrNt . (7)
+
+                xOFDM = FH Xpilot,                                     (4)
+   The NR CDL-A channel model parameters used in the
+simulation are summarized in Table I. The MATLAB 5G
+toolbox is used to simulate the dataset and align subcarriers
+and antennas. Furthermore, the data are normalized (zero mean
+and unit variance) to ensure stable training dynamics.
+
+E. Proposed Mamba-Based State-Space Channel Prediction
+Framework
+
+   The proposed neural network architecture, illustrated in                   Fig. 2: Input-dependent SSM block within the proposed Mamba
+Fig. 1, is built upon the Mamba framework, which lever-                       architecture.
+ages state-space modeling for efficient temporal sequence pro-
+cessing. By integrating input-dependent parameterization and                  For channel prediction, we implement input-dependent param-
+parallel scan operations, the model captures both long-range                  eters as follows:
+channel dynamics and local spatial correlations. The following
+subsections describe the key components and mechanisms                                 = Softplus(WX + b)                           (10)
+enabling robust channel prediction.
+                                                                                      B, C = LinearProjections(X)                   (11)
+   Algorithm 1 provides a procedural realization of the pro-
+posed Mamba-based channel prediction framework, serving                          2) State-Space Mamba Architecture: The proposed architec-
+as a bridge between classical state-space modeling and its                    ture leverages selective state-space models (SSMs) for temporal
+neural implementation. Starting from noisy CSI observations,                  processing as depicted in Fig. 2, offering linear-time complexity
+the algorithm applies input-dependent discretized state-space                 with parallelizable scans. The continuous-time SSM maps input
+transformations to efficiently capture time-varying channel                   x(t) to output y(t) through latent state h(t):
+dynamics, while maintaining linear computational complexity.
+These operations are implemented through stacked selective                                        h(t) = Ah(t) + Bx(t)
+state-space blocks and parallel scan mechanisms, whose theo-                                                                                       (12)
+retical foundations are introduced next by revisiting state-space
+modeling and its extension to the Mamba architecture.                                             y(t) = Ch(t) + Dx(t)
+                                                                              Discretised using zero-order hold with step size :
+   1) From State Space Modeling to Mamba Architecture:
+For continuous-time, State Space Modeling (SSM) maps input                                     A~ = exp(A)
+x(t) to output y(t) through latent state h(t) using A, evolution                               B~ = (A)-1(exp(A) - I)B
+matrix and projection matrices B, C as follows:
+                                                                                 3) Selective Parameterization: For channel prediction, we
+                       h(t) = Ah(t) + Bx(t)                                   implement input-dependent parameters:
+                                                                         (8)
+                                                                                       = Softplus(WX + b)                           (13)
+                       y(t) = Ch(t)
+
+To model time-invariant (LTI) system behavior using SSM, we
+fixed the evolution and projection matrices. However, such at-
+tempts fail to capture input-dependent, time-varying scenarios,
+for instance dynamic channel conditions due to mobility and
+multipath propagation.
+
+   Mamba incorporates the required time-varying behavior into
+the SSM system through a selection mechanism, which in turn
+is implemented via discretization and scanning operations as
+follows
+Discretization: Using zero-order hold with step size :
+
+                 A~ = exp(A)                                                          B, C = LinearProjections(X)                   (14)
+                 B~ = (A)-1(exp(A) - I)B
+                                                                                 4) Parallel Scan Implementation: The discretized SSM
+Scanning: The discretized SSM computes outputs through a                      computes outputs through a parallel associative scan:
+parallel associative scan:
+
+        t    t            t                                                             t                   t      t
+
+yt = C       A~ i h0 + C      A~ i B~ kxk (9)                                 yt = C      A~ i  h0 + C                A~ i  B~ kxk  (15)
+
+        i=1  k=1          i=k+1                                                       i=1                k=1   i=k+1
+   5) Architecture Components: The proposed Mamba-based           achieved the lowest loss of ­36.09 dB, demonstrating superior
+model architecture begins with a 32-dimensional embedding         convergence and estimation performance. To simulate realistic
+of the real and imaginary parts of the channel input. It is       wireless environments, Gaussian noise with an SNR of 20 dB
+followed by six stacked Mamba blocks with expanding hidden        was injected into the training data, using a complex normal
+dimensions from 32 to 128. A 1D convolutional residual path       distribution with zero mean and variance 2. During evaluation,
+with a kernel size of 3, padding of 1, and ReLU activation        noise was selectively applied only to inputs to isolate predic-
+enhances local feature extraction. The architecture also incor-   tion accuracy. The channel estimation framework accounted
+porates selective gating with input-dependent state-space model   for both temporal dynamics and spatial variations, especially
+(SSM) parameters, enabling adaptive time-scale processing. A      antenna correlation in the linear array, ensuring robust and
+detailed summary of the architectural specifications is provided  noise-resilient modeling.
+in Table II.
+                                                                                       IV. EVALUATION RESULTS
+TABLE II: Mamba Architecture Specifications
+                                                                     The performance comparison of the proposed Mamba model
+        Parameter             Value                               with CNN and GRU baselines across different prediction
+        SSM Blocks            6                                   horizons under both noise-free and noisy channel conditions
+        Hidden Dimension      32  128                             are demonstrated in Fig. 3(a) and Fig. 3(b). The performance
+        State Dimension       16                                  is evaluated in terms of Mean Squared Error (MSE) in dB.
+        Conv Kernel Size      3
+        Selective Projection  Linear (32128)                         In ideal, noise-free scenarios, the Mamba model consistently
+        Normalization         LayerNorm                           outperforms both CNN and GRU models, particularly as the
+                                                                  prediction horizon increases as illustrated in Fig. 3(a). At a
+   6) Channel Prediction Adaptation: The model integrates         short-term horizon of 10 ms, both GRU and Mamba models
+spatio-temporal processing by leveraging state-space models       achieve a similar accuracy of -32 dB, significantly outperform-
+(SSMs) to capture long-range temporal dependencies, while 1D      ing CNN's -26 dB. However, the performance gap becomes
+convolutions effectively model local antenna correlations. Its    more prominent at longer horizons. For instance, at 20 ms
+robustness to noise is enhanced through selective parameteriza-   and 30 ms, Mamba achieves -36 dB and -30 dB respectively,
+tion, which dynamically focuses on relevant signal components.    outperforming GRU by margins of 8 dB and 4 dB. At 40 ms,
+Additionally, the use of shared SSM parameters across subcar-     where the effect of channel aging is more pronounced, Mamba
+riers enables efficient and scalable wideband channel modeling.   maintains robust prediction accuracy at -30 dB, which is 6 dB
+                                                                  better than GRU and 15 dB better than CNN. These results con-
+                    III. EXPERIMENTAL SETUP                       firm that Mamba effectively captures temporal dependencies
+                                                                  in wireless fading channels and maintains prediction accuracy
+   To quantify the impact of implemented architecture on          even as horizon increases.
+channel prediciton, we use a 4×4 MIMO system configuration
+under the 3GPP CDL-A channel model, which simulates non-             Under practical conditions with additive noise (SNR = 20
+line-of-sight urban macrocell conditions. The system operated     dB), the performance degradation is observed across all models,
+at 2 GHz carrier frequency with user equipment moving at          yet the Mamba model demonstrates superior robustness as
+20 km/h, resulting in a maximum Doppler shift of approxi-         demonstrated in Fig. 3(b). At a 10 ms horizon, Mamba achieves
+mately 37 Hz. This framework incorporated 624 subcarriers,        an MSE of -36 dB, a significant improvement over GRU (-27
+though analysis focused on individual subcarrier predictions      dB) and CNN (-24 dB). This 9 dB gain over GRU highlights
+to maintain consistency with existing research. A comprehen-      Mamba's resilience in the presence of noise. As the prediction
+sive dataset of 20 million complex-valued channel samples         horizon increases to 20 ms and 30 ms, Mamba maintains
+was generated, exhibiting characteristic circularly symmetric     competitive performance at -33 dB and -28 dB, while GRU
+Gaussian distribution properties. From this pool, 105 samples     drops to -25 dB and -21 dB, respectively. Even at a 40 ms
+were allocated for training and 104 for testing purposes.         horizon, Mamba sustains a clear lead with -25 dB compared
+                                                                  to GRU's -19 dB and CNN's -15 dB. These results establish
+TABLE III: Hyperparameter Tuning Results                          that the proposed Mamba-based model is not only accurate but
+                                                                  also noise-tolerant, making it suitable for real-time prediction
+Learning Rate Batch Size Epochs Hidden Dim Optimizer Loss (dB)    in dynamic wireless environments.
+
+0.0010  32  100               100  Adam -36.09                       Fig. 4 illustrates the training loss evolution of the GRU
+                                                                  and Mamba models for a 10 ms prediction horizon over 100
+0.0010  64  50                100  Adam -29.68                    epochs. Both models exhibit a rapid reduction in loss during the
+                                                                  early training phase; however, the Mamba model demonstrates
+0.0005  32  100               100  RMSprop -27.22                 a steeper initial descent, reflecting faster learning of channel
+                                                                  dynamics. In particular, Mamba reaches a near-stable operating
+0.0005  64  50                100  SGD        -1.47               region earlier than GRU, whereas GRU shows a more gradual
+                                                                  loss reduction over the same epoch range. After approximately
+0.0001  64  200               100  SGD        -0.88
+
+   Table III summarizes the results of hyperparameter tuning
+conducted to identify the most effective training configuration.
+Among the tested combinations, the Adam optimizer with
+a learning rate of 0.001, batch size of 32, and 100 epochs
+                                                                    temporal dependencies. Overall, Mamba is a lightweight and
+                                                                    accurate solution for real-time, long-horizon wireless channel
+                                                                    prediction. Future work will explore on-device deployment and
+                                                                    adaptive learning for dynamic environments.
+
+(a)  (b)                                                                                          REFERENCES
+
+Fig. 3: MSE Comparison for CNN, GRU and proposed Mamba               [1] M. D. Soltani, A. Khalili, and M.-S. Alouini, "Deep learning for channel
+Model: (a) MSE with Horizon without Noise. (b) MSE with                   estimation: A survey," IEEE Communications Surveys Tutorials, vol. 25,
+Horizon with Noise.                                                       no. 1, pp. 182­222, 2023.
+
+                      Fig. 4: Loss Convergence.                      [2] Q. Zhao, J. Fan, B. Lin, and C. Chen, "A quantized csi acquisition strategy
+                                                                          based on position information feedback for indoor vlc-based iot systems,"
+60 epochs, both models exhibit stable convergence behavior,               IEEE Internet of Things Journal, 2025.
+with the loss curves flattening while retaining small oscillations
+due to stochastic training effects. Throughout the training          [3] H. Ye, G. Y. Li, and B. C. Juang, "Deep learning for wireless physical
+process, Mamba consistently maintains lower loss values than              layer: Opportunities and challenges," IEEE Wireless Communications,
+GRU, and its final steady-state loss remains several decibels             vol. 27, no. 1, pp. 16­22, 2020.
+below that of GRU. This sustained performance gap highlights
+Mamba's superior convergence characteristics and improved            [4] X. Zhou, L. Liang, H. Ye, J. Zhang, C.-K. Wen, and S. Jin, "Reducing
+learning efficiency for wireless channel prediction.                      pilots in channel estimation with predictive foundation models," IEEE
+                                                                          Transactions on Communications, 2026.
+              V. CONCLUSION AND FUTURE WORK
+                                                                     [5] C. Xu, S. Li, G. Liu, L. Yang, T. Bi, and T. Jiang, "Spatial-temporal trans-
+   This paper explored neural network-based wireless channel              former for fdd downlink channel prediction in high-mobility scenarios,"
+prediction under the 3GPP CDL-A model, with emphasis on                   IEEE Transactions on Vehicular Technology, 2026.
+the Mamba architecture. Results show that Mamba consistently
+outperforms CNN and GRU across different prediction hori-            [6] I. Hameed, M. H. Rahman, M. Usman, H.-K. Song, M. Rafid, and
+zons and noise conditions. At 10 ms in noise-free settings,               C. Verikoukis, "Deep state-space modeling of channel dynamics for
+Mamba achieves an MSE of ­48.3 dB, compared to ­42.1 dB                   csi prediction in leo non-terrestrial networks," IEEE Transactions on
+for GRU and ­38.9 dB for CNN. Even at 40 ms, Mamba main-                  Vehicular Technology, 2026.
+tains ­32.1 dB, while GRU and CNN degrade significantly,
+confirming Mamba's robustness beyond channel coherence               [7] M. Meliha, P. Charge´, Y. Wang, S. E. Bouzid, C. Henry, C. Bourny,
+time. In noisy conditions (20 dB SNR), Mamba retains a gain               H. Tomaz, and Y. Chen, "Deep learning-based channel prediction with
+of 5.8 dB over GRU and 10.2 dB over CNN, showing strong                   path extraction," IEEE Wireless Communications Letters, vol. 14, no. 3,
+resilience. Training dynamics also confirm Mamba's faster                 pp. 891­895, 2025.
+convergence (about 15% faster) and lower final training loss
+(about 10 dB better than GRU). These advantages stem from            [8] X. Liu, L. Chen, S. Sun, and H. Wang, "Transformer-based csi prediction
+its efficient state-space design that captures both spatial and           for high-mobility scenarios," IEEE Wireless Communications Letters,
+                                                                          vol. 14, no. 3, pp. 902­906, 2025.
+
+                                                                     [9] Z. Ma, Z. Zhang, Z. Chen, Z. Han, and Z. Wang, "Sparse channel
+                                                                          estimation for millimeter wave mimo systems," IEEE Transactions on
+                                                                          Vehicular Technology, vol. 68, no. 10, pp. 10 084­10 097, 2019.
+
+                                                                    [10] J. Zhang, Z. Zhang, J. Zhang, and Z. Wang, "Artificial intelligence-aided
+                                                                          wireless communications," IEEE Transactions on Wireless Communica-
+                                                                          tions, vol. 20, no. 10, pp. 6652­6669, 2021.
+
+                                                                    [11] Z. Zhang, J. Wang, and X. You, "Lightweight dl model for channel
+                                                                          estimation in mmwave massive mimo," IEEE Transactions on Wireless
+                                                                          Communications, vol. 21, no. 9, pp. 7268­7282, 2022.
+
+                                                                    [12] Z. Yang, B. Li, X. Li, W. Xu, G. Y. Li, and R. W. Heath, "Model-driven
+                                                                          dl for massive mimo csi prediction," IEEE Transactions on Wireless
+                                                                          Communications, vol. 23, no. 2, pp. 1270­1284, 2024.
+
+                                                                    [13] S. Zhang, S. Jiang, J. Ma, W. Chen, L. Yang, and J. He, "Transfer learning
+                                                                          for channel prediction across different scenarios," IEEE Transactions on
+                                                                          Wireless Communications, vol. 21, no. 12, pp. 10 835­10 850, 2022.
+
+                                                                    [14] A. Mehrabian and V. W. Wong, "A-gamba: An adaptive graph-mamba
+                                                                          model for traffic prediction in wireless cellular networks," IEEE Wireless
+                                                                          Communications Letters, vol. 14, no. 6, pp. 1801­1805, 2025.
+
+                                                                    [15] C.-H. Huang, Y. Guo, C.-H. Lee, J.-Y. Wang, and W.-H. Liao, "Dl-
+                                                                          based massive mimo csi feedback with time-frequency information,"
+                                                                          IEEE Transactions on Wireless Communications, vol. 21, no. 10, pp.
+                                                                          8464­8478, 2022.
+
+                                                                    [16] X. Zhang, Y. Zhou, W. Meng, C. Chen, Y. Shi, and X. Dai, "Long-term csi
+                                                                          prediction with attention-enhanced lstm," IEEE Wireless Communications
+                                                                          Letters, vol. 14, no. 5, pp. 850­854, 2025.
+
+                                                                    [17] W. Meng, C. Qian, C. Chen, Y. Shi, Y. Zhou, X. Zhang, and X. Dai,
+                                                                          "Dual-channel lstm for channel prediction in mimo-ofdm systems," IEEE
+                                                                          Transactions on Wireless Communications, vol. 23, no. 7, pp. 6574­6588,
+                                                                          2024.
+
+                                                                    [18] X. Xu, W. Liu, Z. Zhou, and B. Li, "Spatio-temporal graph neural
+                                                                          networks for csi prediction," IEEE Wireless Communications Letters,
+                                                                          vol. 14, no. 4, pp. 622­626, 2025.
+

@@ -1,0 +1,431 @@
+                                            Lightweight Intrusion Detection in IoT via
+
+                                                 SHAP-Guided Feature Pruning and
+
+                                             Knowledge-Distilled Kronecker Networks
+
+                                            Hafsa BENADDI, Mohammed JOUHARI§, Nouha LAAMECH¶, Anas MOTII¶, Khalil IBRAHIMI§
+                                                            LSIA Laboratory, Moroccan School of Engineering Sciences (EMSI), Tanger, Morocco
+
+                                              § Laboratory of Research in Informatics (LaRI), Faculty of Sciences, Ibn Tofail University, Kenitra, Morocco
+                                                             ¶ College of Computing, University Mohammed VI Polytechnic, Benguerir, Morocco
+
+                                        Emails: h.benaddi@emsi.ma, {mohammed.jouhari1, khalil.ibrahimi}@uit.ac.ma, {nouha.laamech, anas.motii}@um6p.ma
+
+arXiv:2512.19488v1 [cs.LG] 22 Dec 2025     Abstract--The widespread deployment of Internet of Things                 to edge devices, suffer from excessive memory and compu-
+                                        (IoT) devices requires intrusion detection systems (IDS) with high           tational demands. Such models cause high inference delays
+                                        accuracy while operating under strict resource constraints. Con-             and energy costs, making them impractical for battery-powered
+                                        ventional deep learning IDS are often too large and computation-             nodes. This has motivated research into lightweight IDS archi-
+                                        ally intensive for edge deployment. We propose a lightweight IDS             tectures capable of balancing efficiency and accuracy [2]. Ap-
+                                        that combines SHAP-guided feature pruning with knowledge-                    proaches based on model compression, including quantisation
+                                        distilled Kronecker networks. A high-capacity teacher model                  and knowledge distillation, demonstrate that significant param-
+                                        identifies the most relevant features through SHAP explanations,             eter reduction can be achieved while sustaining competitive
+                                        and a compressed student leverages Kronecker-structured layers               accuracy. Similarly, ensemble methods have improved robust-
+                                        to minimize parameters while preserving discriminative inputs.               ness and scalability in complex traffic scenarios [3]. However,
+                                        Knowledge distillation transfers softened decision boundaries                existing evaluations infrequently report deployment-oriented
+                                        from teacher to student, improving generalization under com-                 metrics such as CPU load or device-level energy consumption
+                                        pression. Experiments on the TON IOT dataset show that the                   [4], leaving the interaction among latency, scalability, and
+                                        student is nearly three orders of magnitude smaller than the                 detection performance not sufficiently understood.
+                                        teacher yet sustains macro-F1 above 0.986 with millisecond-level
+                                        inference latency. The results demonstrate that explainability-                 This paper addresses these challenges by proposing a
+                                        driven pruning and structured compression can jointly enable                 latency-sensitive and energy-efficient IDS framework tailored
+                                        scalable, low-latency, and energy-efficient IDS for heterogeneous            to heterogeneous IoT environments. The design employs a
+                                        IoT environments.                                                            teacher­student paradigm in which a high-capacity teacher
+                                                                                                                     model computes Shapley additive (SHAP) feature importances
+                                           Index Terms--Intrusion Detection System, Internet of Things               to guide feature pruning, while a Kronecker-compressed stu-
+                                        Security, SHAP Feature Selection, Knowledge Distillation, Kro-               dent network is trained via knowledge distillation to mimic
+                                        necker Networks, Edge Computing                                              teacher decision boundaries with drastically fewer parameters.
+                                                                                                                     By aligning model complexity with resource constraints, the
+                                                                  I. INTRODUCTION                                    framework explicitly balances latency, accuracy, and energy
+                                                                                                                     consumption. The system is evaluated on the public TON IOT
+                                           The rapid expansion of the Internet of Things (IoT) has                   dataset, and experiments on representative hardware confirm
+                                        transformed industrial, domestic, and public domains through                 that the proposed student achieves substantial reductions in
+                                        ubiquitous sensing and automation. This growth, however,                     model size and inference latency with minimal accuracy degra-
+                                        introduces new security vulnerabilities, as low-power IoT de-                dation.To support reproducibility and comparative research,
+                                        vices typically operate under severe constraints on processing,              the full implementation and dataset splits are released as open
+                                        memory, and energy, and are often deployed in unattended                     source.
+                                        environments. Conventional security mechanisms relying on
+                                        complex models and frequent updates are unsuitable for such                     The main contributions are as follows:
+                                        conditions. Intrusion detection systems (IDS) remain a critical                 · Identification of deployment challenges in IoT IDS, with
+                                        line of defence, yet their deployment in IoT networks is
+                                        restricted by requirements for scalability across heterogeneous                    emphasis on trade-offs among scalability, latency, energy
+                                        devices, real-time responsiveness, and minimal energy con-                         efficiency, and accuracy [2].
+                                        sumption without compromising accuracy [1].                                     · A hierarchical teacher­student IDS framework inte-
+                                                                                                                           grating SHAP-guided feature pruning with Kronecker-
+                                           Recent studies highlight that traditional and deep learning                     compressed layers for resource-adaptive operation.
+                                        IDS, when shifted from centralized high-performance servers                     · Comprehensive evaluation on the TON IOT dataset and
+                                                                                                                           edge hardware, demonstrating that the student achieves
+                                           This work has been published in the proceedings of the 2025 8th Interna-
+                                        tional Conference on Advanced Communication Technologies and Networking
+                                        (CommNet).
+
+                                        979-8-3315-5781-2/25/$31.00 ©2025 IEEE
+      drastic compression and low-latency inference while pre-     Data Preprocessing                SHAP        Teacher Training
+      serving high detection accuracy.                             Standardize numeric +  Feature Ranking &      High-capacity model
+   · An open-source implementation and benchmark dataset                                                          on pruned features
+      splits to facilitate reproducibility and future comparative      One-hot encode             Pruning
+      studies1.                                                            categorical      Feature ranking                                        Knowledge
+                                                                                           select top-K [SHAP]                                     distillation
+   The remainder of the paper is organized as follows. Sec-             Deployment
+tion II reviews prior work on lightweight IDS, explainable         Edge deployment: low        Predictions              Student
+pruning, knowledge distillation, and Kronecker factorization.                             Near-teacher accuracy     Optimization
+Section III introduces the proposed framework, Section IV            latency, low energy                         Pruning + Kronecker
+presents the experimental setup and results, Section V dis-                                 under constraints    compression + INT8
+cusses implications and research directions, and Section VI
+concludes the paper.                                                                                                  quantization
+
+                         II. RELATED WORK                          Fig. 1. Architectural overview of the proposed IDS: data preprocess-
+                                                                   ing, SHAP-based feature ranking and pruning, teacher training, Kronecker-
+   Research on intrusion detection for the IoT has progressed      compressed student optimization with knowledge distillation, and final de-
+across several complementary directions, including lightweight     ployment on resource-constrained IoT devices.
+model design, explainable feature selection, knowledge distil-
+lation, and structured parameter reduction. Six representative     under non-stationary traffic, but do not incorporate explainable
+contributions from leading journals are highlighted here to        feature pruning or structural compression.
+situate the present work.
+                                                                      The reviewed literature collectively advances federated de-
+   Federated learning has been combined with explainable           tection, meta-heuristic optimization, explainability, Kronecker
+feature aggregation, where local clients share SHAP-derived        compression, and distillation, but each dimension has evolved
+importance profiles to a central server that constructs a global   largely in isolation. The present work addresses this frag-
+model with high detection accuracy while maintaining pri-          mentation by unifying SHAP-guided pruning with knowledge-
+vacy constraints [5]. Although effective, this approach omits      distilled Kronecker networks, resulting in an interpretable and
+structured compression. Meta-heuristic optimisation has also       compact IDS suitable for heterogeneous IoT deployments.
+been employed to select features and hyperparameters, with
+teaching­learning based optimisation reducing communication                               III. PROPOSED MODEL
+overhead while sustaining detection rates against diverse attack
+types [6]. Such optimisation, however, remains confined to            This work aims to design an intrusion detection system
+classical classifiers and does not support interpretability or     (IDS) that preserves high detection accuracy while remaining
+model transfer.                                                    feasible for deployment on resource-constrained IoT devices.
+                                                                   To achieve this objective, we adopt a teacher­student frame-
+   Deep learning-based IoT IDS have been made more trans-          work in which a high-capacity teacher model is trained on the
+parent by incorporating SHAP and LIME explanations. A one-         complete feature space and subsequently guides a compressed
+dimensional convolutional detector achieves near-perfect F1-       student model. The proposed framework is depicted at two
+scores on the ToN-IoT dataset, while offering both global          levels: Fig. 1 provides a schematic overview of the system
+and local interpretability [7]. Despite its transparency, the      architecture, while Algorithm 1 details the corresponding
+model lacks compression or distillation mechanisms. Struc-         training procedure.
+tured compression has been explored through Kronecker prod-
+uct factorisation, where KronNet reduces parameter counts by       A. Preprocessing and Teacher Network
+orders of magnitude and still delivers accuracy above 99%
+on benchmark datasets [8]. This demonstrates the promise of           As shown in the first block of Fig. 1, raw traffic flows un-
+Kronecker-based designs, but without feature-guided pruning        dergo preprocessing where numeric features are standardized
+or teacher­student transfer.                                       and categorical ones are one-hot encoded. This corresponds
+                                                                   to line 1 in Algorithm 1. Each flow is represented as x  Rd
+   Knowledge distillation surveys underscore its potential for     with ground-truth label y  {0, 1}. After preprocessing, the
+deploying compact models on constrained devices, classifying       expanded input vector x  Rp has p = 1,624 dimensions.
+techniques by knowledge type, training strategy, and applica-
+tion [9]. However, most studies focus on the vision and lan-          Lines 2­3 in Algorithm 1 correspond to the training of
+guage domains rather than intrusion detection. Finally, adap-      the teacher model. The teacher is a multilayer perceptron
+tive federated IDS frameworks have integrated Long Short-          (MLP) with hidden layers of widths 512, 256, and 128,
+Term Memory with joint strategy optimisation, dynamically          each employing batch normalization, ReLU activation, and
+adjusting hyperparameters across heterogeneous clients while       dropout. Given x, the teacher outputs logits z = f (x) and
+maintaining privacy [10]. These systems achieve robustness
+
+   1https://github.com/mohammed-jouhari/iot-ids-lightweight
+class probabilities p = softmax(z). The training minimizes       Algorithm 1 Training workflow of the proposed IDS frame-
+weighted cross-entropy:                                          work
+                                                                 Require: (Xtrain, ytrain), (Xval, yval), (Xtest, ytest)
+C
+                                                                  1: Preprocess numeric and categorical features.
+LCE = - wc 1[y = c] log pc,      (1)                              2: Train teacher with Eq. (1).
+                                                                  3: Compute SHAP attributions and rank features.
+c=1                                                               4: Select smallest K preserving macro-F1.
+                                                                  5: Build student with Kronecker layers on top-K features.
+where wc denotes the inverse class frequency. The teacher         6: for T  {2, 3, 4},   {0.5, 0.7, 0.9} do
+is optimized with AdamW (learning rate 10-3, weight decay         7: Train student with (1 - )LCE + LKD.
+10-3), cosine annealing scheduling, and early stopping with       8: Validate macro-F1 and retain best (T, ).
+                                                                  9: end for
+patience of eight epochs. Although focal loss was considered,    10: Optionally quantize and evaluate fp32/int8 variants.
+
+weighted cross-entropy consistently produced the best results.
+
+B. Feature Ranking and Pruning
+
+   The "SHAP Feature Ranking & Pruning" module in Fig. 1         E. Deployment Considerations
+corresponds to lines 3­4 in Algorithm 1. SHAP values provide
+attribution scores per feature, averaged across samples to form     The final block of Fig. 1 emphasizes deployment, corre-
+a global importance vector s  Rp. Features are ranked ac-        sponding to line 10 in Algorithm 1. After training and distil-
+cordingly, and the top-K subset 1:K is retained. An ablation     lation, the student is optionally quantized to INT8 precision,
+analysis with K  {32, 64, 96, 128} showed that K = 32            further reducing memory and computational cost. With only
+preserved macro-F1 within 2% of the full model, making it        1,282 parameters, the student model is lightweight enough
+the adopted configuration for the student.                       for microcontrollers and edge gateways. This compact design
+                                                                 ensures low-latency inference and reduced energy consump-
+C. Kronecker-Compressed Student Network                          tion, while maintaining detection accuracy comparable to the
+                                                                 teacher. These characteristics directly address the constraints
+   Fig. 1 highlights "Student Optimization," which corresponds   of real-world IoT scenarios where continuous monitoring must
+to line 5 in Algorithm 1. The student is constructed with        operate under strict device limitations.
+Kronecker factorized layers. Each linear transformation is       In summary, the framework follows a coherent pipeline: raw
+expressed as                                                     traffic is standardized and encoded, a high-capacity teacher is
+                                                                 trained, SHAP-based ranking identifies the most informative
+y = x W + b, W = A  B,           (2)                             attributes, and a Kronecker-compressed student is distilled to
+                                                                 approximate the teacher's decision boundary. The integration
+where A  Ra1×a2 and B  Rb1×b2 with a1b1 = m and                  of pruning, structured compression, and knowledge distillation
+a2b2 = n. The student processes the top-K features, pads         ensures that the resulting model achieves near-teacher accuracy
+to a compatible dimension, and applies two Kronecker layers      while remaining lightweight enough for on-device inference.
+separated by batch normalization and ReLU, followed by a         When coupled with post-training quantization, this design
+linear head. This design reduces the parameter count to 1,282,   results in an IDS that balances detection reliability with
+compared with 998,274 in the teacher, making the student         latency and energy efficiency, making it particularly suited for
+model highly resource-efficient.                                 deployment in resource-constrained IoT environments.
+
+D. Knowledge Distillation                                           Having established the design of the teacher­student IDS
+                                                                 and its deployment-oriented optimizations, we now turn to
+   The "Knowledge Distillation" component in Fig. 1 is re-       the empirical assessment of its effectiveness. The following
+alized in lines 6­9 of Algorithm 1. The student learns not       section details the experimental setup, including dataset parti-
+only from hard labels but also from the teacher's softened       tioning, training protocols, and hyperparameter configurations,
+predictions. Let zs and zt denote the logits of the student and  and evaluates the proposed framework in terms of detection
+teacher, respectively. The distillation loss is:                 accuracy, latency, throughput, and memory efficiency. This
+                                                                 evaluation provides a quantitative basis for judging whether
+LKD = T 2 KL (zt/T )  (zs/T ) ,  (3)                             the architectural choices outlined above translate into tangible
+                                                                 benefits under realistic IoT constraints.
+where  is the softmax function and T is the temperature. The
+total loss combines both sources of supervision:                                            IV. EVALUATION
+
+Ltot = (1 - )LCE + LKD,          (4)                                This section evaluates the proposed SHAP-guided pruning
+                                                                 and Kronecker-based distillation framework under realistic IoT
+with   [0, 1]. A grid search over T  {2, 3, 4} and               intrusion detection scenarios. The analysis focuses on both
+  {0.5, 0.7, 0.9} identified the most effective settings by      algorithmic accuracy and deployment-oriented metrics, with
+maximizing validation macro-F1.                                  particular attention to runtime efficiency, parameter reduction,
+                                   TABLE I                                                              23.7n%or(m50a0l 00)
+HYPERPARAMETERS USED IN TRAINING TEACHER AND STUDENT
+                                                                         0.5%Oth(1e0r43)
+                                   MODELS.                       9.5% x(s2s0000)
+
+Parameter      Value                                             9r.a5n%so(m20w0a0r0e)                  N=211043             9.5b%ac(k2d0o0o0r0)
+Batch size     1024                                                                                                              9.5%dd(2o0s000)
+Learning rate  0.001
+Weight decay   0.001
+Epochs         50
+Patience       8
+Dropout        0.3
+Scheduler      Cosine
+Step size      10
+Gamma          0.5
+
+and robustness under imbalanced traffic distributions. We        9.5s%can(2n0in0g00)                                       9.5%d(o2s0000)
+first describe the training setup and dataset profiling before                     9.5p%ass(2w0o0rd00)  9.5in%je(c2t0io0n00)
+reporting experimental results.
+
+A. Model Training Setup                                          Fig. 2. Relative frequencies of attack categories in TON IOT network data
+                                                                 (donut view with total sample size at center).
+   All experiments were conducted in a Google Colab en-
+vironment with GPU acceleration and a PyTorch runtime.              Figure 2 shows the distribution of attack categories. Vol-
+The TON IOT dataset was preprocessed using the same              umetric attacks such as DoS and DDoS dominate, while
+ColumnTransformer pipeline described in Section IV-B, where      categories such as injection, cross-site scripting, and Man-in-
+numerical features were standardized and categorical attributes  the-Middle are rare, resulting in a heavy-tail imbalance. From
+one-hot encoded. To avoid source leakage, a source-aware         a deployment point of view, this imbalance may degrade the
+split was applied whenever device or subnet identifiers were     recall of minority classes under distribution changes. Mitiga-
+available; otherwise stratified random partitioning preserved    tion in our workflow includes stratified batching, class-aware
+class ratios. The final distribution allocated 70% of data to    metrics, and SHAP-guided pruning combined with knowledge
+training, 15% to validation, and 15% to testing, ensuring that   distillation to preserve decision margins for rare attacks under
+evaluation measured cross-source generalization rather than      constrained inference.
+memorization.
+                                                                    The correlation analysis of high-variance numeric fea-
+   The hyperparameters are summarized in Table I. Both           tures further reveals redundancy. As shown in Fig. 3, traffic
+teacher and student models were trained with a batch size        volume attributes (src_bytes, dst_bytes, src_pkts,
+of 1024 using AdamW (learning rate 10-3, weight decay            dst_pkts) exhibit strong dependencies, whereas protocol-
+10-3). A cosine learning rate scheduler with step size 10 and    level indicators remain weakly correlated. This confirms that
+decay factor  = 0.5 stabilized convergence under non-IID         SHAP-based feature pruning can remove collinear attributes
+traffic. Dropout with rate 0.3 was applied, and early stopping   with little information loss, reducing latency and memory
+with patience of 8 epochs prevented overfitting. Weighted        footprint without compromising detection of rare attacks.
+cross-entropy was adopted as the primary loss. SHAP-guided
+feature pruning was always applied before Kronecker-based        C. Experimental Results
+knowledge distillation to ensure reproducibility. Exported ar-
+tifacts include preprocessing maps, class distributions, and        The evaluation integrates explainability-driven feature se-
+convergence curves for auditability.                             lection, confusion structure, and runtime benchmarks to assess
+                                                                 the student architecture.
+B. Dataset Profiling and Preprocessing
+                                                                    As shown in Fig. 4, SHAP highlights the traffic volume
+   The TON IOT dataset was generated in a cyber-range            and connection state attributes as dominant. Moreover, Fig. 5
+integrating edge, fog, and cloud via SDN/NFV orchestration,      indicates that K = 128 recovers nearly all importance mass.
+capturing heterogeneous behaviors across IoT, IIoT, and host     This justifies pruning as a latency-aware strategy, although
+systems [11], [12]. Its network split contains 21.98 million     stability under non-IID traffic and noise remains an open
+flow records with 42 features and nine attack categories,        consideration.
+including scanning, DoS, DDoS, ransomware, backdoor, in-
+jection, Cross-site Scripting, password cracking, and Man-in-       Fig. 6 shows that both fp32 and int8 variants achieve iden-
+the-Middle [13]. Preprocessing combined a StandardScaler for     tical recall with no false negatives. Specificity reaches 0.9966
+numeric features and a OneHotEncoder for categorical ones,       and precision 0.9497 for fp32, with minor improvements for
+yielding an expanded input space whose dimensionality and        int8. Reported accuracy ( 0.997) and macro-F1 ( 0.987)
+mapping were exported. Partitioning preserved empirical label    confirm that quantization preserves performance. Errors con-
+distributions while minimizing leakage.                          centrate in false positives on benign flows, suggesting the need
+                                                                 for calibration to mitigate alert fatigue in deployment.
+                                                                      TABLE II
+COMPARISON OF TEACHER AND STUDENT MODELS IN TERMS OF ACCURACY, MACRO-F1, LATENCY, AND COMPRESSION.
+
+Model                         Accuracy  Macro-F1                    Params         Size (KB)  Mean Lat. (ms)                                                   p95 Lat. (ms)  Speedup  Compression
+Teacher (fp32)                 0.9989    0.9955                     769,922         3021.53           ­                                                               ­           ­           ­
+Student (fp32)                 0.9968    0.9863                      3,042           22.29
+Student (int8)                 0.9969    0.9867                                                      1.29                                                           1.62        1.00        1.00
+                                                                     3,042           22.44           1.45                                                           2.25        0.89        0.99
+
+           src_bytes                                                         1.0                                                                       1.0
+           dst_bytes
+       missed_bytes     src_bytes                                            0.8                                                                       0.8
+http_response_bodye_nl     dst_bytes
+        dst_ip_bytes           missed_bytes                                  0.6                                                                       0.6
+        src_ip_bytes              htet_pb_ordeys_ploenns
+            src_port                   dst_ip_bytes                          0.4   Pearson r
+            dst_port                       src_ip_bytes                                                      0.4
+          dns_qclass                           src_port
+            duration                               dst_port                  0.2
+            dst_pkts                                   dns_qclass
+            src_pkts                                       duration                                          0.2                                                                                     Cumulative share
+          dns_qtype                                            dst_pkts      0.0                                                                                                                     K=128
+http_request_body_lne                                              src_pkts
+    http_status_code                                                  dns_qtype                                                                             0  200        400 Top-K f6e0a0tures 800  1000  1200
+          dns_rcode                                                      hht_tttbppo_c_rdoseytd_qaletueuensst_
+                                                                                  dns_rcode0.2
+
+                                                                                                                 Cumulative share of total importanceFig. 5. Cumulative attribution curve, with cutoff K = 128 recovering nearly
+                                                                                              the full importance mass.
+
+Fig. 3. Correlation among top-variance numeric features in the TON IOT
+dataset.
+
+           dst_bytes                                                                                                                                   (a) Student fp32.               (b) Student int8.
+        src_ip_bytes
+                                                                                              Fig. 6. Confusion matrices of the distilled student under fp32 and int8
+          type_ddos                                                                           precision.
+            src_pkts
+                                                                                              creases by  6.5× (from 3.68 × 104 to 2.39 × 105 samples/s),
+      conn_state_S3                                                                           while mean latency falls from 1963 ms for the teacher to
+        service_smb                                                                           303 ms for the student. The narrow gap between mean and
+        dst_ip_bytes                                                                          tail latency indicates stable inference, which is crucial for
+                                                                                              jitter-sensitive IoT traffic. Nevertheless, the evaluation does
+      type_backdoor                                                                           not account for heterogeneous deployment conditions, where
+           service_-                                                                          device-level energy budgets, workload bursts, and non-IID
+                                                                                              traffic may influence runtime consistency.
+    conn_state_RSTR
+dst_ip_192.168.1.184                                                                                  V. DISCUSSION AND RESEARCH DIRECTIONS
+
+          proto_udp                                                                              The near-perfect accuracy achieved by the student model,
+  dst_ip_192.168.1.1                                                                          even after source-aware partitioning and strict preprocessing,
+                                                                                              indicates that the limitation lies less in the training pipeline
+          dns_rcode                                                                           than in the dataset structure itself. In the TON IOT traces, at-
+          service_ssl                                                                         tack signatures remain highly separable, enabling both teacher
+dst_ip_192.168.1.193                                                                          and distilled student networks to approximate full memoriza-
+      dns_rejected_T                                                                          tion. Similar outcomes have been reported in earlier studies,
+           src_bytes                                                                          where decision trees or random forests reached comparably
+      dns_rejected_F                                                                          high scores on the same benchmark [13], [14].
+
+            src_port                                                                             From a deployment perspective, such results warrant cau-
+           dns_RA_F                                                                           tion. The pipeline prevents leakage, yet the dataset's restricted
+      conn_state_S1                                                                           adversarial diversity and absence of temporal drift likely inflate
+      conn_state_SF
+           proto_tcp
+         service_dns
+ service_smb;gssapi
+           dns_RD_-
+dst_ip_103.38.120.36
+      dns_rejected_-
+           dns_AA_-
+
+0.00                    0.02  0.04  0.06 M0e.a0n8 |SHAP|0.10  0.12  0.14     0.16
+
+Fig. 4. Global ranking of discriminative features via mean absolute SHAP.
+
+   Table II confirms that the student reduces parameters by
+nearly 1/250 while maintaining macro-F1 above 0.986. Both
+variants preserve perfect recall on attacks, with all residual
+errors as false positives. The fp32 student achieves mean
+latency of 1.29 ms and p95 latency of 1.62 ms, enabling real-
+time inference. The int8 version slightly increases latency but
+offers additional storage efficiency.
+
+   Finally, Fig. 7 illustrates runtime benefits. Throughput in-
+                            250000                                                       238656        that feature-aware pruning and structured compression can
+
+                            200000                                                                     drastically reduce model parameters, memory footprint, and
+
+Throughput (samples/sec)    150000                                                                     inference latency while retaining essential detection capabil-
+
+                            100000                                                                     ities. Experiments confirmed that the student model achieves
+
+                            50000                  36810                                               millisecond-level inference and a footprint below one per-
+
+                                  0                Teacher                               Student       cent of the teacher, supporting feasibility for deployment
+
+                            (a) Throughput over the validation set, in samples/s.                      in constrained edge devices. However, the results also re-
+
+                                                                     2605                              vealed reduced macro-F1, emphasizing the need for more
+
+                            2500                                                                       effective strategies to handle imbalanced traffic and rare at-
+
+Latency per full pass (ms)  2000     1963                                                              tack categories, as well as a deeper understanding of the
+
+                            1500                                                                       interaction between pruning depth, distillation temperature,
+
+                            1000                                                                       and Kronecker rank in heterogeneous environments. Future
+
+                            500                                            303                    310  directions include adaptive pruning strategies, workload-aware
+
+                            0        Teacher mean         Teacher p95      Student mean  Student p95   scheduling, privacy-preserving distillation for federated IoT,
+
+                            (b) Latency per validation pass with batch size 1024,                      and cross-dataset stress testing, all aiming to narrow the
+
+                                                   showing mean and p95.                               energy­accuracy gap while ensuring scalability, robustness,
+
+Fig. 7. Runtime comparison between teacher and student models. Panel (a)                               and transparency in real-world IoT scenarios.
+highlights throughput gains, while panel (b) details latency reductions.
+                                                                                                                                    REFERENCES
+accuracy and fail to capture the variability of real traffic.
+As highlighted in prior work, evolving attack morphologies                                              [1] A. Serhane, K. Ibrahimi, E.-M. Hamzaoui, M. Jouhari, and J. Ben-
+and non-IID flows typically reduce detection performance                                                     Othman, "IoT Intrusion Detection Using Machine Learning Classifiers
+in practice [11], [12]. Evaluations on idealized corpora may                                                 and PCA Dimensionality Reduction for N-BaIoT Dataset," in ICC 2025
+therefore obscure vulnerabilities that emerge in operational IoT                                             - IEEE International Conference on Communications, 2025, pp. 5809­
+scenarios with heterogeneous devices and energy-constrained                                                  5814.
+inference.
+                                                                                                        [2] H. Benaddi, M. Jouhari, and O. Elharrouss, "A lightweight hybrid
+   Future research should address these gaps through more                                                    approach for intrusion detection systems using a chi-square feature
+challenging evaluation protocols. Cross-dataset validation, for                                              selection approach in IoT," Internet of Things, vol. 32, p. 101624, 2025.
+instance, could reveal generalization limits by training on
+TON IOT and testing on X-IIoT-ID or CIC-IDS2021. Ro-                                                    [3] M. A. Akif, I. Butun, A. Williams, and I. Mahgoub, "Hybrid Machine
+bustness may further be examined via controlled label noise,                                                 Learning Models for Intrusion Detection in IoT: Leveraging a Real-
+adversarial perturbations, or synthetic datasets that emulate                                                World IoT Dataset," 2025.
+temporal drift. Another open question concerns deployment-
+level trade-offs: the effect of varying compression ratios on                                           [4] M. Jouhari, H. Benaddi, and K. Ibrahimi, "Efficient Intrusion Detection:
+energy­accuracy balance, and the resilience of distilled Kro-                                                Combining X2 Feature Selection with CNN-BiLSTM on the UNSW-
+necker networks to unseen attack variants in federated or                                                    NB15 Dataset," in 2024 11th International Conference on Wireless
+highly resource-limited environments. Tackling these ques-                                                   Networks and Mobile Communications (WINCOM), 2024, pp. 1­6.
+tions would move IDS research closer to trustworthy operation
+in next-generation IoT networks.                                                                        [5] A. H. Md. S. Saif, and S. I. Md. "A novel federated learning approach
+                                                                                                             for IoT botnet intrusion detection using SHAP-based knowledge distil-
+                          VI. CONCLUSION                                                                     lation," Complex & Intelligent Systems, vol. 11, no. 1, pp. 1­23, 2025.
+
+   This work presented a lightweight intrusion detection frame-                                         [6] A. Kaushik and H. Al-Raweshidy, "A novel intrusion detection system
+work for IoT that integrates SHAP-guided feature pruning                                                     for internet of things devices and data," Wireless Networks, vol. 30,
+with knowledge-distilled Kronecker networks, demonstrating                                                   no. 1, pp. 285­294, 2023.
+
+                                                                                                        [7] F. Ebrahimi, R. Javidan, R. Akbari, and Y. Hosseini, "Intrusion detection
+                                                                                                             in the internet of things using convolutional neural networks: an explain-
+                                                                                                             able AI approach," Cybersecurity, vol. 8, no. 1, p. 66, Sep. 2025.
+
+                                                                                                        [8] S. Ullah, J. Wu, M. M. Kamal, A. K. J. Saudagar et al., "KronNet:
+                                                                                                             A Lightweight Kronecker Enhanced Feed-Forward Neural Network for
+                                                                                                             Efficient IoT Intrusion Detection," Scientific Reports, vol. 15, no. 20850,
+                                                                                                             2025.
+
+                                                                                                        [9] J. Gou, B. Yu, S. J. Maybank, and D. Tao, "Knowledge Distillation: A
+                                                                                                             Survey," International Journal of Computer Vision, vol. 129, no. 6, pp.
+                                                                                                             1789­1819, 2021.
+
+                                                                                                       [10] S. E. Sorour, M. Aljaafari, A. M. Shaker, and A. E. Amin, "LSTM-
+                                                                                                             JSO framework for privacy preserving adaptive intrusion detection in
+                                                                                                             federated IoT networks," Scientific Reports, vol. 15, no. 1, p. 11321,
+                                                                                                             2025.
+
+                                                                                                       [11] N. Moustafa, "A new distributed architecture for evaluating AI-based
+                                                                                                             security systems at the edge: Network TON IoT datasets," Sustainable
+                                                                                                             Cities and Society, vol. 72, p. 102994, 2021.
+
+                                                                                                       [12] T. M. Booij, I. Chiscop, E. Meeuwissen, N. Moustafa, and F. T.
+                                                                                                             H. d. Hartog, "ToN IoT: The Role of Heterogeneity and the Need for
+                                                                                                             Standardization of Features and Attack Types in IoT Network Intrusion
+                                                                                                             Data Sets," IEEE Internet of Things Journal, vol. 9, no. 1, pp. 485­496,
+                                                                                                             2022.
+
+                                                                                                       [13] I. Tareq, B. M. Elbagoury, S. El-Regaily, and E.-S. M. El-Horbaty,
+                                                                                                             "Analysis of ToN-IoT, UNW-NB15, and Edge-IIoT Datasets Using DL
+                                                                                                             in Cybersecurity for IoT," Applied Sciences, vol. 12, no. 19, 2022.
+
+                                                                                                       [14] S. Roy, J. Li, B.-J. Choi, and Y. Bai, "A lightweight supervised intrusion
+                                                                                                             detection mechanism for IoT networks," Future Gener. Comput. Syst.,
+                                                                                                             vol. 127, no. C, p. 276­285, Feb. 2022.
+

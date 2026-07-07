@@ -1,0 +1,928 @@
+Energy-Ecient Hybrid Learning for Secure Wireless Sensor Networks                                             693
+
+                                   ECTI Transactions on Computer and Information Technology
+                                            Journal homepage: https://ph01.tci-thaijo.org/index.php/ecticit/
+                                             Published by the ECTI Association, Thailand, ISSN: 2286-9131
+
+Energy-Ecient Hybrid LNeaertnwionrgkfsor Secure Wireless Sensor
+
+                                          Abdalfattah M. Alfarra1 and Aiman A. AbuSamra2
+
+ABSTRACT                                                                        Article information:
+
+  Wireless Sensor Networks (WSNs) power critical applications from envi-         Keywords: Wireless Sensor
+  ronmental monitoring to Internet-of-Medical-Things healthcare yet their        Networks, Intrusion Detection
+  tiny batteries and low-end microcontrollers leave them exposed to net-         System, Denial-of-Service, Deep
+  work-layer Denial-of-Service (DoS) attacks such as Blackhole, Grayhole,        Learning, Rule-Based Filtering,
+  Flooding and TDMA scheduling. Signature IDSs miss zero-day variants            Energy Eciency, CNN-LSTM,
+  and shallow machine-learning detectors produce many false alarms, while        WSN-DS
+  running monolithic deep-learning models on every node exhaust energy re-
+  serve. We introduce a two-stage hybrid IDS in which each sensor executes         Article history:
+
+ an integer-only rule lter that costs  0.05 mJ per packet and discards           Received: July 16, 2025
+  95% of benign trac, forwarding only agged ows over BLE/LoRa                    Revised: September 9, 2025
+                                                                                 Accepted: October 23, 2025
+  to an edge gateway. There, a 50 %-pruned, 8-bit CNN-LSTM processes             Published: October 31, 2025
+
+ 32-window batches in 28 mJ and  42 ms. Ex-periments on the public                (Online)
+
+  WSN-DS corpus, augmented by ns-3 simulations of a 50-node LoRa net-
+  work, show that the scheme achieves 98 % accuracy, 0.93 macro-F1 and
+  minority-class recalls of 0.840.95 while extending network lifetime (T50)
+  to 69 days an 82 % gain over on-node GRU and 35 % over a signature IDS.
+  Removing the rule lter erases most of the lifetime benet without aecting
+  accuracy, conrming that local triage, not downsized deep models, is the
+  key to energy eciency. The evaluation answers four research questions
+  covering optimal hybrid architecture, rule-lter tuning, node-level energy
+  overhead, and performance trade-os against traditional ML and stan-
+  dalone DL baselines. These ndings demonstrate that intelligent workload
+  partitioning can deliver deep-learning-level security without shortening the
+  lifetime of resource-constrained WSN deployments.
+
+DOI: 10.37936/ecti-cit.2025194.263081
+
+1. INTRODUCTION                                        mented by miniature harvesters (tiny solar cells, vi-
+                                                       bration scavengers) [4, 5]. After acquiring data, the
+     Wireless Sensor Networks (WSNs) today form the    node performs only rudimentary preprocessing, then
+tech-nological backbone of many modern domains         forwards the information over several wireless hops
+ranging from micro-climate observation and auto-       most often via Bluetooth Low Energy (BLE) or LoRa
+mated manu-facturing lines to continuous structural-   to an edge gateway or sink. Empirical studies con-
+health inspection and Internet-of-Medical-Things       rm that radio trac and processor cycles dominate
+(IoMT) services [13]. Each node in such a net-         the energy ledger of a sensor [4, 6]; hence any se-
+work is purposely inexpensive and self-contained: it   curity layer introduced into a WSN must keep both
+hosts one or more sensing elements (for instance tem-  computation and communication overhead extremely
+perature, humidity, vibration, or biosignals), a low-  low to avoid premature battery depletion and an
+frequency micro-controller, no more than 256 KB of     overall loss of sensing coverage. Unfortunately, the
+volatile memory, and a modest battery of roughly       very properties that make WSNs attractive unteth-
+10003000 mAh that can occasionally be supple-
+
+1The author is with the Department of Computer Science, University College of Science and Technology, Khan Younis, Palestine,
+Email: Ab.alfarra@cst.ps
+2The author is with the Department of Computer Engineering, Islamic University of Gaza, Gaza, Palestine, Email:
+aasamra@iugaza.edu.ps
+1Corresponding author: Ab.alfarra@cst.ps
+694  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+ered nodes, broadcast links, unat-tended deployment        pruned CNN-LSTM executing at the edge gateway.
+also expose them to network-layer Denial-of-Service        Our goal is to maintain high detection fidelity with-
+(DoS) attacks [7­9]. A blackhole adversary advertises      out sacrificing the longevity of the network. Four
+the "best" path toward the sink then discards every        research questions guide the evaluation:
+packet it receives, effective-ly partitioning the topol-
+ogy [7, 8]. A grayhole acts more subtly by forwarding      RQ 1. Which hybrid deep-learning backbone CNN-
+only a fraction of packets, thereby delaying detec-        LSTM or Autoencoder-GRU delivers the greatest ac-
+tion [7]. Flooding overwhelms the medium with fab-         curacy per joule for specific DoS scenarios [3, 11, 14]?
+ricated route requests or garbage data, drain-ing le-
+gitimate batteries rapidly [6, 10], whereas scheduling     RQ 2. How should on-node rule thresholds be tuned
+attacks manipulate TDMA slot allocations, trigger-         to suppress false positives yet preserve recall [5, 7,
+ing packet collisions, desynchronization, and wasted       17]?
+airtime [9, 11]. In practical deployments these be-
+haviors can halve the packet-delivery ratio and drain      RQ 3. What incremental CPU load, RAM usage, and
+entire node clusters in minutes. To counter such           battery drain does the hybrid IDS impose relative to
+threats, researchers have engineered a spectrum of In-     classic shallow ML and standalone DL models [3­6]?
+trusion Detection Systems (IDSs) tailored for WSNs.
+Signature-based detectors excel at spotting attacks        RQ 4. Against SVM, Random Forest, and monolithic
+already catalogued, yet cannot recognize zero-day          DL, how does the hybrid scheme fare in accuracy, ro-
+patterns [9, 12]. Shallow machine-learning (ML) ap-        bustness to stealthy DoS traffic, and overall energy
+proaches, including Na¨ive Bayes, Support Vector Ma-       efficiency [1, 8, 10, 12, 13]?
+chines (SVM), Decision Trees, and Random Forests,
+raise adaptability by learning from statistical features      By systematically addressing these questions, we
+(e.g., interarrival time, hop count) and can surpass 96    demonstrate that intelligent task partitioning rather
+% overall accuracy [2, 7, 9]. Never-theless, their false-  than merely shrinking model size is the most prac-
+positive rates still hover above 15 % against stealthy     tical route to building secure and sustainable WSN
+grayhole or scheduling traffic, and each inference ex-     deployments.
+ecuted on a cluster head may cost tens of millijoules
+non-trivial for a coin-cell-driven MCU [4, 6, 9, 11].      Hybrid Deep Learning­Based Intrusion Detection
+At the other end of the spectrum, deep-learning (DL)       Model
+IDSs based on CNNs, RNNs, or Autoencoders deliver
+state-of-the-art detection reporting more than 98 %           The proposed intrusion-detection architecture is
+accuracy on the WSN-DS benchmark [3, 9, 12]. The           deliberately partitioned across two tiers of the
+drawback is their appetite for resources: models of-       wireless-sensor network to balance accuracy with en-
+ten occupy several megabytes and require billions of       ergy thrift (Figure 1). Each sensor node carries
+float-ing-point operations per inference, far exceeding    an ultralight rule filter that inspects every outgoing
+the capacity of sub-50 MHz micro-controllers, while        packet in real time. The filter computes three integer-
+even gateway-class devices may draw hundreds of mil-       only heuristics destination-address entropy, short-
+lijoules per classification [4, 9, 13, 14]. Recent work    term inter-arrival variance and a residual-battery
+has there-fore shifted toward energy-aware adapta-         guard and flags a packet whenever any heuristic indi-
+tions. Examples include checkpoint-based DNN ex-           cates abnormal behavior. Because the logic performs
+ecution on intermittently powered MCUs [4], duty-          fewer than sixty integer operations per packet, the
+cycle optimization using Proximal Policy Optimiza-         additional cost is  0.05 mJ, negligible beside the 
+tion (PPO) to extend lifetime by up to 30 % [5],           5 mJ already spent on a LoRa transmission.
+federated-learning schemes that schedule client par-
+ticipation by residual energy [15], aggressive binary         Only flagged traffic is forwarded to an edge gate-
+quantization that trims inference energy by 40 %           way endowed with ample energy and compute head-
+[13], and adaptive thresholds that reduce false alarms     room. There, a compact deep-learning classifier
+by 420 % [11]. Although each study addresses part          three shallow convolutional layers followed by two 64-
+of the problem, a unified framework that simultane-        unit LSTM layers performs fine-grained categoriza-
+ously (1) runs an ultra-light, rule-based filter on every  tion into Normal, Blackhole, Grayhole, Flooding and
+sensor, (2) pushes a quantized, pruned DL model to         TDMA-spoof classes. The network is pruned by 50 %
+the gateway, and (3) adapts to evolving DoS patterns       and post-trained with 8-bit symmetric quantization,
+through federated updates while respecting the ex-         so a batch inference on thirty-two five-packet windows
+treme power budget of WSN nodes, has yet to emerge.        consumes about 28 mJ and finishes in  42 ms on a
+In response, this paper proposes an energy-efficient       Raspberry Pi Zero W. A batching policy fires when
+hybrid IDS. The design integrates a tiny, integer-         either sixteen windows accumulate or a two-second
+only rule filter on each node with an 8-bit quantized,     timeout elapses, keeping latency well below the 250
+                                                           ms QoS bound for environmental-monitoring WSNs.
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks  695
+
+   By discarding roughly 95 % of benign packets lo-          W. Guo et al. [13] Proposed a model-driven DL
+cally, the scheme shifts virtually all heavy computa-     framework that jointly trains a binary quantizer and
+tion off the energy-starved nodes while still exploiting  a fusion-center detector by optimizing a Chernoff in-
+deep learning's ability to generalize to novel patterns.  formation­based loss. They show that binary quanti-
+Gateway compute is absorbed by its larger battery (or     zation reduces transmission and inference energy by
+mains supply), whereas node radio usage the domi-         roughly 75 % while achieving near-optimal detection.
+nant energy term is drastically reduced. This archi-      This work guides our edge DL model's use of post-
+tectural balance between lightweight on-node filtering    training quantization and an energy-penalty loss to
+and gateway-based deep learning forms the foundation      minimize inference overhead.
+of our pro-posed hybrid IDS.
+                                                          2. 3 Intermittent Power and Battery Manage-
+     Fig.1: Two-stage Hybrid IDS architecture.                  ment
+
+2. LITERATURE REVIEW                                         Mishra et al. [4] Enabling DNN inference on
+   This section reviews the eighteen works that form      intermittently powered microcontrollers (e.g., ARM
+                                                          Cortex-M0) with energy harvesting. They propose
+the foundation of our proposed hybrid IDS. Each ref-      checkpoint­resume mechanisms to preserve DNN
+erence is summarized with its contributions, method-      state across power outages and demonstrate feasi-
+ologies, and relevance to energy-efficient DoS detec-     bility of on-device inference under strict energy con-
+tion in resource-constrained WSNs.                        straints. NExUME's techniques motivate our inclu-
+                                                          sion of ultra-compact, distilled models that can run
+                                                          locally when gateways or nodes face energy scarcity.
+
+                                                             Jeong et al. [5] Model WSN battery degradation
+                                                          and schedule group battery replacements via Deep
+                                                          Reinforcement Learning (DRL). Their DRL agent op-
+                                                          timizes replacement timing to balance network life-
+                                                          time and maintenance costs. While focusing on bat-
+                                                          tery lifecycle rather than intrusion detection, their
+                                                          RL-based battery model informs our adaptive thresh-
+                                                          old mechanism, which adjusts anomaly sensitivity
+                                                          based on residual energy.
+
+2. 1 Comprehensive Security Surveys                       2. 4 Shallow Machine Learning­Based IDSs
+
+   Saleh et al. [1] Provide a broad survey of security       Alruhaily et al. [2] Proposed a two-layer IDS for
+threats (e.g., DoS, eavesdropping, spoofing) in WSNs      clustered WSNs. Cluster heads run a Na¨ive Bayes
+and IoMT contexts, categorizing ML- and DL-based          (NB) filter to identify suspicious packets; these are
+countermeasures. They emphasize that resource con-        then for-warded to a central server running a Random
+straints (battery, CPU, memory) necessitate novel de-     Forest (RF) for multi-class DoS classification (Black-
+signs that trade off detection accuracy and energy        hole, Grayhole, Flooding, Scheduling). They achieve
+overhead. Their analysis frames our hybrid IDS's re-      96 % accuracy on the WSN-DS dataset while reduc-
+quirement to minimize on-node computation and en-         ing cluster-head computation by 30 %. Our work
+ergy consumption while maintaining robust DoS de-         extends this layered concept by replacing centralized
+tection.                                                  RF with a quantized DL model at edge gateways,
+                                                          thereby reducing latency and central dependencies.
+2. 2 Federated Learning and Model-Driven
+      Quantization                                           Regin et al. [22] Employ deep learning to detect
+                                                          sensor and network faults (e.g., node failure, DoS-
+   Chen et al. [15] Introduces an energy-aware fed-       induced disruptions) in WSNs. They compare CNN
+erated learning (FL) framework for IoT sensor net-        and LSTM models on a custom dataset, showing that
+works. Solar-powered field sensors send updates to        LSTM achieves >95 % detection accuracy for packet-
+Raspberry Pi clients via BLE, which then forward          loss anomalies. Although focusing on general fault
+compressed gradients over LoRa to a central server.       detection rather than explicitly on DoS, their com-
+A knapsack-based client-selection mechanism ensures       parison of CNN vs. RNN architectures informs our
+only nodes with sufficient energy and high-quality        choice of hybrid CNN-LSTM or Autoencoder-GRU
+data participate in training. SusFL's energy-utility      for the edge DL classifier.
+trade-off and hierarchical FL design inform our ap-
+proach to federated updates among edge gateways,             Ifzarne et al. [7] Proposed ID-GOPA, an on-
+ensuring that model adaptation respects energy bud-       line anomaly detector using Information Gain Ratio
+gets.                                                     (IGR) to select the top three features from the WSN-
+                                                          DS dataset (e.g., node ID, cluster status, packet tim-
+696  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+ing). They deploy a Passive-Aggressive (PA) clas-        do not address energy constraints. Our hybrid IDS
+sifier at cluster heads for real-time detection among    integrate GRU (or LSTM) within a quantized CNN-
+four DoS classes. Their experiments report 96 %          LSTM model, invoked only on flagged traffic.
+overall accuracy but reveal low F1-scores for imbal-
+anced attacks (e.g., Grayhole F1  0.59). Our hybrid         Aldweesh et al. [12] Survey DL architectures Au-
+IDS address these imbalances by prefiltering benign      toencoders, CNNs, RNNs (LSTM/GRU), and hy-
+traffic and applying DL only on flagged packets.         brid CNN-LSTM for anomaly detection in WSNs
+                                                         and IoT. They categorize: (i) Unsupervised DL (Au-
+   Alsulaiman et al. [9] Evaluate several ML classi-     toencoders for anomaly scoring); (ii) Supervised DL
+fiers (SVM, k-NN, NB, Decision Tree) on the WSN-         (CNNs/LSTMs for classification); and (iii) Hybrid
+DS dataset for DoS detection. Their results show         CNN-LSTM. They observe that DL achieves higher
+that SVM yields 92 % accuracy but consumes 120           accuracy than shallow ML but at significant computa-
+mJ per detection on an ARM Cortex-M4, while NB           tional and memory costs, identifying energy efficiency
+uses 50 mJ with 85 % accuracy. These findings            and model interpretability as open issues. This moti-
+underscore the trade-off between accuracy and en-        vates our hybrid design combining rule-based filtering
+ergy consumption, motivating our hybrid approach         with quantized DL.
+to minimize on-node ML inference.
+                                                         2. 6 Datasets and Thresholding
+2. 5 Deep Learning­Based IDSs
+                                                            Almomani et al. [17] Introduced WSN-DS, a syn-
+   Nayak et al. [16] Highlighting that routing deci-     thetic dataset simulating a 30-node WSN under four
+sions (e.g., LEACH, HEED clustering) influence en-       DoS attacks: Blackhole, Grayhole, Flooding, and
+ergy consumption, network lifetime, and security pos-    Scheduling. Each sample includes 19 features (e.g.,
+ture. They discuss supervised, unsupervised, and RL      node ID, cluster membership, packet timing, residual
+techniques for dynamic route selection under energy      energy). With 30000 labeled instances, WSN-DS
+and attack constraints. This routing context informs     remains a standard benchmark for evaluating WSN
+how DoS attacks propagate and where IDS compo-           IDSs. We use it to validate detection accuracy and
+nents (node vs. edge) should reside.                     confusion across attack types.
+
+   Parras et al. [8] Train DRL-based adversaries            Chae et al. [11] Proposed an adaptive thresh-
+under partial observability (e.g., local channel en-     olding mechanism for anomaly detection, adjusting
+ergy, neighbor feedback) to execute Selective Sub-       thresholds dynamically based on traffic variance and
+scriber Denial of Service (SSDF) and MAC-backoff         node energy levels. They demonstrate that dynamic
+attacks. Using Trust Region Policy Optimization          thresholds reduce false positives by 20 % compared
+(TRPO) with mean-embedding states, they demon-           to static thresholds. Their adaptive approach directly
+strate >90 % success in generating false alarms and      informs our node-level threshold adaptation based on
+>80 % packet drop. Their work highlights that static     residual battery and recent false-alarm rates.
+defenses fail against intelligent attackers, motivating
+our adaptive, federated approach.                        2. 7 Quantized DL for Edge Inference
+
+   Yilmaz et al. [6] Proposed a DNN model to pre-           Rizqyawan et al. [14] Demonstrate that by apply-
+dict WSN lifetime under various traffic and energy-      ing 8-bit quantization to CNN layers, arrhythmia de-
+harvesting scenarios. Their network takes features       tection latency on a microcontroller reduces by 60
+such as node roles, energy profiles, and traffic pat-    % without significant accuracy loss. Although tar-
+terns, out-putting expected network lifetime. While      geting biomedical signals, their quantization method-
+not an IDS per se, their DNN design for resource es-     ology informs our edge DL classifier's pruning and
+timation informs our energy-penalty loss calculations    integer quantization strategies to minimize inference
+and lifetime evaluations for the hybrid IDS.             energy.
+
+   Ahmad et al. [10] Survey ML techniques for WSN           Collectively, these eighteen works span compre-
+security, covering intrusion detection, anomaly de-      hensive security surveys, federated/model-driven DL,
+tection, and secure routing. They identify key chal-     intermittent-power DNN techniques, shallow ML and
+lenges: data scarcity, resource constraints, and model   DL-based IDSs, datasets, adaptive thresholding, and
+adaptability. Their overview reinforces the need for     quantized DL for edge inference. Our hybrid IDS
+lightweight, energy-aware IDS designs that can gen-      synthesize these insights: lightweight rule-based fil-
+eralize to new attack patterns.                          tering at sensor nodes [1, 2, 7, 11] quantized CNN-
+                                                         LSTM (or Autoen-coder-GRU) at edge gateways[3, 4,
+   C. Xu et al. [3] Design a GRU-based RNN for           13-15] adaptive thresholding inspired by energy mod-
+DoS detection on the WSN-DS dataset. Their model         els[5, 11]; and federated learning for continuous model
+one GRU layer (64 units) followed by two fully con-      adaptation[1, 15]. This integration yields a robust,
+nected layers achieves 98 % accuracy across Black-       energy-efficient, and accurate DoS defense tailored to
+hole, Grayhole, Flooding, and Scheduling. They note      the unique constraints of WSN deployments.
+that GRU's temporal modeling outperforms static
+ML. However, they assume constant connectivity and
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks                                                   697
+
+   Recent studies (2023­2025) further emphasize the         · SoC rule: drop deep inspection if battery < 15
+importance of hybrid and energy-aware IDSs in wire-            %.
+less sensor networks. For example, Alenezi et al. [21]
+examined lightweight ML-based approaches for effi-          · Timing rule: flag if inter-arrival variance > 3 ×
+cient DoS detection, while Jeong et al. [5] applied            nominal.
+deep reinforcement learning to manage group bat-
+tery replacement, indirectly informing IDS energy-          · Complexity: worst-case 58 integer ops  0.05
+preservation strategies. Similarly, Saleh et al. [1]           mJ/packet on STM32L4.
+provided a 2024 survey underscoring that integrat-
+ing rule-based filters with pruned and quantized deep       · False-negative guard: 1 % random sampling of
+models remains a critical open challenge. By explic-           "benign" traffic forwarded for DL audit.
+itly situating our framework within these contempo-
+rary directions, we reinforce both the novelty and       3. 3 Stage-2 Deep Classifier
+timeliness of our contribution.
+                                                         Table 1: CNN-LSTM Model Architecture and Hy-
+
+                                                         perparameters.
+
+                                                                      Block      Hyper-params
+
+                                                                      CNN 3 × conv (16/32/32, k = 3, stride = 1) +
+
+                                                                                 ReLU + BN
+
+                                                                      LSTM       2 layers, 64 units, h = 128
+
+                                                                      FC Soft- 4 classes (Normal, Flood, Black, Gray)
+
+                                                                      Max
+
+    Fig.2: Methodology pipeline for Hybrid IDS.             · Training: Adam, 200 epochs, LR = 10-3, batch
+                                                               = 128.
+3. METHODOLOGY
+                                                            · 8-bit symmetric quantization (TensorFlow Lite)
+   The research strategy couple's simulation-driven            with 50 % structured pruning (magnitude-
+experimentation with a hardware micro-benchmark                based).
+to quantify both security accuracy and energy over-
+head. Figure 2 (above) shows the full pipeline.             · Result: 95.4 % macro-F1, ­65 % MACs, ­50 %
+                                                               RAM, inference = 28 mJ on Pi Zero W.
+3. 1 Data Acquisition & Pre-Processing
+                                                         3. 4 Federated Learning Layer (Optional)
+   1. Benchmark traces
+        · WSN-DS (19 features × 87 k packets) pro-          · Client selector: knapsack optimization using
+           vides labelled DoS, flooding, blackhole and         node residual energy as weight, gradients as
+           normal traffic.                                     value.
+
+   2. Synthetic augmentation                                · Round schedule: every 12 h; Fed AVG  = 1.0.
+        · NS-3 v3.40 with BLE/LoRa PHY generates            · Privacy: l<sub>2</sub> gradient clipping
+           10 k additional flows per attack to balance
+           classes and reproduce realistic MAC inter-          (1.0) + Gaussian noise ( = 0.4) for DP-FL
+           arrival gaps.                                         5.
+
+   3. Real-node logs                                     3. 5 Simulation Framework
+        · 48 h capture on a 10-node LoPy4 test-
+           bed (Temp/Humidity sensing) injects gen-      Table 2: NS-3 Simulation Parameters and Experi-
+           uine noise, link errors and duty-cycle gaps.
+                                                         mental Settings.
+   4. Feature pipeline (Python 3.11 + tsfresh)
+        · Header-level statistics (length, TTL, LQI).                 Parameter  Setting
+        · 5-packet temporal windows to build flow
+           tensors R<sup>5 × 12</sup>.                                Topology   50 sensor nodes (LEACH clustering), 1
+        · Min­max scaling for CNN; bit-shift scaling                                              edge gateway
+           (×2<sup>k</sup>) for integer rules.
+                                                                      Radio      BLE v5 @ 1 Mbps, TX = 8 mA, RX = 7
+                                                                                                         mA
+
+                                                                      Energy     2500 mAh Li-ion; CPU 48 MHz @ 5
+
+                                                                      model      mA; sleep = 12 µA
+
+                                                                      Traffic    Periodic 5 pkt/min + event burst
+
+                                                                      Attacks    Blackhole, Flooding, Grayhole, TDMA-
+                                                                                                  spoof (mixed)
+
+                                                                      Runs       10 seeds × {No-attack, Single DoS,
+                                                                                                   Mixed}
+
+3. 2 Stage-1 Rule Filter Design                          3. 6 Evaluation Metrics
+
+   · Entropy rule: flag if Shannon entropy of desti-        · Detection: Accuracy, Precision, Recall, Macro-
+      nation addresses in last 50 packets < 0.2.               F1, AUC.
+698  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+   · Energy: mJ per inference; network lifetime T50     Table 3: Host hardware / software stack used for
+      (time until 50 % nodes die).
+                                                        all simulations.             Specification
+   · QoS: Average latency, PDR.
+   · Statistical tests: paired Wilcoxon versus base-             Item
+
+      lines (significance  = 0.05); 95 % CI via boot-   Host machine Dell XPS 13 9310
+      strap (1 k resamples).
+                                                                          Intel Core i7-1165G7 (4C/8T, 2.8GHz)
+3. 7 Baselines
+                                                                          16 GB LPDDR4x 4267 MHz
+   · Signature-based IDS (Snort-WSN rules).
+   · Na¨ive Bayes + Random Forest two-layer filter.                       Windows 10 Pro 22H2 (64-bit)
+   · Stand-alone GRU IDS (no rule filter, no quanti-
+                                                        Compiler Visual Studio 2022 (Build Tools)
+      zation).
+                                                        tool-chain + Ninja 1.11
+3. 8 Prototype Deployment
+                                                                          x64 Native Tools prompt
+   · Hardware: LoPy4 (sensor), Raspberry Pi Zero
+      W (gateway).                                      Python (for Python 3.10.12 (64-bit) -- installed in
+
+   · Firmware: MicroPython 1.22 + CMSIS-DSP             preprocessing) D:\mepy\python.exe
+      keys for rule execution.
+                                                        Network ns-3 v3.39 (official tarball)
+   · Measurements: INA219 inline power monitor @
+      1 kHz; Wi-Fi sniffer logs ground-truth.           simulator built with cmake -G Ninja -
+
+   · Field test: 72 h rooftop deployment streaming                        DCMAKE BUILD TYPE
+      to Things Board.
+                                                                          =Release -DPython3 EXECUTABLE
+3. 9 Prototype Deployment
+                                                                          =D:/mepy/python.exe
+   · Aggregate metrics into spider plots (accuracy vs.
+      energy vs. latency).                              Run-time One 1 800 s scenario 
+
+   · Ablation study: disable each optimization          footprint < 8 min wall-clock, < 4 GB RAM
+      (quantization, pruning, rule filter) to isolate
+      gains.                                            were generated using NS-3 traffic generators (black-
+                                                        hole, flooding, grayhole) and merged with WSN-DS.
+   · Provide open-source code and full NS-3 config      Train/Val/Test Split Stratified 70 / 15 / 15 % on win-
+      via GitHub for reproducibility.                   dows, resulting in 262 308 train, 23 145 validation and
+                                                        23 145 test samples.
+3. 10 Figure 2
+                                                        4. 2 Network Topology and Simulation Envi-
+   The flow-chart illustrates (top row) the offline           ronment
+pipeline from dataset curation to quantized model,
+and (bottom row) the simulation­to­deployment loop         All custom logic (rule filter, TFLite gateway wrap-
+including attack injection and federated updates.       per, attack applications) was implemented as C++
+                                                        scratch modules (scratch/ids scenario.cc) and stati-
+4. EXPERIMENTAL SETUP (LAPTOP-                          cally linked into the same release build. Table 4.
+    BASED SIMULATION)                                   shows that the simulation is detailed enough to cap-
+                                                        ture energy and traffic dynamics relevant to intrusion
+   This section details the complete environment in     detection, yet lightweight enough to run entirely on
+which all experiments were executed, emphasizing        an off-the-shelf laptop underscoring the practicality
+that every run was performed locally on a single Win-   and reproducibility of the study.
+dows laptop using the ns-3 v3.39 simulator. Table 3.
+summarizes the hardware and software stack; subse-      Table 4: ns-3 Simulation Configuration.
+quent subsections describe datasets, topology, attack
+scripts, IDS parameters and evaluation metrics.         Parameter Value
+
+4. 1 Datasets                                           Simulator ns-3 v3.39, Release build, Ninja
+
+   WSN-DS (374 661 packets, 19 features, 4 DoS                            backend, executed on laptop
+classes) was used as the benchmark corpus. The
+raw CSV was windowed into 5-packet flows (5             Nodes             50 sensor nodes + 1 edge gateway
+× 18 tensor) yielding 308 598 labelled windows.
+NS-3 Synthetic Augmentation to balance minority         Radio             LoRa, SF 7, 125 kHz, TX = 8 mA,
+classes, an additional 15 000 packets per attack type
+                                                        PHY               RX = 7 mA
+
+                                                        MAC /             LEACH clustering; TDMA slot = 1 s
+
+                                                        Routing
+
+                                                        Area              Uniform disc, radius = 100 m
+
+                                                        Traffic           Periodic sensing 5 pkt min-1 + event
+
+                                                                          bursts
+
+                                                        Energy            LiIonEnergySource 2 500 mAh;
+
+                                                        model             CPU 48 MHz @ 5 mA, sleep 12 µA
+
+                                                        Simulation 1 800 s
+
+                                                        time
+
+                                                        Seeds             10 independent seeds (--RngSeed
+
+                                                                          1. . .10)
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks                                                      699
+
+4. 3 Attack Scenarios                                    16 flagged windows (or 2 s) balances latency (42
+                                                         ms) against energy. Federated updates are disabled
+   We executed each scenario separately as well as in    for these steady-state simulations, isolating the im-
+mixed attack mode, repeating all experiments with        pact of the two-stage inference pipeline on detection
+10 random seeds (RngSeed 1­10). Table 5 lists the        accuracy and network lifetime.
+four adversarial behaviors that we injected into the
+ns-3 network. Each attack begins at a different time                  Table 6: Hybrid IDS Configuration Parameters.
+and launches from a distinct sensor node, which en-
+sures clear attribution in the results. The start times               Stage       Location        Details
+in Table 5 (600s, 900s, 1200s, 1500s) were chosen to
+stagger the onset of each adversarial behavior. This                  Rule filter Sensor MCU Entropy < 0.20, inter-
+avoids overlap during early stages of simulation and
+ensures that the effect of each attack can be observed                                            arrival variance > 3×,
+both in isolation and when combined in the mixed-
+attack scenario. Each compromised node was selected                                               battery < 15 % bypass;
+randomly but fixed across all runs to guarantee re-
+producibility. We restricted the number of compro-                                                 0.05 mJ per check
+mised nodes to one per attack so that the impact of
+each attack type could be measured independently                      Classifier  Gateway         CNN (16-32-32) +
+before analyzing combined effects. This assumption
+follows prior WSN-DS conventions, where each attack                                               LSTM (64×2), INT8,
+trace originates from a single adversary node, mak-
+ing our ns-3 simulation directly comparable to the                                                50 % pruned; 28 mJ
+benchmark dataset. For the Flooding scenario, the
+rate of 60 RREQ/s was selected based on ns-3 traffic                                              per 32-window batch
+benchmarks and earlier studies [7, 9, 11] that report
+this rate as sufficient to saturate medium access in a                Batch       Gateway         Inference when queue
+50-node LoRa network. Lower rates produced min-
+imal observable disruption, whereas higher rates re-                  trigger                      16 flagged windows
+sulted in unrealistic saturation that does not reflect
+practical WSN deployments. By aligning our sim-                                                   or after 2 s
+ulation settings with WSN-DS characteristics while
+extending them through ns-3 augmentation, we en-                      Federated Disabled in
+sured consistency between dataset-driven evaluation
+and dynamic network behavior. This linkage allows                     updates simulation (fo-
+results from Section 5 to be interpreted both against a
+standard dataset and under realistic simulated attack                             cus on steady-
+conditions.
+                                                                                  state)
+
+Table 5: Attack Scenarios Injected in the ns-3 Sim-      4. 5 Hardware Micro-Benchmark (for energy
+                                                               numbers)
+ulation.   Start Compromised Parameters
+                                                            Sensor mock-up: LoPy4 ESP32 running CMSIS-
+   Attack                                                DSP; power logged with INA219 @ 1 kHz. Gate-
+                                                         way: Raspberry Pi Zero W; TFLite INT8 interpreter;
+           Time Node                                     power logged identically.
+
+Blackhole 600 s 7     Drops all                          4. 6 Evaluation Metrics
+
+                      received packets                      Detection Accuracy, Precision, Recall, Macro-F1,
+                                                         confusion matrix. Energy (1) Mean Joules per win-
+Flooding 900 s 12     60 RREQ /s                         dow at gateway; (2) Network lifetime T50 time until
+                                                         25 of 50 nodes deplete to 0 % SoC. Latency Sensor
+Grayhole 1 200 s 18   Drops 50 % of                      gateway inference delay (mean, 95ptth). Statistics All
+                                                         metrics reported as mean ± 95 % CI (bootstrap, n =
+                      traffic                            1 000); paired Wilcoxon test ( = 0.05) for baselines.
+
+TDMA 1 500 s 5        Sends forged                       4. 7 Availability of code and data
+
+Spoof                 schedule                              All scripts, trained models, and raw/derived data
+                                                         used in this study can be obtained from https://
+4. 4 Hybrid IDS Configuration                            github.com/abalfattah-alfarra/WSNIDS
+
+   Table 6. shows how the workload is split be-          5. RESULTS AND DISCUSSION
+tween ultra-light processing on each sensor and a
+compressed deep model at the gateway. On-node            5. 1 Detection Accuracy (Figure 3)
+rule checks cost  0.05 mJ per packet trivial com-
+pared with LoRa transmission while the INT8, 50             Figure 3. presents the confusion matrix produced
+%-pruned CNN-LSTM at the gateway executes a 32-          by replaying 308 598 windows through the NS-3 net-
+window batch for just 28 mJ. A queue threshold of        work described in Section 4.2. Despite the extreme
+                                                         imbalance in the test split ( 1:185 between Flooding
+                                                         and Normal), the hybrid IDS delivers near-perfect ac-
+                                                         curacy while maintaining robust performance across
+                                                         minority classes. Table. 7 show that the hybrid IDS
+                                                         achieves near-perfect overall accuracy (98 %) while
+                                                         maintaining strong minority-class performance recall
+                                                         remains  0.84 even for the rare Flooding traffic. The
+700            ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+macro-F1 of 0.93 confirms that high accuracy is not                 and temporal patterns (e.g., sustained packet
+driven solely by the majority "Normal" class, validat-              loss indicative of Grayhole).
+ing the effectiveness of class-weighted training and the      The tiny TDMA class (only two windows after
+two-stage architecture.                                    window-ing) is effectively ignored this is acceptable
+                                                           because TDMA spoofing is treated as an open set
+   To address potential misclassifications, we ana-        event in the threat model (§2.3).
+lyzed the behavior of false negatives, where benign
+packets are mistakenly flagged as malicious by the         5. 2 Energy-Efficiency Analysis (Figure 4)
+rule filter. In our hybrid design, this risk is mitigated
+in two ways. First, the rule filter employs a 1% ran-         Figure 4. compares the network lifetime T50 time
+dom sampling mechanism that forwards a small por-          until half of the 50 nodes exhaust their 2 500 mAh
+tion of traffic originally deemed benign to the deep       bat-teries (Section 4.2) for three baselines. (Table
+learning stage (§3.2). This ensures that any system-       8). show deploying full deep learning on every sen-
+atic bias in the filter is detected over time. Second,     sor (Node-DL) yields the shortest lifetime because
+the class-weighted training of the CNN-LSTM at the         nodes expend energy on both compute and constant
+gateway helps recover packets that were incorrectly        radio traffic. Off-loading computation but forward-
+flagged, as the model reexamines these flows with          ing all packets (Signature IDS) improves lifetime by
+higher contextual awareness. Empirically, this two-        13 days, yet still suffers from high radio use. The
+layer safeguard limited false negatives to fewer than      proposed hybrid design combines an ultra-light rule
+14 per million packets in the mixed-attack scenario,       filter (drastically cutting transmissions) with an INT8
+which is negligible relative to the overall traffic vol-   CNN-LSTM at the gateway, extending T50 to 69 days
+ume. These results demonstrate that occasional false       an 82 % gain over on-node DL and a 35 % gain over
+alarms introduced by the rule filter are effectively con-  the signature baseline. This demonstrates that in-
+trolled and do not degrade the IDS's ability to main-      telligent workload partitioning, not deeper on-node
+tain high recall across all attack classes.                models, delivers the largest energy dividends in low-
+                                                           power WSNs.
+     Table 7: Detection Metrics on the Test Set.
+
+     Metric    Value
+
+     Overall accuracy 98.0 %                               Table 8: Network-Lifetime (T50) Comparison.
+
+     Macro-F1  0.93                                        Scheme         T50       vs. Hybrid
+
+     Minority recalls Blackhole 0.95Grayhole 0.90          Node-DL (on-node 38 days 82 %
+
+               Flooding 0.84                               GRU)
+
+                                                           Signature IDS  51 days 35 %
+
+                                                           Hybrid (ours)  69 days
+
+        Fig.3: Confusion Matrix-Hybrid IDS.                        Fig.4: Network Lifetime vs. Baselines.
+
+   Two factors explain the strong minority perfor-         Why Hybrid wins
+mance:                                                        · Stage-1 rule filter discards 95 % of benign
+                                                                 packets, cutting average radio TX from 74 kB
+   1. Despite the extreme imbalance in the test                  (Node-DL) to 19 kB per node.
+         split ( 1:185 between Flooding and Normal),          · INT8 pruned CNN-LSTM costs 28 mJ per 32-
+         the hybrid IDS delivers near-perfect accuracy           window batch at the gateway; sensors spend 
+         while maintaining robust performance across             0.05 mJ per rule check negligible compared with
+         minority classes.                                       LoRa TX energy ( 5 mJ per packet).
+
+   2. The CNN + LSTM backbone captures both
+         header-level anomalies (e.g., unusual RSSI)
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks                                                   701
+
+   · The gateway's extra compute is absorbed by                         Table 11:     Energy & Lifetime Comparison.
+      its larger battery (or mains), so lifetime gain is
+      dominated by radio savings.                                      Scheme (ref.)  Node side In T50 Key Strength/
+
+   Table 9. show that removing any single optimiza-                   Hybrid (ours)   ference En-      Limitation
+tion leaves detection quality almost unchanged, but
+energy impact is dramatic. Rule filter is the dom-                    GRU on               ergy
+inant energy saver its removal cuts lifetime by 43                    every node
+%, proving that on-node triage, not classifier tweaks,                                 0.05mJ          69 Highest F1,
+drives longevity. INT8 quantization halves gateway                    Snort style
+compute; without it, life-time falls to the signature-                signature IDS   (rule filter) +  longest lifetime,
+IDS level (51 d). Pruning offers a modest 6 d boost,                  [9, 12]
+worthwhile but less critical than quantization. To-                   Two layer       28mJ per         42ms latency
+gether, the three techniques yield the full 69-day life-              NB  RF
+time without sacrificing accuracy.                                    (cloud) [2]     32 window
+                                                                      IGR + Passive
+                                                                      -Aggressive     batch on gate-
+                                                                      [7]
+                                                                                      way
+
+                                                                                      300mJ per- 38 High accuracy
+
+                                                                                      inference        but heavy bat-
+
+Table 9: Ablation Study of Hybrid IDS Components.                                     0mJ com-                 tery drains
+                                                                                      pute, but        51 Low cost,
+          Variant        Macro-F1 T50                                                 every packet
+                                                                                      transmitted              misses zero day
+          Full Hybrid    0.980 69 d                                                   50mJ per                 attacks
+                                                                                      inference on
+          - Rule filter  0.980 39 d                                                   cluster head     55* Cuts cluster
+                                                                                                               head load
+                                                                                       20mJ                    30%, higher FP
+                                                                                                               rate
+          - Quantization 0.984 51 d
+                                                                                                       55* Fast, but poor
+          - Pruning      0.984 63 d                                                                            minority-class
+                                                                                                               balance
+
+5. 3 Latency                                              5. 5 Comparison with Existing IDS Baselines:
+                                                                Performance and Energy Trade-Offs
+   With a batching threshold of 16 flagged windows
+(§4.4), end-to-end decision latency averages 42 ms           As shown in (Table 10) and (Table 11), the hybrid
+(95 %  55 ms), comfortably below the 250 ms QoS           IDS stand out as the only approach that combines
+target for environmental sensing. Node-DL is faster       deep-learning level accuracy (98 %) with a network
+(<10 ms) but at the cost of 31 days of lifetime.          lifetime that extends beyond two months (69 days),
+                                                          demonstrating a balanced superiority over all base-
+5. 4 Discussion                                           lines. This longevity gain is driven mainly by the
+                                                          lightweight rule filter on each node: while maintain-
+   Energy is dominated by radio, not compute shift-       ing the same detection quality as the on-node GRU
+ing DL off nodes and filtering traffic has far greater    solution, the filter discards roughly half of the ra-
+impact than squeezing every op out of on-device           dio traffic, translating into an 82 % increase in T50.
+GRUs. Model compression (INT8 + 50 % pruning)             In contrast, a signature-based Snort IDS eliminates
+yields a 65 % gate-way-energy drop with <0.5 % accu-      local computation but forwards every packet, sacri-
+racy loss, validating recent literature on post-training  ficing 18 days of lifetime and still missing zero-day
+quantization for tabular/flow features. Scalability:      attacks. Shallow-ML alternatives such as the NB
+radio savings scale linearly with node count, while        Random Forest pipeline or the IGR + Passive-
+gateway compute scales only with flagged traffic. A       Aggressive model do reduce energy at cluster heads,
+200-node simulation (not shown) still held gateway        yet they pay for that economy with lower macro-F1
+CPU < 55 %.                                               scores and markedly higher false-positive rates, es-
+                                                          pecially when detecting stealthy Grayhole behavior.
+Table 10: Detection Performance Comparison.               Collectively, these comparisons confirm that intelli-
+                                                          gent workload partitioning ultra-light rule screening
+Scheme (ref.) Overall Macro F1 Grayhole                   on the sensor node coupled with a quantized CNN-
+                                                          LSTM on the gateway achieves deep-learning robust-
+                 Accuracy              Recall             ness without undermining the energy sustainability
+                                                          that WSN deployments demand.
+Hybrid (ours)    98%       0.93        0.90
+                                                             Energy is dominated by radio, not compute shift-
+GRU on every 98%           0.92        0.88               ing DL off nodes and filtering traffic has far greater
+                                                          impact than squeezing every op out of on-device
+node [3]                                                  GRUs. Model compression (INT8 + 50% pruning)
+                                                          yields a 65% gate-way-energy drop with <0.5% accu-
+Snort style signa- 92%     0.81        0.60               racy loss, validating recent literature on post-training
+                                                          quantization for tabular/flow features. Scalability:
+ture IDS [9,12]                                           radio savings scale linearly with node count, while
+
+Two layer NB  94%          0.85*       0.70*
+
+RF (cloud) [2]
+
+IGR + Passive 96%          0.84        0.59
+
+Aggressive [7]
+702  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+gateway compute scales only with flagged traffic. A         uncontrolled battery depletion during disconnection
+200-node simulation (not shown) still held gateway          periods. Our ns-3 model already incorporates this
+CPU <55%.                                                   retry ceiling, and power traces from the LoPy4 pro-
+                                                            totype confirmed that retry limiting reduces wasted
+   Comparison with Existing IDS Baselines: Perfor-          radio energy by more than 70% compared to unlim-
+mance and Energy Trade-Offs.                                ited retransmission. Thus, while temporary energy
+                                                            overhead exists during outages, it remains bounded
+   As shown in (Table 10) and (Table 11), the hybrid        and does not contradict the overall objective of en-
+IDS stand out as the only approach that combines            ergy preservation.
+deep-learning level accuracy (98%) with a network
+lifetime that extends beyond two months (69 days),             While disconnection reduces the immediate benefit
+demonstrating a balanced superiority over all base-         of radio suppression, our design prevents the complete
+lines. This longevity gain is driven mainly by the          nullification of energy savings. First, retry limiting
+lightweight rule filter on each node: while maintain-       ensures that nodes expend only a bounded amount of
+ing the same detection quality as the on-node GRU           energy during outages, preventing uncontrolled drain.
+solution, the filter discards roughly half of the ra-       Second, because the rule filter continues discarding
+dio traffic, translating into an 82% increase in T50.       95% of benign traffic locally, the volume of flagged
+In contrast, a signature-based Snort IDS eliminates         packets that actually attempt transmission remains
+local computation but forwards every packet, sacri-         small. For example, in mixed-attack simulations,
+ficing 18 days of lifetime and still missing zero-day       only 4­6% of total packets were flagged, which means
+attacks. Shallow-ML alternatives such as the NB             even during gateway downtime, radio use never ap-
+ Random Forest pipeline or the IGR + Passive-               proaches the levels of raw flooding. Finally, buffered
+Aggressive model do reduce energy at cluster heads,         retransmission ensures that flagged packets are sent
+yet they pay for that economy with lower macro-F1           only once connectivity resumes, rather than repeat-
+scores and markedly higher false-positive rates, es-        edly, thereby retaining most of the energy savings
+pecially when detecting stealthy Grayhole behavior.         when viewed over the lifetime of the network.
+Collectively, these comparisons confirm that intelli-
+gent workload partitioning ultra-light rule screening          An additional risk of excessive retransmission is
+on the sensor node coupled with a quantized CNN-            premature battery depletion, which can disable a sen-
+LSTM on the gateway achieves deep-learning robust-          sor node's sensing capability altogether. Our hybrid
+ness without undermining the energy sustainability          IDS mitigates this risk by combining retry limiting
+that WSN deployments demand.                                with the rule filter's extremely low per-packet cost
+                                                            ( 0.05 mJ). Even if the gateway remains unreach-
+   An important operational consideration arises            able for extended periods, the node's sensing function
+when the edge gateway becomes temporarily unreach-          continues because the filter operates with negligible
+able. In such cases, flagged packets cannot be for-         energy overhead. In practice, our ns-3 simulations
+warded to Stage 2, preventing deep learning­based           and LoPy4 measurements showed that nodes retained
+classification. To mitigate this security gap, the rule     >95% of their baseline sensing lifetime even under
+filter on each sensor node serves as a first line of de-    repeated gateway outages, whereas systems without
+fense by discarding traffic that violates entropy, tim-     retry control lost more than 30% of their operational
+ing, or residual-energy heuristics. Although this does      lifetime in the same scenario. These results confirm
+not provide the full discrimination power of the CNN-       that the hybrid IDS safeguards sensing capability by
+LSTM, it ensures that the most abnormal flows are           bounding radio energy waste and keeping node energy
+already suppressed. In addition, our prototype nodes        budgets largely intact.
+maintain a short buffer of flagged windows, which
+are forwarded once connectivity to the gateway is              It is important to note that temporary gateway un-
+restored. This buffering prevents permanent loss of         availability behaves similarly to a network-layer DoS,
+flagged data and allows the IDS to catch up when the        because flagged traffic cannot reach the main process-
+gateway link recovers. We acknowledge that real-time        ing point. Although this disruption is non-malicious,
+detection is degraded during disconnection, but the         its impact on data delivery can mirror that of inten-
+rule filter's low-cost safeguards limit exposure until      tional flooding or blackhole attacks. Our hybrid IDS
+the gateway is available again.                             treats such events as an operational limitation and
+                                                            partially mitigates the risk through on-node filter-
+   Another energy-related concern occurs when the           ing and buffered retransmission, which ensure that
+gateway is out of range. Without safeguards, sensor         the most abnormal traffic is contained locally and
+nodes may repeatedly attempt to retransmit flagged          forwarded once connectivity resumes. Nevertheless,
+packets, leading to unnecessary battery drain. To           sustained gateway unreachability reduces real-time
+avoid this behavior, our implementation enforces a          detection and must be treated as a resilience chal-
+retry limit of three attempts per flagged window. If        lenge. Future work will explore multi-gateway re-
+delivery still fails, the packet is buffered locally until  dundancy and opportunistic peer relays, which can
+the gateway connection resumes. This strategy caps          provide alternate forwarding paths to minimize dis-
+the energy spent on failed transmissions, preventing
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks  703
+
+ruption and ensure continuity of IDS operation even      dio traffic by three quarters. Robustness stems from
+under gateway-level failures.                            layered defense: simple rules stop most benign noise,
+                                                         while the CNN-LSTM generalizes to unfamiliar at-
+6. ANSWERS OF RESEARCH QUESTIONS                         tack variations that signature-based or shallow ML
+                                                         methods miss.
+   RQ 1-Which hybrid deep-learning architecture
+gives the best detection accuracy for the DoS attacks    7. THREATS TO VALIDITY
+studied?
+                                                            To help readers judge the reliability and generaliz-
+   Among the two candidates we trained, the CNN-         ability of our findings, we discuss four standard threat
+LSTM backbone consistently delivered the highest         categories construct, internal, external, and conclu-
+accuracy without prohibitive cost. Its pruned + INT8     sion validity and how we mitigated them. Although
+model achieved 98 % overall accuracy and a macro-        we have taken multiple precautions, some residual
+F1 of 0.93 on the mixed-attack test set , whereas        limitations remain and point to avenues for future
+the lighter Auto-encoder-GRU variant (results in Ap-     work.
+pendix A, not needed for the main text) levelled off
+at 0.91 macro-F1 after comparable compression. Be-       7. 1 Construct validity
+cause both networks require the same 32-window in-
+put tensor, the CNN's ability to exploit spatial cor-       Construct validity concerns whether the experi-
+relations in header features gave it the edge, so the    mental artefacts truly measure the phenomena of in-
+final system adopts the CNN-LSTM shown in (Table         terest. Our IDS rely on eighteen header-level or tim-
+1).                                                      ing features drawn from WSN-DS and ns-3 traces.
+                                                         These features capture routing anomalies and burst
+   RQ 2-How much does the rule-based sensor filter       traffic patterns, yet they omit physical-layer finger-
+cut false alarms and energy without hurting accuracy?    prints such as carrier-frequency offset or I/Q imbal-
+                                                         ance. Consequently, attacks that manifest exclusively
+   The rule layer flags only traffic with anomalous en-  at the PHY layer (e.g., jamming with very low-rate
+tropy, timing variance or low battery, discarding 95     spectral signatures) might evade detection. We par-
+% of benign packets for  0.05 mJ per check. Re-          tially addressed this risk by adding per-packet RSSI
+moving that filter leaves detection quality unchanged    and LQI statistics, and by re-running the pipeline on
+(macro-F1 still 0.98) yet network lifetime collapses     a 48-hour rooftop trace in which link-quality noise dif-
+from 69 d to 39 d because every packet must be radio-    fers markedly from the benchmark data; the macro-
+forwarded to the gateway. In practice, the filter also   F1 drop was limited (0.98  0.95). Energy modelling
+cuts false positives: the mixed-attack scenario pro-     poses a second construct threat: ns-3's LiIonEn-
+duced only 14 false alarms per million packets, ver-     ergySource neglects temperature-dependent leakage
+sus 310 FP / M without filtering (detail in Appendix     and cell ageing. To ground the model, we bench-
+B). Thus, the rule stage keeps accuracy intact while     marked identical workloads on LoPy4 nodes instru-
+throttling both radio energy and false-alarm volume.     mented with an INA219 power monitor and found
+                                                         the simulated consumption to be within ±5 % of mea-
+   RQ 3-What is the energy footprint of the complete     sured values. Although these steps improve realism,
+hybrid IDS on constrained WSN nodes?                     future work should incorporate full battery discharge
+                                                         curves and PHY features to close remaining gaps.
+   Sensor side: rule execution  0.05 mJ pkt-1 (58 in-
+teger ops) and no extra RAM beyond the 32-byte slid-     7. 2 Internal validity
+ing window. Gateway side: quantized CNN-LSTM
+inference 28 mJ per 32-window batch with 42 ms              Internal validity asks whether causal relationships
+latency, well inside a Pi Zero W's power envelope.       claimed by the study could be explained by con-
+Network lifetime: in 50-node LoRa simulations the        founding factors. Performance might depend on a
+hybrid scheme ran 69 days before 50 % of nodes ex-       lucky node placement or random number seed. We
+pired, beating pure on-node GRU deep learning by 82      mitigated this by executing ten independent seeds
+% (38 d) and a gateway-only signature IDS by 35 %        (RngSeed 1­10) for every scenario and by reporting
+(51 d). These figures meet the design goal of cutting    95 % confidence intervals obtained via bootstrap re-
+per-node energy by >30 % relative to standalone DL       sampling. A second danger is hyper-parameter bias:
+while preserving 95 % accuracy.                          the hybrid model received systematic grid-search tun-
+                                                         ing, whereas baseline SVM and Random-Forest con-
+   RQ 4-How does the hybrid system compare with          figurations were taken from the literature. We there-
+traditional ML and standalone DL in accuracy, ro-        fore retuned those baselines on the same validation
+bustness and efficiency?                                 split; the resulting uplift (< 0.5 % macro-F1) did
+                                                         not change the ranking of schemes, reducing the like-
+   The hybrid design equals or exceeds the accuracy      lihood that our gains stem from unfair tuning ef-
+of standalone DL and best ML reports, yet outlasts
+every comparator by at least 18 days and slashes ra-
+704  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+fort. Finally, over-fitting to WSN-DS artefacts was         confirm that the rule filter delivers the lion's share of
+addressed by blending 15 000 ns-3-generated flows           energy savings, with quantization and pruning pro-
+per attack class and re-evaluating; high accuracy per-      viding additive reductions at the gateway. These
+sisted, indicating limited over-fitting.                    findings show that intelligent workload partitioning,
+                                                            rather than ever-smaller on-node neural networks, of-
+7. 3 External validity                                      fers the most practical path to combining high de-
+                                                            tection fidelity with long operational life-times in
+   External validity concerns generalizability beyond       resource-constrained WSNs.
+the study conditions. First, our hardware measure-
+ments use a LoPy4 (ESP32) sensor and a Raspberry               Several avenues remain open and form the immedi-
+Pi Zero W gateway; results may differ on Nordic nRF         ate next steps for this research. First, the attack cor-
+or STM32WL platforms. Because the on-node rule              pus will be expanded to include topology-disruptive
+filter is dominated by integer operations, its energy       threats such as wormhole and Sybil, in order to stress-
+cost scales almost linearly with MIPS; Section 5 ex-        test both rule heuristics and the CNN-LSTM's gen-
+trapolates to three MCU families, but real deploy-          eralization. Second, integrating physical-layer finger-
+ments should confirm the figures. Second, we sim-           prints (e.g., carrier-frequency offset, IQ variance) and
+ulated 50 nodes in a 100 m disc. Industrial WSNs            adding a cross-layer attention block may expose jam-
+may surpass 500 nodes; however, radio-energy sav-           ming or replay attacks that manifest below the net-
+ings scale linearly with node count, whereas gateway        work layer. Third, we plan to enable periodic, energy-
+compute scales only with flagged traffic. A 200-node        aware federat-ed updates among multiple gateways
+extrapolation (Appendix B) still kept gateway CPU           so the classifier can adapt to device ageing and ad-
+utilization below 55 %, suggesting the approach re-         versarial drift without violating communication bud-
+mains viable at larger scales. Third, only four DoS         gets. Fourth, heterogene-ous-hardware validation on
+variants were modelled. Attacks such as wormhole            Nordic nRF52 and Cortex-M33 platforms will ver-
+or Sybil could behave differently. Because the hybrid       ify energy and latency claims under different ISAs
+architecture is modular, new rule predicates and re-        and Trust Zone contexts. Fifth, a forthcoming two-
+trained DL layers can be inserted without firmware          hundred-node orchard deployment powered by solar-
+changes, yet validation on those attack types is future     assisted moisture sensors will provide real-world in-
+work.                                                       sight into channel fading and weather-induced power
+                                                            variability that simulation can only approximate. Fi-
+7. 4 Conclusion validity                                    nally, incorporating adversarial-training techniques
+                                                            for tabular traffic data should harden the deep model
+   Conclusion validity addresses statistical sound-         against carefully crafted evasion attempts. Pursu-
+ness. With more than 300 000 windows and ten                ing these directions will move the hybrid IDS from a
+paired seeds, statistical power is high; effect sizes such  promising prototype toward a production-ready de-
+as an 18-day lifetime gain exceed the 99 % confidence       fense capable of scaling across diverse sensor plat-
+interval (± 1.2 days). Multiple comparisons (three          forms, deployment densities and evolving threat land-
+baselines and four ablations) raise the risk of Type I      scapes.
+error we therefore applied a Bonferroni-adjusted  =
+0.0125, under which all reported differences remain         AUTHOR CONTRIBUTIONS
+significant (p < 0.001). Together, these practices re-
+duce the likelihood that our conclusions are artefacts         Conceptualization, A. Alfarra and A. AbuSamra;
+of random fluctuation.                                      methodology, A. Alfarra; software, A. Alfarra; valida-
+                                                            tion, A. Alfarra and A. AbuSamra; formal analysis,
+8. CONCLUSION AND FUTURE WORK                               A. Alfarra; investigation, A. AbuSamra; data cura-
+                                                            tion, A. Alfarra; writing original draft preparation, A.
+   This work presented a two-stage, energy-aware            Alfarra; writing review and editing, A. Alfarra and A.
+intrusion-detection architecture for wireless sensor        AbuSamra; visualization, A. AbuSamra; supervision,
+net-works in which an ultra-light, integer-only rule        A. Alfarra; funding acquisition, A. Alfarra.
+filter runs on every sensor node while a pruned and 8-
+bit-quantised CNN-LSTM operates at the edge gate-              All authors have read and agreed to the published
+way. Evaluations on a fifty-node ns-3 deployment, re-       version of the manuscript.
+inforced by real power measurements on LoPy4 and
+Raspberry Pi Zero W hardware, demonstrate that              References
+the hybrid design maintains 98 % overall accuracy,
+a macro-F1 of 0.93 and strong minority-class recalls        [1] H. M. Saleh, H. Marouane and A. Fakhfakh "A
+(0.84­0.95), yet still extends network lifetime to 69             Comprehensive Analysis of Security Challenges
+days an 82 % gain over on-node GRU inference and                  and Countermeasures in Wireless Sensor Net-
+**35 % over a gateway-only signature IDS **while                  works Enhanced by Machine Learning and Deep
+meeting a 42 ms latency budget. Ablation studies                  Learning Technologies," International Journal of
+                                                                  Safety and Security Engineering, vol. 14, no. 2,
+                                                                  pp. 373-386, 2024.
+Energy-Efficient Hybrid Learning for Secure Wireless Sensor Networks  705
+
+[2] N. M. Alruhaily and D. M. Ibrahim, "A multi-          [13] W. Guo et al., "Model-driven deep learning for
+      layer machine learning-based intrusion detection          distributed detection with binary quantization,"
+      system for wireless sensor networks," (IJACSA)            arXiv preprint arXiv:2404.00309, 2024.
+      International Journal of Advanced Computer
+      Science and Applications, vol. 12, no. 4, pp. 281-  [14] M. I. Rizqyawan, A. Munandar, M. F. Amri, R.
+      288, 2021.                                                Korio Utoro and A. Pratondo, "Quantized Con-
+                                                                volutional Neural Network toward Real-time Ar-
+[3] C. Xu, J. Shen, X. Du and F. Zhang, "An In-                 rhythmia Detection in Edge Device," 2020 In-
+      trusion Detection System Using a Deep Neural              ternational Conference on Radar, Antenna, Mi-
+      Network With Gated Recurrent Units," in IEEE              crowave, Electronics, and Telecommunications
+      Access, vol. 6, pp. 48697-48707, 2018.                    (ICRAMET), Tangerang, Indonesia, pp. 234-
+                                                                239, 2020.
+[4] C. S. Mishra, D. Chaudhary, J. Sampson, M.
+      T. Knademir and C. Das, "Revisiting DNN             [15] D. Chen, P. Yang, I.-R. Chen, D. S. Ha
+      Training for Intermittently Powered Energy                and J.-H. Cho, "SusFL: Energy-Aware Feder-
+      Harvesting Micro Computers," arXiv preprint               ated Learning-based Monitoring for Sustainable
+      arXiv:2408.13696, 2024.                                   Smart Farms," arXiv preprint arXiv:2402.10280,
+                                                                2024.
+[5] J.-H. Jeong, H. Jo, Q. Zhou, T. A. H. Nishat, and
+      L. Wu, "Active management of battery degra-         [16] P. Nayak, G. Swetha, S. Gupta, and K. Mad-
+      dation in wireless sensor network using deep re-          havi, "Routing in wireless sensor networks using
+      inforcement learning for group battery replace-           machine learning techniques: Challenges and op-
+      ment," arXiv preprint arXiv:2503.15865, 2025.             portunities," Measurement, vol. 178, p. 108974,
+                                                                2021.
+[6] M. Yilmaz, A. M. Ozbayoglu and B. Tavli, "Ef-
+      ficient computation of wireless sensor network      [17] I. Almomani, B. Al-Kasasbeh and M. Al-Akhras,
+      lifetime through deep neural networks," Wire-             "WSN-DS: a dataset for intrusion detection sys-
+      less Networks, vol. 27, pp. 2055-2065, 2021.              tems in wireless sensor networks," Journal of
+                                                                Sensors, vol. 2016, no. 1, p. 4731953, 2016.
+[7] S. Ifzarne, H. Tabbaa, I. Hafidi and N. Lamghari,
+      "Anomaly detection using machine learning           [18] I. Almomani and M. Alenezi, "Efficient Denial
+      techniques in wireless sensor networks," in Jour-         of Service Attacks Detection in Wireless Sensor
+      nal of Physics: Conference Series, vol. 1743, no.         Networks," Journal of Information Science and
+      1, p. 012021, 2021.                                       Engineering, vol. 34, no. 4, pp. 977-1000, 2018.
+
+[8] J. Parras Moral, M. Hu¨ttenrauch, S. Zazo Bello       [19] H. Holm, "Signature Based Intrusion Detection
+      and G. Neumann, "Deep Reinforcement Learn-                for Zero-Day Attacks: (Not) A Closed Chap-
+      ing for Attacking Wireless Sensor Networks,"              ter?," 2014 47th Hawaii International Confer-
+      Sensors, vol. 21, no. 12, p. 4060, 2021.                  ence on System Sciences, Waikoloa, HI, USA,
+                                                                pp. 4895-4904, 2014.
+[9] L. Alsulaiman and S. Al-Ahmadi, "Performance
+      evaluation of machine learning techniques for       [20] A. Khraisat and A. J. C. Alazab, "A critical re-
+      DOS detection in wireless sensor network,"                view of intrusion detection systems in the inter-
+      arXiv preprint arXiv:2104.01963, 2021.                    net of things: techniques, deployment strategy,
+                                                                validation strategy, attacks, public datasets and
+[10] R. Ahmad, R. Wazirali and T. Abu-Ain, "Ma-                 challenges," Cybersecurity, vol. 4, no. 18, pp. 1-
+      chine learning for wireless sensor networks se-           27, 2021.
+      curity: An overview of challenges and issues,"
+      Sensors, vol. 22, no. 13, p. 4730, 2022.            [21] M. A. Elsadig, "Detection of Denial-of-Service
+                                                                Attack in Wireless Sensor Networks: A
+[11] Y. Chae, N. Katenka and L. DiPippo, "An Adap-              Lightweight Machine Learning Approach," in
+      tive Threshold Method for Anomaly-based In-               IEEE Access, vol. 11, pp. 83537-83552, 2023.
+      trusion Detection Systems," 2019 IEEE 18th In-
+      ternational Symposium on Network Computing          [22] R. Regin, S. S. Rajest and B. Singh, "Fault
+      and Applications (NCA), Cambridge, MA, USA,               Detection in Wireless Sensor Network Based
+      pp. 1-4, 2019.                                            on Deep Learning Algorithms," EAI Endorsed
+                                                                Transactions on Scalable Information Systems,
+[12] A. Aldweesh, A. Derhab and A. Z. Emam,                     vol. 8, no. 32, pp. 1-7, 2021.
+      "Deep learning approaches for anomaly-based
+      intrusion detection systems: A survey, tax-
+      onomy, and open issues," Knowledge-Based
+      Systems, vol. 189, p. 105124, 2020.
+706  ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+
+                               Abdalfattah M. Alfarra is a Pales-                                          Aiman A. AbuSamra is a Palestinian
+                               tinian lecturer. He received his mas-                                       computer engineering professor. He re-
+                               ter degree on Information, Network and                                      ceived his PhD from the National Tech-
+                               Computer Security from New York In-                                         nical University of Ukraine in 1996. His
+                               stitute of Technology in 2007. Cur-                                         research interests include computer ar-
+                               rently, he is a lecturer in the Computer                                    chitecture, computer networks, and soft-
+                               Science Department, University College                                      ware engineering. He has managed sev-
+                               of Science and Technology, Khan You-                                        eral funded projects in cooperation with
+                               nis, Pales-tine. His research interests are                                 industry. He teaches several courses
+                               in computer and software engineering se-                                    on computer architecture and computer
+                               curity, and machine learning. He teaches                                    networks. Prof. AbuSamra is an IEEE
+several courses such as Information Security, Mobile Develop-               and Computer Society member. Currently, he is a full profes-
+ment, and Software Engineering.                                             sor at the Computer Engineering Department at the Islamic
+                                                                            University of Gaza, Palestine.
+
