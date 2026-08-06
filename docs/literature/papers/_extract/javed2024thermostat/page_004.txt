@@ -1,0 +1,53 @@
+Sensors 2024, 24, 7320
+4 of 15
+traffic and DDoS attacks, which was used to train SVM, Logistic Regression (LR), and DT.
+The results showed that DT outperformed other techniques with an accuracy of 99%.
+The authors in [30] improved the precision of IDS using the Shapley (SHAP) value-
+based FS technique. The accuracy of the convolution neural network (CNN) and random
+forest (RF) using the FS technique for the CICIDS 2017 and NSL-KDD datasets was 98% with
+10 features. In [31], the authors proposed a self-evolving host-based intrusion detection
+system (SEHIDS) that allows IoT devices to build their customized ANN model based on
+the traffic characteristics. The proposed technique used a multi-layer perceptron model
+for signature-based classification and a replicator neural network (ReNN) for anomaly-
+based intrusion detection. The authors tested their technique on the BoT-IoT, TON-IOT,
+and IoTID20 datasets. The authors claimed to have achieved an average true positive rate of
+1. Similarly, the authors in [12] proposed a transformer-based network intrusion detection
+system (NIDS) by combining network traffic-based and data-based NIDS. The authors used
+the TON_IoT dataset and results showed that the proposed technique achieved 98.39%
+accuracy for binary classification and 97.06% for multi-classification. The authors in [32]
+proposed federated learning (FL)-based gated recurrent units (GRUs) NIDS for industrial
+IoT (IIoT). The accuracy of the training was improved by incorporating deep reinforcement
+learning (DRL). The results showed that the proposed technique performed better than
+non-FL and other variants of FL for intrusion detection.
+In [33], the authors developed a lightweight IDS for IoT using cloud–edge collab-
+oration. A stack-sparsed autoencoder (SSAE) was used for dimension reduction and a
+temporal convolution network (TCN) was utilized for intrusion detection. The proposed
+technique reduced the storage requirements, training time, and memory by 50% but the
+accuracy of the technique was approximately equal to centralized trained models.
+Tiny ML is a subset of edge ML that allows the trained model to run on microcon-
+trollers. In [34], the authors proposed a TinyML-based ECG classification system. They
+embedded a CNN model in the ECG device for classification, which reduces network band-
+width utilization and latency. The results showed that the accuracy of the TinyML-based
+classifier was 97%. The author in [35] embedded a unidirectional LSTM in a microcontroller
+for solar power forecasting and achieved a test R2 of 0.9590. In [36], the authors used
+TinyML for on-device anomaly detection by using the extreme value theory. The proposed
+technique achieved an excellent accuracy of 99.80%.
+The literature reviewed above has explored the approaches of implementing IDS on
+gateways or on cloud servers. For successful IDS deployment on the edge, it must be
+both accurate and computationally efficient to detect attacks promptly. Most of the work
+has focused on deploying IDS on the edge (Raspberry Pi-based gateways) or in the cloud.
+However, IoT devices in smart homes are vulnerable to external threats due to their limited
+computational power and the absence of gateways. Therefore, there is a pressing need to
+develop IDS that can be embedded in IoT devices without relying on gateways or the cloud.
+3. Materials and Methods
+In this work, we considered the application of smart thermostats in smart homes.
+The thermostat is designed to update the indoor air environment (temperature and hu-
+midity levels), and air conditioner control signal (ON/OFF) on an Amazon Web Service
+(AWS) server. The webpage hosted on the AWS server shows the indoor air environment
+parameters, and based on temperature and humidity levels, occupants can send control
+signals to the air conditioner through a webpage. We proposed to embed ML-based IDS
+in smart thermostats for on-device intrusion detection. The proposed architecture of em-
+bedded IDS is shown in Figure 1. The bi-directional communication between cloud and
+smart thermostats can be disrupted/manipulated by an adversary node. Since for most IoT
+devices, Raspberry Pi-based gateways are not available for the implementation of IDS, we
+proposed to embed an IDS in a smart thermostat in this work.

@@ -1,0 +1,22 @@
+Figure 2: Top: Scatter plots of IoU between T1 and T2 attention maps during KD training.
+Bottom: Exampled attention maps of T1, T2 and S. This attention divergence among
+teacher ensembles, attributed to the randomness injected by data augmentation, gives the
+student distilled on them a more comprehensive perspective.
+ImageNet, and T1sT2wSs in ImageNet-LT, a relatively high validation ac-
+curacy is observed for each dataset. It is important to emphasize that the
+application of strong data augmentation to both teacher ensemble and stu-
+dent model in KD does not lead to the highest level of data augmentation
+strength, as quantified by our Affinity metric defined in Equation 5. That is,
+it is the diversity of teachers’ augmentation strength but not the strong data
+augmentation for a single teacher or student model matters: T1sT2wSs is
+stronger than T1sT2sSs. Appendix D also offers scatter plots of IoU between
+T1 and T2 attention maps versus Affinity during KD training.
+Significantly, this observation suggests that as the ensemble of teachers
+focuses on increasingly diverse aspects of the input data, the student model
+benefits from a richer, more varied set of learned representations, leading to
+enhanced performance, as visualized in Figure 2 Bottom. This finding aligns
+with and extends ensemble learning theories in KD, where diversity among
+models enhances overall student performance even by simply manipulating
+the data augmentation strength. It introduces a new dimension to Knowledge
+Distillation theory, emphasizing the value of diverse learning stimuli.
+13

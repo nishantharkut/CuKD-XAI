@@ -1,0 +1,149 @@
+without quantization or compression. The CNN operates in
+float32 precision, while the tree-based ML models run using
+their default inference formats.
+Power and latency measurements were collected using a
+USB power meter placed between the Raspberry Pi and its
+power supply. The device records current draw at high reso-
+lution during each prediction; we compute the instantaneous
+power as P = I ×V, and derive the energy per inference as the
+product of average power and measured latency.
+B. On-Device Inference Efficiency
+All reported values correspond to the additional consump-
+tion during inference, measured above the idle baseline of
+500 mA (2.5 W). Feature extraction, executed on-device im-
+mediately before each prediction, averaged 0.93 ms across all
+models and is excluded from the reported latency below.
+Table VII reports the average inference latency, current
+draw, power consumption, and energy per prediction for each
+model on the Raspberry Pi 3 B+; values are averaged over
+repeated runs and expressed respectively in milliseconds (ms),
+milliamperes (mA), milliwatts (mW), and millijoules (mJ).
+TABLE VII: On-device performance of classifiers.
+Model
+Latency
+(ms)
+Current
+(mA)
+Power
+(mW)
+Energy
+(mJ)
+Random Forest
+70
+65
+325
+22.75
+LightGBM
+27
+50
+250
+6.75
+XGBoost
+22
+50
+250
+5.50
+CNN
+300
+55
+275
+82.50
+LightGBM and XGBoost yield the lowest energy footprints,
+under 7 mJ per prediction, while maintaining sub-30 ms la-
+tency; this makes them suitable for deployments with tight
+energy and response-time constraints. The CNN model, while
+more accurate, incurs over 82 mJ per prediction due to its
+longer runtime and floating-point operations, which makes it
+better suited for scenarios where higher accuracy is desired and
+latency can be moderately tolerated. Random Forest exhibits
+slightly higher energy than the boosting models despite a lower
+operation count, likely due to less efficient memory access
+patterns during tree traversal.
+VII. CONCLUSION
+This work shows that accurate intrusion detection can be
+achieved without compromising hardware feasibility; it aligns
+model design with platform constraints while exposing key
+accuracy–efficiency trade-offs. Tree-based ensembles, partic-
+ularly LightGBM, offer strong performance with minimal
+resource usage, making them ideal for deployment on con-
+strained edge devices. HW-NAS optimized 1D-CNNs further
+improve accuracy with moderate cost and remain practical for
+edge inference without overloading the system. Both models
+minimize overhead and suit a wide range of embedded or
+gateway-class devices, as they occupy only a small fraction
+of memory and compute resources. Empirical results confirm
+that the selected models meet deployment constraints across
+tasks, while outperforming recent deep baselines in efficiency
+and remaining competitive in accuracy. Future directions in-
+clude compressing trained models (e.g., quantization, pruning),
+incorporating explainability techniques, and evaluating robust-
+ness under adversarial or noisy traffic.
+REFERENCES
+[1] M. A. Ferrag et al., “Edge-IIoTset: A new comprehensive realistic
+cyber security dataset of IoT and IIoT applications for centralized and
+federated learning,” IEEE Access, vol. 10, pp. 40 281–40 306, 2022.
+[2] S. A. Abdulkareem et al., “A lightweight SEL for attack detection in
+IoT/IIoT networks,” Journal of Network and Computer Applications,
+vol. 230, p. 103980, 2024.
+[3] A. Chehade et al., “Energy-efficient deep learning for traffic classifica-
+tion on microcontrollers,” arXiv preprint arXiv:2506.10851, 2025.
+[4] H. H. Pajouh et al., “A two-layer dimension reduction and two-tier clas-
+sification model for anomaly-based intrusion detection in IoT backbone
+networks,” IEEE Transactions on Emerging Topics in Computing, vol. 7,
+no. 2, pp. 314–323, 2016.
+[5] M. Keshk et al., “An explainable deep learning-enabled intrusion de-
+tection framework in IoT networks,” Information Sciences, vol. 639, p.
+119000, 2023.
+[6] S. Ullah et al., “Attention-based hybrid deep learning model for intrusion
+detection in IIoT networks,” Procedia Computer Science, vol. 246, pp.
+3323–3332, 2024.
+[7] N. Hamza et al., “Malware detection of IoT networks using machine
+learning: An experimental study with edge IIoT dataset,” in Proc. 30th
+Annu. Tech. Conf., IET Sri Lanka Network, Colombo, Sri Lanka, 2023.
+[8] S. Dhar et al., “A survey of on-device machine learning: An algorithms
+and learning theory perspective,” ACM Transactions on Internet of
+Things, vol. 2, no. 3, pp. 1–49, 2021.
+[9] H. Benmeziane et al., “A comprehensive survey on hardware-aware
+neural architecture search.” arXiv preprint arXiv:2101.09336, 2021.
+[10] A. Chehade et al., “Efficient traffic classification using HW-NAS:
+Advanced analysis and optimization for cybersecurity on resource-
+constrained devices,” arXiv preprint arXiv:2506.11319, 2025.
+[11] O. Aouedi, K. Piamrat, and B. Parrein, “Performance evaluation of
+feature selection and tree-based algorithms for traffic classification,”
+in IEEE International Conference on Communications Workshops (ICC
+Workshops).
+IEEE, 2021, pp. 1–6.
+[12] E. M. de Elias et al., “A hybrid CNN-LSTM model for IIoT edge
+privacy-aware intrusion detection,” in IEEE Latin-American Conference
+on Communications (LATINCOM).
+IEEE, 2022, pp. 1–6.
+[13] H. Liu, K. Simonyan, and Y. Yang, “Darts: Differentiable architecture
+search,” in Proc. Int. Conf. Learn. Represent. (ICLR), 2019.
+[14] A. Chehade et al., “Tiny neural networks for session-level traffic clas-
+sification,” in International Conference on Applications in Electronics
+Pervading Industry, Environment and Society.
+Springer, 2024.
+[15] E. Ragusa et al., “Compression–accuracy co-optimization through
+hardware-aware neural architecture search for vibration damage detec-
+tion,” IEEE Internet Things J., vol. 11, no. 19, pp. 31 745–31 757, 2024.
+[16] E. Ragusa et al., “Combining compressed sensing and neural architecture
+search for sensor-near vibration diagnostics,” IEEE Transactions on
+Industrial Informatics, vol. 20, no. 8, pp. 10 488–10 498, 2024.
+[17] A. M. Garavagno et al., “An affordable hardware-aware neural architec-
+ture search for deploying convolutional neural networks on ultra-low-
+power computing platforms,” IEEE Sensors Letters, vol. 8, no. 5, 2024.
+[18] S. Ismail, S. Dandan, and A. Qushou, “Intrusion detection in IoT
+and IIoT: Comparing lightweight machine learning techniques using
+TON IoT, WUSTL-IIOT-2021, and EdgeIIoTset datasets,” IEEE Access,
+2025.
+[19] K. Hassini et al., “An end-to-end learning approach for enhancing
+intrusion detection in industrial-internet of things,” Knowledge-Based
+Systems, vol. 294, p. 111785, 2024.
+[20] S. Aslam, M. M. Alshoweky, and M. Saad, “Binary and multiclass
+classification of attacks in edge IIoT networks,” in Advances in Science
+and Engineering Technology International Conferences (ASET).
+IEEE,
+2024, pp. 01–05.
+[21] M. Selem, F. Jemili, and O. Korbaa, “Deep learning for intrusion
+detection in IoT networks,” Peer-to-Peer Netw. and Appl., vol. 18, no. 22,
+2025.

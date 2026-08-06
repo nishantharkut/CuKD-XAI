@@ -1,0 +1,139 @@
+without having to expand the operands of the multiplication
+into 16-bit integers, we ﬁrst notice that by distributing the
+multiplication in Equation (4), we can rewrite it as
+q(i,k)
+3
+= Z3 + M
+
+NZ1Z2 −Z1a(k)
+2
+−Z2¯a(i)
+1 +
+N
+X
+j=1
+q(i,j)
+1
+q(j,k)
+2
+
+
+(7)
+where
+a(k)
+2
+:=
+N
+X
+j=1
+q(j,k)
+2
+, ¯a(i)
+1
+:=
+N
+X
+j=1
+q(i,j)
+1
+.
+(8)
+Each a(k)
+2
+or ¯a(i)
+1 takes only N additions to compute, so they
+collectively take only 2N 2 additions. The rest of the cost of
+the evaluation of (7) is almost entirely concentrated in the
+core integer matrix multiplication accumulation
+N
+X
+j=1
+q(i,j)
+1
+q(j,k)
+2
+(9)
+which takes 2N 3 arithmetic operations; indeed, everything
+else involved in (7) is O(N 2) with a small constant in the O.
+Thus, the expansion into the form (7) and the factored-out
+computation of a(k)
+2
+and ¯a(i)
+1
+enable low-overhead handling
+of arbitrary zero-points for anything but the smallest values
+of N, reducing the problem to the same core integer matrix
+multiplication accumulation (9) as we would have to com-
+pute in any other zero-points-free quantization scheme.
+2.4. Implementation of a typical fused layer
+We continue the discussion of section 2.3, but now ex-
+plicitly deﬁne the data types of all quantities involved, and
+modify the quantized matrix multiplication (7) to merge
+the bias-addition and activation function evaluation directly
+into it. This fusing of whole layers into a single operation
+is not only an optimization. As we must reproduce in in-
+ference code the same arithmetic that is used in training,
+the granularity of fused operators in inference code (taking
+an 8-bit quantized input and producing an 8-bit quantized
+output) must match the placement of “fake quantization”
+operators in the training graph (section 3).
+For our implementation on ARM and x86 CPU ar-
+chitectures, we use the gemmlowp library [18], whose
+GemmWithOutputPipeline entry point provides sup-
+ports the fused operations that we now describe5.
+5The discussion in this section is implemented in TensorFlow Lite [5]
+for e.g. a Convolutional operator (reference code is self-contained, opti-
+mized code calls into gemmlowp [18]).
+We take the q1 matrix to be the weights, and the q2 matrix
+to be the activations. Both the weights and activations are
+of type uint8 (we could have equivalently chosen int8, with
+suitably modiﬁed zero-points). Accumulating products of
+uint8 values requires a 32-bit accumulator, and we choose a
+signed type for the accumulator for a reason that will soon
+become clear. The sum in (9) is thus of the form:
+int32 += uint8 * uint8.
+(10)
+In order to have the quantized bias-addition be the addition
+of an int32 bias into this int32 accumulator, the bias-vector
+is quantized such that: it uses int32 as its quantized data
+type; it uses 0 as its quantization zero-point Zbias; and its
+quantization scale Sbias is the same as that of the accumu-
+lators, which is the product of the scales of the weights and
+of the input activations. In the notation of section 2.3,
+Sbias = S1S2, Zbias = 0.
+(11)
+Although the bias-vectors are quantized as 32-bit values,
+they account for only a tiny fraction of the parameters in a
+neural network. Furthermore, the use of higher precision
+for bias vectors meets a real need: as each bias-vector entry
+is added to many output activations, any quantization error
+in the bias-vector tends to act as an overall bias (i.e. an error
+term with nonzero mean), which must be avoided in order
+to preserve good end-to-end neural network accuracy6.
+With the ﬁnal value of the int32 accumulator, there re-
+main three things left to do: scale down to the ﬁnal scale
+used by the 8-bit output activations, cast down to uint8 and
+apply the activation function to yield the ﬁnal 8-bit output
+activation.
+The down-scaling corresponds to multiplication by the
+multiplier M in equation (7). As explained in section 2.2, it
+is implemented as a ﬁxed-point multiplication by a normal-
+ized multiplier M0 and a rounding bit-shift. Afterwards, we
+perform a saturating cast to uint8 and to the range [0, 255].
+We focus on activation functions that are mere clamps,
+e.g. ReLU, ReLU6. Mathematical functions are discussed
+in Appendix A.1 and we do not currently fuse them into
+such layers. Thus, the only thing that our fused activation
+functions need to do is to further clamp the uint8 value to
+some sub-interval of [0, 255] before storing the ﬁnal uint8
+output activation. In practice, the quantized training pro-
+cess (section 3) tends to learn to make use of the whole
+output uint8 [0, 255] interval so that the activation function
+no longer does anything, its effect being subsumed in the
+clamping to [0, 255] implied in the saturating cast to uint8.
+3. Training with simulated quantization
+A common approach to training quantized networks is
+to train in ﬂoating point and then quantize the resulting
+6The quantization of bias-vectors discussed here is implemented here
+in the TensorFlow Lite [5] Converter.
+2707

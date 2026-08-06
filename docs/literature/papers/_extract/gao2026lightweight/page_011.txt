@@ -1,0 +1,63 @@
+Electronics 2026, 15, 938
+11 of 20
+Figure 5. Feature correlation heatmap after variance filtering.
+To determine the final number of feature subset K, we selected 6, 12, 16, 18, 20, 22
+and all features for the experiment. TCN was used as the classifier. Experimental results
+in Table 2 show that as the number of features increased, the overall model performance
+improved, but the computational complexity also increased. Considering both detec-
+tion performance and computational complexity, we ultimately chose 18 as the feature
+subset number.
+Table 2. Detection results of different feature dimensions (values are in %).
+Feature Selection Methods
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1 (%)
+Model Parameters (KB)
+6
+0.79
+0.75
+0.79
+0.76
+14.25
+12
+89.75
+90.65
+90.65
+89.27
+15
+16
+92.35
+92.37
+92.35
+91.52
+15.5
+18
+93.55
+92.95
+93.55
+92.67
+15.75
+20
+93.66
+93.16
+93.66
+92.78
+16
+22
+93.79
+93.33
+93.79
+93.13
+16.25
+All features
+94.24
+93.77
+94.24
+93.71
+25.37
+After screening using mutual information and Pearson Correlation Coefficients, 18 fea-
+tures were ultimately selected, covering three key categories of traffic attributes. The first
+category is statistical features, primarily reflecting communication status and packet inter-
+action methods, including icmp checksum.seq_le, tcp.ack, tcp.ack_raw, and udp.stream.
+https://doi.org/10.3390/electronics15050938

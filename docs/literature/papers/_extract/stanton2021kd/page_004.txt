@@ -1,0 +1,77 @@
+By comparing the ﬁdelity of (t, s) and (t, s′) we can distinguish between a generic improvement in
+generalization and an improvement speciﬁcally to ﬁdelity. If s and s′ have comparable ﬁdelity, then
+the students agree with the teacher at many points because they generalize well, and not the reverse.
+4
+Knowledge Distillation Transfers Knowledge Poorly
+In this section, we present evidence that we are not able to distill large networks such as a ResNet-56
+with high ﬁdelity, and discuss why high ﬁdelity is an important objective.
+4.1
+When is knowledge transfer successful?
+We ﬁrst consider the easy task of distilling a LeNet-5 teacher into an identical student network as
+a motivating example. We train the teacher on a random subset of 200 examples from the MNIST
+training set for 100 epochs, resulting in a 84% to 86% teacher test accuracy across different subsets.2
+We then distill the teacher using the full MNIST train dataset with 60,000 examples, as well as 25%,
+50%, and 100% of the EMNIST train dataset [11]. The EMNIST train set contains 697,932 images.
+In Figure 2 we see that knowledge distillation works as expected. With enough examples the student
+learns to make the same predictions as the teacher (over 99% top-1 test agreement). Notably, in this
+case, self-distillation does not improve generalization, since the slight difference between the teacher
+and student accuracy is explained by variance between trials.
+MNIST 60k
+EMNIST 175k
+EMNIST 350k
+EMNIST 700k
+80
+85
+90
+95
+100
+Test Agreement
+80
+85
+90
+95
+100
+Test Accuracy
+Student Accuracy
+Teacher Accuracy
+Agreement
+Figure 2: LeNet-5 self-distillation on
+MNIST with additional distillation data.
+The shaded region corresponds to µ ± σ,
+estimated over 3 trials.
+Now we consider a more challenging task: distilling a
+ResNet-56 teacher trained on CIFAR-100 into an identical
+student network (Figure 1, left). Since no dataset drawn
+from the same distribution as CIFAR-100 is publicly avail-
+able, to augment the distillation data, we instead combined
+samples from an SN-GAN [35] pre-trained on CIFAR-100
+with the original CIFAR-100 train dataset. Appendix A.3
+details the hyperparameters and training procedure for the
+GAN, teacher, and student.
+Like the MNIST experiment, as we enlarge the distillation
+dataset the student ﬁdelity improves. However, in this
+case the improvement is modest, with the ﬁdelity reaching
+nowhere near 99% test agreement. Since a ResNet-56 has
+many more parameters than a LeNet-5, it is possible that
+the student simply has not seen enough examples to per-
+fectly emulate the teacher, a hypothesis we discuss in more
+detail in Section 5.1. Also, like the MNIST experiment,
+as the distillation dataset grows the student accuracy ap-
+proaches the teacher’s. Unlike the MNIST experiment, the
+student test accuracy is higher than the teacher’s when the distillation dataset is small, so increasing
+ﬁdelity decreases student generalization.
+4.2
+What can self-distillation tell us about knowledge distillation in general?
+We have seen in Figure 1(a) that with self-distillation the student can exceed the teacher performance,
+in accordance with Furlanello et al. [13]. This result is only possible by virtue of failing at the
+distillation procedure: if the student matched the teacher perfectly then the student could not
+outperform the teacher. On the other hand, if the teacher generalizes signiﬁcantly better than an
+independently trained student, we would expect the beneﬁts of ﬁdelity to dominate other regularization
+effects associated with not matching the teacher. This setting reﬂects the original motivation for
+knowledge distillation, where we wish to faithfully transfer the representation discovered by a large
+model or ensemble of models into a more efﬁcient student.
+In Figure 1(b) we see that if we move from self-distillation to the distillation of a 3 ResNet-56 teacher
+ensemble, ﬁdelity becomes positively correlated with generalization. But there is still a signiﬁcant
+2We took only a subset of the MNIST train set since otherwise every teacher network as well as the ensemble
+would achieve over 99% test accuracy.
+4

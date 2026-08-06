@@ -1,0 +1,101 @@
+detection [Buczak and Guven, 2015, Leu et al.,
+2015, Mirsky et al., 2018].
+While these meth-
+ods are effective, they face challenges in the com-
+plex and large-scale IIoT environments [Zarpel˜ao
+et al., 2017], highlighting the need for more ad-
+vanced IDS solutions.
+Moreover, current IDSs
+perform well with a limited number of classes and
+balanced data [Karatas et al., 2020]. However,
+real-world scenarios often involve more classes
+and significant data imbalance, where infrequent
+yet critical classes may be overlooked. This im-
+balance can degrade detection performance, in-
+creasing the risk of undetected security threats.
+To address these challenges, performing machine
+learning (ML) inference on edge devices is cru-
+cial. Edge inference allows real-time traffic anal-
+ysis, reducing latency and reliance on central-
+ized systems while enhancing privacy and secu-
+rity. Lightweight ML models designed for edge
+environments operate efficiently under resource
+constraints, enabling robust intrusion detection
+even in remote or bandwidth-limited IIoT settings
+[Hossain et al., 2025].
+To address these challenges, we make the fol-
+lowing contributions in this paper:
+• We propose a novel intrusion detection sys-
+tem (IDS) that leverages an autoencoder for
+dimensionality reduction, effectively address-
+ing challenges with imbalanced and multi-
+class IIoT datasets while enhancing feature
+learning.
+• We provide robust evidence of our IDS’s ef-
+fectiveness, achieving an exceptional F1 score
+and accuracy of 99.94
+• We highlight the practical applicability of our
+approach by being the first to deploy the top-
+performing IDS models on a Jetson Nano,
+achieving fast inference times of 0.185 ms for
+binary classification and 0.187 ms for multi-
+class classification, making it suitable for real-
+world edge computing environments.
+2
+Related Work
+A notable approach in IoT/IIoT network secu-
+rity is the Lightweight Stacking Ensemble Learn-
+ing (SEL) method combined with Feature Im-
+portance (FI) for dimensionality reduction. This
+method reduces storage requirements by 86.9%
+while maintaining a high classification accuracy
+of 99.96% [Abdulkareem et al., 2024]. SEL’s per-
+formance, particularly in multiclass classification
+scenarios, surpasses traditional models like Deci-
+sion Trees and SVMs [Hassini et al., 2024]. Sim-
+ilarly, a CNN1D model offers an end-to-end ap-
+proach for intrusion detection, achieving 99.96%
+accuracy across 15 attack classes [Saadouni et al.,
+2023]. Its strength lies in efficiently handling fea-
+ture extraction and classification, making it valu-
+able in real-time Industrial IoT environments Fur-
+thermore, a Self-Attention-based Deep Convolu-
+tional Neural Network (SA-DCNN) enhances fea-
+ture prioritization, improving detection in IIoT
+networks with an accuracy of 99.95% on the
+Edge-IIoTset [Alshehri et al., 2024]. Deploying
+edge ML and HPC
+The Edge-IIoTset dataset stands out for its
+comprehensive coverage of IoT/IIoT devices and
+protocols, supporting both centralized and fed-
+erated learning models.
+It is more versatile
+compared to MQTTset and WUSTL-IIoT-2021,
+which have narrower focuses [Ferrag et al., 2022].
+Hybrid models like CNN-LSTM and CNN-GRU
+are also effective in IIoT security.
+The CNN-
+LSTM model excels in feature extraction and se-
+quence prediction, particularly for complex at-
+tacks like MITM , while the CNN-GRU model
+optimizes time-series data classification, further
+enhancing IIoT network security [Saadouni et al.,
+2023]. Additionally, the Multi-Head Attention-
+based Gated Recurrent Unit (MAGRU) model ad-
+dresses data imbalance and complex class struc-
+tures in IIoT, achieving high accuracy and preci-
+sion on datasets like Edge-IIoTset and MQTTset
+[Ullah et al., 2023].
+3
+Methodology
+This section outlines our methodology for
+designing an effective IDS for IIoT. Using the
+Edge-IIoTset dataset, we preprocess data through
+feature selection, normalization, and encoding.
+To tackle class imbalance, we introduce a cost-
+sensitive autoencoder that prioritizes underrep-
+resented attack types.
+Finally, we implement
+a lightweight architecture optimized for deploy-
+ment on resource-constrained edge devices, bal-
+ancing accuracy and efficiency.

@@ -1,0 +1,73 @@
+Sensors 2025, 25, 4309
+14 of 31
+Table 2. Hyperparameter search space.
+Hyperparameter
+Candidate Values
+Batch Size
+[64, 128, 256]
+Learning Rate
+[0.001, 0.01, 0.1]
+Regularization (µ)
+[0.001, 0.01, 0.1]
+Distillation Weight (λ)
+[0.3, 0.5, 0.7]
+Proximal Term Weight (β)
+[0.05, 0.1, 0.2]
+Temperature (T)
+[1, 3, 5]
+Table 3. Hyperparameter settings.
+Hyperparameter
+Settings
+Batch Size
+128
+Optimizer
+Adam
+Learning Rate
+0.001
+DNN Activation Function
+Relu
+Loss Function
+Cross-Entropy Loss
+Regularization (µ)
+0.01
+Distillation Weight (λ)
+0.5
+Proximal Term Weight (β)
+0.1
+Temperature
+3
+Local Epoch
+2
+Communication Round
+40
+4.2. Evaluation Metrics
+To comprehensively and scientifically evaluate the performance of FD-IDS, selecting
+appropriate evaluation metrics is particularly crucial. Well-chosen metrics not only quantify
+the classification capability of the model effectively, but also reveal the system’s applicability
+in real-world scenarios from multiple perspectives. This study utilized a confusion matrix,
+as shown in Table 4, to describe classification outcomes. Based on this, the following four
+key evaluation metrics were defined.
+Table 4. Confusion matrix.
+Predicted Attack
+Predicted Normal
+Actual Attack
+True Positive (TP)
+False Negative (FN)
+Actual Normal
+False Positive (FP)
+True Negative (TN)
+Accuracy =
+TP + TN
+TP + TN + FP + FN ,
+(8)
+Precision =
+TP
+TP + FP,
+(9)
+Recall =
+TP
+TP + FN ,
+(10)
+F1 −score = 2 × Precision × Recall
+Precision + Recall ,
+(11)

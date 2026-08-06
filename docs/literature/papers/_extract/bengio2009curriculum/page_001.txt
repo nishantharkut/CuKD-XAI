@@ -1,0 +1,87 @@
+Curriculum Learning
+Yoshua Bengio1
+Yoshua.Bengio@umontreal.ca
+J´erˆome Louradour1,2
+jeromelouradour@gmail.com
+Ronan Collobert3
+ronan@collobert.com
+Jason Weston3
+jasonw@nec-labs.com
+(1) U. Montreal, P.O. Box 6128, Montreal, Canada (2) A2iA SA, 40bis Fabert, Paris, France
+(3) NEC Laboratories America, 4 Independence Way, Princeton, NJ, USA
+Abstract
+Humans and animals learn much better when
+the examples are not randomly presented but
+organized in a meaningful order which illus-
+trates gradually more concepts, and gradu-
+ally more complex ones.
+Here, we formal-
+ize such training strategies in the context
+of machine learning, and call them “curricu-
+lum learning”. In the context of recent re-
+search studying the diﬃculty of training in
+the presence of non-convex training criteria
+(for deep deterministic and stochastic neu-
+ral networks), we explore curriculum learn-
+ing in various set-ups. The experiments show
+that signiﬁcant improvements in generaliza-
+tion can be achieved. We hypothesize that
+curriculum learning has both an eﬀect on the
+speed of convergence of the training process
+to a minimum and, in the case of non-convex
+criteria, on the quality of the local minima
+obtained: curriculum learning can be seen
+as a particular form of continuation method
+(a general strategy for global optimization of
+non-convex functions).
+1. Introduction
+Humans need about two decades to be trained as
+fully functional adults of our society. That training
+is highly organized, based on an education system and
+a curriculum which introduces diﬀerent concepts at
+diﬀerent times, exploiting previously learned concepts
+to ease the learning of new abstractions. By choos-
+ing which examples to present and in which order to
+present them to the learning system, one can guide
+Appearing in Proceedings of the 26 th International Confer-
+ence on Machine Learning, Montreal, Canada, 2009. Copy-
+right 2009 by the author(s)/owner(s).
+training and remarkably increase the speed at which
+learning can occur. This idea is routinely exploited in
+animal training where it is called shaping (Skinner,
+1958; Peterson, 2004; Krueger & Dayan, 2009).
+Previous research (Elman, 1993; Rohde & Plaut, 1999;
+Krueger & Dayan, 2009) at the intersection of cogni-
+tive science and machine learning has raised the follow-
+ing question: can machine learning algorithms beneﬁt
+from a similar training strategy? The idea of training a
+learning machine with a curriculum can be traced back
+at least to Elman (1993). The basic idea is to start
+small, learn easier aspects of the task or easier sub-
+tasks, and then gradually increase the diﬃculty level.
+The experimental results, based on learning a simple
+grammar with a recurrent network (Elman, 1993), sug-
+gested that successful learning of grammatical struc-
+ture depends, not on innate knowledge of grammar,
+but on starting with a limited architecture that is at
+ﬁrst quite restricted in complexity, but then expands
+its resources gradually as it learns. Such conclusions
+are important for developmental psychology, because
+they illustrate the adaptive value of starting, as hu-
+man infants do, with a simpler initial state, and then
+building on that to develop more and more sophis-
+ticated representations of structure.
+Elman (1993)
+makes the statement that this strategy could make
+it possible for humans to learn what might otherwise
+prove to be unlearnable. However, these conclusions
+have been seriously questioned in Rohde and Plaut
+(1999). The question of guiding learning of a recurrent
+neural network for learning a simple language and in-
+creasing its capacity along the way was recently revis-
+ited from the cognitive perspective (Krueger & Dayan,
+2009), providing evidence for faster convergence using
+a shaping procedure. Similar ideas were also explored
+in robotics (Sanger, 1994), by gradually making the
+learning task more diﬃcult.
+We want to clarify when and why a curriculum or

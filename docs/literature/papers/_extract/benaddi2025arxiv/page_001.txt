@@ -1,0 +1,91 @@
+Lightweight Intrusion Detection in IoT via
+SHAP-Guided Feature Pruning and
+Knowledge-Distilled Kronecker Networks
+Hafsa BENADDI∗, Mohammed JOUHARI§, Nouha LAAMECH¶, Anas MOTII¶, Khalil IBRAHIMI§
+∗LSIA Laboratory, Moroccan School of Engineering Sciences (EMSI), Tanger, Morocco
+§ Laboratory of Research in Informatics (LaRI), Faculty of Sciences, Ibn Tofail University, Kenitra, Morocco
+¶ College of Computing, University Mohammed VI Polytechnic, Benguerir, Morocco
+Emails: h.benaddi@emsi.ma, {mohammed.jouhari1, khalil.ibrahimi}@uit.ac.ma, {nouha.laamech, anas.motii}@um6p.ma
+Abstract—The widespread deployment of Internet of Things
+(IoT) devices requires intrusion detection systems (IDS) with high
+accuracy while operating under strict resource constraints. Con-
+ventional deep learning IDS are often too large and computation-
+ally intensive for edge deployment. We propose a lightweight IDS
+that combines SHAP-guided feature pruning with knowledge-
+distilled Kronecker networks. A high-capacity teacher model
+identifies the most relevant features through SHAP explanations,
+and a compressed student leverages Kronecker-structured layers
+to minimize parameters while preserving discriminative inputs.
+Knowledge distillation transfers softened decision boundaries
+from teacher to student, improving generalization under com-
+pression. Experiments on the TON IOT dataset show that the
+student is nearly three orders of magnitude smaller than the
+teacher yet sustains macro-F1 above 0.986 with millisecond-level
+inference latency. The results demonstrate that explainability-
+driven pruning and structured compression can jointly enable
+scalable, low-latency, and energy-efficient IDS for heterogeneous
+IoT environments.
+Index Terms—Intrusion Detection System, Internet of Things
+Security, SHAP Feature Selection, Knowledge Distillation, Kro-
+necker Networks, Edge Computing
+I. INTRODUCTION
+The rapid expansion of the Internet of Things (IoT) has
+transformed industrial, domestic, and public domains through
+ubiquitous sensing and automation. This growth, however,
+introduces new security vulnerabilities, as low-power IoT de-
+vices typically operate under severe constraints on processing,
+memory, and energy, and are often deployed in unattended
+environments. Conventional security mechanisms relying on
+complex models and frequent updates are unsuitable for such
+conditions. Intrusion detection systems (IDS) remain a critical
+line of defence, yet their deployment in IoT networks is
+restricted by requirements for scalability across heterogeneous
+devices, real-time responsiveness, and minimal energy con-
+sumption without compromising accuracy [1].
+Recent studies highlight that traditional and deep learning
+IDS, when shifted from centralized high-performance servers
+This work has been published in the proceedings of the 2025 8th Interna-
+tional Conference on Advanced Communication Technologies and Networking
+(CommNet).
+to edge devices, suffer from excessive memory and compu-
+tational demands. Such models cause high inference delays
+and energy costs, making them impractical for battery-powered
+nodes. This has motivated research into lightweight IDS archi-
+tectures capable of balancing efficiency and accuracy [2]. Ap-
+proaches based on model compression, including quantisation
+and knowledge distillation, demonstrate that significant param-
+eter reduction can be achieved while sustaining competitive
+accuracy. Similarly, ensemble methods have improved robust-
+ness and scalability in complex traffic scenarios [3]. However,
+existing evaluations infrequently report deployment-oriented
+metrics such as CPU load or device-level energy consumption
+[4], leaving the interaction among latency, scalability, and
+detection performance not sufficiently understood.
+This paper addresses these challenges by proposing a
+latency-sensitive and energy-efficient IDS framework tailored
+to heterogeneous IoT environments. The design employs a
+teacher–student paradigm in which a high-capacity teacher
+model computes Shapley additive (SHAP) feature importances
+to guide feature pruning, while a Kronecker-compressed stu-
+dent network is trained via knowledge distillation to mimic
+teacher decision boundaries with drastically fewer parameters.
+By aligning model complexity with resource constraints, the
+framework explicitly balances latency, accuracy, and energy
+consumption. The system is evaluated on the public TON IOT
+dataset, and experiments on representative hardware confirm
+that the proposed student achieves substantial reductions in
+model size and inference latency with minimal accuracy degra-
+dation.To support reproducibility and comparative research,
+the full implementation and dataset splits are released as open
+source.
+The main contributions are as follows:
+• Identification of deployment challenges in IoT IDS, with
+emphasis on trade-offs among scalability, latency, energy
+efficiency, and accuracy [2].
+• A hierarchical teacher–student IDS framework inte-
+grating SHAP-guided feature pruning with Kronecker-
+compressed layers for resource-adaptive operation.
+• Comprehensive evaluation on the TON IOT dataset and
+edge hardware, demonstrating that the student achieves
+979-8-3315-5781-2/25/$31.00 ©2025 IEEE
+arXiv:2512.19488v1  [cs.LG]  22 Dec 2025

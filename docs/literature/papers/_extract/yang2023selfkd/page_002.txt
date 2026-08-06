@@ -1,0 +1,114 @@
+the training phase and improve the performance of lightweight
+models succinctly and effectively without heavy networks.
+Based on the above analysis, we propose LNet-SKD for
+NID, which is a lightweight approach composed of LNet
+and SKD. LNet is a succinct but effective model stacked
+by several lightweight DeepMax blocks for the feature pro-
+cess. Furthermore, batch-wise SKD is employed to provide
+the regularization of training consistency, which improves
+the detection capability significantly. Compared with existing
+methods, LNet-SKD achieves superior performance with the
+trade-off between efficiency and accuracy (See Fig. 1). Our
+contributions are summarized as follows:
+1) We propose the DeepMax with a meticulous design
+which is composed of MFM and DSConv, to reduce
+the model complexity while achieving efficient feature
+extraction and compact representation.
+2) We propose the LNet by stacking DeepMax blocks for
+NID, which realizes satisfactory performance with lower
+model storage and computational cost.
+3) We utilize SKD to guide the LNet to obtain more
+instantaneous and coherent knowledge. To the best of
+our knowledge, we are the first to use SKD in NID to
+cover the performance drop incurred by lightweight.
+4) Extensive experiments have shown that our LNet-SKD
+has significant advantages in accuracy and efficiency
+on challenging NSL-KDD and CICIDS-2017 datasets
+compared to state-of-the-art methods.
+II. RELATED WORK
+Network intrusion detection is one of the most effective
+approaches for network security defense. Traditional IDSs are
+based on fixed or dynamic rules to detect network attacks,
+which are only suitable for relatively simple scenarios and are
+difficult to deal with unknown security risks [16]. With the
+development of Machine Learning (ML), almost all related
+algorithms have been applied to NID, such as KNN [17], SVM
+[18], and LightGBM [19]. However, they can no longer resist
+the increasingly complex and diverse network threats due to
+limited learning ability [20].
+In recent years, DL has shown promising potential in
+learning inherent rules and the representation of samples and
+has been used to extract features from abnormal traffic in an
+end-to-end manner. [4] proposed a deep learning approach
+for intrusion detection using the Convolution Neural Network
+(CNN). The proposed method effectively recognized abnormal
+traffic with higher accuracy than ML-based IDSs. However, it
+performed poorly against the minority classes in multi-class
+classification. Imrana et al. [5] proposed a bidirectional Long-
+Short-Term-Memory (BiDLSTM) based intrusion detection
+system to improve the detection rate of minority classes.
+D’Angelo et al. [21] embedded the autoencoder into the con-
+volution neural network and recurrent neural network to obtain
+elicit relevant knowledge about the relations existing among
+the spatial features and temporal features, which are used to
+help improve the performance for network traffic classification.
+Belarbi et al. [6] developed a multi-class classification IDS
+based on Deep Belief Network (DBN) by stacking multiple
+Restricted Boltzmann Machines (RBMs), and its performance
+has been verified with the CICIDS2017 dataset.
+Complex networks provide high detection accuracy for IDS
+but bring challenges to deployment with resource-constrained
+devices. To address this problem, [7] designed a lighter model
+by modifying the existing paradigm, which results in a loss
+of detection rate. Another popular solution is knowledge
+distillation. Wang et al. [14] proposed a knowledge distillation
+model to reduce the complexity of the model. Although the
+teacher model does improve the performance of the student
+model, it is challenging to design appropriate teacher and
+student models. Instead, our approach does not require a
+teacher model, distillation is conducted batch-wise, in which
+soft knowledge is propagated batch by batch.
+III. THE PROPOSED APPROACH
+In this section, we present a detailed discussion of the
+proposed lightweight self-knowledge distillation approach for
+network intrusion detection. Fig. 2(a) displays the frame-
+work of our approach, which comprises two essential parts.
+First, we propose the LNet by stacking lightweight DeepMax
+blocks which are carefully designed for feature extraction
+and selection without redundant parameters. LNet is able to
+extract the robust feature representation of intrusion behavior
+with lower computation overhead. Second, batch-wise self-
+knowledge distillation is introduced to instruct the LNet to
+acquire instantaneous and effective knowledge.
+A. Preliminary
+Given an M-classes labeled dataset containing N train-
+ing instances, D = {(x1, y1) , (x2, y2) , . . . , (xN, yN)}. Let
+Bt = {(xt
+1, yt
+1) , (xt
+2, yt
+2) , . . . , (xt
+n, yt
+n)} be a batch set of
+tth iteration during the training process, where n ≪N.
+Furthermore, we define a base NID model as Mθ, which is
+parameterized by θ. For each input sample (x, y), the encoder
+extracts the feature representation F ∈RH×W , where W and
+H denote the spatial width and height of the corresponding
+feature map. We note the output logits z = M(x|θ) ∈RM. In
+this paper, both teacher and student adopt the same architecture
+Mθ for self-knowledge distillation.
+B. LNet
+In NID, CNNs have been widely used due to their excellent
+feature extraction ability. Our motivation comes from the
+observation that the CNN-based models proposed for NID
+have constantly been growing larger, which hinders the deploy-
+ment of edge devices. Hence, we propose an efficient feature
+processing block DeepMax and further build the lightweight
+LNet model by stacking it, as shown in Fig. 2. Under this
+structure, the computing overhead can be significantly reduced,
+and extract features effectively with generalization.
+The core component of LNet is the DeepMax block,
+which is based on Depthwise Separable Convolution (DSConv)
+layer and Max-Feature-Map (MFM) layer. As illustrated
+in Fig. 2(b), DSConv factorizes the standard convolution

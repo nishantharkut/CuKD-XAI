@@ -1,0 +1,48 @@
+Published in Transactions on Machine Learning Research (06/2024)
+on our work has attempted to understand the sources of these disagreements. For example, (Han et al.,
+2022) extended our work to demonstrate that state-of-the-art explanation methods all perform local linear
+approximations of underlying models but do so in different ways (e.g., using different loss functions and
+over different local neighborhoods). This can be a source of disagreement between the explanation methods.
+Furthermore, our results raise the question of how to resolve explanation disagreements when they occur.
+While this remains an active area of research, one approach to selecting among explanation methods is to
+first define the desired goal of an explanation and then choose the method that best meets this goal. For
+example, follow-up work by Han et al. (2022) defines local function approximation as the desired goal of an
+explanation, develops a theoretical framework to analyze how faithfully each method performs local function
+approximation and advises selecting the method that performs it most faithfully over a given input space.
+Given the high-stakes applications of model explanations, using a principled and systematic approach to select
+among explanation methods is preferable to the ad hoc strategies currently employed by practitioners. Finally,
+the extent of explanation disagreement would also depend on the specific metric being used to measure the
+disagreement. For instance, while our results broadly demonstrate a moderate to high degree of disagreement
+among all pairs of explanations across all data modalities, we observe that the extent of disagreement is
+slightly lower when we consider variants of the proposed metrics. See Appendix D.2 for additional details.
+Acknowledgements
+We thank the anonymous reviewers for their insightful comments and feedback on this paper. We also thank
+Javin Pombra for assisting with preliminary results during the initial phases of this study. Lastly, we are very
+grateful to Ana Lucic and Maurits J. R. Bleeker for pointing out the omission of a relevant study and helping
+us improve the contextualization of this work.
+References
+Antonio Gulli corpus of news articles.
+http://groups.di.unipi.it/~gulli/AG_corpus_of_news_
+articles.html, 2005. Accessed: 2021-01-20.
+Pascal Visual Object Classes 2012. http://host.robots.ox.ac.uk/pascal/VOC/index.html/, 2012. Ac-
+cessed: 2021-01-20.
+ImageNet. https://www.image-net.org/challenges/LSVRC/index.php, 2015. Accessed: 2021-01-20.
+Julius Adebayo, Justin Gilmer, Michael Muelly, Ian Goodfellow, Moritz Hardt, and Been Kim. Sanity checks
+for saliency maps. In Advances in Neural Information Processing Systems, 2018.
+Chirag Agarwal, Eshika Saxena, Satyapriya Krishna, Martin Pawelczyk, Nari Johnson, Isha Puri, Marinka
+Zitnik, and Himabindu Lakkaraju. OpenXAI: Towards a transparent evaluation of model explanations. 36th
+Conference on Neural Information Processing Systems (NeurIPS 2022) Track on Datasets and Benchmarks,
+2022.
+Sushant Agarwal, Shahin Jabbari, Chirag Agarwal, Sohini Upadhyay, Zhiwei Steven Wu, and Himabindu
+Lakkaraju. Towards the unification and robustness of perturbation and gradient based explanations. In
+International Conference on Machine Learning, 2021.
+Ulrich Aivodji, Hiromi Arai, Olivier Fortineau, Sébastien Gambs, Satoshi Hara, and Alain Tapp. Fairwashing:
+the risk of rationalization. In International Conference on Machine Learning, 2019.
+David Alvarez-Melis and Tommi S Jaakkola. On the robustness of interpretability methods. arXiv preprint
+arXiv:1806.08049, 2018.
+Antonio Jesus Banegas-Luna, Carlos Martınez-Cortes, and Horacio Perez-Sanchez. Fighting the disagreement
+in explainable machine learning with consensus. arXiv preprint arXiv:2307.01288, 2023.
+Gagan Bansal, Tongshuang Wu, Joyce Zhou, Raymond Fok, Besmira Nushi, Ece Kamar, Marco Tulio Ribeiro,
+and Daniel Weld. Does the whole exceed its parts? the effect of ai explanations on complementary team
+performance. In Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems, 2021.
+15

@@ -1,0 +1,81 @@
+4
+Journal of Sensors
+Monitoring
+Analysis
+Detection
+Logging
+Alarming
+Prevention
+Figure 2: IDS components.
+The other three components of IDS consist of actions that
+can be taken, either one, two, or all of them [32]:
+(4) Logging: storing each packet in a log file so that secu-
+rity administrator can use it for later analysis.
+(5) Alarming: a responding generating component in
+case of detection of an intrusion. The response
+may trigger an alarm to announce the misbehaving
+node(s).
+(6) Prevention: an advanced step that can be added to IDS
+to enable it to take an action to prevent dealing with an
+attack once detected. This can be done, for example,
+by excluding harmful nodes from the network [30].
+Designing a specialized dataset for WSN to achieve better
+detection and classification of DoS attacks is the main aim of
+this paper. The authors in [30] presented current IDSs and a
+comparison among them. The authors revised mechanisms,
+attacks, and evaluation metrics but without mentioning the
+use of specialized datasets. The comparison depended on the
+type of IDSs, whether it is anomaly-based, signature-based,
+hybrid, or cross layer.
+Knowledge Discovery and Data Mining Tools Competi-
+tion (KDD) dataset [33] was constructed for Local Area Net-
+work (LAN). KDD is not specialized for wireless in general
+and WSN in particular, even though many researchers have
+used it to deal with fraud and intrusion detection [34].
+Anomaly, signature, and hybrid-based IDSs have been
+reviewed in [35]. Mainly KDDCup-99 was used in these IDSs.
+For example, in the eight studied hybrid-based IDSs, four of
+them have used KDDCup-99 and the rest have used real data
+samples.
+Other researches which also considered KDD in their
+analysis and classifications can be found in [36–38].
+It can be concluded that there is no specialized dataset
+for WSN that has been reported in the literature for detecting
+and classifying as many DoS as possible. Therefore, there is
+an urgent need to define a labelled, specialized dataset that
+successfully characterizes WSN to help in studying normal
+and anomaly behaviors. The construction and testing of such
+dataset are proposed in this paper.
+3. LEACH Mathematical Analysis
+To ensure the correctness of the constructed dataset called
+WSN-DS, a mathematical analysis has been conducted to all
+LEACH phases and then has been compared to the results of
+simulation in case of normal situation when there is no DoS
+attack. The terms used in LEACH’s mathematical model are
+listed as follows:
+LEACH Mathematical Model Terms
+𝑁: number of sensor nodes in WSN
+S𝑖: senor node 𝑖
+NC: number of CHs
+CM: number of members within a cluster
+ADV-CH-SENT: number of advertisement messages
+sent by CH
+ADV-CH-RCVD: number of advertisement messages
+received by sensor nodes
+JOIN-REQ-SENT: number of join request messages
+sent by sensor nodes
+JOIN-REQ-RCVD: number of join request messages
+received by CHs
+TDMA-SENT: number of TDMA schedules sent by
+CHs
+TDMA-RCVD: number of TDMA schedules received
+by sensor nodes
+NO-DATA-PKT: number of data packets received by
+a CH
+3.1. Advertisement Phase. Theorem 1 calculates the number
+of advertisement messages that are sent by CHs and received
+by CMs in a specific round as follows.
+Theorem 1. In the advertisement phase of LEACH, maximum
+ADV-CH-SENT in a specific round is 𝑁𝐶and the maximum
+ADV-CH-RCVD is (𝑁−1) ∗𝑁𝐶.
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

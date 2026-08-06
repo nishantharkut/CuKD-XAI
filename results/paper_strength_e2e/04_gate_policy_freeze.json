@@ -1,0 +1,59 @@
+{
+  "decision": "B_measured_conversion_bound",
+  "status": "frozen_for_deployment_unit",
+  "applies_to": "deployment_clean_seed42 RF-KD A/B fixed-point + HIL package",
+  "does_not_apply_to": "claiming multi-seed seed-42 cell equals deployment weights",
+  "strict_code_gate_maximum_macro_f1_drop": 0.01,
+  "published_measured_gate_maximum_macro_f1_drop": 0.03,
+  "rationale": "Measured float-to-fixed macro-F1 drops under train-only deployment PTQ are ~0.024 (A) and ~0.027 (B), with fixed-vs-FP32 prediction agreement >= 0.99. QAT reduced drop but hurt absolute A F1. Publishing a measured 0.03 bound is honest; claiming 0.01-strict would be false for these weights.",
+  "students": {
+    "A": {
+      "fp32_macro_f1": 0.9485087159320515,
+      "fixed_macro_f1": 0.9244157867972325,
+      "macro_f1_drop": 0.024092929134819085,
+      "fixed_vs_fp32_agreement": 0.9919395017793594,
+      "passes_0_01": false,
+      "passes_0_03": true
+    },
+    "B": {
+      "fp32_macro_f1": 0.9449299339062804,
+      "fixed_macro_f1": 0.9179877463612371,
+      "macro_f1_drop": 0.026942187545043295,
+      "fixed_vs_fp32_agreement": 0.9904626334519573,
+      "passes_0_01": false,
+      "passes_0_03": true
+    }
+  },
+  "hil_deployment_unit": {
+    "esp32c3_A": {
+      "macro_f1": 0.9244157867972325,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9919395017793594,
+      "latency_us_mean": 116.51985765124554,
+      "n": 56200
+    },
+    "esp32c3_B": {
+      "macro_f1": 0.9179877463612371,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9904626334519573,
+      "latency_us_mean": 320.27793594306047,
+      "n": 56200
+    },
+    "arduino_r4_A": {
+      "macro_f1": 0.9244157867972325,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9919395017793594,
+      "latency_us_mean": 301.4711209964413,
+      "n": 56200
+    },
+    "arduino_r4_B": {
+      "macro_f1": 0.9179877463612371,
+      "mcu_vs_fixed": 1.0,
+      "mcu_vs_fp32": 0.9904626334519573,
+      "latency_us_mean": 791.4001423487545,
+      "n": 56200
+    }
+  },
+  "future_option_A": "Improve PTQ/QAT to pass 0.01 without absolute F1 collapse, then re-export and re-HIL",
+  "future_option_C": "If paper requires HIL of multi-seed pipeline seed-42 weights, export those checkpoints instead"
+}

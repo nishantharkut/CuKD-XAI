@@ -1,0 +1,73 @@
+Sensors 2025, 25, 4309
+26 of 31
+Additionally, Benameur et al. [33] combined FL with KD techniques, reporting accuracies
+of 82.4% with a CNN-LSTM model, as well as 82.35% and 82.09% for the CNN and DNN
+models, respectively. In contrast to these methods, our approach focuses on performance
+optimization in Non-IID scenarios. By incorporating a proximal term and KD, we improve
+the model’s accuracy under complex data distribution conditions.
+However, we acknowledge that, although our study and the aforementioned meth-
+ods were conducted on the same dataset, the direct performance comparisons presented
+in Table 15 should be interpreted with caution. This is primarily due to notable differ-
+ences in experimental configurations across studies, such as the simulation of Non-IID
+conditions, the number of clients, and the data preprocessing procedures. These vari-
+ations can substantially influence the final performance metrics. Therefore, we do not
+consider the performance advantages of our method in Table 15 as definitive evidence of
+superiority over existing approaches, but rather as indicative results under the utilized
+experimental settings.
+Table 15. Performance comparison of FD-IDS and existing methods.
+Ref
+Algorithm
+Data Distribution
+Accuracy
+[26]
+DNN
+IID
+93.89
+Non-IID
+91.74
+[27]
+CNN
+IID
+91.27
+Non-IID
+90.73
+RNN
+IID
+92.37
+Non-IID
+91.87
+[28]
+F-BIDS
+Ø
+89.91
+[33]
+DNN
+Ø
+82.09
+CNN
+Ø
+82.35
+CNN-LSTM
+Ø
+82.4
+Our method
+FD-IDS (θ = 1)
+Low Non-IID
+94.82
+FD-IDS (θ = 0.1)
+High Non-IID
+93.86
+Ø indicates that the corresponding study did not mention this information.
+To further validate the effectiveness of FD-IDS, we conducted performance compar-
+isons with existing approaches under the same experimental conditions on the Edge-IIoT
+and N-BaIoT datasets. Table 16 presents the experimental results on Edge-IIoT, comparing
+the performance of the proposed FD-IDS with that of FedAvg-only, FedProx-only, and
+SIM-FED under the settings of θ = 1 and θ = 0.1. It is important to note that methods
+such as FedAvg and FedProx do not incorporate KD techniques. The experimental results
+demonstrate that, under low-Non-IID conditions, FD-IDS outperforms the compared ap-
+proaches in terms of accuracy and F1 score. Under high-Non-IID conditions, the advantage
+of FD-IDS becomes even more pronounced as it outperforms all other methods across
+all evaluation metrics. Similarly, Table 17 presents the experimental results on N-BaIoT,
+revealing a similar trend. When θ = 1, the FD-IDS method outperforms the compared
+methods in terms of accuracy and F1 score. When θ = 0.1, FD-IDS surpasses all other
+methods across all evaluation metrics.

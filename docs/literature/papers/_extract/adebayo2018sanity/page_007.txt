@@ -1,0 +1,28 @@
+Inception v3 - Imagenet
+CNN - Fashion MNIST
+MLP - MNIST
+Rank 
+Correlation 
+ABS
+Rank 
+Correlation 
+No ABS
+Figure 4: Cascading Randomization. Successive re-initialization of weights starting from top layers
+for Inception v3 on ImageNet, CNN on Fashion MNIST, and MLP on MNIST. In all plots, y axis
+is the rank correlation between original explanation and the randomized explanation derived for
+randomization up to that layer/block, while the x axis corresponds to the layers/blocks of the DNN
+starting from the output layer. The black dashed line indicates where successive randomization of
+the network begins, which is at the top layer. Top: Spearman Rank correlation with absolute values,
+Bottom: Spearman Rank correlation without absolute values.
+SSIM: Inception v3 - ImageNet
+HOGs Similarity: Inception v3 - ImageNet
+Figure 5: Cascading Randomization. Figure showing SSIM and HOGs similarity between original
+input masks and the masks generated as the Inception v3 is randomized in a cascading manner.
+For gradient⊙input and integrated gradients, we also observe visual changes in the masks obtained,
+particularly, in the sign of the attributions. Despite this, the input structure is still clearly prevalent in
+the masks. The effect observed is particularly prominent for sparse inputs like MNIST where most of
+the input is zero; however, we observe similar effects for Fashion MNIST (see Appendix), which is
+less sparse. With visual inspection alone, it is not inconceivable that an analyst could confuse the
+integrated gradient and gradient⊙input masks derived from a network trained on random labels as
+legitimate. We clarify these ﬁndings and address implications in the discussion section.
+7

@@ -1,0 +1,50 @@
+Page 10 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+Comparison with quantization and pruning methods
+In this section, we present the results of the comparison between DiXtill and two 
+alternative methods for model compression applied to the pre-trained FinBERT 
+model, namely dynamic post-training quantization (PTQ), and attention head prun-
+ing (AHP). Regarding quantization, the weights of the teacher model are quantized 
+using static int8, while activations are dynamically quantized (per batch) to int8. 
+For pruning we followed the methodology outlined in [24], which involves pruning 
+multiple heads from the entire model within each layer. Specifically, we analyzed 
+the model performance by selectively masking each attention head. Heads whose 
+removal resulted in the most significant drop in classification performance were 
+retained, while those whose masking did not affect performance were deemed redun-
+dant and pruned accordingly [24]. For the sake of simplicity, we initially discuss the 
+Fig. 2  Classification performance comparison with other knowledge distillation methods. Dotted lines 
+indicate the upper and lower bounds achieved by the teacher (in green) and the student without distillation 
+(in black), respectively
+Table 2  Performance achieved by DiXtill at different temperature values
+Bolded values indicate the best temperature
+Metric
+Temperature
+τ = 1
+τ = 2
+τ = 3
+τ = 4
+τ = 5
+Accuracy
+0.834
+0.835
+0.838
+0.840
+0.843
+Macro F1
+0.775
+0.778
+0.782
+0.779
+0.789
+Matthews corr.
+0.671
+0.678
+0.677
+0.679
+0.688
+Macro AUC​
+0.924
+0.923
+0.925
+0.926
+0.926

@@ -1,0 +1,1143 @@
+
+
+===== PAGE 1 =====
+
+A Lightweight Approach for Network Intrusion
+Detection based on Self-Knowledge Distillation
+Shuo Yang∗†, Xinran Zheng∗†, Zhengzhuo Xu∗, and Xingjun Wang∗‡
+∗Tsinghua Shenzhen International Graduate School, Tsinghua University, Shenzhen, China
+Abstract—Network Intrusion Detection (NID) works as a ker-
+nel technology for the security network environment, obtaining
+extensive research and application. Despite enormous efforts by
+researchers, NID still faces challenges in deploying on resource-
+constrained devices. To improve detection accuracy while reduc-
+ing computational costs and model storage simultaneously, we
+propose a lightweight intrusion detection approach based on
+self-knowledge distillation, namely LNet-SKD, which achieves
+the trade-off between accuracy and efficiency. Specifically, we
+carefully design the DeepMax block to extract compact repre-
+sentation efficiently and construct the LNet by stacking DeepMax
+blocks. Furthermore, considering compensating for performance
+degradation caused by the lightweight network, we adopt batch-
+wise self-knowledge distillation to provide the regularization
+of training consistency. Experiments on benchmark datasets
+demonstrate the effectiveness of our proposed LNet-SKD, which
+outperforms existing state-of-the-art techniques with fewer pa-
+rameters and lower computation loads.
+Index Terms—Intrusion detection, deep learning, lightweight
+network, self-knowledge distillation.
+I. INTRODUCTION
+Accompanied by the rapid development of network tech-
+nology, various network attacks emerge with more serious and
+huge threats [1]. As a response, Network Intrusion Detection
+(NID) plays an essential role in providing the desired security
+by constantly monitoring malicious and suspicious activities in
+network traffic. Nowadays, Intrusion Detection Systems (IDSs)
+have been widely used in military, medical, transportation, IoT,
+industrial control systems, and other fields [2].
+IDSs apply two types of detection manners, signature-based
+and anomaly-based [3]. The signature-based NID establishes
+the knowledge base by state modeling or string matching in
+advance and detects abnormal behavior by matching the data
+flow with the existing signature. Signature-based NID shows
+quite well performance on known attacks while failing to deal
+with attacks that are not in the knowledge base. Compared with
+it, anomaly-based NID has the ability to recognize unknown
+attacks by measuring the deviation between the detected
+activity and normal ones, which is vigorously developing.
+With the success of Deep Learning (DL), numerous DL-
+based intrusion detection models [4]–[6] have been proposed
+and promote the accuracy and robustness of intrusion detection
+by a large margin. Despite the satisfactory accuracy these
+models achieved, most of them are difficult to be implemented
+on resource-constraint devices as high computational overhead
+†Contributed Equally
+‡Corresponding Author
+Fig. 1. F1 score v.s. the number of model parameters on NSL-KDD datasets.
+Each data point is visualized as a circle whose radius is proportional to
+log(p), where p is the model’s FLOPs. Notice that LNet-SKD achieves the
+best performance with satisfying model parameters and FLOPs.
+and large model size. For example, DBN-based methods and
+RNN-based methods need more parameters resulting in the
+burden of storage (See Fig. 1).
+Several schemes have been proposed to lighten the model
+size for NID [7]–[9], where [7] designed a lightweight network
+using depthwise convolution instead of standard convolution.
+However, the reduction of network complexity is at the ex-
+pense of ignoring the correlation of channels, which leads
+to a decline in detection accuracy. In contrast, Depthwise
+Separable Convolution (DSConv) [10] is more wildly used
+that introduces point-wise convolution to combine features be-
+tween channels. Furthermore, motivated by the observation of
+the feature combination and selection ability of Max-Feature-
+Map (MFM) [11], we present a simple yet novel network
+structure named DeepMax block composed of DSConv and
+MFM, which allows a NID model to reinforce representation
+learning with lower computational cost.
+To compensate for the performance degradation caused by
+the lightweight, an intuitive solution uses Knowledge Distil-
+lation (KD) [12]–[14] to optimize the shallow student models
+by learning knowledge extracted from large and deep teacher
+models. However, we notice that student performance is highly
+dependent on the teacher models, which requires extra network
+design and results in additional training burdens to NID. To
+ameliorate it, we apply Self-Knowledge Distillation (SKD)
+[15] to obtain the instantaneous knowledge generated during
+arXiv:2307.10191v1  [cs.CR]  9 Jul 2023
+
+
+
+===== PAGE 2 =====
+
+the training phase and improve the performance of lightweight
+models succinctly and effectively without heavy networks.
+Based on the above analysis, we propose LNet-SKD for
+NID, which is a lightweight approach composed of LNet
+and SKD. LNet is a succinct but effective model stacked
+by several lightweight DeepMax blocks for the feature pro-
+cess. Furthermore, batch-wise SKD is employed to provide
+the regularization of training consistency, which improves
+the detection capability significantly. Compared with existing
+methods, LNet-SKD achieves superior performance with the
+trade-off between efficiency and accuracy (See Fig. 1). Our
+contributions are summarized as follows:
+1) We propose the DeepMax with a meticulous design
+which is composed of MFM and DSConv, to reduce
+the model complexity while achieving efficient feature
+extraction and compact representation.
+2) We propose the LNet by stacking DeepMax blocks for
+NID, which realizes satisfactory performance with lower
+model storage and computational cost.
+3) We utilize SKD to guide the LNet to obtain more
+instantaneous and coherent knowledge. To the best of
+our knowledge, we are the first to use SKD in NID to
+cover the performance drop incurred by lightweight.
+4) Extensive experiments have shown that our LNet-SKD
+has significant advantages in accuracy and efficiency
+on challenging NSL-KDD and CICIDS-2017 datasets
+compared to state-of-the-art methods.
+II. RELATED WORK
+Network intrusion detection is one of the most effective
+approaches for network security defense. Traditional IDSs are
+based on fixed or dynamic rules to detect network attacks,
+which are only suitable for relatively simple scenarios and are
+difficult to deal with unknown security risks [16]. With the
+development of Machine Learning (ML), almost all related
+algorithms have been applied to NID, such as KNN [17], SVM
+[18], and LightGBM [19]. However, they can no longer resist
+the increasingly complex and diverse network threats due to
+limited learning ability [20].
+In recent years, DL has shown promising potential in
+learning inherent rules and the representation of samples and
+has been used to extract features from abnormal traffic in an
+end-to-end manner. [4] proposed a deep learning approach
+for intrusion detection using the Convolution Neural Network
+(CNN). The proposed method effectively recognized abnormal
+traffic with higher accuracy than ML-based IDSs. However, it
+performed poorly against the minority classes in multi-class
+classification. Imrana et al. [5] proposed a bidirectional Long-
+Short-Term-Memory (BiDLSTM) based intrusion detection
+system to improve the detection rate of minority classes.
+D’Angelo et al. [21] embedded the autoencoder into the con-
+volution neural network and recurrent neural network to obtain
+elicit relevant knowledge about the relations existing among
+the spatial features and temporal features, which are used to
+help improve the performance for network traffic classification.
+Belarbi et al. [6] developed a multi-class classification IDS
+based on Deep Belief Network (DBN) by stacking multiple
+Restricted Boltzmann Machines (RBMs), and its performance
+has been verified with the CICIDS2017 dataset.
+Complex networks provide high detection accuracy for IDS
+but bring challenges to deployment with resource-constrained
+devices. To address this problem, [7] designed a lighter model
+by modifying the existing paradigm, which results in a loss
+of detection rate. Another popular solution is knowledge
+distillation. Wang et al. [14] proposed a knowledge distillation
+model to reduce the complexity of the model. Although the
+teacher model does improve the performance of the student
+model, it is challenging to design appropriate teacher and
+student models. Instead, our approach does not require a
+teacher model, distillation is conducted batch-wise, in which
+soft knowledge is propagated batch by batch.
+III. THE PROPOSED APPROACH
+In this section, we present a detailed discussion of the
+proposed lightweight self-knowledge distillation approach for
+network intrusion detection. Fig. 2(a) displays the frame-
+work of our approach, which comprises two essential parts.
+First, we propose the LNet by stacking lightweight DeepMax
+blocks which are carefully designed for feature extraction
+and selection without redundant parameters. LNet is able to
+extract the robust feature representation of intrusion behavior
+with lower computation overhead. Second, batch-wise self-
+knowledge distillation is introduced to instruct the LNet to
+acquire instantaneous and effective knowledge.
+A. Preliminary
+Given an M-classes labeled dataset containing N train-
+ing instances, D = {(x1, y1) , (x2, y2) , . . . , (xN, yN)}. Let
+Bt = {(xt
+1, yt
+1) , (xt
+2, yt
+2) , . . . , (xt
+n, yt
+n)} be a batch set of
+tth iteration during the training process, where n ≪N.
+Furthermore, we define a base NID model as Mθ, which is
+parameterized by θ. For each input sample (x, y), the encoder
+extracts the feature representation F ∈RH×W , where W and
+H denote the spatial width and height of the corresponding
+feature map. We note the output logits z = M(x|θ) ∈RM. In
+this paper, both teacher and student adopt the same architecture
+Mθ for self-knowledge distillation.
+B. LNet
+In NID, CNNs have been widely used due to their excellent
+feature extraction ability. Our motivation comes from the
+observation that the CNN-based models proposed for NID
+have constantly been growing larger, which hinders the deploy-
+ment of edge devices. Hence, we propose an efficient feature
+processing block DeepMax and further build the lightweight
+LNet model by stacking it, as shown in Fig. 2. Under this
+structure, the computing overhead can be significantly reduced,
+and extract features effectively with generalization.
+The core component of LNet is the DeepMax block,
+which is based on Depthwise Separable Convolution (DSConv)
+layer and Max-Feature-Map (MFM) layer. As illustrated
+in Fig. 2(b), DSConv factorizes the standard convolution
+
+
+
+===== PAGE 3 =====
+
+LNetֺֺ
+−2
+Iteration t-2
+DSConv
+Depthwise Convolution
+Pointwise Convolution
+Decision Boundary
+LNet
+z
+DSConv
+MFM
+Pooling
+max
+LNet-SKD
+DeepMax
+（a）The framework of LNet-SKD   
+（b）Deep Separable Convolution   
+（c）DeepMax block   
+ℒ푆ƵƮ
+ℒ푆ƵƮ
+Iteration t-1
+ℒƭƬ
+Logits
+LNet
+Iteration t
+Input data
+Fig. 2. The overview of proposed LNet-SKD for network intrusion detection. (a) The soft prediction in the last iteration will guide current iteration training.
+(b) Each filter kernel only calculates with the corresponding feature map. (c) Channels and feature sizes will be half with the DeepMax block.
+into depth-wise convolution and point-wise convolution. The
+depth-wise convolution operation extracts each channel’s fea-
+ture with separate kernels, which reduces the computation
+drastically. Then, point-wise convolution is used to match the
+output feature channel, which is implemented as 1 × 1 kernel
+convolution. The whole process for Ci input and Co output
+channels can be written as:
+Fnew
+j
+= 1
+Ci
+· Kp
+j ∗
+Ci−1
+X
+i=0
+Kd
+i ∗Fold
+i
+, j ∈[0, ..., Co −1],
+(1)
+where ∗indicates convolutional operation, K is the corre-
+sponding kernel and F is the feature map.
+To further reduce the network size, we concatenate the
+MFM layer after the aforementioned DSConv layer to half
+the channel numbers. As shown in Fig. 2(c), MFM applies
+Eq. 2 to combine two feature maps and output the maximum
+value of each element, thus focusing the network on prominent
+elements.
+Fnew
+i
+(x, y) = max
+h
+Fold
+i
+(x, y), Fold
+i+C/2(x, y)
+i
+,
+(2)
+where i ∈[0, C/2 −1] and C is current number of channels.
+Finally, we add a pooling layer to reduce the feature map
+size and construct the complete DeepMax block. Through ef-
+fective feature extraction and selection, compact representation
+can be obtained with satisfactory computational consumption.
+To be implemented as a lightweight network for intrusion
+detection, it is enough to stack only two DeepMax blocks
+with a liner layer in LNet to achieve state-of-the-art results.
+C. Complexity analysis
+Here, we give an in-depth analysis of how LNet reduces the
+model size and saves the FLOPs. Consider an input feature
+map F ∈RH×W and in / out channel Ci / Co. In the
+standard convolution block, the filtering and combination steps
+are performed upon all input channels, and the number of
+parameters is Ci × K × K × Co, where K denotes the kernel
+size. In contrast, our DeepMax block conducts separable
+convolution for each input channel and an additional 1 × 1
+convolution to create a linear combination to match the output
+channel. Considering no extra parameters are introduced in the
+MFM or pooling operation, the total parameter number in the
+whole block is Ci × K × K + Ci × 1 × 1 × Co. It is clear that
+the DeepMax only needs Ci × (K2 + Co) gradient-required
+parameters, which is less than classical ones Ci × (K2 × Co)
+by a large margin. For the computational cost, the DeepMax
+block narrows half the channel number by the MFM module
+and half the output feature size by the pooling layer if the
+pooling size is 2 × 2.
+D. Self-Knowledge Distillation
+To compensate for the performance drop incurred by model
+compression, we adopt the batch-wise self-knowledge distil-
+lation strategy inspired by [15], which improves the gener-
+alization ability by learning sample-level soft labels given
+by skillful teacher models. Specifically, the soft prediction
+of the last iteration is used as the smooth label for self-
+distillation to provide instantaneous distillation for each batch
+of training samples, which leads to the regularization of
+training consistency. As shown in Fig. 2(a), for each input
+sample(x, y), the LNet will produce the predicted distribution
+p = {p1, · · · , pm} ∈RM by the suggested softmax function
+[12].
+pi(x; τ) =
+exp (zi(x)/τ)
+P
+j exp (zj(x)/τ),
+(3)
+where τ denotes the temperature scale to soften the probability
+distribution for better distillation. Considering the imbalance
+of intrusion detection datasets, we use a class-balanced cross-
+
+
+
+===== PAGE 4 =====
+
+TABLE I
+NSL-KDD DATASET DESCRIPTION.
+Category
+Normal
+Dos
+Probe
+R2L
+U2R
+Total
+Samples
+77054
+53385
+14077
+3749
+252
+148517
+TABLE II
+CICIDS2017 DATASET DESCRIPTION.
+Category
+Benign
+DoS/DDoS
+P.S.
+B.F.
+W.A.
+Botnet
+Total
+Samples
+2035505
+320469
+57305
+8551
+2118
+1943
+2425891
+entropy loss function to improve the attention to tail-category
+samples, which is written as follows:
+LCB(z, y) = −1 −β
+1 −βny log
+ 
+exp (zy/τ)
+PM
+j=1 exp (zj/τ)
+!
+.
+(4)
+Batch-wise distillation transfers the knowledge by optimiz-
+ing the Kullback-Leibler (KL) divergence between the two
+batches’ consecutive iterations and the loss of self-knowledge
+distillation as follows:
+LSKD = 1
+n
+n
+X
+i=1
+τ 2 · DKL
+
+pτ,t−1
+i
+∥pτ,t
+i
+
+= 1
+n
+n
+X
+i=1
+τ 2pτ,t−1
+i
+log(pτ,t−1
+i
+) −pτ,t−1
+i
+log(pτ,t
+i ),
+(5)
+where pτ,t−1
+i
+is the soften labels generated by LNet at (t−1)th
+iteration and pτ
+i is the soften predictions at tth iteration. The
+soften degree is controlled by temperature parameter τ, higher
+temperatures lead to a more uniform distribution, resulting in a
+smoother batch-wise regularization effect. Compared to vanilla
+KD [12], SKD plays a double role of student and teacher in the
+training phase. It keeps soft targets and extracts such smooth
+labels from the previous iteration for regularization. We use the
+soft prediction of the previous iteration to generate a dynamic
+sample-level smoothing label for self-distillation to provide the
+most instantaneous distillation for each training sample.
+Combined the class-balanced loss and the SKD loss with a
+trade-off factor λ, we derive the overall loss function:
+L = LCB + λ · LSKD.
+(6)
+IV. EXPERIMENTAL RESULTS
+In this section, we first introduce the datasets and evaluation
+metrics used in experiments. All experiments are based on
+python 3.7 and PyTorch 1.12.0, using a 2.4GHz Intel Core
+i9 processor and 16GB RAM. We adopt stochastic gradient
+descent as the optimizer with a momentum of 0.9, and weight
+decay of 1e −4. The initial learning rate is 0.1 and adjusted
+with cosine annealing.
+1
+2
+3
+4
+5
+8
+10
+97
+98
+99
+100
+Accuracy (%)
+NSL-KDD
+CICIDS2017
+(a) The impact of Temperature.
+0.1
+0.2
+0.5
+1
+2
+5
+10
+97
+98
+99
+100
+Accuracy (%)
+NSL-KDD
+CICIDS2017
+(b) The impact of Lambda.
+Fig. 3. The impact of hyper-parameters.
+A. Dataset
+We use two benchmark datasets in experiments. One is the
+classic NSL-KDD dataset [22] and the other is CICIDS2017
+dataset [23] which includes up-to-date typical attacks in the
+real world.
+NSL-KDD dataset consists of 39 different types of attacks,
+which are divided into four main classes, i.e., Denial of
+Service (DoS), User-to-Root (U2R), Remote-to-Local (R2L),
+and Probe. Each intrusion record is composed of 9-dim basic
+TCP connection features, 13-dim TCP connection content
+features, 9-dim time-based network traffic statistics features,
+10-dim host-based network traffic statistics features and the
+category label. The NSL-KDD dataset is described in Table I.
+CICIDS2017 dataset contains five days of network traffic
+data collected from Monday to Friday, including normal traffic
+and abnormal traffic caused by common attacks. The benign
+traffic corresponds to the human interaction of 25 users based
+on standard network protocols such as HTTP(S), FTP, SSH,
+IMAP, and POP3. Each record contains 6 basic features and
+more than 70 functional features. We follow previous work
+[6] to utilize the dataset, and a detailed description of the
+CICIDS2017 dataset is shown in Table II.
+B. Evaluation Metrics
+Accuracy, Precision, Recall, and F1 score are used to eval-
+uate the detection ability and stability of LNet-SKD. Notably,
+we apply macro metrics instead of micro metrics because
+the former is more suitable for multi-class tasks. Besides,
+we evaluate the computational cost via Floating Point Of
+Operations (FLOPs) and the number of parameters to compare
+the required implementation resources.
+
+
+
+===== PAGE 5 =====
+
+TABLE III
+ABLATION WITH REGARD TO LNET-SKD.
+Dataset
+Model
+Acc.(%)
+∆(%)
+Prec.(%)
+∆(%)
+Recall(%)
+∆(%)
+F1(%)
+∆(%)
+Para.(K)
+FLOPs(K)
+NSL-KDD
+CNN
+98.45
+-
+90.21
+-
+82.74
+-
+85.51
+-
+13.12
+527.3
+LNet−
+93.34
+-5.11
+72.83
+-17.38
+59.60
+-23.14
+61.79
+-23.72
+2.76
+205.66
+LNet
+96.55
+-1.90
+78.89
+-11.32
+66.77
+-15.97
+70.21
+-15.30
+4.94
+194.58
+LNet-SKD
+98.66
++0.21
+95.22
++5.01
+85.68
++2.94
+89.03
++3.52
+4.94
+194.58
+CICIDS2017
+CNN
+99.87
+-
+97.03
+-
+92.44
+-
+94.32
+-
+13.19
+632.66
+LNet−
+97.93
+-1.94
+82.52
+-14.51
+62.60
+-29.84
+68.40
+-25.92
+2.83
+245.78
+LNet
+98.30
+-1.57
+96.16
+-0.87
+70.21
+-22.23
+73.79
+-20.53
+5.00
+233.42
+LNet-SKD
+99.89
++0.02
+96.60
+-0.43
+96.89
++4.45
+96.74
++2.42
+5.00
+233.42
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10654
+99.73%
+16
+0.15%
+1
+0.01%
+0
+0.00%
+12
+0.11%
+18
+0.63%
+2727
+95.55%
+6
+0.21%
+0
+0.00%
+103
+3.61%
+1
+0.13%
+5
+0.67%
+635
+84.78%
+0
+0.00%
+108
+14.42%
+0
+0.00%
+7
+14.29%
+1
+2.04%
+17
+34.69%
+24
+48.98%
+18
+0.12%
+79
+0.51%
+52
+0.34%
+9
+0.06%
+15211
+98.97%
+(a) CNN
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10118
+94.71%
+368
+3.44%
+0
+0.00%
+0
+0.00%
+197
+1.84%
+329
+11.53%
+2344
+82.13%
+4
+0.14%
+0
+0.00%
+177
+6.20%
+0
+0.00%
+20
+2.67%
+172
+22.96%
+0
+0.00%
+557
+74.37%
+0
+0.00%
+18
+36.73%
+0
+0.00%
+0
+0.00%
+31
+63.27%
+39
+0.25%
+232
+1.51%
+5
+0.03%
+0
+0.00%
+15093
+98.20%
+(b) LNet−
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10571
+98.95%
+16
+0.15%
+1
+0.01%
+0
+0.00%
+95
+0.89%
+54
+1.89%
+2642
+92.57%
+1
+0.04%
+0
+0.00%
+157
+5.50%
+2
+0.27%
+3
+0.40%
+280
+37.38%
+0
+0.00%
+464
+61.95%
+4
+8.16%
+3
+6.12%
+1
+2.04%
+3
+6.12%
+38
+77.55%
+31
+0.20%
+71
+0.46%
+74
+0.48%
+9
+0.06%
+15184
+98.80%
+(c) LNet
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10633
+99.53%
+22
+0.21%
+0
+0.00%
+0
+0.00%
+28
+0.26%
+11
+0.39%
+2774
+97.20%
+6
+0.21%
+0
+0.00%
+63
+2.21%
+3
+0.40%
+7
+0.93%
+657
+87.72%
+0
+0.00%
+82
+10.95%
+1
+2.04%
+4
+8.16%
+1
+2.04%
+22
+44.90%
+21
+42.86%
+15
+0.10%
+96
+0.62%
+34
+0.22%
+3
+0.02%
+15221
+99.04%
+0.0
+0.2
+0.4
+0.6
+0.8
+(d) LNet-SKD
+Fig. 4. Confusion matrix for each model on NSL-KDD.
+C. Ablation w.r.t. Hyper-parameters
+In LNet-SKD, we take trade-offs about the performance of
+self-knowledge distillation with temperature parameter τ and
+balancing coefficient λ. Thus, effective hyper-parameters must
+be found to get the best classification result. Fig. 3 shows the
+impact of different values for τ and λ used in LNet-SKD.
+We fix λ to 1 and vary τ from 1 to 10. As shown in Fig. 3(a),
+LNet-SKD achieves the best accuracy in both datasets with a
+temperature τ = 3, which means that more knowledge can
+be transferred when τ = 3. The effect of balance factor λ is
+plotted in Fig. 3(b), with a fixed τ = 3. As noted in Eq. 6,
+the balance coefficient λ is considered for the contribution of
+the gap between two adjacent batches to the final loss. For
+NSL-KDD dataset, LNet-SKD performs best with λ = 2, and
+for CICIDS2017, the value is λ = 1.
+D. Ablation w.r.t. LNet-SKD
+To evaluate our proposed method comprehensively, we
+perform multi-classification tasks on CNN, LNet, and LNet-
+SKD. CNN applies a network structure similar to LNet but
+uses standard convolution. Moreover, a specially designed
+LNet−(LNet without MFM) is considered for comparison. We
+apply the parameters suggested by the previous experiment to
+train the LNet-SKD model. The result is shown in Table III.
+Compared with the standard CNN model, LNet uses 37.7%
+of its parameters, resulting in a succinct model with the
+FLOPs of 194.58K (↓63.1%). Meanwhile, our self-distillation
+approach does not introduce additional parameters while im-
+proving the accuracy of LNet by 2.1% / 1.6% on NSL-KDD
+and CICIDS2017, respectively, so that LNet-SKD achieves a
+classification accuracy on par with CNN and outperforms on
+F1-score. From the Table III, we observe that the DeepMax
+block only reduces accuracy by 1.89% and 1.57% on two
+datasets compared with standard convolution. However, the
+value of LNet−is 5.11% / 1.94%, which means LNet has
+benefited a lot from the more representative features extracted
+by the DeepMax block that integrates MFM.
+E. Visualization
+The visualized confusion matrix in Fig. 4 further verifies
+the effectiveness of LNet-SKD in detecting different attack
+types. Especially to U2R, which is totally neglected by LNet−,
+whereas LNet detects a few instances from more valuable fea-
+tures. Further enabled by SKD, LNet-SKD achieves a highly
+competitive detection rate even compared to the standard
+CNN model. It can be concluded that our approach achieves
+satisfactory intrusion detection performance with low model
+storage and computational cost.
+F. Compared with other methods
+This section provides a comparison of the LNet-SKD with
+baseline DL models and SOTA methods [6], [14] applied
+to the NSL-KDD and CICIDS2017 datasets. We present our
+experiment of LNet-SKD against the aforementioned ones in
+Table IV, where - means the calculation is not considered.
+As shown in the table, our LNet-SKD obtains the best perfor-
+mance in terms of accuracy and F1 score on both datasets with
+only 4.94K and 5K parameters, respectively. Compared with
+KD-TCNN designed for resource-constrained IoT devices, the
+LNet-SKD model has a better detection performance and lower
+
+
+
+===== PAGE 6 =====
+
+TABLE IV
+COMPARISON OF PERFORMANCE AGAIN OTHER METHODS.
+Dataset
+Model
+Acc.(%)
+∆(%)
+Prec.(%)
+∆(%)
+Recall(%)
+∆(%)
+F1(%)
+∆(%)
+Para.(K)
+FLOPs(K)
+NSL-KDD
+DNN
+94.23
+-
+77.05
+-
+62.19
+-
+66.09
+-
+7.17
+14.08
+RNN
+95.75
++1.52
+72.81
+-4.24
+66.36
++3.17
+68.20
++2.11
+23.81
+48.0
+DBN [6]
+95.88
++1.65
+72.37
+-4.68
+70.39
++8.20
+71.25
++5.16
+30.77
+46.8
+KD-TCNN [14]
+98.20
++3.97
+82.75
++5.70
+93.73
++31.54
+86.63
++20.54
+4.62
+358.5
+LNet-SKD
+98.66
++4.43
+95.22
++18.17
+85.68
++23.49
+89.03
++22.94
+4.94
+194.58
+CICIDS2017
+DNN
+98.10
+-
+82.82
+-
+66.90
+-
+71.74
+-
+7.75
+15.23
+RNN
+98.11
++0.01
+82.82
++0.00
+68.24
++1.34
+73.17
++1.43
+24.39
+24.58
+DBN [6]
+99.84
++1.74
+88.75
++5.93
+99.49
++32.59
+92.75
++21.01
+31.8
+48.0
+KD-TCNN [14]
+99.64
++1.54
+97.43
++14.61
+94.71
++27.81
+96.02
++24.28
+4.69
+428.46
+LNet-SKD
+99.90
++1.80
+96.60
++13.78
+96.89
++29.99
+96.74
++25.00
+5.00
+233.43
+FLOPs (↓46%). In addition, our LNet-SKD is consistent on
+different IDS datasets, while the other methods show various
+preferences in different scenarios. Hence, LNet-SKD not only
+achieves the trade-off between accuracy and efficiency but also
+is more robust and generalized for IDS.
+V. CONCLUSION
+This paper proposed a lightweight intrusion detection ap-
+proach for resource-limited edge devices, namely LNet-SKD.
+We compare our model with a series of networks that ap-
+plied the same architecture as LNet, as the results show,
+our proposed approach realizes a better trade-off between
+efficiency and accuracy. Specifically, LNet-SKD successfully
+reduces the amount of computational cost and parameter
+size by about 62% with a slight improvement in accuracy
+and F1 score. Furthermore, LNet-SKD outperforms baseline
+models and other existing intrusion detection models, which
+is by far the state-of-the-art result with such a low resource
+requirement. It can be concluded that our proposed approach
+realizes significant superiority in network intrusion detection.
+REFERENCES
+[1] D. Zaripova et al., “Network security issues and effective protection
+against network attacks,” International Journal on Integrated Education,
+vol. 4, no. 2, pp. 79–85, 2021.
+[2] A. Khraisat, I. Gondal, P. Vamplew, and J. Kamruzzaman, “Survey
+of intrusion detection systems: techniques, datasets and challenges,”
+Cybersecurity, vol. 2, no. 1, pp. 1–22, 2019.
+[3] Z. Ahmad, A. Shahid Khan, C. Wai Shiang, J. Abdullah, and F. Ahmad,
+“Network intrusion detection system: A systematic study of machine
+learning and deep learning approaches,” Transactions on Emerging
+Telecommunications Technologies, vol. 32, no. 1, p. e4150, 2021.
+[4] K. Wu, Z. Chen, and W. Li, “A novel intrusion detection model for
+a massive network using convolutional neural networks,” Ieee Access,
+vol. 6, pp. 50 850–50 859, 2018.
+[5] Y. Imrana, Y. Xiang, L. Ali, and Z. Abdul-Rauf, “A bidirectional lstm
+deep learning approach for intrusion detection,” Expert Systems with
+Applications, vol. 185, p. 115524, 2021.
+[6] O. Belarbi, A. Khan, P. Carnelli, and T. Spyridopoulos, “An intrusion
+detection system based on deep belief networks,” in International
+Conference on Science of Cyber Security.
+Springer, 2022, pp. 377–
+392.
+[7] R. Zhao, G. Gui, Z. Xue, J. Yin, T. Ohtsuki, B. Adebisi, and H. Gacanin,
+“A novel intrusion detection method based on lightweight neural network
+for internet of things,” IEEE Internet of Things Journal, 2021.
+[8] R. V. Mendonca, J. C. Silva, R. L. Rosa, M. Saadi, D. Z. Rodriguez,
+and A. Farouk, “A lightweight intelligent intrusion detection system
+for industrial internet of things using deep learning algorithms,” Expert
+Systems, vol. 39, no. 5, p. e12917, 2022.
+[9] J.-S. Pan, F. Fan, S.-C. Chu, H.-Q. Zhao, and G.-Y. Liu, “A lightweight
+intelligent intrusion detection model for wireless sensor networks,”
+Security and Communication Networks, vol. 2021, 2021.
+[10] A. G. Howard, M. Zhu, B. Chen, D. Kalenichenko, W. Wang,
+T. Weyand, M. Andreetto, and H. Adam, “Mobilenets: Efficient convo-
+lutional neural networks for mobile vision applications,” arXiv preprint
+arXiv:1704.04861, 2017.
+[11] X. Wu, R. He, Z. Sun, and T. Tan, “A light cnn for deep face
+representation with noisy labels,” IEEE Transactions on Information
+Forensics and Security, vol. 13, no. 11, pp. 2884–2896, 2018.
+[12] G. Hinton, O. Vinyals, J. Dean et al., “Distilling the knowledge in a
+neural network,” arXiv preprint arXiv:1503.02531, vol. 2, no. 7, 2015.
+[13] R. Zhao, Y. Chen, Y. Wang, Y. Shi, and Z. Xue, “An efficient and
+lightweight approach for intrusion detection based on knowledge distilla-
+tion,” in ICC 2021-IEEE International Conference on Communications.
+IEEE, 2021, pp. 1–6.
+[14] Z. Wang, Z. Li, D. He, and S. Chan, “A lightweight approach for
+network intrusion detection in industrial cyber-physical systems based
+on knowledge distillation and deep metric learning,” Expert Systems with
+Applications, p. 117671, 2022.
+[15] Y. Shen, L. Xu, Y. Yang, Y. Li, and Y. Guo, “Self-distillation from the
+last mini-batch for consistency regularization,” in Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+2022, pp. 11 943–11 952.
+[16] A. Drewek-Ossowicka, M. Pietrołaj, and J. Rumi´nski, “A survey of
+neural networks usage for intrusion detection systems,” Journal of
+Ambient Intelligence and Humanized Computing, vol. 12, no. 1, pp.
+497–514, 2021.
+[17] H. Ding, L. Chen, L. Dong, Z. Fu, and X. Cui, “Imbalanced data
+classification: A knn and generative adversarial networks-based hybrid
+approach for intrusion detection,” Future Generation Computer Systems,
+vol. 131, pp. 240–254, 2022.
+[18] J. Gu and S. Lu, “An effective intrusion detection approach using svm
+with na¨ıve bayes feature embedding,” Computers & Security, vol. 103,
+p. 102158, 2021.
+[19] J. Liu, Y. Gao, and F. Hu, “A fast network intrusion detection system
+using adaptive synthetic oversampling and lightgbm,” Computers &
+Security, vol. 106, p. 102289, 2021.
+[20] R. Vinayakumar, K. Soman, and P. Poornachandran, “Evaluating effec-
+tiveness of shallow and deep networks to intrusion detection system,”
+in 2017 International Conference on Advances in Computing, Commu-
+nications and Informatics (ICACCI).
+IEEE, 2017, pp. 1282–1289.
+[21] G. D’Angelo and F. Palmieri, “Network traffic classification using
+deep convolutional recurrent autoencoder neural networks for spatial–
+temporal features extraction,” Journal of Network and Computer Appli-
+cations, vol. 173, p. 102890, 2021.
+[22] M. Tavallaee, E. Bagheri, W. Lu, and A. A. Ghorbani, “A detailed
+analysis of the kdd cup 99 data set,” in 2009 IEEE symposium on
+computational intelligence for security and defense applications.
+Ieee,
+2009, pp. 1–6.
+[23] I. Sharafaldin, A. H. Lashkari, and A. A. Ghorbani, “Toward generating
+a new intrusion detection dataset and intrusion traffic characterization.”
+ICISSp, vol. 1, pp. 108–116, 2018.

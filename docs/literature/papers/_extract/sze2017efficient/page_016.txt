@@ -1,0 +1,337 @@
+16
+* 
+= 
+Filter 
+a b c 
+a b c 
+a b c d e 
+e d 
+PE 
+b a 
+c 
+Reg File 
+b a 
+c 
+a 
+  
+  
+  
+Partial Sums 
+Input Fmap 
+(a) Step 1
+* 
+= 
+a b c 
+a b c d e 
+Partial Sums 
+Input Fmap 
+PE 
+b a 
+c 
+Reg File 
+c b 
+d 
+b 
+  
+  
+  
+e 
+a 
+Filter 
+a b c 
+(b) Step 2
+* 
+= 
+a b c 
+a b c d e 
+Partial Sums 
+Input Fmap 
+PE 
+b a 
+c 
+Reg File 
+d c 
+e 
+c 
+  
+  
+  
+b a 
+Filter 
+a b c 
+(c) Step 3
+Fig. 27. 1-D Convolutional reuse within PE for Row Stationary Dataﬂow [80].
+PE 1 
+Row 1 
+Row 1 
+PE 2 
+Row 2 
+Row 2 
+PE 3 
+Row 3 
+Row 3 
+Row 1 
+= 
+* 
+PE 4 
+Row 1 
+Row 2 
+PE 5 
+Row 2 
+Row 3 
+PE 6 
+Row 3 
+Row 4 
+Row 2 
+= 
+* 
+PE 7 
+Row 1 
+Row 3 
+PE 8 
+Row 2 
+Row 4 
+PE 9 
+Row 3 
+Row 5 
+Row 3 
+= 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+Fig. 28.
+2-D convolutional reuse within spatial array for Row Stationary
+Dataﬂow [80].
+With each PE processing a 1-D convolution, multiple
+PEs can be aggregated to complete the 2-D convolution as
+shown in Fig. 28. For example, to generate the ﬁrst row of
+output activations with a ﬁlter having three rows, three 1-D
+convolutions are required. Therefore, we can use three PEs in
+a column, each running one of the three 1-D convolutions. The
+partial sums are further accumulated vertically across the three
+PEs to generate the ﬁrst output row. To generate the second
+row of output, we use another column of PEs, where three
+rows of input activations are shifted down by one row, and use
+the same rows of ﬁlters to perform the three 1-D convolutions.
+Additional columns of PEs are added until all rows of the
+output are completed (i.e., the number of PE columns equals
+the number of output rows).
+This 2-D array of PEs enables other forms of reuse to reduce
+accesses to the more expensive global buffer. For example, each
+ﬁlter row is reused across multiple PEs horizontally. Each row
+of input activations is reused across multiple PEs diagonally.
+And each row of partial sums are further accumulated across
+the PEs vertically. Therefore, 2-D convolutional data reuse and
+accumulation are maximized inside the 2-D PE array.
+To address the high-dimensional convolution of the CONV
+layer (i.e., multiple fmaps, ﬁlters, and channels), multiple rows
+can be mapped onto the same PE as shown in Fig. 29. The
+2-D convolution is mapped to a set of PEs, and the additional
+dimensions are handled by interleaving or concatenating the
+additional data. For ﬁlter reuse within the PE, different rows
+of fmaps are concatenated and run through the same PE
+as a 1-D convolution. For input fmap reuse within the PE,
+different ﬁlter rows are interleaved and run through the same
+PE as a 1-D convolution. Finally, to increase local partial sum
+accumulation within the PE, ﬁlter rows and fmap rows from
+Multiple fmaps:
+Multiple filters:
+Multiple channels:
+PE
+Row 1
+Row 1
+PE
+Row 2
+Row 2
+PE
+Row 3
+Row 3
+PE
+Row 1
+Row 2
+PE
+Row 2
+Row 3
+PE
+Row 3
+Row 4
+PE
+Row 1
+Row 3
+PE
+Row 2
+Row 4
+PE
+Row 3
+Row 5
+*
+*
+*
+*
+*
+*
+*
+*
+*
+Image 1
+=
+Psum
+Filter 1
+*
+*
+Image 1
+=
+Psum 1 & 2
+Filter 1 & 2
+*
+Image 1 & 2
+=
+Psum 1 & 2
+Filter 1
+Fmap
+Fmap
+Fmap
+Fig. 29. Multiple rows of different input feature maps, ﬁlters and channels are
+mapped to same PE within array for additional reuse in the Row Stationary
+Dataﬂow [80].
+…
+M
+…
+…
+R
+R
+R
+R
+C
+C
+E
+E
+H
+H
+C
+E
+E
+1
+N
+N
+1
+M
+H
+H
+C
+1
+CNN Configurations 
+Global Buffer
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+ALU
+Hardware Resources 
+Optimization 
+Compiler 
+  
+  
+Row Stationary Mapping 
+Multiple fmaps:
+Multiple filters:
+Multiple channels:
+PE
+Row 1
+Row 1
+PE
+Row 2
+Row 2
+PE
+Row 3
+Row 3
+PE
+Row 1
+Row 2
+PE
+Row 2
+Row 3
+PE
+Row 3
+Row 4
+PE
+Row 1
+Row 3
+PE
+Row 2
+Row 4
+PE
+Row 3
+Row 5
+*
+*
+*
+*
+*
+*
+*
+*
+*
+Image 1
+=
+Psum
+Filter 1
+*
+*
+Image 1
+=
+Psum 1 & 2
+Filter 1 & 2
+*
+Image 1 & 2
+=
+Psum 1 & 2
+Filter 1
+Fmap
+Fmap
+Fmap
+Fig. 30. Mapping optimization takes in hardware and DNNs shape constraints
+to determine optimal energy dataﬂow [80].
+different channels are interleaved, and run through the same PE
+as a 1-D convolution. The partial sums from different channels
+then naturally get accumulated inside the PE.
+The number of ﬁlters, channels, and fmaps that can be
+processed at the same time is programmable, and there exists an
+optimal mapping for the best energy efﬁciency, which depends
+on the shape conﬁguration of the DNN as well as the hardware
+resources provided, e.g., the number of PEs and the size of the
+memory in the hierarchy. Since all of the variables are known
+before runtime, it is possible to build a compiler (i.e., mapper)
+to perform this optimization off-line to conﬁgure the hardware
+for different mappings of the RS dataﬂow for different DNNs
+as shown in Fig. 30.
+One example that implements the row stationary dataﬂow
+is Eyeriss [94]. It consists of a 14×12 PE array, a 108KB
+global buffer, ReLU and fmap compression units as shown
+in Fig. 31. The chip communicates with the off-chip DRAM
+using a 64-bit bidirectional data bus to fetch data into the
+global buffer. The global buffer then streams the data into the
+PE array for processing.
+In order to support the RS dataﬂow, two problems need to be
+solved in the hardware design. First, how can the ﬁxed-size PE
+array accommodate different layer shapes? Second, although
+the data will be passed in a very speciﬁc pattern, it still changes
+with different shape conﬁgurations. How can the ﬁxed design

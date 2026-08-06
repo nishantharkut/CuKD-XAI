@@ -1,0 +1,59 @@
+Page 13 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+3.4.1  Redundancy-adjusted logistic MIFS
+Employing Redundancy-Adjusted Logistic MIFS (RAL-MIFS) enhances feature engi­
+neering for cyber attack Identification Systems by refining MIFS. By adjusting for feature 
+redundancy and leveraging logistic weighting, RAL-MIFS prioritizes the most informa­
+tive features. This approach improves the efficacy and accuracy of ADS, ensuring better 
+detection of attacks in complex datasets.
+As stated in [9], MIFS is a popular system for feature identification that can effec­
+tively choose important features aside from data distribution, which makes best for 
+early attack detection architecture where data have no sufficient attack patterns. Unlike 
+existing MIFS that calculate k using Eq. (2), we proposeed RAL-MIFS that calculate the 
+redundancy using Eq. (3). Rather than updating k value linearly, the RAL-MIFS gradu­
+ally rise weights whenever a new attributes is appended to the dataset.
+k = 1
+|S|
+
+(2)
+k =
+1
+1 + e−( |S|
+|F |
+)
+
+(3)
+where k is the redundancy coefficient, |S| is count of features in the chosen dataset and 
+|F| is the number of features in the original dataset. Principal Component Analysis 
+has emerged as the prevailing method for feature reduction in prior research on attack 
+detection systems, offering enhanced lightweight performance via its low-complex­
+ity linear transformation approach. Variants of PCA have been extensively applied for 
+reduction of feature dimensionality in attack detection datasets, reflecting its ongoing 
+relevance. In such contexts, full-fledged training data may not be acquired at once, and 
+gradual increase in data traffic may lead to subtle alterations in cyber attack behavior 
+from the dataset. Consequently, features extracted from initially provided training sam­
+ples may lack persuasiveness, underscoring the desire for more adaptable and efficient 
+feature reduction techniques in dynamic IoT settings.
+3.4.2  Two stage IPCA
+This study also introduces the two-stage IPCA for Detecting and classifying cyber 
+attacks, as a improvement for the PCA algorithm. IPCA, an incremental learning-based 
+reduction of feature dimensionality method suggested by [44], facilitates the incremen­
+tal updating of feature vectors and values. Below is a concise outline of the reduction of 
+dimensionality principle employed by the IPCA algorithm [44]. The high dimensional 
+data samples will be denoted as X = [x1, x2, . . . , xm] ∈Rn×m in an n-dimensional 
+space, and mean of X will be computed from that. MX(¯X, Uk, Λk) is the eigenspace 
+model of the raw dataset. Consider the new sample data Z ∈Rn will be upgraded to the 
+the sample data of original; then, ¯X the initial model eigenspace will be upgraded to ¯X
+′, 
+where
+¯X
+′ =
+1
+N + 1
+N
+∑
+i=1
+(¯XN + Z) ∈Rn.
+(4)
+where Uk is n × k matrix, and k represents the feature dimension space, with the matrix 
+columns representing the data’s feature vectors. Λk represents k × k dimension matrix 

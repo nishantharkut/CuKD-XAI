@@ -1,0 +1,53 @@
+Computers 2025, 14, 291
+17 of 25
+the differences are less pronounced than in the other datasets. The ROC curves (Figure 7)
+show high AUC values across all classes for both the teacher and KD-enhanced student,
+confirming that the models are effective at distinguishing between attack types and normal
+traffic. Overall, these findings show that while the impact of KD is subtler in highly separa-
+ble data, it remains useful for fine-tuning lightweight models and preserving performance
+under resource constraints.
+Table 10. Comparison of teacher and student models on the CIC-IDS2017 dataset.
+Model’s Architecture
+No. of Parameters
+Accuracy (%)
+Precision (%)
+F1 Score (%)
+Inference Time
+Deep Neural Network
+(Teacher)
+191,063
+98.22
+98.30
+98.20
+2.602
+Shallow Neural Network
+(Student without KD)
+9527
+97.81
+97.97
+97.79
+2.382
+Shallow Neural Network
+(Student with KD)
+9527
+(−95.01%)
+97.88
+(+0.07%)
+97.95
+(+0.02%)
+97.85
+(+0.06%)
+2.398
+(−7.84%)
+Figure 6. Confusion matrix of teacher (left), student without KD (middle), and student with KD
+(right) models on CICIDS2017.
+Figure 7. ROC curve of teacher (left), student without KD (middle), and student with KD (right)
+models on CICIDS2017.
+4.4. IoTID20
+The IoTID20 dataset results (Table 11) reveal the same performance–efficiency trade-off
+seen in previous experiments but under more challenging data conditions. The teacher
+model with its complexity, achieves relatively lower accuracy (92.95%) and F1 score (93.13%)
+compared to results on other datasets. This suggests that the IoTID20 dataset, with its
+device-specific patterns and potential noise or imbalance, poses greater difficulty for even
+large models. The student model without KD, though more efficient with just 9521 parame-
+ters, experiences a further drop in F1 score to 86.20% and accuracy to 87.15%, reflecting

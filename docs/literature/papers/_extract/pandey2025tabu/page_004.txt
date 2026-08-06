@@ -1,0 +1,66 @@
+The WSN intrusion detection model is enhanced using an optimization technique, PL-AOA, for the kNN 
+algorithm. It achieved 99% detection accuracy against DoS attacks28. Using traditional kNN, this design enhanced 
+the detection accuracy by 10%.It realized a balance between lightweight computation and high intrusion 
+performance14,29. Another study proposes a novel technique for IoT-WSN intrusion detection using the BCOA-
+MLID technique, which uses a binary chimp optimization algorithm and machine learning. This approach 
+outperformed the existing methods, like XGBoost and KNN-AOA, since it achieved a maximum accuracy of 
+99.36%.The results indicated that BCOA-MLID exhibited better classification metrics than sensitivity, specificity, 
+F-score, and AUC. Its computation time was meager, approximately 7.26 s, which made it suitable for IoT-WSN 
+with highly constrained resources28,30,31. Moreover, theFA-ML-based intrusion detection technique in WSN-
+IoT integrates the firefly algorithm and machine learning32–35. The study in36 further proved that the developed 
+ensemble model in experiments on intrusion detection outperformed the single classifiers, and the accuracy 
+rate reached up to 98.8% by using techniques of KNN and boosting. Precision and recall rates had reached up to 
+97%.In boosting and stacking ensemble methods, the F1 scores reached 96% and 97%, respectively. This model 
+can be highly efficient in detecting cyberattacks in IoT environments. The ensemble-based machine learning 
+model using RF proposed in34,37 surpasses the existing intrusion detection methods38–40 by achieving over 99% 
+accuracy and a false positive rate. Also, it mitigated the previously prevalent drawbacks in these systems and 
+provided a reliable framework for intrusion detection across various public datasets. Many researchers have tried 
+to optimize the RF algorithm, but due to certain limitations, the best optimal solution cannot be obtained41–43. 
+With an exhaustive literature review, it can be concluded that there exist so many critical research gaps, such 
+as (a) much research focuses on selecting different algorithms, the critical aspect of tuning these algorithms 
+for the specific context of WSN security to maximize performance requires (b) No Exploring and optimizing 
+hybrid intrusion detection modelsand (c) Additionally, feature engineering plays a vital role in improving the 
+effectiveness of Intrusion Detection Systems (IDS), this area needs more consideration.
+The contribution of this work is to use a metaheuristic Tabu-Search approach44 for optimizing the performance 
+of the RF method in intrusion detection by WSN. It results in better performance than the basic RF approach45. 
+This proposed technique is tested in three benchmark datasets: the WSN-DS dataset46,47, the CICIDS 201748,49, 
+and the CIC IoT 2023 dataset50,51. A summary of reviewed work has been presented in Table 1.
+Proposed methodology
+In machine learning, models must deal with numerous parameters and dozens of hyperparameters. The 
+combinations of these parameters and hyperparameters became exponential, so selecting the correct combination 
+became nearly impossible if anyone followed a manual design approach. Since models like RFs consist of about 
+19 hyperparameters, designing an ideal model manually with the correct number of hyperparameters will be 
+time-consuming and tedious. This section introduces the TS algorithm and the RF technique, particularly 
+emphasizing how TS could improve hyperparameter optimization. Firstly, this paper discusses the TS algorithm 
+and its basic properties, as well as the general process of its work. After that, the section proceeds to a more 
+general description of the RF method and its properties. Finally, the new proposed method will be described in 
+greater detail, how TS is combined with RF, with the goal of optimization.
+Tabu-search (TS)
+Tabu Search10 is a metaheuristic optimization technique adopted to solve combinatorial optimization problems. 
+The TS algorithm iteratively explores the solution space in the hope that, at each step, a better candidate solution 
+is found while avoiding getting trapped in local optima. A unique feature of the TS algorithm is the memory 
+structure known as the “tabu list” so as not to backtrack to any previously explored solution. TS incrementally 
+explores the solution space using move operators to generate new potential solutions and evaluate outcomes. The 
+algorithm tracks the solutions already studied in the search process along with the tabu list.
+Random forest
+RF14,52 is highly popular in machine learning for classification and regression problems since it gives the ensemble 
+method: building a “forest” of decision trees from subsets of data and features chosen randomly, averaged to 
+make a prediction. This random selection process is based on the principle that decision trees can produce 
+more accurate predictions when they use different subsets of data and features than when relying upon a single 
+decision tree. Reducing overfitting and enhancing generalization capabilities are the benefits of learning in RF. 
+The main benefits of RF in the proposed methodology are as follows: (a) ease of use, (b) minimal preprocessing 
+requirements, and (c) ability to handle both categorical and continuous input features.
+Optimization methodology
+A novel approach based on tabu search optimization53 has been introduced for optimizing RF models. The main 
+idea is to combine two powerful concepts:RF’s Parameter Space and Tabu Search as an Efficient Navigator. RFs 
+have many parameters, known as hyperparameters (as many as 19), that are hard to tune because they create a 
+gigantic and complex space of possible combinations. Tabu Search helps intelligently navigate this space without 
+becoming stuck in local optima. It remembers the settings it has previously attempted (in a “tabu list”) and does 
+not repeat them, which is time-saving and helps find better solutions. This makes it a valuable technique for 
+discovering the optimal settings for a RF model, particularly when straightforward techniques such as trial-and-
+error or grid search are ineffective. The flowchart in Fig. 3 illustrates this optimization method in a step-by-step 
+way.
+Scientific Reports |        (2025) 15:18634 
+4
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

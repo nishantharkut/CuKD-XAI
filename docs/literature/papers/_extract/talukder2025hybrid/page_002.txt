@@ -1,0 +1,67 @@
+Existing works in the wireless sensor and IoT network domain have demonstrated promising results using 
+various ML models such as DT, usfAD, one class classifier (OCC) and Gradient Boosting models19–22 to build 
+the IDS model. However, these methods often suffer from limitations, including imbalanced datasets and high 
+dimensionality of features, which degrade model performance. For instance, imbalanced datasets lead to biased 
+predictions favoring majority classes, while high-dimensional data increases computational costs and risks 
+overfitting.
+To address these limitations, we propose a novel hybrid ML model that integrates KMeans-SMOTE (KMS) 
+for data balancing with Principal Component Analysis (PCA) for dimensionality reduction, and Random Forest 
+Classifier (RFC) as the core attack detection model. The proposed model mitigates the issues of data imbalance 
+and feature redundancy while maintaining high accuracy and efficiency. By employing KMS, the proposed 
+approach effectively balances minority and majority classes, ensuring equitable representation in the dataset. 
+PCA reduces the dimensionality of data, capturing essential features while eliminating noise, thereby enhancing 
+computational efficiency. Finally, the use of RFC ensures robust and interpretable decision-making.
+Our proposed methodology surpasses the limitations of existing techniques by offering a more balanced, 
+efficient, and scalable solution for intrusion detection in WSN and IoT networks. Through extensive 
+experimentation on WSN-DS and TON-IoT datasets, our model demonstrates superior performance in terms 
+of accuracy, precision, recall, and f1-score, thereby providing a robust framework for securing these critical 
+networks against evolving threats.
+Objective
+The primary objective of this research is to develop a robust hybrid ML model for intrusion detection in WSNs. 
+By integrating advanced data balancing techniques such as STL, GANs, and KMS, and reducing the curse of 
+dimensionality using PCA, the model aims to address the challenges of class imbalance and high-dimensional 
+data. This approach enhances detection accuracy, minimizes false positives, and ensures computational efficiency, 
+making it suitable for real-time applications in WSNs security.
+Contributions
+This study offers the following important contributions:
+•	 Novel Hybrid Machine Learning Approach: This study introduces a hybrid approach combining data bal­
+ancing and dimensionality reduction techniques, specifically tailored for intrusion detection in Wireless Sen­
+sor Networks. It ensures improved accuracy and robustness by addressing class imbalance and high-dimen­
+sional data challenges.
+•	 Advanced Data Balancing Techniques: The integration of data balancing techniques such as STL, GANs, 
+and KMS, can effectively resolve overfitting and underfitting issues in imbalanced WSN datasets. These meth­
+ods enhance minority class representation and improve the model’s ability to detect intrusions accurately.
+•	 Dimension Reduction with PCA: PCA reduces the curse of dimensionality by projecting data onto signifi­
+cant features using the Kaiser criterion, thereby improving computational efficiency and enhancing classifica­
+tion accuracy. This technique also minimizes noise and irrelevant data, making the model scalable and reli­
+able for real-time intrusion detection.This paper is systematized as follows: “Section Related works” presents 
+an overview of related works, highlighting the recent works in intrusion detection systems. “Section Method­
+ology” details the proposed methodology, including preprocessing and model development. “Section Result 
+analysis” analyzes the experimental results analysis, followed by a discussion comparing with the existing 
+works in “Section Discussion”. Finally, “Section Conclusion” concludes the study, addressing its limitations 
+and proposing directions for future research.
+Related works
+IDS using ML have gained significant attention for securing WSNs. Various ML models have been applied to 
+IDS for detecting abnormal activities. These models effectively classify network traffic and identify intrusions, 
+though challenges such as class imbalance and high-dimensional data often hinder their performance. Recent 
+advancements incorporate hybrid techniques, ensemble learning, and deep learning (DL) to improve detection 
+accuracy and robustness.
+Related works on WSN-DS
+Talukder et al.23 introduced an IDS method that combined ML with the STL algorithm. This approach balanced 
+the dataset by generating synthetic minority instances and removing Tomek links, leading to improved detection 
+accuracy in WSNs. To ensure consistent and scalable input features, feature scaling through standardization was 
+applied. The STL resampling technique effectively addressed imbalanced datasets, reducing the risks of overfitting 
+and underfitting. An extensive evaluation using the WSN-DS dataset revealed the RFC model, achieving 99.92% 
+accuracy, precision, recall, and f1-score, in multiclass scenarios, demonstrating its effectiveness in identifying 
+and preventing intrusions.
+Karthikeyan et al.20 made significant advancements in IoT and WSN security by combining ML with the 
+Firefly Algorithm (FA). This work has two key contributions: first, the FA-ML technique enhances intrusion 
+detection accuracy in WSN-IoT systems, and second, it introduces a novel security optimization approach by 
+integrating ML with the Firefly Algorithm. The FA-ML method, utilizing an SVM model and optimized by the 
+Grey Wolf Optimizer (GWO), achieved an impressive performance with 99.34% accuracy, 98.36% recall and 
+96.67% f1-score. These results demonstrate the FA-ML method’s effectiveness as a robust security solution for 
+WSN-IoT systems.
+Scientific Reports |         (2025) 15:4617 
+2
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

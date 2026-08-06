@@ -1,0 +1,91 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+the contributions of each feature. The waterfall plot shows
+how each feature’s contribution, either favorably or nega-
+tively, shifts the forecast away from the base value until it
+reaches the final prediction made by the model. It is simple
+to comprehend the cumulative effect of individual factors on
+the forecast thanks to this step-by-step graphic analysis.
+Figures 12 and 13, which respectively represent the SHAP
+force plot and SHAP waterfall plot, illustrate the contribution
+of each feature in predicting the final outcome. The base
+value, or the average predicted value, is E[f (x)] = 0.2113,
+meaning that initially, without the influence of any features,
+the class had a 21.13% chance of being predicted as the
+outcome. The final prediction was f (x) = 0, indicating that
+after considering the influence of all features, the class has a
+0% chance of being predicted as the outcome. In this case,
+the plots were designed to determine whether the network is
+under any kind of attack or not, focusing on the normal class
+in a multiclass prediction. The result, where f (x) = 0, means
+the test set has a 0% chance of being normal, confirming it
+is indeed an attack scenario. The SHAP plots also reveal the
+features and the magnitude of their influence on the outcome.
+For instance, the feature ‘‘Data_Sent_To_BS’’ provided the
+most positive influence, pushing the prediction probability
+higher, while the feature ‘‘ADV_S’’ had the most negative
+influence, lowering the prediction probability to the point
+where it became certain that the scenario was an attack.
+3) SHAP SUMMARY PLOT FOR IMPORTANCE OF FEATURES
+(GLOBAL)
+The SHAP summary plot is a visualization tool that shows
+how different attributes impact an ML model’s output. In this
+two-dimensional graphic, the vertical and horizontal axes,
+respectively, reflect the feature names and the influence of
+the SHAP values. The SHAP values along the horizontal
+axis indicate each feature’s impact on the model’s output.
+A centerline divides these SHAP values; values to the right of
+the centerline suggest that the feature increases the expected
+value, while values to the left suggest that it decreases it.
+The titles of the features are positioned in descending order
+of influence along the vertical axis, with the most important
+features at the top. The plot also uses color to indicate
+feature value, with red indicating greater importance and blue
+indicating less relevance. It is simpler to see which features
+have the greatest influence on the model’s predictions thanks
+to the color coding.
+Figure 14 represents the SHAP summary plot for the
+Normal class of a test dataset. The plot reveals that the
+feature ‘‘dist_CH_To_BS’’ is the most important feature
+for the Normal class, as evidenced by its widest spread
+of SHAP values, indicating its significant impact on the
+model’s outcome for that class. The feature also shows that
+most of the higher SHAP values are on the left side of the
+centerline, suggesting that as the value of ‘‘dist_CH_To_BS’’
+increases, it tends to have a negative impact on the prediction.
+Other important features include ‘‘DATA_R,’’ ‘‘ADV_S,’’
+and ‘‘SCH_S.’’ The plot indicates that a low value of
+Figure 14. SHAP summary plot for normal class.
+‘‘dist_CH_To_BS,’’ a high value of ‘‘DATA_R,’’ and low
+values of ‘‘ADV_S’’ and ‘‘SCH_S’’ are associated with a
+normal, non-attack scenario.
+4) SHAP SUMMARY PLOT OF THE VIOLIN DISTRIBUTION
+FOR IMPORTANCE OF FEATURE (GLOBAL)
+The influence and density of features in the output of an ML
+model are shown by the SHAP summary plot with violin
+distribution. It has a horizontal and vertical axis and is a
+two-dimensional plot, just like the typical SHAP summary
+plot. The vertical axis provides a list of feature names, and
+the horizontal axis displays the SHAP values, which show
+how each feature affects the model’s prediction. However,
+instead of showing the exact position of the SHAP values,
+the violin plot displays the density of these values at different
+positions, offering a visual representation of how densely the
+SHAP values are concentrated in certain areas. This helps
+to understand not just the magnitude of a feature’s impact,
+but also how consistently that impact occurs across different
+predictions.
+The violin representation of the SHAP values for the
+Normal class is shown in Figure 15, which also illustrates
+how different features affect the model’s predictions. As the
+most important element in categorizing the Normal class,
+the characteristic ‘‘dist_CH_To_BS’’ stands out, with most
+greater SHAP values falling into the negative influence
+category. On the other hand, lower SHAP values improve
+the forecast. The density of SHAP values is the widest on
+the right side of the centerline, indicating a concentration
+of values that positively influence the prediction, though
+their proximity to the centerline suggests a minimal impact.
+Features like ‘‘ADV_S’’ and ‘‘SCH_S’’ show a similar level
+of influence, whereas ‘‘Expanded Energy’’ exhibits a more
+VOLUME 13, 2025
+13725

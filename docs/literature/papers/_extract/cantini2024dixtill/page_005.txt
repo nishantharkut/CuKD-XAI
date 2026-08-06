@@ -1,0 +1,46 @@
+Page 5 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+Another common explanation method, grounded in cooperative game theory, is SHAP 
+(SHapley Additive exPlanation) [30]. The method computes the contribution of each fea-
+ture to the predicted outcome using the Shapley value, which is a measure that fairly 
+distributes the credit among a set of players (i.e., the input features) contributing to a 
+certain outcome (i.e., the model prediction). Integrated Gradients (IG) [31] is a model-
+specific explanation method that calculates feature attributions to the prediction by 
+accumulating gradients along a path from a baseline instance to the specific instance of 
+interest. By using integration, IG captures the sensitivity of the model’s output to varia-
+tions in each input feature, revealing influential features for a given prediction.
+Besides using XAI methods to provide the user with useful insights into the ration-
+ale behind the model decision process, some attempts have been made in the field of 
+Explanation-Guided Learning (EGL) to investigate how explanations can be leveraged to 
+improve the learning process of deep models [32]. As an example, Nigisetty et al. [9] pro-
+posed xAI-GANs, a new class of Generative Adversarial Networks that incorporate local 
+explanations of the classification made by the discriminator into the gradient descent 
+process to provide richer corrective feedback to the generator. Zeng et al. [33] proposed 
+a method to generate end-to-end attributional explanations for deep networks, leverag-
+ing attribution maps from an adversarially trained counterpart model to supervise the 
+learned explanations. Another method was proposed by Alharbi et al. [10], consisting of 
+leveraging convolutional autoencoders to transfer both the knowledge and explanations 
+from a teacher to a student, represented by Convolutional Neural Networks at different 
+scales.
+Proposed method
+The proposed method, namely DiXtill, provides a novel approach to distilling knowl-
+edge from LLMs into lightweight neural architectures, thus easing the deployment on 
+resource-constrained devices. As depicted in Fig. 1, the main idea behind DiXtill is to 
+leverage local explanations provided by an Explainer as a complement to the usual pre-
+diction-based supervision, to guide the distillation process of a Teacher LLM into a Self-
+explainable student.
+The teacher is an LLM based on the Transformer  [34] architecture, such as BERT 
+(Bidirectional Encoder Representations from Transformers)  [35] and GPT (Generative 
+Pre-trained Transformer) [36]. The student model is a bi-directional Long Short-Term 
+Memory (LSTM), which generates both a classification and an explanation via masked 
+attention. In the following sections, the architecture of the self-explainable student 
+network and the distillation process will be delineated in detail, describing how expla-
+nations are transferred from the teacher to enhance both the effectiveness and interpret-
+ability of the distilled student.
+Self‑explainable student model architecture
+The student model consists of a bi-directional Long Short-Term Memory network 
+enhanced with masked attention. The use of such a mechanism allows for improv-
+ing classification performance and provides interpretability, by dynamically assigning 
+weights to individual input words in proportion to their significance for the model’s 
+classification.

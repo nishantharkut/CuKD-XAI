@@ -1,0 +1,130 @@
+profiles and feature sets that align well with RFC’s strengths in handling heterogeneous data. The RFC’s ability to 
+effectively manage both categorical and continuous features likely contributed to its strong performance on these 
+datasets. In particular, on WSN-DS, RFC demonstrated high accuracy and robustness, yielding an accuracy of 
+99.94%, precision of 99.94%, and recall of 99.94%. Similarly, on the TON-IoT dataset, RFC also showed strong 
+performance with an accuracy of 99.97%, precision of 99.97%, and recall of 99.97%. These results highlight 
+the classifier’s ability to adapt to different types of data and attack scenarios, reinforcing its effectiveness for 
+intrusion detection in wireless sensor networks and IoT environments. While the RFC performed exceptionally 
+well in these specific scenarios, its generalizability to other intrusion detection tasks with varying attack profiles 
+will depend on how closely the features and data distributions in new datasets match those of WSN-DS and 
+TON-IoT. Nonetheless, given RFC’s robustness in these cases, we are confident that it could offer competitive 
+performance in a variety of contexts.
+Our methodology enhances the scalability and robustness of IDS in resource-constrained environments 
+like WSNs by integrating an adaptive framework that leverages StandardScaler, KMS for data balancing, PCA 
+with Kaiser Criterion for dimension reduction, and RFC. StandardScaler ensures feature standardization, which 
+stabilizes the model and improves performance. KMeans SMOTE addresses class imbalance by generating 
+synthetic samples of minority classes, thereby enhancing the model’s ability to detect underrepresented attack 
+patterns. PCA, applied using the Kaiser Criterion, reduces the dimensionality of the data while retaining only the 
+most significant features, significantly lowering computational complexity. Finally, the RFC classifier is employed 
+to effectively classify attacks with high accuracy and resilience, even in environments with limited resources. We 
+validated the proposed approach on the WSN-DS and TON-IoT datasets, demonstrating its robust performance 
+across diverse network conditions and attack profiles. This adaptive methodology ensures our model’s scalability, 
+efficiency, and resilience, making it well-suited for deployment in WSNs.
+While advanced DL architectures, such as hybrid models, have demonstrated strong performance in domains 
+like power systems (Graph wavelet CNN)34 and in network attack detection (CNN+RNN)25, we find that 
+ML models are more compatible and effective in enhancing adaptability to complex attack patterns in WSNs 
+than DL. DL models often require substantial computational resources, which may not be optimal in WSN 
+environments with limited resources. Therefore, we focus on the use of the ML model, which offers a more 
+efficient and effective solution for intrusion detection in such sensors and IOT netowrks.
+Complexity analysis
+The complexity analysis of our proposed model, which integrates KMeans-SMOTE (KMS) with PCA and RFC, 
+is presented in Table 15. The analysis compares the training, prediction, and total time required for different 
+machine learning models using various dataset preprocessing techniques. Experiment 1, which uses STL+PCA, 
+shows that the RFC has the highest total time of 602.360 seconds, followed by the CBC at 381.434 seconds. In 
+Experiment 2, using GAN+PCA, the total time is generally lower, with RFC taking 312.986 seconds, while the 
+other models, such as DTC and XGBC, show significantly shorter training and prediction times. For Experiment 
+3, which applies KMS+PCA, our proposed model with RFC achieves a training time of 247.621 seconds and a 
+prediction time of 3.468 seconds, resulting in a total time of 251.090 seconds. While RFC remains the model 
+with the highest computational complexity, the integration of KMS+PCA significantly reduces the overall time 
+compared to STL+PCA, making it more efficient. PCA-based preprocessing aids in reducing training times 
+for most models, while maintaining high classification performance, which is crucial for real-time intrusion 
+Exp. No.
+DB+DR Tech.
+Model Name
+Training Time (s)
+Prediction Time (s)
+Total Time (s)
+1
+STL+PCA
+DTC
+20.617
+0.044
+20.661
+RFC
+597.124
+5.236
+602.360
+CBC
+379.410
+2.023
+381.434
+XGBC
+62.912
+3.891
+66.803
+LGBC
+41.225
+8.466
+49.690
+HGBC
+42.975
+8.082
+51.057
+2
+GAN+PCA
+DTC
+10.728
+0.021
+10.749
+RFC
+310.220
+2.766
+312.986
+CBC
+324.239
+1.934
+326.172
+XGBC
+54.040
+3.336
+57.376
+LGBC
+33.258
+4.142
+37.400
+HGBC
+34.322
+6.346
+40.668
+3
+KMS+PCA
+DTC
+13.432
+0.032
+13.464
+RFC
+247.621
+3.468
+251.090
+CBC
+490.615
+3.331
+493.946
+XGBC
+74.303
+3.428
+77.732
+LGBC
+49.744
+6.251
+55.995
+HGBC
+64.503
+7.984
+72.486
+Table 15.  Complexity analysis of ML models on WSN-DS. Significant values are in bold.
+ 
+Scientific Reports |         (2025) 15:4617 
+19
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

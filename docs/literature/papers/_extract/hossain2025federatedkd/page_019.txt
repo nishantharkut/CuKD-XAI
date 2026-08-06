@@ -1,0 +1,103 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 19 of 23
+422
+number of trees, L is the maximum depth of a tree, and
+D is the number of features. The hyperparameter tuning
+selects T (Number of Trees) as 10, the maximum depth L
+of each tree is set to None (default in Random Forest from
+Scikit-learn), resulting in variable tree depth, and D (Num-
+ber of Features) varies across datasets as shown in Fig. 2.
+Although SHAP computations require considerable process-
+ing power, performing them locally on the devices ensures
+that the central server remains efﬁcient and unaffected by
+additional computational load. Global feature aggregation,
+which performs weighted averaging of SHAP values from
+clients, is computationally lightweight with a complexity of
+O(k · D), where k is the number of clients. The overall
+complexity of the framework can thus be approximated as
+O(k · (t · n · log(n) + T · L · D)), dominated by the local
+computations across k clients. By leveraging SHAP to pri-
+oritize important features, the approach effectively reduces
+data dimensionality, further optimizing computational and
+communication overhead. This design achieves high detec-
+tion performance while ensuring scalability and feasibility
+for IoT security, even under the constraints of heterogeneous
+and resource-limited devices.
+The proposed approach for IoT security is practically
+implemented by deploying local intrusion detection systems
+on IoT devices or gateways, where models are trained on
+device-speciﬁc data to ensure privacy. Using SHAP, fea-
+ture importance is computed locally, enabling explainability
+and prioritization of critical features. Aggregated insights are
+securely shared with a central server for global feature opti-
+mization, facilitating coordinated detection across devices.
+This distributed and privacy-preserving design ensures scal-
+ability, adaptability to evolving threats, and feasibility for
+resource-constrained IoT environments.
+Our approach addresses limitations in centralized ML/DL
+methods, which often struggle with privacy concerns and the
+inability to handle non-IID data effectively. By utilizing fed-
+erated learning, our method eliminates the need for direct
+data sharing, preserving client privacy and meeting data secu-
+rity requirements crucial for IoT environments. Moreover,
+centralized approaches often fail to adapt to the diverse,
+evolving nature of IoT botnets due to their static nature. In
+contrast, our approach employs SHAP-based feature impor-
+tance aggregation, enabling dynamic updates that account for
+varied client-speciﬁc patterns, effectively tackling the evolv-
+ing attack architectures. Furthermore, traditional FL models
+lack interpretability, which is essential for identifying attack
+patterns in IoT networks. Our use of SHAP-based knowledge
+distillation not only enhances the interpretability but also
+ensures that only essential information is shared with the cen-
+tral server. This targeted knowledge sharing and aggregation
+process reduces communication overhead and enhances the
+model’s performance across distributed clients, overcoming
+common limitations found in traditional FL. Overall, our pro-
+posed federated framework provides a privacy-preserving,
+interpretable, and highly effective solution for IoT botnet
+detection, addressingcritical gaps inbothcentralizedML/DL
+and standard FL approaches.
+The research questions listed in the introduction section
+are addressed based on our ﬁndings, and the corresponding
+answers are provided below.
+• RA1: Federated learning is effectively utilized in our
+framework by allowing decentralized model training
+directly on each IoT client, preserving privacy by ensuring
+that raw data is never shared. Through this approach, the
+framework handles the heterogeneity and non-IID nature
+of IoT data by leveraging SHAP-based feature align-
+ment, which enables the aggregation of feature importance
+scores from diverse devices. This ensures robust detection
+of botnet intrusions across heterogeneous IoT environ-
+ments while addressing privacy and scalability concerns.
+• RA2: The integration of SHAP-based knowledge distilla-
+tionenhancesmodelinterpretabilitybyquantifyingfeature
+importance locally at each client, sharing only distilled
+insights with the central server. This alignment of glob-
+ally relevant features ensures consistency across diverse
+IoT devices and provides transparency into the decision-
+making process of the global model. This interpretability
+not only improves trust in the framework but also enhances
+detection accuracy by focusing on the most critical fea-
+tures.
+• RA3: Decentralized feature aggregation plays a crucial
+role in improving scalability and adaptability by allowing
+each client to train on locally relevant data and contribut-
+ing feature importance scores to the global model. This
+approach enables the framework to detect botnet patterns
+effectively across diverse and resource-constrained IoT
+devices. The decentralized design reduces communication
+overhead, supports large-scale deployment, and allows the
+system to adapt to varying data distributions.
+• RA4: The proposed framework addresses the challenges
+posed by evolving botnet architectures and resource con-
+straints by incorporating continuous learning through
+decentralized training and SHAP-based feature priori-
+tization. By focusing on essential feature insights, the
+framework adapts to changing botnet behaviors with-
+out requiring extensive computational resources on IoT
+devices. This ﬂexibility ensures effective detection of
+new and emerging threats while maintaining efﬁciency in
+resource-limited environments.
+123

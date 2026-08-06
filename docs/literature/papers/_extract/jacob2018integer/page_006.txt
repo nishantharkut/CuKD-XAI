@@ -1,0 +1,132 @@
+a much higher range and precision compared to the 8 bit
+weights and activations. Furthermore, quantization param-
+eters used for biases are inferred from the quantization pa-
+rameters of the weights and activations. See section 2.4.
+Typical TensorFlow code illustrating use of [19] follows:
+from tf.contrib.quantize import quantize_graph as qg
+g = tf.Graph()
+with g.as_default():
+output, total_loss, optimizer, train_tensor = ...
+if is_training:
+quantized_graph = qg.create_training_graph(g)
+else:
+quantized_graph = qg.create_eval_graph(g)
+# Train or evaluate quantized_graph.
+3.2. Batch normalization folding
+For models that use batch normalization (see [17]), there
+is additional complexity: the training graph contains batch
+normalization as a separate block of operations, whereas
+the inference graph has batch normalization parameters
+“folded” into the convolutional or fully connected layer’s
+weights and biases, for efﬁciency. To accurately simulate
+quantization effects, we need to simulate this folding, and
+quantize weights after they have been scaled by the batch
+normalization parameters. We do so with the following:
+wfold :=
+γw
+p
+σ2
+B + ε
+.
+(14)
+Here γ is the batch normalization’s scale parameter, σ2
+B is
+the estimate of the variance of convolution results across the
+batch, and ε is just a small constant for numerical stability.
+After folding, the batch-normalized convolutional layer
+reduces to the simple convolutional layer depicted in ﬁg-
+ure 1.1a with the folded weights wfold and the correspond-
+ing folded biases. Therefore the same recipe in ﬁgure 1.1b
+applies. See Appendix for the training graph (ﬁgure C.5) for
+a batch-normalized convolutional layer, the corresponding
+inference graph (ﬁgure C.6), the training graph after batch-
+norm folding (ﬁgure C.7) and the training graph after both
+folding and quantization (ﬁgure C.8).
+4. Experiments
+We conducted two set of experiments, one showcas-
+ing the effectiveness of quantized training (Section. 4.1),
+and the other illustrating the improved latency-vs-accuracy
+tradeoff of quantized models on common hardware (Sec-
+tion. 4.2). The most performance-critical part of the infer-
+ence workload on the neural networks being benchmarked
+is matrix multiplication (GEMM). The 8-bit and 32-bit
+ﬂoating-point GEMM inference code uses the gemmlowp
+library [18] for 8-bit quantized inference, and the Eigen li-
+brary [6] for 32-bit ﬂoating-point inference.
+ResNet depth
+50
+100
+150
+Floating-point accuracy
+76.4%
+78.0%
+78.8%
+Integer-quantized accuracy
+74.9%
+76.6%
+76.7%
+Table 4.1: ResNet on ImageNet: Floating-point vs quantized net-
+work accuracy for various network depths.
+Scheme
+BWN
+TWN
+INQ
+FGQ
+Ours
+Weight bits
+1
+2
+5
+2
+8
+Activation bits
+ﬂoat32
+ﬂoat32
+ﬂoat32
+8
+8
+Accuracy
+68.7%
+72.5%
+74.8%
+70.8%
+74.9%
+Table 4.2: ResNet on ImageNet: Accuracy under various quan-
+tization schemes, including binary weight networks (BWN [21,
+15]), ternary weight networks (TWN [21, 22]), incremental net-
+work quantization (INQ [33]) and ﬁne-grained quantization (FGQ
+[26])
+4.1. Quantized training of Large Networks
+We apply quantized training to ResNets [9] and Incep-
+tionV3 [30] on the ImageNet dataset. These popular net-
+works are too computationally intensive to be deployed on
+mobile devices, but are included for comparison purposes.
+Training protocols are discussed in Appendix D.1 and D.2.
+4.1.1
+ResNets
+We compare ﬂoating-point vs integer-quantized ResNets in
+table 4.1. Accuracies of integer-only quantized networks
+are within 2% of their ﬂoating-point counterparts.
+We also list ResNet50 accuracies under different quan-
+tization schemes in table 4.2.
+As expected, integer-only
+quantization outperforms FGQ [26], which uses 2 bits for
+weight quantization. INQ [33] (5-bit weight ﬂoating-point
+activation) achieves a similar accuracy as ours, but we pro-
+vide additional run-time improvements (see section 4.2).
+4.1.2
+Inception v3 on ImageNet
+We compare the Inception v3 model quantized into 8 and 7
+bits, respectively. 7-bit quantization is obtained by setting
+the number of quantization levels in equation 12 to n = 27.
+We additionally probe the sensitivity of activation quantiza-
+tion by comparing networks with ReLU6 and ReLU. The
+training protocol is in Appendix D.2.
+Table 4.3 shows that 7-bit quantized training produces
+model accuracies close to that of 8-bit quantized train-
+ing, and quantized models with ReLU6 have less accuracy
+degradation. The latter can be explained by noticing that
+ReLU6 introduces the interval [0, 6] as a natural range for
+activations, while ReLU allows activations to take values
+from a possibly larger interval, with different ranges in dif-
+2709

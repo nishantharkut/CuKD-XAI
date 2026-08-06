@@ -1,0 +1,29 @@
+Figure 1: Left: Attention map visualizations for teacher ensembles and student model
+in Knowledge Distillation (KD) on ImageNet dataset.
+Stronger data augmentation
+(T1wT2sSs and T1sT2wSs in this case) as measured by Affinity improves teachers’ at-
+tentional divergence, thus providing the student a more comprehensive perspective on
+the overall characteristics of the target images, leading to a better generalization abil-
+ity. Middle and Right: Scatter plots of Intersection over Union (IoU) in Attention maps,
+and Fidelity between teacher ensembles and student during KD training. The decreasing
+tendency in fidelity challenges the conventional wisdom that higher fidelity consistently
+correlate with better student performance. Later we will demonstrate that the low-fidelity
+observation is caused by attention map diversification existed within teacher ensembles,
+and even optimization towards logits-matching can hardly mitigate this low-fidelity effect.
+versity and student model accuracy in ensemble KD training. Stronger
+data augmentation improves attentional divergence among teacher mod-
+els, offering the student a more comprehensive perspective.
+(2) We affirm the viewpoint from (Stanton et al, 2021) that higher fidelity
+between teachers and student does not consistently improve student
+performance. What is more, through analyzing attention maps between
+teachers in ensemble KD, we highlight this low-fidelity phenomenon as
+an underlying characteristic rather than a pathology: Student’s gener-
+alization is enhanced with more diverse teacher models, which causes
+the reduction in student-teacher fidelity.
+(3) We further investigate if optimization towards facilitating the student-
+teacher logits matching procedure can enhance the KD fidelity. Our
+empirical and theoretically analysis demonstrate that such optimization
+improve the student generalization ability but still at the cost of fidelity
+reduction.
+The rest of the paper is structured as follows: Section 2 summarizes the
+4

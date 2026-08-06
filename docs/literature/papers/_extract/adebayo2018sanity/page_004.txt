@@ -1,0 +1,55 @@
+Current assessment methods.
+Both Samek et al. [29] and Montavon et al. [30] proposed an input
+perturbation procedure for assessing the quality of saliency methods. Dabkowski and Gal [17]
+proposed an entropy based metric to quantify the amount of relevant information an explanation
+mask captures. Performance of a saliency map on an object localization task has also been used for
+assessing saliency methods. Montavon et al. [30] discuss explanation continuity and selectivity as
+measures of assessment.
+Randomization.
+Our label randomization test was inspired by the work of Zhang et al. [31],
+although we use the test for an entirely different purpose.
+2.2
+Visualization & Similarity Metrics
+We discuss our visualization approach and overview the set of metrics used in assessing similarity
+between two explanations.
+Visualization.
+We visualize saliency maps in two ways. In the ﬁrst case, absolute-value (ABS), we
+take absolute values of a normalized map. For the second case, diverging visualization, we leave the
+map as is, and use different colors to show positive and negative importance.
+Similarity Metrics.
+For quantitative comparison, we rely on the following metrics: Spearman rank
+correlation with absolute value (absolute value), Spearman rank correlation without absolute value
+(diverging), the structural similarity index (SSIM), and the Pearson correlation of the histogram of
+gradients (HOGs) derived from two maps. We compute the SSIM and HOGs similarity metric on
+ImageNet examples without absolute values4. SSIM and Pearson correlation of HOGs have been
+used in literature to remove duplicate images and quantify image similarity. Ultimately, quantifying
+human visual perception is still an active area of research.
+3
+Model Parameter Randomization Test
+The parameter settings of a model encode what the model has learned from the data during training.
+In particular, model parameters have a strong effect on test performance of the model. Consequently,
+for a saliency method to be useful for debugging a model, it ought to be sensitive to model parameters.
+As an illustrative example, consider a linear function of the form f(x) = w1x1 + w2x2 with input
+x ∈R2. A gradient-based explanation for the model’s behavior for input x is given by the parameter
+values (w1, w2), which correspond to the sensitivity of the function to each of the coordinates.
+Changes in the model parameters therefore change the explanation.
+Our proposed model parameter randomization test assesses an explanation method’s sensitivity
+to model parameters. We conduct two kinds of randomization. First we randomly re-initialize
+all weights of the model both completely and in a cascading fashion. Second, we independently
+randomize a single layer at a time while keeping all others ﬁxed. In both cases, we compare the
+resulting explanation from a network with random weights to the one obtained with the model’s
+original weights.
+3.1
+Cascading Randomization
+Overview. In the cascading randomization, we randomize the weights of a model starting from the
+top layer, successively, all the way to the bottom layer. This procedure destroys the learned weights
+from the top layers to the bottom ones. Figure 2 shows masks, for several saliency methods, for an
+example input for the cascading randomization on an Inception v3 model trained on ImageNet. In
+Figure 4, we show the two Spearman (absolute value and no-absolute value) metrics across different
+data sets and architectures. Finally, in Figure 5, we show the SSIM and HOGs similarity metrics.
+The gradient shows sensitivity while Guided Backprop is invariant to higher layer weights.
+We ﬁnd that the gradient map is, indeed, sensitive to model parameter randomization. Similarly,
+GradCAM is sensitive to model weights if the randomization is downstream of the last convolutional
+layer. However, Guided Backprop (along with Guided GradCAM) is invariant to higher layer weights.
+4We refer readers to the appendix for a discussion on calibration of these metrics.
+4

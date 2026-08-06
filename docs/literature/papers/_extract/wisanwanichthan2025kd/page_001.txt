@@ -1,0 +1,64 @@
+Academic Editor: Paolo Bellavista
+Received: 15 June 2025
+Revised: 15 July 2025
+Accepted: 15 July 2025
+Published: 19 July 2025
+Citation: Wisanwanichthan, T.;
+Thammawichai, M. A Lightweight
+Intrusion Detection System for IoT and
+UAV Using Deep Neural Networks
+with Knowledge Distillation.
+Computers 2025, 14, 291. https://
+doi.org/10.3390/computers14070291
+Copyright: © 2025 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license
+(https://creativecommons.org/
+licenses/by/4.0/).
+Article
+A Lightweight Intrusion Detection System for IoT and UAV
+Using Deep Neural Networks with Knowledge Distillation
+Treepop Wisanwanichthan
+and Mason Thammawichai *
+Electrical Engineering Department, Navaminda Kasatriyadhiraj Royal Air Force Academy, Saraburi 18180,
+Thailand; treepop@rtaf.mi.th
+* Correspondence: mason@rtaf.mi.th
+Abstract
+Deep neural networks (DNNs) are highly effective for intrusion detection systems (IDS)
+due to their ability to learn complex patterns and detect potential anomalies within the
+systems. However, their high resource consumption requirements including memory and
+computation make them difficult to deploy on low-powered platforms. This study explores
+the possibility of using knowledge distillation (KD) to reduce constraints such as power
+and hardware consumption and improve real-time inference speed but maintain high
+detection accuracy in IDS across all attack types. The technique utilizes the transfer of
+knowledge from DNNs (teacher) models to more lightweight shallow neural network
+(student) models. KD has been proven to achieve significant parameter reduction (92–95%)
+and faster inference speed (7–11%) while improving overall detection performance (up to
+6.12%). Experimental results on datasets such as NSL-KDD, UNSW-NB15, CIC-IDS2017,
+IoTID20, and UAV IDS demonstrate DNN with KD’s effectiveness in achieving high
+accuracy, precision, F1 score, and area under the curve (AUC) metrics. These findings
+confirm KD’s ability as a potential edge computing strategy for IoT and UAV devices,
+which are suitable for resource-constrained environments and lead to real-time anomaly
+detection for next-generation distributed systems.
+Keywords: anomaly detection; deep neural network; information security; internet of
+things; intrusion detection system; knowledge distillation; network security; lightweight
+model; unmanned aerial vehicle
+1. Introduction
+An intrusion detection system (IDS) is a security tool that helps monitor and analyze
+the activities of a network or system for malicious actions. This implies that IDS is a
+vital section of cybersecurity in the way that it can alert administrators when potential
+threats occur [1]. There are two main types of IDS: signature-based and anomaly-based.
+Signature-based IDS checks traffic against pre-defined patterns and anomaly-based IDS
+operates by learning normal network activities and alerts once any deviations are found [2].
+An anomaly IDS excels at identifying unknown threats like zero-day attacks that lack
+exact-matched patterns, including attacks in IoT systems [3]. Therefore, IDS is often seen as
+another layer of defense to complement other security measures, protecting systems against
+serious cyber threats [4,5]. Deep learning utilizes artificial neural networks with multiple
+layers of neurons to optimize pattern recognition and understand sophisticated data.
+The system processes a substantial amount of data as well as extracts key characteristics
+automatically [6]. Several architectures like convolutional neural networks (CNNs) and
+Computers 2025, 14, 291
+https://doi.org/10.3390/computers14070291

@@ -1,0 +1,66 @@
+Experiment setup
+The experiments for the IDS model were conducted on a system equipped with Ubuntu 20.04 LTS as the operating 
+system, ensuring compatibility with various ML libraries. The system was configured with 16 GB of RAM and 
+a 512 GB ROM, allowing efficient handling of large datasets. For processing, an Intel Core i7-9700K processor 
+was used, coupled with a 1 TB SSD for faster data access and a 2 TB HDD for additional storage. To support 
+the execution of ML models, several Python libraries were utilized, including scikit-learn for traditional 
+algorithms, xgboost for extreme gradient boosting, lightgbm for Light Gradient Boosting and pandas, 
+numpy along with matplotlib for implementing data reading, numerical computing, and visualization on 
+Jupyter Notebook, Anaconda Navigator environment. This setup provided a robust environment to conduct 
+model training, testing, and performance evaluation effectively.
+Performance metrics
+•	 Confusion Matrix: The confusion matrix (Table 5) displays the performance of a classification model by 
+showing the counts of True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives 
+(FN). The matrix can be used to compute various evaluation metrics.
+•	 Accuracy: 
+	
+Accuracy =
+TP + TN
+TP + FP + FN + TN 
+(17)
+•	 Precision: 
+	
+Precision =
+TP
+TP + FP 
+(18)
+•	 Sensitivity (Recall): 
+	
+Sensitivity =
+TP
+TP + FN 
+(19)
+•	 Specificity: 
+	
+Speciﬁcity =
+TN
+TN + FP 
+(20)
+•	 F1-Score: 
+	
+F1-score = 2 · Precision · Recall
+Precision + Recall
+(21)
+•	 Cohen’s Kappa (Kappa): 
+	
+κ = Po −Pe
+1 −Pe 
+(22)
+where
+•	 Po = observed agreement (the proportion of correct predictions).
+•	 Pe = expected agreement (the proportion of agreement that would be expected by chance).
+•	 Matthews Correlation Coefficient (MCC): 
+Actual positive
+Actual negative
+Predicted positive
+TP
+FP
+Predicted negative
+FN
+TN
+Table 5.  Confusion matrix.
+ 
+Scientific Reports |         (2025) 15:4617 
+11
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

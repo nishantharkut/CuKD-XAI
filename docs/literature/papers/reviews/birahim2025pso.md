@@ -1,0 +1,73 @@
+# Review card: birahim2025pso
+
+**Status:** PASS1B+PASS2_TEXT+PASS2_VISUAL_TITLE OK
+**PDF text pages extracted:** 20
+**Ground truth extract:** `_extract/birahim2025pso.full.txt`
+**Evidence JSON:** `_pass1b_evidence/birahim2025pso.json`
+**Generated:** 2026-08-06
+
+## Identity (page-1 text)
+- **Title:** Digital Object Identifier 10.1109/ACCESS.2025.3528341 Intrusion Detection for Wireless Sensor Network
+- **Tags:** XAI, WSN
+
+## Abstract (extracted)
+> Wireless Sensor Networks (WSN) play a pivotal role in various domains, including monitoring, security, and data transmission. However, their susceptibility to intrusions poses a significant challenge. This paper proposes a novel Intrusion Detection System (IDS) leveraging Particle Swarm Optimization (PSO) and an ensemble machine learning approach combining Random Forest (RF), Decision Tree (DT), and K-Nearest Neighbors (KNN) models to enhance the accuracy and reliability of intrusion detection in WSNs. The system addresses key challenges such as the imbalanced nature of datasets and the evolving complexity of network attacks. By incorporating Synthetic Minority Oversampling Technique Tomek (SMOTE-Tomek) techniques to balance the dataset and employing explainable AI methods such as Local Interpretable Model-agnostic Explanations (LIME) and SHapley Additive exPlanations (SHAP), the proposed model achieves significant improvements in detection accuracy, precision, recall, and F1 score while providing clear, interpretable results. Extensive experimentation on WSN-DS dataset demonstrates the system’s efficacy, achieving an accuracy of 99.73%, with precision, recall, and F1 score values of 99.72% each, outperforming existing approaches. This work offers a robust, scalable solution for securing WSNs, contributing to both academic research and practical applications.
+
+## Table headers present in PDF text (exact lines)
+- `Table 1. Feature description.`
+- `Table 2. Label encoding used in the proposed method.`
+- `Table 3. Model with tuned hyperparameter names.`
+- `Table 3 presents the optimized hyperparameters for`
+- `Table 4. Performance metrics analysis for different ML algorithms using`
+- `Table 5. Comparison of proposed model with previous research works.`
+- `Table 6. Actual values of the test sample chosen for the LIME`
+
+## Metric-bearing lines (exact PDF lines; PASS2-verified)
+- `improvements in detection accuracy, precision, recall, and F1 score while providing clear, interpretable`
+- `accuracy of 99.73%, with precision, recall, and F1 score values of 99.72% each, outperforming existing`
+- `resulting in an accuracy of 99.16% with both the LightGBM`
+- `technique and got an accuracy of 92.39%. After applying`
+- `SMOTE, the accuracy improved slightly to 92.57%, under-`
+- `[15]. The system’s accuracy and efficiency were improved`
+- `requirements, achieving an accuracy of 98.29% in preventing`
+- `identify intrusions. With an accuracy of 95.53%, the system`
+- `[20]. Their work demonstrated a 99.80% accuracy on the`
+- `100% accuracy on the UNSW-NB15 and CICIDS2017`
+- `curacy. The model achieved a detection accuracy of 99.5%`
+- `peak accuracy of 99.34%, the model was able to utilize the`
+- `gain an approximate accuracy rate of 99%.`
+- `a maximum accuracy of 99.36%, the model outperformed`
+- `and 20% for testing. Hyperparameter tuning was performed`
+- `such as accuracy, precision, recall, and F1 score were used to`
+- `2) SHAPLEY ADDITIVE EXPLANATIONS(SHAP)`
+- `Table 3. Model with tuned hyperparameter names.`
+- `Table 3 presents the optimized hyperparameters for`
+- `1) ACCURACY`
+- `2) PRECISION`
+- `3) RECALL`
+- `4) F1 SCORE`
+- `The F1 score is a balanced statistic that considers both`
+- `between precision and recall. F1 score is calculated as:`
+- `F1score = 2 ∗Precision ∗Recall`
+- `precision is required, the F1 score is useful as it provides a`
+- `F1 score, computed using the weighted average method for`
+- `DT models achieved a maximum accuracy of 99.41% when`
+- `RF model’s 99.68% accuracy on the WSN dataset shows`
+
+## CuKD freeze notes (non-numeric)
+- XAI neighborhood → do not invent Spearman ρ; C6 is CuKD measurement.
+- WSN neighborhood → Almomani WSN-DS lineage.
+- **Numbers only from exact lines above.**
+
+## Verification
+- PASS1B: evidence JSON written with exact lines from extract
+- PASS2: all `37` quoted lines re-found in full extract (by construction)
+- PASS2_TEXT: OK; PASS2_VISUAL_TITLE: OK
+
+## PASS2 independent text re-check (2026-08-06)
+- **PASS2_OK** — 37/37 quotes exact-match in full extract
+
+## PASS2 visual title check (2026-08-06)
+- page_001.png exists: True
+- title word hit ratio vs page-1 text: 1.000
+- **PASS2_VISUAL_TITLE_OK** (title words supported by page-1 text + PNG on disk)

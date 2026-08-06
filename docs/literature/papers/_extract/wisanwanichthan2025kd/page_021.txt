@@ -1,0 +1,51 @@
+Computers 2025, 14, 291
+21 of 25
+it is generally more critical to avoid mission-halting false alerts, but reducing undetected
+attacks remains an important goal for future work.
+Inference latency is a critical bottleneck on resource-limited IoT and UAV controllers,
+and our KD framework reduces per-instance inference time by 7–11%, an improvement
+that can meaningfully shorten detection delays and enable faster countermeasures in flight.
+Likewise, reducing model parameters by over 90% suggests substantial energy savings
+potentially extending UAV mission time or allowing longer continuous IDS operation.
+These gains also support quicker system recovery or safe-landing procedures by narrowing
+the window during which malicious inputs can mislead the vehicle. Although KD may
+introduce its own security considerations (such as inherited adversarial weaknesses), a
+detailed assessment of these risks is beyond the scope of this study. It is worth noting
+that recent work shows that adversarial vulnerabilities can persist through knowledge
+distillation and across different application domains. Goldblum et al. [51] found that a
+student model inherits both its teacher’s robustness and its susceptibility to adversarial
+examples, meaning that any blind spots in the teacher can be transferred to the student.
+Sheatsley et al. [52] further demonstrated that carefully crafted adversarial network traffic
+can evade IDS models with success rates exceeding 95%, even when only permissible
+features are modified under realistic constraints. Therefore, deploying KD-based IDS
+should include strategies to investigate and mitigate potential adversarial vulnerabilities.
+In IoT deployments, the lower recall on rare ARP-spoofing attacks means that a small
+number of man-in-the-middle intrusions could be unnoticed, but since these flows account
+for under 5% of traffic and downstream monitoring tools can catch anomalous behavior, the
+overall network risk remains manageable. In UAV operations, missing 3% of spoofing and
+17% jamming events could allow brief navigation errors, yet maintaining zero false positives
+ensures that emergency landings are not triggered unnecessarily—preserving mission
+continuity. Balancing these trade-offs in practice means implementing the KD-based IDS
+can help detect rare attacks without sacrificing significant operational capabilities.
+5. Conclusions
+This paper implements a lightweight intrusion detection framework based on knowl-
+edge distillation (KD) to enhance the performance of compact neural networks in resource-
+constrained environments, such as IoT and UAV systems. The primary contribution is
+that we systematically evaluated a KD-based approach that transfers knowledge from a
+large, high-performing teacher model to a smaller student model. This enables improved
+detection capabilities while maintaining computational efficiency. Experimental results
+across five benchmark datasets (NSL-KDD, UNSW-NB15, CIC-IDS2017, IoTID20, and UAV
+IDS) show that KD consistently improves the student model’s performance. For example,
+in the IoTID20 dataset, the distilled student improved the F1 score from 86.20% to 93.13%,
+while reducing inference time by 7.13% compared to the teacher. Similarly, in the UAV
+IDS dataset, the KD-enhanced student reached 98.59% F1 score, just 1.34 percentage points
+below the teacher while increasing 7.09% faster inference. Across all datasets, the student
+model with KD achieved F1 score improvements up to 6.93%, and AUC values that closely
+matched those of the teacher model.
+These results confirm that knowledge distillation offers an effective trade-off between
+accuracy and efficiency, making it suitable for real-time intrusion detection especially
+in IoT and UAV security. The framework not only reduces model complexity by over
+93% in parameter count but also delivers competitive detection performance. As IoT and
+UAV networks expand, this study demonstrates KD’s potential to serve as a foundational
+technology for deploying IDS in next-generation edge computing strategies, ensuring
+secure, efficient, and scalable operations.

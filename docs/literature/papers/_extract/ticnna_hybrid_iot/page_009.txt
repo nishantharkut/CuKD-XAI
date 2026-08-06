@@ -1,0 +1,98 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+TABLE 3. Performance comparison of VGG16, VGG19, Xception, and TICNN models before and after performing TIGAN for CICIoT2023 (TICNN Enhanced.
+TIGAN for adversarial generation, aiming to create a
+balanced dataset. On the imbalanced CICIDS2017 dataset
+(‘Before Adversarial Generation’), all models achieved
+substantial weighted average precision, recall, and F1-scores,
+along with overall accuracy, primarily in the 0.984 to
+0.988 range. This indicates good performance, likely domi-
+nated by the majority classes. However, the macro average
+metrics that helps us to understand macro level sample classes
+were considerably lower, ranging from 0.622 (Xception’s
+Macro Precision and F1-Score) to 0.755 (TICNN’s Macro
+Precision). This disparity underscores the challenge posed by
+imbalance, with TICNN (highlighted in blue) showing a clear
+advantage in handling these conditions compared to the other
+models.
+There were notable shifts when evaluated on the balanced
+CICIDS2017 dataset (‘After Adversarial Generation’). While
+VGG16, VGG19, and Xception achieved high weighted
+average precision, recall, and overall accuracy in the 0.980 to
+0.989 range, their F1-scores and macro average scores
+were lower, generally falling between 0.915 and 0.930.
+In stark contrast, the TICNN model (highlighted in dark
+green and bold) demonstrated exceptional performance,
+achieving scores between 0.991 and 0.992 across all its ‘After
+TIGAN’ metrics (Weighted, Macro, and Accuracy). This
+reinforces TICNN’s robustness and superior classification
+capability, especially when trained on the TIGAN-balanced
+dataset. Furthermore, the Packet Detection time for the
+CICIDS2017 dataset is reported as being within the 3 to
+3.5 ms range, which is slightly higher than previously noted
+for CICIoT2023. Overall, TABLE 4 indicates that for the
+CICIDS2017 dataset, TIGAN helps improve performance,
+but the TICNN model stands out as significantly more
+effective, reaching near-optimal levels after balancing.
+The TABLE 5 compares the performance of a classification
+model across different types of cyber-attacks under two
+data conditions: imbalanced and balanced. Key metrics like
+precision, recall, and F1 score reveal the model’s accuracy in
+identifying attack classes. Precision reflects the correctness
+of identified attacks, while recall measures the detection of
+actual attacks. The F1 score balances both metrics.
+In the imbalanced data scenario, attack classes like
+Browser Hijacking, Recon-Ping Sweep, and XSS showed
+very low performance, with precision, recall, and F1 scores
+near zero, indicating frequent misclassification and rare
+detection due to under-representation. This scarcity led the
+model to focus on more common attack types, resulting
+in bias and significant misclassification of these minority
+classes. However, when the data was balanced, performance
+improved substantially across most attack types, particularly
+in recall. For instance, Backdoor Malware saw its recall
+increase from 0.500 to 0.999, while Browser Hijacking
+and Recon-Ping Sweep, previously undetected, improved
+to recalls of 0.962 and 0.961, respectively. Balancing the
+data enabled the model to better identify these attacks by
+providing a more representative sample for each class and
+reducing bias toward majority classes. In the imbalanced
+data scenario, certain attack classes like Browser Hijacking,
+Recon-Ping Sweep, and XSS show very low performance,
+with scores near zero across precision, recall, and F1 metrics.
+This suggests that these attacks were often misclassified or
+rarely detected, likely due to their under-representation in
+the imbalanced dataset. This scarcity led the model to focus
+on more frequent attack types, resulting in a strong bias
+and significant misclassification of these minority classes.
+When the data was balanced, performance on most attack
+types improved substantially, especially in recall, indicating
+a higher rate of correctly identified attacks across classes. For
+instance, Backdoor Malware improved in recall from 0.500 to
+0.999, while Browser Hijacking and Recon-Ping Sweep,
+previously undetected (with recalls of 0.000), saw a recall
+boost to 0.962 and 0.961, respectively. Balancing the data
+helped the model better identify these attacks by providing
+a more representative sample for each class, reducing its bias
+toward majority classes and enabling it to generalize more
+effectively.
+TABLE 7 shows our TICNN model achieves accuracy
+comparable to state-of-the-art methods [5], [12], [23], [24] on
+CICIDS2017 and CICIoT2023 datasets. While other models
+reach high accuracy, often through heavy synthetic data
+generation that might introduce bias [5], [24], our approach
+focuses on efficiency. By transforming data into 2D images,
+TICNN significantly reduces both computational and detec-
+tion times. This allows our model to deliver top-tier accuracy
+with lower resource demands. Consequently, TICNN offers
+a more practical and efficient solution for real-time intrusion
+detection systems.
+To ensure the statistical reliability of these results,
+we performed 5 independent runs using Stratified K-Fold
+Cross-Validation in Section IV-D.3. The reported accuracy of
+99.56% represents the mean performance, with a negligible
+standard deviation (σ
+<
+0.05%) observed across folds,
+confirming the model’s stability. Furthermore, in terms
+VOLUME 14, 2026
+23421

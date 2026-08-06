@@ -1,0 +1,49 @@
+Future Internet 2025, 17, 230
+4 of 21
+model. They thoroughly evaluated their model’s performance using metrics such as
+accuracy, precision, recall, and F1 score, comparing it with other state-of-the-art algorithms.
+Yao et al. [13] explored detection methods and IDS architectures, proposing a hybrid
+IDS architecture combined with a machine-learning-based intrusion detection approach.
+Abdel-Basset et al. [14] introduced a forensics-driven deep learning (DL) model for intrusion
+detection in IIoT networks. Their model incorporated a local gated recurrent unit and
+added an MHA layer to capture and learn key features. Le et al. [15] presented an XGBoost
+model designed for IDSs in IIoT networks, specifically addressing unbalanced datasets.
+They assessed the effectiveness and robustness of their method using two unbalanced
+datasets, with the XGBoost model achieving impressive attack detection results, yielding
+F1 scores of 99.9% and 99.87% across both datasets, demonstrating its strong performance
+in intrusion detection for unbalanced multiclass datasets in IIoT networks.
+Soliman et al. [16] introduced an intelligent detection system for identifying cyber-
+attacks in IIoT networks, utilizing Singular Value Decomposition (SVD) to reduce data
+dimensionality and improve recognition accuracy. They also employed the Synthetic Mi-
+nority Oversampling Technique (SMOTE) to tackle overfitting and underfitting issues,
+thereby minimizing biased classifications. Additionally, they evaluated several machine
+learning and deep learning algorithms for both binary and multiclass classification tasks.
+Mohyeddine et al. [17] developed an intrusion detection approach to strengthen IIoT se-
+curity through machine learning. Their work focused on enhancing feature selection and
+dimensionality reduction techniques to improve recognition rates and model accuracy. To
+reduce computational cost and time complexity in high-dimensional datasets, they recom-
+mended using Pearson’s correlation coefficient (PCC) for feature selection and Isolation
+Forest (IF) to remove outliers. Altunay et al. [18] proposed three distinct models utilizing
+convolutional neural networks (CNN), Long Short-Term Memory (LSTM), and a hybrid
+CNN + LSTM architecture to create an intrusion detection system for IIoT networks.
+3. Materials and Methods
+This section details the materials and methodologies employed to develop and evalu-
+ate our CNN-based intrusion detection system tailored for IoT/IIoT networks. We begin
+by introducing the DNN-EdgeIIoT dataset [7], a comprehensive benchmark encompassing
+diverse attack scenarios and normal traffic flows, specifically designed for IoT/IIoT security
+research. Next, we outline the architecture and configuration of the convolutional neural
+network (CNN), emphasizing its suitability for spatial feature extraction and multiclass
+classification. Finally, we describe the experimental setup, including preprocessing steps,
+performance metrics, and comparative analyses with traditional machine learning methods.
+This section is structured to guide readers through the dataset’s characteristics (Section 3.1),
+the CNN model’s design rationale (Section 3.2), and the evaluation framework (Section 3.3),
+ensuring reproducibility and transparency in our approach.
+3.1. The DNN-EdgeIIoT Dataset
+The proposed CNN-based intrusion detection system was evaluated using the DNN-
+EdgeIIoT dataset [7], a comprehensive benchmark generated from a specialized IoT/IIoT
+testbed. This testbed incorporates diverse devices and protocols, including low-cost digi-
+tal sensors (e.g., temperature, humidity, ultrasonic, water level, soil moisture, heart rate,
+and flame sensors), actuators, and edge/cloud configurations. The dataset comprises
+2,219,201 connection samples, representing both normal communication traffic (72.8%)
+and 14 attack types (27.2%) relevant to IoT/IIoT environments. These attacks are cate-
+gorized into five primary threat groups: DoS/DDoS, Man-in-the-Middle (MITM), injec-

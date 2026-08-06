@@ -1,0 +1,22 @@
+Sensors 2026, 26, 356
+16 of 22
+Figure 5. Loss and Accuracy variation of EdgeBERT every 1000 mini batches.
+Figure 6. EdgeBERT confusion matrix on 15 classes.
+Table 4 presents the classification report for the Edge-level model. These results
+highlight the effectiveness of the transformer-based architecture in distinguishing and
+classifying a broad range of attack types. However, the Fingerprinting class exhibits the
+lowest performance, with an F1-score of 0.9673. This behavior is partly explained by its
+relatively small number of instances, which biases the model toward predicting the most
+semantically similar classes.
+Interestingly, other minority classes such as MITM achieve strong performance despite
+their limited support. This indicates that class imbalance is not the only contributing
+factor; the semantic separability between classes also plays a crucial role. When two
+attack types share similar structural or behavioral patterns, the embedding space becomes
+less discriminative, making fine-grained separation more challenging. In the case of
+Fingerprinting, its proximity to certain DDoS-related patterns likely contributes to the
+observed confusion.
+At the IoT level, the compact 137 KB neural network achieves an accuracy of 99.99%
+by following the process outlined in Algorithms 2 and 3. During inference, the IoT model
+queries the edge-based model to obtain embedding vectors, which are then used as input
+features for classification. These embeddings are rich and high-dimensional, capturing
+https://doi.org/10.3390/s26020356

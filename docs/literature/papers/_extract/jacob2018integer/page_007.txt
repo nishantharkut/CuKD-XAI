@@ -1,0 +1,130 @@
+Act.
+type
+accuracy
+recall 5
+mean
+std. dev.
+mean
+std.dev.
+ReLU6
+ﬂoats
+78.4%
+0.1%
+94.1%
+0.1%
+8 bits
+75.4%
+0.1%
+92.5%
+0.1%
+7 bits
+75.0%
+0.3%
+92.4%
+0.2%
+ReLU
+ﬂoats
+78.3%
+0.1%
+94.2%
+0.1%
+8 bits
+74.2%
+0.2%
+92.2%
+0.1%
+7 bits
+73.7%
+0.3%
+92.0%
+0.1%
+Table 4.3: Inception v3 on ImageNet: Accuracy and recall 5 com-
+parison of ﬂoating point and quantized models.
+ferent channels. Values in a ﬁxed range are easier to quan-
+tize with high precision.
+4.2. Quantization of MobileNets
+MobileNets are a family of architectures that achieve a
+state-of-the-art tradeoff between on-device latency and Im-
+ageNet classiﬁcation accuracy. In this section we demon-
+strate how integer-only quantization can further improve the
+tradeoff on common hardware.
+4.2.1
+ImageNet
+We benchmarked the MobileNet architecture with vary-
+ing depth-multipliers (DM) and resolutions on ImageNet
+on three types of Qualcomm cores, which represent three
+different micro-architectures: 1) Snapdragon 835 LITTLE
+core, (ﬁgure. 1.1c), a power-efﬁcient processor found in
+Google Pixel 2; 2) Snapdragon 835 big core (ﬁgure. 4.1), a
+high-performance core employed by Google Pixel 2; and 3)
+Snapdragon 821 big core (ﬁgure. 4.2), a high-performance
+core used in Google Pixel 1.
+5
+15
+30
+60
+120
+40
+50
+60
+70
+Latency (ms)
+Top 1 Accuracy
+Float
+8-bit
+Figure 4.1: Latency-vs-accuracy tradeoff of ﬂoat vs. integer-only
+MobileNets on ImageNet using Snapdragon 835 big cores.
+Integer-only quantized MobileNets achieve higher accu-
+racies than ﬂoating-point MobileNets given the same run-
+5
+15
+30
+60
+120
+40
+50
+60
+70
+Latency (ms)
+Top 1 Accuracy
+Float
+8-bit
+Figure 4.2: Latency-vs-accuracy tradeoff of ﬂoat vs. integer-only
+MobileNets on ImageNet using Snapdragon 821 big core.
+time budget. The accuracy gap is quite substantial (∼10%)
+for Snapdragon 835 LITTLE cores at the 33ms latency
+needed for real-time (30 fps) operation. While most of the
+quantization literature focuses on minimizing accuracy loss
+for a given architecture, we advocate for a more compre-
+hensive latency-vs-accuracy tradeoff as a better measure.
+Note that this tradeoff depends critically on the relative
+speed of ﬂoating-point vs integer-only arithmetic in hard-
+ware. Floating-point computation is better optimized in the
+Snapdragon 821, for example, resulting in a less noticeable
+reduction in latency for quantized models.
+4.2.2
+COCO
+We evaluated quantization in the context of mobile real time
+object detection, comparing the performance of quantized
+8-bit and ﬂoat models of MobileNet SSD [10, 25] on the
+COCO dataset [24]. We replaced all the regular convolu-
+tions in the SSD prediction layers with separable convolu-
+tions (depthwise followed by 1 × 1 projection). This modi-
+ﬁcation is consistent with the overall design of MobileNets
+and makes them more computationally efﬁcient. We uti-
+lized the Open Source TensorFlow Object Detection API
+[12] to train and evaluate our models. The training protocol
+is described in Appendix D.3. We also delayed quantiza-
+tion for 500 thousand steps (see section 3.1), ﬁnding that it
+signiﬁcantly decreases the time to convergence.
+Table 4.4 shows the latency-vs-accuracy tradeoff be-
+tween ﬂoating-point and integer-quantized models. Latency
+was measured on a single thread using Snapdragon 835
+cores (big and LITTLE). Quantized training and inference
+results in up to a 50% reduction in running time, with a
+minimal loss in accuracy (−1.8% relative).
+4.2.3
+Face detection and attribute classiﬁcation
+To better examine quantized MobileNet SSD on a smaller
+scale, we benchmarked face detection on the face attribute
+2710

@@ -1,0 +1,110 @@
+6
+Feed Forward 
+Recurrent 
+(a) Feedforward versus feedback (re-
+current) networks
+Fully-Connected 
+Sparsely-Connected 
+(b) Fully connected versus sparse
+Fig. 8.
+Different types of neural networks (Figure adopted from [7]).
+these applications. Speech recognition enables us to seamlessly
+interact with electronic devices, such as smartphones. While
+currently most of the processing for applications such as Apple
+Siri and Amazon Alexa voice services is in the cloud, it is
+still desirable to perform the recognition on the device itself to
+reduce latency and dependency on connectivity, and to improve
+privacy and security.
+Many of the embedded platforms that perform DNN infer-
+ence have stringent energy consumption, compute and memory
+cost limitations; efﬁcient processing of DNNs have thus become
+of prime importance under these constraints. Therefore, in this
+article, we will focus on the compute requirements for inference
+rather than training.
+III. OVERVIEW OF DNNS
+DNNs come in a wide variety of shapes and sizes depending
+on the application. The popular shapes and sizes are also
+evolving rapidly to improve accuracy and efﬁciency. In all
+cases, the input to a DNN is a set of values representing the
+information to be analyzed by the network. For instance, these
+values can be pixels of an image, sampled amplitudes of an
+audio wave or the numerical representation of the state of some
+system or game.
+The networks that process the input come in two major
+forms: feed forward and recurrent as shown in Fig. 8(a). In
+feed-forward networks all of the computation is performed as a
+sequence of operations on the outputs of a previous layer. The
+ﬁnal set of operations generates the output of the network, for
+example a probability that an image contains a particular object,
+the probability that an audio sequence contains a particular
+word, a bounding box in an image around an object or the
+proposed action that should be taken. In such DNNs, the
+network has no memory and the output for an input is always
+the same irrespective of the sequence of inputs previously given
+to the network.
+In contrast, recurrent neural networks (RNNs), of which
+Long Short-Term Memory networks (LSTMs) [38] are a
+popular variant, have internal memory to allow long-term
+dependencies to affect the output. In these networks, some
+intermediate operations generate values that are stored internally
+in the network and used as inputs to other operations in
+conjunction with the processing of a later input. In this article,
+we will focus on feed-forward networks since (1) the major
+computation in RNNs is still the weighted sum, which is
+covered by the feed-forward networks, and (2) to-date little
+attention has been given to hardware acceleration speciﬁcally
+for RNNs.
+DNNs can be composed solely of fully-connected (FC)
+layers (also referred to as multi-layer perceptrons, or MLP)
+as shown in the leftmost layer of Fig. 8(b). In a FC layer,
+all output activations are composed of a weighted sum of
+all input activations (i.e., all outputs are connected to all
+inputs). This requires a signiﬁcant amount of storage and
+computation. Thankfully, in many applications, we can remove
+some connections between the activations by setting the weights
+to zero without affecting accuracy. This results in a sparsely-
+connected layer. A sparsely connected layer is illustrated in
+the rightmost layer of Fig. 8(b).
+We can also make the computation more efﬁcient by limiting
+the number of weights that contribute to an output. This sort of
+structured sparsity can arise if each output is only a function
+of a ﬁxed-size window of inputs. Even further efﬁciency can
+be gained if the same set of weights are used in the calculation
+of every output. This repeated use of the same weight values is
+called weight sharing and can signiﬁcantly reduce the storage
+requirements for weights.
+An extremely popular windowed and weight-shared DNN
+layer arises by structuring the computation as a convolution,
+as shown in Fig. 9(a), where the weighted sum for each output
+activation is computed using only a small neighborhood of input
+activations (i.e., all weights beyond beyond the neighborhood
+are set to zero), and where the same set of weights are shared for
+every output (i.e., the ﬁlter is space invariant). Such convolution-
+based layers are referred to as convolutional (CONV) layers. 6
+A. Convolutional Neural Networks (CNNs)
+A common form of DNNs is Convolutional Neural Nets
+(CNNs), which are composed of multiple CONV layers as
+shown in Fig. 10. In such networks, each layer generates a
+successively higher-level abstraction of the input data, called
+a feature map (fmap), which preserves essential yet unique
+information. Modern CNNs are able to achieve superior per-
+formance by employing a very deep hierarchy of layers. CNN
+are widely used in a variety of applications including image
+understanding [3], speech recognition [39], game play [6],
+robotics [32], etc. This paper will focus on its use in image
+processing, speciﬁcally for the task of image classiﬁcation [3].
+Each of the CONV layers in CNN is primarily composed of
+high-dimensional convolutions as shown in Fig. 9(b). In this
+computation, the input activations of a layer are structured as
+a set of 2-D input feature maps (ifmaps), each of which is
+called a channel. Each channel is convolved with a distinct
+2-D ﬁlter from the stack of ﬁlters, one for each channel; this
+stack of 2-D ﬁlters is often referred to as a single 3-D ﬁlter.
+The results of the convolution at each point are summed across
+all the channels. In addition, a 1-D bias can be added to the
+ﬁltering results, but some recent networks [15] remove its
+usage from parts of the layers. The result of this computation
+is the output activations that comprise one channel of output
+feature map (ofmap). Additional 3-D ﬁlters can be used on
+6Note: the structured sparsity in CONV layers is orthogonal to the sparsity
+that occurs from network pruning as described in Section VII-B2.

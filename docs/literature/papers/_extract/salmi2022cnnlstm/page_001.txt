@@ -1,0 +1,112 @@
+ 
+CNN-LSTM based Approach for DDoS Detection 
+ 
+ 
+Tahani Alasmari 
+Department of Computer Science 
+Collage of Computer Science and 
+Engineering University of Jeddah 
+Jeddah, Saudi Arabia 
+2000118@uj.edu.sa 
+Ala’ Eshmawi 
+Department of Cybersecurity 
+Collage of Computer Science and 
+Engineering University of Jeddah 
+Jeddah, Saudi Arabia 
+aaeshmawi@uj.edu.sa 
+ 
+Lobna Hsairi 
+Department of Computer Science 
+Collage of Computer Science and 
+Engineering University of Jeddah 
+Jeddah, Saudi Arabia 
+LALHABIB@uj.edu.sa 
+Adel Alshomrani 
+Department of Cybersecurity 
+Collage of Computer Science and 
+Engineering University of Jeddah 
+Jeddah, Saudi Arabia 
+asalshamrani@uj.edu.sa 
+ 
+ 
+Abstract—Distributed Denial of Service (DDoS) 
+attacks have become increasingly common, causing 
+financial and reputational losses for organizations. 
+Despite the existence of numerous conventional detection 
+solutions, DDoS attacks continue to rise in frequency, 
+demanding effective models to detect and prevent them. 
+This paper focuses on developing a machine learning-
+based approach for DDoS attack detection. By leveraging 
+the power of machine learning, we aim to overcome the 
+limitations of existing methods and propose a novel 
+solution. Our work emphasizes the importance of 
+exploring advanced models and techniques to enhance 
+detection accuracy and efficiency. Through rigorous 
+experimentation, we demonstrate the effectiveness of our 
+approach in proactive defense against real-world DDoS 
+attacks. 
+Keywords—DDOS, Detection, Machine learning 
+I. INTRODUCTION 
+Denial of Service attack (DoS) is an attack launched 
+against networks and system resources to yield them 
+unavailable to legitimate users. Therefore, this attack 
+targets the availability of the systems, which is one of the 
+essential things to protect. DoS attacks target web 
+servers, default gateways, personal computers, etc., 
+mostly by exploiting TCP/IP stack vulnerabilities. Some 
+classic examples of DoS attacks are TCP Syn Flood, 
+UDP Flood, ICMP Flood, Smurf, incomplete HTTP 
+requests, etc. When multiple hosts coordinate to flood 
+the victim with an abundance of attack packets 
+simultaneously, it is called a Distributed Dos (DDoS) 
+attack [1]. 
+DDoS attacks may compromise online connected 
+devices to generate a huge amount of network traffic 
+targeting known services. These attacks are considered 
+effective due to the ability to use multiple devices 
+(botnets) infiltrated as a source of traffic to attack 
+systems [1]. 
+Machine Learning (ML) algorithms are considered 
+an effective approach to detecting and preventing DDoS 
+attacks. They work by building models to differentiate 
+normal and abnormal network traffic. The built model is 
+then used to detect anomalies in the network. ML 
+techniques can be model-driven, based on unsupervised 
+or supervised algorithms. Supervised algorithms use 
+historical data or labeled data to build the model. In 
+contrast, unsupervised algorithms build the model by 
+correlating upcoming data or putting new data into 
+similar clusters. ML algorithms can be applied to DDoS 
+detection and have been found to perform better than 
+"signature-based" detection [2]. Beside ML algorithms, 
+other DDoS prevention techniques are proposed [3]. An 
+ingress filtering mechanism is used to monitor and 
+restrict network traffic by allowing only legitimate 
+traffic and blocking unauthorized traffic. Another 
+mechanism used is Egress filtering. This mechanism 
+monitors and restricts traffic that attempts to leave the 
+network. This usually is done by a firewall that blocks 
+packets that fail to meet certain security requirements. 
+Moreover, History-based IP filtering uses a pre-built IP 
+address dataset, and the edge router recognizes incoming 
+packets accordingly.  
+Finally, Honeypots lure attackers by allowing them 
+to attack the honeypots and not the actual system. They 
+also help in obtaining the attacker's information by 
+storing their logs, the type of attack and the type of 
+program used. As for DDoS mitigation, many 
+techniques were proposed [3]. Differentiated services is 
+a technology based on the type of service byte in the IP 
+header and is used to classify and manage network traffic 
+and provide Quality of Service (QoS) on modern IP 
+networks. Administrators use the Differentiated Services 
+Code Point field in the IP packet address to distinguish 
+packets, which contain 64 features at the traffic class 
+level. They are used to mitigate DDOS attacks by 
+limiting traffic so that matching criteria can identify each 
+type of volumetric attack currently observed in the wild. 
+Secondly, Class-Based Queuing (CBQ) is another 
+technique used that is based on the concept of Class 
+Traffic (COT), which is a mutually exclusive subset of 
+2023 Eighth International Conference On Mobile And Secure Services (MobiSecServ) | 979-8-3503-1649-0/23/$31.00 ©2023 IEEE | DOI: 10.1109/MOBISECSERV58080.2023.10329028
+Authorized licensed use limited to: INDIAN INST OF INFO TECH AND MANAGEMENT. Downloaded on August 06,2026 at 16:16:16 UTC from IEEE Xplore.  Restrictions apply. 

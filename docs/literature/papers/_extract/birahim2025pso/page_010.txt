@@ -1,0 +1,88 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+D. PERFORMANCE RESULTS
+This section illustrates the performance of all the different
+models tested throughout this study work. Using SMOTE-
+Tomek, the dataset was balanced prior to testing each
+model. In all cases, the parameters were tuned using either
+GridSearchCV or PSO. For models where ensemble learning
+was applied, the soft voting method was utilized. Table 4
+presents the results, including accuracy, precision, recall, and
+F1 score, computed using the weighted average method for
+all the different models tested to achieve the best possible
+outcome.
+DT models achieved a maximum accuracy of 99.41% when
+using PSO for hyperparameter tuning. DT is considered to be
+well-suited for this research because of its popularity, ease
+of understanding and presentation, and ability to handle both
+numerical and categorical data with ease. Given the relatively
+large size of the dataset, DT’s speed and low computational
+requirements made it an appealing choice. However, DTs
+can be biased if the dataset is imbalanced. This limitation
+was addressed by balancing the dataset during preprocessing.
+Additionally, since the dataset was substantial, using multiple
+DTs could enhance performance and robustness.
+RF model’s 99.68% accuracy on the WSN dataset shows
+how effective ensemble approaches can be at outperforming
+a single DT. You pointed out that one disadvantage of the RF
+is that it requires more computing power to handle massive
+datasets and achieve great accuracy. However, by balancing
+the dataset and using hyperparameter tuning techniques like
+PSO and GridSearchCV, you’ve maximized the model’s
+potential, making it the top performer among the classifiers
+tested. Despite the challenges, the RF’s robustness and slight
+accuracy improvement make it a compelling choice for your
+anomaly detection task.
+The implementation of the KNN classifier in the research
+work yielded an accuracy of 98.97% on the WSN-DS
+dataset. While this accuracy is slightly lower compared to
+some tree-based models, KNN’s ability to handle multiclass
+classification effectively adds value to the research. The
+potential for improved performance with feature reduction
+exists, but it may compromise the model’s robustness. The
+inclusion of KNN diversifies the approach and contributes to
+the overall exploration of different classifiers in the study.
+When comparing the performance of the base classifiers
+with two different hyperparameter tuning algorithms, it’s
+evident that PSO is a more suitable choice than Grid-
+SearchCV. GridSearchCV, while thorough, performs an
+exhaustive search over a specified parameter grid, making
+it time-consuming and computationally intensive, especially
+with large datasets. On the other hand, PSO is more efficient
+with large datasets due to its probabilistic nature, requiring
+significantly less computation. This efficiency makes PSO
+the better alternative for hyperparameter tuning in this
+context.
+The tree-based models performed well, so combining the
+two tree-based algorithms, RF and DT, seemed like a good
+strategy for achieving diverse outcomes. Although RF is
+Table 4. Performance metrics analysis for different ML algorithms using
+PSO and GridSearchCV.
+already an ensemble of DTs, combining them in a voting
+classifier still adds value by increasing the model’s diversity.
+The ensemble of RF and DT achieved an accuracy of 99.43%,
+which is better than DT alone but slightly less than RF.
+However, the model required further adaptation to handle
+complex decision boundaries and higher sensitivity. There-
+fore, by ensembling RF, DT, and KNN using a soft voting
+method, it was possible to overcome these limitations. This
+combined model, tuned with Particle Swarm Optimization
+(PSO), achieved an accuracy of 99.73%, making it the best
+model so far. The combination of these three classifiers
+results in a model that is more reliable and robust.
+In the exploration of alternatives for DT within the ensem-
+ble framework—given that the best-performing model thus
+far incorporated two tree-based models—various classifiers
+were evaluated. Among these, the XGBoost (XGB) classifier,
+when combined with RF and KNN, and hyperparameters
+optimized using PSO, achieved a notable accuracy of 99.69%.
+While this performance was impressive, it did not surpass DT
+as the most effective model in the ensemble. The optimal
+hyperparameters for XGB obtained through PSO were:
+‘n_estimators’ = 51, ‘max_depth’ = 9, and ‘learning_rate’ =
+0.3. Based on these findings, RF, DT, and k-nearest neighbors
+(KNN) were selected as the models for the ensemble.
+E. COMPARISON WITH PREVIOUS RESEARCH
+The proposed method outperforms existing state-of-the-
+art (SOTA) works by addressing several key challenges
+13720
+VOLUME 13, 2025

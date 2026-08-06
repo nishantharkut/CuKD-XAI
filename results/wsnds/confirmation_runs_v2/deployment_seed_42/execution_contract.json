@@ -1,0 +1,96 @@
+{
+  "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1",
+  "mode": "deployment",
+  "script_sha256": "b63f506d85ebabf40037e2e7deeb7c0c4267757cc9ba4605a664068d1f33c362",
+  "common_module_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "142850384d60557b9a860fbd37ae9a4507c47dfb22892d726a14a5226aabc997",
+  "scaler_sha256": "f4a7f826b806bea34fc297c64212c32fd9b601dc64582b8b40ceb88704bf5a26",
+  "seeds": [
+    42
+  ],
+  "students": {
+    "student_A": [
+      32,
+      16
+    ],
+    "student_B": [
+      64,
+      32
+    ]
+  },
+  "routes": [
+    "rf_kd"
+  ],
+  "kd_hyperparameters": {
+    "T": 4.0,
+    "alpha": 0.7
+  },
+  "kd_hyperparameter_source": "fixed values selected once by the active-v1 preliminary MLP-teacher validation grid; candidate initialization/shuffle streams were not held constant, so this is not an RF-KD optimum; no confirmation-test retuning",
+  "training_config": {
+    "epochs": 30,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.001,
+    "patience": 8
+  },
+  "teacher_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "calibration_method": "isotonic",
+    "calibration_cv": 3
+  },
+  "teacher_calibration_strategy": "bound_preserved_active_v1_calibrated_rf_targets",
+  "bound_teacher_soft_target_provenance": {
+    "source_type": "bound_active_v1_calibrated_rf_soft_targets",
+    "rf_seed": 42,
+    "rf_config": {
+      "n_estimators": 500,
+      "max_depth": 15,
+      "calibration_method": "isotonic",
+      "calibration_cv": 3
+    },
+    "cache_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\rf_soft_seed_42.npy",
+    "cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+    "expected_cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+    "preprocessing_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\leakage_free_preprocessing.json",
+    "preprocessing_report_sha256": "8088aa7362d2c50207c808a02fde3bba4faa203282e09cc0dbafe0f3bcd389ee",
+    "execution_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\execution_manifest.json",
+    "execution_manifest_sha256": "bf4dfe1fff61e170d6967d99b842433dbcf0d3a84f8a7a3692e12df4dfd6815d",
+    "executed_source_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\run_leakage_free_wsnds.executed.py",
+    "executed_source_sha256": "728eb19b1330e94652db9cf6f57f3d0d698fae0b9849e48b4e8ba25ba20eee27",
+    "active_protocol_id": "archive_random_split_train_scaler_retuned_v1",
+    "verified_split_hashes": {
+      "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+      "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+      "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+    },
+    "verified_transformed_split_hashes": {
+      "train": "95091edecd00aefa3268d7f39655a3c042c31e314a3dd8ae2397592e11641432",
+      "validation": "dc1cfdbcf63a360b0ca105be227430e88d36653cb7698f165f3a5d4b965dfa5e",
+      "test": "d1651b05c8c50b1f22530fbbfe2bfc54364b9dc781dfc98a40db4d134ebda776"
+    },
+    "verified_sklearn_version": "1.8.0",
+    "cache_content_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975"
+  },
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms_enabled": true,
+    "deterministic_algorithms_warn_only": false,
+    "cudnn_version": 90100,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false
+  },
+  "execution_fingerprint_sha256": "e264aa099bf9f0943faa6a8820b942bee84708fa458e5a8d52c3f2e7d18497f0"
+}

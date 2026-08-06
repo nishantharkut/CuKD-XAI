@@ -1,0 +1,53 @@
+JFT 1: Tea party; Easter; Bridal shower; Baby shower; Easter Bunny; ...
+JFT 2: Bridge; Cable-stayed bridge; Suspension bridge; Viaduct; Chimney; ...
+JFT 3: Toyota Corolla E100; Opel Signum; Opel Astra; Mazda Familia; ...
+Table 2: Example classes from clusters computed by our covariance matrix clustering algorithm
+around the other two types, but only if a lot more cores are available. Waiting for several years to
+train an ensemble of models was not an option, so we needed a much faster way to improve the
+baseline model.
+5.2
+Specialist Models
+When the number of classes is very large, it makes sense for the cumbersome model to be an en-
+semble that contains one generalist model trained on all the data and many “specialist” models, each
+of which is trained on data that is highly enriched in examples from a very confusable subset of the
+classes (like different types of mushroom). The softmax of this type of specialist can be made much
+smaller by combining all of the classes it does not care about into a single dustbin class.
+To reduce overﬁtting and share the work of learning lower level feature detectors, each specialist
+model is initialized with the weights of the generalist model. These weights are then slightly modi-
+ﬁed by training the specialist with half its examples coming from its special subset and half sampled
+at random from the remainder of the training set. After training, we can correct for the biased train-
+ing set by incrementing the logit of the dustbin class by the log of the proportion by which the
+specialist class is oversampled.
+5.3
+Assigning classes to specialists
+In order to derive groupings of object categories for the specialists, we decided to focus on categories
+that our full network often confuses. Even though we could have computed the confusion matrix
+and used it as a way to ﬁnd such clusters, we opted for a simpler approach that does not require the
+true labels to construct the clusters.
+In particular, we apply a clustering algorithm to the covariance matrix of the predictions of our
+generalist model, so that a set of classes Sm that are often predicted together will be used as targets
+for one of our specialist models, m. We applied an on-line version of the K-means algorithm to the
+columns of the covariance matrix, and obtained reasonable clusters (shown in Table 2). We tried
+several clustering algorithms which produced similar results.
+5.4
+Performing inference with ensembles of specialists
+Before investigating what happens when specialist models are distilled, we wanted to see how well
+ensembles containing specialists performed. In addition to the specialist models, we always have a
+generalist model so that we can deal with classes for which we have no specialists and so that we
+can decide which specialists to use. Given an input image x, we do top-one classiﬁcation in two
+steps:
+Step 1: For each test case, we ﬁnd the n most probable classes according to the generalist model.
+Call this set of classes k. In our experiments, we used n = 1.
+Step 2: We then take all the specialist models, m, whose special subset of confusable classes, Sm,
+has a non-empty intersection with k and call this the active set of specialists Ak (note that this set
+may be empty). We then ﬁnd the full probability distribution q over all the classes that minimizes:
+KL(pg, q) +
+X
+m∈Ak
+KL(pm, q)
+(5)
+where KL denotes the KL divergence, and pm pg denote the probability distribution of a specialist
+model or the generalist full model. The distribution pm is a distribution over all the specialist classes
+of m plus a single dustbin class, so when computing its KL divergence from the full q distribution
+we sum all of the probabilities that the full q distribution assigns to all the classes in m’s dustbin.
+6

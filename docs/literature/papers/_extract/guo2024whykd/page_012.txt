@@ -1,0 +1,36 @@
+It is essential to highlight that technically, the strong data augmentation
+applied to both teacher ensemble and student model in KD does not nec-
+essarily result in the highest data augmentation strength, as measured by
+our Affinity metric (defined in Equation 5). This will be shown and clarified
+further in Section 6.1 Table 1. Therefore, in this study, we varied the data
+augmentation strengths in ensemble KD. Specifically, in the series of exper-
+iments conducted on each dataset, we utilized the entire permutation set of
+Tw, Ts, Sw, Ss to construct trials (for example, T1sT2wSs is one trial denota-
+tion), and then computed their Affinity to quantify their data augmentation
+strength. In practice, for evaluation, we computed our metrics introduced in
+Section 4 on both the training set and validation set, considering each trial’s
+corresponding data augmentation strength.
+6. Results and Analysis
+Our comprehensive set of experiments has yielded several intriguing in-
+sights into the learning dynamics of Knowledge Distillation (KD) and ex-
+plains the fidelity paradox through various data augmentation strengths. We
+particularly emphasize the roles of attention map diversity, model fidelity,
+and mutual information, as they interact with student performance in terms
+of top-1 accuracy and overfitting during both the training and validation
+procedures.
+6.1. Impact on Attention Map Diversity
+Figure 2 Top shows that during training, a consistent decrease is observed
+in the Intersection over Union (IoU) of attention maps between different
+teacher models with stronger data augmentation.
+This decrease is corre-
+lated with an increase in the student model’s accuracy. Trial denotations
+are also marked as data labels in these scatter plots, together with Table 1
+demonstrating their data augmentation strengths.
+These Affinity values aid in understanding the data augmentation strengths
+and the decreasing tendencies in the scatter plots: Recall that Affinity mea-
+sures the offset in data distribution between the original one and the one
+after data augmentation captured by the student, and lower Affinity corre-
+sponds to higher augmentation strength, leading to higher student accuracy.
+As evidence, for those trials with strong data augmentation and low Affinity,
+e.g., T1sT2wSs in CIFAR-100, T1wT2sSs in CIFAR-100 imb100, T1sT2wSs in
+12

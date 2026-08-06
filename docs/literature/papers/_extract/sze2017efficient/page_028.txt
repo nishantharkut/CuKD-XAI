@@ -1,0 +1,136 @@
+28
+Metrics
+Speciﬁcations
+Eyeriss
+Cost
+Process Technology
+65nm LP TSMC (1.0V)
+Total Core Area (mm2)
+12.25
+Total On-chip Memory (kB)
+192
+Number of Multipliers
+168
+Core area
+0.073
+per Multiplier (mm2)
+On-chip Memory
+1.14
+per Multiplier (kB)
+Test Setup
+Measured or Simulated
+Measured
+If Simulated, Syn or PnR
+n/a
+Accuracy
+DNN Model
+AlexNet
+VGG-16
+Top-5 error on ImageNet
+19.8
+8.8
+Dense/Sparse
+Dense
+Dense
+Supported Layers
+All CONV layers
+All CONV layers
+Bits per Weight
+16
+16
+Bits per Input Activation
+16
+16
+Latency and Throughput
+Batch Size
+4
+3
+Run Time (msec)
+115.3
+4309.4
+Power and Energy
+Power (mW)
+278
+236
+Off-chip Accesses
+3.85
+107.03
+per Image Inference (MBytes)
+Test Setup
+Number of Images Tested
+100
+100
+TABLE V
+EXAMPLE BENCHMARK METRICS FOR EYERISS [94].
+During the design-space exploration process, it is critical to
+understand and balance the important system metrics. For DNN
+computation these include the accuracy, energy, throughput
+and hardware cost. Evaluating these metrics is, of course,
+key, so this article surveys the important components of
+a DNN workload. In speciﬁc, a DNN workload has two
+major components. First, the workload is the form of each
+DNN network including the ‘shape’ of each layer and the
+interconnections between layers. These can vary both within
+and between applications. Second, the workload consists of
+the speciﬁc the data input to the DNN. This data will vary
+with the input set used for training or the data input during
+operation for inference.
+This article also surveys a number of avenues that prior
+work have taken to optimize DNN processing. Since data
+movement dominates energy consumption, a primary focus
+of some recent research has been to reduce data movement
+while maintaining accuracy, throughput and cost. This means
+selecting architectures with favorable memory hierarchies like
+a spatial array, and developing dataﬂows that increase data
+reuse at the low-cost levels of the memory hierarchy. We
+have included a taxonomy of dataﬂows and an analysis of
+their characteristics. Other work is presented that aims to save
+space and energy by changing the representation of data values
+in the DNN. Still other work saves energy and sometimes
+increases throughput by exploiting the sparsity of weights
+and/or activations.
+The DNN domain also affords an excellent opportunity
+for joint hardware/software co-design. For example, various
+efforts have noted that efﬁciency can be improved by increasing
+sparsity (increasing the number of zero values) or optimizing
+the representation of data by reducing the precision of values
+or using more complex mappings of the stored value to the
+actual value used for computation. However, to avoid losing
+accuracy it is often useful to modify the network or ﬁne-tune the
+network’s weights to accommodate these changes. Thus, this
+article both reviews a variety of these techniques and discusses
+the frameworks that are available for describing, running and
+training networks.
+Finally, DNNs afford the opportunity to use mixed-signal
+circuit design and advanced technologies to improve efﬁciency.
+These include using memristors for analog computation and 3-D
+stacked memory. Advanced technologies can also can facilitate
+moving computation closer to the source by embedding compu-
+tation near or within the sensor and the memories. Of course, all
+of these techniques should also be considered in combination,
+while being careful to understand their interactions and looking
+for opportunities for joint hardware/algorithm co-optimization.
+In conclusion, although much work has been done, deep
+neural networks remain an important area of research with
+many promising applications and opportunities for innovation
+at various levels of hardware design.
+ACKNOWLEDGMENTS
+Funding provided by DARPA YFA, MIT CICS, and gifts
+from Nvidia and Intel. The authors thank the anonymous
+reviewers as well as James Noraky, Mehul Tikekar and
+Zhengdong Zhang for providing valuable feedback on this
+paper.
+REFERENCES
+[1] Y. LeCun, Y. Bengio, and G. Hinton, “Deep learning,” Nature,
+vol. 521, no. 7553, pp. 436–444, May 2015.
+[2] L. Deng, J. Li, J.-T. Huang, K. Yao, D. Yu, F. Seide, M. Seltzer,
+G. Zweig, X. He, J. Williams et al., “Recent advances in deep
+learning for speech research at Microsoft,” in ICASSP, 2013.
+[3] A. Krizhevsky, I. Sutskever, and G. E. Hinton, “ImageNet
+Classiﬁcation with Deep Convolutional Neural Networks,” in
+NIPS, 2012.
+[4] C. Chen, A. Seff, A. Kornhauser, and J. Xiao, “Deepdriving:
+Learning affordance for direct perception in autonomous
+driving,” in ICCV, 2015.
+[5] A. Esteva, B. Kuprel, R. A. Novoa, J. Ko, S. M. Swetter, H. M.
+Blau, and S. Thrun, “Dermatologist-level classiﬁcation of skin

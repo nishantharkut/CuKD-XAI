@@ -1,0 +1,102 @@
+weights (sometimes with additional post-quantization train-
+ing for ﬁne-tuning). We found that this approach works
+sufﬁciently well for large models with considerable repre-
+sentational capacity, but leads to signiﬁcant accuracy drops
+for small models. Common failure modes for simple post-
+training quantization include: 1) large differences (more
+than 100×) in ranges of weights for different output chan-
+nels (section 2 mandates that all channels of the same layer
+be quantized to the same resolution, which causes weights
+in channels with smaller ranges to have much higher relative
+error) and 2) outlier weight values that make all remaining
+weights less precise after quantization.
+We propose an approach that simulates quantization ef-
+fects in the forward pass of training. Backpropagation still
+happens as usual, and all weights and biases are stored in
+ﬂoating point so that they can be easily nudged by small
+amounts.
+The forward propagation pass however simu-
+lates quantized inference as it will happen in the inference
+engine, by implementing in ﬂoating-point arithmetic the
+rounding behavior of the quantization scheme that we in-
+troduced in section 2:
+• Weights are quantized before they are convolved with
+the input. If batch normalization (see [17]) is used for
+the layer, the batch normalization parameters are “folded
+into” the weights before quantization, see section 3.2.
+• Activations are quantized at points where they would be
+during inference, e.g. after the activation function is ap-
+plied to a convolutional or fully connected layer’s output,
+or after a bypass connection adds or concatenates the out-
+puts of several layers together such as in ResNets.
+For each layer, quantization is parameterized by the
+number of quantization levels and clamping range, and is
+performed by applying point-wise the quantization function
+q deﬁned as follows:
+clamp(r; a, b) := min (max(x, a), b)
+s(a, b, n) := b −a
+n −1
+(12)
+q(r; a, b, n) :=
+clamp(r; a, b) −a
+s(a, b, n)
+
+s(a, b, n) + a,
+where r is a real-valued number to be quantized, [a; b] is the
+quantization range, n is the number of quantization levels,
+and ⌊·⌉denotes rounding to the nearest integer. n is ﬁxed
+for all layers in our experiments, e.g. n = 28 = 256 for 8
+bit quantization.
+3.1. Learning quantization ranges
+Quantization ranges are treated differently for weight
+quantization vs. activation quantization:
+• For weights, the basic idea is simply to set a := min w,
+b := max w. We apply a minor tweak to this so that
+the weights, once quantized as int8 values, only range
+in [−127, 127] and never take the value −128, as this en-
+ables a substantial optimization opportunity (for more de-
+tails, see Appendix B).
+• For activations, ranges depend on the inputs to the net-
+work. To estimate the ranges, we collect [a; b] ranges
+seen on activations during training and then aggregate
+them via exponential moving averages (EMA) with the
+smoothing parameter being close to 1 so that observed
+ranges are smoothed across thousands of training steps.
+Given signiﬁcant delay in the EMA updating activation
+ranges when the ranges shift rapidly, we found it useful
+to completely disable activation quantization at the start
+of training (say, for 50 thousand to 2 million steps). This
+allows the network to enter a more stable state where ac-
+tivation quantization ranges do not exclude a signiﬁcant
+fraction of values.
+In both cases, the boundaries [a; b] are nudged so that
+value 0.0 is exactly representable as an integer z(a, b, n)
+after quantization. As a result, the learned quantization pa-
+rameters map to the scale S and zero-point Z in equation 1:
+S = s(a, b, n), Z = z(a, b, n)
+(13)
+Below we depict simulated quantization assuming that
+the computations of a neural network are captured as a Ten-
+sorFlow graph [1]. A typical workﬂow is described in Al-
+gorithm 1. Optimization of the inference graph by fusing
+Algorithm 1 Quantized graph training and inference
+1: Create a training graph of the ﬂoating-point model.
+2: Insert fake quantization TensorFlow operations in lo-
+cations where tensors will be downcasted to fewer bits
+during inference according to equation 12.
+3: Train in simulated quantized mode until convergence.
+4: Create and optimize the inference graph for running in
+a low bit inference engine.
+5: Run inference using the quantized inference graph.
+and removing operations is outside the scope of this pa-
+per. Source code for graph modiﬁcations (inserting fake
+quantization operations, creating and optimizing the infer-
+ence graph) and a low bit inference engine has been open-
+sourced with TensorFlow contributions in [19].
+Figure 1.1a and b illustrate TensorFlow graphs before
+and after quantization for a simple convolutional layer. Il-
+lustrations of the more complex convolution with a bypass
+connection in ﬁgure C.3 can be found in ﬁgure C.4.
+Note that the biases are not quantized because they are
+represented as 32-bit integers in the inference process, with
+2708

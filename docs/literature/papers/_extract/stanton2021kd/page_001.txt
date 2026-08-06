@@ -1,0 +1,51 @@
+Does Knowledge Distillation Really Work?
+Samuel Stanton
+NYU
+Pavel Izmailov
+NYU
+Polina Kirichenko
+NYU
+Alexander A. Alemi
+Google Research
+Andrew Gordon Wilson
+NYU
+Abstract
+Knowledge distillation is a popular technique for training a small student network
+to emulate a larger teacher model, such as an ensemble of networks. We show
+that while knowledge distillation can improve student generalization, it does not
+typically work as it is commonly understood: there often remains a surprisingly
+large discrepancy between the predictive distributions of the teacher and the student,
+even in cases when the student has the capacity to perfectly match the teacher.
+We identify difﬁculties in optimization as a key reason for why the student is
+unable to match the teacher. We also show how the details of the dataset used for
+distillation play a role in how closely the student matches the teacher — and that
+more closely matching the teacher paradoxically does not always lead to better
+student generalization.
+1
+Introduction
+Large, deep networks can learn representations that generalize well. While smaller, more efﬁcient
+networks lack the inductive biases to ﬁnd these representations from training data alone, they may
+have the capacity to represent these solutions [e.g., 2, 17, 29, 40]. Inﬂuential work on knowledge
+distillation [20] argues that Bucil˘a et al. [5] “demonstrate convincingly that the knowledge acquired
+by a large ensemble of models [the teacher] can be transferred to a single small model [the student]”.
+Indeed this quote encapsulates the conventional narrative of knowledge distillation: a student model
+learns a high-ﬁdelity representation of a larger teacher, enabled by the teacher’s soft labels.
+Conversely, in Figure 1 we show that with modern architectures knowledge distillation can lead to
+students with very different predictions from their teachers, even when the student has the capacity to
+perfectly match the teacher. Indeed, it is becoming well-known that in self-distillation the student
+fails to match the teacher and, paradoxically, student generalization improves as a result [13, 36].
+However, when the teacher is a large model (e.g. a deep ensemble) improvements in ﬁdelity translate
+into improvements in generalization, as we show in Figure 1(b). For these large models there is still a
+signiﬁcant accuracy gap between student and teacher, so ﬁdelity is aligned with generalization.
+We will distinguish between ﬁdelity, the ability of a student to match a teacher’s predictions, and
+generalization, the performance of a student in predicting unseen, in-distribution data. We show that
+in many cases it is surprisingly difﬁcult to obtain good student ﬁdelity. In Section 5 we investigate
+the hypothesis that low ﬁdelity is an identiﬁability problem that can be solved by augmenting the
+distillation dataset. In Section 6 we investigate the hypothesis that low ﬁdelity is an optimization
+problem resulting in a failure of the student to match the teacher even on the original training dataset.
+We present a summary of our conclusions in Section 7.
+Does knowledge distillation really work? In short: Yes, in the sense that it often improves student
+generalization, though there is room for further improvement. No, in that knowledge distillation often
+fails to live up to its name, transferring very limited knowledge from teacher to student.
+35th Conference on Neural Information Processing Systems (NeurIPS 2021), Sydney, Australia.
+arXiv:2106.05945v2  [cs.LG]  6 Dec 2021

@@ -1,0 +1,1913 @@
+
+
+===== PAGE 1 =====
+LENS-XAI: Redefining Lightweight and Explainable
+Network Security through Knowledge Distillation and
+Variational Autoencoders for Scalable Intrusion
+Detection in Cybersecurity
+Muhammet Anil Yagiza, Polat Goktasb,∗
+aDepartment of Computer Engineering, Kırıkkale University, Kırıkkale, 71450, Turkey
+bSchool of Computer Science & CeADAR, University College Dublin, Dublin, D04
+V2N9, Ireland
+Abstract
+The rapid proliferation of Industrial Internet of Things (IIoT) systems ne-
+cessitates advanced, interpretable, and scalable intrusion detection systems
+(IDS) to combat emerging cyber threats. Traditional IDS face challenges
+such as high computational demands, limited explainability, and inflexi-
+bility against evolving attack patterns. To address these limitations, this
+study introduces the Lightweight Explainable Network Security framework
+(LENS-XAI), which combines robust intrusion detection with enhanced in-
+terpretability and scalability. LENS-XAI integrates knowledge distillation,
+variational autoencoder models, and attribution-based explainability tech-
+niques to achieve high detection accuracy and transparency in decision-
+making. By leveraging a training set comprising 10% of the available data,
+the framework optimizes computational efficiency without sacrificing perfor-
+mance. Experimental evaluation on four benchmark datasets—Edge-IIoTset,
+UKM-IDS20, CTU-13, and NSL-KDD—demonstrates the framework’s supe-
+rior performance, achieving detection accuracies of 95.34%, 99.92%, 98.42%,
+and 99.34%, respectively. Additionally, the framework excels in reducing false
+positives and adapting to complex attack scenarios, outperforming existing
+state-of-the-art methods. Key strengths of LENS-XAI include its lightweight
+design, suitable for resource-constrained environments, and its scalability
+across diverse IIoT and cybersecurity contexts. Moreover, the explainability
+∗Corresponding author. Email: polat.goktas@ucd.ie
+Preprint submitted to Applied Soft Computing
+January 9, 2025
+arXiv:2501.00790v2  [cs.CR]  7 Jan 2025
+
+
+===== PAGE 2 =====
+module enhances trust and transparency, critical for practical deployment in
+dynamic and sensitive applications. This research contributes significantly to
+advancing IDS by addressing computational efficiency, feature interpretabil-
+ity, and real-world applicability. Future work could focus on extending the
+framework to ensemble AI systems for distributed environments, further en-
+hancing its robustness and adaptability.
+Keywords:
+Artificial intelligence, Cybersecurity, Industrial Internet of
+Things, Knowledge distillation, Machine learning, Network security, XAI
+1. Introduction
+In the ever-expanding digital landscape, the rapid proliferation of in-
+terconnected devices has led to a corresponding rise in sophisticated cyber
+threats, challenging the efficacy of traditional network security measures [1].
+Intrusion Detection Systems (IDS) have emerged as critical components in
+safeguarding networks by identifying and mitigating anomalous activities [2].
+However, the increasing complexity of cyberattacks necessitates the adoption
+of advanced methodologies that can keep pace with evolving threats while
+maintaining interpretability and scalability [3]. Recent studies highlights the
+adoption of advanced methodologies, including the integration of deep learn-
+ing (DL) techniques with artifical intelligence (AI) for enhanced intrusion de-
+tection [4, 5], federated incremental learning for Internet of Things (IoT) se-
+curity monitoring [1], and blockchain-enhanced decision-making frameworks
+[5]. Furthermore, intelligent systems tailored for specialized environments
+like unmanned aerial vehicles highlight the potential of interpretable IDS in
+addressing domain-specific challenges [6].
+Despite this progress, a significant challenge persists: the “black-box” na-
+ture of these models undermines their adoption in critical applications where
+explainability and transparency are paramount. Addressing this gap, Ex-
+plainable AI (XAI) has gained prominence, enabling researchers and prac-
+titioners to understand and trust IDS based on machine learning (ML) /
+DL [7, 8]. Incorporating XAI frameworks into IDS improves both opera-
+tional transparency and decision-making reliability.
+For example, models
+such as DeepRoughNetID [9] have demonstrated robust anomaly detection
+capabilities by combining feature engineering with interpretable algorithms.
+Similarly, the integration of XAI into IoT-based intrusion detection systems,
+as illustrated by TwinSec-IDS [10], highlights the potential of explainable
+2
+
+
+===== PAGE 3 =====
+frameworks in addressing security challenges in complex environments. These
+advancements underline the necessity of pairing state-of-the-art ML/DL tech-
+niques with XAI to foster adoption and trust in IDS solutions.
+The contemporary cybersecurity ecosystem also demands lightweight mod-
+els that can operate efficiently in resource-constrained settings such as IoT
+and edge computing environments. For example, the Zero-Trust Marine Cy-
+berdefense framework [3] exemplifies the integration of lightweight architec-
+tures with explainable mechanisms, showcasing their effectiveness in spe-
+cialized domains. This approach aligns with industry trends that prioritize
+the dual objectives of computational efficiency and interpretability. Among
+the cutting-edge methodologies in IDS development, knowledge distillation
+and variational autoencoders (VAEs) have emerged as transformative tech-
+niques. Knowledge distillation facilitates the transfer of insights from com-
+plex, high-capacity models to compact, efficient ones, ensuring that resource-
+efficient systems do not compromise on performance [11]. Meanwhile, VAEs
+have proven instrumental in learning latent representations of data, allow-
+ing anomaly detection by analyzing deviations from normal patterns [12].
+Leveraging these methodologies within an XAI framework can redefine the
+paradigms of network security.
+Despite these advances, a critical gap persists in the current literature. Al-
+though existing approaches address aspects of either scalability, interpretabil-
+ity, or computational efficiency, comprehensive solutions that holistically in-
+tegrate these factors remain scarce. In particular, studies such as PANACEA
+[13] and XAIEnsembleTL-IoV [14] emphasize specific facets of IDS but fail to
+provide an integrated framework applicable in diverse real-world scenarios,
+particularly in resource-constrained environments. Furthermore, the absence
+of robust explanations for model predictions often hinders the deployment
+of these systems in critical applications where trust and accountability are
+paramount. In the evolving landscape of autonomous vehicles, ensuring ro-
+bust in-vehicle network security is paramount.
+In this study, we introduce LENS-XAI, an advanced framework that re-
+defines lightweight and explainable network security by combining knowledge
+distillation with VAEs. The LENS-XAI approach is tailored for resource-
+constrained environments, such as IoT and edge computing, emphasizing
+scalability and interpretability. Its well-designed architecture enables high
+detection accuracy, robust anomaly detection, and actionable insights into
+decision-making processes. This framework seeks to balance performance and
+transparency, offering an effective solution for intrusion detection in modern
+3
+
+
+===== PAGE 4 =====
+network infrastructures. The primary contributions of this study include:
+• Innovative Integration of Knowledge Distillation and VAEs:
+The framework employs knowledge distillation for enhanced computa-
+tional efficiency and VAEs to model complex data distributions, im-
+proving detection capabilities.
+• Enhanced Explainability: LENS-XAI incorporates variable attribu-
+tion-based XAI mechanisms mechanisms to provide detailed insights,
+fostering greater trust and clarity in its operations.
+• Optimized for Resource-Constrained Environments: Its scal-
+able and lightweight architecture is designed to adapt seamlessly to
+IoT and edge computing scenarios without sacrificing detection perfor-
+mance.
+• Robust Validation: Extensive experiments on benchmark datasets,
+including NSL-KDD, CTU-13, UKM20 and EDGEIIoTset, demonstrate
+the framework’s efficacy and reliability in diverse real-world applica-
+tions.
+The remainder of this paper is organized as follows. Section II reviews related
+works in ML/DL-based IDS and XAI integration. Section III outlines the
+methodology, detailing the proposed model architecture and its components.
+Section IV presents experimental results, highlighting performance metrics
+and comparative analyses. Finally, Section V & VI conclude with insights
+and future directions for advancing IDS research.
+2. Literature survey
+IDSs have been widely researched to address the increasing sophistication
+of cyberattacks. This section reviews recent advances in IDS methodologies
+with an emphasis on using XAI and lightweight architectures to enhance
+interpretability and efficiency.
+2.1. Explainable Deep Learning Approaches for IDS
+DL models have dramatically transformed IDS by providing enhanced
+accuracy and adaptability in identifying malicious activities. However, their
+inherent “black-box” nature raises significant concerns about trust and in-
+terpretability. To address these issues, Sindiramutty et al. [15] proposed a
+4
+
+
+===== PAGE 5 =====
+Bi-LSTM-based framework integrated with explainable mechanisms, includ-
+ing enhanced krill herd optimization, which provides valuable insights into
+its decision-making process. This framework has proven effective in indus-
+trial cyber-physical systems, emphasizing the need for models that balance
+interpretability with high performance. Similarly, Nalini et al. [9] introduced
+DeepRoughNetID, a model designed to enhance anomaly detection capabil-
+ities by combining robust feature engineering with interpretable algorithms.
+While achieving high detection rates, DeepRoughNetID highlights the impor-
+tance of evaluating its effectiveness in resource-constrained environments, a
+domain where its applicability remains underexplored. Al-Essa et al. [13]
+extended this line of research by developing PANACEA, a neural model
+ensemble utilizing knowledge distillation to enhance both efficiency and ex-
+plainability. While PANACEA demonstrates its potential through accurate
+detection rates, its reliance on specific datasets limits its generalizability
+across diverse network environments. Alotaibi et al. [16] applied XAI to web
+phishing classification in IoT and cyber-physical systems, achieving strong re-
+sults but requiring further validation across diverse IoT architectures. Zhao
+et al. [17] also addressed these challenges by proposing a lightweight IDS
+framework based on knowledge distillation and deep metric learning. How-
+ever, their approach fell short in addressing the few-shot learning problem,
+leaving room for further optimization.
+2.2. Lightweight and Scalable Models
+As IoT devices and edge computing architectures continue to proliferate,
+IDS models must adapt to operate effectively in resource-constrained settings.
+Lightweight and scalable frameworks have become essential in addressing
+these demands. Nkoro et al. [3] proposed the Zero-Trust Marine Cyberde-
+fense framework, which integrates lightweight architectures with explainable
+mechanisms to ensure robust cybersecurity in IoT-based maritime networks.
+This approach exemplifies the effectiveness of models designed for specialized
+environments, emphasizing computational efficiency without compromising
+interpretability. Ullah et al. [2] presented IDS-INT, a transformer-based in-
+trusion detection model that employs transfer learning to handle unbalanced
+network traffic. While its advanced architecture achieves high detection accu-
+racy, the model’s scalability across different network configurations remains
+a critical area for further validation.
+Chen et al. [18] explored federated learning for IDS, incorporating dif-
+ferentially private knowledge distillation to preserve data privacy while en-
+5
+
+
+===== PAGE 6 =====
+hancing classification accuracy. Their framework balanced privacy and util-
+ity, but required optimization for heterogeneous IoT architectures.
+Simi-
+larly, Kumar et al. [5] developed a blockchain-enabled IDS integrated with
+XAI for enhanced decision-making transparency in industrial systems. While
+promising, their approach demands further evaluation in dynamic industrial
+contexts. In parallel, Fatema et al. [4] introduced a federated learning frame-
+work combined with XAI techniques to enhance the security and efficiency of
+IDS in IoT ecosystems. Their work highlights the growing need for collabo-
+rative and distributed approaches that ensure scalability and trustworthiness
+in real-world applications.
+2.3. Advanced Anomaly Detection Techniques
+Modern anomaly detection methods emphasize the need to capture com-
+plex data patterns and deviations effectively, particularly in dynamic network
+environments. Gaspar et al. [8] explored the integration of SHAP (SHapley
+Additive exPlanations) and LIME (Local Interpretable Model-Agnostic Ex-
+planations) techniques in intrusion detection systems based on Multi-Layer
+Perceptron models.
+By combining local and global interpretability, their
+approach not only improves detection accuracy but also enhances the trans-
+parency of model predictions, fostering trust among users. Bacevicius et al.
+[19] investigated hybrid approaches to handle unbalanced intrusion detec-
+tion datasets, demonstrating improved classification accuracy in multi-class
+scenarios. Roy et al. [20] proposed an explainable deep neural framework tai-
+lored for industrial settings, enabling trustworthy and transparent anomaly
+detection processes. In addition, Ahmed et al. [21] developed a hybrid en-
+semble IDS model incorporating bagging, boosting, and SHAP to achieve
+high accuracy. These methodologies underline the importance of combining
+interpretability with advanced learning mechanisms to address the complex-
+ities of modern cyber threats.
+2.4. Knowledge Distillation & VAEs
+Knowledge distillation and VAEs have emerged as powerful tools for
+building efficient and interpretable IDS frameworks. By transferring knowl-
+edge from high-capacity models to lightweight counterparts, knowledge dis-
+tillation ensures that computationally efficient systems maintain high detec-
+tion accuracy. Sindiramutty et al. [15] effectively combined these techniques
+to design an anomaly detection model capable of balancing efficiency and
+6
+
+
+===== PAGE 7 =====
+explainability in industrial applications. Similarly, Moustafa et al. [22] in-
+tegrated VAEs with federated learning and XAI frameworks to develop a
+robust intrusion detection solution for IoT networks. Javeed et al. [6] fur-
+ther demonstrated the utility of these approaches in specialized domains,
+designing an interpretable IDS tailored for unmanned aerial vehicles.
+Building on prior advancements, our earlier study by Yagiz et al. [23] in-
+troduced the KD-XVAE system, integrating a Knowledge Distillation frame-
+work with VAEs. This model achieved exceptional performance, with perfect
+recall, precision, and F1 scores, while maintaining a lightweight computa-
+tional design. By employing XAI techniques such as SHAP, the KD-XVAE
+system enabled interpretability by highlighting key latent features critical
+for decision-making. These studies highlight the transformative potential of
+integrating knowledge distillation and VAEs into XAI-based intrusion detec-
+tion systems, paving the way for innovative solutions that meet the demands
+of modern network security.
+2.5. Research Gap
+The reviewed works highlight several research gaps in IDS development.
+Bacevicius et al. [19] and Le et al. [24] emphasized the challenges associated
+with raw and unbalanced intrusion detection datasets, particularly in multi-
+class classification problems. Moustafa et al. [22] and Kostopoulos et al. [25]
+explored the use of XAI to address the interpretability issues of IDS models.
+Furthermore, Shtayat et al. [26] and Sivamohan et al. [27] demonstrated
+the potential of integrating ensemble learning and DL techniques for robust
+intrusion detection but noted limitations in scalability across diverse IoT
+environments. The computational challenges and lack of interpretability in
+intrusion detection frameworks were also highlighted in works by Hattak et al.
+[28] and Arisdakessian et al. [29]. Additionally, the need for enhanced attack
+classification and explanations in dynamic IoT environments was underlined
+by Gaspar et al. [8] and Kumar et al. [30]. .
+In response to these gaps, our proposed LENS-XAI framework inte-
+grates knowledge distillation and VAEs within a lightweight architecture,
+tailored for resource-constrained IoT and edge computing environments. Em-
+phasizing scalability, interpretability, and efficiency, it employs variable
+attribution-based XAI mechanisms to provide transparent insights into
+decision-making processes.
+By validating its performance across diverse
+datasets and scenarios, this framework advances the state-of-the-art in IDS.
+7
+
+
+===== PAGE 8 =====
+2.6. Problem Statement and Motivation
+Existing IDS frameworks face significant challenges in scalability, dataset-
+specific performance, and adaptability to dynamic environments. Many mod-
+els rely on static feature selection techniques and heuristic-driven metrics,
+which limit their ability to identify critical relationships among features,
+particularly in the context of imbalanced datasets. Additionally, the compu-
+tational overhead of existing solutions restricts their real-time applicability,
+especially in resource-constrained environments like IoT and edge comput-
+ing. The limited scenario-based evaluations and reliance on specific datasets
+further constrain the generalizability of these models, leaving critical gaps
+in their ability to address diverse real-world applications.
+Moreover, the
+absence of dynamic threat adaptation mechanisms undermines the effective-
+ness of IDS frameworks in handling evolving cyber threats. These challenges
+necessitate the development of robust, scalable, and generalizable IDS solu-
+tions capable of operating efficiently in resource-constrained environments.
+By addressing these limitations, it becomes possible to enhance the overall
+efficiency, adaptability, and reliability of IDS frameworks, ensuring improved
+security across diverse and dynamic network scenarios.
+3. Methodology
+3.1. Framework Overview
+The proposed workflow begins with input datasets, which undergo pre-
+processing to remove inconsistencies, transform categorical attributes, and
+normalize numerical features. The processed data is fed into a VAE, cap-
+turing latent representations critical for anomaly detection. To enhance ef-
+ficiency, Knowledge Distillation transfers the learned representations from a
+robust teacher model to a lightweight student model, optimizing computa-
+tional performance for resource-constrained environments. Finally, a variable
+attribution-based explainability method provides transparent insights into
+the decision-making process, enhancing trust and usability in the detection
+framework.
+3.2. Data Preprocessing and Feature Engineering
+Real-world intrusion detection datasets (e.g., CTU-13, UKM20, NSL-
+KDD, and Edge-IIoTset) often contain missing values, categorical features,
+8
+
+
+===== PAGE 9 =====
+and different numerical scales. To ensure consistency and integrity, we per-
+form three key preprocessing steps: handling missing values, encoding cate-
+gorical variables, and normalizing continuous features.
+3.2.1. Missing Value Handling
+We adopt a hybrid strategy to address missing entries:
+1. Imputation: For minor gaps, we replace missing values with the mean
+or median, preserving overall statistical distributions.
+2. Exclusion: For records with extensive missingness, we remove them
+to minimize noise and bias.
+This approach retains the majority of the data while limiting the distortion
+introduced by imputation.
+3.2.2. Feature Encoding and Transformation
+Categorical and non-numerical features must be translated into numerical
+forms for downstream ML models:
+• One-hot encoding: Converts nominal categories into binary indicator
+variables.
+• Ordinal encoding: Maps ordered categories to integer values when a
+natural order is relevant.
+We choose the encoding method on a feature-by-feature basis, prioritizing
+minimal information loss.
+3.2.3. Standardization
+To standardize the range of numerical attributes, we employ Z-score stan-
+dardization. Each feature x is scaled to x′ via
+x′ = x −µ
+σ
+(1)
+where µ and σ are the mean and standard deviation of the feature, respec-
+tively. This standardization ensures that the features have a mean of 0 and a
+standard deviation of 1, facilitating balanced gradient updates during model
+training.
+9
+
+
+===== PAGE 10 =====
+3.3. Representation Learning with Variational Autoencoders
+Following preprocessing, we employ VAEs to model the underlying data
+distribution and derive expressive latent representations that facilitate anomaly
+detection.
+3.3.1. VAE Architecture
+A standard VAE comprises two main components:
+• Encoder: A neural network qϕ(z | x) that maps the input x ∈Rd to
+a latent distribution over z ∈Rk.
+• Decoder: A neural network pθ(x | z) that reconstructs x from latent
+variables z.
+Here, ϕ and θ denote the trainable parameters of the encoder and decoder,
+respectively, while k is typically chosen to be much smaller than d.
+3.3.2. VAE Loss Formulation
+We optimize the VAE via the following objective:
+LVAE(θ, ϕ; x) = Eqϕ(z|x)
+
+−log pθ(x | z)
+
+|
+{z
+}
+Reconstruction loss
++ β DKL
+ qϕ(z | x) ∥p(z)
+
+|
+{z
+}
+KL divergence
+(2)
+where:
+• Eqϕ(z|x)
+
+−log pθ(x | z)
+
+measures the reconstruction error,
+• DKL
+ qϕ(z | x) ∥p(z)
+
+enforces a structured latent space by penalizing
+divergence from the prior p(z), often chosen as N(0, I),
+• β balances the trade-off between reconstruction fidelity and latent-
+space regularization [31].
+3.3.3. Latent Representation for Anomaly Detection
+We use the encoder’s learned representations to identify anomalous sam-
+ples in subsequent classification or threshold-based detection steps.
+Intu-
+itively, examples that yield high reconstruction error or have low likelihood
+under the learned latent distribution are flagged as potential intrusions.
+10
+
+
+===== PAGE 11 =====
+3.4. Knowledge Distillation for Model Optimization
+VAEs combined with high-capacity classification models can be compu-
+tationally demanding. To alleviate inference costs without sacrificing perfor-
+mance, we employ Knowledge Distillation [32], transferring the “knowledge”
+from a powerful teacher model to a more compact student model.
+3.4.1. Distillation Setup
+1. Teacher Model: Trained on the full dataset (or its latent representa-
+tions) to achieve high accuracy.
+2. Student Model: A lighter network optimized to reproduce the output
+distribution of the teacher.
+3.4.2. Distillation Loss
+To guide the student network, the teacher provides “soft targets,” which
+we combine with hard labels to form the distillation loss:
+Ldistill(θs) = (1 −α) LCE(y, ˆys)
+|
+{z
+}
+hard label
++ αT 2 DKL
+ σT(ˆyt), σT(ˆys)
+
+|
+{z
+}
+soft label
+(3)
+where:
+• LCE is cross-entropy between true labels y and student predictions ˆys,
+• DKL
+ σT(ˆyt), σT(ˆys)
+
+is the KL divergence between teacher and student
+outputs under a “softmax temperature” T,
+• α weights the relative contribution of hard and soft labels.
+Here, σT(·) denotes the temperature-scaled softmax operator [32].
+3.5. Variable Attribution-Based Explainability
+Security analysts require interpretable results to validate and trust IDS
+outcomes. To meet this need, we incorporate a variable attribution-based
+explainability approach, as detailed in Algorithm 1, which quantifies the
+contributions of individual features in anomaly predictions [33, 34]. This al-
+gorithm computes feature attributions by decomposing the model prediction
+for a given test instance into baseline and individual feature contributions,
+ensuring the property of local accuracy.
+Specifically, the algorithm itera-
+tively calculates the marginal contribution of each feature by comparing the
+11
+
+
+===== PAGE 12 =====
+expected model prediction conditioned on subsets of features. The process
+guarantees that the sum of all contributions aligns with the model’s out-
+put, providing a transparent and interpretable breakdown of the prediction
+[35, 36].
+3.5.1. Variable Attribution Computation
+Given an instance x∗= {x∗
+1, x∗
+2, . . . , x∗
+p}, the model prediction f(x∗) is
+expressed as [35, 36]:
+f(x∗) = v0 +
+p
+X
+j=1
+v(j, x∗),
+(4)
+where:
+• v0 denotes the mean model prediction across all instances (baseline
+prediction),
+• v(j, x∗) represents the contribution of the j-th variable to the prediction
+f(x∗).
+This decomposition ensures the property of local accuracy, such that:
+p
+X
+j=0
+v(j, x∗) = f(x∗).
+(5)
+To compute the contribution v(j, x∗), we leverage conditional expecta-
+tions:
+v(j, x∗) = E
+
+f(x) | x1 = x∗
+1, . . . , xj = x∗
+j
+
+−E
+
+f(x) | x1 = x∗
+1, . . . , xj−1 = x∗
+j−1
+
+,
+(6)
+where:
+• E[f(x) | x1, . . . , xj] is the expected value of the model’s prediction when
+the first j features are fixed to their observed values,
+• The difference isolates the marginal contribution of the j-th variable.
+12
+
+
+===== PAGE 13 =====
+3.5.2. Generalization to Subsets of Features
+To handle more general cases, let J = {j1, j2, . . . , jK} be a subset of
+K ≤p indices from {1, 2, . . . , p}, and let L = {l1, l2, . . . , lM} be another
+subset of M ≤p −K indices, such that J ∩L = ∅. Define the conditional
+difference for L | J as [36]:
+∆L|J(x∗) = E [f(x) | xJ = x∗
+J, xL = x∗
+L] −E [f(x) | xJ = x∗
+J] ,
+(7)
+where:
+• xJ and xL denote the sets of variables indexed by J and L, respectively,
+• x∗
+J and x∗
+L represent their observed values.
+For an individual variable l ∈L, the marginal contribution is:
+∆l|J(x∗) = E [f(x) | xJ = x∗
+J, xl = x∗
+l ] −E [f(x) | xJ = x∗
+J] .
+(8)
+3.5.3. Order Sensitivity and Approximation
+The contributions v(j, x∗) depend on the order of the variables j, as
+interactions between variables may influence the result. To address this, we
+use a two-step heuristic [36, 37]:
+1. Variables are ordered based on their marginal importance |∆j|∅(x∗)|,
+calculated without prior conditioning.
+2. Contributions v(j, x∗) are then computed sequentially using the chosen
+order, capturing both individual and interaction effects.
+By implementing the variable attribution method, as outlined in Algo-
+rithm 1, the framework enables robust, feature-level explanations, empow-
+ering analysts to make data-driven decisions and refine IDS configurations
+effectively.
+3.6. Strategic Data Partitioning
+To stress-test the model’s generalization, we adopt a stringent partition:
+• Training set: 10% of the available data.
+• Test set: 90% of the data.
+Although unconventional, this setup closely mimics scenarios with limited
+labeled data, illuminating the framework’s capacity to operate under realistic
+constraints.
+13
+
+
+===== PAGE 14 =====
+Algorithm 1 Variable Attribution-Based Explainability Computation
+Require: f: Predictive model, xtest: Test sample, p: Number of features
+Ensure: Feature contributions {v(i, xtest)}p
+i=1
+1: Initialize:
+Baseline prediction v0 ←E[f(x)]
+2: for i = 1 to p do
+3:
+Compute conditional expectation for fixed features:
+E[f(x) | x1, . . . , xi]
+4:
+Compute conditional expectation for the previous subset:
+E[f(x) | x1, . . . , xi−1]
+5:
+Compute feature contribution:
+v(i, xtest) ←E[f(x) | x1, . . . , xi] −E[f(x) | x1, . . . , xi−1]
+6: Verify local accuracy:
+f(xtest) = v0 +
+p
+X
+i=1
+v(i, xtest)
+7: Optional: Apply heuristic ordering of features based on marginal impor-
+tance |∆j|∅(xtest)| to handle order sensitivity.
+8: return {v(i, xtest)}p
+i=1
+3.7. Framework Contributions
+Algorithm 2 outlines the complete pipeline of the proposed framework,
+integrating the components described above. The framework offers the fol-
+lowing key contributions:
+• Unified Preprocessing for Heterogeneous Datasets: Ensures
+consistency and scalability by standardizing input features across di-
+verse datasets.
+• Latent Representation Learning with VAEs:
+Introduces dy-
+namically calibrated VAEs to capture robust latent representations,
+enhancing anomaly detection.
+14
+
+
+===== PAGE 15 =====
+• Optimized Computational Efficiency: Leverages Knowledge Dis-
+tillation to reduce model complexity, enabling deployment in resource-
+constrained environments.
+• Explainability with Variable Attribution: Employs a variable
+attribution-based approach for transparent decision-making, enhancing
+trust and usability for security analysts.
+• Rigorous Validation Across Scenarios: Implements a compre-
+hensive evaluation strategy, showcasing robustness and adaptability
+under diverse operational constraints.
+The integration of these elements positions the framework as a scalable
+and interpretable solution for intrusion detection, addressing challenges in
+modern IoT and edge computing environments.
+4. Performance evaluation
+We begin by assessing the intrusion detection performance of the proposed
+LENS-XAI framework, comparing it against baseline methods as outlined in
+Section 4.3. Furthermore, Section 4.5 provides a comprehensive evaluation
+of the framework’s explainability, benchmarked against state-of-the-art tech-
+niques.
+4.1. Experimental Setup and Evaluation Metrics
+The proposed framework is implemented in Python, incorporating mod-
+ern libraries such as TensorFlow and PyTorch for model development and
+leveraging variable attribution methods for explainability. The preprocessing
+pipeline is designed to ensure data consistency by addressing missing values,
+encoding categorical variables, and normalizing numerical features. Explain-
+ability is achieved through an attribution-based approach that highlights the
+contribution of individual features to the model’s predictions, enabling in-
+terpretable anomaly detection. The experimental settings use a batch size
+of 64 across all datasets. Training epochs are set to 200 for UKM-IDS20,
+500 for Edge-IIoTset, and 100 for NSL-KDD, with a consistent learning rate
+of 0.001, ensuring robust latent representations. Knowledge distillation is
+conducted with a temperature parameter T = 2 and a weighting coefficient
+α = 0.5. The system configuration, tailored to support the integration of
+XAI principles, is summarized in Table 1.
+The key evaluation metrics used in this study are defined as follows:
+15
+
+
+===== PAGE 16 =====
+Algorithm 2 Proposed LENS-XAI Framework
+Require: {Di}M
+i=1: Set of M raw datasets (e.g., CTU-13, UKM20, NSL-
+KDD, Edge-IIoTset)
+Ensure: Anomaly predictions ˆy with feature attributions {ϕi}
+1: Initialization:
+Define Encoder/Decoder networks for VAE: {E, D}
+Initialize Teacher and Student models: {ft, fs}
+2: Step 1: Unified Data Preprocessing
+3: for each dataset Di ∈{Di} do
+4:
+Clean and preprocess:
+• Handle missing values (imputation or removal)
+• Encode categorical features (e.g., one-hot encoding)
+• Normalize numerical features (e.g., Standard Scaler)
+5: Merge preprocessed datasets into a unified dataset D
+6: Step 2: VAE Training for Latent Representations
+7: for each mini-batch x sampled from D do
+8:
+Compute latent embeddings: z ←E(x)
+9:
+Reconstruct input: ˆx ←D(z)
+10:
+Compute VAE loss:
+LVAE = Lrecon + β DKL
+ qϕ(z | x), p(z)
+
+11:
+Update network parameters ϕ and θ via backpropagation
+12: Record latent embeddings {z} after convergence
+13: Step 3: Knowledge Distillation
+14: Train teacher model ft on latent embeddings {z}
+15: Generate soft targets σT(ˆyt) using teacher model
+16: Train student model fs to minimize the distillation loss:
+Ldistill = (1 −α) LCE + α T 2 DKL
+ σT(ˆyt), σT(ˆys)
+
+17: Step 4: Feature Attribution and Explainability
+18: for each test sample xtest do
+19:
+Compute feature attributions ϕi(xtest) using variable attribution
+20:
+Rank or visualize features based on their contributions
+21: Step 5: Evaluation and Anomaly Detection
+22: Partition the data: 10% for training, 90% for testing
+23: Use student model fs to predict anomaly scores ˆys(x)
+24: Output anomaly scores and feature attributions {ϕi}
+25: return ˆy, {ϕi}
+16
+
+
+===== PAGE 17 =====
+Table 1: Software and hardware configurations for experimentation.
+Specification
+Details
+Operating System
+Windows 11
+Python Environment
+Anaconda Navigator, Python 3.11
+Libraries
+TensorFlow, PyTorch, Dalex
+Processor
+Intel Core i7-14700K @ 3.4 GHz
+RAM
+32 GB DDR5
+Storage
+2 TB SSD
+GPU
+NVIDIA GeForce RTX 4080 Super (16 GB VRAM)
+• Performance Metrics: The model’s detection performance was eval-
+uated using metrics such as accuracy, precision, recall, and F1-score.
+These metrics provided a comprehensive understanding of the model’s
+ability to detect various types of cyberattacks and minimize errors.
+• Number of Parameters: The total number of learnable parameters
+in the model was calculated as:
+Number of Parameters =
+L
+X
+i=1
+Parameters(i),
+(9)
+where L is the number of layers in the model, and Parameters(i) rep-
+resents the parameters in the i-th layer.
+• Inference Time per Batch: The time required for the model to
+process a batch of input data was calculated as:
+Inference Time (ms) = End Time −Start Time
+Batch Size
+.
+(10)
+• Memory Usage: The memory footprint of the model during inference
+was evaluated to determine the hardware requirements for real-time
+deployment.
+4.2. Dataset Descriptions
+The proposed LENS-XAI framework is assessed using four benchmark
+datasets: Edge-IIoTset, UKM20, CTU-13, and NSL-KDD. These datasets
+were carefully chosen for their distinctive features and their relevance to
+17
+
+
+===== PAGE 18 =====
+intrusion detection in IIoT and Vehicular Network (IVN) environments. Ta-
+ble 2, detailed in Appendix I, summarizes the key characteristics of these
+datasets, highlighting their relevance for evaluating the proposed intrusion
+detection framework.
+Table 2: Comparison of Edge-IIoTset, UKM20, CTU-13, and NSL-KDD datasets.
+Dataset
+Benefits
+Challenges
+Attacks Included
+Number
+of
+Samples
+Edge-
+IIoTset
+Comprehensive
+IoT/IIoT
+coverage;
+supports
+federated
+learning;
+diverse
+attack scenarios.
+Data
+complexity;
+preprocessing
+re-
+quired for analysis.
+Backdoor,
+DDoS
+HTTP, DDoS ICMP,
+DDoS
+TCP,
+DDoS
+UDP, Fingerprinting,
+MITM,
+Password,
+Port
+Scanning,
+Ransomware,
+SQL
+Injection, Uploading,
+Vulnerability
+Scan-
+ner, XSS
+61 of 1176 fea-
+tures; 2,219,201
+samples
+UKM20
+Focuses
+on
+UAV
+communication secu-
+rity; high accuracy;
+includes
+diverse
+attacks.
+Relatively
+new
+dataset;
+requires
+validation
+and
+ac-
+ceptance.
+ARP
+Poisoning,
+BeEF
+HTTP
+Ex-
+ploits, Mass HTTP
+Requests, Metasploit
+Exploits, Port Scan-
+ning,
+TCP
+Flood,
+UDP Data Flood
+46 UAV-related
+features; 12,887
+samples
+CTU-13
+Real
+botnet
+traffic
+mixed with normal
+traffic; widely used.
+Imbalanced
+attack
+classes; limited sce-
+narios.
+Botnet, DDoS, Port
+Scans
+Bidirectional
+NetFlows;
+92,212 samples
+NSL-KDD
+Enhanced
+KDD
+Cup
+99;
+reduced
+redundancy
+and
+imbalance.
+Class imbalance per-
+sists; limited modern
+threat coverage.
+DoS,
+Probe,
+R2L,
+U2R
+41
+features;
+148,517 samples
+Edge-IIoTset Dataset. The Edge-IIoTset dataset is designed for cyber-
+security research in IoT and edge computing environments. It features both
+benign and malicious network traffic, annotated with detailed labels, times-
+tamps, and traffic characteristics. The dataset spans multiple protocols and
+includes diverse attack types such as Denial of Service (DoS), data exfil-
+tration, and command injection. This comprehensive coverage makes Edge-
+IIoTset an invaluable resource for testing intrusion detection systems in com-
+plex and realistic network scenarios. Figure 1 shows the various classes of
+18
+
+
+===== PAGE 19 =====
+the Edge-IIoTset. This dataset is publicly accessible at1.
+Figure 1: Class distribution of Edge-IIoTset dataset.
+UKM20 Dataset. The UKM-IDS20 dataset is tailored for intrusion detec-
+tion in vehicular networks, offering traffic data from Controller Area Network
+(CAN) buses. It encompasses both normal and attack scenarios, including
+message injection and spoofing attacks. Key features, such as CAN IDs, data
+length codes (DLC), and payload data, enable robust anomaly detection and
+the evaluation of IDS solutions specific to IVN environments. Figure 2 shows
+the class distribution of the UKM20. The dataset is publicly accessible at2.
+CTU-13 Dataset. The CTU-13 dataset is a widely recognized benchmark
+for botnet traffic analysis. While not specific to IVNs, it contains a mix of
+normal and botnet-infected traffic with detailed flow-based features. The
+dataset is well-suited for evaluating generalized IDS models that can be
+adapted for IVN use cases. The CTU-13 dataset is publicly available at3.
+This dataset consists of the following traffic types and their respective counts:
+1https://ieee-dataport.org/documents/edge-iiotset-new-comprehensive-realistic-cyber-security-dataset-iot-and-iiot-applications
+2https://www.kaggle.com/datasets/muatazsalam/ukm-ids20
+3https://www.stratosphereips.org/datasets-ctu13
+19
+
+
+===== PAGE 20 =====
+Figure 2: Class distribution of UKM20 dataset.
+• Normal Traffic: 53,314 instances,
+• Attack Traffic: 38,898 instances.
+NSL-KDD Dataset. The NSL-KDD dataset is a refined version of the
+KDD Cup 1999 dataset, addressing redundancy and imbalance issues. It
+provides labeled network traffic with 43 features, including protocol type,
+service, flag, and attack labels. The dataset includes separate training (KD-
+DTrain+) and testing (KDDTest+) subsets, facilitating model development
+and validation in diverse cybersecurity contexts. Figure 3 illustrates the dis-
+tribution of classes within the NSL-KDD. This dataset is publicly available
+at4.
+4.3. Performance Evaluation of the Introduced LENS-XAI Method
+4.3.1. Analysis on Edge-IIoTset Dataset
+Table 3 provides a comprehensive comparison of the proposed LENS-XAI
+framework with state-of-the-art intrusion detection systems on the Edge-
+IIoTset dataset, evaluating multi-class classification tasks.
+4https://www.kaggle.com/datasets/hassan06/nslkdd
+20
+
+
+===== PAGE 21 =====
+Figure 3: Class distribution of NSL-KDD dataset.
+Multi-class Classification Results.
+• Accuracy: The LENS-XAI Teacher model achieved the highest accu-
+racy of 95.34%, slightly outperforming the Student model at 95.31%,
+as well as other models such as NIDS-BAI (94.7%) and BGA (94.2%)
+[38]. These results highlight the robustness of the framework in han-
+dling complex IoT-specific attack scenarios.
+• Precision and Recall: The Teacher model demonstrated superior
+precision (96.75%) and recall (95.34%) compared to NIDS-BAI (94.7%
+precision, 94.8% recall) [38]. Similarly, the Student model main-
+tained competitive precision (95.74%) and recall (95.31%), showcas-
+ing effective knowledge transfer and computational efficiency.
+• F1-Measure: Both models achieved balanced performance, with the
+Teacher model scoring an F1-measure of 95.09% and the Student
+model closely following with 95.36%. These values surpass traditional
+models like ICNN (91.6%) and BGA (94.3%) [38], underlining the
+versatility of LENS-XAI in IoT-based security tasks.
+Performance Analysis Across Attack Types. Table 4 highlights the
+LENS-XAI framework’s performance across various attack types for the Edge-
+IIoTset dataset. Both the Teacher and Student models excel in detecting fre-
+quent attacks like DDoS ICMP and DDoS UDP, achieving near-perfect
+21
+
+
+===== PAGE 22 =====
+Table 3: Performance metrics comparison for multi-class classification on the Edge-IIoTset
+dataset.
+Model
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1-Score (%)
+BGA [38]
+94.20
+94.20
+94.40
+94.30
+ICNN [38]
+91.80
+91.80
+94.20
+91.60
+NIDS-BAI [38]
+94.70
+94.70
+94.80
+94.60
+LENS-XAI Teacher
+95.34
+96.75
+95.34
+95.09
+LENS-XAI Student
+95.31
+95.74
+95.31
+95.36
+accuracy (99.64%–100.00%). For Backdoor, the models perform strongly
+(97.89%–98.49%), while in rare attacks like SQL Injection, the Teacher
+outperforms the Student (34.21% vs. 19.13%). Both models achieve perfect
+detection (100.00%) for Normal traffic, showcasing reliability. The Teacher
+demonstrates better handling of rare scenarios, solidifying its robustness for
+IoT intrusion detection.
+Confusion Matrix Analysis. Figure 4 illustrates the confusion matrices
+for the LENS-XAI framework, showcasing the performance of the Teacher
+and Student models on the Edge IIoT dataset for multiclass classification.
+The Teacher model achieves high accuracy across frequent attacks such as
+DDoS ICMP and DDoS UDP, with minimal misclassifications. For in-
+stance, only 1 instance of DDoS ICMP was misclassified as another type,
+demonstrating robust detection capabilities.
+Similarly, the Student model exhibits strong performance, closely approx-
+imating the Teacher’s accuracy. Notably, it correctly classifies 61,156 DDoS
+ICMP instances and 109,559 DDoS UDP instances.
+While both mod-
+els perform exceptionally well for frequent attack types, rare attack types
+like SQL Injection and Uploading exhibit slightly higher misclassification
+rates. These results affirm the scalability and reliability of the LENS-XAI
+framework in detecting a wide range of attack types within IoT environments.
+4.3.2. Analysis on UKM20 Dataset
+Table 5 provides a comparison of the performance metrics for the LENS-
+XAI framework, highlighting its effectiveness in multi-class classification
+tasks on the UKM20 dataset.
+22
+
+
+===== PAGE 23 =====
+Table 4: Performance metrics comparison for the LENS-XAI framework on the Edge-
+IIoTset dataset across various attack types.
+Attack Type
+Accuracy (%)
+Recall (%)
+Precision (%)
+F1 Score (%)
+Backdoor (Teacher)
+97.89
+97.89
+99.18
+98.53
+Backdoor (Student)
+98.49
+98.49
+97.99
+98.24
+DDoS HTTP (Teacher)
+82.81
+82.81
+94.58
+88.30
+DDoS HTTP (Student)
+83.07
+83.07
+94.41
+88.38
+DDoS ICMP (Teacher)
+99.64
+99.64
+100.00
+99.82
+DDoS ICMP (Student)
+99.90
+99.90
+99.99
+99.95
+DDoS TCP (Teacher)
+99.74
+99.74
+85.33
+91.98
+DDoS TCP (Student)
+99.03
+99.03
+76.02
+86.01
+DDoS UDP (Teacher)
+100.00
+100.00
+99.75
+99.87
+DDoS UDP (Student)
+100.00
+100.00
+99.87
+99.93
+Fingerprinting (Teacher)
+60.66
+60.66
+100.00
+75.51
+Fingerprinting (Student)
+57.63
+57.63
+100.00
+73.12
+MITM (Teacher)
+93.01
+93.01
+100.00
+96.38
+MITM (Student)
+93.01
+93.01
+100.00
+96.38
+Normal (Teacher)
+100.00
+100.00
+100.00
+100.00
+Normal (Student)
+100.00
+100.00
+100.00
+100.00
+Password (Teacher)
+70.98
+70.98
+45.58
+55.51
+Password (Student)
+97.28
+97.28
+42.33
+58.99
+Port Scanning (Teacher)
+58.07
+58.07
+94.86
+72.04
+Port Scanning (Student)
+21.35
+21.35
+90.01
+34.51
+Ransomware (Teacher)
+96.14
+96.14
+99.92
+97.99
+Ransomware (Student)
+96.62
+96.62
+97.06
+96.84
+SQL Injection (Teacher)
+34.21
+34.21
+58.70
+43.23
+SQL Injection (Student)
+19.13
+19.13
+64.96
+29.55
+Uploading (Teacher)
+56.10
+56.10
+63.60
+59.62
+Uploading (Student)
+27.28
+27.28
+99.72
+42.84
+Vulnerability Scanner (Teacher)
+95.28
+95.28
+76.86
+85.09
+Vulnerability Scanner (Student)
+84.85
+84.85
+94.72
+89.51
+XSS (Teacher)
+30.36
+30.36
+62.70
+40.91
+XSS (Student)
+77.66
+77.66
+47.94
+59.28
+Multi-class Classification Results.
+• Accuracy: The LENS-XAI Teacher model achieved a near-perfect
+accuracy of 99.92%, outperforming the Student model’s accuracy of
+99.80%.
+These results demonstrate the robustness of the Teacher
+model in maintaining classification consistency, with the Student model
+closely approximating this performance.
+• Precision and Recall: Both models exhibit exceptionally high preci-
+sion and recall values, with the Teacher model achieving 99.92% for
+both metrics, slightly higher than the Student model’s 99.80%. These
+23
+
+
+===== PAGE 24 =====
+Figure 4: Confusion matrices of the LENS-XAI framework on the Edge-IIoTSet dataset:
+(Left) Teacher and (Right) Student models, showcasing effective differentiation between
+15 classes.
+values highlight the capability of the LENS-XAI framework to accu-
+rately identify attack types while minimizing false positives and false
+negatives.
+• F1-Measure: The Teacher model demonstrated an F1-measure of
+99.92%, indicating a balanced performance across precision and re-
+call. The Student model also performed remarkably, achieving an F1-
+measure of 99.80%, validating the efficacy of knowledge distillation in
+the LENS-XAI framework.
+Table 5: Evaluation metrics for multi-class classification on the UKM20 dataset.
+Model
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1-Score (%)
+LENS-XAI Teacher
+99.92
+99.92
+99.92
+99.92
+LENS-XAI Student
+99.80
+99.80
+99.80
+99.80
+Performance Analysis Across Attack Types. Table 6 highlights the
+performance of the LENS-XAI Teacher and Student models across various
+attack types in the UKM20 dataset.
+24
+
+
+===== PAGE 25 =====
+Table 6:
+Performance metrics comparison for the LENS-XAI framework on the UKM20
+dataset across various attack types.
+Attack Type
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1 Score (%)
+ARP Poisoning (Teacher)
+95.72
+82.05
+95.72
+88.36
+ARP Poisoning (Student)
+99.77
+81.89
+99.77
+89.95
+BeEF HTTP Exploits (Teacher)
+100.00
+100.00
+100.00
+100.00
+BeEF HTTP Exploits (Student)
+100.00
+99.55
+100.00
+99.77
+Mass HTTP Requests (Teacher)
+99.26
+99.81
+99.26
+99.53
+Mass HTTP Requests (Student)
+98.89
+100.00
+98.89
+99.44
+Metasploit Exploits (Teacher)
+100.00
+99.39
+100.00
+99.69
+Metasploit Exploits (Student)
+100.00
+99.39
+100.00
+99.69
+Normal (Teacher)
+99.95
+99.99
+99.95
+99.97
+Normal (Student)
+99.94
+99.95
+99.94
+99.94
+Port Scanning (Teacher)
+99.81
+100.00
+99.81
+99.91
+Port Scanning (Student)
+99.43
+100.00
+99.43
+99.72
+TCP Flood (Teacher)
+100.00
+99.44
+100.00
+99.72
+TCP Flood (Student)
+100.00
+99.62
+100.00
+99.81
+UDP Data Flood (Teacher)
+100.00
+99.80
+100.00
+99.90
+UDP Data Flood (Student)
+100.00
+99.41
+100.00
+99.71
+• Frequent Attacks: Both models excel in detecting common attacks
+such as BeEF HTTP Exploits, Metasploit Exploits, and Normal
+traffic, achieving perfect or near-perfect accuracy (99.95%–100.00%).
+The Teacher and Student models are equally capable in these scenarios,
+demonstrating high reliability for frequent attack detection.
+• Rare Attacks: For less frequent attacks like ARP Poisoning and
+Mass HTTP Requests, the Student model slightly outperforms the
+Teacher model in accuracy (99.77% vs. 95.72% for ARP Poisoning).
+This reflects the effectiveness of knowledge distillation in the LENS-
+XAI framework, enabling the Student model to closely replicate the
+Teacher model’s performance.
+Confusion Matrix Analysis. Figure 5 presents the confusion matrices
+for the LENS-XAI framework, illustrating the performance of the Teacher
+and Student models on the UKM-IDS20 dataset for multiclass classification
+tasks.
+The Teacher model demonstrates high accuracy across all classes,
+with minimal misclassifications.
+For example, all 444 instances of ARP
+Poisoning are correctly classified, while only 7 Normal instances are mis-
+classified. Similarly, frequent attack types such as BeEF HTTP Exploits,
+25
+
+
+===== PAGE 26 =====
+Mass HTTP Requests, and Metasploit Exploits achieve near-perfect
+detection, highlighting the model’s robustness.
+The Student model closely approximates the Teacher’s performance, with
+slightly higher misclassifications in certain categories. For instance, it cor-
+rectly classifies 434 out of 445 BeEF HTTP Exploits instances, while
+11 instances are misclassified. Despite these minor differences, the Student
+model maintains strong overall performance, correctly identifying 8,008 Nor-
+mal instances and 525 TCP Flood instances.
+Figure 5: Confusion matrices of the LENS-XAI framework on the UKM IDS20 dataset:
+(Left) Teacher and (Right) Student models, showcasing effective differentiation between
+eight classes.
+4.3.3. Analysis on CTU-13 Dataset
+Table 7 presents a comparative analysis of the proposed LENS-XAI frame-
+work against state-of-the-art ML models on the CTU-13 dataset. The results
+underline the robustness and effectiveness of the proposed framework in in-
+trusion detection.
+• Accuracy: The LENSXAI Teacher achieved an exceptional accuracy
+of 98.42%, outperforming models like SVM-RBF (85.03%) and k-NN
+(93.00%) [39]. The LENSXAI Student also delivered a strong perfor-
+mance with an accuracy of 98.12%, demonstrating the efficiency of
+the knowledge distillation process.
+26
+
+
+===== PAGE 27 =====
+• Recall: Both LENSXAI Teacher and Student achieved outstanding
+recall scores of 98.42% and 98.12%, respectively, ensuring high detec-
+tion rates for malicious activities. These results outperform traditional
+methods such as NB (76.00%) and LR (86.00%) [40].
+• Precision: The precision scores of 98.43% for the Teacher model and
+98.14% for the Student model highlight their capability to minimize
+false positives, ensuring reliability in real-world applications.
+• F1 Score and Balanced Performance: The harmonic mean of pre-
+cision and recall for LENSXAI Teacher and Student were 98.42% and
+98.12%, respectively, showcasing balanced and consistent performance
+in intrusion detection tasks.
+• Comparison with State-of-the-Art:
+– FFS-HTTP [41]: Although achieving slightly higher accuracy
+(98.79%), FFS-HTTP lacks the interpretability and lightweight
+design offered by LENS-XAI.
+– bot-DL [42]: Demonstrated competitive accuracy (96.60%) but
+lacks the explainability critical for trust and transparency in in-
+trusion detection systems, a key advantage of LENS-XAI.
+– k-NN and SVM-RBF [39]: Fell short in both accuracy and
+scalability, with lower accuracy scores of 93.00% and 85.03%, re-
+spectively, underlining the efficacy of the advanced techniques in-
+tegrated into LENS-XAI.
+Figure 6 presents the confusion matrices of the LENS-XAI framework for
+both the Teacher and Student models on the CTU-13 dataset, illustrating
+their capabilities in distinguishing between normal and anomaly classes. The
+Teacher model demonstrates robust performance, misclassifying only 566
+normal instances as anomalies and 541 anomalies as normal, ensuring high
+classification accuracy. Similarly, the Student model achieves strong results,
+with only 1,355 normal instances and 333 anomaly instances misclassified.
+These results underline the effectiveness of the LENS-XAI framework in accu-
+rately classifying network traffic while maintaining minimal misclassification
+rates.
+27
+
+
+===== PAGE 28 =====
+Table 7: Classification achievements of the proposed scheme on the CTU-13 dataset.
+Model
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1-Score (%)
+FFS-HTTP [41]
+98.79
+97.26
+98.03
+97.93
+k-NN [39]
+93.00
+90.00
+92.20
+91.51
+SVM-RBF [39]
+85.03
+84.87
+86.95
+84.95
+MLP [39]
+81.95
+86.91
+84.58
+83.88
+bot-DL [42]
+96.60
+96.30
+96.80
+96.40
+SVM [43]
+80.73
+98.07
+83.15
+88.56
+NB [40]
+78.00
+79.00
+76.00
+77.00
+LR [40]
+85.00
+89.00
+86.00
+87.00
+AdaBoost [40]
+90.00
+95.00
+94.00
+94.00
+XGBoost [40]
+96.00
+98.00
+98.00
+98.00
+LENS-XAI Teacher
+98.42
+98.43
+98.42
+98.42
+LENS-XAI Student
+98.12
+98.14
+98.12
+98.12
+4.3.4. Analysis on NSL-KDD Dataset
+Tables 8 comprehensively compares the proposed LENS-XAI framework
+with state-of-the-art ML models on the NSL-KDD dataset, evaluating multi-
+class tasks.
+Table 8: Comparative performance metrics for multi-class classification on the NSL-KDD
+dataset.
+Model
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1-Score (%)
+STL-IDS [44]
+80.48
+93.92
+68.28
+79.08
+ANN [45]
+79.90
+N/A
+N/A
+N/A
+DNN [46]
+79.10
+83.00
+68.60
+75.76
+AlertNet [47]
+78.50
+81.00
+78.50
+76.50
+RNN-IDS [48]
+81.29
+N/A
+97.09
+N/A
+RNN [49]
+81.29
+N/A
+69.73
+N/A
+CNN [49]
+79.48
+N/A
+68.66
+N/A
+MDNN [50]
+77.55
+81.32
+77.55
+75.43
+MCNN [51]
+81.10
+83.00
+80.00
+80.00
+MCNN-DFS [51]
+81.44
+81.00
+84.00
+80.00
+Naive Bayes [51]
+72.73
+76.10
+71.90
+77.00
+J48 [51]
+74.99
+79.60
+75.00
+71.10
+Random Forest [51]
+76.45
+82.10
+75.90
+72.50
+Bagging [51]
+74.83
+78.30
+74.80
+71.60
+Adaboost [51]
+66.43
+N/A
+66.00
+N/A
+LENS-XAI Teacher
+98.66
+98.64
+98.67
+98.63
+LENS-XAI Student
+99.34
+98.47
+98.49
+98.44
+28
+
+
+===== PAGE 29 =====
+Figure 6: Confusion matrices of the LENS-XAI framework on the CTU-13 dataset: (Left)
+Teacher and (Right) Student models, showcasing effective differentiation between normal
+and anomaly classes.
+Multi-class Classification Results.
+• Accuracy: The LENSXAI Student achieved the highest accuracy of
+99.34%, surpassing all competing models, including RNN-IDS (81.29%)
+[48] and MCNN-DFS (81.44%) [51]. The Teacher model also demon-
+strated remarkable accuracy at 98.66%, showcasing the efficacy of the
+knowledge transfer process.
+• Precision and Recall: With a precision of 98.47% and recall of
+98.49%, the Student model outperformed traditional approaches like
+Naive Bayes (76.1% precision) and Random Forest (75.9% recall) [51].
+The Teacher model closely followed, achieving precision and recall val-
+ues of 98.64% and 98.67%, respectively.
+• F1-Measure: Both Teacher (98.63%) and Student (98.44%) models
+maintained balanced performance, outperforming deep learning meth-
+ods like MCNN-DFS (80.00%) [51] and STL-IDS (79.08%) [44].
+Performance Analysis Across Attack Types. Table 9 and the confu-
+sion matrices demonstrate the strong performance of the LENS-XAI frame-
+work, particularly the Teacher model, which consistently outperforms the
+Student model.
+For frequent attacks like DoS and Probe, the Teacher
+achieved near-perfect accuracy (99.50% and 98.61%), while the Student
+29
+
+
+===== PAGE 30 =====
+Table 9: Performance metrics comparison for the LENS-XAI framework on the NSL-KDD
+dataset across various attack types.
+Attack Type
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1 Score (%)
+DoS (Teacher)
+99.50
+99.68
+99.51
+99.60
+DoS (Student)
+99.59
+99.46
+99.60
+99.53
+Normal (Teacher)
+98.31
+99.01
+98.32
+98.66
+Normal (Student)
+98.05
+98.78
+98.05
+98.41
+Probe (Teacher)
+98.61
+100.0
+100.0
+100.0
+Probe (Student)
+98.21
+96.96
+98.22
+97.59
+U2R (Teacher)
+37.14
+63.93
+37.14
+46.99
+U2R (Student)
+23.80
+55.56
+23.81
+33.33
+R2L (Teacher)
+89.15
+78.98
+89.15
+83.76
+R2L (Student)
+85.46
+77.61
+85.47
+81.35
+closely followed with slight increases in misclassifications. Both models per-
+formed well on Normal traffic, maintaining accuracies above 98%. However,
+rare attacks like U2R remain challenging due to class imbalance, with the
+Teacher achieving 37.14% accuracy compared to 23.80% for the Student.
+In general, the LENS-XAI framework ensures high classification performance
+and scalability, with minimal misclassifications for major attack types.
+Confusion Matrix Analysis. Figure 7 illustrates the confusion matrices
+for the LENS-XAI framework, highlighting the performance of the Teacher
+and Student models on the NSL-KDD dataset for multiclass classification.
+The Teacher model demonstrates exceptional accuracy with minimal misclas-
+sifications, such as 121 DoS and 237 Normal instances. The Student model
+closely mirrors the Teacher’s performance, correctly classifying 47,783 DoS
+and 68,934 Normal instances, showcasing its efficiency and robustness in
+knowledge distillation.
+4.4. Model Complexity and Inference Time
+4.4.1. Multi-Class Classification Analysis
+Table 10 provides a detailed comparison of the Student and Teacher mod-
+els in terms of the number of parameters and inference time per batch for
+multi-class classification across three benchmark datasets: UKM20, Edge-
+IIoTset, and NSL-KDD.
+• Model Complexity: The Teacher model exhibits a significantly higher
+parameter count compared to the Student model across all datasets.
+30
+
+
+===== PAGE 31 =====
+Figure 7: Confusion matrices of the LENS-XAI framework on the NSL-KDD dataset:
+(Left) Teacher and (Right) Student models, showcasing effective differentiation between
+five classes.
+For instance, the Teacher model has 13,065 parameters for UKM20,
+while the Student model only requires 4,489 parameters, representing
+a notable reduction in computational complexity. Similarly, for Edge-
+IIoTset, the parameter count is 22,415 for the Teacher model, compared
+to 9,167 for the Student model.
+• Inference Time: Despite its reduced parameter count, the Student
+model demonstrates competitive inference times. For example, the in-
+ference time per batch for UKM20 is 11.92 ms for the Student model
+versus 13.41 ms for the Teacher model. The Edge-IIoTset dataset shows
+a similar trend, with the Student model achieving an inference time of
+29.77 ms, compared to 34.22 ms for the Teacher model.
+4.4.2. Binary Classification Analysis
+Table 11 outlines the comparison between the Student and Teacher mod-
+els for binary classification tasks across four datasets: CTU-13, UKM20,
+Edge-IIoTset, and NSL-KDD.
+• Model Complexity: The parameter count remains consistently lower
+for the Student model.
+For instance, the Student model for CTU-
+13 has 4,258 parameters, whereas the Teacher model utilizes 12,610
+31
+
+
+===== PAGE 32 =====
+Table 10: Comparison of model complexity and inference time per batch for multi-class
+classification scenarios.
+Dataset
+Student Model
+Teacher Model
+Parameters
+Inference Time (ms)
+Parameters
+Inference Time (ms)
+UKM20
+4,489
+11.92
+13,065
+13.41
+Edge-IIoTset
+9,167
+29.77
+22,415
+34.22
+NSL-KDD
+8,197
+28.00
+24,325
+31.00
+parameters. For Edge-IIoTset, the parameter count is 4,225 for the
+Student model and 12,545 for the Teacher model.
+• Inference Time: The Student model achieves superior inference times
+in binary classification tasks. For example, the inference time per batch
+for CTU-13 is 5 ms for the Student model, compared to 7 ms for the
+Teacher model. For Edge-IIoTset, the Student model achieves an in-
+ference time of 26.77 ms, whereas the Teacher model records 30.25 ms.
+Table 11: Comparison of model complexity and inference time per batch for binary clas-
+sification scenarios.
+Dataset
+Student Model
+Teacher Model
+Parameters
+Inference Time (ms)
+Parameters
+Inference Time (ms)
+CTU-13
+4,258
+5.00
+12,610
+7.00
+UKM20
+4,258
+5.00
+12,610
+9.00
+Edge-IIoTset
+4,225
+26.77
+12,545
+30.25
+NSL-KDD
+4,225
+8.44
+12,545
+9.31
+These results highlight the computational efficiency of the Student model,
+making it a suitable choice for resource-constrained environments without a
+substantial sacrifice in performance.
+4.5. Variable Attribution-Based Explainability Analysis
+To uncover the inner workings of the LENS-XAI model and ensure trans-
+parency, we implemented a variable attribution-based explainability approach,
+detailed in Algorithm 1. This method dissects model predictions by quanti-
+fying the contributions of individual features and latent variables, guarantee-
+ing local accuracy. By applying this approach to datasets such as CTU-13,
+UKM20, NSL-KDD, and Edge-IIoTset, we gained critical insights into the
+32
+
+
+===== PAGE 33 =====
+factors driving model decisions. The results, presented in the subsequent
+sub-sections, showcase its effectiveness in binary classification for the CTU-
+13 dataset and both binary and multi-class tasks for the UKM20 dataset.
+This analysis not only highlights key predictive features but also validates
+the method’s utility in enhancing transparency and trust for intrusion detec-
+tion systems across diverse classification scenarios.
+4.5.1. Binary Classification Results on CTU-13 Dataset
+Figure 8 compares the explainability outcomes of the Teacher and Student
+models for detecting anomalies in the CTU-13 dataset under binary classi-
+fication.
+Both models demonstrate strong predictive capability, yet they
+prioritize different latent dimensions and corresponding original features in
+their decision-making processes.
+Explainability Insights from the Teacher Model. A detailed break-
+down analysis of the Teacher model (Table 12) indicates a final predicted
+value of approximately 0.999984 for the sample under examination.
+The
+initial intercept (0.419964) serves as the baseline probability before feature
+contributions are considered. Several latent dimensions—mapped to features
+such as Flow Duration and Fwd IAT Tot—provide positive contribu-
+tions, gradually elevating the prediction closer to 1.0. Notably, latent dimen-
+sion 15 (Flow IAT Mean) and 1 (Tot Fwd Pkts) offer significant boosts
+to the prediction, underlining their critical role in detecting malicious traffic.
+Conversely, certain dimensions (e.g., mapped to Bwd IAT Max) exhibit
+negative or minimal contributions, reflecting how the model discounts these
+factors for this particular instance.
+By linking each latent dimension to the most influential original feature,
+security analysts gain insight into why the Teacher model flags a flow as
+anomalous.
+For instance, high values in Fwd IAT Tot or Flow IAT
+Mean suggest irregular timing patterns, consistent with potential malicious
+behaviors. This transparent mapping helps validate the model’s decisions
+and facilitates targeted countermeasures.
+Explainability Insights from the Student Model. The Student model,
+while aiming to reproduce the Teacher’s performance at lower computational
+cost, reveals a slightly different attribution pattern. Its mean predicted prob-
+ability (0.425) is comparable to the Teacher’s (0.42), indicating that it has
+learned a similarly discriminative latent space. Through the same break-
+down procedure, the Student model also emphasizes a core set of latent
+33
+
+
+===== PAGE 34 =====
+Table 12: Breakdown of feature contributions in the Teacher model for CTU-13 dataset.
+Mapped Feature
+Contribution
+Cumulative Prediction
+Intercept
++0.419964
+0.419964
+Flow IAT Mean
++0.255964
+0.675928
+Tot Fwd Pkts
++0.122159
+0.798087
+Flow Duration
++0.018376
+0.816463
+Fwd Pkt Len Max
++0.034082
+0.850545
+Flow IAT Std
++0.002265
+0.852810
+TotLen Fwd Pkts
++0.022064
+0.874874
+TotLen Bwd Pkts
+-0.003403
+0.871471
+Bwd IAT Tot
+-0.028823
+0.842647
+Fwd IAT Tot
++0.011063
+0.853711
+Flow Byts/s
+-0.067472
+0.786239
+Flow Pkts/s
++0.050935
+0.837174
+Bwd Header Len
++0.028890
+0.866064
+Fwd Header Len
++0.044160
+0.910225
+Bwd Pkt Len Std
++0.009772
+0.919996
+Fwd Pkt Len Std
+-0.007574
+0.912422
+Fwd IAT Mean
++0.014429
+0.926851
+Tot Bwd Pkts
+-0.063384
+0.863467
+Flow IAT Max
+-0.009915
+0.853552
+Bwd Pkt Len Mean
++0.050842
+0.904394
+Fwd Header Len
+-0.005207
+0.899187
+Flow Duration
+-0.004680
+0.894508
+Flow Byts/s
++0.016531
+0.911038
+Flow Pkts/s
+-0.004826
+0.906212
+Bwd IAT Mean
+-0.080131
+0.826081
+Fwd IAT Std
++0.115819
+0.941900
+Flow Byts/s
++0.004855
+0.946755
+Fwd Pkt Len Std
++0.008506
+0.955260
+Flow Duration
++0.008806
+0.964066
+Bwd Header Len
+-0.000204
+0.963862
+Flow IAT Std
++0.012679
+0.976540
+Bwd Pkt Len Mean
++0.011868
+0.988408
+Bwd IAT Tot
++0.011576
+0.999984
+dimensions mapped to features like Flow Duration, Bwd IAT Std, and
+Fwd IAT Mean; however, it often distributes its attributions more broadly.
+34
+
+
+===== PAGE 35 =====
+For instance, Flow IAT Std can exhibit substantial positive contributions,
+hinting that variability in packet timing is a decisive indicator for intrusion
+detection. In certain cases, negative attributions (e.g., mapped to Fwd IAT
+Max) signal how the Student model can down-weight specific timing-related
+variables that the Teacher model might consider more crucial. Despite these
+nuanced differences, the Student model maintains high accuracy on the CTU-
+13 dataset. This consistency of essential features—coupled with some redis-
+tribution of attributions—demonstrates effective knowledge transfer. More-
+over, by retaining interpretability, the Student model remains transparent
+regarding its learned decision boundaries, further ensuring trustworthiness
+in operational environments.
+Figure 8: Variable attribution-based explainability results for the CTU-13 dataset, high-
+lighting key feature contributions for (Left) Teacher and (Right) Student models.
+4.5.2. Binary Classification Results on UKM20 Dataset
+Figure 9 illustrates the explainability outcomes of the Teacher and Stu-
+dent models for binary classification of anomalies in the UKM20 dataset.
+Both models exhibit robust predictive performance, with distinct patterns
+of feature emphasis and latent dimension prioritization, highlighting their
+unique strategies for identifying and leveraging critical factors in decision-
+making.
+Explainability Insights from the Teacher Model. The Teacher model
+achieved a final predicted value of approximately 0.9990, with an initial base-
+line probability (intercept) of 0.689. Key features such as Source Bytes,
+35

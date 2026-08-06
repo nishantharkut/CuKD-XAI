@@ -1,0 +1,52 @@
+Computers 2025, 14, 291
+18 of 25
+the limits of smaller architectures when learning from limited or less generalizable data.
+Inference speed improves to 2.386 × 10−5 s compared to the teacher’s 2.651 × 10−5, demon-
+strating the student model’s computational advantage.
+When KD is applied, the student model shows a clear performance gain, increasing
+its accuracy to 93.24% and F1 score to 93.13%, while slightly improving inference speed
+to 2.462 × 10−5 s. Although these improvements are modest, they demonstrate that KD
+helps the student model better approximate the teacher’s generalization ability, even under
+the more complex and potentially noisier conditions of IoT data. The confusion matrices
+(Figure 8) and ROC curves (Figure 9) show that the KD-enhanced student achieves better
+separation across most classes compared to the non-distilled variant, particularly for attack
+categories with fewer samples such as Mirai and MITM ARP Spoofing. These findings
+support KD as a practical technique for improving lightweight model performance in
+real-world, resource-constrained IoT applications.
+Table 11. Comparison of teacher and student models on the IoTID20 dataset.
+Model’s Architecture
+No. of Parameters
+Accuracy (%)
+Precision (%)
+F1 Score (%)
+Inference Time
+Deep Neural Network
+(Teacher)
+191,633
+92.95
+94.04
+93.13
+2.651
+Shallow Neural Network
+(Student without KD)
+9521
+87.15
+88.51
+86.20
+2.386
+Shallow Neural Network
+(Student with KD)
+9521
+(−95.03%)
+93.24
+(+6.09%)
+93.42
+(+4.91%)
+93.13
+(+6.93%)
+2.462
+(−7.13%)
+Figure 8. Confusion matrix of teacher (left), student without KD (middle), and student with KD
+(right) models on IoTID20.
+Figure 9. ROC curve of teacher (left), student without KD (middle), student with KD (right) models
+on IoTID20.

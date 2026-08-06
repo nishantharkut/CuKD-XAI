@@ -1,0 +1,115 @@
+422
+Page 8 of 23
+Complex & Intelligent Systems (2025) 11 :422
+in dataset D, normalization is applied as:
+xi′ = xi −μxi
+σxi
+(4)
+where μxi and σxi are the mean and standard deviation of xi,
+respectively. This transformation ensures that all numerical
+features contribute equally to the model, preventing any sin-
+gle feature from disproportionately inﬂuencing the results.
+Categorical encoding Many features in the dataset are cate-
+gorical and need to be transformed into numeric values to be
+compatible with the machine learning models. Using Labe-
+lEncoder, each unique category in a feature C = {c1, c2, . . . ,
+ck} is assigned a unique integer label. For each categorical
+feature c in C, encoding is deﬁned as:
+c →integer label
+(5)
+This process effectively maps each category in C to a
+unique numeric label, allowing categorical information to be
+seamlessly incorporated into the model.
+By handling missing values, removing duplicates, normal-
+izing numerical features, and encoding categorical features,
+this preprocessing stage ensures that the data is clean, consis-
+tent,andreadyforthefeatureselectionandfederatedlearning
+steps that follow.
+Feature selection
+The feature selection process reﬁnes the dataset by identi-
+fying and retaining only the most relevant features, which
+improves model accuracy and reduces computational com-
+plexity. This research employs a multi-step approach to
+feature selection, combining correlation analysis, mutual
+information, and Principal Component Analysis (PCA) to
+ensure the ﬁnal feature set is both relevant and efﬁcient.
+Correlation analysis
+Correlation analysis identiﬁes highly correlated features to
+reduce redundancy and multicollinearity, which can neg-
+atively affect the model’s performance. We calculate the
+correlation matrix C for the feature set X, with absolute cor-
+relation values |ri, j| representing the degree of correlation
+between features xi and x j. Features with
+ri, j
+ > 0.8 are
+ﬂagged for further evaluation. To ensure that each retained
+feature provides unique and relevant information about the
+target variable, we prioritize features based on their impor-
+tance to the target variable. Features with correlations above
+this threshold are retained:
+Xcorr =
+
+xiϵX|
+Corr
+
+xi, x j
+ > 0.8
+
+(6)
+This ensures that only strongly correlated features that
+provide unique information about the target variable are
+retained.
+Mutual information analysis
+Mutual information measures the dependency between each
+feature and the target variable y, helping identify features
+that contribute the most to target prediction. Using the
+mutual_info_classif function, we compute the mutual infor-
+mation I(xi, y) for each feature xi with respect to y. Features
+aresortedbasedontheirmutualinformationvalues,andthose
+contributing up to 95% of the cumulative mutual information
+are selected. Let Isorted be the sorted mutual information val-
+ues, and CumSum(Isorted) be the cumulative sum:
+k = min
+
+j| CumSum(Isorted)[ j]
+CumSum(Isorted)[−1] ≥0.95
+
+(7)
+X M I = {xiϵX|i ≤k}
+(8)
+This step ensures that the ﬁnal set includes only features
+that capture signiﬁcant predictive information about the tar-
+get variable.
+Principal component analysis (PCA)
+PCA is a dimensionality reduction technique that identiﬁes
+orthogonal components in the data, capturing the maximum
+variance in a reduced feature set. We perform PCA on the
+feature set X to calculate principal components, retaining
+those that explain 95% of the total variance. Let λi denote
+the explained variance by component i. The number of com-
+ponents n retained is given by:
+n = min
+
+j
+
+ j
+i=1 λi
+m
+i=1 λi
+≥0.95
+	
+(9)
+The features associated with these top n components are
+selected as X PC A. This step reduces feature dimensional-
+ity while preserving the majority of the information in the
+original data.
+Intersection of selected features
+To ﬁnalize the feature set, we take the intersection of features
+selected from the three methods: correlation analysis, mutual
+information, and PCA. The ﬁnal feature set Xselected is given
+by:
+Xselected = Xcorr ∩X M I ∩X PC A
+(10)
+By focusing on the features that are common across all
+three methods, we obtain a reﬁned feature set that balances
+123

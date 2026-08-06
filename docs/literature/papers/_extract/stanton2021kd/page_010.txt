@@ -1,0 +1,62 @@
+CKA (↑)
+Init.
+Agree. (↑)
+KL (↓)
+Stage 1
+Stage 2
+Stage 3
+Rand.
+77.174 (0.352)
+0.836 (0.016)
+0.939 (0.017)
+0.925 (0.027)
+0.885 (0.011)
+Teach.
+77.098 (0.238)
+0.838 (0.020)
+0.951 (0.017)
+0.937 (0.020)
+0.890 (0.015)
+Table 1: We examine whether ﬁdelity can be improved in the context of ResNet-20 self-distillation on
+CIFAR-100 if the teacher and student share the same weight initialization. All metrics are computed
+on the test set. A shared initialization does make the student slightly more similar to the teacher in
+activation space (measured by CKA), but in function space the results are indistinguishable from
+randomly initialized students. We report the mean and standard deviation, estimated from 10 trials.
+The average teacher accuracy was 70.522 (0.412).
+Is using the initial teacher weights enough for good ﬁdelity? If good ﬁdelity can be obtained
+by initializing the student near the ﬁnal teacher weights, it is possible that similar results could be
+obtained by initializing the student at the initial teacher weights. In Table 1 we compare students
+distilled from random initializations with those initialized at the initial teacher weights. In addition to
+the metrics reported in the rest of the paper, we also include the centered kernel alignment (CKA)
+[26] of the preactivations of each of the teacher and student networks. There is a small increase in
+CKA, indicating that sharing an initialization between teacher and student does increase alignment in
+activation space, but functionally the students are identical to their randomly initialized counterparts –
+there is no observable change in accuracy, agreement, or predictive KL when compared to random
+initialization.
+To summarize, we have at last identiﬁed a root cause of the ineffectiveness of all our previous
+interventions on the knowledge distillation procedure. Knowledge distillation is unable to converge
+to optimal student parameters, even when we know a solution and give the initialization a small head
+start in the direction of an optimum. Indeed, while identiﬁability can be an issue, in order to match
+the teacher on all inputs, the student has to at least match the teacher on the data used for distillation,
+and achieve a near-optimal value of the distillation loss. Furthermore, the suboptimal convergence of
+knowledge distillation appears to be a consequence of the optimization dynamics speciﬁcally, and not
+simply initialization bias. In practice, optimization converges to sub-optimal solutions, leading to
+poor distillation ﬁdelity.
+7
+Discussion
+Our work provides several new key ﬁndings about knowledge distillation:
+• Good student accuracy does not imply good distillation ﬁdelity: even outside of self-
+distillation, the models with the best generalization do not always achieve the best ﬁdelity.
+• Student ﬁdelity is correlated with calibration when distilling ensembles: although the
+highest-ﬁdelity student is not always the most accurate, it is always the best calibrated.
+• Optimization is challenging in knowledge distillation: even in cases when the student has
+sufﬁcient capacity to match the teacher on the distillation data, it is unable to do so.
+• There is a trade-off between optimization complexity and distillation data quality: Enlarging
+the distillation dataset beyond the teacher training data makes it easier for the student to
+identify the correct solution, but also makes an already difﬁcult optimization problem harder.
+In standard deep learning, we are saved by not needing to solve the optimization problem well: while
+it true that our training loss is highly multimodal, properties such as the ﬂatness of good solutions,
+the inductive biases of the network, and the implicit biases of SGD, often enable good generalization
+in practice. In knowledge distillation, however, good ﬁdelity is directly aligned with solving what
+turns out to be an exceptionally difﬁcult optimization problem.
+10

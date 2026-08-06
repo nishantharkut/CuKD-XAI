@@ -1,0 +1,40 @@
+Chawla, Bowyer, Hall & Kegelmeyer
+C4.5
+Ripper
+Naive Bayes
+SMOTE 
+and Undersampling.
+Loss-Ratio
+varied from 0.9 to 0.001.
+ Modify costs of majority and minority 
+classes by changing priors.
+ROC’s generated for SMOTE, Undersampling
+and Loss Ratio comparisons. Performance 
+evaluated with AUC and ROC convex hull.
+ROC’s generated for comparison between 
+SMOTE and Under-sampling using C4.5, and
+SMOTE using C4.5 and Naive bayes. 
+Performance evaluated with AUC and ROC convex hull.
+Figure 6: Experiments Overview
+2. Ripper: We compared various combinations of SMOTE and under-sampling with
+plain under-sampling using Ripper (Cohen, 1995b) as the base classiﬁer.
+We also
+varied Ripper’s loss ratio (Cohen & Singer, 1996; Lewis & Catlett, 1994) from 0.9 to
+0.001 (as a means of varying misclassiﬁcation cost) and compared the eﬀect of this
+variation with the combination of SMOTE and under-sampling. By reducing the loss
+ratio from 0.9 to 0.001 we were able to build a set of rules for the minority class.
+3. Naive Bayes Classiﬁer: The Naive Bayes Classiﬁer2 can be made cost-sensitive
+by varying the priors of the minority class.
+We varied the priors of the minority
+class from 1 to 50 times the majority class and compared with C4.5’s SMOTE and
+under-sampling combination.
+These diﬀerent learning algorithms allowed SMOTE to be compared to some methods
+that can handle misclassiﬁcation costs directly. %FP and %TP were averaged over 10-fold
+cross-validation runs for each of the data combinations. The minority class examples were
+over-sampled by calculating the ﬁve nearest neighbors and generating synthetic examples.
+The AUC was calculated using the trapezoidal rule. We extrapolated an extra point of TP
+= 100% and FP = 100% for each ROC curve. We also computed the ROC convex hull
+to identify the optimal classiﬁers, as the points lying on the hull are potentially optimal
+classiﬁers (Provost & Fawcett, 2001).
+2. The source code was downloaded from http://fuzzy.cs.uni-magdeburg.de/˜borgelt/software.html.
+332

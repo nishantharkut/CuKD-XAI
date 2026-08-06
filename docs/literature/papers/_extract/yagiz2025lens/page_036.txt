@@ -1,0 +1,24 @@
+Figure 9: Variable attribution-based explainability results for the UKM20 dataset (binary
+classification), highlighting key feature contributions for (Left) Teacher and (Right) Stu-
+dent models.
+Flow Duration, and Packet Interarrival Times made significant
+positive contributions, driving the prediction closer to 1.0. For example:
+• Source Bytes contributed +0.0418, indicating high data transfer
+activity—a characteristic often linked to potential malicious behavior.
+• Flow Duration added +0.0794, suggesting irregular timing patterns,
+which are crucial for identifying anomalies.
+Conversely, features like Backward Packet Timing Variability had
+minimal or negative contributions (−0.0020), demonstrating the Teacher
+model’s ability to down-weight less influential factors.
+This selective fea-
+ture attribution enhances the model’s precision in flagging anomalies. By
+mapping each latent dimension to influential features, security analysts can
+better understand the model’s rationale.
+Explainability Insights from the Student Model. The Student model,
+designed to replicate the Teacher’s performance with lower computational
+demands, produced a final predicted value of 0.999971. While the Student
+model prioritized many of the same key features as the Teacher model, it
+exhibited a broader attribution pattern. For example:
+• Source Bytes (+0.0418) and Flow Duration (+0.0794) remained
+prominent contributors.
+36

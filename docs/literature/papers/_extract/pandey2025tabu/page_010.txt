@@ -1,0 +1,84 @@
+both matplotlib and seaborn for advanced data visualization. Google Colab’s GPU runtime was applied to speed 
+up the model training process. The local system included a computer running Windows 11 OS. It had an Intel(R) 
+Core(TM) i5-10210U CPU @ 1.60 GHz with four cores and eight logical processors, 4 GB of installed physical 
+memory (RAM), and 500 GB of SSD storage, which provided appropriate resources to start working with data 
+and commence the development of code.
+Dataset characteristics
+The proposed approach was tested over three different datasets in further subsections. As the problem is complex, 
+it is required to test the model on multiple datasets to check its generalization and accuracy capabilities.
+Wireless sensor network dataset (WSN-DS)
+The WSN-DShas 374,661 instances, each characterized by 19 distinct features. These features includeId and 
+Time, cluster head information like Is_CH and who CH, and distance-related parameters such as Dist_To_CH 
+and dist_CH_To_BS. The dataset captures communication metrics such as ADV_S, ADV_R, JOIN_S, JOIN_R, 
+SCH_S, and SCH_R, data transmission parameters like DATA_S, DATA_R, and Data Sent to BS. Further, the 
+feature includes Expended Energy and assigns each instance a class label for attack classification to emphasize 
+the importance of network security analysis.
+Canadian institute for cybersecurity intrusion detection system 2017
+The CICIDS 2017 is a well-labeled dataset and is a comprehensive and widely used benchmark dataset for 
+evaluating intrusion detection systems using machine learning and deep learning. This data set is released to 
+simulate real-world benign and malicious traffic in a realistic network environment. It includes both benign and 
+attack traffic. The dataset has 2.8 million instances with 80 + features. The dataset covered mainly DoS attacks, 
+Brute force attacks, web attacks, and DDoS attacks.
+Comprehensive intrusion detection dataset (CIC-IoT)
+The CIC-IoT 2023 was explicitly designed for Internet of Things (IoT) environments. It was released by the 
+Canadian Institute for Cybersecurity (CIC) to support research in detecting cyberattacks on IoT networks using 
+machine learning and deep learning techniques. This dataset is in CSV format with more than 6 million records 
+and 80 + features. The dataset includes DDoS, Botnet, Brute force attacks, web attacks, etc.
+Data preprocessing
+Data preprocessing is an essential step in guaranteeing data quality and model performance. First, every dataset 
+was examined for any missing values. In the second step, duplicated or irrelevant features were eliminated to 
+reduce dimensionality and increase model effectiveness. After that, Label encoding was employed to convert 
+categorical variables into numerical form. Finally, the dataset was shuffled and split into training and testing, i.e., 
+80:20 ratio subsets, to ensure unbiased model evaluation.
+Model performance comparison
+The model’s performance is tested over three different datasets, showing that the proposed model is an improved 
+version of the default. All the experiments occurred in two phases. In the first phase, RF with the default 
+hyperparameters is implemented, and then in the second phase, TS is integrated into RF (algorithm 1) for 
+optimal hyperparameters. This work compares the performance of two models of RFs. Table 2 gives a complete 
+comparison of their performance metrics with WSN-DS.
+Results obtained in Table 2 depict that the optimized model has a considerable accuracy improvement, from 
+99.42% to 99.67%, although this only represents a gain of 0.25%; the change corresponds to approximately 187 
+more correct classifications of 74,933 test samples-a fair amount that improves the effectiveness of the model 
+toward protection against false alarms or missed detections in the context of network security. Precision, recall, 
+and F1 scores improved by about 0.25%.It shows that an optimization enhanced the model’s precision and recall 
+without compromising performance. Cohen’s Kappa score had improved the most with an increase from 0.9667 
+to 0.9808, meaning that the optimized model has a more robust agreement between the predicted and observed 
+categorizations considering chance, thus making it more potent on multiclass classification tasks. The ROC AUC 
+also increased from 0.9974 to 0.9980, improving the distinction between classes, especially for less common 
+attack types. Table 3 presents the detailed classification reports for the initial and optimized CICIDS2017 and 
+CIC-IoT-2023 models. It depicts that the proposed optimized model shows better in-case performance metrics 
+for CICIDS2017 and CIC-IoT-2023.
+Metric
+Initial model
+Optimized model
+Improvement
+Accuracy
+0.9942
+0.9967
+ + 0.0025
+Precision
+0.9943
+0.9967
+ + 0.0024
+Recall
+0.9942
+0.9967
+ + 0.0025
+F1 Score
+0.9942
+0.9967
+ + 0.0025
+Cohen’s Kappa
+0.9667
+0.9808
+ + 0.0141
+ROC AUC
+0.9974
+0.9980
+ + 0.0006
+Table 2.  Performance metrics comparison between initial and optimized RF models over WSN-DS.
+ 
+Scientific Reports |        (2025) 15:18634 
+10
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

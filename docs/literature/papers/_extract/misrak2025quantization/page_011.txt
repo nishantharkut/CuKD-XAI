@@ -1,0 +1,47 @@
+Page 11 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+maintaining a representative distribution across all subsets. After we normalize the data­
+set, each matrix value will have a value between zero and one. For the data partitioning 
+procedure, data is randomly divided into into 80 % training, 20% testing, and then fur­
+ther divide the training set to training and validation 80% and 20% respectively. Finally, 
+data was fed to deep learning model.
+3.3  Proposed lightweighting architecture
+In recent years, the demand for lightweight and efficient cyber attack detection systems 
+has surged due to the proliferation of IoT devices of constrained processing capabilities. 
+However, existing models often fall short in meeting these requirements, as they entail 
+high computational costs and are unsuitable for widespread deployment. The emer­
+gence of CNN, BiLSTM and DNN has shown promise in addressing these challenges, 
+yet research in this area remains limited. While CNN-based classifiers excel in managing 
+diverse datasets, their application in attack detection has only recently gained traction, 
+outperforming traditional approaches [42]. To capitalize on this advancement, our study 
+proposes an innovative model that integrates a DNN with BiLSTM, showcasing excep­
+tional performance in identifying various network anomalies and malicious assaults. 
+Despite the outstanding performance of BILSTM and DNN, our hybrid approach offers 
+a robust solution for lightweight cyber attack recognition in IoT environments [43].
+In this investigation, a lightweight deep learning-based neural network cyber attack 
+identification and classification scheme that incorporates RAL-MIFS + two stage feature 
+dimension reduction and advanced dynamic model quantization is proposed to stream­
+line the detection model complication. The outcome is a model that maintains low com­
+putational complication while achieving best detection accuracy.
+The following are the phases of the suggested method for detecting IoT attacks: First, 
+as explained in Sect 3.2.2, the IoT cyber attack detection and classification dataset is pre­
+processed through data encoding or numerization, data cleaning, feature engineering 
+(RAL-MIFS), and two stage IPCA algorithm. The preprocessed data was divided to test, 
+training, and validation category. The test set confirms the final model’s classification 
+performance, while the training and validation data are utilized for training the model 
+and weight fine tuning. After that, training and validation data are fed into DNN-BiL­
+STM model and quantization aware training was performed.
+To determine the proper parameters of the proposed system, the hyperparameters of 
+the model are then optimized using the optuna optimization techniques. The trained 
+optimal model is then subjected to advanced dynamic quantization (Quantization Aware 
+Training and Post training dynamic quantization) by means of structural unit specifica­
+tions. The quantized DNN-BiLSTMQ model is generated, and the ultimate identifica­
+tion performance of the final model is assessed through rigorous testing of the reduced 
+size quantized model with the designated test set.
+The proposed general architecture of lightweight deep learning based IoT cyber attack 
+identification and categorization method is illustrated in Fig. 1, comprising four main 
+modules: data preprocessing, quantization aware model training and weight fine tuning, 
+post training model dynamic quantization, and model categorization testing. This com­
+prehensive architecture aims to enhance intrusion detection efficiency while minimiz­
+ing computational resources, ensuring effective protection against cyber attack in IoT 
+environments.

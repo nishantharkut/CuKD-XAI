@@ -1,0 +1,52 @@
+Sensors 2025, 25, 4309
+4 of 31
+mance evaluation of CL and FL models. The dataset is designed to support both IID
+and Non-IID data scenarios, enabling assessments in binary, six-class, and fifteen-class
+classification tasks. The experimental findings reveal that, in IID scenarios, the performance
+of the global model in FL is nearly identical to that of CL models. In Non-IID scenarios,
+FL enhances the overall performance of clients by efficiently aggregating their local mod-
+els. Rashid et al. [27] introduced an IIoT IDS based on FL, leveraging the Edge-IIoTset
+dataset. Their study evaluated two DL classifiers—CNNs and recurrent neural networks
+(RNNs)—in CL and FL scenarios. The comparative analysis revealed that the RNN model
+achieved superior global detection accuracy under FL settings, particularly with Non-IID
+data. Using three clients, the RNN model achieved a global detection accuracy of 91.87%.
+Aouedi et al. [28] proposed F-BIDS, an FL-based IDS that utilizes decision trees (DTs) and
+random forests (RFs) as foundational classifiers. Metadata are created locally by users
+and sent to a central server through FL for training a global neural network (NN). Exper-
+iments on the Edge-IIoTset and InSDN datasets demonstrated the model’s efficacy. For
+a fifteen-class task on Edge-IIoTset, the global model achieved 89.91% accuracy after 10
+training rounds. On the InSDN dataset, F-BIDS achieved a global model accuracy of 99.91%
+after 50 rounds, with the lowest client accuracy exceeding 99.70%. Nobakht et al. [29] pro-
+posed SIM-FED, which employs a lightweight 1D CNN. Unlike traditional 2D-CNN-based
+methods, SIM-FED reduces preprocessing time and computational overhead. Through
+hyperparameter optimization, the model achieves superior detection performance while
+minimizing resource demands. Utilizing the FedAvg strategy for global parameter ag-
+gregation, SIM-FED effectively integrates training results from multiple local models in
+distributed environments.
+In FL, the issue of Non-IID data is widely regarded as a core challenge that significantly
+impacts model performance [14,15,30]. Effectively handling Non-IID data and mitigating
+the negative impact of data heterogeneity on model training has become a pivotal research
+direction for improving the performance of FL systems. Belarbi et al. [31] simulated the
+negative impact of Non-IID data on model performance by partitioning the ToN-IoT dataset
+based on target IP addresses, thereby replicating real-world network traffic scenarios. They
+proposed two FL architectures based on DNNs and deep belief networks (DBNs), and
+they conducted a comparative analysis of three aggregation methods. Additionally, they
+explored an initialization strategy based on pre-trained global models to further enhance
+performance. Experimental results demonstrated that FedProx and FedYogi exhibit greater
+stability under Non-IID data conditions, while pre-trained models effectively mitigate
+performance degradation caused by data heterogeneity, achieving an F1 score improvement
+of over 20% compared to randomly initialized models. Nugraha et al. [32] proposed an
+IDS that integrates FL and variational autoencoders (VAEs) for DDoS attack detection. The
+approach leverages VAEs on clients to learn local normal traffic features, while FedAvgM
+aggregates model parameters for efficient detection of malicious traffic. To address Non-IID
+data and data imbalance challenges, the framework incorporates dynamic client sampling,
+continuous model retraining, and the BCEWithLogitsLoss function to improve detection
+performance. Benameur et al. [33] proposed an IDS based on FL and KD. Utilizing the
+Edge-IIoTset dataset, they designed a distributed learning architecture centered on a teacher
+network and employed a lightweight student network for efficient inference. Their study
+compared the performance of CL and FL using three model architectures: DNNs, CNNs,
+and CNN-LSTM. In the FL scenario, the highest accuracy for the 15-class classification task
+was achieved by the CNN-LSTM model (82.4%), followed by the CNNs model (82.35%)
+and then the DNNs model (82.09%). Furthermore, the experimental results demonstrated
+that KD effectively enhanced model performance. This approach adopted a traditional
+offline distillation method, in which a pre-trained, complex teacher model is compressed

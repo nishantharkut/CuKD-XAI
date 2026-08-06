@@ -1,0 +1,75 @@
+Sensors 2026, 26, 356
+8 of 22
+Table 2. Cont.
+Study
+Model(s)
+Dataset
+Key Contribution
+Limitations
+[6], 2025
+GPT-4 + Autoencoders
+KDDcup99 10%
+Hybrid AI-based
+anomaly detection;
+improved over classical
+methods
+High computational
+cost; real-time inference
+feasibility not evaluated
+[21], 2025
+BART, BERT
+CICIoT2023
+98.26% (BART), 92.8%
+(BERT)/Packet
+classification and
+intrusion prevention
+No discussion on
+computational demand
+for IoT deployment
+Ours
+SEED
+EdgeIIoTset
+Edge-IoT collaborative
+IDS using tuned BERT
+(90% reduced model)
+for embedding
+generation; 137 KB IoT
+classifier achieving
+99.99%; efficient
+six-category and binary
+IoT detection
+Relies on stable
+network connection for
+embedding querying;
+edge dependency may
+impact inference under
+network instability
+3. Applications of LLMs for IoT Cybersecurity
+LLMs, with their advanced reasoning and natural language capabilities, are increas-
+ingly used to address the cybersecurity challenges of the IoT. This section explores the
+major application areas of LLMs in IoT security, including threat detection, log analysis,
+secure configuration, and interactive support for human operators.
+3.1. Anomaly and Intrusion Detection
+LLMs have demonstrated strong potential in detecting abnormal behaviors in network
+traffics. Models such as BERT and GPT-2 have been applied to analyze network traffic
+for identifying deviations from baseline behavior [18]. For instance, ref. [10] developed
+SecurityBERT, a lightweight model with 98.2% detection accuracy and sub-150ms inference
+time, suitable for edge environments.
+Hybrid approaches combining LLMs with autoencoders have also been proposed.
+Ref. [6] used GPT-4 to guide anomaly detection and recommend preprocessing strategies,
+improving explainability and detection accuracy. Ensemble architectures, such as those
+by [21], integrate BART for packet prediction with BERT for validation, achieving over 98%
+accuracy on CICIoT2023 dataset.
+3.2. Threat Intelligence and Log Analysis
+One of the most promising use cases for LLMs in IoT cybersecurity is the automated
+extraction and summarization of cyber threat intelligence. Fine-tuned on structured datasets
+like MITRE ATT&CK or CAPEC, LLMs can produce comprehensive threat reports, interpret
+attack patterns, and generate context-aware incident descriptions [24]. These outputs help
+improve situational awareness and assist in identifying emerging attack trends.
+Furthermore, LLMs are increasingly used to parse and interpret large-scale log files,
+correlating events across time and systems. Their contextual understanding enables them to
+generate incident summaries that are both technically accurate and readable by human analysts.
+3.3. Secure Configuration and Policy Generation
+LLMs also contribute to identifying misconfigurations and suggesting secure alterna-
+tives in IoT environments. They can detect vulnerabilities in configuration scripts, code
+https://doi.org/10.3390/s26020356

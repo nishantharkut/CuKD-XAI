@@ -1,0 +1,76 @@
+Baseline
+Baseline(τ = 4)
+Rotation
+Vertical Flip
+ColorJitter
+CombAug
+MixUp
+MixUp(τ = 4) GAN(τ = 4)
+OOD
+Noise
+0.72
+0.74
+0.76
+Accuracy
+Baseline
+Baseline(τ = 4)
+Rotation
+Vertical Flip
+ColorJitter
+CombAug
+MixUp
+MixUp(τ = 4) GAN(τ = 4)
+OOD
+Noise
+0.75
+0.80
+0.85
+Agreement
+Figure 3: Data augmentation and distillation: Test accuracy and teacher-student agreement when
+distilling a 5-component ResNet-56 teacher ensemble into a ResNet-56 student on CIFAR-100 with
+varying augmentation policies. The best performing policy is shown in green, results averaged over 3
+runs. Additional metrics are reported in Figure 11 in Appendix C. Mixup and GAN augmentation
+provide the best generalization, and Mixup(τ = 4) provides the best ﬁdelity. The baseline policy
+(crops and ﬂips) with τ = 4 is a surprisingly strong baseline. The error bars indicate ±σ.
+gap in ﬁdelity, even after the distillation set is enlarged with 50k GAN samples. In practice, the
+gap remains large enough that higher ﬁdelity students do not always have better generalization, and
+the regularization effects we see in self-distillation do play a role for more broadly understanding
+student generalization. We will indeed show in Section 5 that higher ﬁdelity students do not always
+generalize better, even if the teacher generalizes much better than the student.
+4.3
+If distillation already improves generalization, why care about ﬁdelity?
+While knowledge distillation does often improve generalization, understanding the relationship
+between ﬁdelity and generalization, and how to maximize ﬁdelity, is important for several reasons —
+including better generalization!
+Better generalization in distilling large teacher models and ensembles.
+Knowledge distillation
+was initially motivated as a means to deploy powerful models to small devices or low-latency
+controllers [e.g., 10, 19, 24, 46, 48]. While in self-distillation generalization and ﬁdelity are in
+tension, there is often a signiﬁcant disparity in generalization between large teacher models, including
+ensembles, and smaller students. We have seen this disparity in Figure 1(b). We additionally show in
+Figure 10 in Appendix B.1 that as we increase the number of ensemble components, the generalization
+disparity between teacher and distilled student increases. Improving student ﬁdelity is the most
+obvious way to close the generalization disparity between student and teacher in these settings. Even
+if one exclusively cares about student accuracy, ﬁdelity is a key consideration outside self-distillation.
+Interpretability and reliability.
+Knowledge distillation has been identiﬁed as a means to transfer
+representations discovered by large black-box models into simpler more interpretable models, for
+example to provide insights into medical diagnostics, or discovering rules for understanding sentiment
+in text [e.g., 21, 22, 6, 30, 8]. The ability to perform this transfer could have extraordinary scientiﬁc
+consequences: large models can often discover structure in data that we would not have anticipated
+a priori. Moreover, we often want to transfer properties such as well-calibrated uncertainties or
+robustness, which have been well-established for larger models, so that we can safely deploy more
+efﬁcient models in their place. In both cases, achieving good distillation ﬁdelity is crucial.
+Understanding.
+The name knowledge distillation implies we are transferring knowledge from
+the teacher to the student. For this reason, improved student generalization as a consequence of a
+distillation procedure is sometimes conﬂated with ﬁdelity. Decoupling ﬁdelity and generalization,
+and explicitly studying ﬁdelity, is foundational to understanding how knowledge distillation works
+and how we can make it more useful across a variety of applications.
+4.4
+Possible causes of low distillation ﬁdelity
+If we are able to match the student model to the teacher on a comprehensive distillation dataset, we
+expect it to match on the test data as well, achieving high distillation ﬁdelity3. Possible causes of the
+poor distillation ﬁdelity in our CIFAR-100 experiments include:
+3See, for example, Lemma 1 in Fakoor et al. [12].
+5

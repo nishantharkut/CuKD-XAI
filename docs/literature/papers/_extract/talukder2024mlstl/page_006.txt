@@ -1,0 +1,96 @@
+2144
+M. A. Talukder et al.
+Fig. 1 The proposed intrusion detection approach in wireless sensor
+network
+Algorithm 1 Intrusion Detection In WSNs Using ML
+1: procedure
+IntrusionDetection-
+WSN( f ile_path, target_column)
+2:
+Input: WSN-DS as a CSV ﬁle path (ﬁle_path)
+3:
+Output: Trained ML models, Evaluate Performance of each
+model
+4:
+5:
+procedure ReadCSV( f ile_path)
+6:
+Initialize DataFrame: d f
+7:
+d f ←Read CSV ﬁle located at f ile_path
+8:
+end procedure
+9:
+10:
+procedure PreprocessData(d f , target_column)
+11:
+Initialize Features: X
+12:
+Initialize Target Variable: y
+13:
+14:
+X, y ←Extract features and target variable from d f
+15:
+16:
+ApplyStandardization(X)
+17:
+X ←Standardize numerical features in X
+18:
+19:
+EncodeLabels(y)
+20:
+y ←Encode categorical labels in y using LabelEncoder
+21:
+end procedure
+22:
+23:
+procedure DataBalancing(X, y)
+24:
+BalanceData(X, y)
+25:
+X, y ←Apply SMOTETomek to balance the dataset
+26:
+end procedure
+27:
+28:
+procedure SplitData(X, y)
+29:
+Initialize K-Fold Cross-Validator: k f
+30:
+k f ←Initialize KFold(n_splits=10, shufﬂe=True)
+31:
+32:
+for train_index, test_index in k f .split(X, y) do
+33:
+X_train, X_test ←Split X into training and testing sets
+34:
+y_train, y_test ←Split y into training and testing sets
+35:
+36:
+BuildModels(X_train, y_train)
+37:
+Initialize Each ML Model: DT, RF, ML P, K N N, LGB,
+XGB
+38:
+Train Each ML Model
+39:
+40:
+EvaluatePerformance(X_test, y_test)
+41:
+Evaluate Various Performances For Each ML Model
+42:
+end for
+43:
+end procedure
+44: end procedure
+tor 2 (NS-2) [35], processed to produce 23 features, enriching
+the dataset with valuable insights a well-established network
+simulation tool, and the dataset’s performance evaluation and
+analysis are facilitated through integration with the Waikato
+Environment for Knowledge Analysis (WEKA) Toolbox,
+a versatile open-source data mining software suite devel-
+oped at the University of Waikato in New Zealand. This
+resource empowers researchers to explore and combat DoS
+threats effectively within WSNs, enhancing network security
+in these environments [36, 37].
+123

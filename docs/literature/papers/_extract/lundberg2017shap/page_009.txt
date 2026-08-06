@@ -1,0 +1,62 @@
+(A)
+(B)
+LIME
+SHAP
+Human
+Orig. DeepLIFT
+LIME
+SHAP
+Human
+Figure 4: Human feature impact estimates are shown as the most common explanation given among
+30 (A) and 52 (B) random individuals, respectively. (A) Feature attributions for a model output value
+(sickness score) of 2. The model output is 2 when fever and cough are both present, 5 when only
+one of fever or cough is present, and 0 otherwise. (B) Attributions of proﬁt among three men, given
+according to the maximum number of questions any man got right. The ﬁrst man got 5 questions
+right, the second 4 questions, and the third got none right, so the proﬁt is $5.
+Orig. DeepLift
+New DeepLift
+SHAP
+Input
+Explain 8
+Explain 3
+Masked
+(A)
+(B)
+LIME
+Orig. DeepLift
+New DeepLift
+SHAP
+LIME
+Change in log-odds
+20
+30
+40
+50
+60
+Figure 5: Explaining the output of a convolutional network trained on the MNIST digit dataset. Orig.
+DeepLIFT has no explicit Shapley approximations, while New DeepLIFT seeks to better approximate
+Shapley values. (A) Red areas increase the probability of that class, and blue areas decrease the
+probability. Masked removes pixels in order to go from 8 to 3. (B) The change in log odds when
+masking over 20 random images supports the use of better estimates of SHAP values.
+includes updates to better match Shapley values [7]. Figure 5 extends DeepLIFT’s convolutional
+network example to highlight the increased performance of estimates that are closer to SHAP values.
+The pre-trained model and Figure 5 example are the same as those used in [7], with inputs normalized
+between 0 and 1. Two convolution layers and 2 dense layers are followed by a 10-way softmax
+output layer. Both DeepLIFT versions explain a normalized version of the linear layer, while SHAP
+(computed using Kernel SHAP) and LIME explain the model’s output. SHAP and LIME were both
+run with 50k samples (Supplementary Figure 1); to improve performance, LIME was modiﬁed to use
+single pixel segmentation over the digit pixels. To match [7], we masked 20% of the pixels chosen to
+switch the predicted class from 8 to 3 according to the feature attribution given by each method.
+6
+Conclusion
+The growing tension between the accuracy and interpretability of model predictions has motivated
+the development of methods that help users interpret predictions. The SHAP framework identiﬁes
+the class of additive feature importance methods (which includes six previous methods) and shows
+there is a unique solution in this class that adheres to desirable properties. The thread of unity that
+SHAP weaves through the literature is an encouraging sign that common principles about model
+interpretation can inform the development of future methods.
+We presented several different estimation methods for SHAP values, along with proofs and ex-
+periments showing that these values are desirable. Promising next steps involve developing faster
+model-type-speciﬁc estimation methods that make fewer assumptions, integrating work on estimating
+interaction effects from game theory, and deﬁning new explanation model classes.
+9

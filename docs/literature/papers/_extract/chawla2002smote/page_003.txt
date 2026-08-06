@@ -1,0 +1,47 @@
+SMOTE
+Predicted
+Negative
+Predicted
+Positive
+TN
+FP
+FN
+TP
+Actual
+Negative
+Actual
+Positive
+Figure 1: Confusion Matrix
+correctly classiﬁed (True Negatives), FP is the number of negative examples incorrectly
+classiﬁed as positive (False Positives), FN is the number of positive examples incorrectly
+classiﬁed as negative (False Negatives) and TP is the number of positive examples correctly
+classiﬁed (True Positives).
+Predictive accuracy is the performance measure generally associated with machine learn-
+ing algorithms and is deﬁned as Accuracy = (TP + TN)/(TP + FP + TN + FN). In the
+context of balanced datasets and equal error costs, it is reasonable to use error rate as a
+performance metric. Error rate is 1 −Accuracy. In the presence of imbalanced datasets
+with unequal error costs, it is more appropriate to use the ROC curve or other similar
+techniques (Ling & Li, 1998; Drummond & Holte, 2000; Provost & Fawcett, 2001; Bradley,
+1997; Turney, 1996).
+ROC curves can be thought of as representing the family of best decision boundaries for
+relative costs of TP and FP. On an ROC curve the X-axis represents %FP = FP/(TN+FP)
+and the Y-axis represents %TP = TP/(TP +FN). The ideal point on the ROC curve would
+be (0,100), that is all positive examples are classiﬁed correctly and no negative examples are
+misclassiﬁed as positive. One way an ROC curve can be swept out is by manipulating the
+balance of training samples for each class in the training set. Figure 2 shows an illustration.
+The line y = x represents the scenario of randomly guessing the class. Area Under the ROC
+Curve (AUC) is a useful metric for classiﬁer performance as it is independent of the decision
+criterion selected and prior probabilities. The AUC comparison can establish a dominance
+relationship between classiﬁers. If the ROC curves are intersecting, the total AUC is an
+average comparison between models (Lee, 2000). However, for some speciﬁc cost and class
+distributions, the classiﬁer having maximum AUC may in fact be suboptimal. Hence, we
+also compute the ROC convex hulls, since the points lying on the ROC convex hull are
+potentially optimal (Provost, Fawcett, & Kohavi, 1998; Provost & Fawcett, 2001).
+3. Previous Work: Imbalanced datasets
+Kubat and Matwin (1997) selectively under-sampled the majority class while keeping the
+original population of the minority class. They have used the geometric mean as a perfor-
+mance measure for the classiﬁer, which can be related to a single point on the ROC curve.
+The minority examples were divided into four categories: some noise overlapping the pos-
+itive class decision region, borderline samples, redundant samples and safe samples. The
+borderline examples were detected using the Tomek links concept (Tomek, 1976). Another
+323

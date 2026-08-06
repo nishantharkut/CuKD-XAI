@@ -1,0 +1,110 @@
+Sensors 2025, 25, 4309
+22 of 31
+In addition, the experimental results on N-BaIoT were also recorded, as presented in
+Table 11. When θ = 1, FedProx outperformed FedAvg in overall performance. Specifically,
+FedAvg achieved an accuracy and F1-score of 86.49% and 82.16%, respectively, whereas
+FedProx improved these metrics, achieving 87.70% and 83.52%. In terms of the FNR,
+FedProx reduced it from 13.51% to 12.30%. However, the FPR exhibited a slight increase
+from 1.87% to 1.90%. Under θ = 0.1, FedProx outperformed FedAvg, achieving an accuracy
+and F1-score of 83.81% and 78.24%, respectively, compared to the 82.73% and 77.53% for
+FedAvg, respectively. The FNR of FedProx decreased from 17.27% to 16.19%, while the
+FPR slightly declined from 2.23% to 2.21%. It is worth noting that, similar to its runtime
+on Edge-IIoT, FedProx also incurred a significant increase in computational overhead on
+N-BaIoT.
+Table 11. Performance of the different aggregation algorithms under low- and high-Non-IID scenarios
+with KD on N-BaIoT.
+Aggregation
+Algorithms
+Accuracy
+Precision
+Recall
+F1
+FPR
+FNR
+Runtime (s)
+Low Non-IID (θ = 1)
+FedAvg
+86.49
+80.11
+86.49
+82.16
+1.87
+13.51
+332.23
+FedProx
+87.70
+82.23
+87.70
+83.52
+1.90
+12.30
+493.30
+High Non-IID (θ = 0.1)
+FedAvg
+82.73
+78.39
+82.73
+77.53
+2.23
+17.27
+340.99
+FedProx
+83.81
+78.39
+83.81
+78.24
+2.21
+16.19
+513.66
+4.3.5. Impact of Feature Selection on FD-IDS Performance
+To assess how feature selection influences the performance of FD-IDS, we performed
+a comparative analysis of the model’s performance both before and after applying feature
+selection on Edge-IIoT, as summarized in Table 12. Under the low-Non-IID scenario, the
+overall performance of FD-IDS remained largely stable after incorporating feature selection.
+The accuracy remained unchanged at 94.82%, while the F1-score exhibited a slight decrease
+from 94.44% to 94.35%. In the high-Non-IID scenario, feature selection led to a marginal
+improvement in model performance, with the accuracy increasing from 93.79% to 93.86%
+and the F1-score rising from 92.56% to 92.70%. These experimental results indicate that,
+despite a significant reduction in feature dimensionality, the performance of FD-IDS was
+not adversely affected; instead, it experienced a slight enhancement. This further validates
+the effectiveness of the MI method in eliminating redundant and noisy features during the
+dimensionality reduction process, thereby mitigating interference factors during training.
+Table 12. Performance comparison of FD-IDS before and after MI on Edge-IIoT.
+MI
+Accuracy
+Precision
+Recall
+F1
+Runtime (s)
+Client (s) *
+Low Non-IID (θ = 1)
+Before
+94.82
+95.86
+94.82
+94.44
+1538.56
+1191.37
+After
+94.82
+96.20
+94.82
+94.35
+1399.09
+1111.95
+High Non-IID (θ = 0.1)
+Before
+93.79
+93.54
+93.79
+92.56
+2247.25
+1906.55
+After
+93.86
+96.45
+93.86
+92.70
+2104.78
+1813.38
+* denotes the cumulative training time of the slowest client across 40 rounds.

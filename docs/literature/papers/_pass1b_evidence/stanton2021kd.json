@@ -1,0 +1,45 @@
+{
+  "id": "stanton2021kd",
+  "n_pages": 21,
+  "title": "Does Knowledge Distillation Really Work? Polina Kirichenko Alexander A. Alemi",
+  "abstract": "Knowledge distillation is a popular technique for training a small student network to emulate a larger teacher model, such as an ensemble of networks. We show that while knowledge distillation can improve student generalization, it does not typically work as it is commonly understood: there often remains a surprisingly large discrepancy between the predictive distributions of the teacher and the student, even in cases when the student has the capacity to perfectly match the teacher. We identify dif\ufb01culties in optimization as a key reason for why the student is unable to match the teacher. We also show how the details of the dataset used for distillation play a role in how closely the student matches the teacher \u2014 and that more closely matching the teacher paradoxically does not always lead to better student generalization.",
+  "table_headers": [
+    "Table 1: We examine whether \ufb01delity can be improved in the context of ResNet-20 self-distillation on",
+    "Table 2: Distillation results when the dataset is varied. All metrics are computed on the test set. We"
+  ],
+  "metric_lines": [
+    "distillation [20] argues that Bucil\u02d8a et al. [5] \u201cdemonstrate convincingly that the knowledge acquired",
+    "Conversely, in Figure 1 we show that with modern architectures knowledge distillation can lead to",
+    "distillation dataset. In Section 6 we investigate the hypothesis that low \ufb01delity is an optimization",
+    "Figure 1: Evaluating the \ufb01delity of knowledge distillation. The effect of enlarging the CIFAR-100",
+    "ResNet-56 networks. Student \ufb01delity increases as the dataset grows, but test accuracy decreases.",
+    "Knowledge distillation can improve model ef\ufb01ciency [34, 40], unsupervised domain adaptation [33],",
+    "early work proposed distilling ensembles of shallow networks into a single network [49], an idea",
+    "which resonates with more recent work on the distillation of deep ensembles [2, 7, 41, 45, 47].",
+    "Recently Fakoor et al. [12] developed a data-augmentation scheme for the distillation of large",
+    "student top-1 accuracy. In this paper we investigate many of the same prescriptions, including",
+    "Hinton et al. [20] proposed a simple approach to knowledge distillation. The student minimizes a",
+    "both scaled by a temperature hyperparameter \u03c4 > 0. If \u03c4 = 1 then LKD is similarly equivalent to the",
+    "To measure generalization, we report top-1 accuracy, negative log-likelihood (NLL) and expected",
+    "metrics requires some care. For example, suppose we have three independent models: f1, f2, and f3",
+    "that respectively achieve 55%, 75%, and 95% test accuracy. f1 and f3 can agree on at most 60% of",
+    "claim about f2 being a better distillation of f3 since each model was trained completely independently.",
+    "In this section, we present evidence that we are not able to distill large networks such as a ResNet-56",
+    "We \ufb01rst consider the easy task of distilling a LeNet-5 teacher into an identical student network as",
+    "training set for 100 epochs, resulting in a 84% to 86% teacher test accuracy across different subsets.2",
+    "We then distill the teacher using the full MNIST train dataset with 60,000 examples, as well as 25%,",
+    "In Figure 2 we see that knowledge distillation works as expected. With enough examples the student",
+    "Figure 2: LeNet-5 self-distillation on",
+    "many more parameters than a LeNet-5, it is possible that",
+    "We have seen in Figure 1(a) that with self-distillation the student can exceed the teacher performance,",
+    "In Figure 1(b) we see that if we move from self-distillation to the distillation of a 3 ResNet-56 teacher",
+    "would achieve over 99% test accuracy.",
+    "Figure 3: Data augmentation and distillation: Test accuracy and teacher-student agreement when",
+    "distilling a 5-component ResNet-56 teacher ensemble into a ResNet-56 student on CIFAR-100 with",
+    "gap in \ufb01delity, even after the distillation set is enlarged with 50k GAN samples. In practice, the",
+    "controllers [e.g., 10, 19, 24, 46, 48]. While in self-distillation generalization and \ufb01delity are in"
+  ],
+  "tags": [
+    "KD"
+  ]
+}

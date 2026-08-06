@@ -1,0 +1,37 @@
+related works, Section 3 clarifies the problem and hypothesis focused in this
+work, and Section 4 introduces the evaluation metrics used to validate our
+argues. Section 5 further gives the experimental settings, and the empirical
+results and theoretical analysis are provided in Section 6. Section 7 finally
+summarizes the work of this paper.
+2. Related Works
+Our study contributes to a growing body of research that explores the
+interactions between data augmentation, model fidelity, attention mecha-
+nisms, and their impact on student performance in Knowledge Distillation
+(KD) with teacher ensembles.
+In (Bai et al, 2023), a KD framework utilizing Masked Autoencoder, one
+of the primary factors influencing student performance is the randomness
+introduced by masks in its teacher ensembles. It comes naturally if incorpo-
+rating randomness into the dataset, through a simple yet effective method
+like data augmentation, and carefully controlling its strength, will be as ef-
+fective as integrating it into model architectures.
+Theories on the impacts of data augmentation on KD remain diverse and
+varied. (Li et al, 2022) offers theoretical insights, suggesting that leveraging
+diverse augmented samples to aid the teacher model’s training can enhance its
+performance but will not extend the same benefit to the student. (Shen et al,
+2022) emphasizes how data augmentation can alter the relative importance
+of features, making challenging features more likely to be captured during the
+learning process. This effect is analogous to the multi-view data setting in
+ensemble learning, suggesting that data augmentation is likely to be beneficial
+for ensemble KD.
+On the application font, research proposing novel attention-based KD
+frameworks usually accompanied with intricate designs in model architec-
+tures or data augmentation strategies (¨Ozg¨ur et al, 2022; Lewy et al, 2023).
+For instance, studies like (Tian et al, 2022) aim to address the few shot learn-
+ing in KD with a novel data augmentation strategy based on the attentional
+response of the teacher model. Although their concentration is different from
+ours, the study nevertheless shows the significance of attention mechanism
+in KD.
+In align with the initial “knowledge transfer” definition of KD, as an
+underlying assumption that a higher degree of emulation between the student
+and teachers benefits its training, previous studies are devoted to optimizing
+5

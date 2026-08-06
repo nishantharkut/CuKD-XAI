@@ -1,0 +1,72 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+FIGURE 7. CICIDS2017 dataset visualization.
+FIGURE 8. Computational resource utilization on image VS CSV data.
+FIGURE 9. Loss curves of the TIGAN model over 5000 training epochs. The
+plot shows the discriminator and generator losses. Early stages show high
+fluctuation, but both losses gradually stabilize.
+C. TICNN RESULT ANALYSIS
+The TICNN model was trained maximum of up to 250 epochs
+for CICIDS2017 and 100 epochs for CICIoT2023. Training
+time for each epoch was less than 5 seconds after data
+balancing using the TIGAN model.
+The Weighted Average takes into account the number
+of actual instances in each class when computing metrics,
+ensuring that classes with more instances have a greater
+impact on the final average [3]. It is calculated using the
+FIGURE 10. Impact of hybrid sampling technique and TIGAN on class
+distribution. The original imbalanced dataset (left) is transformed into a
+balanced dataset (right) with more equitable representation across all
+classes.
+equation 10 where Si represents the support for class i and
+Mi denotes the metric (precision, recall, or F1-score) for
+that class. This method is especially useful for imbalanced
+datasets.
+Weighted Avg Metric =
+Pn
+i=1(Si · Mi)
+Pn
+i=1 Si
+(10)
+In contrast, the Macro Average calculates the metric for
+each class independently and then computes the unweighted
+average. This method considers all classes on an equal
+footing, which makes it appropriate for assessing model
+performance across all classes, irrespective of their size.
+Macro Avg Metric = 1
+n
+n
+X
+i=1
+Mi
+(11)
+In summary, the Weighted Average is ideal for uneven
+class distributions, while the Macro Average is better for
+equal consideration of all classes.
+The results in TABLE 3 compare the performance of
+the models VGG16, VGG19, Xception, and TICNN on
+imbalanced and balanced dataset for CICIoT2023. For the
+imbalanced dataset, all models exhibited high accuracy, but
+Xception had the lowest macro average precision at 0.722.
+VGG19 and VGG16 followed with scores of 0.784 and 0.765,
+respectively. In contrast, the TICNN model significantly
+outperformed the others across all weighted average metrics,
+achieving a precision, recall, and F1-score of 0.998. Its macro
+average precision was 0.855, the highest among the models,
+indicating its effectiveness in classifying minority instances
+despite the imbalance.
+When using a balanced dataset, all models showed
+improved performance. The VGG16, VGG19, and Xception
+models demonstrated better uniformity in performance,
+achieving macro average scores of 0.970, 0.967, and 0.959,
+respectively. The TICNN model maintained its lead with a
+weighted average precision of 0.997, recall of 0.995, and
+F1-score of 0.996. Its macro average precision and recall also
+improved to 0.994 and 0.995, respectively. Packet detection
+times for CICIoT2023 ranged from 1.5 ms to 2.92 ms.
+The results presented in TABLE 4 detail the performance
+evaluation of the VGG16, VGG19, Xception, and TICNN
+models, specifically on the CICIDS2017 dataset, mirroring
+the comparative structure used for CICIoT2023. The table
+contrasts the models’ effectiveness before and after applying
+23420
+VOLUME 14, 2026

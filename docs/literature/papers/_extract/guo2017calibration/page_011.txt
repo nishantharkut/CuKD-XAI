@@ -1,0 +1,182 @@
+Supplementary Materials for:
+On Calibration of Modern Neural Networks
+S1. Further Information on Calibration
+Metrics
+We can connect the ECE metric with our exact miscalibra-
+tion deﬁnition, which is restated here:
+E
+ˆ
+P
+hP
+
+ˆY = Y | ˆP = p
+
+−p
+
+i
+Let F ˆ
+P (p) be the cumulative distribution function of ˆP so
+that F ˆ
+P (b) −F ˆ
+P (a) = P( ˆP ∈[a, b]). Using the Riemann-
+Stieltjes integral we have
+E
+ˆ
+P
+hP
+
+ˆY = Y | ˆP = p
+
+−p
+
+i
+=
+Z 1
+0
+P
+
+ˆY = Y | ˆP = p
+
+−p
+ dF ˆ
+P (p)
+≈
+M
+X
+m=1
+P( ˆY = Y | ˆP = pm) −pm
+ P( ˆP ∈Im)
+where
+Im
+represents
+the
+interval
+of
+bin
+Bm.
+P( ˆY = Y | ˆP = pm) −pm
+
+is
+closely
+approximated
+by |acc(Bm) −ˆp(Bm)| for n large. Hence ECE using M
+bins converges to the M-term Riemann-Stieltjes sum of
+E ˆ
+P
+hP
+
+ˆY = Y | ˆP = p
+
+−p
+
+i
+.
+S2. Further Information on Temperature
+Scaling
+Here we derive the temperature scaling model using the en-
+tropy maximization principle with an appropriate balanced
+equation.
+Claim 1. Given n samples’ logit vectors z1, . . . , zn and
+class labels y1, . . . , yn, temperature scaling is the unique
+solution q to the following entropy maximization problem:
+max
+q
+−
+n
+X
+i=1
+K
+X
+k=1
+q(zi)(k) log q(zi)(k)
+subject to
+q(zi)(k) ≥0
+∀i, k
+K
+X
+k=1
+q(zi)(k) = 1
+∀i
+n
+X
+i=1
+z(yi)
+i
+=
+n
+X
+i=1
+K
+X
+k=1
+z(k)
+i
+q(zi)(k).
+The ﬁrst two constraint ensure that q is a probability dis-
+tribution, while the last constraint limits the scope of distri-
+butions. Intuitively, the constraint speciﬁes that the average
+true class logit is equal to the average weighted logit.
+Proof. We solve this constrained optimization problem us-
+ing the Lagrangian. We ﬁrst ignore the constraint q(zi)(k)
+and later show that the solution satisﬁes this condition. Let
+λ, β1, . . . , βn ∈R be the Lagrangian multipliers and deﬁne
+L = −
+n
+X
+i=1
+K
+X
+k=1
+q(zi)(k) log q(zi)(k)
++ λ
+n
+X
+i=1
+" K
+X
+k=1
+z(k)
+i
+q(zi)(k) −z(yi)
+i
+#
++
+n
+X
+i=1
+βi
+K
+X
+k=1
+(q(zi)(k) −1).
+Taking the derivative with respect to q(zi)(k) gives
+∂
+∂q(zi)(k) L = −nK −log q(zi)(k) + λz(k)
+i
++ βi.
+Setting the gradient of the Lagrangian L to 0 and rearrang-
+ing gives
+q(zi)(k) = eλz(k)
+i
++βi−nK.
+Since PK
+k=1 q(zi)(k) = 1 for all i, we must have
+q(zi)(k) =
+eλz(k)
+i
+PK
+j=1 eλz(j)
+i
+,
+which recovers the temperature scaling model by setting
+T = 1
+λ.
+Figure S1 visualizes Claim 1. We see that, as training con-
+tinues, the model begins to overﬁt with respect to NLL (red
+line). This results in a low-entropy softmax distribution
+over classes (blue line), which explains the model’s over-
+conﬁdence. Temperature scaling not only lowers the NLL
+but also raises the entropy of the distribution (green line).
+S3. Additional Tables
+Tables S1, S2, and S3 display the MCE, test error, and NLL
+for all the experimental settings outlined in Section 5.

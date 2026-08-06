@@ -1,0 +1,109 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+Table 3. Model with tuned hyperparameter names.
+performance. The adjustments were made on the following
+components:
+• Ensemble Learning: The soft vote classifier approach
+of ensemble learning was used to assemble different
+independent models in different combinations.
+• Particle Swarm Optimization: The importance of a
+nature-inspired optimization technique like PSO was
+assessed by incorporating it into and removing it from
+the task of hyperparameter tuning.
+• GridSearchCV: The capabilities of GridSearchCV as
+a hyperparameter tuner were examined by comparing
+models with and without its use.
+The ablation study is essential to choosing the optimal
+model. Finding the best mix of model designs, optimization
+strategies, and preprocessing stages requires systematic
+testing and comparing of different parts, configurations,
+and methodologies. By ensuring that every component’s
+contribution to the overall performance is understood, this
+in-depth research leads to the creation of the most reliable
+and accurate model.
+B. HYPERPARAMETER SELECTION
+Hyperparameter selection is a critical step in the machine
+learning model development process, as it directly influences
+the model’s performance and generalizability. Properly se-
+lecting hyperparameters helps optimize the model, balancing
+bias and variance to achieve better predictive accuracy.
+Table 3 presents the optimized hyperparameters for
+each model, which were used to form the ensemble that
+constitutes the proposed model. For the Decision Tree
+(DT), ‘max_depth’ refers to the maximum allowable depth
+of the tree, ‘min_samples_split’ denotes the minimum
+number of samples required to split an internal node,
+and ‘min_samples_leaf’ specifies the minimum number
+of samples needed at a leaf node. In the case of the
+Random Forest (RF), ‘n_estimators’ represents the number
+of trees in the forest, while the remaining parameters are
+identical to those of the Decision Tree. For the K-Nearest
+Neighbors (KNN) classifier, ‘n_neighbors’ defines the
+number of neighbors to consider for classification, ‘weights’
+determines how the neighbors are weighted, and ‘algorithm’
+specifies
+the
+algorithm
+used
+to
+identify
+the
+nearest
+neighbors.
+C. PERFORMANCE METRICS
+Performance indicators are essential for evaluating a
+machine-learning model’s efficacy. They are especially
+important for assessing the results of categorization models.
+These metrics provide insights into how well the model
+produces predictions and help the comparison of alternative
+models or changes to the existing one. The performance
+matrices used to analyze the proposed work are discussed
+below:
+1) ACCURACY
+The most widely used performance indicator for determining
+the percentage of accurate predictions produced by the ML
+model is accuracy. It can be calculated as:
+Accuracy = TruePositives + TrueNegatives
+TotalNumberofPredictions
+(5)
+2) PRECISION
+The percentage of true positives among all positive predic-
+tions is measured by precision, which is often referred to as
+the positive predictive value. Greater accuracy in the model’s
+positive classifications is ensured by fewer erroneous positive
+predictions, which are indicated by a higher precision value.
+Precision can be calculated as:
+Precision =
+TruePositives
+TruePositives + FalsePositives
+(6)
+3) RECALL
+Recall, which is sometimes referred to as sensitivity, quan-
+tifies the percentage of real positives that are true positive
+predictions. A high recall value guarantees a low false
+negative rate, meaning the majority of positive examples are
+accurately identified by the model. Recall can be calculated
+as:
+Recall =
+TruePositives
+TruePositives + FalseNegatives
+(7)
+4) F1 SCORE
+The F1 score is a balanced statistic that considers both
+precision and recall, calculated as the harmonic mean of
+these two metrics. With a single statistic that represents the
+model’s performance in terms of both false positives and false
+negatives, it is particularly helpful for balancing the trade-off
+between precision and recall. F1 score is calculated as:
+F1score = 2 ∗Precision ∗Recall
+Precision + Recall
+(8)
+Certain performance measures can be quite helpful in
+certain situations. For example, whereas accuracy might be
+adequate in many circumstances, precision becomes essential
+when the cost of false positives is significant. However, recall
+is crucial when it comes to missing a real positive because it
+may be very expensive. When a balance between recall and
+precision is required, the F1 score is useful as it provides a
+thorough evaluation of the model’s performance.
+VOLUME 13, 2025
+13719

@@ -1,0 +1,42 @@
+4.3. Quantify Data Augmentation Strength within Ensemble KD
+In our experiments, we employ various data augmentation techniques
+on both teacher ensembles and the student model to modulate the level
+of randomness introduced into the dataset, as detailed in Section 5.
+To
+quantify the strength of these applied data augmentations and demonstrate
+their effects on KD, we leverage Affinity measurements (Cubuk et al, 2021),
+specifically adapted to our KD scenario:
+Affinity = Acc(D′
+val)
+Acc(Dval)
+(5)
+where Acc(D′
+val) denotes the validation accuracy of the student model trained
+with augmented distillation dataset and tested on the augmented validation
+set. Acc(Dval) represents the accuracy of the same model tested on clean
+validation set.
+This metric measures the offset in data distribution between the origi-
+nal one and the augmented one captured by the student model after KD
+training: Higher Affinity value corresponds to smaller offset between the
+data distributions. In this paper, Affinity is used as a tool to quantify and
+thus help on controlling the degree of randomness injected into the distilla-
+tion dataset. This provides us with a systematic approach to analyze how
+data augmentation interacts with KD generalization, fidelity, and attention
+mechanisms. We anticipate that when the data augmentation strength of
+the student model aligns with that of the teacher model, the Affinity will
+be higher. And, lower Affinity corresponds to stronger data augmentation,
+leading to higher student accuracy and better generalization performance.
+It is noteworthy that what we mean low Affinity is a “moderate low but
+cannot be as low as 0” notion: An Affinity of 0 presupposes a situation
+where the augmented data is so drastically different from the original that
+it no longer retains any of the original data’s informative features, or the
+model has entirely failed to learn from the augmented data. Our claim that
+models with low Affinity can still exhibit good generalization performance is
+based on the understanding that these models, through diverse and challeng-
+ing augmentationss, learn to abstract and generalize from complex patterns.
+This does not necessarily imply that an Affinity of 0, resulting from complete
+misalignment with the augmented data, is desirable or indicative of strong
+generalization. Instead, we suggest that moderate to low Affinity, within a
+range that indicates the model has been challenged but still retains learning
+efficacy, can foster robustness and generalization.
+10

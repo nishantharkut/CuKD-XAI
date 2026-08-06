@@ -1,0 +1,48 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 7 of 23
+422
+Fig. 1 Development pipeline of the entire approach
+data preprocessing includes handling missing values, remov-
+ing duplicates, and normalizing and encoding features to
+prepare the dataset for subsequent stages.
+Handling missing values
+The initial dataset often contains inconsistencies, such as
+inﬁnity values and extremely large numbers that could distort
+model performance. To address this, all instances of inﬁnity
+values and unusually large numeric values are replaced with
+NaN. Formally, if a dataset D contains features X = {x1,
+x2, . . . , xn}, then:
+X = {xi|xi̸ = ∞and xi < threshold}
+(1)
+where any xi that meets the conditions for inﬁnity or exceeds
+a set threshold is set to Nan.
+After handling these values, all rows containing NaN are
+dropped to maintain data integrity:
+D = D\{rows containing NaNs}
+(2)
+Duplicate removal
+Duplicate records in the dataset can lead to biased model per-
+formance and redundant computations. We remove duplicate
+rows by identifying and discarding any records that are iden-
+tical across all feature values. Let D = {d1, d2, . . . , dm}
+represent the dataset where each di is a unique data point.
+Duplicates are identiﬁed as follows:
+D = D\{duplicate rows in D}
+(3)
+This step ensures that each data point in D is unique,
+reducing redundancy and computational overhead.
+Normalization and encoding
+To make the data more suitable for model training, we apply
+normalization to numerical features and encoding to cate-
+gorical features. These steps enhance the compatibility of
+the data with machine learning models, ensuring that numer-
+ical values are scaled consistently and categorical variables
+are transformed into numeric form.
+Numerical feature scaling
+Numerical features often have
+different scales and ranges, which can lead to biased model
+training if not normalized. We standardize all numerical
+columns using the StandardScaler, which transforms each
+feature xi in the numerical feature set X to have a mean of 0
+and a standard deviation of 1. For each numerical feature xi
+123

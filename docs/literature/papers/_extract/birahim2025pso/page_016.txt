@@ -1,0 +1,90 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+Figure 15. SHAP summary plot of the violin distribution.
+even distribution of SHAP values. The predominance of blue
+in the plot indicates that these values are generally low, and
+since they are clustered near the centerline, it implies that this
+feature has a relatively minor impact on the prediction.
+5) SHAP STACKED FORCE PLOT OF THE TEST SET (GLOBAL)
+Supervised clustering of force plots, also known as stacked
+force plots, is a technique for understanding how various
+characteristics affect a model’s predictions and for visualizing
+patterns and trends in the model’s output. The vertical axis of
+this kind of plot shows the cumulative effect of characteristics
+on the decisions made by the model, while the horizontal
+axis represents the test samples. This kind of plot is a two-
+dimensional representation. You may detect trends and the
+relative importance of factors in influencing the model’s
+results by stacking the force plots to see how specific features
+consistently affect predictions across numerous samples.
+Figure 16 illustrates the output probability versus the
+test samples for 200 test instances. The test samples are
+represented by the horizontal axis, and the output probability
+is displayed by the vertical axis. From the plot, a clear
+dominance of the feature labeled ‘‘ADV_S’’ is evident.
+Initially, this feature had a slightly negative influence on the
+output, but as the samples progress, the feature increasingly
+shifts towards a significant positive influence, strongly
+affecting the model’s final predictions.
+The effects of the feature named ‘‘ADV_S’’ can be
+explicitly understood from Figure 17. The plot shows that
+while the feature had a maximum negative impact on the
+output, its impact was consistent throughout the test samples.
+This consistency highlights the importance of ‘‘ADV_S’’ as
+a critical feature for the model’s prediction capabilities, even
+though its influence was primarily negative.
+The results from both LIME and SHAP demonstrate a clear
+alignment in the identification of key features that dominate
+the decision-making process of the model. By examining the
+top four features highlighted in the SHAP summary plot and
+the LIME tabular plot, it becomes evident that these features
+consistently play a significant role in the model’s predictions
+across various cases. This consistency across both methods
+enhances the reliability of the model’s explanations, as the
+independent validation from each technique corroborates
+the importance and impact of these critical features on the
+model’s outcomes.
+G. CHECKING PREDICTIONS USING WEB APPLICATION
+For ML and data science projects, Streamlit is an open-source
+Python framework that facilitates the development and
+dissemination of unique online applications. It makes it easier
+to convert data scripts into interactive applications with less
+coding work. A web application developed on Streamlit was
+used in this research project to verify the model’s predictions.
+Figure 18 for normal scenarios and figures 19, 20, 21 & 22
+for attacking scenarios demonstrate the consistency of the
+model’s predictions across different attack types and normal
+conditions.
+H. STRENGTH, LIMITATION, AND FUTURE WORK
+The model developed in this research demonstrates consis-
+tently high accuracy, supported by extensive refinement and
+validation through a Streamlit web application. This per-
+formance highlights its effectiveness in identifying various
+attack types and normal conditions within the dataset. A key
+strength of our ensemble model is its high accuracy, achieved
+through PSO-tuned hyperparameters that outperform existing
+models. The integration of XAI techniques, such as SHAP
+and LIME, enhances interpretability, making the model
+practical for real-world applications by offering insights
+into its decision-making process. Additionally, our approach
+effectively addresses dataset imbalance and reduces false
+positives, allowing for scalability in large networks with di-
+verse traffic patterns. This is particularly beneficial in critical
+domains like military surveillance, healthcare monitoring,
+and industrial automation, where real-time and accurate
+detection of security threats is essential. The application
+of SMOTE-Tomek for dataset balancing ensures better
+generalization across varying network conditions. Despite
+these strengths, the model has limitations primarily related
+to computational complexity. The ensemble of machine
+learning algorithms and optimization techniques increases
+computational overhead, potentially limiting real-time appli-
+cability in resource-constrained environments. Furthermore,
+the model’s performance has been evaluated on specific
+datasets, and its generalization to other domains remains
+to be fully explored. The model has not been tested on
+dynamically changing datasets, where it may require different
+implementation approaches. Since the model has not been
+tested in real-life scenarios, its adaptability to various
+real-world situations remains uncertain. Future work should
+13726
+VOLUME 13, 2025

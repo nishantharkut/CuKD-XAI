@@ -1,0 +1,41 @@
+3.5.2. Generalization to Subsets of Features
+To handle more general cases, let J = {j1, j2, . . . , jK} be a subset of
+K ≤p indices from {1, 2, . . . , p}, and let L = {l1, l2, . . . , lM} be another
+subset of M ≤p −K indices, such that J ∩L = ∅. Define the conditional
+difference for L | J as [36]:
+∆L|J(x∗) = E [f(x) | xJ = x∗
+J, xL = x∗
+L] −E [f(x) | xJ = x∗
+J] ,
+(7)
+where:
+• xJ and xL denote the sets of variables indexed by J and L, respectively,
+• x∗
+J and x∗
+L represent their observed values.
+For an individual variable l ∈L, the marginal contribution is:
+∆l|J(x∗) = E [f(x) | xJ = x∗
+J, xl = x∗
+l ] −E [f(x) | xJ = x∗
+J] .
+(8)
+3.5.3. Order Sensitivity and Approximation
+The contributions v(j, x∗) depend on the order of the variables j, as
+interactions between variables may influence the result. To address this, we
+use a two-step heuristic [36, 37]:
+1. Variables are ordered based on their marginal importance |∆j|∅(x∗)|,
+calculated without prior conditioning.
+2. Contributions v(j, x∗) are then computed sequentially using the chosen
+order, capturing both individual and interaction effects.
+By implementing the variable attribution method, as outlined in Algo-
+rithm 1, the framework enables robust, feature-level explanations, empow-
+ering analysts to make data-driven decisions and refine IDS configurations
+effectively.
+3.6. Strategic Data Partitioning
+To stress-test the model’s generalization, we adopt a stringent partition:
+• Training set: 10% of the available data.
+• Test set: 90% of the data.
+Although unconventional, this setup closely mimics scenarios with limited
+labeled data, illuminating the framework’s capacity to operate under realistic
+constraints.
+13

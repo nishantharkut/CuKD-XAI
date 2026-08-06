@@ -1,0 +1,38 @@
+Sensors 2025, 25, 4309
+7 of 31
+paper introduces a KD technique. By guiding the training process of local models with the
+global model, KD effectively transfers the global model’s knowledge to local models. This
+mechanism helps local models maintain consistency with the global model, thus reducing
+the performance drift induced by Non-IID data. It improves the generalization capacity of
+local models, enabling them to iteratively adjust deviations from the global model during
+training, ensuring a synergistic effect between local and global models in FL. Figure 2
+illustrates the workflow of FD-IDS.
+Figure 2. Methodology flowchart.
+3.2. Dataset Description
+In numerous studies, the development of IoT IDSs often relies on datasets collected
+from traditional network environments as the basis for training. However, there are
+significant differences between traditional networks and IoT environments in terms of
+communication protocols, device resource constraints, and traffic characteristics. This
+environmental heterogeneity can affect the applicability and detection performance of IDSs
+trained on traditional datasets when deployed in real IoT scenarios [35]. To overcome
+this limitation and better meet the practical needs of IoT environments, we employed the
+Edge-IIoT and N-BaIoT datasets for the experiments.
+•
+The Edge-IIoT dataset is specifically designed for IoT environments and encompasses
+a diverse array of IoT devices, such as pH sensor meters and heart rate sensors, among
+others. This diversity enables the dataset to comprehensively reflect the variety of IoT
+devices and their traffic characteristics [26]. Moreover, the dataset contains over ten
+types of common attacks, covering a broad spectrum of potential security threats in
+IoT environments.
+•
+The N-BaIoT dataset, widely used in IoT security research, comprises traffic data from
+various smart home devices, such as doorbells and monitors, providing strong device
+diversity [36]. The dataset includes several common attack types, effectively reflecting
+the anomalous traffic behavior of compromised devices in an IoT environment.
+3.3. Data Preprocessing
+To enhance the effectiveness of the model training, we performed data preprocessing
+on the datasets. First, we removed potentially detrimental features, such as “udp.port”,
+“ip.src_host”, and “ip.dst_host” [26]. Although these features, which contain information
+on IP addresses and port numbers, may contribute to data distinguishability, they pose sig-
+nificant security risks in real-world applications. For instance, attackers can evade detection
+by spoofing IP addresses or randomizing port numbers. Retaining such features may lead

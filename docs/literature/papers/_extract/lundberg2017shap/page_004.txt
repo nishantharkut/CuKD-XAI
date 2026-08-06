@@ -1,0 +1,65 @@
+3
+Simple Properties Uniquely Determine Additive Feature Attributions
+A surprising attribute of the class of additive feature attribution methods is the presence of a single
+unique solution in this class with three desirable properties (described below). While these properties
+are familiar to the classical Shapley value estimation methods, they were previously unknown for
+other additive feature attribution methods.
+The ﬁrst desirable property is local accuracy. When approximating the original model f for a speciﬁc
+input x, local accuracy requires the explanation model to at least match the output of f for the
+simpliﬁed input x′ (which corresponds to the original input x).
+Property 1 (Local accuracy)
+f(x) = g(x′) = φ0 +
+M
+X
+i=1
+φix′
+i
+(5)
+The explanation model g(x′) matches the original model f(x) when x = hx(x′), where φ0 =
+f(hx(0)) represents the model output with all simpliﬁed inputs toggled off (i.e. missing).
+The second property is missingness. If the simpliﬁed inputs represent feature presence, then missing-
+ness requires features missing in the original input to have no impact. All of the methods described in
+Section 2 obey the missingness property.
+Property 2 (Missingness)
+x′
+i = 0 =⇒φi = 0
+(6)
+Missingness constrains features where x′
+i = 0 to have no attributed impact.
+The third property is consistency. Consistency states that if a model changes so that some simpliﬁed
+input’s contribution increases or stays the same regardless of the other inputs, that input’s attribution
+should not decrease.
+Property 3 (Consistency) Let fx(z′) = f(hx(z′)) and z′ \ i denote setting z′
+i = 0. For any two
+models f and f ′, if
+f ′
+x(z′) −f ′
+x(z′ \ i) ≥fx(z′) −fx(z′ \ i)
+(7)
+for all inputs z′ ∈{0, 1}M, then φi(f ′, x) ≥φi(f, x).
+Theorem 1 Only one possible explanation model g follows Deﬁnition 1 and satisﬁes Properties 1, 2,
+and 3:
+φi(f, x) =
+X
+z′⊆x′
+|z′|!(M −|z′| −1)!
+M!
+[fx(z′) −fx(z′ \ i)]
+(8)
+where |z′| is the number of non-zero entries in z′, and z′ ⊆x′ represents all z′ vectors where the
+non-zero entries are a subset of the non-zero entries in x′.
+Theorem 1 follows from combined cooperative game theory results, where the values φi are known
+as Shapley values [6]. Young (1985) demonstrated that Shapley values are the only set of values
+that satisfy three axioms similar to Property 1, Property 3, and a ﬁnal property that we show to be
+redundant in this setting (see Supplementary Material). Property 2 is required to adapt the Shapley
+proofs to the class of additive feature attribution methods.
+Under Properties 1-3, for a given simpliﬁed input mapping hx, Theorem 1 shows that there is only one
+possible additive feature attribution method. This result implies that methods not based on Shapley
+values violate local accuracy and/or consistency (methods in Section 2 already respect missingness).
+The following section proposes a uniﬁed approach that improves previous methods, preventing them
+from unintentionally violating Properties 1 and 3.
+4
+SHAP (SHapley Additive exPlanation) Values
+We propose SHAP values as a uniﬁed measure of feature importance. These are the Shapley values
+of a conditional expectation function of the original model; thus, they are the solution to Equation
+4

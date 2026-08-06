@@ -1,0 +1,180 @@
+Energy-Eﬃcient Hybrid Learning for Secure Wireless Sensor Networks
+701
+• The gateway’s extra compute is absorbed by
+its larger battery (or mains), so lifetime gain is
+dominated by radio savings.
+Table 9. show that removing any single optimiza-
+tion leaves detection quality almost unchanged, but
+energy impact is dramatic.
+Rule ﬁlter is the dom-
+inant energy saver its removal cuts lifetime by 43
+%, proving that on-node triage, not classiﬁer tweaks,
+drives longevity. INT8 quantization halves gateway
+compute; without it, life-time falls to the signature-
+IDS level (51 d). Pruning oﬀers a modest 6 d boost,
+worthwhile but less critical than quantization. To-
+gether, the three techniques yield the full 69-day life-
+time without sacriﬁcing accuracy.
+Table 9: Ablation Study of Hybrid IDS Components.
+Variant
+Macro-F1
+T50
+Full Hybrid
+0.980
+69 d
+- Rule ﬁlter
+0.980
+39 d
+- Quantization
+0.984
+51 d
+- Pruning
+0.984
+63 d
+5.3 Latency
+With a batching threshold of 16 ﬂagged windows
+(§4.4), end-to-end decision latency averages 42 ms
+(95 % ≤55 ms), comfortably below the 250 ms QoS
+target for environmental sensing. Node-DL is faster
+(<10 ms) but at the cost of 31 days of lifetime.
+5.4 Discussion
+Energy is dominated by radio, not compute shift-
+ing DL oﬀnodes and ﬁltering traﬃc has far greater
+impact than squeezing every op out of on-device
+GRUs. Model compression (INT8 + 50 % pruning)
+yields a 65 % gate-way-energy drop with <0.5 % accu-
+racy loss, validating recent literature on post-training
+quantization for tabular/ﬂow features.
+Scalability:
+radio savings scale linearly with node count, while
+gateway compute scales only with ﬂagged traﬃc. A
+200-node simulation (not shown) still held gateway
+CPU < 55 %.
+Table 10:
+Detection Performance Comparison.
+Scheme (ref.)
+Overall
+Macro F1
+Grayhole
+Accuracy
+Recall
+Hybrid (ours)
+98%
+0.93
+0.90
+GRU on every
+98%
+0.92
+0.88
+node [3]
+Snort style signa-
+92%
+0.81
+0.60
+ture IDS [9,12]
+Two layer NB →
+94%
+0.85*
+0.70*
+RF (cloud) [2]
+IGR + Passive
+96%
+0.84
+0.59
+Aggressive [7]
+Table 11:
+Energy & Lifetime Comparison.
+Scheme (ref.)
+Node side In
+T50
+Key Strength/
+ference En-
+Limitation
+ergy
+Hybrid (ours)
+≤0.05mJ
+69
+Highest F1,
+(rule ﬁlter) +
+longest lifetime,
+28mJ per
+42ms latency
+32 window
+batch on gate-
+way
+GRU on
+≈300mJ per-
+38
+High accuracy
+every node
+inference
+but heavy bat-
+tery drains
+Snort style
+≈0mJ com-
+51
+Low cost,
+signature IDS
+pute, but
+misses zero day
+[9, 12]
+every packet
+attacks
+transmitted
+Two layer
+≈50mJ per
+55*
+Cuts cluster
+NB →RF
+inference on
+head load
+(cloud) [2]
+cluster head
+30%, higher FP
+rate
+IGR + Passive
+≈20mJ
+55*
+Fast, but poor
+-Aggressive
+minority-class
+[7]
+balance
+5.5 Comparison with Existing IDS Baselines:
+Performance and Energy Trade-Oﬀs
+As shown in (Table 10) and (Table 11), the hybrid
+IDS stand out as the only approach that combines
+deep-learning level accuracy (98 %) with a network
+lifetime that extends beyond two months (69 days),
+demonstrating a balanced superiority over all base-
+lines.
+This longevity gain is driven mainly by the
+lightweight rule ﬁlter on each node: while maintain-
+ing the same detection quality as the on-node GRU
+solution, the ﬁlter discards roughly half of the ra-
+dio traﬃc, translating into an 82 % increase in T50.
+In contrast, a signature-based Snort IDS eliminates
+local computation but forwards every packet, sacri-
+ﬁcing 18 days of lifetime and still missing zero-day
+attacks.
+Shallow-ML alternatives such as the NB
+→Random Forest pipeline or the IGR + Passive-
+Aggressive model do reduce energy at cluster heads,
+yet they pay for that economy with lower macro-F1
+scores and markedly higher false-positive rates, es-
+pecially when detecting stealthy Grayhole behavior.
+Collectively, these comparisons conﬁrm that intelli-
+gent workload partitioning ultra-light rule screening
+on the sensor node coupled with a quantized CNN-
+LSTM on the gateway achieves deep-learning robust-
+ness without undermining the energy sustainability
+that WSN deployments demand.
+Energy is dominated by radio, not compute shift-
+ing DL oﬀnodes and ﬁltering traﬃc has far greater
+impact than squeezing every op out of on-device
+GRUs. Model compression (INT8 + 50% pruning)
+yields a 65% gate-way-energy drop with <0.5% accu-
+racy loss, validating recent literature on post-training
+quantization for tabular/ﬂow features.
+Scalability:
+radio savings scale linearly with node count, while

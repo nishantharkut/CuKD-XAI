@@ -1,0 +1,122 @@
+2146
+M. A. Talukder et al.
+Table 3 Binary classiﬁcation
+class distribution without and
+with SMOTE-TomekLink
+Class
+WoSTL
+WiSTL
+Normal
+340,066
+340,056
+Attack
+34,595
+339,610
+the number of minority class samples. This approach helps
+mitigate overﬁtting issues associated with random oversam-
+pling methods and has been widely adopted to address class
+imbalance problems. On the other hand, Tomek-Links is an
+undersampling technique designed to remove instances on
+the “Tomek link,” which are pairs of data points from dif-
+ferent classes that are close to each other in the dataset.
+Removing these pairs helps separate minority and majority
+classes, reducing noise in the majority class. By combin-
+ing the SMOTE and Tomek-Links (STL), the study aims
+to effectively tackle the imbalanced class problem in WSN
+data, providing a balanced dataset for more accurate intrusion
+detection. This strategy enhances class separation, stabilizes
+data distribution, and ultimately improves the performance
+of intrusion detection systems in the context of WSNs. In
+the following, we present the data balancing results using
+SMOTE-Tomek-Link compared to the unbalanced dataset.
+• Binary Classiﬁcation
+In the binary classiﬁcation dataset, we had the follow-
+ing distribution of classes without and with SMOTE-
+TomekLink is shown in Table 3:
+The STL technique has effectively balanced the dataset,
+resulting in a nearly equal number of samples for both
+the “Normal” and “Attack” classes. This balanced dataset
+(WiSTL) is better suited for training machine learning
+models, as it reduces the risk of bias towards the majority
+class.
+• Multiclass Data Balancing
+In addition to binary classiﬁcation, we also applied
+SMOTE-TomekLink to a multiclass dataset. The class
+distribution before and after balancing is shown in Table
+4:
+The STL successfully balanced the multiclass dataset by
+generating synthetic samples for the minority classes,
+resulting in a more equitable distribution across all
+classes. This balanced dataset (WiSTL) enhances the per-
+formance of machine learning models, particularly when
+dealing with multiclass classiﬁcation tasks.
+In conclusion, data balancing using STL is a valuable tech-
+nique to address class imbalance issues in intrusion detection
+datasets, ensuring that machine learning models are trained
+on a more representative and balanced dataset, which can
+lead to improved classiﬁcation performance.
+Table 4 Multiclass distribution without and with SMOTE-TomekLink
+Class
+WoSTL
+WiSTL
+Normal
+340,066
+340,056
+Grayhole
+14,596
+340,038
+Blackhole
+10,049
+340,026
+TDMA
+6638
+339,846
+Flooding
+3312
+339,820
+3.4 ML algorithms
+In this research, we employed six distinct machine learn-
+ing classiﬁers, namely Decision Trees (DT), Random Forest
+(RF), Multilayer Perceptron (MLP), k-Nearest Neighbors
+(KNN), XGBoost (XGB), and LightGBM (LGB), to con-
+struct a model for the detection of intrusions in Wireless
+Sensor Networks (WSNs). We evaluated the performance of
+each classiﬁer using various performance metrics. In the fol-
+lowing subsection, we will delve into the diverse machine
+learning techniques employed for our prediction model.
+• Decision Trees (DT): Decision trees are versatile tools
+widely applied in various domains, including machine
+learning, image processing, and pattern recognition [11].
+A decision tree comprises essential components: the root
+node, branches, and leaf nodes. The root node represents
+the entire dataset, which is partitioned into homogenous
+subsets. Branches represent combinations of attributes,
+while leaf nodes mark the end of the decision-making
+process [38, 39].
+• Random
+Forest
+(RF):
+Random
+Forest,
+a
+meta-
+approximation technique, enhances accuracy through
+averaging. It prevents overﬁtting by ﬁtting multiple deci-
+sion tree classiﬁers to various subsets of the dataset [40].
+Each subset is chosen independently from the feature
+space, resulting in a set of uncorrelated Decision Trees
+derived from different training data points [41]. Each tree
+predicts a class, and the majority vote among the trees
+determines the model’s prediction [42].
+• MultilayerPerceptron(MLP):TheMultilayerPerceptron
+(MLP) is a classic artiﬁcial neural network architecture
+characterized by layers of neurons and their interconnec-
+tions [43]. It computes the weighted sum of its inputs
+to produce an output passed to the subsequent neu-
+ron. Hidden layers separate the input and output layers,
+and neurons are organized into layers, with information
+typically ﬂowing from lower to higher layers without
+interconnection between neurons within a layer [44].
+• K-Nearest Neighbour (KNN): K-Nearest Neighbour is a
+simple yet effective supervised machine learning algo-
+123

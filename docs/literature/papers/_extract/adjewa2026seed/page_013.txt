@@ -1,0 +1,48 @@
+Sensors 2026, 26, 356
+13 of 22
+while cloud systems handle token generation in parallel. This architecture reduces total re-
+sponse time while balancing the trade-offs between performance, latency, and resource use.
+Lightweight LLM Variants
+An alternative strategy involves using optimized lightweight versions of standard
+LLMs. Models such as TinyBERT, DistilBERT, and MobileBERT retain core capabilities
+while drastically reducing parameter count. For instance, TinyBERT achieves up to 96%
+of BERT’s performance while being 7× smaller and 9× faster. Similarly, recent variants
+like Gemini Nano and GPT-2 Small are tailored for on-device deployment with acceptable
+trade-offs in accuracy [29].
+Caching and Efficient Inference
+In [32], authors covered strategies such as edge LLM caching, gradient checkpointing,
+and attention optimization, which are essential for deploying LLMs in low-latency, privacy-
+sensitive applications. The authors also identify key use cases including robotics, healthcare,
+and smart cities, that benefit from edge-based LLM deployment.
+4.4. Privacy-Preserving Design
+IoT devices frequently process sensitive personal, environmental, and behavioral
+data. As such, the integration of LLMs must address privacy and data security concerns.
+Decentralized learning frameworks and secure update mechanisms offer viable solutions.
+Federated Learning
+Federated Learning (FL) is a decentralized training paradigm that allows models to be
+trained directly on IoT devices. Instead of transmitting raw data, devices only send model
+updates to a central aggregator [23,33]. This approach reduces privacy risks by keeping
+sensitive data local. In the context of LLMs, FL enables continual fine-tuning of models
+on-device while benefiting from global knowledge sharing.
+Secure Model Updates
+To enhance the privacy guarantees of FL, additional safeguards such as differential
+privacy and homomorphic encryption can be applied. Differential privacy introduces
+calibrated noise into model updates to prevent reverse-engineering of individual data
+points. Homomorphic encryption enables computation on encrypted data, ensuring that
+no sensitive information is exposed during training or inference.
+Although these strategies significantly improve the feasibility of deploying LLMs
+in IoT settings, continuous research is essential to address remaining limitations. These
+include reducing fine-tuning overhead, handling variable network conditions in hybrid
+models, and developing new architectures that are natively optimized for edge intelligence.
+5. Experimental Evaluation
+5.1. Experimental Setup and Evaluation Metrics
+To evaluate the effectiveness of our proposed SEED approach, we utilized the widely
+adopted Edge-IIoTset dataset [34], which contains traffic data from IoT and IIoT systems,
+including 14 distinct attack types along with normal traffic, yielding 15 classes in total.
+We designed three evaluation scenarios:
+1.
+Binary classification scenario: Distinguishes between benign and anomalous traffic.
+2.
+Six-category scenario: Groups attacks into six intermediate categories (five attacks +
+Normal traffic).
+https://doi.org/10.3390/s26020356

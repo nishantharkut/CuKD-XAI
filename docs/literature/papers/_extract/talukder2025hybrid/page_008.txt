@@ -1,0 +1,166 @@
+class. This approach ensures that the synthetic samples are representative of the distribution of the majority class 
+while maintaining the integrity and diversity of the dataset. Compared to traditional balancing techniques like 
+STL, KMS has a distinct advantage in preserving data integrity. While STL combines oversampling and under-
+sampling to address the imbalance and remove overlapping samples, it may inadvertently discard useful data, 
+leading to the potential loss of information. In contrast, KMS avoids aggressive under-sampling by focusing 
+on targeted oversampling within clusters, which helps retain the original dataset’s structure and diversity. 
+Furthermore, our experimental results demonstrate that KMS provides a balanced representation of classes, 
+leading to improved detection accuracy and reduced false positives in intrusion detection tasks. This makes it a 
+more suitable choice for datasets with complex distributions and varying levels of class imbalance.
+Dimension reduction using PCA
+Principal Component Analysis (PCA) is a statistical technique used for reducing the dimensionality of a dataset 
+by transforming it into a new coordinate system, where the axes (principal components) represent directions of 
+maximum variance in the data. PCA works by finding the eigenvectors and eigenvalues of the covariance matrix 
+of the data. The eigenvectors define the principal components, and the corresponding eigenvalues measure the 
+variance along these components. PCA transforms the data into a lower-dimensional space by selecting a subset 
+of components that capture the most variance.
+The covariance matrix is computed as:
+	
+C = 1
+n
+n
+∑
+i=1
+(xi −µ)(xi −µ)T 
+(7)
+where xi is a data point, µ is the mean vector, and n is the number of samples.
+Eigenvalues and eigenvectors are computed as:
+	
+Cvi = λivi
+(8)
+where λi is an eigenvalue, and vi is the corresponding eigenvector.
+PCA reduces the curse of dimensionality in WSN datasets, enabling faster and more efficient ML model training. 
+It eliminates redundant features and noise, improving the generalization ability of IDS models in wireless sensor 
+networks. By focusing on key variations in the data, PCA also enhances model interpretability and reduces 
+computational overhead.
+Kaiser criterion
+The Kaiser Criterion is a rule for selecting the number of principal components in PCA. It states that only 
+components with eigenvalues greater than 1 should be retained, as these components explain more variance than 
+an individual feature in the original dataset.
+Process: 1. Compute the eigenvalues of the covariance matrix after applying PCA. 2. Retain only those 
+components whose eigenvalues are greater than 1. 3. Transform the data using the selected components.
+The number of components selected by the Kaiser Criterion is given by:
+	
+ncomponents =
+k
+∑
+i=1
+1(λi > 1)
+(9)
+STL
+GAN
+KMS
+Class
+Before
+After
+Class
+Before
+After
+Class
+Before
+After
+Normal
+300000
+300000
+Normal
+300000
+300000
+Normal
+300000
+300006
+Scanning
+20000
+299999
+Scanning
+20000
+300000
+Scanning
+20000
+300005
+Dos
+20000
+299997
+Dos
+20000
+300000
+Dos
+20000
+300004
+Injection
+20000
+299995
+Injection
+20000
+300000
+Injection
+20000
+300003
+Ddos
+20000
+299987
+Ddos
+20000
+300000
+Ddos
+20000
+300003
+Password
+20000
+299980
+Password
+20000
+300000
+Password
+20000
+300003
+Xss
+20000
+299979
+Xss
+20000
+300000
+Xss
+20000
+300003
+Ransomware
+20000
+299975
+Ransomware
+20000
+300000
+Ransomware
+20000
+300002
+Backdoor
+20000
+299966
+Backdoor
+20000
+300000
+Backdoor
+20000
+300001
+Mitm
+1043
+299946
+Mitm
+1043
+300000
+Mitm
+1043
+300000
+Total
+461043
+2999824
+Total
+461043
+3000000
+Total
+461043
+3000030
+Table 4.  Before and after data balancing techniques on TON-IoT network.
+ 
+Scientific Reports |         (2025) 15:4617 
+8
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

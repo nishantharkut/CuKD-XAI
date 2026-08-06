@@ -1,0 +1,40 @@
+cleaning, normalizing, transforming, and structuring data to enhance its quality and usability. The preprocessing 
+techniques utilized in this study include StandardScaler and Label Encoding. StandardScaler was applied to 
+standardize the feature values by removing the mean and scaling to unit variance, ensuring uniformity across 
+features and improving model convergence. Label Encoding was employed to convert categorical variables into 
+numerical format, facilitating seamless integration with ML algorithms while preserving the inherent order 
+of categorical data. It is essential to mitigate inconsistencies, redundancies, and noise in the dataset, which 
+can negatively impact model performance. Without proper preprocessing, ML models may produce biased or 
+inaccurate results, especially when handling imbalanced or high-dimensional data.
+StandardScaler
+The StandardScaler is a preprocessing technique used to normalize features by removing the mean and scaling 
+to unit variance. It ensures that the features have a mean of 0 and a standard deviation of 1, making the data 
+well-suited for ML algorithms sensitive to feature magnitudes. The standardization of a feature x is computed as:
+	
+z = x −µ
+σ
+
+(1)
+where x: Original feature value; µ: Mean of the feature; σ: Standard deviation of the feature.
+StandardScaler improves the model by ensuring that features are on a comparable scale, thereby allowing ML 
+algorithms to converge faster and avoid biases due to varying feature magnitudes. Additionally, it enhances 
+numerical stability, preventing issues arising from extreme values. The StandardScaler is particularly beneficial 
+for distance-based models, such as clustering algorithms, where feature scaling directly impacts the calculation 
+of distances.
+Label encoding
+Label Encoding is a preprocessing technique used to convert categorical labels into numerical values. Each 
+unique category is assigned a specific integer value, enabling ML algorithms to process non-numerical labels 
+effectively.
+Let y represent the categorical labels. The encoding maps each unique category c to a corresponding integer 
+value i:
+	
+f(c) = i,
+where i ∈{0, 1, . . . , n −1}
+(2)
+Here, n is the total number of unique categories, and f(c) is the mapping function.
+Fig. 1.  The proposed hybrid ML model for IDS in WSNs.
+ 
+Scientific Reports |         (2025) 15:4617 
+5
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

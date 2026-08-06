@@ -1,0 +1,49 @@
+SMOTE
+marketing analysis problem (Ling & Li, 1998). In one experiment, they under-sampled the
+majority class and noted that the best lift index is obtained when the classes are equally
+represented (Ling & Li, 1998).
+In another experiment, they over-sampled the positive
+(minority) examples with replacement to match the number of negative (majority) examples
+to the number of positive examples. The over-sampling and under-sampling combination
+did not provide signiﬁcant improvement in the lift index. However, our approach to over-
+sampling diﬀers from theirs.
+Solberg and Solberg (1996) considered the problem of imbalanced data sets in oil slick
+classiﬁcation from SAR imagery. They used over-sampling and under-sampling techniques
+to improve the classiﬁcation of oil slicks. Their training data had a distribution of 42 oil
+slicks and 2,471 look-alikes, giving a prior probability of 0.98 for look-alikes. This imbalance
+would lead the learner (without any appropriate loss functions or a methodology to modify
+priors) to classify almost all look-alikes correctly at the expense of misclassifying many of
+the oil slick samples (Solberg & Solberg, 1996). To overcome this imbalance problem, they
+over-sampled (with replacement) 100 samples from the oil slick, and they randomly sampled
+100 samples from the non oil slick class to create a new dataset with equal probabilities.
+They learned a classiﬁer tree on this balanced data set and achieved a 14% error rate on the
+oil slicks in a leave-one-out method for error estimation; on the look alikes they achieved
+an error rate of 4% (Solberg & Solberg, 1996).
+Another approach that is similar to our work is that of Domingos (1999). He compares
+the “metacost” approach to each of majority under-sampling and minority over-sampling.
+He ﬁnds that metacost improves over either, and that under-sampling is preferable to mi-
+nority over-sampling. Error-based classiﬁers are made cost-sensitive. The probability of
+each class for each example is estimated, and the examples are relabeled optimally with
+respect to the misclassiﬁcation costs. The relabeling of the examples expands the decision
+space as it creates new samples from which the classiﬁer may learn (Domingos, 1999).
+A feed-forward neural network trained on an imbalanced dataset may not learn to dis-
+criminate enough between classes (DeRouin, Brown, Fausett, & Schneider, 1991).
+The
+authors proposed that the learning rate of the neural network be adapted to the statistics
+of class representation in the data. They calculated an attention factor from the proportion
+of samples presented to the neural network for training. The learning rate of the network
+elements was adjusted based on the attention factor. They experimented on an artiﬁcially
+generated training set and on a real-world training set, both with multiple (more than two)
+classes. They compared this to the approach of replicating the minority class samples to
+balance the data set used for training. The classiﬁcation accuracy on the minority class was
+improved.
+Lewis and Catlett (1994) examined heterogeneous uncertainty sampling for supervised
+learning. This method is useful for training samples with uncertain classes. The training
+samples are labeled incrementally in two phases and the uncertain instances are passed on
+to the next phase. They modiﬁed C4.5 to include a loss ratio for determining the class
+values at the leaves. The class values were determined by comparison with a probability
+threshold of LR/(LR + 1), where LR is the loss ratio (Lewis & Catlett, 1994).
+The information retrieval (IR) domain (Dumais et al., 1998; Mladeni´c & Grobelnik,
+1999; Lewis & Ringuette, 1994; Cohen, 1995a) also faces the problem of class imbalance
+in the dataset. A document or web page is converted into a bag-of-words representation;
+325

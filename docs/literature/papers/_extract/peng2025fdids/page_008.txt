@@ -1,0 +1,37 @@
+Sensors 2025, 25, 4309
+8 of 31
+to models overly relying on specific network attributes, resulting in poor generalization
+performance in practical scenarios [37]. Next, we removed samples containing missing or
+infinite values. We also applied one-hot encoding to convert nominal categorical features
+into numerical representations. Since IoT devices generate data with diverse feature types
+and ranges across different sensors, we standardized the feature values using Z-score
+normalization to ensure consistent scaling.
+After the aforementioned data preprocessing, the feature dimensions of the Edge-IIoT
+and N-BaIoT datasets expanded to 95 and 115, respectively. Although high-dimensional
+features facilitate the representation of detailed information and complex patterns in data,
+they also pose challenges, such as the curse of dimensionality, which can degrade model
+training efficiency and significantly increase computational overhead. To address these
+challenges, we employed the MI method. MI quantifies the shared information between
+each feature and the target variable, enabling the evaluation of features that significantly
+contribute to model performance while identifying irrelevant or redundant features. We
+calculated the MI score for each feature in relation to the target variable, and we then
+ranked them according to their scores. For the Edge-IIoT and N-BaIoT datasets, the top 25
+and 71 features, respectively, were selected as inputs for the model training. The formula
+for MI is as follows:
+I(Vx; Vy) = E(Vx) + E(Vy) −JE(Vx, Vy),
+(1)
+where Vx and Vy represent two random variables, E(Vx) denotes the entropy of Vx, E(Vy)
+represents the entropy of Vy, while JE(Vx, Vy) denotes the joint entropy between Vx and Vy.
+3.4. Model Architecture
+In the construction of IDSs within FL frameworks, the choice of the base classification
+model plays a pivotal role in determining the overall system performance. DNNs, with their
+superior feature extraction capabilities and ability to model complex nonlinear patterns, have
+emerged as an ideal choice for achieving efficient classification [38]. The DNN architecture
+employed in this study is depicted in Figure 3. It consists of an input layer, five hidden
+layers, and an output layer. The hidden layers are symmetrically arranged, with the number
+of neurons set to 32, 64, 128, 64, and 32, respectively. To enhance the model’s nonlinear
+representational capacity, each hidden layer incorporates the ReLU activation function. A
+softmax function is applied at the output layer to convert the final features into a probability
+distribution, allowing for accurate predictions in multi-class classification tasks. To optimize
+the model parameters, the Adam optimizer was chosen with a learning rate of 0.001.
+Figure 3. DNN model structure.

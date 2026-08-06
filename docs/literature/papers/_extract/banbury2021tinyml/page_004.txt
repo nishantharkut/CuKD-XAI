@@ -1,0 +1,103 @@
+Benchmarking TinyML Systems
+bility of these platforms.
+Although general-purpose MCUs provide ﬂexibility, the
+highest TinyML performance efﬁciency comes from special-
+ized hardware. Novel architectures can achieve performance
+in the range of one micro Joule per inference (Holleman,
+2019). These specialized devices expand the boundaries of
+ML to the ultra low power end of TinyML processors.
+4
+CHALLENGES
+TinyML systems present a number of unique challenges to
+the design of a performance benchmark that can be used
+to measure and quantify performance differences between
+various systems systematically. We discuss the four primary
+obstacles and postulate how they might be overcome.
+4.1
+Low Power
+Low power consumption is one of the deﬁning features of
+TinyML systems. Therefore, a useful benchmark should
+ostensibly proﬁle the energy efﬁciency of each device. How-
+ever, there are many challenges in fairly measuring energy
+consumption. Firstly, as illustrated in Figure 1, TinyML
+devices can consume drastically different amounts of power,
+which makes maintaining accuracy across the range of de-
+vices difﬁcult.
+Secondly, determining what falls under the scope of the
+power measurement is difﬁcult to determine when data paths
+and pre-processing steps can vary signiﬁcantly between
+devices. Other factors like chip peripherals and underlying
+ﬁrmware can impact the measurements. Unlike traditional
+high-power ML systems, TinyML systems do not have spare
+cores to load the System-Under-Test (SUT) with minimal
+overheads.
+4.2
+Limited Memory
+Due to their small size, TinyML systems often have tight
+memory constraints. While traditional ML systems like
+smartphones cope with resource constraints in the order
+of a few GBs, tinyML systems are typically coping with
+resources that are two orders of magnitude smaller.
+Memory is one of the primary motivating factors for the
+creation of a TinyML speciﬁc benchmark.
+Traditional
+ML benchmarks use inference models that have drastically
+higher peak memory requirements (in the order of gigabytes)
+than TinyML devices can provide. This also complicates
+the deployment of a benchmarking suite as any overhead
+can signiﬁcantly impact power consumption or even make
+the benchmark too big to ﬁt. Individual benchmarks must
+also cover a wide range of devices; therefore, multiple levels
+of quantization and precision should be represented in the
+benchmarking suite. Finally, a variety of benchmarks should
+be chosen such that the diversity of the ﬁeld is supported.
+4.3
+Hardware Heterogeneity
+Despite its nascency, TinyML systems are already diverse
+in their performance, power, and capabilities. Devices range
+from general-purpose MCUs to novel architectures, like
+in event-based neural processors (Brainchip) or memory
+compute (Kim et al., 2019). This heterogeneity poses a
+number of challenges as the system under test (SUT) will
+not necessarily include otherwise standard features, like
+a system clock or debug interface. Furthermore, the task
+of normalizing performance results across heterogeneous
+implementations is a key challenge.
+Today’s state-of-the-art benchmarks are not designed to han-
+dle the challenges readily. They need careful re-engineering
+to be ﬂexible enough to handle the extent of hardware het-
+erogeneity that is commonplace in the TinyML ecosystem.
+4.4
+Software Heterogeneity
+There are three distinct methods for model deployment on
+to TinyML systems: hand coding, code generation, and ML
+interpreters.
+Hand coding often produces the best results as it allows for
+low-level, application speciﬁc optimizations; however, the
+task is time consuming and the impact of the optimizations
+are often opaque to anyone but the original design team.
+Moreover, hand coding limits the ability to share knowledge
+and adopt new methods, which is detrimental to the rate
+of progress in TinyML. From a benchmarking perspective,
+hand coded submission will likely produce the best numeri-
+cal results at the cost of reproducibility, comparability and
+time.
+Code generation methods produce well optimized code with-
+out the signiﬁcant effort of hand coding by abstracting and
+automating system level optimizations. However, code gen-
+eration does not address the issues with comparability, as
+each major vendor has their own set of proprietary tools and
+compilers, which also makes portability a challenge.
+ML interpreters allow for signiﬁcant portability as their
+abstract structure is the same across platforms. TensorFlow
+Lite for Microcontrollers, a popular ML framework for
+TinyML, uses an interpreter to call individual kernels, like
+convolution, during run time. The framework is independent
+of the model architecture, therefore new models can be
+easily swapped in. Additionally, the reference kernels can
+be individually optimised and changed to ﬁt the platform.
+This method comes with a small overhead in binary size
+and performance. From a benchmarking perspective, this
+abstraction separates the impact of the model architecture
+on the system level performance, which makes results more
+generalizable.

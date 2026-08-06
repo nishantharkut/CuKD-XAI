@@ -1,0 +1,77 @@
+Sensors 2019, 19, 4383
+6 of 20
+diﬀerent ﬁelds. Previously, we noted that there are diﬀerent boosting algorithms. Gradient boosting is
+considered as the most eﬀective one from these algorithms. Although GB mainly depends on convex
+loss function, it can use diﬀerent types of loss functions. Moreover, GB can solve regression and
+classiﬁcation problems as well. Concerning classiﬁcation problems, a log loss function is used to be an
+objective function to deal with these problems. From a fundamental element point of view, GB uses
+negative gradient to enhance the results.
+Extreme Gradient Boosting (XGBoost) Model
+In the last decade, data science has gained more interest for diﬀerent ﬁelds in many applications.
+Currently, many big buzzwords such as big data and artiﬁcial intelligence has overwhelmed our lives.
+Boosting algorithms also have evolved with time. A well-known boosting model, which has achieved
+a high score for solving classiﬁcation and prediction problems in many contests of the KAGGLE
+platform, is the extreme gradient boosting (XGBoost) model.
+In fact, XGBoost is a type of GB that provides an innovative tree searching technique [54].
+The improved technique has shown good performance in distributed computing and avoidance of
+overﬁtting, as well as in solving problems that have data sparsity. More precisely, computation
+complexity is reduced signiﬁcantly with automatic learning in the splitting process. To tackle the
+overﬁtting problem, XGBoost appends regular terms to the objective function in the learning phase.
+XGBoost applies second-order Taylor expansion to the loss function to substitute the ﬁrst derivative
+unlike conventional GB, as given in Equation (3) as follow:
+L =
+X
+i
+l(y, O(xi)) +
+X
+k
+Ω(Gk)
+(3)
+where, l is the loss function of training and L deﬁne real loss function for XGBoost algorithm. The rest
+of the notations are constant as the same as boosting methods. G is deﬁned as a weak estimator
+for decision tree, while F denotes for prediction. Additionally, decision trees complexity, Ω(Gm) is
+aggregated with the ﬁrst term to form the objective function. Regular term deﬁnition, Ω(Gm), is
+calculated as:
+Ω(G) = wT + 1
+2α
+T
+X
+j=1
+s2
+j)
+(4)
+where, T is denoting number of decision trees’ leaves. While, w j 2 denotes L2 norm of scores for each
+leaf. The γ is a control threshold to split nodes, and λ is a coeﬃcient to reduce overﬁtting problem [55].
+The ﬁnal equation can be formed as:
+Lm =
+N
+X
+i=1
+l(yi, Om−1
+i
++ Gm(xi)) + Ω(Gm)
+≈
+N
+X
+i=1
+h
+l(yi, Om−1
+i
+) + giGm(xi) + 1
+2oiG2
+m(xi)
+i
++ Ω(Gm)
+(5)
+Finally, in the previous equation, two variables deﬁne the ﬁrst derivative and second derivative of
+the loss function, which are gi = ∂Om−1l(yi, Om−1
+i
+) and oi = ∂2
+Om−1l(yi, Om−1
+i
+), respectively.
+2.3. Proposed Genetic-Based Extreme Gradient Boosting (GXGBoot) Model
+The basic idea behind the proposed GXGBoot model is to build an optimization task using genetic
+algorithm on top of XGBoot classiﬁer to increase the classiﬁcation accuracy of minority classes without
+signiﬁcantly aﬀecting the overall accuracy of other classes. The genetic algorithm generates random
+values for the XGBoot classiﬁer to form a new decision boundary with a highest genetic ﬁtness value.

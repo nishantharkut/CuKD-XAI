@@ -1,0 +1,107 @@
+Page 14 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+with diagonal members that match to the data’s eigenvalues. The decision on updating 
+feature vectors and values in the vector feature space hinges on if the newly updated data 
+samples introduce previously absent energy in the existing feature space, as determined 
+by the following equation:
+g = UT
+k (Z −¯x)
+(5)
+where ¯x is the mean vector of the new data.
+h =(Z −¯x) −Uk · g 
+(6)
+ˆh =
+{
+h
+∥h∥,
+if ∥h∥> η,
+0,
+otherwise.
+
+(7)
+In the context of our investigation, the residual vector h belonging to the real space Rn 
+denotes a crucial element. The determination to adjust the feature dimensional space k 
+is contingent upon the calculation of norm ∥h∥, which prompts an increment by one if 
+it exceeds the predefined threshold η. Conversely, if the norm ∥h∥ remains below η, the 
+dimension of vector feature space retains its original value of k. In scenarios where an 
+adjustment in the feature space dimensionality is warranted, the matrices Uk and Λk 
+undergo transformation to U′
+k+1 and Λ′
+k+1 respectively, as governed by equations:
+U′
+k+1 =[Uk, ˆh] · R 
+(8)
+RΛ′
+k+1 =
+{
+n
+n+1
+[
+Λk
+0
+0T
+0
+]
++
+n
+(n+1)2
+[
+ggT
+γg
+γgT
+γ2
+]
+R 
+(9)
+However, if the vector feature space dimension will not expanded, then Uk and Λk will 
+be added to Uk and Λk:
+U′
+k =UkR 
+(10)
+RΛ′
+k =
+{
+n
+n+1Λk +
+n
+(n+1)2 ggT 
+(11)
+For the second stage of IPCA, the updated U′
+k and Λ′
+k from the first stage are used. Let 
+R′ be the rotation matrix for the second stage. Then, the updated in the feature space 
+vector, feature vectors and values are given by:
+U′′
+k+1 =[U′
+k, ˆh′] · R′ 
+(12)
+R′Λ′′
+k+1 =
+{
+n
+n+1
+[
+Λ′
+k
+0
+0T
+0
+]
++
+n
+(n+1)2
+[
+g′g′T
+γ′g′
+γ′g′T
+γ′2
+]
+R′ 
+(13)
+where ˆh′ is obtained similarly as ˆh, g′ is computed as g′ = U′T
+k (Z −¯x′), and γ′ is a scalar 
+calculated from g′. Two-stage IPCA contribute to improving the robustness and reliabil­
+ity of data analysis and machine learning models in diverse real-world applications.
+3.4.3  RAL-MISF + two stage IPCA pseudocode
+As shown in the Algorithm  1 the original dataset undergoes feature selection using 
+RAL-MIFS to identify the optimal features. RAL-MIFS leverages mutual information 

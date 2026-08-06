@@ -1,0 +1,105 @@
+422
+Page 14 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Evaluation and performance metrics
+After training the local models based on the globally aligned
+feature set, each client evaluates its model’s performance to
+assess its effectiveness in classifying botnet types within the
+distributed federated learning environment. This evaluation
+includes both individual client-based assessment and cross-
+setting comparisons to verify robustness across varying client
+distributions and data conﬁgurations.
+Local model evaluation on each client
+Each client uses its trained model to predict botnet classi-
+ﬁcations within its local dataset. The performance metrics
+calculated on each client provide insights into the effective-
+ness of the federated learning approach at an individual level.
+Prediction using local model Each client uses its respective
+trained model f (global)
+k
+to classify samples in its dataset Dk.
+Given the feature set X(top)
+k
+, the model predicts labels 
+yk for
+each data point:
+
+yk = f (global)
+k
+
+X(top)
+k
+
+(13)
+where, X(top)
+k
+represents the selected globally relevant fea-
+tures for client k. These predictions form the basis for
+calculating the evaluation metrics.
+Calculate evaluation metrics
+The following metrics are
+computed to evaluate the classiﬁcation performance on
+each client’s dataset. These metrics ensure a comprehensive
+assessment of model accuracy and class-speciﬁc perfor-
+mance.
+• Accuracy: The accuracy score reﬂects the overall correct-
+ness of predictions across all classes. It is calculated as:
+Accuracy = Number of Correct Predictions
+T otal Number of Predictions
+(14)
+• Precision: Precision measures the proportion of true pos-
+itive predictions among all positive predictions, assessing
+the model’s ability to avoid false positives. For each class
+c, precision is calculated as:
+Precision =
+True Positives (T P)
+True Positives (T P) + False Positive (F P)
+(15)
+• Recall: Recall calculates the proportion of actual positives
+that are correctly identiﬁed by the model. For each class
+c, recall is given by:
+Recall =
+True Positives (T P)
+True Positives (T P) + False Negative (F N)
+(16)
+• F1 Score: The F1 score is the harmonic mean of precision
+and recall, providing a balanced metric when classes are
+imbalanced. It is calculated as:
+F1 −Score = 2 × Precision × Recall
+Precision + Recall
+(17)
+• Confusion Matrix: A confusion matrix provides a detailed
+breakdown of classiﬁcation performance by showing the
+count of true positives, false positives, true negatives, and
+false negatives for each class. For each class pair (i, j), the
+matrix entry C Mi, j represents the number of instances of
+class i that were predicted as class j.
+• Classiﬁcation Report: The classiﬁcation report summa-
+rizes precision, recall, and F1-score for each class, offering
+a detailed view of the model’s performance across all
+classes. This report helps identify any class-speciﬁc biases
+or weaknesses in the model.
+Cross-Setting evaluation
+To ensure robustness across different client conﬁgurations
+and botnet type distributions, the model is evaluated on all
+deﬁned settings (Settings 1 to 3). This step assesses the
+federated learning model’s generalization capabilities across
+varying data distributions.
+• Setting-Based Evaluation: For each setting, the model per-
+formance on each client’s local dataset is aggregated, and
+the metrics are compared across settings to evaluate the
+consistency of the federated approach.
+• Comparison of Metrics across Settings: Metrics such as
+accuracy, precision, recall, and F1-score are averaged
+across clients in each setting and then compared to iden-
+tify variations in performance. This comparison helps
+determine whether the model is robust to different con-
+ﬁgurations of botnet types and distributions across clients.
+Through this comprehensive evaluation process, the fed-
+erated learning model is tested for its classiﬁcation accuracy
+and consistency across multiple IoT botnet detection envi-
+ronments. This cross-setting validation ensures that the
+model not only performs well on individual clients but also
+maintains robustness when data distribution and client con-
+ﬁgurations vary.
+123

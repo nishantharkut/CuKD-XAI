@@ -1,0 +1,37 @@
+{
+  "title": "Complete E2E before vs after comparison",
+  "before_definition": {
+    "predictive": "results/wsnds/final_results/2026-05-30-10seed-plus-j (archived pre-split scaler, 10 seeds, includes J)",
+    "hil": "results/hardware_hil/board_replay (global-scaler RF-KD exports)",
+    "runtime_qat": "results/runtime/onnx_openvino/wsnds (archived artifacts)",
+    "manuscript_primary": true
+  },
+  "after_definition": {
+    "predictive_full10": "main_10seed_full_aggregate_copy (train-only scaler, 10 seeds, NO J)",
+    "deployment_seed42": "confirmation_runs_v2/deployment_seed_42",
+    "feature_group5": "remote_winterfell_feature_group_5seed",
+    "hil": "train_only_scaler_copy four-pair",
+    "runtime": "train_only_seed42_copy ONNX+OpenVINO",
+    "export": "generated_train_only_student_{A,B}_seed42_copy"
+  },
+  "not_apples_to_apples_warnings": [
+    "Pre-split scaler vs train-only scaler",
+    "Archived HIL models are not the same weight files as train-only seed-42 exports",
+    "Feature-group uses different split policy (group-disjoint)",
+    "Seed-42 deployment F1 is single-seed, not 10-seed mean",
+    "Archived runtime covers more routes; train-only runtime is RF-KD A/B only",
+    "Incomplete main_10seed CSV n=2 must never be compared as full train-only"
+  ],
+  "files_in_this_package": [
+    "01_wsn_multiseed_all_configs.csv",
+    "02_feature_group_vs_randomrow.csv",
+    "03_deployment_seed42_vs_multiseed.csv",
+    "04_qat_before_after.csv",
+    "05_runtime_onnx_openvino_before_after.csv",
+    "06_hil_four_pair_before_after.csv",
+    "07_export_fixedpoint_before_after.csv",
+    "08_compile_footprint_before_after.csv",
+    "09_preprocessing_protocol_before_after.csv",
+    "10_shap_j_edge_msp430_anomalies_presence.csv"
+  ]
+}

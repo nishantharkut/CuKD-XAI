@@ -1,0 +1,36 @@
+Sensors 2025, 25, 4309
+25 of 31
+In summary, the proposed FD-IDS framework demonstrates favorable charac-
+teristics for deployment in IoT environments in terms of both computational and
+communication efficiency.
+4.3.7. Performance Comparison Between Federated Learning and Centralized Learning
+To comprehensively assess the performance of FD-IDS, we conducted a comparative
+analysis between FD-IDS and CL. In the CL approach, data from all clients are gathered
+on a central server to create a consolidated training dataset, and the entire model training
+and updating process is carried out solely on the central server. To ensure the fairness
+of the experiments and comparability of the results, we employed the same classification
+model structure and hyperparameters for both CL and FL. The experimental results on
+Edge-IIoT and N-BaIoT are illustrated in Figure 10. As shown in the figure, both datasets
+exhibited similar performance trends. Under the low-Non-IID scenario, the performance of
+FL closely approximated that of CL. This indicates that the FD-IDS method can achieve
+detection performance comparable to CL when the data distribution differences across
+clients are relatively small. On the other hand, while high-Non-IID data introduced certain
+performance challenges for FL, which was more pronounced in the N-BaIoT dataset, FD-
+IDS still demonstrated reliable performance, maintaining a reasonable gap compared to
+CL. Although CL exhibited slightly superior performance, it requires transferring all raw
+data to the central server, which poses significant privacy risks. Additionally, CL is heavily
+reliant on the central server. As the data scale increases, the central server faces substantial
+storage and computational demands, potentially creating severe performance bottlenecks
+in practical applications. In contrast, FD-IDS effectively mitigates these challenges by
+leveraging FL.
+Figure 10. Performance comparison of FD-IDS and CL.
+4.3.8. Performance Comparison Between FD-IDS and Existing Methods
+To thoroughly evaluate the effectiveness of our approach, we compared it with existing
+methods that were evaluated on the Edge-IIoT dataset in a multi-class classification task.
+The results of the comparison are displayed in Table 15. Ferrag et al. [26] developed the
+Edge-IIoT dataset and conducted FL experiments using a DNN model in both IID and Non-
+IID scenarios, achieving accuracies of 93.89% and 91.74%, respectively. Rashid et al. [27]
+explored the performance of CNNs and RNNs. Under IID and Non-IID conditions, the
+classification accuracies of the CNN were 91.27% and 90.73%, while the RNN achieved
+accuracies of 92.37% and 91.87%. Aouedi et al. [28] proposed an ensemble learning
+framework, F-BIDS, based on FL, which achieved a classification accuracy of 89.91%.

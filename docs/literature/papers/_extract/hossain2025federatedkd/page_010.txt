@@ -1,0 +1,87 @@
+422
+Page 10 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Fig. 3 Data distribution across clients for different settings
+Table 3 Amount of data for each client in different settings
+Setting 1 (MedBIoT dataset)
+Setting 2 (MedBIoT dataset)
+Setting 3 (MedBIoT, N-BaIoT,
+NCC2 datasets)
+Amount of data for each class of
+each client
+Client 1: 111005 (Normal),
+56649 (Bashlite)
+Client 2: 111005 (Normal),
+88989 (Mirai)
+Client 3: 111005 (Normal),
+96530 (Torii)
+Client1:111005(Normal),56649
+(Bashlite)
+Client2:111005(Normal),88989
+(Mirai)
+Client3:111005(Normal),96530
+(Torii)
+Client4:111005(Normal),88989
+(Mirai), 56649 (Bashlite)
+Client5:111005(Normal),96530
+(Torii), 56649 (Bashlite)Client
+6: 111005 (Normal), 96530
+(Torii), 88989 (Mirai)
+Client 7: 111005 (Normal),
+96530 (Torii), 88989 (Mirai),
+56649 (Bashlite)
+Client
+1:
+304044
+(Bashlite),
+40395 (Normal)
+Client 2: 652100 (Mirai), 40395
+(Normal)
+Client
+3:
+370042
+(Normal),
+321776 (Torii)
+Client 4: 314000 (Neris), 103833
+(Normal)
+Client 5: 134000 (Normal),
+103833 (RBoT)
+performance under varying levels of heterogeneity and non-
+IID data distributions. By partitioning data in these ways,
+the approach robustly captures the decentralized and diverse
+nature of IoT networks, enhancing the federated learning
+model’s ability to generalize across distinct botnet attack pat-
+terns.
+Proposed SHAP-based knowledge distillation
+approach
+In this step, the proposed methodology leverages SHAP
+(Shapley Additive Explanations) to distill knowledge from
+each client’s local model by calculating feature importance
+values, which are then aggregated to form a global fea-
+ture importance proﬁle. This approach aligns each client’s
+training process with globally relevant features, ensuring
+consistency across non-IID client datasets without directly
+sharing sensitive data.
+Figure 4 illustrates the architecture of the proposed fed-
+erated learning approach for IoT botnet detection using
+SHAP-based knowledge distillation. In this setup, multi-
+ple clients, each with non-IID data and varying numbers of
+classes, calculate local SHAP feature importances, denoted
+byk,fortheirdatasets.Eachclienttrainsalocalmodel fk on
+its aligned data Xaligned
+k
+and generates a normalized feature
+importance vector φk based on SHAP values. The local mod-
+els and SHAP-based feature importances are then uploaded
+to a central server. The server aggregates these local feature
+importances using a weighted averaging mechanism, result-
+ing in a global feature importance proﬁle,global, which
+reﬂects the contribution of each client based on its dataset
+size and importance. This global proﬁle is subsequently dis-
+tributed back to the clients, guiding them in reﬁning their
+models based on the top global features. The approach main-
+tains data privacy, as only feature importances and model
+updates are shared, not the raw data, thereby enhancing both
+security and robustness across heterogeneous IoT environ-
+ments.
+123

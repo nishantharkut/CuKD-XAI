@@ -1,0 +1,102 @@
+{
+  "status": "complete",
+  "audit": {
+    "n_groups": 1983192,
+    "split_rows": {
+      "train": 1556588,
+      "validation": 332240,
+      "test": 330373
+    },
+    "input_dim": 40,
+    "n_classes": 15,
+    "class_names": [
+      "Backdoor",
+      "DDoS_HTTP",
+      "DDoS_ICMP",
+      "DDoS_TCP",
+      "DDoS_UDP",
+      "Fingerprinting",
+      "MITM",
+      "Normal",
+      "Password",
+      "Port_Scanning",
+      "Ransomware",
+      "SQL_injection",
+      "Uploading",
+      "Vulnerability_scanner",
+      "XSS"
+    ],
+    "train_test_group_overlap": 0,
+    "encoded_train_test_row_overlap": 163,
+    "encoded_train_val_row_overlap": 157,
+    "encoded_val_test_row_overlap": 26,
+    "pct_test_in_cross_partition_groups_pre_split_protocol": 17.016591514685427,
+    "pct_test_in_cross_partition_groups_this_protocol": 0.0
+  },
+  "literature_random_split_reference": {
+    "lit_A_D_Small_MLP": {
+      "macro_f1_mean": 0.809107194868971,
+      "macro_f1_std": 0.0038920831615788
+    },
+    "lit_A_E_KD_from_RF": {
+      "macro_f1_mean": 0.8118372656444471,
+      "macro_f1_std": 0.003168186530889
+    },
+    "lit_A_A_RF_500": {
+      "macro_f1_mean": 0.8891925408630854,
+      "macro_f1_std": 0.0010873508736754
+    }
+  },
+  "A_D_Small_MLP": {
+    "macro_f1_mean": 0.7335259754878691,
+    "macro_f1_std": 0.020998513248976294,
+    "accuracy_mean": 0.9053748338998646,
+    "n_seeds": 5
+  },
+  "A_E_KD_from_RF": {
+    "macro_f1_mean": 0.7675631954398007,
+    "macro_f1_std": 0.007909693646512698,
+    "accuracy_mean": 0.9465452685298132,
+    "n_seeds": 5
+  },
+  "B_D_Small_MLP": {
+    "macro_f1_mean": 0.805600447575649,
+    "macro_f1_std": 0.0038002116150665666,
+    "accuracy_mean": 0.9383157824640633,
+    "n_seeds": 5
+  },
+  "B_E_KD_from_RF": {
+    "macro_f1_mean": 0.8128889320270127,
+    "macro_f1_std": 0.006804753440998418,
+    "accuracy_mean": 0.9564359072926661,
+    "n_seeds": 5
+  },
+  "RF_A_RF_200": {
+    "macro_f1_mean": 0.9438800762355278,
+    "macro_f1_std": 0.0006984365587681837,
+    "accuracy_mean": 0.9846101224979039,
+    "n_seeds": 5
+  },
+  "A_KD_minus_scratch": {
+    "mean": 0.03403721995193156,
+    "std": 0.013354437477422132,
+    "values": [
+      0.04448090448000064,
+      0.05118866454806581,
+      0.023582540188131773,
+      0.030659469248339177,
+      0.020274521295120418
+    ]
+  },
+  "B_KD_minus_scratch": {
+    "mean": 0.007288484451363741,
+    "std": 0.010478603313977347,
+    "values": [
+      0.0038348719234644335,
+      0.01907069719920118,
+      -0.007485369530274455,
+      0.005540240009120567,
+      0.01548198265530698
+    ]
+  }
+}

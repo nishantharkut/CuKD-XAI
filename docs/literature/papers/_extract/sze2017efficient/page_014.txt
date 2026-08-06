@@ -1,0 +1,157 @@
+14
+DRAM 
+Global 
+Buffer 
+PE 
+PE 
+PE 
+ALU 
+fetch data to run  
+a MAC here 
+ALU 
+Buffer 
+ALU 
+RF 
+ALU 
+Normalized Energy Cost 
+200× 
+6× 
+PE 
+ALU 
+2× 
+1× 
+1× (Reference) 
+DRAM 
+ALU 
+0.5 – 1.0 kB 
+100 – 500 kB 
+NoC: 200 – 1000 PEs 
+Fig. 22.
+Memory hierarchy and data movement energy [80].
+decides what data gets read into which level of the memory
+hierarchy and when are they getting processed. Since there is
+no randomness in the processing of DNNs, it is possible to
+design a ﬁxed dataﬂow that can adapt to the DNN shapes and
+sizes and optimize for the best energy efﬁciency. The optimized
+dataﬂow minimizes access from the more energy consuming
+levels of the memory hierarchy. Large memories that can store
+a signiﬁcant amount of data consume more energy than smaller
+memories. For instance, DRAM can store gigabytes of data, but
+consumes two orders of magnitude higher energy per access
+than a small on-chip memory of a few kilobytes. Thus, every
+time a piece of data is moved from an expensive level to a
+lower cost level in terms of energy, we want to reuse that piece
+of data as much as possible to minimize subsequent accesses
+to the expensive levels. The challenge, however, is that the
+storage capacity of these low cost memories are limited. Thus
+we need to explore different dataﬂows that maximize reuse
+under these constraints.
+For DNNs, we investigate dataﬂows that exploit three forms
+of input data reuse (convolutional, feature map and ﬁlter) as
+shown in Fig. 23. For convolutional reuse, the same input
+feature map activations and ﬁlter weights are used within
+a given channel, just in different combinations for different
+weighted sums. For feature map reuse, multiple ﬁlters are
+applied to the same feature map, so the input feature map
+activations are used multiple times across ﬁlters. Finally, for
+ﬁlter reuse, when multiple input feature maps are processed at
+once (referred to as a batch), the same ﬁlter weights are used
+multiple times across input features maps.
+If we can harness the three types of data reuse by storing
+the data in the local memory hierarchy and accessing them
+multiple times without going back to the DRAM, it can save
+a signiﬁcant amount of DRAM accesses. For example, in
+AlexNet, the number of DRAM reads can be reduced by up to
+500× in the CONV layers. The local memory can also be used
+for partial sum accumulation, so they do not have to reach
+DRAM. In the best case, if all data reuse and accumulation
+can be achieved by the local memory hierarchy, the 3000M
+DRAM accesses in AlexNet can be reduced to only 61M.
+The operation of DNN accelerators is analogous to that of
+general-purpose processors as illustrated in Fig. 24 [81]. In
+conventional computer systems, the compiler translates the
+Filter Reuse 
+Convolutional Reuse 
+Fmap Reuse 
+CONV layers only 
+(sliding window) 
+CONV and FC layers 
+CONV and FC layers 
+(batch size > 1) 
+Filter 
+Input Fmap 
+  
+  
+  
+Filters 
+2 
+1   
+  
+Input Fmap 
+    
+Filter 
+  
+2 
+1 
+Input Fmaps 
+  
+  
+Activations 
+Filter weights 
+Reuse: 
+Activations 
+Reuse: 
+Filter weights 
+Reuse: 
+Fig. 23.
+Data reuse opportunities in DNNs [80].
+Compilation
+Execution
+DNN Shape and Size
+(Program)
+Mapping
+Input
+Data
+Processed
+Data
+Mapper
+(Compiler)
+DNN Accelerator
+(Processor)
+Dataflow, …
+(Architecture)
+(Binary)
+Implementation 
+Details
+(µArch)
+Fig. 24.
+An analogy between the operation of DNN accelerators (texts in
+black) and that of general-purpose processors (texts in red). Figure adopted
+from [81].
+program into machine-readable binary codes for execution
+given the hardware architecture (e.g., x86 or ARM); in the
+processing of DNNs, the mapper translates the DNN shape
+and size into a hardware-compatible computation mapping
+for execution given the dataﬂow. While the compiler usually
+optimizes for performance, the mapper optimizes for energy
+efﬁciency.
+The following taxonomy (Fig. 25) can be used to classify
+the DNN dataﬂows in recent works [82–93] based on their
+data handling characteristics [80]:
+1) Weight stationary (WS): The weight stationary dataﬂow
+is designed to minimize the energy consumption of reading
+weights by maximizing the accesses of weights from the register
+ﬁle (RF) at the PE (Fig. 25(a)). Each weight is read from
+DRAM into the RF of each PE and stays stationary for further
+accesses. The processing runs as many MACs that use the
+same weight as possible while the weight is present in the RF;
+it maximizes convolutional and ﬁlter reuse of weights. The
+inputs and partial sums must move through the spatial array
+and global buffer. The input fmap activations are broadcast to
+all PEs and then the partial sums are spatially accumulated
+across the PE array.
+One example of previous work that implement weight
+stationary dataﬂow is nn-X, or neuFlow [85], which uses
+eight 2-D convolution engines for processing a 10×10 ﬁlter.
+There are total 100 MAC units, i.e. PEs, per engine with each
+PE having a weight that stays stationary for processing. The

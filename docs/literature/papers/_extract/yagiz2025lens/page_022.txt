@@ -1,0 +1,58 @@
+Table 3: Performance metrics comparison for multi-class classification on the Edge-IIoTset
+dataset.
+Model
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1-Score (%)
+BGA [38]
+94.20
+94.20
+94.40
+94.30
+ICNN [38]
+91.80
+91.80
+94.20
+91.60
+NIDS-BAI [38]
+94.70
+94.70
+94.80
+94.60
+LENS-XAI Teacher
+95.34
+96.75
+95.34
+95.09
+LENS-XAI Student
+95.31
+95.74
+95.31
+95.36
+accuracy (99.64%–100.00%). For Backdoor, the models perform strongly
+(97.89%–98.49%), while in rare attacks like SQL Injection, the Teacher
+outperforms the Student (34.21% vs. 19.13%). Both models achieve perfect
+detection (100.00%) for Normal traffic, showcasing reliability. The Teacher
+demonstrates better handling of rare scenarios, solidifying its robustness for
+IoT intrusion detection.
+Confusion Matrix Analysis. Figure 4 illustrates the confusion matrices
+for the LENS-XAI framework, showcasing the performance of the Teacher
+and Student models on the Edge IIoT dataset for multiclass classification.
+The Teacher model achieves high accuracy across frequent attacks such as
+DDoS ICMP and DDoS UDP, with minimal misclassifications. For in-
+stance, only 1 instance of DDoS ICMP was misclassified as another type,
+demonstrating robust detection capabilities.
+Similarly, the Student model exhibits strong performance, closely approx-
+imating the Teacher’s accuracy. Notably, it correctly classifies 61,156 DDoS
+ICMP instances and 109,559 DDoS UDP instances.
+While both mod-
+els perform exceptionally well for frequent attack types, rare attack types
+like SQL Injection and Uploading exhibit slightly higher misclassification
+rates. These results affirm the scalability and reliability of the LENS-XAI
+framework in detecting a wide range of attack types within IoT environments.
+4.3.2. Analysis on UKM20 Dataset
+Table 5 provides a comparison of the performance metrics for the LENS-
+XAI framework, highlighting its effectiveness in multi-class classification
+tasks on the UKM20 dataset.
+22

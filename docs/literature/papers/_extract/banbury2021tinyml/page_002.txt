@@ -1,0 +1,98 @@
+Benchmarking TinyML Systems
+a reliable TinyML hardware benchmark is required.
+In this paper, we discuss the challenges and opportunities
+associated with the development of a TinyML hardware
+benchmark. Our short paper is a call to action for estab-
+lishing a common benchmarking for TinyML workloads on
+emerging TinyML hardware to foster the development of
+TinyML applications. The points presented here reﬂect the
+ongoing effort of the TinyMLPerf working group that is cur-
+rently comprised of over 30 organizations and 75 members.
+The rest of the paper is organized as follows. In Section 2,
+we discuss the application landscape of TinyML, including
+the existing use cases, models, and datasets. In Section 3, we
+describe the existing TinyML hardware solutions, including
+outlining improvements to general-purpose MCUs and the
+development of novel architectures. In Section 4, we discuss
+the inherent challenges of the ﬁeld and how they complicate
+the development of a benchmark. In Section 5, we describe
+the existing benchmarks that relate to TinyML and identify
+the deﬁciencies that still need to be ﬁlled. In Section 6 we
+discuss the progress of the TinyMLPerf working group thus
+far and describe the four benchmarks. In Section 7, we
+concluded the paper and discuss future work.
+2
+TINY USE CASES, MODELS & DATASETS
+In this section we attempt to summarize the ﬁeld of TinyML
+by describing a set of representative use cases (Section
+2.1), their relevant datasets (Section 2.2), and the model
+architectures commonly applied to these speciﬁc use cases
+(Section 2.3).
+2.1
+Use Cases
+Despite the general lack of maturity within the ﬁeld, there
+are a number of well established TinyML use cases. We
+categorize the application landscape of tiny ML by input
+type in Table 3, which in the context of TinyML systems
+plays a crucial role in the use case deﬁnition.
+Audio wake words is already a fairly ubiquitous example of
+always-on ML inference. Audio wake words is generally a
+speech classiﬁcation problem that achieves very low power
+inference by limiting the label space, often to two labels:
+“wake word” and “not wake word” (Zhang et al., 2017).
+Anomaly detection and predictive maintenance are com-
+monly deployed on MCUs in factory settings where audio,
+motor bearing, or IMU data can be used to detect faults in
+products or equipment.
+Other deployed TinyML applications, like activity recog-
+nition from IMU data (Hassan et al., 2018), rely on low
+feature dimensionality to ﬁt within the tight constraints of
+the platforms. Some use cases have been proven viable, but
+have yet to reach end users because they are too new, like
+visual wake words (Chowdhery et al., 2019).
+Many traditional ML use cases can be considered futuristic
+TinyML tasks. As ultra-low-power inference hardware con-
+tinues to improve, the threshold of viability expands. Tasks
+like large label space image classiﬁcation or object counting
+are well suited for low-power always-on applications but
+are currently too compute and memory hungry for today’s
+TinyML hardware.
+Furthermore, TinyML has a signiﬁcant role to play in future
+technology. For example, many of the fundamental features
+of augmented reality (AR) glasses are always-on and battery-
+powered. Due to tight real time constraints, these devices
+cannot afford the latency of ofﬂoading computation to the
+cloud, an edge server, or even an accompanying mobile
+device. Thus, due to shared constraints, AR applications can
+beneﬁt signiﬁcantly from progress in the ﬁeld of TinyML.
+2.2
+Datasets
+There are a number of open-source datasets that are relevant
+to TinyML usecases. Table 3 breaks them down by the
+type of data. Despite the availability of these datasets, the
+majority of deployed TinyML models are trained on much
+larger, proprietary datasets. The open-source datasets that
+are competitively large are not TinyML speciﬁc. The lack
+of large, TinyML focused, open-source datasets slows the
+progress of academic research and limits the ability of a
+benchmark to represent real workloads accurately.
+2.3
+Models
+Table 3 lists common model types for TinyML use cases.
+Although neural networks (NN) are a dominant force in
+traditional ML, it is common to use non-NN based solutions
+like decision trees (Kumar et al., 2017), for some TinyML
+use cases, due to their low compute and memory require-
+ments.
+Machine learning on MCU-class devices has only recently
+become feasible; therefore, the community has yet to pro-
+duce models that have become widely accepted as Mo-
+bileNets have become for mobile devices. This makes the
+task of selecting representative models challenging. How-
+ever, immaturity also brings opportunity as our decisions
+can help direct future progress. Selecting a subset of the
+currently available models, outlining the rules for quality
+versus accuracy trade-offs, and prescribing a measurement
+methodology that can be faithfully reproduced will encour-
+age the community to develop new models, runtimes, and
+hardware that progressively outperform one another.

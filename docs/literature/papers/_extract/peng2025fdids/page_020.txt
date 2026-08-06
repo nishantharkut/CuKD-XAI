@@ -1,0 +1,114 @@
+Sensors 2025, 25, 4309
+20 of 31
+from 83.38% to 83.52%, the FNR decreased from 12.43% to 12.30%, and the FPR showed a
+marginal reduction from 1.91% to 1.90%. In contrast, when θ = 0.1, KD yielded more no-
+table performance gains. The accuracy improved from 81.51% to 83.81%, the F1-score rose
+from 77.17% to 78.24%, the FNR decreased from 18.49% to 16.19%, and the FPR remained
+unchanged. Notably, the use of KD introduced additional computational overhead.
+Table 9. Performance comparison of an IDS with and without distillation under high- and low-Non-
+IID scenarios on N-BaIoT (FedProx strategy).
+KD
+Accuracy
+Precision
+Recall
+F1
+FPR
+FNR
+Runtime (s)
+Low Non-IID (θ = 1)
+No
+87.56
+82.30
+87.56
+83.38
+1.91
+12.43
+469.62
+Yes
+87.70
+82.23
+87.70
+83.52
+1.90
+12.30
+493.30
+High Non-IID (θ = 0.1)
+No
+81.51
+76.93
+81.51
+77.17
+2.21
+18.49
+479.13
+Yes
+83.81
+78.39
+83.81
+78.24
+2.21
+16.19
+513.66
+4.3.4. Impact of Different Aggregation Strategies on FD-IDS Performance
+To assess how various aggregation strategies influence the performance of FD-IDS, we
+carried out experiments under both high- and low-Non-IID conditions. Table 10 presents
+the experimental results obtained on Edge-IIoT. When θ = 1, the performances of FedAvg
+and FedProx were very close, with FedAvg achieving an accuracy and F1-score of 94.73%
+and 94.33%, respectively. This was, primarily, because the degree of data distribution
+heterogeneity among clients is relatively minor when θ = 1. Although some Non-IID
+characteristics remained, the overall distribution differences were limited, thereby ensuring
+a higher degree of consistency in the model update directions. Under such conditions,
+FedAvg is able to effectively integrate client updates through weighted averaging, while
+the regularization constraints introduced by FedProx, although beneficial for mitigating
+Non-IID issues, offer only marginal improvements when data distribution differences are
+small. Consequently, the performance gain of FedProx in the low-Non-IID scenario was not
+significant. In this scenario, both aggregation methods yielded an identical FPR of 0.13%,
+while FedProx slightly reduced the FNR from 5.27% to 5.18%.
+Table 10. Performance of the different aggregation algorithms under low- and high-Non-IID scenarios
+with KD on Edge-IIoT.
+Aggregation
+Algorithms
+Accuracy
+Precision
+Recall
+F1
+FPR
+FNR
+Runtime (s)
+Low Non-IID (θ = 1)
+FedAvg
+94.73
+96.04
+94.73
+94.33
+0.13
+5.27
+902.61
+FedProx
+94.82
+96.20
+94.82
+94.35
+0.13
+5.18
+1399.09
+High Non-IID (θ = 0.1)
+FedAvg
+92.99
+93.81
+92.99
+92.08
+0.18
+7.01
+1268.78
+FedProx
+93.86
+96.45
+93.86
+92.70
+0.21
+6.14
+2104.78
+When θ = 0.1, both FedAvg and FedProx exhibited performance degradation, indicat-
+ing that highly Non-IID data pose greater challenges to FL. The pronounced distribution
+differences among clients exacerbated the inconsistency of the model update directions,

@@ -1,0 +1,61 @@
+# Review card: hasan2025autoencoder
+
+**Status:** PASS1B+PASS2_TEXT+PASS2_VISUAL_TITLE OK
+**PDF text pages extracted:** 8
+**Ground truth extract:** `_extract/hasan2025autoencoder.full.txt`
+**Evidence JSON:** `_pass1b_evidence/hasan2025autoencoder.json`
+**Generated:** 2026-08-06
+
+## Identity (page-1 text)
+- **Title:** Enhanced Intrusion Detection in IIoT Networks: A Lightweight Approach with Autoencoder-Based Feature Learning
+- **Tags:** EdgeIIoT
+
+## Abstract (extracted)
+> The rapid expansion of the Industrial Internet of Things (IIoT) has significantly advanced digital technologies and interconnected industrial sys- tems, creating substantial opportunities for growth. However, this growth has also heightened the risk of cyberattacks, necessitating robust security measures to protect IIoT networks. Intrusion Detection Systems (IDS) are essential for identifying and preventing abnormal network behaviors and malicious activities. Despite the potential of Machine Learning (ML)-based IDS solutions, existing mod- els often face challenges with class imbalance and multiclass IIoT datasets, resulting in reduced detection accuracy. This research directly addresses these challenges by implementing six innovative approaches to en- hance IDS perfor- mance, including leveraging an autoencoder for di- mensional reduction, which improves feature learning and overall detection accuracy. Our proposed Decision Tree model achieved an exceptional F1 score and accuracy of 99.94% on the Edge-IIoTset dataset. Furthermore, we prioritized lightweight model design, ensuring deployability on resource-constrained edge devices. Notably, we are the first to deploy our model on a Jetson Nano, achieving inference times of 0.185 ms for binary classification and 0.187 ms for mul- ticlass classification. These results highlight the novelty and robustness of our approach, offering a practical and efficient solution to the challenges posed by imbalanced and multiclass IIoT datasets, thereby enhancing the detection and prevention of network intrusions.
+
+## Table headers present in PDF text (exact lines)
+- `Table 1: Dataset Distribution of Edge-IIoTset`
+- `Table 1 shows the distribution of attack types`
+- `Table 2 presents the confusion matrix for several`
+- `Table 3.`
+- `Table 2: Confusion Matrix for Various Models (Abso-`
+- `Table 4 summarizes our multi-class classification`
+- `Table 3: Summary of model performance (Binary)`
+- `Table 4: Summary of model performance (Multi Class)`
+- `Table 5: Comparison of Techniques and Performance`
+
+## Metric-bearing lines (exact PDF lines; PASS2-verified)
+- `F1 score and accuracy of 99.94% on the Edge-IIoTset dataset. Furthermore, we prioritized lightweight model`
+- `fectiveness, achieving an exceptional F1 score`
+- `and accuracy of 99.94`
+- `accuracy across 15 attack classes [Saadouni et al.,`
+- `networks with an accuracy of 99.95% on the`
+- `F1 = 2∗Precision∗Recall`
+- `detection accuracy (4820 TPs, 25620 TNs, 0 FP,`
+- `icantly lower accuracy at 0.8754, indicating its`
+- `and LSTM models, achieving 99.94% accuracy`
+- `and F1 score, demonstrating strong anomaly de-`
+- `the lowest performance (0.4663 accuracy). XGB`
+- `F1 Score`
+- `ity classes. This results in lower F1-scores and`
+- `2023] achieve high accuracy through complex ar-`
+- `rior F1-score, as shown in Table 4, which demon-`
+- `achieves an outstanding accuracy of 99.94%,`
+- `achieved a 99.94% F1 score on the Edge-IIoT`
+
+## CuKD freeze notes (non-numeric)
+- Edge-IIoT neighborhood → C10 group-aware discussion.
+- **Numbers only from exact lines above.**
+
+## Verification
+- PASS1B: evidence JSON written with exact lines from extract
+- PASS2: all `26` quoted lines re-found in full extract (by construction)
+- PASS2_TEXT: OK; PASS2_VISUAL_TITLE: OK
+
+## PASS2 independent text re-check (2026-08-06)
+- **PASS2_OK** — 26/26 quotes exact-match in full extract
+
+## PASS2 visual title check (2026-08-06)
+- page_001.png exists: True
+- title word hit ratio vs page-1 text: 1.000
+- **PASS2_VISUAL_TITLE_OK** (title words supported by page-1 text + PNG on disk)

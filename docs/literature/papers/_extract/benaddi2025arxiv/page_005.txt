@@ -1,0 +1,179 @@
+TABLE II
+COMPARISON OF TEACHER AND STUDENT MODELS IN TERMS OF ACCURACY, MACRO-F1, LATENCY, AND COMPRESSION.
+Model
+Accuracy
+Macro-F1
+Params
+Size (KB)
+Mean Lat. (ms)
+p95 Lat. (ms)
+Speedup
+Compression
+Teacher (fp32)
+0.9989
+0.9955
+769,922
+3021.53
+–
+–
+–
+–
+Student (fp32)
+0.9968
+0.9863
+3,042
+22.29
+1.29
+1.62
+1.00
+1.00
+Student (int8)
+0.9969
+0.9867
+3,042
+22.44
+1.45
+2.25
+0.89
+0.99
+src_bytes
+dst_bytes
+missed_bytes
+http_respons
+e_body_len
+dst_ip_bytes
+src_ip_bytes
+src_port
+dst_port
+dns_qclass
+duration
+dst_pkts
+src_pkts
+dns_qtype
+http_request
+_body_len
+http_status_
+code
+dns_rcode
+src_bytes
+dst_bytes
+missed_bytes
+http_response_body_l
+en
+dst_ip_bytes
+src_ip_bytes
+src_port
+dst_port
+dns_qclass
+duration
+dst_pkts
+src_pkts
+dns_qtype
+http_request_body_le
+n
+http_status_code
+dns_rcode
+0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Pearson r
+Fig. 3.
+Correlation among top-variance numeric features in the TON IOT
+dataset.
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+0.16
+Mean |SHAP|
+dns_AA_-
+dns_rejected_-
+dst_ip_103.38.120.36
+dns_RD_-
+service_smb;gssapi
+service_dns
+proto_tcp
+conn_state_SF
+conn_state_S1
+dns_RA_F
+src_port
+dns_rejected_F
+src_bytes
+dns_rejected_T
+dst_ip_192.168.1.193
+service_ssl
+dns_rcode
+dst_ip_192.168.1.1
+proto_udp
+dst_ip_192.168.1.184
+conn_state_RSTR
+service_-
+type_backdoor
+dst_ip_bytes
+service_smb
+conn_state_S3
+src_pkts
+type_ddos
+src_ip_bytes
+dst_bytes
+Fig. 4. Global ranking of discriminative features via mean absolute SHAP.
+Table II confirms that the student reduces parameters by
+nearly 1/250 while maintaining macro-F1 above 0.986. Both
+variants preserve perfect recall on attacks, with all residual
+errors as false positives. The fp32 student achieves mean
+latency of 1.29 ms and p95 latency of 1.62 ms, enabling real-
+time inference. The int8 version slightly increases latency but
+offers additional storage efficiency.
+Finally, Fig. 7 illustrates runtime benefits. Throughput in-
+0
+200
+400
+600
+800
+1000
+1200
+Top-K features
+0.2
+0.4
+0.6
+0.8
+1.0
+Cumulative share of total importance
+Cumulative share
+K=128
+Fig. 5. Cumulative attribution curve, with cutoff K = 128 recovering nearly
+the full importance mass.
+(a) Student fp32.
+(b) Student int8.
+Fig. 6.
+Confusion matrices of the distilled student under fp32 and int8
+precision.
+creases by ∼6.5× (from 3.68×104 to 2.39×105 samples/s),
+while mean latency falls from 1963 ms for the teacher to
+303 ms for the student. The narrow gap between mean and
+tail latency indicates stable inference, which is crucial for
+jitter-sensitive IoT traffic. Nevertheless, the evaluation does
+not account for heterogeneous deployment conditions, where
+device-level energy budgets, workload bursts, and non-IID
+traffic may influence runtime consistency.
+V. DISCUSSION AND RESEARCH DIRECTIONS
+The near-perfect accuracy achieved by the student model,
+even after source-aware partitioning and strict preprocessing,
+indicates that the limitation lies less in the training pipeline
+than in the dataset structure itself. In the TON IOT traces, at-
+tack signatures remain highly separable, enabling both teacher
+and distilled student networks to approximate full memoriza-
+tion. Similar outcomes have been reported in earlier studies,
+where decision trees or random forests reached comparably
+high scores on the same benchmark [13], [14].
+From a deployment perspective, such results warrant cau-
+tion. The pipeline prevents leakage, yet the dataset’s restricted
+adversarial diversity and absence of temporal drift likely inflate

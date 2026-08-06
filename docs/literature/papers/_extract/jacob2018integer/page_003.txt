@@ -1,0 +1,132 @@
+A basic requirement of our quantization scheme is that it
+permits efﬁcient implementation of all arithmetic using only
+integer arithmetic operations on the quantized values (we
+eschew implementations requiring lookup tables because
+these tend to perform poorly compared to pure arithmetic
+on SIMD hardware). This is equivalent to requiring that the
+quantization scheme be an afﬁne mapping of integers q to
+real numbers r, i.e. of the form
+r = S(q −Z)
+(1)
+for some constants S and Z. Equation (1) is our quantiza-
+tion scheme and the constants S and Z are our quantization
+parameters. Our quantization scheme uses a single set of
+quantization parameters for all values within each activa-
+tions array and within each weights array; separate arrays
+use separate quantization parameters.
+For 8-bit quantization, q is quantized as an 8-bit integer
+(for B-bit quantization, q is quantized as an B-bit integer).
+Some arrays, typically bias vectors, are quantized as 32-bit
+integers, see section 2.4.
+The constant S (for “scale”) is an arbitrary positive real
+number. It is typically represented in software as a ﬂoating-
+point quantity, like the real values r. Section 2.2 describes
+methods for avoiding the representation of such ﬂoating-
+point quantities in the inference workload.
+The constant Z (for “zero-point”) is of the same type
+as quantized values q, and is in fact the quantized value q
+corresponding to the real value 0. This allows us to auto-
+matically meet the requirement that the real value r = 0 be
+exactly representable by a quantized value. The motivation
+for this requirement is that efﬁcient implementation of neu-
+ral network operators often requires zero-padding of arrays
+around boundaries.
+Our discussion so far is summarized in the following
+quantized buffer data structure3, with one instance of such a
+buffer existing for each activations array and weights array
+in a neural network. We use C++ syntax because it allows
+the unambiguous conveyance of types.
+template<typename QType>
+// e.g. QType=uint8
+struct QuantizedBuffer {
+vector<QType> q;
+// the quantized values
+float S;
+// the scale
+QType Z;
+// the zero-point
+};
+2.2. Integer-arithmetic-only matrix multiplication
+We now turn to the question of how to perform inference
+using only integer arithmetic, i.e. how to use Equation (1)
+to translate real-numbers computation into quantized-values
+3The actual data structures in the TensorFlow Lite [5] Converter are
+QuantizationParams and Array in this header ﬁle. As we discuss
+in the next subsection, this data structure, which still contains a ﬂoating-
+point quantity, does not appear in the actual quantized on-device inference
+code.
+computation, and how the latter can be designed to involve
+only integer arithmetic even though the scale values S are
+not integers.
+Consider the multiplication of two square N × N ma-
+trices of real numbers, r1 and r2, with their product repre-
+sented by r3 = r1r2. We denote the entries of each of these
+matrices rα (α = 1, 2 or 3) as r(i,j)
+α
+for 1 ⩽i, j ⩽N,
+and the quantization parameters with which they are quan-
+tized as (Sα, Zα). We denote the quantized entries by q(i,j)
+α
+.
+Equation (1) then becomes:
+r(i,j)
+α
+= Sα(q(i,j)
+α
+−Zα).
+(2)
+From the deﬁnition of matrix multiplication, we have
+S3(q(i,k)
+3
+−Z3) =
+N
+X
+j=1
+S1(q(i,j)
+1
+−Z1)S2(q(j,k)
+2
+−Z2), (3)
+which can be rewritten as
+q(i,k)
+3
+= Z3 + M
+N
+X
+j=1
+(q(i,j)
+1
+−Z1)(q(j,k)
+2
+−Z2),
+(4)
+where the multiplier M is deﬁned as
+M := S1S2
+S3
+.
+(5)
+In Equation (4), the only non-integer is the multiplier M.
+As a constant depending only on the quantization scales
+S1, S2, S3, it can be computed ofﬂine. We empirically ﬁnd
+it to always be in the interval (0, 1), and can therefore ex-
+press it in the normalized form
+M = 2−nM0
+(6)
+where M0 is in the interval [0.5, 1) and n is a non-negative
+integer. The normalized multiplier M0 now lends itself well
+to being expressed as a ﬁxed-point multiplier (e.g. int16 or
+int32 depending on hardware capability). For example, if
+int32 is used, the integer representing M0 is the int32 value
+nearest to 231M0. Since M0 ⩾0.5, this value is always at
+least 230 and will therefore always have at least 30 bits of
+relative accuracy. Multiplication by M0 can thus be imple-
+mented as a ﬁxed-point multiplication4. Meanwhile, multi-
+plication by 2−n can be implemented with an efﬁcient bit-
+shift, albeit one that needs to have correct round-to-nearest
+behavior, an issue that we return to in Appendix B.
+2.3. Efﬁcient handling of zero-points
+In order to efﬁciently implement the evaluation of Equa-
+tion (4) without having to perform 2N 3 subtractions and
+4The computation discussed in this section is implemented in Tensor-
+Flow Lite [5] reference code for a fully-connected layer.
+2706

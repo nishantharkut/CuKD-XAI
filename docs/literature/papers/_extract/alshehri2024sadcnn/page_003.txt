@@ -1,0 +1,85 @@
+M. S. Alshehri et al.: Self-Attention-Based DCNN for IIoT Networks Intrusion Detection
+II. RELATED WORK
+The rapid expansion of the IIoT in industrial sectors
+brings numerous benefits but also exposes vulnerabilities to
+malicious attackers. Many researchers and experts have been
+diligently working on improving security and have proposed
+various methods for identifying malicious attacks within
+these networks.
+Authors in [25] present a DCNN model designed for
+IoT network monitoring and the identification of malicious
+activities. The DCNN model was applied to both category
+and sub-category scenarios to discern the sub-class of attacks.
+To evaluate the model’s performance, the authors utilized the
+IoTID20 dataset. From the experiments, they achieved an
+accuracy of 77.55% in detecting malicious activities.
+In [26], the authors proposed a hybrid model combining
+Convolutional Neural Network (CNN) and Long Short-Term
+Memory (LSTM) for detecting intrusions in IoT network
+scenarios. The primary emphasis of the authors is on enhanc-
+ing the model’s performance, specifically concentrating on
+identifying sub-categories of IoT network attacks. They
+employed the Edge-IIoTset dataset to assess the performance
+of the CNN-LSTM model. The results showcase a remarkable
+98.69% accuracy in classifying attacks.
+In [27], the authors introduced an Extreme Learning
+Machine, Support Vector Machine models, and a rule-
+based intrusion detection system similar to SNORT for IIoT
+networks. The performance of the proposed model was
+evaluated using the KDD99, UNSW-NB15, CSE-CIC-IDS-
+2018, and Edge-IIoTset datasets. They achieved accuracy
+rates of 97.83%, 96.59%, 92.54%, and 97.27% for the
+respective datasets.
+In [28], the authors employed the LSTM model for
+monitoring Software-Defined Networking (SDN)-enabled
+IoT networks and detecting cyberattacks. The authors
+specifically concentrated on enhancing the accuracy of Low-
+Rate Distributed Denial of Service (LDDoS) detection. They
+utilized the Edge-IIoTset dataset to evaluate the models. The
+results presented in the paper demonstrate an impressive
+98.88% accuracy in the classification of multi-class sub-
+category classifications.
+In [29], the authors introduced a hybrid model that
+combines a bidirectional gated recurrent unit (B-GRU) and
+LSTM for identifying cyber attacks in edge-envisioned smart
+agriculture networks. The authors focused specifically on
+enhancing the detection of DDoS attacks in these networks.
+They assessed the model using the Edge-IIoTset dataset, and
+the experimental outcomes revealed an impressive 98.32%
+accuracy.
+The related studies predominantly concentrate on improv-
+ing the performance of intrusion detection in IoT and IIoT
+networks. However, a common limitation in these studies is
+the oversight of data-cleaning procedures before the training
+phase. Specifically, there is a lack of attention to addressing
+redundancies within the data belonging to the same class
+(intra-class) and neglecting the inclusion of mixed data across
+different classes (inter-class). Some network datasets used in
+FIGURE 2. Basic architecture of SA-DCNN.
+these studies exhibit repetitive data patterns, which can result
+in inflated model performance on those particular datasets.
+This is because the model may encounter much of the test set
+data during the training phase, leading to an overestimation
+of its effectiveness. Furthermore, ML and DL models tend to
+experience a decline in performance when confronted with
+datasets containing repetitions of similar data across various
+classes, even if only the class labels differ.
+III. THE PROPOSED SA-DCNN MODEL
+This study proposes a novel DL model called SA-DCNN
+for IIoT network traffic monitoring and detection of cyber-
+attacks. The SA-DCNN consists of a self-attention mech-
+anism and deep convolutional neural networks (DCNN),
+as depicted in Fig 2. The self-attention mechanism computes
+the significance value for each input feature, and the DCNN
+processes these parameters to detect IIoT network behavior.
+The primary advantage of DCNN is its ability to converge
+inputs toward the most impactful parameters and reduce
+the overall number of parameters. This process enhances
+detection performance while minimizing time consumption.
+In the proposed model, the self-attention mechanism is
+used to compute attention scores and highlight the importance
+of each input feature. This mechanism calculates the attention
+score based on queries (Q), keys (k), and values (V). Q, K,
+and V are computed using Eq 1, Eq 2, and Eq 3, respectively,
+45764
+VOLUME 12, 2024

@@ -1,0 +1,21 @@
+Figure H.9: Top: Scatter plots of student entropy versus overfitting (gap between top-1
+validation and training accuracy) during KD training. Bottom: Calibration reliability
+diagrams with varied teacher numbers (1 to 3) for CIFAR100 imb100 and its balanced
+counterpart. Stronger augmentation (indicated by decreased Affinity) and more teachers
+in the ensemble contributes to improved model calibrations and mitigate overfitting effects.
+This aids in understanding the data augmentation strengths and the decreas-
+ing tendencies in all the previous scatter plots: Recall that Affinity measures
+the offset in data distribution between the original one and the one after
+data augmentation captured by the student, and lower Affinity corresponds
+to higher augmentation strength, leading to higher student accuracy. Thus,
+for the trials with strong data augmentation (e.g., T1wT2wSs in CIFAR-100,
+CIFAR-100 imb100, and ImageNet; T1sT2wSs in ImageNet-LT), they not only
+correspond to a relatively small ECE but also a high validation accuracy.
+References
+Asif, U., Tang, J., Harrer, S., 2019. Ensemble Knowledge Distillation for
+Learning Improved and Efficient Networks, in: European Conference on
+Artificial Intelligence
+Bai, Y., Wang, Z., Xiao, J., Wei, C., Wang, H., Yuille, A., Zhou, Y., Xie,
+C., 2023. Masked Autoencoders Enable Efficient Knowledge Distillers, in:
+Computer Vision and Pattern Recognition
+26

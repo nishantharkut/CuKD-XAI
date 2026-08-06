@@ -1,0 +1,175 @@
+{
+  "protocol_id": "edgeiiot_split_duplicate_audit_v1",
+  "protocol": "literature_comparable",
+  "csv_path": "data/DNN-EdgeIIoT-dataset.csv",
+  "csv_sha256": "1d3ef6c7cc22784a528a117f1158f5cad750273679437e18a39c360ee6b79fd7",
+  "raw_shape_before_cleaning": [
+    2219201,
+    63
+  ],
+  "raw_shape_after_target_cleaning_and_drops": [
+    2219201,
+    50
+  ],
+  "invalid_target_rows_removed": 0,
+  "removed_leakage_columns": [
+    "frame.time",
+    "ip.src_host",
+    "ip.dst_host",
+    "arp.src.proto_ipv4",
+    "arp.dst.proto_ipv4",
+    "http.file_data",
+    "http.request.full_uri",
+    "icmp.transmit_timestamp",
+    "http.request.uri.query",
+    "tcp.options",
+    "tcp.payload",
+    "mqtt.msg",
+    "Attack_label"
+  ],
+  "removed_all_missing_columns": [],
+  "removed_constant_columns": [
+    "icmp.unused",
+    "http.tls_port",
+    "dns.qry.type",
+    "mqtt.msg_decoded_as"
+  ],
+  "removed_train_constant_encoded_columns": [
+    "http.request.method",
+    "http.referer",
+    "http.request.version"
+  ],
+  "categorical_cols": [
+    "mqtt.conack.flags",
+    "mqtt.protoname",
+    "mqtt.topic"
+  ],
+  "numeric_cols": [
+    "arp.opcode",
+    "arp.hw.size",
+    "icmp.checksum",
+    "icmp.seq_le",
+    "http.content_length",
+    "http.request.method",
+    "http.referer",
+    "http.request.version",
+    "http.response",
+    "tcp.ack",
+    "tcp.ack_raw",
+    "tcp.checksum",
+    "tcp.connection.fin",
+    "tcp.connection.rst",
+    "tcp.connection.syn",
+    "tcp.connection.synack",
+    "tcp.dstport",
+    "tcp.flags",
+    "tcp.flags.ack",
+    "tcp.len",
+    "tcp.seq",
+    "tcp.srcport",
+    "udp.port",
+    "udp.stream",
+    "udp.time_delta",
+    "dns.qry.name",
+    "dns.qry.name.len",
+    "dns.qry.qu",
+    "dns.retransmission",
+    "dns.retransmit_request",
+    "dns.retransmit_request_in",
+    "mqtt.conflag.cleansess",
+    "mqtt.conflags",
+    "mqtt.hdrflags",
+    "mqtt.len",
+    "mqtt.msgtype",
+    "mqtt.proto_len",
+    "mqtt.topic_len",
+    "mqtt.ver",
+    "mbtcp.len",
+    "mbtcp.trans_id",
+    "mbtcp.unit_id"
+  ],
+  "numeric_medians_sha256": "da2bcd9de0d91ed998bb4ff6d4db15da9424119c3d4788cfcf24c5221e58b1f6",
+  "dummy_feature_count": 10,
+  "input_dim": 49,
+  "class_names": [
+    "Backdoor",
+    "DDoS_HTTP",
+    "DDoS_ICMP",
+    "DDoS_TCP",
+    "DDoS_UDP",
+    "Fingerprinting",
+    "MITM",
+    "Normal",
+    "Password",
+    "Port_Scanning",
+    "Ransomware",
+    "SQL_injection",
+    "Uploading",
+    "Vulnerability_scanner",
+    "XSS"
+  ],
+  "class_distribution_all": {
+    "Backdoor": 24862,
+    "DDoS_HTTP": 49911,
+    "DDoS_ICMP": 116436,
+    "DDoS_TCP": 50062,
+    "DDoS_UDP": 121568,
+    "Fingerprinting": 1001,
+    "MITM": 1214,
+    "Normal": 1615643,
+    "Password": 50153,
+    "Port_Scanning": 22564,
+    "Ransomware": 10925,
+    "SQL_injection": 51203,
+    "Uploading": 37634,
+    "Vulnerability_scanner": 50110,
+    "XSS": 15915
+  },
+  "split_rows": {
+    "train": 1553384,
+    "validation": 332936,
+    "test": 332881
+  },
+  "split_policy": "train_test_split test_size=0.15 random_state=42 stratify=y_all; then validation test_size=0.1765 random_state=42 stratify=y_train",
+  "raw_post_drop_feature_audit": {
+    "total_rows": 2219201,
+    "unique_feature_rows": 1983195,
+    "duplicate_rows_excluding_first": 236006,
+    "rows_in_non_unique_feature_groups": 434299,
+    "non_unique_feature_groups": 198293,
+    "cross_partition_feature_groups": 95600,
+    "rows_in_cross_partition_feature_groups_by_partition": {
+      "train": 109104,
+      "validation": 56905,
+      "test": 56645
+    },
+    "mixed_label_feature_groups": 4,
+    "overlaps": {
+      "train_validation_feature_overlap": 44662,
+      "train_test_feature_overlap": 44513,
+      "validation_test_feature_overlap": 10637
+    },
+    "hash_collisions_with_unequal_rows": 0
+  },
+  "encoded_model_input_audit": {
+    "total_rows": 2219201,
+    "unique_feature_rows": 1983195,
+    "duplicate_rows_excluding_first": 236006,
+    "rows_in_non_unique_feature_groups": 434299,
+    "non_unique_feature_groups": 198293,
+    "cross_partition_feature_groups": 95600,
+    "rows_in_cross_partition_feature_groups_by_partition": {
+      "train": 109104,
+      "validation": 56905,
+      "test": 56645
+    },
+    "mixed_label_feature_groups": 4,
+    "overlaps": {
+      "train_validation_feature_overlap": 44662,
+      "train_test_feature_overlap": 44513,
+      "validation_test_feature_overlap": 10637
+    },
+    "hash_collisions_with_unequal_rows": 0
+  },
+  "interpretation": "Cross-partition feature overlap in encoded_model_input_audit is the most relevant leakage indicator for the Edge-IIoT model-input table used by the archived scripts. This audit does not retrain models."
+}

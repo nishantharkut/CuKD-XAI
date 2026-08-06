@@ -1,0 +1,64 @@
+Original 
+Image
+Gradient
+SmoothGrad
+Guided 
+BackProp
+Guided 
+GradCAM
+Integrated 
+Gradients
+Integrated 
+Gradients 
+SmoothGrad
+Gradient 
+Input 
+Edge 
+Detector
+Junco 
+Bird
+Corn
+Wheaten 
+Terrier
+Figure 1: Saliency maps for some common methods compared to an edge detector. Saliency
+masks for 3 different inputs for an Inception v3 model trained on ImageNet. We see that an edge
+detector produces outputs that are strikingly similar to the outputs of some saliency methods. In
+fact, edge detectors can also produce masks that highlight features which coincide with what appears
+to be relevant to a model’s class prediction. Interestingly, we ﬁnd that the methods that are most
+similar to an edge detector, i.e., Guided Backprop and its variants, show minimal sensitivity to our
+randomization tests.
+these methods are incapable of assisting with tasks that depend on the model, such as debugging the
+model, or tasks that depend on the relationships between inputs and outputs present in the data.
+To illustrate the point, Figure 1 compares the output of standard saliency methods with those of an
+edge detector. The edge detector does not depend on model or training data, and yet produces results
+that bear visual similarity with saliency maps. This goes to show that visual inspection is a poor
+guide in judging whether an explanation is sensitive to the underlying model and data.
+Our methodology derives from the idea of a statistical randomization test, comparing the natural
+experiment with an artiﬁcially randomized experiment. We focus on two instantiations of our general
+framework: a model parameter randomization test, and a data randomization test.
+The model parameter randomization test compares the output of a saliency method on a trained
+model with the output of the saliency method on a randomly initialized untrained network of the
+same architecture. If the saliency method depends on the learned parameters of the model, we should
+expect its output to differ substantially between the two cases. Should the outputs be similar, however,
+we can infer that the saliency map is insensitive to properties of the model, in this case, the model
+parameters. In particular, the output of the saliency map would not be helpful for tasks such as model
+debugging that inevitably depend on the model.
+The data randomization test compares a given saliency method applied to a model trained on a
+labeled data set with the method applied to the same model architecture but trained on a copy of the
+data set in which we randomly permuted all labels. If a saliency method depends on the labeling of
+the data, we should again expect its outputs to differ signiﬁcantly in the two cases. An insensitivity to
+the permuted labels, however, reveals that the method does not depend on the relationship between
+instances (e.g. images) and labels that exists in the original data.
+Speaking more broadly, any explanation method admits a set of invariances, i.e., transformations
+of data and model that do not change the output of the method. If we discover an invariance that is
+incompatible with the requirements of the task at hand, we can safely reject the method. As such, our
+tests can be thought of as sanity checks to perform before deploying a method in practice.
+Our contributions
+1.
+We propose two concrete, easy to implement tests for assessing the scope and quality of
+explanation methods: the model parameter randomization test, and the data randomization test. Both
+tests applies broadly to explanation methods.
+2. We conduct extensive experiments with several explanation methods across data sets and model
+architectures, and ﬁnd, consistently, that some of the methods tested are independent of both the
+model parameters and the labeling of the data that the model was trained on.
+2

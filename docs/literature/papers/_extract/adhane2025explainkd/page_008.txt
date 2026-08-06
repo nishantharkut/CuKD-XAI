@@ -1,0 +1,96 @@
+Figure 6. Relevant features learned by Student (ResNet-18) dis-
+tilled from ResNet-101 compared to Base Model.
+incorporating the Teacher assistant model facilitates the
+Student model in learning compatible knowledge from the
+complex Teacher and provides more appropriate supervi-
+sion and feedback.
+Figure 7. Grad-CAM (2nd and 4th rows) and UniCAM (3rd and
+5th rows) visualisations.
+We compare the relevance of features learned by the Stu-
+dent trained with the Teacher assistant and its equivalent
+Base model. We used UniCAM to generate the saliency
+maps of the distilled and residual features of each model.
+Fig. 8 shows that the saliency maps of the distilled features
+are more focused on the salient regions of the input images,
+while the residual features are more dispersed.
+Table 2. RS of Students trained using Response-based KD with
+varying Teacher complexity level.
+Layer#
+Layer-Specific Features
+Residual / Distilled Features
+Base model
+R18-R101
+R18-R50-R101
+Base model
+R18-R101
+R18-R50-R101
+Layer 1
+0.0037
+0.0022
+0.0052
+0.0014
+0.0007
+0.005
+Layer 2
+0.0039
+0.0035
+0.005
+0.0016
+0.0014
+0.0031
+Layer 3
+0.0057
+0.0045
+0.0074
+0.0012
+0.0008
+0.006
+Layer 4
+0.0063
+0.0052
+0.0082
+0.0018
+0.0011
+0.0076
+Finally, Table 2 quantifies the relevance of the features
+learned by the Base model and equivalent Student model
+at different layers.
+The model trained with the Teacher
+assistant has learned more relevant features compared to
+the model directly distilled from ResNet-101 and the Base
+model.
+The empirical findings presented above indicate that the
+capacity gap between the Teacher and Student models in-
+Figure 8. Comparison of distilled and residual features between
+Student (R18-R50-R101) and Base Model.
+fluences the quality and efficiency of KD. We demonstrate
+the benefit of our methods to explain the Student model’s
+behaviour, both when it succeeds and fails to learn relevant
+knowledge from the Teacher. Therefore, our visual expla-
+nation and metrics can help to select the optimal Teacher-
+Student pairs for improved performance.
+5. Discussion and Future Works
+This paper presented novel techniques to explain and
+quantify the knowledge during KD. We proposed UniCAM,
+a gradient-based visual explanation method to explain the
+distilled knowledge and residual features during KD. Our
+experimental results show that UniCAM provides a clear
+and comprehensive visualisation of the features acquired or
+missed by the Student during KD. We also proposed two
+metrics: FSS and RS to quantify the similarity of the atten-
+tion patterns and the relevance of the distilled knowledge
+and residual features. The proposed method has certain lim-
+itations. The experiments were exclusively conducted on
+classification tasks, which is one of the many potential ap-
+plications of KD. In addition, we acknowledge the added
+computational cost introduced by the need to compute pair-
+wise distances, gradients for feature localisation, and the
+proposed metrics. As part of future work, we aim to extend
+UniCAM to more complex datasets and explore its applica-
+bility to tasks beyond classification to enhance the robust-
+ness and versatility of the proposed method.
+Acknowledgement
+This research was supported by “PID2022-138721NB-
+I00” grant from the Spanish Ministry of Science, Research
+National Agency and FEDER (UE).
+3474

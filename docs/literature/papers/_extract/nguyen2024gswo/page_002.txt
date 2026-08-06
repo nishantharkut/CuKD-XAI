@@ -1,0 +1,58 @@
+Sensors 2024, 24, 3339
+2 of 26
+Within the context of security, the reliability of WSNs is seriously threatened by
+numerous typical attacks, including Hello Flooding, Wormholes, Sinkholes, and Jamming,
+which cause abnormal traffic behavior by upsetting the network’s traffic patterns [6].
+Therefore, intrusion detection in WSNs stands out as a crucial topic [7]. Because intrusion
+detection addresses the critical issue of ensuring data integrity and network security in
+environments with constrained resources, its importance cannot be understated. Effective
+identification and mitigation of such attacks are necessary to preserve the integrity and
+functionality of these networks. The challenges of intrusion detection posed by WSNs are
+fundamentally different from those encountered by conventional networks [8].
+It has been established that the use of machine learning (ML) is reliable for network
+intrusion detection [9,10]. In addition, ML has recently emerged as a promising method
+for handling intricate data [11,12]. Furthermore, its extensive utilization in identifying
+anomalous network activities may be attributed to its ease of use and effectiveness [13–15].
+However, the increasing network traffic poses challenges to the performance of ML in
+real-time data analysis because excessive irrelevant data are being gathered.
+In general, the ultimate efficacy of ML depends on the quality of the available data [16],
+the relevance of features, and the extent to which models and algorithms can approach
+their performance ceiling. As computer technology continues to find applications in
+various facets of human society, an increasing number of real-world dataset feature spaces
+encompass tens of thousands of dimensions [17]. Nonetheless, only a fraction of these
+dimensions truly encapsulate the intrinsic nature of the phenomena under investigation.
+This subset of pertinent features is overshadowed by the profusion of irrelevant and
+redundant features, which severely impairs the performance of ML algorithms.
+To address this challenge, numerous methodologies have been proposed to leverage
+ML with population-based algorithms inspired by natural processes. Researchers have
+focused their investigations on several prominent metaheuristic algorithms whose com-
+ponents can be optimized, and those binary counterparts are appropriately tailored to
+address the intricacies of FS. Among these, the whale optimization algorithm (WOA) [18]
+has emerged as a noteworthy candidate owing to its adaptable characteristics, minimal
+control parameters, and straightforward structural design. However, the applicability of the
+WOA and its variants is constrained when addressing high-dimensional, intricate problems.
+Notably, issues such as diminished population diversity and premature convergence to sub-
+optimal solutions have become more pronounced, as evidenced by empirical assessments
+and analytical findings [19]. Consequently, our study is motivated by the imperative to
+propose enhancements to WOA that facilitate the discovery of superior solutions, striking
+a harmonious balance between extracting a feature subset of elevated quality to augment
+prediction accuracy and achieving dimensional reduction to mitigate inference time.
+Furthermore, tuning the hyperparameters of ML models is critical for optimizing the
+performance and predictive accuracy of these models [20]. This process involves adjusting
+the hyperparameters and model configurations to ensure the most effective adaptation to
+the resource-constrained and dynamically changing nature of WSNs.
+In this study, we introduce a specifically designed intrusion detection model, assisted
+by metaheuristic optimization, to comply with WSN characteristics. We briefly summarize
+our contributions as follows:
+-
+We propose a new approach called Genetic Sacrificial Whale Optimization (GSWO)
+that ingeniously combines a genetic algorithm (GA) and WOA modified by applying
+a new three-population division strategy with the proposed conditional inherited
+choice for FS. The proposed algorithm can eliminate the premature convergence of the
+standard WOA and strike a balance between exploration and exploitation abilities.
+-
+Moreover, we harnessed the capabilities of the CatBoost model as a classifier, distin-
+guishing between the benign data and diverse attack patterns within the dataset.
+-
+In addition, we introduce a new method for fine-tuning CatBoost’s hyperparameters,
+incorporating quantization and an optimization approach akin to FS (GSWO).

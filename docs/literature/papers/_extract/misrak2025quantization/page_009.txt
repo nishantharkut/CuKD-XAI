@@ -1,0 +1,48 @@
+Page 9 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Data preprocessing phase plays a significant role in preparing data for deep learning 
+techniques. It involves several steps to change real world sensor data into a more suit­
+able format for neural networks. These steps typically include data cleaning for handling 
+missing values and outliers, label encoding to convert categorical variables into numeri­
+cal format, feature engineering to create new features or transform existing ones, nor­
+malization to scale features to a similar range. This preprocessing procedure for the 
+attack identification system comprises five distinct stages, outlined as follows:
+Dataset Cleaning
+Prior to model training, it is essential to conduct a rigorous examination of datasets to 
+identify any instances containing missing or undefined values, ensuring both the accu­
+racy of the input data and the reliability of the resulting model. In this study, preprocess­
+ing was conducted using the PyTorch framework along with Python’s built-in libraries. 
+We analyzed the CIC-IDS2017 and CIC-IoT2023 datasets and identified missing and 
+infinite values, prompting a cleaning process. A three-step method involving converting 
+infinite values to NaN, imputing missing values with column means, and removing any 
+remaining NaN or infinite values. As missing data represented only 0.000284% of the 
+total and had no impact on model accuracy according to our experiment, we opted for 
+direct removal to streamline preprocessing without affecting performance.
+Label Encoding
+Utilizing numerization is a recognized technique for handling categorical data, partic­
+ularly in scenarios where memory efficiency and computational speed are crucial. Unlike 
+one-hot encoding, which can be memory-intensive and time-consuming, numerization 
+assigns a distinctive numeric value to each category within a categorical feature.
+For binary experiments, the categorical data is encoded into Zeros and ones, where 
+zero signifies the normal class and one indicates the attack class. Meanwhile, in mul­
+ticlass classification experiments, the numeric values for the categorical labels are 
+incremented accordingly. For example, in CIC-IoT2023 dataset, Benign class is repre­
+sented by 0, Dos-TCP_flood by 1, DDos-TCP_flood by 2, DNS-Spoofing by 3, Recon-
+PortScan by 4, Recon-OSScan by 5, Mirai-greeth_flood by 6, Mirai-udpplain by 7 and 8 
+to Mirai-greip_flood.
+By employing numerization, we ensure that the categorical features are appropriately 
+converted into numerical values, facilitating seamless integration into deep learning 
+models. This approach not only optimizes memory usage but also streamlines computa­
+tional efficiency, thereby enhancing the overall effectiveness of the training of the model.
+Feature Engineering
+In addressing the issue arising from the high-dimensional nature of the original data­
+set’s and redendency of features, feature engineering becomes a pivotal aspect of this 
+research endeavor. Effective feature engineering involves identifying and transforming 
+real world sensor data into model understandable features that enhance model perfor­
+mance. Techniques such as feature scaling, normalization, and extraction of relevant fea­
+tures play a pivotal role in this process. Additionally, the selection of appropriate feature 
+dimensionality reduction methods is paramount to mitigate computational complexities 
+and improve model efficiency.
+Feature engineering involves the process of either eliminating redundant features or 
+extracting new ones from existing features, aimed at enhancing the performance using 
+machine learning [41]). Redundant records were identified and eliminated from the 

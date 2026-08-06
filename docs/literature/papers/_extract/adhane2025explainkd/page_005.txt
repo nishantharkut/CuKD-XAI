@@ -1,0 +1,114 @@
+the Base model features. A higher FSS value suggests that
+the Student and Base models are focusing on similar regions
+of the input, indicating that the Teacher’s knowledge has not
+significantly altered the core feature focus of the Student or
+that the task is such that both models naturally converge on
+similar important features. Conversely, a lower FSS would
+suggest that the Student has diverged, potentially learning
+a more refined or generalised feature representation due to
+the knowledge from the Teacher. The FSS is computed as
+follows:
+  \ l abel {e q:fs s }
+ 
+\
+b
+egi
+n {split} FSS = R^2(\hat {x}_s, \hat {x}_b) = \frac {1}{k}\sum _{i=1}^{k} \text {dCor}(\hat {x}_{s_i}, \hat {x}_{b_i}), \end {split} 
+(8)
+where k is the number of batches, ˆxsi and ˆxbi are the mini-
+batch features of the Student and Base model. FSS ranges
+from 0 to 1, where 0 means no similarity and values close
+to 1 indicate higher attention pattern similarity.
+3.2.2
+Relevance score (RS)
+While FSS measures the similarity between the features
+learned by the Student and Base model, it does not quan-
+tify how relevant these features are to the target task. To
+address this, we propose the Relevance Score (RS), which
+evaluates the relevance of the distilled and residual features
+for the target task.
+To capture the semantic information of the target task
+more effectively, we use a pre-trained BERT embedding of
+the ground truth labels [12]. Unlike traditional one-hot en-
+codings, which provide limited information, BERT embed-
+ding represents the labels in a high-dimensional space that
+captures richer semantic relationships between different la-
+bels. This allows us to compute meaningful correlations
+between the feature vectors encoded by the models and the
+ground truth, offering a more robust measure of relevance
+for the task. Hence, we compute the RS as follows:
+  \ label { eq: r s
+}
+ 
+\
+beg
+in {split} RS = R^2(\hat {x}_s, gt) = \frac {1}{k}\sum _{i=1}^{k} \text {dCor}(\hat {x}_{s_i}, {gt}_{i}), \end {split} 
+(9)
+where ˆxsi is the features extracted by the Student for each
+minibatch, and gti is the ground truth BERT embeddings
+for the corresponding targets in each batch. To compute the
+RS for the Base model, we replace ˆxsi with ˆxbi.
+Both FSS and RS provide a comprehensive quantitative
+technique to evaluate the similarity of the attention patterns
+and the relevance of the features learned during KD. This
+helps us understand whether the Student is acquiring fea-
+tures that are both similar and meaningful for the target task,
+offering deeper insights into explaining the KD process.
+4. Experiments
+4.1. Datasets and Implementation Details
+We evaluate the proposed method on three public
+datasets for image classification:
+ASIRRA (Microsoft
+PetImages) [15], CIFAR10 [28] and Plant disease classi-
+fication dataset [24]. ASIRRA contains 25,000 images of
+cats and dogs, while CIFAR10 contains 60,000 images of
+10 classes. These datasets are widely used as benchmarks
+for image classification tasks and have different levels of
+complexity and diversity. Plant disease classification has
+a more challenging and realistic problem than fine-grained
+image classification, where the differences between classes
+are subtle and require more attention to detail. More results
+of plant disease classification are provided in the supple-
+mentary material Sec. A.
+We performed various experiments to analyse and ex-
+plain the KD process. First, we used ResNet-50 [21] as
+both the Student and Teacher models, effectively making
+the Teacher a Base model. This allows us to isolate the ef-
+fects of KD without introducing the complexity bias that
+can arise when using a more powerful Teacher model. It
+ensures that any observed differences are due to the KD
+process itself rather than architectural disparities between
+the Teacher and Student. This experiment addresses key
+questions (1)-(3) by analysing the performance of the Stu-
+dent and the Base model, the similarity in attention patterns,
+and the relevance of the distilled and residual features. In
+the second experiment, we analysed different combinations
+of ResNet-18, ResNet-50, and ResNet-101 as Teacher and
+Student models to address the fourth question, which ex-
+plores the impact of architecture differences on KD. We
+applied our approach to three state-of-the-art KD meth-
+ods for classification: response-based KD [23], overhaul
+feature-based KD [22], and attention-based KD [31]. We
+implemented2 the proposed method using PyTorch [32] and
+open source libraries from KD [36], pdCor [45] and Grad-
+CAM [17].
+4.2. Results
+We trained the models using 5-fold cross-validation. De-
+tails about each training setting are given in the supplemen-
+tary material Sec.
+D. We assessed the performance and
+visual explanations of the Student and Base model trained
+with different KD. As shown in Fig. 2, the models trained
+with KD achieved higher accuracy compared to the equiva-
+lent Base model.
+4.2.1
+Comparison of Student and Base model attention
+patterns
+We hypothesise that KD enhances the Student model’s abil-
+ity to learn more relevant features while discarding irrele-
+vant ones. To test this hypothesis, we begin by using Grad-
+CAM, a widely adopted explainability technique, to provide
+an initial qualitative comparison of the feature localisation
+in both the Student and Base model across different layers.
+2Code is available https://github.com/gadhane/UniCAM
+3471

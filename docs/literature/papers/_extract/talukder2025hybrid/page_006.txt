@@ -1,0 +1,75 @@
+Label Encoding simplifies the representation of categorical labels, enabling compatibility with ML models 
+that require numerical input. It is computationally efficient and facilitates the direct integration of categorical 
+data into IDS model-building workflows. Tables 1 and 2 display the process of encoding categorical labels to 
+numerical labels for different classes in the WSN-DS and TON-IoT Network Datasets.
+Data balancing (DB) techniques
+Data Balancing (DB) techniques aim to address the class imbalance problem in datasets by ensuring an even 
+distribution of instances across all classes. This is crucial for improving the performance of ML models, 
+particularly in IDS, where the occurrence of attacks (minority classes) is often much rarer than normal behavior 
+(majority class). Data balancing techniques work by generating new samples for the minority classes or by 
+modifying the dataset to reduce bias toward majority classes. These methods either synthesize new data points 
+or combine existing ones to create balanced datasets.
+The class imbalance ratio can be calculated as:
+	
+IR = Size of Majority Class
+Size of Minority Class
+(3)
+where a high imbalance ratio (IR) indicates severe class imbalance. DB techniques aim to minimize this ratio.
+Class imbalance leads to biased models that perform poorly on minority classes, which are often the critical 
+classes for intrusion detection. Balancing the dataset ensures fair learning, reduces overfitting, and improves the 
+recall and precision of IDS models. Balancing techniques significantly enhance the accuracy and robustness of 
+IDS models by addressing the imbalance issue. They help prevent overfitting to the majority class, enabling the 
+model to detect rare but critical intrusion patterns more effectively.
+STL—SMOTETomekLink
+SMOTETomekLink (STL) is a hybrid approach combining the Synthetic Minority Oversampling Technique 
+(SMOTE) and Tomek Link undersampling to handle both overfitting and class overlap issues in imbalanced 
+datasets. SMOTE generates synthetic samples for the minority class by interpolating between existing instances. 
+Tomek Link identifies and removes overlapping samples from majority and minority classes, enhancing data 
+separation.
+SMOTE generates new samples using:
+	
+xnew = xi + δ · (xj −xi)
+(4)
+where xi and xj are minority class samples, and δ is a random number between 0 and 1.
+Category
+Label
+Normal
+0
+Scanning
+1
+DoS
+2
+Injection
+3
+DDoS
+4
+Password
+5
+XSS
+6
+Ransomware
+7
+Backdoor
+8
+MITM
+9
+Table 2.  Category-to-label mapping.
+ 
+Category
+Label
+Normal
+0
+Grayhole
+1
+Blackhole
+2
+TDMA
+3
+Flooding
+4
+Table 1.  Category-to-label mapping.
+ 
+Scientific Reports |         (2025) 15:4617 
+6
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

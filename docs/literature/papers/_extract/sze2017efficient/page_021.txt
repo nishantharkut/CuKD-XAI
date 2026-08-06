@@ -1,0 +1,148 @@
+21
+1 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 
+32-bit float 
+exponent (8-bits) 
+mantissa (23-bits) 
+sign 
+e = 70 
+s = 1 
+m = 20482 
+-1.42122425 x 10-13 
+(a) 32-bit ﬂoating point example
+8-bit 
+dynamic 
+fixed
+0 1 1 0 0 1 1 0
+sign
+integer 
+([7-f ]-bits)
+mantissa (7-bits)
+fractional
+(f-bits)
+f = 3
+s = 0
+12.75
+m=102
+8-bit 
+dynamic 
+fixed
+0
+1 1 0 0 1 1 0
+sign
+mantissa (7-bits)
+fractional
+(f-bits)
+f = 9
+s = 0
+0.19921875
+m=102
+(b) 8-bit dynamic ﬁxed point examples
+Fig. 38. Various methods of number representations.
+is the sign bit, e is the 8-bit exponent, and m is the 23-bit
+mantissa, and covers the range of 10−38 to 1038.
+An N-bit ﬁxed point number is represented by (−1)s ×m×
+2−f, where s is the sign bit, m is the (N-1)-bit mantissa, and
+f determines the location of the decimal point and acts as a
+scale factor. For instance, for an 8-bit integer, when f = 0,
+the dynamic range is -128 to 127, whereas when f = 10, the
+dynamic range is -0.125 to 0.124023438. Dynamic ﬁxed point
+representation allows f to vary based on the desired dynamic
+range as shown in Fig. 38(b). This is useful for DNNs, since
+the dynamic range of the weights and activations can be quite
+different. In addition, the dynamic range can also vary across
+layers and layer types (e.g., convolutional vs. fully connected).
+Using dynamic ﬁxed point, the bitwidth can be reduced to 8
+bits for the weights and 10 bits for the activations without any
+ﬁne-tuning of the weights [121]; with ﬁne-tuning, both weights
+and activations can reach 8-bits [122].
+Using 8-bit ﬁxed point has the following impact on energy
+and area [79]:
+• An 8-bit ﬁxed point add consumes 3.3× less energy
+(3.8× less area) than a 32-bit ﬁxed point add, and 30×
+less energy (116× less area) than a 32-bit ﬂoating point
+add. The energy and area of a ﬁxed-point add scales
+approximately linearly with the number of bits.
+• An 8-bit ﬁxed point multiply consumes 15.5× less energy
+(12.4× less area) than a 32-bit ﬁxed point multiply,
+and 18.5× less energy (27.5× less area) than a 32-bit
+ﬂoating point multiply. The energy and area of a ﬁxed-
+point multiply scales approximately quadratically with the
+number of bits.
+Reducing the precision also reduces the energy and area cost
+for storage, which is important since memory access and data
+movement dominate energy consumption as described earlier.
+The energy and area of the memory scale approximately linearly
+with number of bits. It should be noted, however, that changing
+from ﬂoating point to ﬁxed point, without reducing bit-width,
+does not reduce the energy or area cost of the memory.
+For completeness, it should be noted that the precision of
+the internal values of a ﬁxed-point multiply and accumulate
+(MAC) operation are typically higher than the weights and
+activations. To guarantee no precision loss, weights and input
+activations with N-bit ﬁxed-point precision would require an
+N-bit×N-bit multiplication which generates a 2N-bit output
+Accumulate 
++ 
+Weight  
+(N-bits) 
+Activation  
+(N-bits) 
+N x N 
+multiply 
+2N-bits 
+2N+M-bits 
+Output 
+(N-bits) 
+Quantize 
+to N-bits 
+Fig. 39.
+Reducing the precision of multiply and accumulate (MAC).
+product; that output would need to be accumulated with 2N+M-
+bit precision, where M is determined based on the largest ﬁlter
+size log2(C × R × S from Fig. 9(b)), which is in the range of
+10 to 16 bits for the popular DNNs described in Section III-B.
+After accumulation, the precision of the ﬁnal output activation
+is typically reduced to N-bits [88, 121], as shown in Fig. 39.
+The reduced output precision does not have a signiﬁcant impact
+on accuracy if the distribution of the weights and activations
+are centered near zero such that the accumulation would not
+move only in one direction; this is particularly true when batch
+normalization is used.
+The reduced precision is not only explored in research,
+but has been used in recent commercial platforms for DNN
+processing. For instance, Google’s Tensor Processing Unit
+(TPU) which was announced in May 2016, was designed for
+8-bit integer arithmetic [123]. Similarly, Nvidia’s PASCAL
+GPU, which was announced in April 2016, also has 8-bit
+integer instructions for deep learning inference [124]. In general
+purpose platforms such as CPUs and GPUs, the main beneﬁt
+of using 8-bit computation is an increase in throughput, as
+four 8-bit operations rather than one 32-bit operation can be
+performed for a given clock cycle.
+While general purpose platforms usually support 8-bit,
+16-bit and/or 32-bit operations, it has been shown that the
+minimum bit precision for DNNs can actually vary in a more
+ﬁne grained manner. For instance, the weight and activation
+precision can vary between 4 and 9 bits for AlexNet across
+different layers without signiﬁcant impact on accuracy (i.e., a
+change of less than 1%) [125, 126]. This ﬁne-grained variation
+can be exploited for increased throughput or reduced energy
+consumption with specialized hardware. For instance, if bit-
+serial processing is used, where the number of clock cycles to
+complete an operation is proportional to the bitwidth, adapting
+to ﬁne-grain variations in bit precision can result in a 2.24×
+speed up versus 16-bits [125]. Alternatively, a multiplier can
+be designed such that its critical path reduces based on the bit
+precision as fewer adders are needed to resolve the product;
+this can be combined with voltage scaling for a 2.56× energy
+savings versus 16-bits [126]. While these bit scaling results
+are reported relative to 16-bit, it would be interesting to see
+their impact relative to the maximum precision required across
+layers (i.e., 9-bits for [125, 126]).
+The precision can be reduced even more aggressively to a
+single bit; this area of research is often referred to as binary nets.
+BinaryConnect (BC) [127] introduced the concept of binary
+weights (i.e., -1 and 1), where using a binary weight reduced
+the multiplication in the MAC to addition and subtraction
+only. This was later extended in Binarized Neural Networks
+(BNN) [128] that uses binary weights and activations, which

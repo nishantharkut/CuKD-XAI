@@ -1,0 +1,127 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+improve the predictive model’s performance and robustness.
+The Voting Classifier is a prominent ensemble learning
+technique that combines predictions from numerous models
+to produce a final prediction. By combining the predictions
+of multiple reliable models, this method can improve
+performance and resilience.
+There are two sorts of Voting Classifiers: hard and soft.
+1) Hard Voting Classifier: The majority class label that
+each individual model predicts serves as the basis for
+the final prediction in this strategy. Every model has
+one vote, and the class with the most number of votes
+becomes the final forecast.
+2) Soft Voting Classifier: The average of the anticipated
+probabilities serves as the basis for the final forecast
+in this procedure. The ultimate forecast is made for the
+class with the highest average likelihood. Soft voting
+often performs better when the basis classifiers are
+well-calibrated.
+In this proposed work, soft voting classifier is used to
+aggregate the predictions of different base models. The
+equation for the soft voting classifier is given below:
+g(j) = arg max
+j
+P(j|x) = arg max
+j
+ 
+1
+N
+N
+X
+i=1
+P(j|xi)
+!
+(2)
+where, P(j|xi) represents the predicted probability of class j by
+the k-th classifier for instance x. N is the number of classifiers
+in the ensemble. P(j|x) is the average predicted probability of
+class j over all classifiers. g(j) denotes the final predicted class
+label for instance x.
+The ensemble learning technique is an essential part
+of the proposed work because it has been shown to be
+very effective in producing more consistent and reliable
+predictions. Ensemble learning improves overall model
+performance and robustness by utilizing the combined
+strengths of numerous models, which greatly increases the
+final predictions’ accuracy and reliability.
+2) PARTICLE SWARM OPTIMIZATION (PSO)
+The practice of tweaking an ML model’s hyperparameters in
+order to improve its performance is known as hyperparameter
+tuning. The parameters that control the learning process are
+known as hyperparameters, and they are established before
+training. The accuracy of the model can be greatly increased
+by carefully adjusting these hyperparameters. By determining
+the ideal parameters, this procedure contributes to the model’s
+increased robustness. The suggested approach makes use of
+Particle Swarm Optimization (PSO), an optimization method
+inspired by nature, for this objective.
+A computational method called PSO is used to improve
+a candidate solution step-by-step based on a predetermined
+quality metric. It mimics the social behavior of fish in a
+school or birds in a flock to address optimization problems.
+The suggested method begins with an optimizer choosing a
+particle, which stands for a possible answer in the search
+space. Next, these particles’ locations and velocities are set
+to zero. After initialization, the global and personal best
+positions are used to update the velocity and position. The
+following equations can be used to update the position and
+velocity:
+Velocity update equation:
+vi(t + 1)=vi(t)+c1.r1.(pbesti−xi(t))+c2.r2.(gbest−xi(t))
+(3)
+where, vi(t + 1) is the updated velocity of particle i at time
+t + 1. vi(t) is the velocity of particle i at time t. c1 is the
+cognitive acceleration coefficient. c2 is the social acceleration
+coefficient. r1 and r2 are random numbers between 0 and 1.
+pbesti is the personal best position of particle i. gbest is the
+global best position. Position update equation:
+xi(t + 1) = xi(t) + vi(t + 1)
+(4)
+where, xi(t +1) is the updated position of the particle i at time
+t + 1. xi(t) is the position of the particle i at time t. vi(t + 1)
+is the updated velocity of particle i at time t + 1.
+Following
+the
+update
+phase,
+the
+optimizer
+uses
+cross-validated accuracy to assess each particle’s fitness,
+which measures the performance of the hyperparameters
+represented by the particle. Each particle in the swarm
+corresponds to a specific set of hyperparameters. These
+hyperparameters are evaluated by training model and
+calculating its cross-validated accuracy to ensure the
+solution’s robustness and generalization to unseen data.
+Iteratively, the particles update their positions and velocities
+based on their personal best positions and the global
+best position of the swarm, ensuring a balance between
+exploring new regions of the search space and exploiting
+promising solutions. The personal best captures the particle’s
+most successful hyperparameter configuration, while the
+global best represents the highest-performing configuration
+across the swarm. By leveraging this dual influence and
+incorporating stochasticity to avoid local optima, the particles
+systematically refine their positions. Through this iterative
+process, the optimizer ensures an efficient search of the
+hyperparameter space, ultimately converging on an optimal
+set of parameters that enhance the model’s accuracy and
+generalization.
+In conclusion, PSO is a potent tool for fine-tuning
+hyperparameters. Through simultaneous and global search
+processes, it improves the effectiveness and efficiency of
+the tuning process, making the optimization more adaptive.
+As a result, the model performs better since the ideal
+hyperparameters are systematically found, guaranteeing the
+model’s accuracy and stability.
+3) DECISION TREES (DT)
+For problems involving regression and classification, a super-
+vised learning technique called a decision tree is employed.
+It creates a decision tree by dividing the data into subgroups
+according to feature values. Every leaf node represents a
+class label or a continuous value, every branch reflects
+the decision’s result, and every internal node represents a
+VOLUME 13, 2025
+13717

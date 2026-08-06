@@ -1,0 +1,61 @@
+A.6
+SmoothGrad
+Given an explanation, E, from one of the methods previously discussed, a sample x, the SmoothGrad explanation,
+Esg, is deﬁned as follows:
+Esg(x) = 1
+N
+N
+X
+i=1
+E(x + gi),
+where noise vectors gi ∼N(0, σ2)) are drawn i.i.d. from a normal distribution.
+A.7
+VarGrad
+Similar to SmoothGrad, and as referenced in [37] a variance analog of SmoothGrad can be deﬁned as follows:
+Evg(x) = V(E(x + gi)),
+where noise vectors gi ∼N(0, σ2)) are drawn i.i.d. from a normal distribution, and V corresponds to the
+variance. In the visualizations presented here, explanations with VG correspond to the VarGrad equivalent of
+such masks. Seo et al. [38] theoretically analyze VarGrad showing that it is independent of the gradient, and
+captures higher order partial derivatives.
+B
+DNN Architecture, Training, Randomization & Metrics
+Experimental Details Data sets & Models. We perform our randomization tests on a variety of datasets and
+models as follows: an Inception v3 model [39] trained on the ImageNet classiﬁcation dataset [40] for object
+recognition, a Convolutional Neural Network (CNN) trained on MNIST [41] and Fashion MNIST [42], and a
+multi-layer perceptron (MLP), also trained on MNIST and Fashion MNIST.
+Randomization Tests We perform 2 types of randomizations. For the model parameter randomization tests, we
+re-initialized the parameters of each of the models with a truncated normal distribution. We replicated these
+randomization for a uniform distribution and obtain identical results. For the random labels test, we randomize,
+completely, the training labels for a each-model dataset pair (MNIST and Fashion MNIST) and then train the
+model to greater than 95 percent training set accuracy. As expected the performance of these models on the tests
+set is random.
+Inception v3 trained on ImageNet.
+For Inception v3, we used a pre-trained network that is widely
+distributed with the tensorﬂow package available at: https://github.com/tensorflow/models/tree/
+master/research/slim#Pretrained. This model has a 93.9 top-5 accuracy on the ImageNet test set. For
+the randomization tests, we re-initialized on a per-block basis. As noted in [43], each inception block consists of
+multiple ﬁlters of different sizes. In this case, we randomize all the the ﬁlter weights, biases, and batch-norm
+variables for each inception block. In total, this randomization occurs in 17 phases.
+CNN on MNIST and Fashion MNIST. The CNN architecture is as follows: input -> conv (5x5, 32) ->
+pooling (2x2)-> conv (5x5, 64) -> pooling (2x2) -> fully connected (1024 units) -> softmax (10 units). We
+train the model with the ADAM optimizer for 20 thousand iterations. All non-linearities used are ReLU. We also
+apply weight decay (penalty 0.001) to the weights of the network. The ﬁnal test set accuracy of this model is
+99.2 percent. For model parameter randomization test, we reinitialize each layer successively or independently
+depending on the randomization experiment. The weight initialiazation scheme followed was a truncated normal
+distribution (mean: 0, std: 0.01). We also tried a uniform distribution as well, and found that our results still
+hold.
+MLP trained on MNIST. The MLP architecture is as follows: input -> fully connected (2500 units) -> fully
+connected (1500 units) -> fully connected (500 units) -> fully connected (10 units). We also train this model
+with the ADAM optimizer for 20 thousand iterations. All non-linearities used are Relu. The ﬁnal test set accuracy
+of this model is 98.7 percent. For randomization tests, we reinitialize each layer successively or independently
+depending on the randomization experiment.
+Inception v4 trained on Skeletal Radiograms. We also analyzed an inception v4 model trained on skeletal
+radiograms obtained as part of the pediatric bone age challenge conducted by the radiological society of north
+America. This inception v4 model was trained retained the standard original parameters except it was trained
+with a mixed L1 and L2 loss. In our randomization test as indicated in ﬁgure 1, we reinitialize all weights, biases,
+and variables of the model.
+Calibration for Similarity Metrics. As noted in the methods section, we measure the similarity of the saliency
+masks obtained using the following metrics: Spearman rank correlation with absolute value (absolute value),
+Spearman rank correlation without absolute value (diverging), the structural similarity index (SSIM), and the
+Pearson correlation of the histogram of gradients (HOGs) derived from two maps. The SSIM and HOGs metrics
+14

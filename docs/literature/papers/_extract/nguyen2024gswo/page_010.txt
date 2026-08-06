@@ -1,0 +1,43 @@
+Sensors 2024, 24, 3339
+10 of 26
+Therefore, the searching for prey technique, which includes Equations (7) and (8), is suitable
+to execute the recalibration of this subpopulation’s location.
+In contrast, individuals with lower fitness values, which fall into the exploitative
+subpopulation, need to increase inspection of the surrounding region to accelerate con-
+vergence [43]. Therefore, both the encircling prey technique and the bubble-net attack
+technique can be utilized randomly to modify the location of this subpopulation. For a
+complete description of the specifics, see Equation (13), where the probability rate ρ2 is a
+random value between the interval [0,1]. The⃗Dt and⃗D
+′t are given in Equations (5) and (10),
+respectively.
+(⃗
+Xt+1 =⃗Xt∗−⃗At ·⃗Dt
+(ρ2 > 0.5).⃗
+Xt+1 =⃗D
+′t · ebl · cos(2πl) +⃗Xt∗
+(ρ2 ≤0.5).
+(13)
+The hesitant subpopulation includes the remaining individuals with fitness values
+between good and poor. These individuals employ a balanced strategy that incorporates
+the whole process of traditional WOA and ensures a blend of exploration and exploitation.
+This strategy is represented mathematically by Equation (1).
+In GSWO, we re-evaluated all individuals in line with their current fitness levels
+after each iteration. Consequently, the makeup of the individuals in each subpopulation
+varies constantly with each iteration. Figure 4 shows a schematic diagram of GSWO
+with the three-population division strategy. Unlike the traditional WOA, in the block
+“Sorting the whale population”, Equation (12) is employed to divide the whole population
+into three subpopulations based on the fitness value. Approximately one-third of the
+individuals (exploratory subpopulation or the blue part) engage in global exploration,
+including Equations (7) and (8). Another third (exploitative subpopulation or the orange
+part) engages in local exploitation, including Equation (13), and the other third (hesitant
+subpopulations or the green part) inherits all traditional WOA traits, including Equation (1).
+Additionally, the exploratory and exploitative subpopulations implement genetic operators
+(the branch on the left side) in the next paragraph. After that, four branches are concatenated
+before calculating the fitness value and conducting the proposed conditional inherited
+choice. During iterative procedures, this architecture gives GSWO the flexibility to conduct
+both global and local explorations.
+Figure 4. Genetic Sacrificial Whale Optimization Algorithm.
+However, if only this three-population structure were used, its tendency would still be
+more towards exploitation than exploration for two reasons. Firstly, individuals gravitate
+toward random peers during the exploration phase, limiting their ability to increase explo-
+ration and expand their search field. Secondly, the WOA algorithm has two exploitation

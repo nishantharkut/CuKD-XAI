@@ -1,0 +1,40 @@
+3. Problem and Hypothesis
+We focus on Knowledge Distillation (KD) with teacher ensembles in su-
+pervised image classification. In this realm, the efficacy of the process has
+traditionally been evaluated through the model fidelity and student valida-
+tion accuracy. However, this conventional approach may not fully capture
+the complexity and nuances inherent in the knowledge transfer process, es-
+pecially in light of evolving practices like data augmentation and the growing
+importance of attention mechanisms in neural networks. This study is driven
+by a series of interconnected research questions that challenge and extend the
+traditional understanding of KD as follows.
+Impact of Varied Data Augmentation Strengths on Model Di-
+versity in Attention Map Mechanisms. The application of diverse data
+augmentation strengths during the training of teacher and student models
+plays a crucial role in shaping KD (Stanton et al, 2021).
+Consequently,
+it is natural to inquire whether, across augmentation strategies, stronger
+data augmentation results in an increase or decrease in model fidelity within
+teacher ensembles during training. And if so, how does this correlate with
+the student model’s performance. Inspired by the theory in machine learn-
+ing that diversity among models can enhance ensemble learning performance
+(Zhou, 2012; Asif et al, 2019), our hypothesis is that varying augmentation
+strengths in different teachersinject randomness into the data, thereby diver-
+sifying teacher models’ attention (Zhou et al, 2016) mechanisms trained on
+them. This diversity promotes heterogeneity in learning features, enables the
+student to learn diverse solutions to the target problem, and thus enhances
+the KD process. As a result, the student surpasses the knowledge of a single
+teacher, leading to a better overall performance, and the observed low-fidelity
+serves as a demonstration of this phenomenon.
+Interplay Between Student Fidelity, Mutual Information and
+Generalization.
+(Stanton et al, 2021; Shrivastava et al, 2023) have ob-
+served that fidelity or mutual information between teacher and student mod-
+els interact with varying data augmentation strengths, influencing the overall
+effectiveness of distilled knowledge. The critical questions then arise: Does
+lower or higher fidelity and mutual information benefit the KD training and
+student performance, and why does it happen? We hypothesize that, varied
+augmentation strengths in different teachers in ensemble KD would provide
+a broader view for the student to learn. Thus, the student surpassing the
+knowledge of a specific teacher. Contrary to the traditional perspective, we
+7

@@ -1,0 +1,72 @@
+Computers 2025, 14, 291
+8 of 25
+3.1.3. CIC-IDS2017
+The CIC-IDS2017 dataset is a comprehensive intrusion detection dataset that captures
+realistic network traffic, reflecting the complexity of modern cyberattacks. It includes 14 dif-
+ferent attack categories, such as bot, DDoS, various DoS attacks (e.g., GoldenEye, Hulk), brute
+force (FTP and SSH Patator), PortScan, and web attacks (brute force, SQL injection, XSS).
+Despite its breadth, the dataset suffers from an extremely skewed distribution of attack types,
+which necessitates reorganization for effective evaluation. To address this, all DoS records
+were grouped into a single DoS category, FTP and SSH Patator records were combined into
+brute force, and all web attack records were consolidated. Infiltration and Heartbleed attacks
+were excluded due to their minimal representation (fewer than 0.00001% of total records, i.e.,
+36 and 11 records, respectively, out of over 2.8 million samples). This restructuring prevents
+the skew of attacks, to make the model training and evaluation more balanced [9].
+Unlike datasets with predefined training and testing splits, CIC-IDS2017 consolidates
+all traffic data into a single collection of CSV files. After merging the files in MachineLearn-
+ingCSV.zip, the dataset comprises 2,830,743 records. To maintain the integrity of attack
+distributions, an 80:20 stratified train/test split is employed during evaluation. This ap-
+proach is to preserve class ratios and ensure that models are trained and tested on data
+representative of real-world attack patterns. This makes the CIC-IDS2017 dataset valuable
+in developing and validating intrusion detection systems due to its scale, diversity, and
+realism [31]. The attack categories presented in this dataset are shown in Table 4.
+Table 4. CIC-IDS2017 [9] class descriptions and data distribution.
+Class
+Description
+No. of Training
+No. of Testing
+Bot
+An attack that performs automated tasks, often used in malicious
+activities like botnets.
+1565
+391
+BruteForce
+An attack that systematically tries all possible combinations of
+passwords or keys.
+11,066
+2766
+DoS
+Overwhelming a system with traffic to make it unavailable.
+102,420
+25,605
+DDoS
+A DoS attack launched from multiple devices, often part of a
+botnet.
+201,369
+50,343
+Normal
+Normal traffic.
+1,817,056
+454,264
+PortScan
+Scanning a system’s ports to find open or vulnerable entry points.
+127,043
+31,761
+Web Attack
+Exploiting vulnerabilities in web applications, such as through
+SQL injection or XSS.
+1744
+436
+3.1.4. IoTID20
+The IoTID20 dataset is a specialized intrusion detection dataset designed to reflect
+security threats targeting IoT environments. It captures realistic network traffic and focuses
+on four primary attack types: DoS, Mirai, MITM ARP spoofing, and scan. This focus on
+IoT-specific threats makes IoTID20 especially relevant for developing IDS for securing IoT
+devices and networks, which are increasingly vulnerable to cyber-attacks [37]. Due to the
+limited computational power, IoT systems require special IDS models unlike traditional
+IDS for evaluating the presented cyber threats considering IoT-security needs [38].
+IoTID20 does not include predefined training and testing splits. Instead, the data is
+consolidated into a single file, IoT Network Intrusion Detection.csv, containing 625,783 records.
+For evaluation, a stratified 80:20 train/test split is used to maintain the class distribution,
+ensuring the model is trained and tested on representative samples of each attack type.
+This balanced splitting approach enhances the reliability of performance assessments and

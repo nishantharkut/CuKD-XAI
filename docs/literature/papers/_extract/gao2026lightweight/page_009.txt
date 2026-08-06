@@ -1,0 +1,48 @@
+Electronics 2026, 15, 938
+9 of 20
+computation. This effectively improves the model’s prediction efficiency. The definition of
+dilated convolution is as follows:
+G(s) = (x · gd)(s) =
+w−1
+∑
+i=0
+g(i) · xs−d·i
+(7)
+where gd denotes the convolution operation with a dilation factor d, w represents the kernel
+size, and s −d · i denotes the direction toward the past. In TCN, the dilation factor d controls
+the sampling interval of the convolution kernel along the temporal dimension. As shown in
+Figure 4, when the kernel size is 2 and the dilation factor d = 1, the convolution operation
+only covers two consecutive time steps, which is a standard one-dimensional convolution.
+When the dilation factor d = 2, the convolution samples input with gaps, expanding the
+receptive field to three time steps. With d = 4, the receptive field is further enlarged,
+allowing the model to capture information from a longer temporal range. By introducing
+the dilation factor, TCN can significantly expand the receptive field without increasing the
+kernel size and the number of model parameters, thereby effectively capturing long-term
+dependencies in time series.
+Input Layer
+d=1
+d=2
+d=4
+Hidden Layer
+Output Layer
+Hidden Layer
+Figure 4. Illustration of dilated causal convolution.
+3.4.3. Residual Connection
+The residual block simplifies the network training process by introducing residual
+connections. It typically consists of a series of convolutional layers and shortcut connections,
+enabling the model to capture long-range dependencies with fewer layers. This design
+facilitates easier training and faster convergence, mitigates the vanishing gradient problem
+in deep learning, and enhances both the training stability and generalization performance
+of the network. The residual block is composed of two branches that operate on the input
+and output respectively, which can be expressed as follows:
+o = δ(x + φ(x))
+(8)
+where δ(·) denotes the activation function, and φ(x) represents the transformation com-
+posed of four components: dilated causal convolution, weight normalization, activation
+function, and dropout.
+4. Experiments and Performance Evaluation
+This section presents the experimental methodology and performance evaluation of the
+proposed approach. First, the implementation platform, performance evaluation metrics,
+and hyperparameters used for model training are described. Then, the experimental results
+of hybrid feature selection and TCN-based classification are discussed in detail.
+https://doi.org/10.3390/electronics15050938

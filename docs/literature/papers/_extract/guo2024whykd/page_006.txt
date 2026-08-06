@@ -1,0 +1,36 @@
+towards increased student-teacher fidelity or mutual information (Wang et
+al, 2022; Li et al, 2022; Lao et al, 2023). Recent work (Sun et al, 2024) also
+optimizes in this direction, where a z-score logit standardization process is
+proposed to mitigate the logits matching difficulties caused by logit shift and
+variance match between teacher and student. Nevertheless, this idea faced
+initial challenge in (Stanton et al, 2021), indicating that closely replicating
+the teacher’s behavior does not consistently lead to significantly improved
+student generalization performance during testing, whether in self-distillation
+or ensemble distillation.
+(Stanton et al, 2021) first investigates if the low-fidelity is an identifiability
+problem that can be solved by augmenting the dataset, and the answer is
+no: experimental results show subtle benefits of this increased distillation
+dataset. They further explore if the low-fidelity is an optimization problem
+resulting in a failure of the student to match the teacher even on the original
+training dataset, and their answer is yes: A shared initialization does make
+the student slightly more similar to the teacher in activation space, but in
+function space the results are indistinguishable from randomly initialized
+students.
+Though insightful, it prompts further questions and drives us to think:
+Is low-fidelity truly undesirable and problematic for KD, especially if it does
+not harm student performance? Thus, additional exploration into this stu-
+dent fidelity-performance relation is required to elucidate the above paradox.
+Adopting a similar investigative approach which observes model fidelity vari-
+ations with different data augmentations, we tailor it to our case, exercising
+a more cautious control over the data augmentation strength and thus the
+randomness into the distillation dataset during KD training.
+In our work, we applied various data augmentations on KD, aiming to
+provide a more comprehensive understanding of model fidelity and atten-
+tion mechanisms. Our empirical results and theoretical analysis challenge
+conventional wisdom, supporting and extending (Stanton et al, 2021) by
+demonstrating that student-teacher fidelity or mutual information does de-
+crease with improved student performance during KD training. And, this
+low-fidelity phenomenon can hardly be mitigated with optimization aimed
+at improving student generalization. We thus advocate for more cautious
+practices in future research when designing KD strategies.
+6

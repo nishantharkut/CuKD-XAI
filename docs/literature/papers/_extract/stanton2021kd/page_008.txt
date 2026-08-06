@@ -1,0 +1,76 @@
+CIFAR-100
++12.5k GAN
++25k GAN
++37.5k GAN
++50k GAN
+90
+95
+100
+Train Agreement
+GAN-Generated Data
+D0
+D0 ∪D1
+D1
+80
+90
+100
+Train Agreement
+Held-Out Data
+Baseline
+Rotation
+Vertical Flip
+ColorJitter Combined Augs
+60
+80
+100
+Train Agreement
+Data Augmentation
+1 Teacher
+3 Teachers
+5 Teachers
+Figure 5: The train agreement for teacher ensembles (m ∈{1, 3, 5}) and student on the distillation
+data for a ResNet-56 on CIFAR-100 under different augmentation policies. In all panels, increasing
+the softness of the teacher labels by adding examples not in the teacher train data makes distillation
+more difﬁcult. Left: agreement for the synthetic GAN-augmentation policy from Figure 1. Middle:
+agreement from subsampled CIFAR-100 experiment in Figure 4. Right: agreement for some of the
+augmentation policies in Figure 3. The shaded region is not visible because the variance is very low.
+6
+Optimization: Does the Student Match the Teacher on Distillation Data?
+If poor ﬁdelity is not primarily an identiﬁability problem from the wrong choice of distillation data,
+perhaps there is a simpler explanation. Up to this point, we have focused on student ﬁdelity on a
+held-out test set. Now we turn our attention to student behavior on the distillation data itself. Does
+the student match the teacher on the data it is trained to match it on?
+6.1
+More distillation data lowers train agreement
+In Figure 1 we presented an experiment distilling ResNet-56 networks on CIFAR-100 augmented with
+synthetic GAN-generated images. We saw that enlarging the distillation dataset leads to improved
+teacher-student agreement on test, but the agreement remains relatively low (below 80%) even for the
+largest distillation dataset that we considered. In Figure 5 (left panel), we report the teacher-student
+agreement for the same experiment, but now on the distillation dataset. We now observe the opposite
+trend: as the distillation dataset becomes larger, it becomes more challenging for the student to match
+the teacher. Even when the student has identical capacity to the teacher, the student only achieves
+95% agreement with the teacher when we use 50k synthetic images for distillation.
+The drop in train agreement is even more pronounced when we use extensive data augmentation. In
+Figure 5, right panel, we report the teacher-student agreement on the train set with data augmentation
+for a subset of augmentation strategies presented in Section 5.1. We use the CIFAR-100 dataset and
+the ResNet-56 model for the teachers and the students (for details, see Section 5.1). In each case,
+we measure agreement on the augmented training set that was used during distillation. While for
+the baseline augmentation strategy, we can achieve almost perfect teacher-student agreement, for
+heavier augmentations the agreement drops dramatically. For the Rotation, Vertical Flip and Color
+Jitter augmentations, the agreement is between 80% and 90% for all the considered teacher sizes.
+For Combined Augs, the combination of these three augmentation strategies, the agreement drops
+even further, to just 60% in self-distillation!
+Our intuition about how knowledge distillation should work largely hinges on the assumption that
+after distillation the student matches the teacher on the distillation set. However, the results presented
+in this section suggest that in practice the optimization method is unable to achieve high ﬁdelity even
+on the distillation dataset when extensive data augmentation or synthetic data is used. The inability
+to solve the optimization problem undermines distillation: in order to ﬁnd a student that would match
+the teacher on all inputs, we need to at least be able to ﬁnd a student that would match the teacher on
+all of the distillation data.
+Optimization and the train-test ﬁdelity gap.
+Notably, despite having the lowest train agreement,
+the Combined Augs policy results in better test agreement than other polices with better train
+agreement (Figure 3). This result highlights a fundamental trade-off in knowledge distillation: the
+student needs many teacher labels match the teacher on test, but introducing examples not in the
+teacher train data makes matching the teacher on the distillation data very difﬁcult.
+8

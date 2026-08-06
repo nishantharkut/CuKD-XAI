@@ -1,0 +1,118 @@
+Sensors 2026, 26, 356
+17 of 22
+the semantic characteristics of network traffic, which enables the IoT model to effectively
+discriminate between different traffic categories.
+Table 4. Classification Report for the Edge Model Network.
+Class
+Precision
+Recall
+F1-Score
+Support
+Backd
+1.0000
+0.9992
+0.9996
+4972
+HTTP
+0.9992
+1.0000
+0.9996
+9982
+ICMP
+1.0000
+1.0000
+1.0000
+23,287
+TCP
+1.0000
+1.0000
+1.0000
+10,012
+UDP
+1.0000
+1.0000
+1.0000
+24,314
+Finge
+0.9746
+0.9600
+0.9673
+200
+MITM
+1.0000
+1.0000
+1.0000
+243
+Norm
+1.0000
+1.0000
+1.0000
+96,939
+Pass
+0.9992
+1.0000
+0.9996
+10,031
+Port
+0.9998
+1.0000
+0.9999
+4513
+Rans
+0.9995
+0.9982
+0.9989
+2185
+SQL
+1.0000
+1.0000
+1.0000
+10,241
+Upload
+1.0000
+1.0000
+1.0000
+7527
+Vul
+1.0000
+1.0000
+0.9996
+10,022
+XSS
+0.9997
+1.0000
+0.9998
+3183
+This level of abstraction is particularly suitable for resource-constrained IoT devices.
+By relying on precomputed embeddings from the edge, the IoT model eliminates the need
+for local feature extraction and other computationally intensive operations required for
+fine-grained classification, while still maintaining near-perfect accuracy.
+Figure 7 illustrates the model’s performance across the five-category scenario. Training
+the IoT model required approximately 20 min per epoch on a CPU, and convergence
+was achieved after only two epochs. This demonstrates the efficiency and feasibility of
+deploying EdgeBERT-derived embeddings on lightweight IoT models, achieving both high
+accuracy and low computational overhead.
+An important consideration in this setup is the network data rate, which directly
+impacts inference latency. On average, the edge-based model generates embedding batches
+in 9 ms, while the IoT-level model performs classification in 70 ms on a 2.5 GHz CPU
+with 4 cores. Table 5 summarizes these metrics. These latency magnitudes align well
+with real-world IoT requirements, ensuring rapid decision-making and responsiveness.
+However, a potential bottleneck in this pipeline is the network data rate, which is crucial
+for transferring the generated embeddings from the edge to the IoT devices. Insufficient
+throughput or unstable connectivity may increase transmission delays, limiting how quickly
+the IoT-level model can perform inference.
+Table 5. End-to-End Latency Summary for SEED Inference Pipeline.
+Component
+Latency
+Edge-based model embedding generation
+9 ms
+IoT-level classifier inference (CPU, 2.5 GHz, 4 cores) *
+70 ms
+IoT-level classifier inference (NVIDIA T4 GPU)
+0.9 ms
+* The resource-constrained device for real-world deployment.
+As shown in Figure 8, the IoT-level binary classifier further demonstrates the robust-
+ness of our scheme by accurately flagging anomalous traffic instances. This confirms our
+proposed SEED framework is both computationally efficient and effective for real-time
+intrusion detection at the network edge.
+https://doi.org/10.3390/s26020356

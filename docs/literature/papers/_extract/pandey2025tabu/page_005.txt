@@ -1,0 +1,194 @@
+Data preparation
+The WSN-DS dataset is comprised of 374,661 entries over 19 columns. Features are related to wireless sensor 
+network behavior with “Attack type” as the target variable.
+Data preprocessing
+The dataset was read into pandas; the column “Attack type” was separated from the rest of the feature set. Further, 
+the data were split into training and testing sets with features (X) and target variables (y) separated over an 80–20 
+split.
+Initial model development
+A RF classifier is implemented with initial hyperparametersn_estimators = 100, max_depth = 10, and was trained 
+on the training data.
+Model evaluation
+The model was assessed using the metrics mentioned: accuracy, precision, recall, F1 Score, Cohen’s Kappa, and 
+ROC AUC. A confusion matrix and ROC curve were also plotted for visualization.
+Reference
+Research gap
+Techniques used
+Research findings
+Limitations
+15
+Limited accuracy in traditional 
+IDS approaches
+SVM-based IDS
+Achieved 90.8% accuracy
+High computational complexity; limited 
+feature selection
+16
+Energy consumption issues in 
+WSN security
+Firefly algorithm for energy 
+efficiency
+91.52% packet delivery ratio; extended 
+network lifespan by
+Trade-off between security and energy 
+conservation; not ideal for dense networks
+17
+Centralized architecture 
+vulnerabilities
+Blockchain and federated learning
+100% accuracy for binary classification; 
+99.95% for multiclass classification
+High resource requirements; latency issues 
+in large-scale IoT deployment
+18
+Insufficient feature engineering
+RF, gradient boosting, and SVM
+Enhanced security and localization 
+improvements
+Less effective in detecting zero-day attacks; 
+dataset imbalance issues
+19
+Data integrity during 
+transmission
+Trust evaluation and cascading 
+encryption
+Guaranteed proper data transmission and 
+energy
+Key management overhead, increased 
+latency in data transmission
+20
+DoS attack detection accuracy
+XGBoost for feature selection, 
+compared with NB and RNN
+Superior performance of XGBoost in 
+feature selection
+High memory requirements; performance 
+degradation with limited training data
+21
+Temporal pattern recognition 
+in attacks
+RNN compared to Naive Bayes
+RNN: 99.7% accuracy; NB: 97.9% accuracy
+RNN training complexity: resource 
+intensive for resource-constrained IoT
+22,23
+Lack of standardized evaluation 
+metrics
+Multiple IDS strategies with 
+quantitative metrics
+A comprehensive evaluation framework 
+was established
+Inconsistent results across different 
+datasets; metric selection bias
+24
+Single classifier limitations
+Ensemble techniques (RF and 
+XGBoost)
+ > 99% accuracy with ensemble methods
+Model complexity; difficult to implement in 
+resource-constrained environments
+25
+Limited feature engineering
+Feature engineering and transfer 
+learning
+Improved model generalization
+Lack of optimized feature selection; transfer 
+learning limitations across domains
+26
+Performance on diverse datasets
+ML-based IDS with feature 
+reduction
+99.7% accuracy, 99.8% precision, 97.8% 
+recall on NSL-KDD
+Dataset-specific optimizations that may not 
+generalize well
+27
+Data imbalance issues
+Feature reduction and data 
+balancing
+High performance on UNSW-NB15 and 
+CICIDS 2017
+Complex preprocessing requirements; 
+limited real-time detection capability
+28
+kNN optimization for WSN
+PL-AOA optimization for kNN
+99% detection accuracy against DoS 
+attacks; 10% improvement over traditional 
+kNN
+Limited to specific attack types; 
+performance varies with network topology
+29
+Balancing computation and 
+accuracy
+Lightweight computation 
+optimization
+Balance between resource usage and 
+detection performance
+Trade-off between lightweight nature and 
+detection capability
+34,35
+Integration challenges in 
+WSN-IoT
+FA-ML (Firefly Algorithm with ML)
+Improved detection rates with optimized 
+energy consumption
+Algorithm convergence issues in dynamic 
+network conditions
+41
+RF optimization limitations
+RF parameter tuning approaches
+Improved RF performance, but not optimal
+Optimization method limitations: local 
+optima problems
+42
+Feature relevance in RF models
+Feature importance analysis with RF
+Better understanding of attack signatures
+Limited dynamic adaptation to emerging 
+threats
+43
+Hyperparameter tuning
+Grid search and randomized search 
+for RF optimization
+Improved model performance
+Computationally expensive optimization; 
+not ideal for resource-constrained WSNs
+44
+Metaheuristic optimization 
+for IDS
+Tabu-Search approach
+Enhanced optimization performance
+Search space limitations; potential 
+convergence to local optima
+45
+RF baseline performance
+Basic RF implementation
+Established performance baseline
+Non-optimized hyperparameters; 
+overfitting on certain datasets
+46,47
+Dataset benchmarking
+WSN-DS dataset evaluation
+Standard dataset for WSN security 
+evaluation
+Limited attack diversity; potential dataset 
+bias
+48,49
+Real-world attack scenarios
+CICIDS 2017 dataset 
+implementation
+Realistic network traffic patterns
+Dataset aging; some attack vectors 
+becoming outdated
+50,51
+IoT-specific attack patterns
+CIC IoT 2023 dataset evaluation
+Latest IoT attack patterns and signatures
+Latest IoT attack patterns and signatures
+Table 1.  Literature review summary of ML-based intrusion detection systems in WSN/IoT.
+ 
+Scientific Reports |        (2025) 15:18634 
+5
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

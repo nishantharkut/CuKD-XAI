@@ -1,0 +1,26 @@
+Page 13 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+•	 Feature agreement. It is computed as the fraction of common features between the 
+sets of top-k attributions of ET(x) and ES(x) of a given student model S. Formally: 
+1
+k |{f ∈F | f ∈topf (ET(x), k) ∧f ∈topf (ES(x), k)}|.
+•	 Sign agreement. It measures to what extent ET(x) and ES(x) of a given stu-
+dent model S agree by also considering the feature attribution signs for 
+the top-k features. Therefore, this is a stricter measure, computed as: 
+1
+k |{f ∈F | f ∈topf (ET(x), k) ∧f ∈topf (ES(x), k) ∧sgn(ET(x), f )=sgn(ES(x), f )}|.
+The results depicted in Fig. 4 demonstrate the superior agreement achieved by DiXtill 
+compared to other distillation techniques.
+Lastly, for the sake of completeness, some examples of explanations learned by the 
+distilled student are reported in Fig.  5, showing word attributions for the different 
+classes considered.
+As can be seen in Fig. 5, the student model effectively captures the patterns linking 
+the provided test instances to the correct class, also providing a high-quality explana-
+tion of its predictions. In particular:
+•	 In the first example, the text is correctly classified as bearish, with the model 
+focusing on words like cut, stock, and price. Indeed, a bearish sentiment in the 
+Fig. 4  Evaluation of explanation agreement between the teacher and different student models obtained 
+with DiXtill and other distillation methods
+Fig. 5  Example of explanations produced by DiXtill for a bearish, bullish, and neutral test instance, plotted 
+with the Captum library [41]

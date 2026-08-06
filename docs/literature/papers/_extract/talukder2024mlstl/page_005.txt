@@ -1,0 +1,100 @@
+MLSTL-WSN: machine learning-based intrusion detection using SMOTETomek in WSNs
+2143
+(LCWOA) optimizes hyperparameters for the ensemble
+models. The RKOA-AEID algorithm was evaluated on the
+benchmark WSN-DS dataset, achieving an improved accu-
+racy of 98.94% compared to other approaches.
+Moundounga and Satori [33] proposed an innovative
+Stochastic ML-Based Attack Detection System for WSNs,
+combining Hidden Markov Models (HMMs) and Gaus-
+sian Mixture Models (GMMs). The system utilized Prin-
+cipal Component Analysis for dimensionality reduction
+in WSN datasets, preserving vital routing features while
+reducing variables. Iterative machine learning Expectation-
+Maximization was employed to train HMMs and GMMs,
+enabling accurate detection and classiﬁcation of malicious
+activities and routing errors. Experimental results showed
+that a conﬁguration of 3 HMMs and 4 GMMs achieved an
+outstanding accuracy of 94.55%, highlighting the system’s
+superior performance. This approach presented a promising
+solution to enhance WSN security.
+Here, the related works highlight the importance of intru-
+sion detection in WSNs and the ongoing efforts to develop
+effective machine learning-based intrusion detection mod-
+els. Our proposed hybrid machine learning model offers a
+promising solution for intrusion detection in WSNs, pro-
+viding improved accuracy and performance compared to
+previous methods.
+3 Methodology
+We integrated ML techniques with the SMOTE-Tomek algo-
+rithm to achieve a balanced dataset, resulting in improved
+intrusion detection for WSNs.The experiments conducted to
+validate the proposed intrusion detection approach in WSNs
+involved rigorous testing and evaluation steps. Below are
+detailed descriptions of the experimental procedures and
+implementation speciﬁcs:
+• Data Collection Raw data from WSNs was collected to
+form the foundation for the experimental dataset. The
+data encompassed diverse scenarios and network condi-
+tions to ensure the model’s robustness and applicability
+across real-world scenarios.
+• PreprocessingTechniquesAcrucialaspectofthemethod-
+ology involved the preprocessing of the collected data.
+Standardization was applied to normalize input features,
+ensuring a consistent scale for all variables. Addition-
+ally, label encoding was employed to convert categorical
+target features into a numerical format, facilitating com-
+patibility with machine learning algorithms.
+• Data Balancing To address the challenge of imbalanced
+datasets and potential overﬁtting, the Synthetic Minor-
+ity Over-sampling Technique (SMOTE) combined with
+the Tomek links removal method (SMOTETomek) was
+utilized. This technique ensured a balanced representa-
+tion of both normal and intrusion instances in the dataset,
+contributing to improved model generalization.
+• Data Splitting The experimental dataset underwent k-
+fold cross-validation, speciﬁcally with 10 folds, to split it
+into training and testing sets. This iterative splitting pro-
+cess helps in assessing the model’s performance across
+various subsets of the data, promoting robustness and
+generalization.
+• Model Building Several machine learning algorithms
+were implemented for intrusion detection model devel-
+opment. The ensemble method Random Forest (RF),
+decision tree (DT), multilayer perceptron (MLP), k-
+nearest neighbors (KNN), XGBoost (XGB), and Light-
+GBM (LGB) were chosen for their diverse strengths in
+capturing different patterns within the data.
+• Model Evaluation The performance of each developed
+model was meticulously evaluated using the test dataset.
+Various evaluation metrics, including accuracy, preci-
+sion, recall, and F1-score, were employed to provide a
+comprehensive understanding of the models’ effective-
+ness and reliability in detecting and classifying intru-
+sions.
+• Model Selection The ﬁnal step involved selecting the
+best-performing model based on the comprehensive
+evaluation results. The model exhibiting superior per-
+formance across multiple metrics was deemed optimal
+for intrusion detection in WSNs. This selection process
+ensures the chosen model’s suitability for deployment in
+real-world scenarios.
+The proposed intrusion detection approach, as illustrated
+in Fig.1, integrates these experimental steps to create a robust
+and effective solution for enhancing the security of Wireless
+Sensor Networks. The detailed implementation and evalua-
+tion procedures guarantee the reliability and practicality of
+the developed intrusion detection models.
+The overall algorithmic steps of our proposal for intrusion
+detection in WSNs is shown in Algorithm 1 as follows:
+3.1 Dataset Description
+The Wireless Sensor Network DoS Detection Dataset (WSN-
+DS)[34]isacomprehensivecollectioncraftedforthespeciﬁc
+purpose of identifying Denial-of-Service (DoS) attacks in
+WSNs (WSNs). This dataset, consisting of 374,661 records,
+was curated using the LEACH protocol, a widely adopted
+routing protocol in WSNs, and includes instances of four
+types of DoS attacks (Blackhole, Grayhole, Flooding, and
+Scheduling) as well as normal network behavior scenarios.
+Data for WSN-DS was acquired using the Network Simula-
+123

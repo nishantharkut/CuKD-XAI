@@ -1,0 +1,109 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1101
+linear in the size of the matrix X and ensures that only mean-
+ingful, non-redundant features are passed to the next stage.
+Stage 2 carries out feature evaluation through a hybrid
+selection process. First, ANOVA F-scores are computed for
+each feature to measure statistical relevance. Then, a tem-
+porary XGBoost model
+˜
+M is trained, and SHAP global
+importances are extracted directly from its tree structure.
+The two importance measures are normalized and combined
+(40% ANOVA + 60% SHAP), producing a ranked list from
+which the top K=10 features F⋆are selected in linear time.
+This combination leverages both statistical variance analysis
+and model-speciﬁc interpretability to yield a stable, informa-
+tive, and computationally light feature set.
+Stage 3 retrains the ﬁnal XGBoost model M using only
+the reduced feature set F⋆. Since K is ﬁxed, model training
+time scales linearly with the number of rows, making the
+model lightweight and suitable for real-time IDS deployment
+without accuracy loss.
+Stage 4 handles online inference and per-instance expla-
+nation. For each incoming instance x, a forward pass through
+M produces the prediction ˆy, while SHAP explanations are
+computed in the same pass. LIME explanations are gener-
+ated using a ﬁxed number of perturbed samples, ensuring
+bounded and predictable per-ﬂow latency regardless of the
+original dimensionality. A consistency ﬂag γ is set depend-
+ing on whether SHAP and LIME agree on the top-ℓfeatures,
+enabling operators to detect and respond when explanation
+methods diverge—an added safeguard absent in prior single-
+method XAI-IDS designs.
+Overall, all ofﬂine operations run in time proportional to
+thedatasetsize,andonlineoperationsmaintainconstant-time
+complexity per instance, meeting the low-latency require-
+ments of operational IDS environments while providing
+veriﬁable and reliable explanations.
+3.2 Applied XAI techniques
+Model explanations can be grouped into global and local
+types: the former reveal overall model logic, whereas the
+latter clarify speciﬁc decisions. As illustrated in Fig. 1, we
+employ SHAP for both global and local explanations and
+LIME solely for local ones. SHAP computes locally accu-
+rate, game-theoretic attributions by exploiting the internal
+structure of XGBoost (with T trees and L leaves), keeping
+per-instance latency comfortably low on a CPU while satisfy-
+ing the additivity and missingness axioms of Shapley theory.
+LIME is completely model-agnostic; its perturb-and-ﬁt strat-
+egy produces sparse linear explanations that many security
+analysts ﬁnd intuitive and easier to act upon than dense gra-
+dient heatmaps. Using both methods in tandem enables a
+cross-validation step: if the top-ℓcontributing features dis-
+agree, the instance is ﬂagged for further analyst scrutiny,
+thereby improving trust in the explanations. Formally, we
+compute a consistency coefﬁcient κ = |SSHAP∩SLIME|
+ℓ
+, where
+SSHAP and SLIME are the sets of the top-ℓfeatures returned by
+each explainer; we set ℓ= 5 and ﬂag an instance whenever
+κ < 0.50. On all three datasets, the median κ is 0.94, so only
+about 2% of ﬂows require analyst review. Because SHAP
+derives exact Shapley attributions from the tree ensemble,
+whereas LIME ﬁts a local linear surrogate around each
+instance, the two techniques reason about feature inﬂuence
+in fundamentally different ways; agreement reinforces con-
+ﬁdence, while disagreement highlights trafﬁc ﬂows that are
+likelynearthemodel’sdecisionboundaryorthatexhibitatyp-
+ical feature combinations. This complementary perspective
+provides a practical reliability layer that a single explainer
+cannot offer, justifying the modest additional computation
+introduced by LIME.
+Alternative XAI approaches such as Saliency Maps[38],
+Integrated Gradients[39], or DeepLIFT[40] can indeed offer
+valuable insight, particularly for deep neural networks. How-
+ever, most rely on backpropagation or extensive perturbation
+sampling, making them signiﬁcantly more computationally
+demanding (e.g., KernelSHAP time grows exponentially
+with feature count). Such latency overhead and usability
+issues are incompatible with our real-time IDS requirement,
+whereas the SHAP–LIME pair delivers the necessary balance
+of faithfulness, efﬁciency, and model-agnostic applicability
+for tabular network-ﬂow data.
+3.2.1 SHAP
+SHAP, introduced by Lundberg and Lee [3], employs Shap-
+ley values from game theory to quantify each feature’s
+contribution to an AI model’s prediction, assigning values
+that reﬂect each feature’s positive or negative impact. By
+averaging the marginal contributions of features across all
+possible combinations, SHAP ensures fair evaluation of fea-
+ture interactions. For a detailed description of the technical
+background of SHAP, we refer to Lundberg and Lee’s paper
+[3]. SHAP’s advantages lie in its game-theoretical founda-
+tion and properties: Symmetry (equal importance for equal
+contributors), Dummy (zero contribution for non-inﬂuential
+features), and Additivity (predictions as the sum of feature
+contributions).
+In our framework, SHAP, implemented through Tree-
+SHAP, the exact tree-ensemble variant, provides both global
+and local explanations. TreeSHAP leverages the internal
+structure of the XGBoost model to compute exact Shap-
+ley values in time linear to the number of leaves, making
+it far faster and more scalable than the model-agnostic
+KernelSHAP alternative. The global explanation aggregates
+feature contributions for a comprehensive view, offering
+insights into the overall behavior of the AI model. This
+is particularly important for understanding how the model
+operates on different trafﬁc datasets (e.g., CIC-DDoS2019,
+123

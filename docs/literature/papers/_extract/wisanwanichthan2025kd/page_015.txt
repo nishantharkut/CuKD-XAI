@@ -1,0 +1,27 @@
+Computers 2025, 14, 291
+15 of 25
+Figure 2. Confusion matrix of teacher (left), student without KD (middle), and student with KD
+(right) models on NSL-KDD.
+Figure 3. ROC curve of teacher (left), student without KD (middle), and student with KD (right)
+models on NSL-KDD.
+4.2. UNSW-NB15
+The UNSW-NB15 results (Table 9) show a similar pattern to NSL-KDD, where the
+teacher model delivers the best overall performance at the cost of computational efficiency.
+With 280,448 parameters, the teacher model achieves 75.45% accuracy, 81.12% precision,
+and an F1 score of 76.40%, reflecting its capacity to capture complex patterns in the data.
+However, this comes with a slower inference speed of 2.722 × 10−5 s. The student model
+without KD, while significantly more efficient with only 20,816 parameters, sees a drop in
+performance—achieving 69.66% accuracy and a lower F1 score of 71.10%. Despite this, it
+runs faster (2.502 × 10−5 s), suggesting that the smaller model is able to maintain confident
+predictions, though it may miss more true positives due to reduced capacity.
+Introducing KD narrows this performance gap. The distilled student model reaches
+75.78% accuracy and 76.10% F1 score—improvements of +6.12% and +5.00% percentage
+points, respectively, over the non-distilled version, while retaining a fast inference speed
+of 2.451 × 10−5 s. The confusion matrices and ROC curves (Figures 4 and 5) further
+confirm this improvement: the KD-enhanced student exhibits fewer misclassifications
+across multiple classes and achieves AUC values close to those of the teacher model. The
+non-distilled student, on the other hand, shows a noticeable drop in AUC, especially for rare
+attack types like worms and Shellcode. These results suggest that KD successfully transfers
+the teacher’s ability to generalize across both majority and minority classes. However,
+performance on underrepresented classes remains an area where further improvements
+are needed.

@@ -1,0 +1,69 @@
+Page 9 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+how our method compares to other compression techniques, ensuring a better bal-
+ance between performance and model size. Finally, we evaluate the consistency of the 
+self-computed explanations of DiXtill and those related to the other distillation meth-
+ods, showcasing how the proposed method can ensure a high level of faithfulness and 
+interpretability.
+Comparison with knowledge distillation methods
+Here we compare the performance of DiXtill against different models, including (i) 
+the baseline student model trained from scratch without knowledge distillation, using 
+a standard cross-entropy loss; (ii) two distilled student models, obtained with KL 
+knowledge distillation [8] and matching logits with MSE [14, 15], respectively; (iii) 
+the teacher LLM, used as the upper bound for classification performance.
+For each model, we evaluated the accuracy, macro F1 score, Matthews correlation, 
+and multiclass ROC AUC score, using the One-vs-Rest (OvR) approach. Results are 
+reported in Table 1 and Fig. 2.
+Achieved results show that the teacher (i.e., the reference model) provides an upper 
+bound for performance, reaching an accuracy of 85.5% and a macro F1 score of 81%. 
+When employing traditional knowledge distillation with the KL divergence loss, there 
+is a noticeable decrease in accuracy to 82.7% and in macro F1 score to 76%. Simi-
+lar performances are achieved by using the MSE-based knowledge distillation, which 
+further reduces the accuracy to 81.6% and macro F1 to 75.2%. As a baseline, train-
+ing a student model from scratch without any distillation results in the lowest accu-
+racy of 80.2%. These results highlight the challenges of distilling an LLM into a small 
+bi-LSTM, as well as learning from scratch without any teacher guidance. Conversely, 
+the performance achieved by using DiXtill, which shows an accuracy of 84.3% and a 
+macro F1 score of 78.9%, indicates that incorporating local explanations during distil-
+lation enables competitive performance comparable to those of the teacher, with a 
+remarkable reduction of the number of parameters, decreasing from 0.11 billion to 
+less than a million.
+In addition, we investigated the performance of DiXtill at different temperature 
+values, ranging from 1 to 5, as reported in Table 2. Specifically, as τ increases, the 
+softmax function generates a softer probability distribution, facilitating the transfer 
+of richer information from the teacher to the student model during the distillation 
+process.
+Table 1  Classification performance comparison of different knowledge distillation methods
+Results achieved by DiXtill are highlighted in bold. In addition, the performance of the baseline student (trained without 
+distillation) and the teacher models are reported
+Method
+Accuracy
+Macro F1
+Matthews Corr.
+Macro AUC​
+Student w/o distillation
+0.802
+0.725
+0.618
+0.901
+Distillation with KL
+0.827
+0.762
+0.655
+0.916
+Distillation with MSE
+0.816
+0.752
+0.642
+0.907
+DiXtill
+0.843
+0.789
+0.689
+0.926
+Teacher
+0.855
+0.810
+0.721
+0.949

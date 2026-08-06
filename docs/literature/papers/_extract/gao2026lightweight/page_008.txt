@@ -1,0 +1,67 @@
+Electronics 2026, 15, 938
+8 of 20
+Algorithm 1 Hybrid Feature Selection Algorithm
+Input: Feature set F =
+
+f1, . . . fp
+	
+, class labels y, Number of feature subsets: K
+Output: The feature subset F′
+Step1. Initialization: set F′ = ∅
+Step2. The variance filtering method is used to initially screen the original dataset,
+resulting in a new dataset FV =
+n
+f1, f2, . . . fp′
+o
+Step3. Calculate MI(y, fi) for each feature in dataset FV
+Step4. Select the feature fi with the highest mutual information
+Step5. Set F ←F\fi , F′ ←F′∪fi ,
+Step6. While |F′| < K do
+Calculate J(fi) in (6) to find fi, F ←F\fi , F′ ←F′∪fi
+End For
+Step7. Return F′
+3.4. Intrusion Detection Framework Based on TCN
+The TCN is constructed by stacking multiple residual blocks, with each residual block
+using a fixed kernel size k and an exponentially increasing dilation factor d. Within each
+residual block, causal convolution ensures temporal causality, dilated convolution expands
+the receptive field, and residual connections facilitate model training and convergence.
+Utilizing the temporal characteristics of network traffic in IoT systems, this paper constructs
+an intrusion detection model based on TCN. The model diagram is shown in Figure 3.
+Dilated Causal ConV
+(kernel =2.kernel size=2)
+Batch Normalization
+PReLU
+Dropout
+      Conv
+(Optional)
+Residual Block ( , )
+k d
+Residual Block ( ,
+1)
+k d =
+Residual Block ( ,
+2)
+k d =
+Residual Block( ,
+4)
+k d =
+Residual Block ( ,
+8)
+k d =
+1
+1
+×
+ 
+Figure 3. TCN model diagram.
+3.4.1. Causal Convolution
+Causal convolution restricts the sliding direction of the convolution kernel in the time
+dimension, ensuring that the output at each time step depends only on the current time
+step and the previous inputs. Therefore, using causal convolution, the intrusion detection
+output at time t is only convolved with the time series at time t or earlier, without losing
+historical data, and can preserve data traffic information over a longer period of time.
+3.4.2. Dilated Convolution
+Dilated convolutional layers introduce a dilation factor within the convolutional filter,
+thereby enabling the model to have a larger receptive field. Unlike sequential models, each
+output position in a dilated convolution depends only on the kernel size and the dilation
+factor. Therefore, multiple outputs can be computed simultaneously, enabling parallel
+https://doi.org/10.3390/electronics15050938

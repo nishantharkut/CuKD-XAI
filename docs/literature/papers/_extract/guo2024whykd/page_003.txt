@@ -1,0 +1,38 @@
+models in ensemble KD to help elucidate the existing fidelity paradox.
+Following the investigation paradigm in (Stanton et al, 2021), where the
+model fidelity variations were observed with different data augmentations,
+we adapt this paradigm to our case with a more cautious control over the
+degree of randomness in augmentation during ensemble KD training. By
+varying data augmentation strengths, measured by Affinity (Cubuk et al,
+2021), we varied the model diversities trained on them. Impacts not only
+on traditional metrics like student-teacher fidelity, but also on less-explored
+aspects of attention maps diversity between different teachers, and mutual
+information between student and teachers are witnessed. Our empirical ob-
+servations appear to challenge the traditional wisdom on the student-teacher
+relationship in distillation during training procedure and thus provide further
+insights on explaining the fidelity paradox.
+Specifically, in support and further complement to (Stanton et al, 2021),
+we highlight attention map diversification existed within teacher ensembles
+as a deeper reason why a student with good generalization performance may
+be unable to match the teacher during KD training: Stronger data aug-
+mentation increases attention divergence in the teacher ensemble, enabling
+teachers to offer a broader perspective to the student. Consequently, the stu-
+dent surpassing the knowledge of single teacher becomes more independent as
+measured by lower student-teacher mutual information. And the low-fidelity
+observed is a demonstration of this phenomenon.
+Furthermore, though (Stanton et al, 2021) has demonstrated the low-
+fidelity observation, they still proposed the difficulties in optimization as the
+primary reason for it. And recent works including (Sun et al, 2024) remain
+optimizing in the direction of facilitating the student-teacher emulation pro-
+cedure. Yet our empirical and theoretically analysis demonstrate that, opti-
+mization with logits matching does improve the student generalization ability
+but is still at the cost of fidelity reduction.
+Our primary goal is to explain the fidelity paradox and understand the
+student learning and knowledge transfer dynamics in ensemble KD, by ob-
+serving the implications of data augmentation on the student-teacher rela-
+tionship. By doing so, we seek to provide insights that challenge the tradi-
+tional or extend preliminary wisdom in KD fidelity by leveraging the atten-
+tion mechanism in ensemble learning. As shown in Figure 1, we summarize
+our contributions as follows:
+(1) We demonstrate the correlation between teachers’ attention map di-
+3

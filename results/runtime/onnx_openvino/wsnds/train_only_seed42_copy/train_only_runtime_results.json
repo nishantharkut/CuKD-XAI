@@ -1,0 +1,125 @@
+{
+  "protocol": "train_only_seed42_onnx_runtime_copy_v1",
+  "hardware_required": false,
+  "deployment_root": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42",
+  "deployment_root_sha256_execution_contract": "1e8d4fe0d72c53e214118e89bee02770885daeddde8d96b80b51c18b1cada584",
+  "dataset_csv": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\data\\wsnds\\WSN-DS.csv",
+  "n_test": 56200,
+  "pytorch_fp32_baselines": {
+    "A": {
+      "pt_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42\\seed_42\\student_A_KD_from_RF_fp32.pt",
+      "pt_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "accuracy": 0.991423487544484,
+      "macro_f1": 0.9485087159320515
+    },
+    "B": {
+      "pt_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42\\seed_42\\student_B_KD_from_RF_fp32.pt",
+      "pt_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+      "accuracy": 0.9911209964412812,
+      "macro_f1": 0.9449299339062804
+    }
+  },
+  "onnx_runtime_rows": [
+    {
+      "model_name": "E_student_A_KD_from_RF_train_only",
+      "runtime": "onnxruntime",
+      "variant": "onnx_fp32",
+      "status": "ok",
+      "skip_reason": "",
+      "accuracy": 0.991423487544484,
+      "macro_f1": 0.9485087159320515,
+      "serialized_size_kb": 5.4423828125,
+      "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_A_KD_from_RF_train_only.onnx",
+      "artifact_sha256": "7d52727791fd55b6e52459fc15042b57940da27b7f9d038b75254c5c399b5200",
+      "latency_mean_ms_b1": 0.028226000003996887,
+      "latency_std_ms_b1": 0.0037593915146034414,
+      "latency_p50_ms_b1": 0.027049999516748358,
+      "latency_p95_ms_b1": 0.03531999964252463,
+      "latency_p99_ms_b1": 0.04221700117341241,
+      "throughput_samples_per_s_b1": 35428.32848644501,
+      "prediction_agreement_vs_pytorch_fp32": 1.0,
+      "macro_f1_delta_vs_pytorch_fp32": 0.0
+    },
+    {
+      "model_name": "E_student_A_KD_from_RF_train_only",
+      "runtime": "onnxruntime",
+      "variant": "onnx_dynamic_int8",
+      "status": "ok",
+      "skip_reason": "",
+      "accuracy": 0.9822064056939501,
+      "macro_f1": 0.893789697354604,
+      "serialized_size_kb": 5.0693359375,
+      "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_A_KD_from_RF_train_only_dynamic_int8.onnx",
+      "artifact_sha256": "05602f21ed754d968cb5308eafcdca7e27964aeade46b9e1ebf82dd3848507af",
+      "latency_mean_ms_b1": 0.03848299995297566,
+      "latency_std_ms_b1": 0.004401308019805736,
+      "latency_p50_ms_b1": 0.036899999031447805,
+      "latency_p95_ms_b1": 0.04933500067636486,
+      "latency_p99_ms_b1": 0.0575060012670292,
+      "throughput_samples_per_s_b1": 25985.50012270226,
+      "prediction_agreement_vs_pytorch_fp32": 0.9861032028469751,
+      "macro_f1_delta_vs_pytorch_fp32": -0.05471901857744754
+    },
+    {
+      "model_name": "E_student_B_KD_from_RF_train_only",
+      "runtime": "onnxruntime",
+      "variant": "onnx_fp32",
+      "status": "ok",
+      "skip_reason": "",
+      "accuracy": 0.9911209964412812,
+      "macro_f1": 0.9449299339062804,
+      "serialized_size_kb": 14.0693359375,
+      "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_B_KD_from_RF_train_only.onnx",
+      "artifact_sha256": "e4f99aad9a7c5634c390153464dbac690cc29c48370d7ac53307c78a063c6c51",
+      "latency_mean_ms_b1": 0.02561099996455596,
+      "latency_std_ms_b1": 0.008656822671093327,
+      "latency_p50_ms_b1": 0.021400001060101204,
+      "latency_p95_ms_b1": 0.04219999946144526,
+      "latency_p99_ms_b1": 0.055169001170725034,
+      "throughput_samples_per_s_b1": 39045.72259513249,
+      "prediction_agreement_vs_pytorch_fp32": 1.0,
+      "macro_f1_delta_vs_pytorch_fp32": 0.0
+    },
+    {
+      "model_name": "E_student_B_KD_from_RF_train_only",
+      "runtime": "onnxruntime",
+      "variant": "onnx_dynamic_int8",
+      "status": "ok",
+      "skip_reason": "",
+      "accuracy": 0.9845551601423488,
+      "macro_f1": 0.906592462083893,
+      "serialized_size_kb": 7.3701171875,
+      "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_B_KD_from_RF_train_only_dynamic_int8.onnx",
+      "artifact_sha256": "dd7c860751d4eadbbff0da5e78e2d1502b7e318be95cf18564a478c2e9bb15c1",
+      "latency_mean_ms_b1": 0.0390345000414527,
+      "latency_std_ms_b1": 0.00353088653316946,
+      "latency_p50_ms_b1": 0.0380000001314329,
+      "latency_p95_ms_b1": 0.04770500117956544,
+      "latency_p99_ms_b1": 0.05280700004732352,
+      "throughput_samples_per_s_b1": 25618.363215566987,
+      "prediction_agreement_vs_pytorch_fp32": 0.9897508896797153,
+      "macro_f1_delta_vs_pytorch_fp32": -0.03833747182238745
+    }
+  ],
+  "qat_refinement_report_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42_qat\\qat_refinement_report.json",
+  "qat_note": "QAT refine on train-only seed-42 lowered absolute macro-F1 for Student A despite tighter PTQ drop; HIL used direct PTQ of FP32 train-only weights with copy gate macro_drop<=0.03, not the QAT-refined weights.",
+  "qat_summary_excerpt": {
+    "protocol": "train_only_seed42_qat_refine_v1",
+    "students": {
+      "A": {
+        "baseline_ptq_macro_f1_fp32": 0.9485087159320515,
+        "baseline_ptq_macro_f1_drop": 0.026423775144021056,
+        "after_qat_macro_f1_fp32": 0.8784164162561424,
+        "after_qat_macro_f1_drop": 0.012806246994449544,
+        "qat_best_val_macro_f1": 0.8883725215379105
+      },
+      "B": {
+        "baseline_ptq_macro_f1_fp32": 0.9449299339062804,
+        "baseline_ptq_macro_f1_drop": 0.015216774034398028,
+        "after_qat_macro_f1_fp32": 0.908890873641219,
+        "after_qat_macro_f1_drop": 0.004337735588417324,
+        "qat_best_val_macro_f1": 0.9084491036652071
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+Published in Transactions on Machine Learning Research (06/2024)
+1
+Introduction
+As machine learning (ML) models become integral in high-stakes domains like healthcare and finance,
+the interpretability of these models is crucial for ML practitioners and domain experts (e.g., doctors and
+policymakers).
+Understanding model behavior is essential to identify errors and biases and gauge the
+reliability of model predictions, especially in complex models (Doshi-Velez & Kim, 2017). Several post
+hoc explanation methods have been proposed such as perturbation-based methods (e.g., LIME (Ribeiro
+et al., 2016b), SHAP (Lundberg & Lee, 2017)) and gradient-based methods (e.g., Gradient times Input
+(Simonyan et al., 2014), SmoothGrad (Smilkov et al., 2017), Integrated Gradients (Sundararajan et al., 2017),
+GradCAM (Selvaraju et al., 2017)).
+Prior research has investigated various aspects of explanation methods. For example, metrics have been
+developed to assess the faithfulness of explanations to the model’s behavior, such as comparing them to a
+model’s ground truth feature importances or using the "Remove and Retrain" (ROAR) approach (Liu et al.,
+2021; Hooker et al., 2018). However, challenges arise due to the unavailability of ground truth in real-world
+applications and the impracticality of retraining models in certain settings (Zhou et al., 2021). Studies have
+shown that popular explanation methods can produce inconsistent or misleading explanations, leading to
+risks like deploying biased models or making erroneous clinical decisions (Aivodji et al., 2019; Slack et al.,
+2020).
+However, while prior research has studied explanation methods, the (dis)agreement among different methods
+has not been extensively investigated. Practitioners often use multiple methods, but these can yield conflicting
+explanations. Therefore, resolving these disagreements is crucial to avoid reliance on misleading explanations
+with potentially severe consequences (Slack et al., 2020). Yet, there is a lack of research on the extent to
+which explanations disagree and how practitioners resolve these disagreements.
+In this work, we formalize and investigate the disagreement problem in explainable ML, a novel area of research
+that examines conflicts among post hoc explanation methods. We present the following key contributions:
+1. We conduct semi-structured interviews with 25 data scientists, gaining insights on the nature and
+frequency of explanation disagreements in their workflows. This input helps us define what constitutes
+an explanation disagreement in practical scenarios. 1.
+2. Building on these insights, we formalize the concept of explanation disagreement and create a new
+evaluation framework to quantitatively assess disagreements between pairs of explanations for the
+same model prediction.
+3. We apply this framework in an extensive empirical analysis, measuring disagreement levels across four
+real-world datasets, three data modalities, six advanced explanation methods, and various predictive
+models, including logistic regression, tree-based models, and various neural networks.
+4. Finally, we conduct an online user study with another set of 25 data scientists. We present them
+with pairs of conflicting explanations, assessing which they would rely on and their rationale. We
+also gather insights on their strategies for resolving such disagreements in their daily work.
+Our findings reveal that explanation disagreements are common and problematic: 84% of interviewees
+reported encountering explanation disagreements in practice. Our empirical analysis confirms widespread
+discrepancies across different methods and data modalities (tabular, text, and image). Moreover, 86% of
+our online user study participants admitted to using ad hoc heuristics or being uncertain about resolving
+explanation disagreements. This highlights the need for better evaluation metrics and enhanced practitioner
+understanding of the underlying principles of explanation methods.
+2
+Related Work
+Our work is grounded in the extensive literature on explainable ML, which we discuss in this section.
+1All the user interviews and studies in this work were approved by our institution’s IRB.
+2

@@ -1,0 +1,66 @@
+Academic Editor: Alessandra Rizzardi
+Received: 7 May 2025
+Revised: 22 June 2025
+Accepted: 7 July 2025
+Published: 10 July 2025
+Citation: Peng, H.; Wu, C.; Xiao, Y.
+FD-IDS: Federated Learning with
+Knowledge Distillation for Intrusion
+Detection in Non-IID IoT
+Environments. Sensors 2025, 25, 4309.
+https://doi.org/10.3390/s25144309
+Copyright: © 2025 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license
+(https://creativecommons.org/
+licenses/by/4.0/).
+Article
+FD-IDS: Federated Learning with Knowledge Distillation for
+Intrusion Detection in Non-IID IoT Environments
+Haonan Peng 1
+, Chunming Wu 1,* and Yanfeng Xiao 2
+1
+College of Computer Science and Technology, Zhejiang University, Hangzhou 310027, China;
+hnpeng@zju.edu.cn
+2
+China Mobile Group Huzhou Co., Ltd., Huzhou 313098, China; xiaoyf@foxmail.com
+*
+Correspondence: wuchunming@zju.edu.cn
+Abstract
+With the rapid advancement of Internet of Things (IoT) technology, intrusion detection
+systems (IDSs) have become pivotal in ensuring network security. However, the data
+produced by IoT devices is typically sensitive and tends to display non-independent and
+identically distributed (Non-IID) properties. These factors impose significant limitations
+on the application of traditional centralized learning. In response to these issues, this
+study introduces a novel IDS framework grounded in federated learning and knowledge
+distillation (KD), termed FD-IDS. The proposed FD-IDS aims to tackle issues related to safe-
+guarding data privacy and distributed heterogeneity. FD-IDS employs mutual information
+for feature selection to enhance training efficiency. For Non-IID data scenarios, the system
+combines a proximal term with KD. The proximal term restricts the deviation between
+local and global models, while KD utilizes the global model to steer the training process
+of local models. Together, these mechanisms effectively alleviate the problem of model
+drift. Experiments conducted on both the Edge-IIoT and N-BaIoT datasets demonstrate
+that FD-IDS achieves promising detection performance across multiple evaluation metrics.
+Keywords: intrusion detection; IoT security; federated learning; knowledge distillation;
+Non-IID; feature selection
+1. Introduction
+Owing to its swift advancement, the extensive deployment of Internet of Things (IoT)
+across fields like smart cities, wearable devices, and healthcare has driven an exponential
+increase in the number of IoT devices [1,2]. According to Statista, the global number
+of connected IoT devices is projected to reach approximately 32.1 billion by 2030 [3].
+This explosive growth has not only spurred technological advancements and economic
+development, but it has also significantly expanded the attack surface for cybersecurity
+threats. In particular, due to the resource-constrained, highly distributed, and diverse
+nature of IoT devices, attackers can exploit these vulnerabilities to launch various cyber
+threats [4]. Against this backdrop, ensuring the cybersecurity of IoT has become a critical
+issue for the stability of the global information society and economic development.
+Intrusion detection systems (IDSs), as a crucial network security defense mechanism,
+have garnered extensive attention over the years. Especially driven by the swift progress
+of deep learning (DL), many researchers have employed DL-based models in IDSs to
+improve their effectiveness in areas like traffic analysis and anomaly identification [5–7].
+Nevertheless, the applicability of traditional centralized learning (CL) in IoT scenarios is
+Sensors 2025, 25, 4309
+https://doi.org/10.3390/s25144309

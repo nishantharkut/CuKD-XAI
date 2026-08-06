@@ -1,0 +1,44 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 11 of 23
+422
+Fig. 4 Federated SHAP-based knowledge distillation framework for IoT botnet detection with heterogeneous clients and privacy-preserving feature
+aggregation
+The proposed SHAP-Based Knowledge Distillation
+approach shown in Algorithm 1. This approach ensures
+privacy by keeping data decentralized while achieving con-
+sistent feature importance alignment across clients. The
+algorithm proceeds through several key stages, beginning
+with feature alignment and local model training, then aggre-
+gating feature importances globally, and concluding with a
+training phase on selected global features and ﬁnal evaluation
+on each client.
+In the initial phase, each client k aligns its dataset Xk with
+a global feature set, ensuring that all clients operate within a
+uniﬁed feature space. The missing features for any client are
+ﬁlled with zeros, allowing each client to maintain compatibil-
+ity with the global feature set while preserving privacy. Each
+client then trains a local model, fk, on this aligned dataset
+Xaligned
+k
+with its corresponding labels yk. This local model
+fk learns patterns speciﬁc to client k’s data distribution, rep-
+resenting each client’s unique data characteristics.
+Following local model training, each client computes
+SHAP values to quantify the feature importance for indi-
+vidual samples within its dataset. These SHAP values are
+aggregated across all samples to form a client-speciﬁc feature
+importance vector, k, representing the overall signiﬁcance
+of each feature based on that client’s data. This client-level
+importance vector k captures local feature relevance, pro-
+viding an essential input to the next stage of global feature
+aggregation.
+Onceeachclienthascomputeditslocalfeatureimportance
+vector k, the server aggregates these vectors to create a
+global feature importance proﬁle, (global). This aggregation
+process is weighted by each client’s dataset size, allowing
+clients with larger datasets to contribute more signiﬁcantly
+to the global importance proﬁle. The result is a globally
+aligned feature importance vector that encapsulates the rela-
+tive importance of features across all clients while accounting
+for differences in data size.
+123

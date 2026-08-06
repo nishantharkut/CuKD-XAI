@@ -1,0 +1,140 @@
+12
+Journal of Sensors
+Table 7: Parameters for MLP neural network classifier.
+Parameter Explanation
+Used value
+L
+Learning rate: used for weight adjustment
+on each iteration. (The value should be
+between 0 and 1.)
+0.3
+M
+Momentum: used for weight adjustment
+during backpropagation, in order to
+speed up convergence and avoid local
+minima. (The value should be between 0
+and 1.)
+0.2
+N
+The number of epochs or passes through
+training data.
+500
+V
+The percentage of the validation set from
+the training data.
+20%
+S
+Seed for random number generator.
+Random numbers are used for setting
+initial weights for the connections
+between nodes. (The value should be ≥0.)
+0
+E
+Threshold for consecutive errors allowed
+during validation testing before the
+neural network terminates. (The value
+should be >0.)
+20
+H
+Number of nodes in the hidden layer
+which is represented as follows:
+number of hidden layers (number of
+neurons in each layer).
+1 (11)
+2 (11, 5)
+3 (11, 5, 2)
+An important parameter of ANNs is the used transfer
+function. In this study the most common activation (transfer)
+function which is the logistic sigmoid function was used. This
+function is also called log-sigmoid. The function is defined as
+𝑎=
+1
+1 + 𝑒−𝑛.
+(9)
+The logistic sigmoid function accepts any value and
+returns a value between 0 and 1. Because of the nonlinear
+characteristics of this function, it allows ANNs to model
+complex data with possible built-in nonlinearities.
+Table 7 shows the parameters and the values used in
+this paper for WEKA toolbox Multilayer Perceptron (MLP)
+ANN classifier configuration. MLP is the most popular ANN
+variation that allows configuration of multilayer ANN which
+is able to model complex relations between the input and
+output parameters.
+Several ANN architectures were attempted in this paper,
+an ANN with one hidden layer and 11 neurons is used.
+Moreover, an ANN with two hidden layers with 11 neurons in
+the first layer and 5 neurons in the second hidden layer was
+used. Finally, ANN with three hidden layers with 11 neurons
+in the first layer, 5 neurons in the second hidden layer, and
+two neurons in the third hidden layer was also attempted.
+By using the holdout method to train the ANN with one
+hidden layer, an overall classification accuracy of 97.5431%
+was achieved. This corresponds to correctly classifying 146184
+out of 149865 in the testing set as can be noticed from Table 6.
+Table 8 shows the Confusion matrix for this method.
+For example, there are 2656 records in the testing set for
+Scheduling attack as shown in Table 6. 2620 records were
+classified correctly as Scheduling attack, 23 records were
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+Normal
+Flooding
+Scheduling
+Grayhole
+Blackhole
+True positive rate
+H1 (1 hidden layer)
+H2 (2 hidden layers)
+H3 (3 hidden layers)
+CV1 (Cross Validation with 1 hidden layer)
+CV2 (Cross Validation with 2 hidden layers)
+CV3 (Cross Validation with 3 hidden layers)
+Figure 3: True positive results.
+classified as no-attack, 3 records were classified as Grayhole
+attacks, and 10 records were classified as Blackhole attack.
+This means that the percentage of positive classification of
+Scheduling attack is 98.6%. The percentage of samples that
+were incorrectly classified as positive while they are normal
+is 0.4%.
+Table 9 shows the results of the remaining metrics for the
+holdout method. RMSE as calculated in (8) is 0.073 which is
+an acceptable value.
+From Table 9, it can be concluded that the accuracy
+of detecting Blackhole attack was (34.3%), which is a low
+percentage. For that reason, an ANN architecture that has
+two hidden layers was attempted. In this case, 98% (avg. of
+TPR) of DoS cases were correctly classified with an error of
+0.0817. Table 10 shows summary of the metrics of using this
+architecture. From Table 10, it can be shown that the accuracy
+rate decreased for Grayhole attack and significantly increased
+for Blackhole attacks.
+When the ANN was trained on the dataset with three
+hidden layers, 97.8% of DoS cases were correctly classified
+with an error of 0.0791. Table 11 shows summary of results
+of using holdout method with three hidden layers.
+More decrease in the accuracy rate of Grayhole attack can
+be seen in Table 11.
+An ANN was trained on the WSN-DS dataset using 10-
+Fold Cross Validation method with one hidden layer. In this
+case, 98.52% of DoS attacks were correctly classified with an
+error of 0.0636. Table 12 shows the summary results of using
+this method with one hidden layer.
+Table 12 shows an improvement in the results for all types
+of attacks. We have trained the ANN using 10-Fold Cross
+Validation with two hidden layers. Having two hidden layers,
+98.53% of the DoS cases were classified correctly with an
+error of 0.0643. Table 13 summarizes the results of using this
+method.
+Using 10-Fold Cross Validation to train an ANN architec-
+ture that has three hidden layers on WSN-DS dataset, 97.18%
+of the cases were correctly classified with an error of 0.0914.
+Table 14 summarizes the results of using this method.
+Figures 3, 4, and 5 summarize the previous results.
+Figure 3 shows the True positive rate. On average the best
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

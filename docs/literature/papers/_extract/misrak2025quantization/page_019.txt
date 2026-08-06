@@ -1,0 +1,49 @@
+Page 19 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+3.7.1  Advantages of optuna
+ 	•
+Flexible Parameter Search Space: Optuna facilitates dynamic construction of the 
+parameter search space, empowering users to adaptively define hyperparameter 
+ranges for individual models. Subsequently, it generates the objective function 
+according to interactions with the experimental entity. The subsequent search 
+strategy is informed by historical evaluations of previous experiments, guiding the 
+validation of forthcoming sets of hyperparameters.
+ 	•
+Efficient Optimization: Optuna incorporates efficient optimization technique, 
+encompassing state-of-the-art hyperparameter sampling techniques and pruning 
+algorithms designed to terminate unpromising trails. By employing both relational 
+and standalone sampling methodologies, Optuna swiftly identifies optimal search 
+spaces. The pruning algorithms facilitate the premature termination of futile trails 
+during training, a strategy commonly known as automated early halting. These 
+optimization algorithms are particularly critical for enhancing performance in 
+resource-constrained scenarios.
+ 	•
+Versatile and Scalable: Optuna boasts a generic architecture and straightforward 
+setup procedure, rendering it applicable across diverse experimental contexts. Its 
+interactive interface facilitates seamless deployment of lightweight experiments 
+onto large-scale distributed computing platforms, thereby meeting the demand for 
+scalable experimentation.
+3.7.2  Advanced optuna implementation strategy
+To apply Optuna in this research, we integrate it with DNN-BiLSTM model enhanced 
+with quantization-aware training. Algorithm  2 outlines the Optuna hyperparameter 
+optimization procedure, which is pivotal in enhancing the detection approach proposed 
+in this research. The algorithm takes as input the dataset, the desired trial number, and 
+the hyperparameters that will optimized along with their respective search spaces. Ini­
+tially, the raw dataset undergoes preprocessing to RAL-MIFS and then goes to two stage 
+IPCA-dimensional and split data into training and test datasets.
+Subsequently, the objective function for optimization is defined. For the detection 
+approach proposed herein, the hyperparameters subject to optimization include learn­
+ing rate, batch_size, and weight_decay. Accordingly, the search space of hyper-param­
+eters is delineated within the objective function definition to facilitate subsequent 
+hyperparameter sampling. The test efficacy of post-model training and testing serves as 
+the objective function’s return value, thereby evaluating the identification performance 
+of different trial.
+Following the objective function definition, the optimization process will be instanti­
+ated, specifying whether the goal is to maximize or minimize the outcome of objective 
+function. In this research, the objective is to get hyperparameter values that yield the 
+maximum test accuracy within the designated space.
+Finally, the optimization commences by setting the amount of trials that will be exe­
+cuted. Optuna iteratively refines the hyperparameter combination within the designated 
+search space using the hyperparameter algorithm across performed trials. It’s pertinent 
+that the implementation encompasses RAL-MIFS + two-stage IPCA approach alongside 
+the incorporation of quantization aware training.

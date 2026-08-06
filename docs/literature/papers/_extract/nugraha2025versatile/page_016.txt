@@ -1,0 +1,112 @@
+1110
+Annals of Telecommunications (2025) 80:1095–1120
+Slowloris detection remains excellent with 20 features;
+trimming to 10 features causes a slight dip (99.013% accu-
+racy, 99.121% precision), and to 5 features lowers recall
+and F1 Score to 95.890% and 96.971%, respectively, reﬂect-
+ing the subtler trafﬁc signatures of slow-rate attacks. The
+confusion-matrix tables (Tables 11, 12, 13, and 14) show the
+detection performance of the best Top-10 feature conﬁgura-
+tions.
+Table 15 complements the XGBoost results in Table9 with
+two classical baselines. Random Forest attains virtually per-
+fect metrics under both feature settings (only a 0.0001 loss
+in F1 Score when the dimensionality is reduced), which is
+expected because bootstrap aggregation and per-split feature
+subsamplingalreadymitigatetheimpactofredundantpredic-
+tors. Linear SVM, on the other hand, scores markedly lower
+when trained on all features (F1 Score to be around 79%) but
+risesto94%aftertheTop-10reduction;eliminatingirrelevant
+or weakly informative dimensions increases the margin sepa-
+rabilityoftheclassesandtherebyimprovesitsgeneralization.
+The combined evidence indicates that the ANOVA+SHAP
+ﬁlter retains the discriminative power needed for high detec-
+tion accuracy while simplifying the input space—beneﬁting
+margin-based learners such as SVM—whereas our two-stage
+XGBoost pipeline preserves Random Forest-level perfor-
+mance and, as shown in Sect.4.2.4, yields the fastest and
+most reliable local explanations.
+The feature reduction process is crucial for balancing
+performance and efﬁciency, ensuring that the proposed
+framework remains scalable while preserving its detection
+capabilities. In the subsequent sections, we explore how this
+reduction affects explanation generation time, investigating
+its role in enhancing the practical applicability of the frame-
+work.
+4.2.3 SHAP and LIME local explanations
+The results of the SHAP Local Explanations are visualized in
+the force plots, which illustrate how individual features con-
+tribute to the XGBoost model’s speciﬁc prediction. As shown
+in Figs.6, 7, and 8, the plots begin at a base value that repre-
+sents the average prediction result across all samples of the
+respective dataset, denoted by a gray vertical line. Features
+that push the prediction higher (indicating malicious trafﬁc)
+are marked in red, while those that push it lower (indicating
+benign trafﬁc) are marked in blue. The bar lengths corre-
+Table 12 Confusion matrix - SYN Flood (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,928 (TN)
+35 (FP)
+Actual Pos.
+25 (FN)
+4,012 (TP)
+Table 13 Confusion matrix - HTTP Flood (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,894 (TN)
+15 (FP)
+Actual Pos.
+24 (FN)
+4,067 (TP)
+spond to the magnitude of each feature’s impact. The ﬁnal
+prediction is computed by adding these contributions to the
+base value.
+As an example, ﬁrst we examine the SHAP force plots
+for SYN Flood and Slowloris attack samples, depicted in
+Figs.6 to 7. In the SYN Flood plot, the base value starts at
+3.36, reﬂecting the model’s initial prediction before incor-
+porating feature contributions. The ﬁnal output value of
+15.64 is achieved primarily due to the substantial contri-
+butions of features such as ‘syn_flag_number’ and
+‘Number’, which strongly push the prediction toward
+the malicious class. Similarly, in the Slowloris plot, the
+base value starts at −0.06675, indicating a baseline heav-
+ily leaning towards a benign outcome. The ﬁnal output
+value increases sharply to 9.94, primarily driven by the
+‘Number’ and ‘fin_count’ features, which have sig-
+niﬁcant positive contributions towards the malicious class.
+This pattern underscores the model’s capability to identify
+slow DDoS attacks like Slowloris that rely on speciﬁc trafﬁc
+patterns. Although less prominent in the plot, features such
+as ‘syn_count’ and ‘IAT’ also exhibit small positive
+SHAP values, contributing to the overall prediction.
+Second,weobservetheSHAPforceplotsforthe5GPFCP
+attack samples, depicted in Fig.8. For the PFCP Session
+Deletion attack, the base value starts at 0.1034 and rises to
+7.87,primarilydrivenbythefeatures‘fwd_packets’and
+‘PFCPHeartbeatRequest_counter’. Similarly, for
+the PFCP Session Establishment attack, the base value
+starts at −0.0606 and increases to 2.38, with signiﬁcant
+contributions from the ‘PFCPSessionEstablishment
+Request_counter’ feature.
+Next, we consider the LIME feature importance plots
+shown in Figs.9, 10, and 11, which illustrate how individual
+features inﬂuence speciﬁc predictions made by the XGBoost
+model. The prediction probabilities for the negative (benign)
+and positive (malicious) classes are displayed at the top left
+of each plot, providing insight into the model’s conﬁdence in
+its prediction. The features are listed alongside their values,
+and their contributions are visually represented in orange or
+Table 14 Confusion matrix - Slowloris (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,975 (TN)
+35 (FP)
+Actual Pos.
+44 (FN)
+3,946 (TP)
+123

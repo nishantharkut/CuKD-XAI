@@ -1,0 +1,101 @@
+M. S. Alshehri et al.: Self-Attention-Based DCNN for IIoT Networks Intrusion Detection
+FIGURE 1. A cyber attack scenario on an IIoT network.
+communication protocols [7], [8], [9]. Hence, these systems
+face susceptibility to privacy and security challenges, making
+them prime targets for malicious attacks that can result in
+harm to the overall system. Privacy breach issues are a
+notable concern within the realm of IIoT [10], [11], [12].
+Figure 1 illustrates a cyberattack scenario wherein a botnet
+is employed to initiate a distributed denial of service (DDoS)
+attack on an industrial IoT network, with a specific focus on
+industrial servers.
+For the security of the IIoT network, numerous researchers
+and experts have introduced various intrusion detection
+systems (IDS) designed to identify cyber-attacks within
+these networks and identify attacks [13], [14], [15], [16].
+Machine learning (ML) and deep learning (DL)-based IDSs
+play a crucial role in identifying malicious attacks due
+to their generalization capabilities, enabling them to learn
+from network datasets and recognize previously unseen
+patterns [17], [18], [19], [20]. The existing ML and DL-
+based models demonstrate satisfactory performance for a
+limited number of attack identifications [21]. However, their
+effectiveness diminishes as the number of classes increases,
+especially when confronted with highly imbalanced training
+set data. Additionally, certain network datasets contain
+repetitive data, leading to inflated model performance on
+those specific datasets, as the model has encountered much of
+the test set data during training. Moreover, the ML and DL-
+based models decrease performance when confronted with
+datasets that include repetitions of similar data across various
+classes, where only the class labels are different.
+To address these challenges, this study proposes a self-
+attention DL method for the prediction of intrusions in IIoT
+networks, along with preprocessing steps to prepare data for
+the model. The proposed model consists of self-attention
+(SA) and deep convolutional neural networks (DCNN).
+The SA computes the significance value for each input
+attribute [22], and DCNN processes these parameters to
+detect IIoT network behavior. The primary advantage of
+DCNN is its ability to converge inputs toward the most
+impactful parameters and reduce the overall number of
+parameters [23], [24]. This process enhances detection per-
+formance while minimizing time consumption. Additionally,
+the preprocessing steps involve cleaning, numericalization,
+feature filtering, and normalization. The cleaning step
+encompasses sub-processes. Firstly, instances with undefined
+and missing values are removed. Next, duplication is removed
+from the datasets. The dataset is scanned for duplication
+within an attack class and eliminated. Furthermore, the
+dataset is examined across all classes to identify duplicate
+instances where only the attack label is changed, and
+these duplications are removed from all the attack classes.
+Moreover, we employ the mutual information method for
+feature filtering. This method ranks features in descending
+order and removes those features that negatively impact the
+model, leading to underfitting.
+The performance of the SA-DCNN model is assessed
+using two real-time IoT and IIoT network intrusion detec-
+tion datasets, namely IoTID20 and Edge-IIoTset. Various
+evaluation metrics, including precision, recall, F1-score,
+and accuracy, are employed to assess the performance.
+Furthermore, to validate the proposed method’s performance,
+it is compared with several other machine learning (ML) and
+deep learning (DL) models, as well as with findings from
+related articles. The major contributions of this article are
+outlined as follows:
+• A novel DL-based IDS called SA-DCNN is introduced
+for the prediction of intrusions in IIoT networks. This
+model comprises of a self-attention mechanism and
+the DCNN model. The self-attention mechanism is
+utilized to compute the significance of each input value,
+while DCNN processes these values to detect network
+behaviors.
+• In this study, a two-step cleaning process is imple-
+mented. The first step involves removing instances with
+empty and undefined values, while the second step aims
+to eliminate duplications from the dataset. During the
+removal of duplications, both intra-class and cross-class
+duplications are addressed in the datasets.
+• A feature filtering method is employed to rank all
+features in descending order and eliminate those that
+adversely affect the model’s performance, potentially
+leading to underfitting. Specifically, the mutual informa-
+tion technique is employed for feature filtering, retaining
+only those features that positively impact the model.
+• The effectiveness of the SA-DCNN method has been
+validated by comparing the outcomes with other ML and
+DL models. The other methods were implemented under
+the same experimental environment as the proposed
+model, and the preprocessing steps were consistent for
+all models, including the proposed SA-DCNN.
+The remainder of the paper is structured as follows:
+Section II provides an overview of existing works. Section III
+delves into a detailed presentation of the proposed model.
+The methodology behind the proposal is expounded upon
+in Section IV. Section V encompasses a comprehensive
+discussion of the results, accompanied by a comparison of
+the SA-DCNN model with other methods. Lastly, Section VI
+serves as the concluding section for the entire paper.
+VOLUME 12, 2024
+45763

@@ -1,0 +1,144 @@
+12
+instance, the Intel Knights Landing CPU features special vector
+instructions for deep learning; the Nvidia PASCAL GP100
+GPU features 16-bit ﬂoating point (FP16) arithmetic support
+to perform two FP16 operations on a single precision core for
+faster deep learning computation. Systems have also been built
+speciﬁcally for DNN processing such as Nvidia DGX-1 and
+Facebook’s Big Basin custom DNN server [73]. DNN inference
+has also been demonstrated on various embedded System-on-
+Chips (SoC) such as Nvidia Tegra and Samsung Exynos as
+well as FPGAs. Accordingly, it’s important to have a good
+understanding of how the processing is being performed on
+these platforms, and how application-speciﬁc accelerators can
+be designed for DNNs for further improvement in throughput
+and energy efﬁciency.
+The fundamental component of both the CONV and FC lay-
+ers are the multiply-and-accumulate (MAC) operations, which
+can be easily parallelized. In order to achieve high performance,
+highly-parallel compute paradigms are very commonly used,
+including both temporal and spatial architectures as shown in
+Fig. 17. The temporal architectures appear mostly in CPUs
+or GPUs, and employ a variety of techniques to improve
+parallelism such as vectors (SIMD) or parallel threads (SIMT).
+Such temporal architecture use a centralized control for a large
+number of ALUs. These ALUs can only fetch data from the
+memory hierarchy and cannot communicate directly with each
+other. In contrast, spatial architectures use dataﬂow processing,
+i.e., the ALUs form a processing chain so that they can pass data
+from one to another directly. Sometimes each ALU can have
+its own control logic and local memory, called a scratchpad or
+register ﬁle. We refer to the ALU with its own local memory as
+a processing engine (PE). Spatial architectures are commonly
+used for DNNs in ASIC and FPGA-based designs. In this
+section, we will discuss the different design strategies for
+efﬁcient processing on these different platforms, without any
+impact on accuracy (i.e., all approaches in this section produce
+bit-wise identical results); speciﬁcally,
+• For temporal architectures such as CPUs and GPUs, we
+will discuss how computational transforms on the kernel
+can reduce the number of multiplications to increase
+throughput.
+• For spatial architectures used in accelerators, we will
+discuss how dataﬂows can increase data reuse from low
+cost memories in the memory hierarchy to reduce energy
+consumption.
+A. Accelerate Kernel Computation on CPU and GPU Platforms
+CPUs and GPUs use parallelizaton techniques such as SIMD
+or SIMT to perform the MACs in parallel. All the ALUs share
+the same control and memory (register ﬁle). On these platforms,
+both the FC and CONV layers are often mapped to a matrix
+multiplication (i.e., the kernel computation). Fig. 18 shows how
+a matrix multiplication is used for the FC layer. The height of
+the ﬁlter matrix is the number of ﬁlters and the width is the
+number of weights per ﬁlter (input channels (C) × width (W)
+× height (H), since R = W and S = H in the FC layer);
+the height of the input feature maps matrix is the number of
+activations per input feature map (C × W × H), and the
+Temporal Architecture 
+(SIMD/SIMT) 
+Spatial Architecture 
+(Dataflow Processing) 
+Register File 
+Memory Hierarchy 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+Control 
+Memory Hierarchy 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+ALU 
+Fig. 17.
+Highly-parallel compute paradigms.
+M 
+CHW 
+CHW 
+1 
+Filters 
+Input fmaps 
+× 
+1 
+Output fmaps 
+M 
+= 
+(a) Matrix Vector multiplication is used when computing a single output
+feature map from a single input feature map.
+M 
+CHW 
+CHW 
+N 
+Filters 
+Input fmaps 
+× 
+N 
+Output fmaps 
+M 
+= 
+(b) Matrix Multiplications is used when computing N output feature
+maps from N input feature maps.
+Fig. 18. Mapping to matrix multiplication for fully connected layers
+width is the number of input feature maps (one in Fig. 18(a)
+and N in Fig. 18(b)); ﬁnally, the height of the output feature
+map matrix is the number of channels in the output feature
+maps (M), and the width is the number of output feature maps
+(N), where each output feature map of the FC layer has the
+dimension of 1×1×number of output channels (M).
+The CONV layer in a DNN can also be mapped to a matrix
+multiplication using a relaxed form of the Toeplitz matrix as
+shown in Fig. 19. The downside for using matrix multiplication
+for the CONV layers is that there is redundant data in the input
+feature map matrix as highlighted in Fig. 19(a). This can lead
+to either inefﬁciency in storage, or a complex memory access
+pattern.
+There are software libraries designed for CPUs (e.g., Open-
+BLAS, Intel MKL, etc.) and GPUs (e.g., cuBLAS, cuDNN,
+etc.) that optimize for matrix multiplications. The matrix
+multiplication is tiled to the storage hierarchy of these platforms,
+which are on the order of a few megabytes at the higher levels.

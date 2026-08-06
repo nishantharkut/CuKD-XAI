@@ -1,0 +1,132 @@
+24
+CNN Shape Configuration 
+(# of channels, # of filters, etc.) 
+CNN Weights and Input Data 
+  
+[0.3, 0, -0.4, 0.7, 0, 0, 0.1, …] 
+CNN Energy Consumption  
+L1 L2 L3 
+Energy 
+… 
+Memory 
+Accesses 
+Optimization 
+# of MACs 
+Calculation 
+  
+  
+  
+  
+… 
+# acc. at mem. level 1 
+# acc. at mem. level 2 
+# acc. at mem. level n 
+# of MACs 
+Hardware Energy Costs of each 
+MAC and Memory Access 
+Ecomp 
+Edata 
+Fig. 42.
+Energy estimation methodology from [142], which estimates the
+energy based on data movement from different levels of the memory hierarchy,
+number of MACs, and data sparsity.
+AlexNet 
+SqueezeNet 
+GoogLeNet 
+ResNet-50 
+VGG-16 
+77% 
+79% 
+81% 
+83% 
+85% 
+87% 
+89% 
+91% 
+93% 
+5E+08 
+5E+09 
+5E+10 
+Top-5 Accuracy 
+Normalized Energy Consump9on 
+Original DNN 
+(a) Energy versus accuracy trade-off of popular DNN models.
+AlexNet 
+SqueezeNet 
+GoogLeNet 
+ResNet-50 
+VGG-16 
+AlexNet 
+SqueezeNet 
+AlexNet 
+SqueezeNet 
+GoogLeNet 
+77% 
+79% 
+81% 
+83% 
+85% 
+87% 
+89% 
+91% 
+93% 
+5E+08 
+5E+09 
+5E+10 
+Top-5 Accuracy 
+Normalized Energy Consump9on 
+            Original DNN 
+   Magnitude-based Pruning 
+Energy-aware Pruning  
+1.74x 
+(b) Impact of energy-aware pruning.
+Fig. 43. Energy values estimated with methodology in [142].
+can then be used to prune weights based on energy to reduce
+the overall energy across all layers by 3.7× for AlexNet, which
+is 1.74× more efﬁcient than magnitude-based approaches [141]
+as shown in Fig. 43(b). As mentioned previously, it is well
+known that AlexNet is over-parameterized. The energy-aware
+pruning can also be applied to GoogleNet, which is already a
+small DNN model, for a 1.6× energy reduction.
+Recent works have examine how to efﬁciently support
+processing of sparse weights in hardware. One area of interest
+is how to best store the sparse weights after pruning. Similar to
+compressing the sparse activations discussed in Section VII-B1,
+the sparse weights can be compressed to reduce memory access
+bandwidth by 20 to 30% [118].
+When DNN processing is performed as a matrix-vector
+# of  
+filters 
+# of weights 
+(a) Compressed sparse row (CSR)
+(b) Compressed sparse column (CSC)
+Fig. 44. Sparse matrix-vector multiplications using different storage formats
+(Figure from [144]).
+multiplication, as shown in Fig. 18(a), one challenge is
+to determine how to store the sparse weight matrix in a
+compressed format. The compression can be applied either
+in row or column order. A compressed sparse row (CSR)
+format, as shown in Fig. 44(a), is often used to perform Sparse
+Matrix-Vector multiplication. However, the input vector needs
+to be read in multiple times even though only a subset of it is
+used since each row of the matrix is sparse. Alternatively,
+a compressed sparse column (CSC) format, as shown in
+Fig. 44(b), can be used, where the output is updated several
+times, and only one element of the input vector is read at
+a time [144]. The CSC format will provide an overall lower
+memory bandwidth than CSR if the output is smaller than the
+input, or in the case of DNN, if the number of ﬁlters is not
+signiﬁcantly larger than the number of weights in the ﬁlter
+(C × R × S from Fig. 9(b)). Since this is often true, CSC can
+be an effective format for sparse DNN processing.
+Custom hardware has been explored to efﬁciently support
+pruned DNN models. Many works aim to perform the process-
+ing without decompressing the weights or activations. EIE [145]
+performs the sparse matrix-vector multiplication speciﬁcally for
+the fully connected layers. It stores the weights in a CSC format
+along with the start location of each column, which needs to be
+stored since the compressed weights have variable length. When
+the input is not zero, the compressed weight column is read and
+the output is updated. To handle the sparsity, additional logic
+is used to keep track of the location of the output that should
+be updated. SCNN [146] supports processing of convolutional

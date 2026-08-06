@@ -1,0 +1,67 @@
+Page 7 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+attending to those masked elements. Overall, the masking process is performed as 
+follows: σi = σi · µi
+−→
+µi = (µi −1) · 104
+−→
+˜σi = σi + µi.
+At this point, the attention weights α ∈ℜk are computed by applying a softmax func-
+tion to the unnormalized adjusted scores ˜σ , converting them into a distribution. Finally, 
+a weighted average of the bi-LSTM hidden states H is determined, resulting in the vector 
+ˆh ∈ℜd , which is fed to a linear layer to compute the output logits z:
+Here, Wout ∈ℜm×d and bout ∈ℜm are trainable weights, where m is the number of 
+classes. The model predicts the class c for the input sequence x as c = argmax
+m
+(z) , along 
+with an explanation E(x) . The explanation is built starting from the vector of masked 
+attention scores σ as a set of pairs (wi : σi) , denoting the influence of each word wi on the 
+model classification of x into class c.
+Incorporating explanations into the distillation process
+As mentioned before, the key idea behind the XAI-driven approach introduced by DiX-
+till involves utilizing local explanations to guide the distillation of a teacher LLM into 
+a compact self-explainable bi-LSTM enhanced with masked attention, to improve both 
+the effectiveness and interoperability of the distilled student.
+In DiXtill, a post-hoc explanation technique is leveraged to compute an explana-
+tion ET(x) of the teacher predictions for each training instance x. Such an explanation 
+is required to be a list of (wi : σ T
+i ) , in which σ T
+i are the word attributions specifying 
+to what extent each word wi ∈x influences the teacher prediction for each particular 
+instance. Therefore, the proposed method integrates well with the most popular post-
+hoc XAI approaches in the literature, such as SHAP, LIME, and Integrated Gradients 
+(IG). Specifically, in DiXtill we used Integrated Gradients for computing teacher expla-
+nations for the training data. We chose IG due to its ease of implementation, theoretical 
+justifications, and computational efficiency when compared to alternative approaches 
+such as LIME or SHAP, which allow it for scaling to large networks such as those of 
+LLMs, and feature spaces. In addition, IG is specifically designed to work well with a 
+variety of deep networks, while methods such as LIME and SHAP may provide explana-
+tions that are inconsistent and unstable [38]. The IG method highlights feature impor-
+tance by computing the gradient of the model output prediction with respect to its input 
+features. Specifically, let x ∈ℜd and x′ ∈ℜd be the input instance and a baseline, respec-
+tively; in the case of text data, the baseline may be a zero d-dimensional vector. The inte-
+grated gradient for an input x and a baseline x′ is obtained by cumulating the gradients 
+computed on all points lying on the straight path connecting the input and the baseline. 
+Formally, the IG along the ith dimension for a particular instance x is defined as follows:
+Here, F : ℜd →[0, 1] is a function representing the model to be explained, and ∂F(x)
+∂xi is 
+the gradient of F(x) along the ith feature.
+(2)
+z = Wout · ˆh + bout , where: αi =
+e ˜σi
+k
+j=1 e ˜σj ,
+ˆhi =
+k
+
+j=1
+Hij · αj
+(3)
+(xi −x′
+i) ×
+ 1
+α=0
+∂F(x′ + α × (x −x′))
+∂xi
+dα

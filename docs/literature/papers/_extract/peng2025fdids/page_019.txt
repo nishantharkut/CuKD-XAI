@@ -1,0 +1,36 @@
+Sensors 2025, 25, 4309
+19 of 31
+from inconsistencies in client update directions, exacerbating global model drift. In such
+cases, KD, by introducing the global model as a teacher model, provides local models
+with soft label information rich in generalization capabilities. These soft labels convey
+the decision knowledge and prediction confidence information from the global model,
+reflecting the generalization capabilities formed through collaborative learning across mul-
+tiple clients. Additionally, they provide supplementary training guidance for minority
+class samples, effectively mitigating the performance degradation issues caused by data
+heterogeneity. Moreover, the global model’s supervision signal, incorporated through
+KD during local training, steers the learning direction of local models closer to the global
+optimum, reducing the extent of model drift. It is noteworthy that, while KD enhances
+model performance, it also introduces additional computational overhead, primarily due
+to the necessity of calculating soft labels and the KL divergence loss during the distilla-
+tion process, thereby increasing the computational burden on local devices. In terms of
+other metrics, the FNR decreased significantly from 8.11% to 6.14%. Although the FPR
+experienced a slight increase from 0.18% to 0.21%, it remained at a very low level overall.
+Figure 8 illustrates the accuracy trends of the IDS models with and without KD
+after each communication round under both low- and high-Non-IID scenarios. When
+θ = 1, due to the minor differences in data distributions, the issue of model drift is
+relatively mild. As a result, the models with and without KD exhibited similar convergence
+trends. During the early stages of training, both approaches demonstrated comparable
+convergence speeds with steadily increasing accuracy. As the number of training rounds
+increases, both accuracies eventually stabilized, with the distilled model achieving only a
+slight improvement over the non-distilled model. When θ = 0.1, the extreme heterogeneity
+in data distribution exacerbated the training bias of the local models and intensified the
+global model drift. As depicted in Figure 8, the model incorporating KD exhibited a faster
+accuracy increase during the early training stages and consistently outperformed the non-
+distilled model as training progressed. Ultimately, the distilled model achieved higher final
+accuracy, demonstrating the positive effect of KD in mitigating the challenges posed by
+Non-IID data.
+Figure 8. Accuracy comparison of an IDS with and without KD under different Non-IID scenarios on
+Edge-IIoT.
+In addition, we conducted experiments on the N-BaIoT dataset, with the results pre-
+sented in Table 9. When θ = 1, the performance improvement brought by KD was relatively
+limited. The accuracy increased slightly from 87.56% to 87.70%, the F1-score improved

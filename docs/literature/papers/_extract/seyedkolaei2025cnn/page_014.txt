@@ -1,0 +1,119 @@
+Future Internet 2025, 17, 230
+14 of 21
+The weighted multiclass classification results (in 15-class classification, see Table 8)
+also reached very high values, taking into account the complexity of 15-class classification,
+reaching a precision of 95.02%, a recall of 94.72%, and an F1 score of 0.946. For normal
+traffic and MITM-based attacks, there were no errors in classification (no false positives or
+negatives), thus reaching scores equal to 1 (100%). Almost the same results were obtained
+for DDoS_UDP-based and DDoS_ICMP-based attacks, reaching very high classification
+rates (F1 scores of 0.999). It is noticeable that some attacks with low representation in
+the dataset (such as e.g., MITM-based attacks) reached very good classification results,
+demonstrating that some attacks with particular traffic patterns could be identified by the
+proposed method. On the other hand, attacks such as XSS-based (F1 = 0.428), password-
+based (F1 = 0.448), uploading-based (F1 = 0.561), and SQL_injection-based (F1 = 0.567)
+attacks presented many more classification errors due to confusion between the specific
+type of attack. It would, therefore, be interesting to analyze in the future which types
+of attacks are confused with each other in order to take into account the inclusion of
+additional parameters or attributes of the IIoT traffic that would allow for better distinction
+between these types of attacks. Table 9 presents the CNN model’s performance in binary
+classification across different epochs and learning rates, demonstrating excellent results for
+intrusion detection. With each epoch, the model’s accuracy steadily improved, ultimately
+reaching 1.0, showing a strong capability in accurately identifying samples. The loss value
+also decreased markedly and approached zero, highlighting significant improvements in
+the model’s learning. Furthermore, validation accuracy reached 1.0, indicating effective
+generalization to new data. Training and validation times were consistently efficient,
+reflecting an optimized learning process. These findings underscore the CNN model’s
+success in binary intrusion detection and its practical potential for real-world applications.
+Table 9. Performance of the CNN model for intrusion detection in a binary classification scenario.
+Epoch
+Learning
+Rate
+Loss_Value
+Accuracy_Value
+Validation
+Loss_Value
+Validation Ac-
+curacy_Value
+Training
+Time_Value
+Validation
+Time_Value
+1
+0.001
+32,756.21
+0.97
+0.0
+1.0
+450 s
+9 ms
+2
+4607.17
+0.99
+0.0
+1.0
+442 s
+9 ms
+3
+102.65
+0.99
+0.0
+1.0
+449 s
+9 ms
+4
+0.0
+1.0
+0.0
+1.0
+443 s
+9 ms
+5
+0.0
+1.0
+0.0
+1.0
+435 s
+9 ms
+1
+0.005
+21,769.84
+0.99
+0.0
+1.0
+249 s
+5 ms
+2
+0.0
+1.0
+0.0
+1.0
+245 s
+5 ms
+3
+0.0
+1.0
+0.0
+1.0
+246 s
+5 ms
+4
+0.0
+1.0
+0.0
+1.0
+244 s
+5 ms
+5
+0.0
+1.0
+0.0
+1.0
+241 s
+5 ms
+Figure 5 illustrates the performance comparison between the proposed CNN-based
+intrusion detection method and traditional machine learning algorithms (DT, RF, SVM, and
+KNN) across binary, 6-class, and 15-class classifications. The CNN achieved 100% accuracy
+in binary classification, surpassing SVM (99.98%), DT (95.79%), RF (96.26%), and KNN
+(63.89%). For multiclass tasks, the CNN maintained superior results, as follows: 99.12%
+(6-class) and 95.5% (15-class), outperforming RF (96.26%, 93.82%) and DT (95.79%, 93.22%),
+while SVM (58.57%, 55.65%) and KNN (63.89%) lagged significantly.

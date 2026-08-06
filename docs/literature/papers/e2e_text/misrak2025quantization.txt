@@ -1,0 +1,2039 @@
+
+
+===== PAGE 1 =====
+RESEARCH
+Open Access
+© The Author(s) 2025. Open Access  This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International 
+License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate 
+credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. 
+You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party 
+material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material 
+is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted 
+use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​/​/​c​r​e​a​t​i​v​e​c​o​m​m​o​n​s​.​o​r​g​/​l​i​c​e​n​s​
+e​s​/​b​y​-​n​c​-​n​d​/​4​.​0​/.
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+https://doi.org/10.1007/s43926-025-00203-8
+*Correspondence:
+Semachew Fasika Misrak
+semachew.fasika@aau.edu.et
+1College of Technology and Built 
+Environment, School of Information 
+Technology and Engineering (SiTE), 
+Addis Ababa University, Addis 
+Ababa, Ethiopia
+Lightweight intrusion detection system 
+for IoT with improved feature engineering 
+and advanced dynamic quantization
+Semachew Fasika Misrak1* and Henock Mulugeta Melaku1
+Discover Internet of Things
+Abstract
+In recent years, IoT devices have surged globally, enhancing businesses, industries, 
+and daily life. Nevertheless, IoT devices are not immune to cyber attacks. On the 
+contrary, their limited memory and processing power make them more susceptible 
+to malicious attacks. Therefore, developing a lightweight yet efficient attack detection 
+is a critical issue for IoT systems. This research proposes an efficient lightweight 
+hybrid deep learning model (DNN-BiLSTM) to detect and classify attacks in an IoT 
+system utilizing improved feature engineering and advanced quantization. Although 
+leveraging hybrid deep learning model that combines DNN and BiLSTM facilitates 
+the extraction of intricate network features in a nonlinear and bidirectional manner, 
+aiding in the identification of complex attack patterns and behaviors, tailoring this for 
+IoT devices remains challenging. To address the constraints inherent to IoT devices, 
+this research incorporates improved feature engineering techniques, specifically 
+Redundancy-Adjusted Logistic Mutual Information Feature Selection (RAL-MIFS) with 
+a two-stage Incremental Principal Component Analysis (IPCA) algorithm. Additionally, 
+advanced quantization techniques, including Quantization Aware Training (QAT) 
+and Post-Training Dynamic Quantization (PTDQ), alongside advanced Optuna for 
+hyperparameter optimization, are utilized to enhance computational efficiency 
+without compromising detection accuracy. Experimental evaluations were conducted 
+on the CIC-IDS2017 and CIC-IoT2023 datasets to assess the performance of a 
+quantized DNN-BiLSTMQ model. The model demonstrated competitive detection 
+accuracy and computational efficiency compared to state-of-the-art methods, 
+including autoencoder + ensamble learning, LNN and CNN-BiLSTM. Using the CIC-
+IDS2017 dataset, a detection accuracy of 99.73% is achieved with a model size of 
+just 25.6 KB, while on the CIC-IoT2023 dataset, the achieved a detection accuracy 
+is 93.95% with a model size of 31.3 KB. These results highlight the potential of 
+quantized DNN-BiLSTMQ model for efficient and accurate cyber attack detection on 
+IoT systems.
+Article Highlights
+	•
+A lightweight hybrid deep learning model that enables accurate detection of 
+cyberattacks in IoT environments.
+
+
+===== PAGE 2 =====
+Page 2 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+1  Introduction
+1.1  The overview
+The rapid advancement and adoption of Internet of Things (IoT) technology have 
+resulted in its extensive integration across a wide range of applications and services. 
+Despite the promising potential of IoT technology, its rapid proliferation has increased 
+the attack surface, rendering IoT environments susceptible to a broad spectrum of cyber 
+threats and attacks. These vulnerabilities arise from limitations in processing power, 
+storage, memory, and communication capabilities inherent in the small, energy-efficient 
+endpoint devices comprising IoT infrastructures.
+The global adoption of smart sensors has accelerated due to their effectiveness in 
+enhancing business operations, industrial workflows, and daily routines. These tech­
+nologies are increasingly integrated into diverse sectors, including healthcare, smart 
+homes, smart cities, and smart grids [1]. However, despite their widespread use, many 
+IoT devices remain vulnerable to security threats. Their limited computational resources 
+and connectivity constraints make them particularly susceptible, potentially leading to 
+disruptions and compromised functionality across interconnected systems.
+In 2020, it was predicted that global spending on IoT technology would reach 749 bil­
+lion dollars [2]. IoT systems continue to proliferate, connected and distributed across a 
+broad range of services and applications. Utilization of IoT devices all over the globe is 
+expected to pass 125 billion in 2030 [3].
+The growing data capacity and connectivity of IoT devices increase their vulnerability 
+to cyber threats, necessitating robust detection and classification systems. Conventional 
+machine learning models often struggle with high false positive rates [4] and limited 
+adaptability to emerging attack patterns. While deep learning models effectively cap­
+ture complex patterns in network traffic, their deployment in IoT environments faces 
+challenges due to cost, scalability, and resource constraints [5–9]. Additionally, large fea­
+ture sets can increase model complexity, further straining limited IoT resources. This 
+highlights the need for efficient, lightweight, and real-time detection models suitable for 
+resource-constrained environments. Ensuring model generalizability across varied IoT 
+environments is also difficult, as models trained on specific datasets may fail to adapt 
+effectively to diverse real-world scenarios [8]. Addressing this challenge requires the 
+design of advanced learning methodologies that can effectively manage heterogeneous 
+data and dynamic conditions commonly found in IoT deployments.
+To address these challenges, this research proposes a resource-efficient hybrid deep 
+learning model specifically designed for IoT security. The model leverages advanced 
+dynamic quantization techniques, QAT and PTDQ, to enhance performance in resource 
+constrained environments without compromising detection accuracy. Additionally, it 
+	•
+Achieved up to 99.73% accuracy with model sizes under 32 KB, which could be 
+deployed on memory & power constrained IoT devices.
+	•
+Advanced feature selection, model compression, and automated tuning 
+that improves accuracy, reduce model size and make it suitable for resource 
+constrained IoT devices.
+Keywords  Cyber attack detection, Deep learning, Intrusion detection systems, IoT, 
+Lightweight deep learning, Feature engineering, Advanced dynamic quantization, 
+Redundancy-Adjusted Logistic Mutual Information Feature Selection (RAL-MIFS)
+
+
+===== PAGE 3 =====
+Page 3 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+incorporates robust feature engineering methods, including RAL-MIFS and a two-stage 
+IPCA, to reduce dataset dimensionality by extracting the most relevant features. By min­
+imizing model size and reducing false positives, this research strengthens the resilience 
+and reliability of IoT networks against emerging cyber threats, ensuring efficient and 
+precise attack detection and categorization.
+2  Related work
+2.1  Cyber attack detection for IoT
+The proliferation of computers, smartphones, and other internet-enabled devices has 
+made the world vulnerable to cyber attacks. confidentiality and safety challenges are also 
+evolving and increasing as the IoT touches everyone every day [10, 11]. Additionally, the 
+security threats exposed by IoT devices have varying impacts depending on the domain 
+in which they operate. Each device can suffer from unique vulnerabilities specific to the 
+characteristics, processes, and requirements of its domain, such as smart grids, indus­
+trial applications, and autonomous vehicles, smart home, healthcare, smart city.
+The continued rise in information leaks and attacks from IoT devices has led to an 
+acceleration and increase in privacy and security research in the literature [12, 13]. 
+Therefore, the need for early detection of intrusive activity to mitigate the negative 
+impact of these devices is more urgent than ever. As a result, standard intrusion detec­
+tion techniques are being improved by incorporating machine learning techniques [14–
+16]. [17] a proposed network traffic analyzer and machine learning approach to prevent 
+botnet attacks.
+[14] made use of the perks of swarm intelligence (SI) techniques to present a novel 
+feature engineering strategy for the attack recognition system. BoT-IoT, NSL-KDD, 
+CIC2017, and KDD99 are well-known public datasets that were utilized to assess the 
+efficacy of the suggested cyber attack detection method. For cyber attack detection, 
+three sophisticated and popular DL models were proposed by [18]. CNN, LSTM, and 
+a CNN-LSTM hybrid model experiment were carried out by the authors. They assessed 
+these DL models usage of the IoTID20 dataset. Conventional network attack detection 
+techniques can be effectively enhanced with machine learning technology.
+As per [19], a novel hybrid intrusion detection system (HIDS) called Hybrid CRNN 
+attack Detection System (HCRNNIDS) has been introduced, employing convolutional 
+recurrent neural network. This system integrate the strengths of convolutional neural 
+networks (CNNs) for extraction of local features and recurrent neural networks (RNNs) 
+for capturing temporal features. By harnessing these techniques, the HCRNNIDS dem­
+onstrates significant advancements in cyber attack detection, achieving remarkable 
+accuracy rates of 97.75% in detecting malicious cyber attacks on the CSE-CIC-IDS2018 
+dataset under 10-fold cross-validation. This innovative approach outperforms conven­
+tional cyber-attack detection methodologies, marking a substantial stride towards more 
+effective cybersecurity measures in network environments.
+2.2  Improved feature engineering for cyber attack detection on IoT
+Feature engineering is indispensable in the realm of cyber threat detection within 
+the IoT environments, as it aids in extracting relevant information from raw data, 
+thereby enabling the development of simple and accurate detection systems. Recent 
+research [20], investigated feature engineering techniques leveraging deep learning 
+
+
+===== PAGE 4 =====
+Page 4 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+methodologies. CNNs and RNNs were used to extract complex patterns from IoT net­
+work traffic, significantly enhancing attack detection accuracy.
+[21] Proposed improved feature selection method named Logistic Redundancy Coef­
+ficient Gradual Upweighting MIFS that assesses individual features instead of checking 
+them with same characteristics of the already selected features. In contrast to other fea­
+ture selection methods currently in use, logistic function was used to determine a fea­
+ture’s redundancy score.
+[8] Used incremental principal component analysis (IPCA) techniques for feature 
+dimension reduction. IPCA learn incrementally data features and is more convenient for 
+real-time monitoring of the network traffic within IoT environment.
+A novel feature engineering strategy and DCNN-based model for identifying evil-
+intended attacks in Internet of Things networks are presented by [6]. Optimizing per­
+formance while lowering computational power was the goal. The suggested model 
+successfully lowers computing power while increasing performance. For binary classifi­
+cation, they get 98.12%, and for multiclassification of 77.0% accuracy.
+Additionally, recent advancements in this field include the work of [22], who proposed 
+a unique feature engineering strategy based on the algorithm GNNs for IoT cyber attack 
+detection. Their method effectively captures the complex relationships and dependen­
+cies among IoT devices and their communications, thereby enhancing the robustness 
+and accuracy of cyber attack recognition in IoT environments.
+2.3  Lightweight cyber attack detection model
+Much effort has been expended over the past ten years to address security problems are 
+connected to detecting cyber attacks in IoT systems. Many of these anomaly-based ADS 
+systems are developed employing machine learning (ML) and deep learning (DL) tech­
+niques to enable intelligent cyber security decisions.
+Thus, feature preprocessing and data engineering formed the central part of the DL-
+based ADS model. This has been crucial in enabling the raw data gathered within the 
+ecosystem of IoT to be analyzed and predicted further [23]. They found highly encourag­
+ing results by applying model of deep neural network on two chosen IoT gateways, with 
+an average increase in network bandwidth of less than 30 kb/s and a CPU consumption 
+increase of only 2%. On the two datasets that were used, the ML models were able to 
+show almost 93% detection accuracy and 92% f1-score [24].
+[8] Employed dynamic quantization to trim specified model cell structure, thereby 
+reduce the computational complication on devices while maintaining accurate detection 
+ablity.
+Additionally, the study by [25] used a multi-stage classification method by applying 
+clustering with oversampling to analyze the same dataset and predict the intrusion’s 
+existence. It merely recognizes the presence of attacks; it cannot, however, forecast the 
+kind of the attacks. When feature/data engineering techniques are not used, it can often 
+be more challenging to extract pertinent features using DL algorithms alone. Industry 
+businesses and researchers have created techniques to classify the data and identify 
+assaults by identifying important characteristics.
+IoT traffic usually requires a huge amount of memory space and data capacity. How­
+ever, putting cyber attack-detection and classification systems by high-performance 
+deep learning techniques based on IoT devices can be difficult in some situations due 
+
+
+===== PAGE 5 =====
+Page 5 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+to resource limitations. Taking into account the computational and power limitations 
+of edge devices (IoT), [26] performed research to investigate the viability of utilizing 
+TPU of Google Edge for the implementation of an cyber attack detection system in edge 
+computing. The outcomes show how TPUs can greatly increase a system’s processing 
+capacity, making it possible to use deep learning methods for edge sensors. For com­
+plex high-dimensional hidden layer data, [27] developed a lengthy short-term memory 
+autoencoder technique to produce low-dimensional intrinsic spatial representations of 
+features.
+Employing a hybrid BiLSTM technique, [28] achieved the highest possible data reduc­
+tion rate is 91.89% for classifying cyber Employing a hybrid BiLSTM technique, [28] 
+achieved the highest possible data reduction rate is 91.89% for classifying cyber attacks, 
+both in binary and multiclass classification studies, using the BoT-IoT classical botnet 
+dataset. Through their research, [28] showcased the accuracy, sensitivity, and efficacy of 
+this lightweight cyber attack-detection method against the three distinct kinds of Sybil 
+assaults.
+[29] proposed a lightweight cyber attack detection system that transforms raw network 
+traffic data into image representations. Using the CSE-CIC-IDS2018 dataset, abnormal 
+traffic features were encoded as images and classified using a CNN-based model. The 
+system was validated through simulations on two encrypted traffic datasets, achieving 
+95% accuracy with a reasonable detection time, utilizing relatively small training data 
+sizes.
+[30] proposed a GWO-GA hybrid for dimensionality reduction in wireless traffic 
+data. Evaluated using SVM, the method achieved a 68% reduction in feature space and 
+decreased computation time.
+Similarly, [31] proposed the self-encoder approach. Through experimental analysis 
+on an IoT cyberattack detection dataset, it is demonstrated that the model with light­
+weight capability exhibits high cyber attack-detection accuracy, surpassing most classi­
+cal optimizers.
+The study [32] introduces an innovative approach combining Binary Arithmetic Opti­
+mization with Sparse Autoencoder models to efficently identify and classify network 
+intrusions. This hybrid BAOA-SAE method prioritizes prominent feature selection from 
+network data to enhance detection accuracy.
+From the various lightweight IoT cyber attack detection scheme approaches discussed 
+above, it can be deduced that the majority of studies focus on two main aspects: dimen­
+sion reduction of features for dataset preprocessing and model lightweighting to con­
+serve memory capacity and Internet of Things device processing power. Furthermore, 
+researchers have begun integrating optimization algorithms help overcome these obsta­
+cles and improve the efficacy of IoT settings’ cyber attack identification systems.
+2.4  Summary and research gap
+Through the review of various papers and research works, several significant gaps have 
+come to light.
+The First critical gap lies in dataset preprocessing part. Effective feature engineering 
+mechanisms are essential to reduce dataset dimensions and optimize it for IoT mod­
+els. The accuracy and performance of these models are heavily contingent upon the 
+dataset’s quality. Feature engineering involves the removal of unnecessary features and 
+
+
+===== PAGE 6 =====
+Page 6 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+the extraction of new ones to bolster accuracy. Eliminating irrelevant features is cru­
+cial to mitigate overfitting and under-learning, which can significantly impact classifier 
+performance and execution time. An exhaustive data preprocessing with improved fea­
+ture engineering architecture is necessary to enhance system performance. Thus, our 
+approach entails providing such a framework, complete with meticulous development, 
+validation environments, and configurations.
+Secondly, algorithm complexity stands out as the primary gap. Many existing deep 
+learning solutions are excessively intricate and prone to overfitting. Given the resource-
+constraints of IoT devices, algorithms must be lightweight for real-time use. Therefore, 
+we aim to develop lightweight algorithms tailored for IoT deployment. These algorithms 
+was optimized to operate within the limited memory and computational power of IoT 
+devices.
+Thirdly, while much research emphasizes identification and categorization accuracy, 
+the efficiency of IoT systems in detecting cyber attacks is often overlooked.
+In summary, addressing these gaps necessitates a comprehensive approach that 
+encompasses model complexity, efficiency, dataset management, and algorithm optimi­
+zation. By focusing on these aspects, we aim to develop more effective and efficient IoT-
+based detection systems (Table 1).
+3  Methodology
+3.1  Research methodology
+With this study, we employed experimental and machine learning research method­
+ologies to advance academic research in cyber attack detection. By integrating these 
+approaches, we aimed to enhance the accuracy and efficacy of identifying potential 
+threats.
+3.2  Dataset and preprocessing
+With this experiment, we utilized two widely acknowledged public datasets for cyber 
+attack identification, specifically selected to function as benchmark standard datasets for 
+IoT applications. Our focus was on conducting cyber attack detection experiments to 
+verify the efficiency of our proposed cyber attack identification model prepared for IoT 
+environments. Below, we present a brief illustration of the datasets employed, along with 
+comprehensive details regarding the preprocessing stages undertaken.
+3.2.1  Dataset overview
+The process of data collection involves systematically gathering information or data 
+concerning specific variables within a dataset in an organized manner. This enables 
+researchers to effectively address research questions, test hypotheses, and evaluate out­
+comes. In the context of this research, the variables of interest pertain to cyberattacks 
+targeting data records within IoT computing environments. The chosen dataset was uti­
+lized to assess the efficacy of an Attack Detection System (ADS) for IoT systems, as well 
+as to apply various data engineering techniques aimed at enhancing the learning and 
+validation processes. The study will encompass the examination of two prominent global 
+datasets relevant to IoT attacks, including CIC-IDS2017 and the CIC-IoT2023 dataset.
+To enhance the efficacy of cyberattack detection within the Internet of Things (IoT) 
+ecosystem, this study employs a specific dataset. Advanced data engineering techniques 
+
+
+===== PAGE 7 =====
+Page 7 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+were implemented to optimize both the training and validation processes. Comprehen­
+sive preprocessing procedures were conducted to refine the dataset, with a particular 
+emphasis on making it lightweight while enhancing the accuracy of multiclass classifica­
+tion across labels, categories, and associated features.
+CIC-IDS2017 dataset is facilitated by the Canadian Institute of Cyber Security and 
+captured through CICFlowMeter software, offers a comprehensive view of network 
+traffic characteristics spanning five days, from Monday until Friday evening [40]. This 
+Table 1  Summary of research publications related to Lightweight Intrusion Detection Systems
+Ref.
+Datasets
+Algorithms
+Results
+Cyber-attack
+Limitations
+[33]
+USW-NB15
+PCA-LNN
+86.11%
+Norm, Dos
+No hyper parameter 
+selection
+BoT-IoT
+96.14%
+DDos, Dos
+Low detection and clas­
+sification rate
+[34]
+CIC-IDS2017
+Knowledge distillation
+99%
+Norm, Dos, DDos, Port 
+scan
+Model generalizability 
+under question
+TON-IoT
+99%
+XSS, MiTM, Dos, DDos
+Low detection and clas­
+sification rate
+[35]
+TON-IoT
+Session merging and 
+feature engineering
+99.4%
+Dos, DDos, XSS, 
+MiTM, Backdoor, 
+Ransomware
+Small number of attacks, 
+limited dataset, model 
+generalizability concerns
+[9]
+CICIDS2018
+Convolutional and neu­
+ral network, DNN
+98.7%
+Benign, DDos, Bot, 
+Infiltration, SQL-injec­
+tion, Brute force
+Algorithm optimization, 
+limited dataset
+[8]
+CIC-IDS2017
+Post-training 
+Quantization
+99.5%
+Norm, Dos, Port scan, 
+Bot
+Model generalizability 
+concerns, High FLOPs
+CIC-IoT2023
+93.13%
+Recon, Mirai, DoS, 
+Web-based, Brute 
+force, DDoS
+High FLOPs
+[36]
+IoTID20
+Particle Swarm (PSO)
+98%
+Mirai, DoS
+Low multiclass detection 
+rate
+XG Boost, RF
+83%
+Scan, MITM
+Algorithm not lightweight
+[14]
+NSL-KDD
+Convolutional neural 
+network
+96.6%
+Norm, DoS
+Low detection and clas­
+sification rate
+IoTID20
+Long short-term 
+memory
+99.82%
+DoS, Scan
+Low detection and clas­
+sification rate
+CNN-LSTM
+98.8%
+Scan, MITM
+Big model size
+[23]
+IoTID20
+Shallow Neural Network, 
+Decision Trees, Bagged 
+Tree
+100%
+Discarded sub-catego­
+ry feature
+Algorithm not lightweight
+K-Nearest Neighbor
+99.80%
+Algorithm not lightweight
+Support Vector Machine
+99.40%
+[37]
+Malicia
+Hybridization of 
+K-Means and Firefly 
+Algorithm
+97.95%
+DoS, U2R, R2L, Probe
+Detects advanced mal­
+ware by analyzing feature 
+grouping
+99.80%
+[38]
+WSN-DS
+One-Class Bidirectional 
+GRU Autoencoder
+97.91%
+Exploits, Fuzzers
+Low detection rate
+UNSW-NB15
+98.20%
+DoS, Shellcode
+KDD CUP99
+98.23%
+Analysis, Backdoor
+[39]
+IoTID20
+Deep Neural Network
+93%
+Norm, DoS
+Low detection accuracy
+N-BaIoT
+92%
+Mirai, DoS, Scan, MITM
+Algorithm 
+lightweightness
+92%
+Probe, R2L, Normal, 
+Bashlite
+[5]
+TON-IoT
+Ensemble Learning 
+(Gaussian Naive Bayes 
+and Hoeffding tree)
+99%
+XSS, Backdoor, Ran­
+somware, Scanning, 
+MiTM
+High CPU usage, memory, 
+energy consumption not 
+evaluated
+
+
+===== PAGE 8 =====
+Page 8 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+dataset used as a crucial resource for research in system security and cyber attack identi­
+fication, encompassing a wide array of attack scenarios such as Botnet, Brute Force, DoS, 
+DDoS, Infiltration, SQL Injection, Port scan, and XSS. It fulfills the criteria outlined in 
+the dataset assessment method. In our study, we specifically focus on the subset of data 
+collected and generated on a Friday, tailored for the purpose of IoT attack detection. For 
+a comprehensive understanding, detailed explanation of CIC-IDS2017 datasets utilized 
+are provided in Table 2. Also for comparison purpose the same dataset used as used in 
+[8].
+CIC-IoT2023 dataset is developed by Neto and colleagues in 2023, presents an exten­
+sive compilation of IoT attacks. It encompasses 105 genuine IoT devices organized into 
+diverse topologies, simulating a smart home setting. Within this dataset, thirty-three 
+unique attacks are labeled into nine groups: Brute force, DNS spoofing, DoS, DDoS, 
+Recon, and Mirai. These attacks were performed, recorded, and collated within the IoT 
+environment. Notably, the dataset includes Recon attacks, which involve gathering com­
+prehensive target data from the IoT architecture, and Mirai attacks, characterized by 
+large-scale DDoS assaults on IoT devices. These attack categories represent both typical 
+and innovative kinds of IoT traffic attack. This research concentrate on these primary 
+cyber attack categories and their categories for experimental purposes. Further details 
+regarding dataset can be observed in Table 3.
+3.2.2  Data preprocessing
+It is vital to preprocess datasets before utilizing it in deep learning architecture. Data 
+sourced from real-world environments typically harbor numerous errors and irregu­
+larities, necessitating meticulous cleaning procedures. For instance, when encountering 
+string values within the dataset, it becomes essential to convert them into numerical for­
+mat prior to deep learning training.
+Table 2  CIC-IDS2017 dataset attack distribution
+Category
+Training data
+Testing data
+Validation data
+BENIGN
+265,326
+82,785
+66,211
+Bot
+1263
+405
+298
+DDoS
+81,778
+31,867
+20,598
+PortScan
+101,709
+25,381
+25,413
+Total
+450,076
+140,649
+112,520
+The signigicance of bold is to give more emphasis
+Table 3  CIC-IoT2023 dataset attack distribution
+Category
+Training data
+Testing data
+Validation data
+BENIGN
+120,779
+37,758
+30,418
+Dos-TCP_flood
+294,903
+92,116
+73,383
+DDos-TCP_flood
+98,493
+30,939
+24,563
+DNS-Spoofing
+344
+95
+83
+Recon-PortScan
+19,892
+6104
+4927
+Recon-OSScan
+33,871
+10,669
+8489
+Mirai-greeth_flood
+82,792
+25,766
+20,907
+Mirai-udpplain
+8952
+2896
+2243
+Mirai-greip_flood
+11,010
+3356
+2746
+Total
+671,036
+209,699
+177,679
+
+
+===== PAGE 9 =====
+Page 9 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Data preprocessing phase plays a significant role in preparing data for deep learning 
+techniques. It involves several steps to change real world sensor data into a more suit­
+able format for neural networks. These steps typically include data cleaning for handling 
+missing values and outliers, label encoding to convert categorical variables into numeri­
+cal format, feature engineering to create new features or transform existing ones, nor­
+malization to scale features to a similar range. This preprocessing procedure for the 
+attack identification system comprises five distinct stages, outlined as follows:
+Dataset Cleaning
+Prior to model training, it is essential to conduct a rigorous examination of datasets to 
+identify any instances containing missing or undefined values, ensuring both the accu­
+racy of the input data and the reliability of the resulting model. In this study, preprocess­
+ing was conducted using the PyTorch framework along with Python’s built-in libraries. 
+We analyzed the CIC-IDS2017 and CIC-IoT2023 datasets and identified missing and 
+infinite values, prompting a cleaning process. A three-step method involving converting 
+infinite values to NaN, imputing missing values with column means, and removing any 
+remaining NaN or infinite values. As missing data represented only 0.000284% of the 
+total and had no impact on model accuracy according to our experiment, we opted for 
+direct removal to streamline preprocessing without affecting performance.
+Label Encoding
+Utilizing numerization is a recognized technique for handling categorical data, partic­
+ularly in scenarios where memory efficiency and computational speed are crucial. Unlike 
+one-hot encoding, which can be memory-intensive and time-consuming, numerization 
+assigns a distinctive numeric value to each category within a categorical feature.
+For binary experiments, the categorical data is encoded into Zeros and ones, where 
+zero signifies the normal class and one indicates the attack class. Meanwhile, in mul­
+ticlass classification experiments, the numeric values for the categorical labels are 
+incremented accordingly. For example, in CIC-IoT2023 dataset, Benign class is repre­
+sented by 0, Dos-TCP_flood by 1, DDos-TCP_flood by 2, DNS-Spoofing by 3, Recon-
+PortScan by 4, Recon-OSScan by 5, Mirai-greeth_flood by 6, Mirai-udpplain by 7 and 8 
+to Mirai-greip_flood.
+By employing numerization, we ensure that the categorical features are appropriately 
+converted into numerical values, facilitating seamless integration into deep learning 
+models. This approach not only optimizes memory usage but also streamlines computa­
+tional efficiency, thereby enhancing the overall effectiveness of the training of the model.
+Feature Engineering
+In addressing the issue arising from the high-dimensional nature of the original data­
+set’s and redendency of features, feature engineering becomes a pivotal aspect of this 
+research endeavor. Effective feature engineering involves identifying and transforming 
+real world sensor data into model understandable features that enhance model perfor­
+mance. Techniques such as feature scaling, normalization, and extraction of relevant fea­
+tures play a pivotal role in this process. Additionally, the selection of appropriate feature 
+dimensionality reduction methods is paramount to mitigate computational complexities 
+and improve model efficiency.
+Feature engineering involves the process of either eliminating redundant features or 
+extracting new ones from existing features, aimed at enhancing the performance using 
+machine learning [41]). Redundant records were identified and eliminated from the 
+
+
+===== PAGE 10 =====
+Page 10 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+dataset. Since each dataset possesses its unique feature set, it’s crucial to eliminate irrel­
+evant features dimensions that are not critical to the output label. Retaining such insig­
+nificant features can lead to overfitting or underfitting, thereby adversely affecting both 
+the execution time and classifier performance.
+Employing Redundancy-Adjusted Logistic MIFS (RAL-MIFS) enhances feature engi­
+neering for Cyber Attack Detection Systems (ADS) by refining Mutual Information 
+Feature Selection (MIFS). By adjusting for feature redundancy and leveraging logistic 
+weighting, RAL-MIFS prioritizes the most informative features. This approach improves 
+the efficacy and accuracy of ADS, ensuring better detection of attacks in complex 
+datasets.
+The original dataset’s high-dimensional features pose challenges for the proposed 
+light-weight attack detection model. To address this, selecting an appropriate feature 
+dimension reduction method is crucial. In this investigation, we propose RAL-MIFS 
+combined with two-stage IPCA approach to solve the issue of high-dimensional fea­
+tures. The two-stage IPCA method involves performing IPCA in sequential stages, each 
+stage refining the dimensionality reduction process further. This approach efficiently 
+transforms high-dimensional features into lower-dimensional representations through 
+mapping functions, thereby facilitating dimensionality reduction. By employing a two-
+stage IPCA approach, we target to optimize the reduction of feature dimensions while 
+preserving the relevant information necessary for accurate attack detection.
+Through the usage of feature engineering techniques and the innovative RAL-MIFS + 
+two-stage IPCA method, the aim is to enhance the features quality and relevance used 
+in our light-weight attack detection model. By transforming the data from sensors which 
+is raw into a more meaningful representation and refining the dimensionality reduction 
+process iteratively, we can improve the model capacity to discern patterns and anomalies 
+effectively. This ensures that our model is not only efficient but also capable of accurately 
+identifying and classifying various attack types within the dataset.
+Normalization
+It is a technique manly used in preprocessing of dataset for DL algorithms. The aim 
+of normalization is to change the numeric column values in a data to a uniform scale 
+while keeping changes in value bounds. Each feature of CIC-IDS2017 dataset, and CIC-
+IoT2023 dataset has unique values. A certain amount of feature values reach into the 
+thousands, and some may contain negative figures that degrade the model performance. 
+To solve this challenge, the dataset was normalized between zero and one via min max 
+technique, as shown in Eq. 1.The data is transformed into a NumPy array and resized to 
+match the total number of records and input features utilizing Python’s NumPy library.
+xnormalized =
+x −xmin
+xmax −xmin 
+(1)
+Data Splitting
+Break apart the data to train, test, and validation sets is the widely used preprocessing 
+steps used to investigate the DL models’ performance. When dealing with balanced data, 
+it is advantageous to utilize random sampling due to its simplicity and ability to repre­
+sent the entire dataset. Random sampling is effective in creating subsets that are repre­
+sentative of the whole dataset without introducing systematic bias. Random sampling 
+was employed to partition the dataset into training, validation, and test sets, thereby 
+
+
+===== PAGE 11 =====
+Page 11 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+maintaining a representative distribution across all subsets. After we normalize the data­
+set, each matrix value will have a value between zero and one. For the data partitioning 
+procedure, data is randomly divided into into 80 % training, 20% testing, and then fur­
+ther divide the training set to training and validation 80% and 20% respectively. Finally, 
+data was fed to deep learning model.
+3.3  Proposed lightweighting architecture
+In recent years, the demand for lightweight and efficient cyber attack detection systems 
+has surged due to the proliferation of IoT devices of constrained processing capabilities. 
+However, existing models often fall short in meeting these requirements, as they entail 
+high computational costs and are unsuitable for widespread deployment. The emer­
+gence of CNN, BiLSTM and DNN has shown promise in addressing these challenges, 
+yet research in this area remains limited. While CNN-based classifiers excel in managing 
+diverse datasets, their application in attack detection has only recently gained traction, 
+outperforming traditional approaches [42]. To capitalize on this advancement, our study 
+proposes an innovative model that integrates a DNN with BiLSTM, showcasing excep­
+tional performance in identifying various network anomalies and malicious assaults. 
+Despite the outstanding performance of BILSTM and DNN, our hybrid approach offers 
+a robust solution for lightweight cyber attack recognition in IoT environments [43].
+In this investigation, a lightweight deep learning-based neural network cyber attack 
+identification and classification scheme that incorporates RAL-MIFS + two stage feature 
+dimension reduction and advanced dynamic model quantization is proposed to stream­
+line the detection model complication. The outcome is a model that maintains low com­
+putational complication while achieving best detection accuracy.
+The following are the phases of the suggested method for detecting IoT attacks: First, 
+as explained in Sect 3.2.2, the IoT cyber attack detection and classification dataset is pre­
+processed through data encoding or numerization, data cleaning, feature engineering 
+(RAL-MIFS), and two stage IPCA algorithm. The preprocessed data was divided to test, 
+training, and validation category. The test set confirms the final model’s classification 
+performance, while the training and validation data are utilized for training the model 
+and weight fine tuning. After that, training and validation data are fed into DNN-BiL­
+STM model and quantization aware training was performed.
+To determine the proper parameters of the proposed system, the hyperparameters of 
+the model are then optimized using the optuna optimization techniques. The trained 
+optimal model is then subjected to advanced dynamic quantization (Quantization Aware 
+Training and Post training dynamic quantization) by means of structural unit specifica­
+tions. The quantized DNN-BiLSTMQ model is generated, and the ultimate identifica­
+tion performance of the final model is assessed through rigorous testing of the reduced 
+size quantized model with the designated test set.
+The proposed general architecture of lightweight deep learning based IoT cyber attack 
+identification and categorization method is illustrated in Fig. 1, comprising four main 
+modules: data preprocessing, quantization aware model training and weight fine tuning, 
+post training model dynamic quantization, and model categorization testing. This com­
+prehensive architecture aims to enhance intrusion detection efficiency while minimiz­
+ing computational resources, ensuring effective protection against cyber attack in IoT 
+environments.
+
+
+===== PAGE 12 =====
+Page 12 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Ensuring accurate evaluation of the deep learning model’s performance necessitates 
+proper data splitting into train, test, and validation sets. To address potential issues aris­
+ing from unbalanced datasets, we employ a stratified splitting method. Following nor­
+malization, data is divided into 80 % training, 20% testing, and then further divide the 
+training set to training and validation 80% and 20% respectively.
+The research focuses on model lightweighting for IoT cyber-attack detection, In the 
+subsequent sections, the proposed architecture will be described in detail. Beginning 
+with data preprocessing, improved feature engineering was applied, which includes 
+RAL-MIFS and a two-stage IPCA process, as detailed in Sect. 3.4. Following this, we will 
+develop a hybrid DNN-BiLSTM model, which comprises a DNN and BiLSTM architec­
+ture for intricate feature extraction as described in Sect. 3.5. The training of this model 
+will incorporate quantization-aware training.
+Then the developed hybrid model parameters will be optimized using advanced optuna 
+parameter optimization, as detailed in Sect. 3.7, to achive the best accuracy and while 
+reducing model size. Then to create lightweight model, we will apply advanced dynamic 
+quantization, which integrates quantization-aware training with dynamic quantization 
+after training, as described in Sect. 3.6. This comprehensive approach aims to achieve 
+a lightweight yet highly accurate model by systematically optimizing each stage of the 
+development process.
+3.4  Improved feature engineering
+When real time sensor and system data directly inputted to neural network, unimport­
+ant redundant attributes in the real time sensor and system data typically make learn­
+ing process harder, which definitely has a adverse impact on the efficacy of the cyber 
+attack identification of entire system. The determination of relationships between input 
+and target variables may necessitate a considerable number of instances, particularly in 
+scenarios where the input data contains ample information but suffers from high dimen­
+sionality. Feature reduction presents a viable solution to these challenges, comprising 
+two primary techniques: feature selection and extraction. Feature selection involves the 
+identification and retention of pertinent inputs from the raw dataset, whereas extraction 
+of feature entails the derivation of new parameters from the original dataset, encapsulat­
+ing the most pertinent information relevant to the output variable.
+Fig. 1  Proposed lightweight hybrid deep learning architecture
+ 
+
+
+===== PAGE 13 =====
+Page 13 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+3.4.1  Redundancy-adjusted logistic MIFS
+Employing Redundancy-Adjusted Logistic MIFS (RAL-MIFS) enhances feature engi­
+neering for cyber attack Identification Systems by refining MIFS. By adjusting for feature 
+redundancy and leveraging logistic weighting, RAL-MIFS prioritizes the most informa­
+tive features. This approach improves the efficacy and accuracy of ADS, ensuring better 
+detection of attacks in complex datasets.
+As stated in [9], MIFS is a popular system for feature identification that can effec­
+tively choose important features aside from data distribution, which makes best for 
+early attack detection architecture where data have no sufficient attack patterns. Unlike 
+existing MIFS that calculate k using Eq. (2), we proposeed RAL-MIFS that calculate the 
+redundancy using Eq. (3). Rather than updating k value linearly, the RAL-MIFS gradu­
+ally rise weights whenever a new attributes is appended to the dataset.
+k = 1
+|S|
+
+(2)
+k =
+1
+1 + e−( |S|
+|F |
+)
+
+(3)
+where k is the redundancy coefficient, |S| is count of features in the chosen dataset and 
+|F| is the number of features in the original dataset. Principal Component Analysis 
+has emerged as the prevailing method for feature reduction in prior research on attack 
+detection systems, offering enhanced lightweight performance via its low-complex­
+ity linear transformation approach. Variants of PCA have been extensively applied for 
+reduction of feature dimensionality in attack detection datasets, reflecting its ongoing 
+relevance. In such contexts, full-fledged training data may not be acquired at once, and 
+gradual increase in data traffic may lead to subtle alterations in cyber attack behavior 
+from the dataset. Consequently, features extracted from initially provided training sam­
+ples may lack persuasiveness, underscoring the desire for more adaptable and efficient 
+feature reduction techniques in dynamic IoT settings.
+3.4.2  Two stage IPCA
+This study also introduces the two-stage IPCA for Detecting and classifying cyber 
+attacks, as a improvement for the PCA algorithm. IPCA, an incremental learning-based 
+reduction of feature dimensionality method suggested by [44], facilitates the incremen­
+tal updating of feature vectors and values. Below is a concise outline of the reduction of 
+dimensionality principle employed by the IPCA algorithm [44]. The high dimensional 
+data samples will be denoted as X = [x1, x2, . . . , xm] ∈Rn×m in an n-dimensional 
+space, and mean of X will be computed from that. MX(¯X, Uk, Λk) is the eigenspace 
+model of the raw dataset. Consider the new sample data Z ∈Rn will be upgraded to the 
+the sample data of original; then, ¯X the initial model eigenspace will be upgraded to ¯X
+′, 
+where
+¯X
+′ =
+1
+N + 1
+N
+∑
+i=1
+(¯XN + Z) ∈Rn.
+(4)
+where Uk is n × k matrix, and k represents the feature dimension space, with the matrix 
+columns representing the data’s feature vectors. Λk represents k × k dimension matrix 
+
+
+===== PAGE 14 =====
+Page 14 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+with diagonal members that match to the data’s eigenvalues. The decision on updating 
+feature vectors and values in the vector feature space hinges on if the newly updated data 
+samples introduce previously absent energy in the existing feature space, as determined 
+by the following equation:
+g = UT
+k (Z −¯x)
+(5)
+where ¯x is the mean vector of the new data.
+h =(Z −¯x) −Uk · g 
+(6)
+ˆh =
+{
+h
+∥h∥,
+if ∥h∥> η,
+0,
+otherwise.
+
+(7)
+In the context of our investigation, the residual vector h belonging to the real space Rn 
+denotes a crucial element. The determination to adjust the feature dimensional space k 
+is contingent upon the calculation of norm ∥h∥, which prompts an increment by one if 
+it exceeds the predefined threshold η. Conversely, if the norm ∥h∥ remains below η, the 
+dimension of vector feature space retains its original value of k. In scenarios where an 
+adjustment in the feature space dimensionality is warranted, the matrices Uk and Λk 
+undergo transformation to U′
+k+1 and Λ′
+k+1 respectively, as governed by equations:
+U′
+k+1 =[Uk, ˆh] · R 
+(8)
+RΛ′
+k+1 =
+{
+n
+n+1
+[
+Λk
+0
+0T
+0
+]
++
+n
+(n+1)2
+[
+ggT
+γg
+γgT
+γ2
+]
+R 
+(9)
+However, if the vector feature space dimension will not expanded, then Uk and Λk will 
+be added to Uk and Λk:
+U′
+k =UkR 
+(10)
+RΛ′
+k =
+{
+n
+n+1Λk +
+n
+(n+1)2 ggT 
+(11)
+For the second stage of IPCA, the updated U′
+k and Λ′
+k from the first stage are used. Let 
+R′ be the rotation matrix for the second stage. Then, the updated in the feature space 
+vector, feature vectors and values are given by:
+U′′
+k+1 =[U′
+k, ˆh′] · R′ 
+(12)
+R′Λ′′
+k+1 =
+{
+n
+n+1
+[
+Λ′
+k
+0
+0T
+0
+]
++
+n
+(n+1)2
+[
+g′g′T
+γ′g′
+γ′g′T
+γ′2
+]
+R′ 
+(13)
+where ˆh′ is obtained similarly as ˆh, g′ is computed as g′ = U′T
+k (Z −¯x′), and γ′ is a scalar 
+calculated from g′. Two-stage IPCA contribute to improving the robustness and reliabil­
+ity of data analysis and machine learning models in diverse real-world applications.
+3.4.3  RAL-MISF + two stage IPCA pseudocode
+As shown in the Algorithm  1 the original dataset undergoes feature selection using 
+RAL-MIFS to identify the optimal features. RAL-MIFS leverages mutual information 
+
+
+===== PAGE 15 =====
+Page 15 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+and redundancy adjustment through logistic functions to prioritize features that con­
+tribute most significantly to the variable of interest while minimizing redundancy. This 
+step ensures that the most vital features are retained, enhancing the subsequent analysis.
+The enhanced dataset, containing the selected features, is then input into the first stage 
+of IPCA, resulting in an updated dataset. This updated dataset is subsequently fed into 
+the second stage of IPCA, yielding the final updated dataset. By performing dimension­
+ality reduction in two stages, this method effectively reduces dimensionality of dataset 
+with minimal compromise on accuracy, making it convenient for handling large-scale 
+datasets incrementally.
+Algorithm 1  Two-stage IPCA + RAL-MIFS Feature Selection
+3.5  Hybrid DNN-BiLSTM model
+In the preprocessing phase, there is a crucial step of refining data to organize incoming 
+packet data efficiently. Many datasets utilized for cyber attack detection contain numer­
+ous attributes. However, utilizing all these attributes for cyber attack identification with­
+out refinement can result in a decline in performance due to overfitting concerns. DNN 
+is able to learn the potential information hidden by features compared with shallow 
+
+
+===== PAGE 16 =====
+Page 16 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+learning models such as machine learning and has a more concise network structure to 
+extract nonlinear features of network data compared with deep learning models. There­
+fore, DNN is selected as the network structure to optimize the deep nonlinear feature 
+extraction ability of BiLSTM.
+To get control of the issue, this study proposes an innovative approach which is hybrid 
+deep learning that integrates DNN with BiLSTM, as shown in Fig. 2. This combination 
+is designed to upgrade the model’s capacity for the extraction of nonlinear features while 
+leveraging BiLSTM’s inherent capacity to capture bidirectional long-distance dependen­
+cies. The integration of DNN with BiLSTM enhances cyber threat detection by com­
+bining deep feature extraction with temporal context modeling. This hybrid architecture 
+captures complex patterns and sequential dependencies, leading to improved accuracy 
+in identifying diverse and evolving IoT-based attacks. Additionally, DNN handles high-
+dimensional data effectively, and contributes to model generalizability, making it adapt­
+able across different IoT environments and new, unseen attack patterns.
+3.6  Model lightweighting
+According research by [20] there are several techniques possible to utilize to make deep 
+learning algorithms more lightweight, and therefore more suitable for deployment on 
+resource-constrained devices. Lightweighting techniques are detailed in Sect. 3.6.1.
+3.6.1  Lightweighting techniques
+ 	•
+Quantization: This involves reducing the precision of the weights and activations 
+in the network, typically from 32-bit floating point to 8-bit integers. This can 
+significantly reduce the memory and computational requirements of the network 
+without significantly affecting accuracy.
+ 	•
+Pruning: This involves removing unimportant connections from the network, 
+typically those with small weights. This can significantly reduce the size of the 
+network without significantly affecting accuracy.
+ 	•
+Knowledge distillation: This involves training a smaller “student” network to mimic 
+the output of a larger “teacher” network.
+ 	•
+Architecture optimization: This involves designing or selecting an architecture that 
+is specifically optimized for the target device.
+ 	•
+Quantized neural networks: This involves training the network directly in 
+quantized form, rather than quantizing it after training.
+Fig. 2  DNN_BiLSTM Model Structure
+ 
+
+
+===== PAGE 17 =====
+Page 17 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+ 	•
+Model compression: This involves compressing the network by removing 
+redundancies and decreasing the number of parameters.
+For this thesis work based on the consideration to produce a model which is lightweight, 
+short training, and time of inference, an advanced dynamic quantization (QAT + PTDQ) 
+was used and as detailed in Sect. 3.6.2.
+3.6.2  Advanced dynamic quantization
+Advanced quantization is an optimization strategy utilized to decrease the bit width of 
+model parameters from 32-bit floating-point to achieve better resolution and efficiency. 
+It is significantly enhanced by employing advanced dynamic quatization a combined 
+approach of quantization-aware training (QAT) and post-training dynamic quantiza­
+tion (PTDQ) techniques. QAT integrates the considerations of quantization effects into 
+the process of training, guaranteeing that the model adapts effectively to the constraints 
+imposed by lower bit-width representations. This proactive approach results in models 
+that are inherently more robust to quantization, leading to better performance post-
+quantization compared to conventional methods.
+By incorporating QAT to the training process, the model will becomes more resilient 
+to variations in data distribution and noise, leading to enhanced generalizability across 
+diverse datasets. QAT enables the earning capability to the model robust features that 
+are less sensitive to quantization-induced distortions, thereby facilitating better adapta­
+tion to unseen data during inference.
+Furthermore, the utilization of post-training dynamic quantization techniques ensures 
+that the model’s performance remains consistent across different deployment scenarios. 
+These techniques optimize the quantization process while preserving crucial informa­
+tion, thus minimizing the risk of accuracy degradation on real-world data.
+The combined approach of QAT and advanced quantization not only optimizes model 
+efficiency but also enhances its generalizability to novel, unseen data. This is particu­
+larly crucial in real-world applications where models must perform consistently under 
+various settings and datasets, ensuring consistent and accurate results across different 
+environments.
+3.6.3  Quantized DNN_BiLSTMQ model
+The workflow of the quantized model is as follows.
+ 	•
+Train the DNN-BiLSTM model using full-precision (FP32) weights.
+ 	•
+Apply quantization-aware training (QAT) with low-precision (e.g., INT8) effects 
+during fine-tuning.
+ 	•
+Perform post-training dynamic quantization on linear layers to convert weights and 
+activations to low-bit representations.
+ 	•
+Export the quantized model for deployment in resource-constrained environments.
+ 	•
+Run model inference using optimized integer arithmetic, significantly reducing 
+memory usage and computational load while maintaining detection performance.
+Remarkable proficiency in discerning intricate data patterns compared to conventional 
+machine learning models, its streamlined network structure excels in extracting nonlin­
+ear features from network data, surpassing even the most intricate deep learning archi­
+tectures in terms of simplicity and efficiency. Consequently, we have opted for DNN 
+
+
+===== PAGE 18 =====
+Page 18 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+as the foundational structure to bolster BiLSTM’s deep extraction of nonlinear feature 
+capabilities.
+However, mixing of multiple network structures often leads to bloated model param­
+eters, resulting in escalated computational demands. Given the critical demand for a 
+lightweight hybrid deep learning based cyber attack detection system capable of real-
+time detection in resource-constrained IoT settings, it becomes paramount to strike a 
+delicate balance between detection efficacy and computational efficiency.
+In this investigation, we have implemented an advanced quantization approach, a 
+sophisticated blend of quantization-aware training and post-training dynamic quantiza­
+tion, to compress the blended DNN-BiLSTM model. This innovative approach curtails 
+the size and complicatedness of the model while preserving its feature extraction prow­
+ess and detection accuracy, thus facilitating seamless deployment in IoT environments 
+characterized by limited resources. This approach improves model generalizability by 
+leveraging Quantization-Aware Training to preserve critical features during training, 
+followed by Post-Training Dynamic Quantization, which adapts the model efficiently 
+during inference without significant loss of accuracy and enhances its generalization 
+capabilities.
+The model architecture and development process of our proposed DNN-BiLSTM with 
+quantization (DNN-BiLSTMQ) approach are meticulously detailed in Fig.  3 which is 
+adopted from [8] and modified for advanced quantization.
+3.7  Advanced model optimization
+This study employs the optimization with Optuna hyperparameter methodology to opti­
+mize hyperparameters associated with model detection, aiming to enhance model clas­
+sification accuracy. Optuna, introduced by [45], represents a contemporary approach to 
+hyperparameter optimization frameworks. It conceptualizes hyperparameter optimiza­
+tion as an iterative process aimed at maximizing or minimizing an objective function, 
+wherein the function yields an assessment score corresponding to input hyper-param­
+eter sets. The advancement of Optuna over conventional manual and automated tuning 
+methodologies is predominantly evident in three key dimensions [46].
+Fig. 3  DNNBiLSTMQ Model Structure adopted and modified from [8]
+ 
+
+
+===== PAGE 19 =====
+Page 19 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+3.7.1  Advantages of optuna
+ 	•
+Flexible Parameter Search Space: Optuna facilitates dynamic construction of the 
+parameter search space, empowering users to adaptively define hyperparameter 
+ranges for individual models. Subsequently, it generates the objective function 
+according to interactions with the experimental entity. The subsequent search 
+strategy is informed by historical evaluations of previous experiments, guiding the 
+validation of forthcoming sets of hyperparameters.
+ 	•
+Efficient Optimization: Optuna incorporates efficient optimization technique, 
+encompassing state-of-the-art hyperparameter sampling techniques and pruning 
+algorithms designed to terminate unpromising trails. By employing both relational 
+and standalone sampling methodologies, Optuna swiftly identifies optimal search 
+spaces. The pruning algorithms facilitate the premature termination of futile trails 
+during training, a strategy commonly known as automated early halting. These 
+optimization algorithms are particularly critical for enhancing performance in 
+resource-constrained scenarios.
+ 	•
+Versatile and Scalable: Optuna boasts a generic architecture and straightforward 
+setup procedure, rendering it applicable across diverse experimental contexts. Its 
+interactive interface facilitates seamless deployment of lightweight experiments 
+onto large-scale distributed computing platforms, thereby meeting the demand for 
+scalable experimentation.
+3.7.2  Advanced optuna implementation strategy
+To apply Optuna in this research, we integrate it with DNN-BiLSTM model enhanced 
+with quantization-aware training. Algorithm  2 outlines the Optuna hyperparameter 
+optimization procedure, which is pivotal in enhancing the detection approach proposed 
+in this research. The algorithm takes as input the dataset, the desired trial number, and 
+the hyperparameters that will optimized along with their respective search spaces. Ini­
+tially, the raw dataset undergoes preprocessing to RAL-MIFS and then goes to two stage 
+IPCA-dimensional and split data into training and test datasets.
+Subsequently, the objective function for optimization is defined. For the detection 
+approach proposed herein, the hyperparameters subject to optimization include learn­
+ing rate, batch_size, and weight_decay. Accordingly, the search space of hyper-param­
+eters is delineated within the objective function definition to facilitate subsequent 
+hyperparameter sampling. The test efficacy of post-model training and testing serves as 
+the objective function’s return value, thereby evaluating the identification performance 
+of different trial.
+Following the objective function definition, the optimization process will be instanti­
+ated, specifying whether the goal is to maximize or minimize the outcome of objective 
+function. In this research, the objective is to get hyperparameter values that yield the 
+maximum test accuracy within the designated space.
+Finally, the optimization commences by setting the amount of trials that will be exe­
+cuted. Optuna iteratively refines the hyperparameter combination within the designated 
+search space using the hyperparameter algorithm across performed trials. It’s pertinent 
+that the implementation encompasses RAL-MIFS + two-stage IPCA approach alongside 
+the incorporation of quantization aware training.
+
+
+===== PAGE 20 =====
+Page 20 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Algorithm 2  Optuna Hyperparameter Optimization with RLA-MIFS + two stage IPCA Pseudocode
+The study [47] highlights the critical influence of learning rate, batch size, and weight 
+decay on the performance of deep learning models, demonstrating that careful hyperpa­
+rameter optimization substantially improves training stability, convergence, and general­
+ization. The learning rate, batch size, and weight decay were selected for hyperparameter 
+optimization using Optuna due to their significant impact on the convergence behavior, 
+training stability, and generalization capacity of deep neural networks. The learning rate 
+controls the step size during gradient descent and plays a crucial role in determining 
+the speed and stability of convergence. Batch size influences the stochasticity of gradi­
+ent estimates, thereby affecting both training dynamics and computational efficiency. 
+Weight decay serves as a regularization technique that penalizes large weights, thus 
+helping to mitigate overfitting. By optimizing these parameters with Optuna, the model 
+achieves optimal performance through an efficient balance between convergence speed 
+and generalization to unseen data.
+4  Experimental results and discussion
+4.1  Experimental setup and evaluation metrics
+4.1.1  Experimental setup
+The assessments were meticulously conducted within the Python 3.11 environment, 
+renowned for its versatility and robust analytical capabilities. Leveraging the PyTorch 
+framework, known for its prowess in handling complex computations, ensured the effi­
+ciency required for sophisticated data analysis with machine learning tasks.
+Execution took place on a personal computer operating on the Windows 11 platform, 
+equipped with an 11th Gen Intel(R) Core (TM) i7-1165G7 processor. Operating at a base 
+
+
+===== PAGE 21 =====
+Page 21 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+frequency of 2.80GHz and turbocharging up to 2701 MHz, this processor’s four physical 
+cores and eight logical processors efficiently handled the computational demands.
+Additionally, the system boasted 16 GB of RAM, ensuring sufficient memory resources 
+to accommodate intricate computational workflows without performance bottlenecks. 
+This combination of processing power and memory capacity facilitated seamless execu­
+tion and swift completion of the evaluation processes, ensuring optimal performance 
+and resource utilization throughout the assessment.
+4.1.2  Evaluation metrices
+This research introduces an evaluation framework to assess IoT attack identification 
+model effectiveness. Given the complexities in IoT attack detection, the evaluation 
+expands beyond traditional metrics to include model size, computation time, inference 
+time, and FLOPs. Model size is crucial, impacting deployment on resource-constrained 
+IoT devices, necessitating efficient memory use. Computation and inference times 
+are critical, especially in real-time IoT where swift threat detection is vital. Consider­
+ing FLOPs helps understand computational overhead, guiding deployment decisions in 
+diverse IoT environments.
+The evaluation framework includes metrics like precision, recall, and F1-score, assess­
+ing false positives, true positives, and balancing both types of errors. Precision mini­
+mizes false alarms, while recall identifies genuine attacks. The F1-score, harmonizing 
+precision and recall, provides a balanced evaluation. By integrating these metrics, the 
+research aims to comprehensively assess the model’s performance, facilitating informed 
+deployment decisions in IoT ecosystems. This approach addresses challenges in IoT 
+attack detection, contributing to robust security solutions tailored to IoT deployment 
+needs.
+Accuracy =
+Tp + Tn
+Tp + Tn + Fp + Fn 
+(14)
+Precision =
+Tp
+Tp + Fp 
+(15)
+Recall =
+Tp
+Tp + Fn 
+(16)
+F1 =2 × Precision × Recall
+Precision + Recall
+=
+2 × Tp
+2 × Tp + Fp + Fn 
+(17)
+where Tp is true positive, Tn is true negative, Fp is false positive, and Fn denotes false 
+negative. In addition, we used evaluation criteria such as parameter count, size of model, 
+and model complication to determine the model’s computational resources.
+4.2  Analyzing of performance measures on the dataset
+4.2.1  Comparison of IPCA with two stage IPCA
+This study centers on comparing and analyzing the detection accuracy achieved by 
+IPCA, and an integration of RAL-MIFS and two-stage IPCA method as improved fea­
+ture engineering techniques in cyber attack identification. The purpose is to showcase 
+the superiority of RAL-MIFS + two-stage IPCA. By using the proposed method we can 
+
+
+===== PAGE 22 =====
+Page 22 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+reduce CIC-IDS2017 dataset features from 78 to 26 features while maintaining an accu­
+racy of 99.753%
+Experimental results shows that the RAL-MIFS with two-stage IPCA method sig­
+nificantly enhances the detection efficiency of cyber attacks. Specifically, by reducing 
+CIC-IDS2017 dataset features from 78 to 26, the RA-MIFS + two-stage IPCA method 
+achieves an accuracy of 99.753%, outperforming single stage RAL-MIFS + IPCA tech­
+niques. This substantial improvement underscores the effectiveness of the RAL-MIFS + 
+two-stage IPCA method in extracting the most vital features and thereby enhancing the 
+performance of cyber attack detection of the model and its generalizablity.
+Practically speaking, the experiments validate the performance superiority of RAL-
+MIFS + two-stage IPCA over RAL-MIFS + IPCA, indicating its effectiveness in intru­
+sion detection scenarios. Furthermore, this study conducts a comparison of the optimal 
+identification efficacy of RAL-MIFS + two stage IPCA reduction algorithms using CIC-
+IDS2017 dataset, wherein the two-stage IPCA algorithm surpasses others regarding 
+precision, accuracy, recall, and F1-score. A comprehensive performance comparison 
+is depicted in Fig. 4. In summary, the RAL-MIFS + two-stage IPCA algorithm chosen 
+in this research outperforms widely used feature engineering technique in the test and 
+demonstrates outstanding performance.
+4.2.2  Performance measures on CIC-IDS2017 dataset
+To ascertain the applicability of our proposed architecture for IoT attack recognition, 
+this subsection undertakes a comparative analysis between the DNN-BiLSTMQ model 
+and its constituent sub-models, namely DNN and BiLSTM, through rigorous experi­
+mentation. Furthermore, it juxtaposes our model against a spectrum of widely used DL 
+models across several performance parameters, including accuracy, recall, precision, 
+F1-score, time of training and time of inference. The results of these comparative experi­
+ments are meticulously documented in Table 4. Given the inherent complexities of ML 
+models, particularly in terms of training and inference times. For the data partitioning 
+procedure, data is randomly divided into into 80 % training, 20% testing, and then fur­
+ther divide the training set to training and validation 80% and 20% respectively. Finally, 
+data was fed to deep learning model. The result is based on optimization parameters: 
+batch_size: 148, lr: 0.0018895 weight_decay: 1.44357 × 10−5. These hyperparameters 
+Fig. 4  Comparison of RAL-MIFS + IPCA/RAL-MIFS + Two stage IPCA
+ 
+
+
+===== PAGE 23 =====
+Page 23 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+were selected based on their performance during cross-validation, where they consis­
+tently produced the highest F1-score and lowest validation loss across multiple trials. 
+The learning rate of 0.0018895 allowed for stable and efficient convergence, while the 
+batch size of 148 provided a good balance between training speed and gradient stabil­
+ity. The small weight decay value 1.44357 × 10−5 was effective in preventing overfitting 
+without hindering learning.
+From the comparison, it is evident that:
+ 	•
+For accuracy, the DNN-BiLSTMQ model achieves 99.73%, which is 0.06%, 0.22%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For precision, the DNN-BiLSTMQ model obtains 99.57%, which is 0.04%, 0.10%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For recall, the DNN-BiLSTMQ model achieves 99.73%, which is 0.06%, 0.22%, and 
+0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For the F1-score, the DNN-BiLSTMQ model obtains 99.64%, which is 0.05%, 0.16%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+As evidenced in Table 4, the DNN-BiLSTMQ model emerges as the frontrunner, demon­
+strating unparalleled performance across all evaluation metrics, with accuracy, F1-score, 
+recall, and precision surpassing the 99.57% threshold. This exceptional performance is 
+due to RAL-MIFS + two stage IPCA with the synergistic fusion of feature extraction 
+capabilities from DNN and BiLSTM algorithms encapsulated within the DNN-BiL­
+STMQ framework, facilitating a more holistic feature representation.
+Despite advanced dynamic quantization efforts aimed at model generalization with 
+the help of QAT and PTDQ and reducing model size by one-third, it is observed to com­
+promise detection performance by small amount. However, the incorporation of the 
+DNN component within the DNN-BiLSTMQ architecture effectively mitigates these 
+deficiencies, endowing the model with enhanced classification prowess while maintain­
+ing computational efficiency compared to standalone local algorithms.
+Noteworthy is the DNN-BiLSTMQ model’s expedited test time relative to its counter­
+parts, albeit at the sacrifice of prolonged training time of CNN and BiLSTM models. This 
+disparity is attributed to the unified architectural design of DNN-BiLSTMQ, wherein 
+DNN and BiLSTM are seamlessly integrated while leveraging quantization-aware train­
+ing during training, which helps in model generalizability and to extract more important 
+features. While this integration does confer substantial computational advantages dur­
+ing training, its efficacy becomes discernible during the test stage, particularly with the 
+employment of dynamic quantization post-training.
+Complementing these quantitative assessments, Figs. 5, 6, 7, and 8 visually encapsu­
+lates the prediction outcomes of the DNN-BiLSTMQ model juxtaposed with other com­
+parative models across diverse sample categories within CIC-IDS2017 dataset, presented 
+in confusion matrix. This graphical representation provides intuitive insights into model 
+Table 4  Comparison of several models’ multiclassification accuracy on CIC-IDS2017 dataset
+Model
+Accuracy
+Precision
+Recall
+F1-score
+Training time (s)
+Inference time (s)
+BiLSTM
+0.9967
+0.9953
+0.9967
+0.9959
+1800
+19.00
+2D-CNN
+0.9951
+0.9947
+0.9951
+0.9948
+1350
+11.00
+DNN
+0.9965
+0.9949
+0.9965
+0.9956
+750
+9.00
+DNN-BiLSTMQ
+0.9973
+0.9957
+0.9973
+0.9964
+1200
+10.00
+
+
+===== PAGE 24 =====
+Page 24 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+performance, with darker hues denoting more accurate predictions and, consequently, 
+higher classification accuracy. Notably, the confusion matrix facilitates the discernment 
+of false positive rates, a critical metric delineating the misclassification of negative sam­
+ples as benign.
+4.2.3  Performance measure based on CIC-IoT2023 dataset
+To ascertain the efficacy of the DNN-BiLSTMQ model in detecting novel IoT cyber 
+attacks, this study evaluates the method using CIC-IoT2023 dataset and compares it 
+against other deep learning methods. The results of this comparison are presented in 
+Table 5. The experimental findings substantiate that the proposed DNN-BiLSTMQ 
+model surpasses alternative models in identifying recent attack data across all evalua­
+tion parameters. Notably, this model demonstrates shorter training and test times, par­
+ticularly when contrasted with DNN models, where it exhibits a notable advantage in 
+Fig. 6  DNN Quantitative Assessment
+ 
+Fig. 5  BiLSTM Quantitative Assessment
+ 
+
+
+===== PAGE 25 =====
+Page 25 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+training duration, being merely half of the DNN. For the data partitioning procedure, 
+data is randomly divided into into 80 % training, 20% testing, and then further divide the 
+training set to training and validation 80% and 20% respectively. Finally, data was fed to 
+deep learning model. The result is based on optimization parameters: batch_size: 64, lr: 
+0.0032911, weight_decay: 7.95 × 10−5. These hyperparameters were selected based on 
+Table 5  Comparison of several models’ multiclassification accuracy on CIC-IoT2023 dataset
+Model
+Accuracy
+Precision
+Recall
+F1-score
+Training
+Inference
+BiLSTM
+0.9307
+0.9227
+0.9303
+0.9176
+3450
+26.20
+2D-CNN
+0.9296
+0.9221
+0.9296
+0.9180
+4000
+27.80
+DNN
+0.9275
+0.9194
+0.9275
+0.9141
+1650
+16.00
+DNN-BiLSTMQ
+0.9395
+0.9305
+0.9395
+0.9290
+3500
+20.20
+Fig. 8  DNN_BiLSTMQ Quantitative Assessment
+ 
+Fig. 7  CNN Quantitative Assessment
+ 
+
+
+===== PAGE 26 =====
+Page 26 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+their performance during cross-validation, where they consistently produced the highest 
+F1-score and lowest validation loss across multiple trials.
+From the comparison, it can be evident that:
+ 	•
+For accuracy, the DNN-BiLSTMQ model achieves 93.95%, which is 0.73%, 0.84%, 
+and 1.05% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For precision, the DNN-BiLSTMQ model achieves 93.05%, which is 0.73%, 0.79%, 
+and 1.06% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For recall, the DNN-BiLSTMQ model achieves 93.95%, which is 0.73%, 0.84%, and 
+1.05% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For the F1-score, the DNN-BiLSTMQ model achieves 92.90%, which is 0.94%, 
+0.90%, and 1.29% better than BiLSTM, CNN, and DNN, respectively.
+This comprehensive assessment underscores the efficacy of the DNN-BiLSTMQ model 
+in discerning novel IoT network attacks, further reaffirming its utility in contemporary 
+intrusion detection scenarios (Figs. 9, 10, 11 and 12).
+The model architecture shown in as shown in Fig. 2. differs for the two datasets as 
+follows:
+ 	•
+CIC-IDS2017 Dataset 
+xn : n = 26, yn
+: n = 4
+Hidden Layer 1, ln1 : n = 24
+Hidden Layer 2, lm2 : m = 12
+ 	•
+CIC-IoT2023 Dataset 
+xn : n = 28, yn
+: n = 9
+Hidden Layer 1, ln1 : n = 44
+Hidden Layer 2, lm2 : m = 22
+Hyperparameter tuning was conducted using the Optuna framework, which employs a 
+Tree-structured Parzen Estimator (TPE) sampler for efficient search. The optimization 
+Fig. 9  BiLSTM Quantitative Assessment
+ 
+
+
+===== PAGE 27 =====
+Page 27 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+targeted three key parameters: batch size (ranging from 64 to 256), learning rate (sam­
+pled log-uniformly between 10−3 and 10−2), and weight decay (ranging from 10−6 to 
+10−4). The objective function was defined to maximize validation accuracy. The optimal 
+configuration identified through this process was subsequently adopted for training the 
+quantization-aware DNN-BiLSTM model.
+4.3  Analysis of lightweight model performance
+This section evaluates the lightweight characteristics and classification performance of 
+the proposed model, addressing the limited processing capabilities of smart devices. The 
+comparison encompasses various deep learning methods, focusing on model size, com­
+plexity, and floating-point operations (FLOPs). The assessment is conducted separately 
+for the CIC-IDS2017 and CIC-IoT2023 datasets. Detailed results are presented in Table 
+6a, b.
+Fig. 11  DNN Quantitative Assessment
+ 
+Fig. 10  CNN Quantitative Assessment
+ 
+
+
+===== PAGE 28 =====
+Page 28 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+4.3.1  Model lightweightness analysis on CIC-IDS2017 dataset
+DNN-BiLSTMQ model demonstrates significant lightweight characteristics:
+ 	•
+Parameter Reduction: 99.39% compared to DNN, 99.50% compared to CNN, and 
+99.98% compared to BiLSTM.
+ 	•
+Complexity Reduction: 94.66% compared to BiLSTM, 30.94% compared to CNN, 
+and 96.99% compared to DNN.
+ 	•
+Model Size: The quantized model is only 46.17% of BiLSTM, 36.00% of DNN, and 
+44.90% of CNN.
+4.3.2  Model lightweightness analysis on CIC-IoT2023 dataset
+The DNN-BiLSTMQ model maintains its lightweight efficiency:
+ 	•
+Parameter Reduction: 99.94% compared to BiLSTM, 99.92% compared to CNN, and 
+99.93% compared to DNN.
+ 	•
+Complexity Reduction: 91.06% compared to DNN, 87.23% to CNN, and 91.41% 
+compared to BiLSTM.
+ 	•
+Model Size: 49.52% of BiLSTM, 28.86% of DNN, and 78.41% of CNN.
+Table 6  Comparison of Model Lightweightness on Different Datasets
+(a) CIC-IDS2017 Dataset
+Model
+Params
+FLOPs
+Size (KB)
+BiLSTM
+18,724
+456,768
+47.56
+2D-CNN
+1488
+558,080
+40.00
+DNN
+33,244
+12,888,960
+46.46
+DNN-BiLSTMQ
+1000
+2784
+25.60
+(b) CIC-IoT2023 Dataset
+Model
+Params
+FLOPs
+Size (KB)
+BiLSTM
+16,522
+7144,704
+62.42
+2D-CNN
+19,017
+9,598,976
+145.00
+DNN
+27,657
+11,415,040
+44.00
+DNN-BiLSTMQ
+2473
+7700
+31.30
+Fig. 12  DNN_BiLSTMQ Quantitative Assessment
+ 
+
+
+===== PAGE 29 =====
+Page 29 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+4.3.3  Key factors for lightweight attributes
+1.	 Improved Feature Engineering: The best feature was extracted from high dimensional 
+data and then transformed into a low-dimensional space using RAL-MIFS + a two-
+stage IPCA algorithm.
+2.	 Advanced Dynamic Quantization: Advanced dynamic quantization (QAT+PTDQ) of 
+the model structure results in a smaller size of model, suitable for deployment on IoT 
+architecture with limited resources.
+The model offers lightweight yet high-performing cyber attack detection solutions, mak­
+ing it ideal for deployment in resource-constrained settings.
+4.4  Comparing proposed architecture with state-of-the-art techniques
+From Tables  7 and  8, it is evident that our method achieves excellent detection and 
+classification rates compared to other IoT intrusion detection methods. In particular, 
+compared to the model in [8], our system demonstrates a consistent performance advan­
+tage, including improvements of at least 0.06% in accuracy, 0.03% in precision, 0.06% in 
+recall, and 0.05% in F1-score. Additionally, it achieves an 8.0% reduction in model size, a 
+39.54% reduction in FLOPs, and a 99.54% reduction in the No of parameters.
+Table 7  Comparison of models’ multiclass classification effectiveness
+Ref.
+Model/Method
+Datasets
+Accuracy
+Precision
+Recall
+F1-score
+[33]
+Lightweight deep neural net­
+work (LNN)
+CIC-IDS2017
+99.11%
+99.10%
+99.00%
+99.00%
+Lightweight deep neural net­
+work (LNN)
+TON-IoT
+98.7%
+98.4%
+98.4%
+98.11%
+[48]
+MFEI-IDS
+CIC-IDS2017
+99.32%
+99.03%
+96.94%
+99.09%
+CNN-BiLSTM
+CIC-IDS2017
+95.92%
+93.87%
+96.94%
+95.35%
+[35]
+Feature grouping
+TON-IoT
+99.40%
+99.37%
+99.40%
+99.38%
+[38]
+Autoencoder and ensemble 
+learning
+WSN-DS
+97.91%
+97.92%
+98.54%
+97.91%
+Autoencoder and ensemble 
+learning
+USW-NB15
+98.92%
+98.93%
+98.02%
+98.91%
+Autoencoder and ensemble 
+learning
+KDD CUP99
+98.23%
+98.23%
+98.23%
+98.23%
+[14]
+DL + Aquila optimizer
+BIoT
+99.41%
+99.03%
+99.03%
+99.02%
+DL + Aquila optimizer
+NSL-KDD
+99.30%
+99.30%
+99.28%
+76.11%
+[8]
+DL-BiLSTM
+CIC-IDS2017
+99.67%
+99.54%
+99.67%
+99.59%
+DL-BiLSTM
+CICIoT2023
+93.13%
+91.80%
+93.13%
+91.94%
+Pro­
+posed 
+Model
+DNN-BiLSTM
+CIC-IDS2017
+99.73%
+99.57%
+99.73%
+99.64%
+0.06%↑
+0.03%
+0.06%
+0.05%
+DNN-BiLSTM
+CIC-IoT2023
+93.95%
+93.05%
+93.95%
+92.90%
+Table 8  Comparison of models’ lightweightness
+Ref.
+Datasets
+Model size (KB)
+FLOPS
+No of params
+[8]
+CIC-IDS2017
+28.3
+1654
+610,800
+CIC-IoT2023
+36.3
+1988
+628,800
+Proposed Model
+CIC-IDS2017
+25.6
+2784
+1000
+8.13%↓
+39.54%↓
+99.548%↓
+CIC-IoT2023
+31.3
+7700
+2473
+
+
+===== PAGE 30 =====
+Page 30 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+4.5  Deployment architecture
+Deploying the model in real-world smart homes requires a careful balance between 
+accuracy, latency, and resource efficiency. While the model’s compact design suits low-
+power edge devices, its performance across diverse IoT platforms must be optimized for 
+minimal delay and robust attack detection. Scalability is also crucial, as the model must 
+adapt to both small-scale and large IoT environments. This research [49] offers comple­
+mentary insights on lightweight AI models for IoT security, which can further inform 
+the optimization of model to ensure high detection accuracy while maintaining compu­
+tational efficiency.
+In edge computing, data processing occurs at the network edge, near data sources, 
+reducing reliance on cloud or fog infrastructure [50]. In smart home automation, edge 
+devices serve as intermediaries between IoT nodes and cloud servers, enabling low-
+latency processing and quick response times. Fog computing [51] extends cloud capa­
+bilities by offering localized computing, storage, and networking closer to IoT devices. 
+As a middleware layer, it reduces latency through distributed processing across hetero­
+geneous nodes.
+Cyber attack detection in IoT networks [52] typically employs host-based or network-
+based architectures [50]. Host-based systems run on individual IoT or fog devices to 
+monitor localized activity, while network-based systems analyze traffic at gateways to 
+detect distributed threats.
+A Hybrid Deep Learning-based Host-Based Attack Detection System (HDL-ADS) is 
+proposed, optimized for low-power IoT devices at the fog layer, as illustrated in Fig. 13. 
+Designed for real-time smart home environments, HDL-ADS operates on AI-enabled 
+edge chips, enabling fast, microcontroller platforms, offline inference with minimal 
+memory usage. This edge deployment reduces latency, avoids cloud dependency, and 
+mitigates data leakage risks. However, the compact model size imposes a trade-off with 
+accuracy.
+HDL-ADS focuses solely on inbound traffic, assuming device trustworthiness. For 
+enhanced security, a complementary Network-Based Attack Detection System (NADS) 
+can be deployed at the fog node, leveraging more computational resources and hardware 
+acceleration for deep learning tasks.
+The HDL-ADS model is implemented using Python for Raspberry Pi and the Arduino 
+IDE for microcontroller platforms. Inference is performed using hardware-compatible 
+Fig. 13  Proposed implementation architecture
+ 
+
+
+===== PAGE 31 =====
+Page 31 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+libraries optimized for 32-bit ARM Cortex-M-based microcontrollers, such as Arduino, 
+ESP32, and similar devices.
+Two deployment methods are used for host-based detection:
+ 	•
+Direct Hardware Deployment: The model runs on devices like Arduino Portenta 
+H7, STM32 Nucleo, and Raspberry Pi 3B+/4.
+ 	•
+Source Code Integration: The model is converted into .h and .c files and embedded 
+into the main firmware of the microcontroller.
+The proposed model supports both methods, offering a flexible deployment strategy that 
+enables seamless adaptation across heterogeneous hardware. To enhance real-time per­
+formance and minimize latency, the model is deployed on a fog node located after the 
+gateway, utilizing its computational capabilities for efficient and low-latency inference.
+This research model was experimentally validated on two distinct real-time heteroge­
+neous IoT datasets, ensuring interoperability and adaptability to different and emerging 
+attack types.
+The model employs a dual-stage feature selection mechanism, combining RAL-MIFS 
+with two-stage IPCA. This approach effectively identifies the most relevant features from 
+diverse, real-time, and heterogeneous IoT datasets, improving both efficiency and inter­
+pretability. By selecting the most informative features, the model ensures its interoper­
+ability and scalability, making it adaptable to a wide range of IoT settings.
+Furthermore, the model incorporates a hybrid architecture that combines DNN-BiL­
+STM models, enhanced with advanced dynamic quantization for improved performance 
+and reduced computational overhead. This architecture significantly boosts accu­
+racy and interpretability, making it suitable for real-time inference even on resource-
+constrained edge devices. The dynamic quantization further optimizes the model for 
+deployment on edge devices, ensuring both efficiency and scalability. The model remains 
+adaptable to both edge and fog computing nodes, delivering robust low-latency perfor­
+mance while ensuring security across diverse IoT environments.
+5  Conclusion and future works
+In addressing the challenges posed by large-scale, sophisticated IoT cyber attack identi­
+fication and classification, besides the need for lightweight and real-time detection and 
+classification solutions, this research proposes a hybrid DL based cyber attack identifica­
+tion and classification system integrating DNN and BiLSTM model.
+Our proposed methodology introduces a novel RAL-MIFS + two-stage IPCA tech­
+niques for reducing feature dimension during data preprocessing. It leverages DNN-BiL­
+STM architectures to extract nonlinear, bidirectional long-range features from network 
+data. Furthermore, we use advanced dynamic quantization and Optuna hyperparameter 
+optimization to model unit structure pre and post-training, resulting in a DNN-BiL­
+STMQ (Quantized) model tailored for lightweight cyber attack detection.
+To assess the effectiveness of our approach, we have done an experiments using CIC-
+IDS2017 and CIC-IoT2023 datasets, which simulate industrial and network IoT envi­
+ronments. Our experiment demonstrates superior detection performance compared to 
+existing methods across both datasets. Additionally, our approach offers smaller model 
+sizes and lower complexities compared to alternative detection methods.
+
+
+===== PAGE 32 =====
+Page 32 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+The proposed methodology in this research demonstrates commendable detec­
+tion performance and exhibits a lightweight nature. The implementation of advanced 
+dynamic quantization which integrates quantization aware training + dynamic quantiza­
+tion for post training makes model generalizability excellent.
+However, it is essential to acknowledge certain limitations. The experiment took more 
+training time and might not fully emulate the intricacies and dynamics of IoT network 
+environments. Therefore, it is a necessity to subject the model to rigorous testing using 
+more intricate datasets by integrating real-time test. Furthermore, it will contribute to 
+fortifying the robustness and reliability of the detection and classification mechanism 
+developed. Future work can be done on further reducing the training time and model 
+size.
+Abbreviations
+ANN	
+Artificial Neural Network
+BiLSTM	
+Bidirectional Long Short-Term Memory
+CIA	
+Confidentiality Integrity and Availability
+CPS	
+Cyber-Physical System
+DBN	
+Deep Belief Network
+CNN	
+Convolutional Neural Network
+DL-ACS	
+Deep Learning based Attack Classification System
+DL-ADS	
+Deep Learning based Attack Detection System
+DNN	
+Deep Neural Network
+DOS	
+Denial of Service
+DDOS	
+Distributed Denial of Service
+GANs	
+Generative Adversarial Networks
+ICA	
+Independent Component Analysis
+IDS	
+Intrusion Detection Systems
+IGAN	
+Imbalanced Generative Adversarial Network
+DNN-BiLSTM	
+Bidirectional Long Short-Term Memory with Deep Neural Network
+HDL-ADS	
+Hybrid Deep Learning Based Attack Detection System
+IoT	
+Internet of Things
+PCA	
+Principal Component Analysis
+IPCA	
+Incremental Principal Component Analysis
+LSTM	
+Long Short-Term Memory
+MIFS	
+Mutual Information Feature Selection
+MITM	
+Man-In-The-Middle
+ML	
+Machine Learning
+NIDS	
+Network Intrusion Detection
+PTDQ	
+Post-training Dynamic Quantization
+QAT	
+Quantization Aware Training
+RAL-MIFS	
+Redundancy-Adjusted Logistic MIFS
+Author contributions
+Semachew Fasika Misrak conceptualized the idea, conceived and designed the experiments, performed the 
+experiments, analyzed the data, performed computational work, prepared figures and tables, authored drafts of the 
+article, and approved the final draft. Henock Mulugeta Melaku (Dr.) reviewed drafts of the article, provided guidance, 
+offered critical reviews, and made significant contributions to refining and shaping the research idea and the final 
+manuscript and approved the final draft.
+Funding
+Not applicable.
+Data availability
+The datasets used in this study are publicly available. The two datasets employed in this research can be accessed from 
+their respective sources, including the https://www.unb.ca/cic/datasets/ids-2017.htm and the ​h​t​t​p​s​:​/​/​w​w​w​.​u​n​b​.​c​a​/​c​i​c​/​d​
+a​t​a​s​e​t​s​/​i​o​t​d​a​t​a​s​e​t​-​2​0​2​3​.​h​t​m​l.
+Declarations
+Ethics approval and consent to participate
+We acknowledge the ethical implications of deploying deep learning models in real-world IoT environments. While this 
+work is intended solely for research and beneficial applications, we recognize the possibility of both intentional and 
+unintentional misuse of the proposed model. Potential risks include privacy breaches due to data collection, unintended 
+use in surveillance contexts, and vulnerabilities to adversarial attacks. To address these concerns, we recommend 
+adopting privacy-preserving techniques, strict access control measures, and thorough robustness evaluations prior 
+to deployment. Additionally, ensuring fairness and transparency through regular audits and explainability methods is 
+crucial for responsible and trustworthy implementation in sensitive IoT applications.
+
+
+===== PAGE 33 =====
+Page 33 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Consent for publication
+Not applicable.
+Competing interests
+The authors declare no Conflict of interest.
+Received: 12 March 2025 / Accepted: 19 August 2025
+References
+1.	
+Din IU, Guizani M, Rodrigues JJ, Hassan S, Korotaev VV. Machine learning in the internet of things: designed techniques for 
+smart cities. Futur Gener Comput Syst. 2019;100:826–43.
+2.	
+Gopali S, Siami Namin A. Deep learning-based time-series analysis for detecting anomalies in internet of things. Electron­
+ics. 2022;11(19):3205.
+3.	
+Otoum Y, Liu D, Nayak A. Dl-ids: a deep learning-based intrusion detection framework for securing iot. Trans Emerg Tele­
+commun Technol. 2022;33(3): e3803.
+4.	
+Soe YN, Feng Y, Santosa PI, Hartanto R, Sakurai K. Towards a lightweight detection system for cyber attacks in the iot 
+environment using corresponding features. Electronics. 2020;9(1):144.
+5.	
+Agbedanu P, Musabe R, Rwigema J, Gatare I. A lightweight intrusion detection for internet of things using incremental 
+ensemble learning. J Spec. 2022;1(0):1.
+6.	
+Ullah S, Ahmad J, Khan MA, Alkhammash EH, Hadjouni M, Ghadi YY, Saeed F, Pitropakis N. A new intrusion detection sys­
+tem for the internet of things via deep convolutional neural network and feature engineering. Sensors. 2022;22(10):3607.
+7.	
+Samantaray M, Barik RC, Biswal AK. Ensemble-based lightweight machine learning optimization for iot network intrusion 
+detection. In: 2025 3rd International Conference on Intelligent Systems, Advanced Computing and Communication 
+(ISACC). IEEE, 2025. p. 1101–1106.
+8.	
+Wang Z, Chen H, Yang S, Luo X, Li D, Wang J. A lightweight intrusion detection method for iot based on deep learning and 
+dynamic quantization. PeerJ Comput Sci. 2023;9: e1569.
+9.	
+Murugesan G, Maheswaravenkatesh P. A lightweight convolutional neural network based network intrusion detection 
+and classification method for social internet of things. 2024.
+10.	 Sadiq AS, Faris H, Ala’M A-Z, Mirjalili S, Ghafoor KZ. Fraud detection model based on multi-verse features extraction 
+approach for smart city applications. In: Smart cities cybersecurity and privacy. Elsevier, 2019. p. 241–251.
+11.	 Almomani I, Alromi A. Integrating software engineering processes in the development of efficient intrusion detection 
+systems in wireless sensor networks. Sensors. 2020;20(5):1375.
+12.	 Elhoseny M, Thilakarathne NN, Alghamdi MI, Mahendran RK, Gardezi AA, Weerasinghe H, Welhenge A. Security and 
+privacy issues in medical internet of things: overview, countermeasures, challenges and future directions. Sustainability. 
+2021;13(21):11645.
+13.	 Rizi MHP, Seno SAH. A systematic review of technologies and solutions to improve security and privacy protection of 
+citizens in the smart city. Internet Things. 2022;20: 100584.
+14.	 Fatani A, Dahou A, Al-Qaness MAA, Songfeng L, Elaziz MA. Advanced feature extraction and selection approach using 
+deep learning and aquila optimizer for iot intrusion detection system. Sensors. 2022;22(1):140.
+15.	 Maheswaran N, Bose S, Logeswari G, Anitha T. Multistage intrusion detection system using machine learning algorithm. In: 
+Mobile Computing and Sustainable Informatics. Springer. 2022. p. 139–153.
+16.	 Mendonca RV, Silva JC, Rosa RL, Saadi M, Rodriguez DZ, Farouk A. A lightweight intelligent intrusion detection system for 
+industrial internet of things using deep learning algorithms. Expert Syst. 2022;39(5): e12917.
+17.	 Prasad A, Chandra S. Botdefender: a collaborative defense framework against botnet attacks using network traffic analysis 
+and machine learning. Arab J Sci Eng. 2024;49(3):3313–29.
+18.	 Alkahtani H, Aldhyani THH. Intrusion detection system to advance internet of things infrastructure-based deep learning 
+algorithms. Complexity. 2021;2021:5579851.
+19.	 Khan MA. Hcrnnids: hybrid convolutional recurrent neural network-based network intrusion detection system. Processes. 
+2021;9(5):834.
+20.	 Wang C-H, Huang K-Y, Yao Y, Chen J-C, Shuai H-H, Cheng W-H. Lightweight deep learning: an overview. IEEE Consum 
+Electr Mag. 2022;13:51–64.
+21.	 Albulayhi K, Smadi AA, Sheldon FT, Abercrombie RK. Iot intrusion detection taxonomy, reference architecture, and analy­
+ses. Sensors. 2021;21(19):6432.
+22.	 Gao M, Lifa W, Li Q, Chen W. Anomaly traffic detection in iot security using graph neural networks. J Inf Secur Appl. 
+2023;76: 103532.
+23.	 Alsulami AA, Al-Haija QA, Tayeb A, Alqahtani A. An intrusion detection and classification system for iot traffic with 
+improved data engineering. Appl Sci. 2022;12(23):12336.
+24.	 Rajendran G, Nivash RSR, Parthy PP, Balamurugan S. Modern security threats in the internet of things (iot): Attacks and 
+countermeasures. In: 2019 International carnahan conference on security technology (ICCST). IEEE. 2019. p. 1–6.
+25.	 Bhandari G, Lyth A, Shalaginov A, Grønli T-M. Distributed deep neural-network-based middleware for cyber-attacks detec­
+tion in smart iot ecosystem: a novel framework and performance evaluation approach. Electronics. 2023;12(2):298.
+26.	 Hosseininoorbin S, Layeghy S, Sarhan M, Jurdak R, Portmann M. Exploring edge tpu for network intrusion detection in iot. 
+J Parall Distrib Comput. 2023;179: 104712.
+27.	 Elessawy RH, Eldawlatly S, Abbas HM. A long short-term memory autoencoder approach for eeg motor imagery classifica­
+tion. In: 2020 international conference on computation, automation and knowledge management (ICCAKM). IEEE. 2020. p. 
+79–84.
+28.	 Ibibo JT. Emerging challenges and solutions in rpl protocol: research review. In: 2023 IEEE 28th International Workshop on 
+Computer Aided Modeling and Design of Communication Links and Networks (CAMAD). IEEE. 2023. p. 283–289.
+
+
+===== PAGE 34 =====
+Page 34 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+29.	 Pham V, Seo E, Chung T-M. Lightweight convolutional neural network based intrusion detection system. J Commun. 
+2020;15(11):808–17.
+30.	 Alzubi QM, Anbar M, Sanjalawe Y, Al-Betar MA, Abdullah R. Intrusion detection system based on hybridizing a modified 
+binary grey wolf optimization and particle swarm optimization. Expert Syst Appl. 2022;204: 117597.
+31.	 Lahasan B, Samma H. Optimized deep autoencoder model for internet of things intruder detection. IEEE Access. 
+2022;10:8434–48.
+32.	 Muthu T, Kalimuthu VK, Srinivasan B, Velumani R. Enhancing intrusion detection using binary arithmetic optimization with 
+sparse auto encoder for fog-assisted wireless sensor networks. Braz Arch Biol Technol. 2024;67: e24231114.
+33.	 Zhao R, Gui G, Xue Z, Yin J, Ohtsuki T, Adebisi B, Gacanin H. A novel intrusion detection method based on lightweight 
+neural network for internet of things. IEEE Internet Things J. 2021;9(12):9960–72.
+34.	 Wang Z, Li J, Yang S, Luo X, Li D, Mahmoodi S. A lightweight iot intrusion detection model based on improved bert-of-
+theseus. Expert Syst Appl. 2024;238: 122045.
+35.	 He M, Huang Y, Wang X, Wei P, Wang X. A lightweight and efficient iot intrusion detection method based on feature 
+grouping. IEEE Internet Things J. 2023;11:2935–49.
+36.	 Abdulhammed R, Musafer H, Alessa A, Faezipour M, Abuzneid A. Features dimensionality reduction approaches for 
+machine learning based network intrusion detection. Electronics. 2019;8(3):322.
+37.	 Kaur A, Pal SK, Singh AP. Hybridization of k-means and firefly algorithm for intrusion detection system. Int J Syst Assur Eng 
+Manag. 2018;9(4):901–10.
+38.	 Yao W, Longcan H, Hou Y, Li X. A lightweight intelligent network intrusion detection system using one-class autoencoder 
+and ensemble learning for iot. Sensors. 2023;23(8):4141.
+39.	 Boppana TK, Bagade P. Gan-ae: an unsupervised intrusion detection system for mqtt networks. Eng Appl Artif Intell. 
+2023;119: 105805.
+40.	 Sharafaldin I, Lashkari AH, Ghorbani AA, et al. Toward generating a new intrusion detection dataset and intrusion traffic 
+characterization. ICISSp. 2018;1:108–16.
+41.	 Derhab A, Aldweesh A, Emam AZ, Khan FA. Intrusion detection system for internet of things based on temporal convolu­
+tion neural network and efficient feature engineering. Wirel Commun Mob Comput. 2020;2020:1–16.
+42.	 Papaioannou M, Karageorgou M, Mantas G, Sucasas V, Essop I, Rodriguez J, Lymberopoulos D. A survey on security threats 
+and countermeasures in internet of medical things (iomt). Trans Emerg Telecommun Technol. 2022;33(6): e4049.
+43.	 Rani S, Singh A, Elkamchouchi DH, Noya ID. Lightweight hybrid deep learning architecture and model for security in iiot. 
+Appl Sci. 2022;12(13):6442.
+44.	 Ozawa S, Pang S, Kasabov N. Online feature extraction for evolving intelligent systems. Evolv Intell Syst Methodol Appl. 
+2010;2010:151–71.
+45.	 Bischl B, Binder M, Lang M, Pielok T, Richter J, Coors S, Thomas J, Ullmann T, Becker M, Boulesteix A-L, et al. Hyperparameter 
+optimization: foundations, algorithms, best practices, and open challenges. Wiley Interdiscip Rev Data Min Knowl Discov. 
+2023;13(2): e1484.
+46.	 Srinivas P, Katarya R. hyoptxg: optuna hyper-parameter optimization framework for predicting cardiovascular disease 
+using xgboost. Biomed Signal Proc Contr. 2022;73: 103456.
+47.	 Hamed K, Ozgunalp U. A comparative analysis of pretrained models for brain tumaor classification and their optimization 
+using optuna. In: 2024 Innovations in intelligent systems and applications conference (ASYU). IEEE. 2024. p. 1–7.
+48.	 Mao J, Yang X, Bo H, Yizhen L, Yin G. Intrusion detection system based on multi-level feature extraction and inductive 
+network. Electronics. 2025;14(1):189.
+49.	 Taşcı B. Deep-learning-based approach for iot attack and malware detection. Appl Sci (2076-3417). 2024;14(18):1.
+50.	 Shi W, Dustdar S. The promise of edge computing. Computer. 2016;49(5):78–81.
+51.	 Zhang S, Wang S, Bai G, Zhang M, Chen P, Zhao C, Li S, Zhou J. Design of threat response modeling language for attacker 
+profile based on probability distribution. Wirel Commun Mob Comput. 2022;2022:2323228.
+52.	 Al-Haija QA, Ishtaiwi A. Multiclass classification of firewall log files using shallow neural network for network security 
+applications. In: Soft computing for security applications. Springer. 2022. p. 27–41.
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.

@@ -1,0 +1,322 @@
+Journal of Sensors
+13
+Table 8: Confusion matrix of holdout method with one hidden layer.
+Normal
+Flooding
+Scheduling
+Grayhole
+Blackhole
+Normal
+135483
+350
+32
+152
+10
+Flooding
+0
+1325
+0
+0
+0
+Scheduling
+23
+0
+2620
+3
+10
+Grayhole
+29
+0
+9
+5379
+421
+Blackhole
+0
+0
+3
+2640
+1377
+Table 9: Summary results of holdout method with one hidden layer.
+TPR
+FPR
+FNR
+TNR
+P
+Normal
+0.996
+0.004
+0.004
+0.996
+1.000
+Flooding
+1.000
+0.002
+0
+0.998
+0.791
+Scheduling
+0.986
+0.000
+0.014
+1
+0.983
+Grayhole
+0.921
+0.003
+0.079
+0.997
+0.658
+Blackhole
+0.343
+0.004
+0.657
+0.996
+0.757
+Avg.
+0.975
+0.021
+0.025
+0.979
+0.978
+Table 10: Summary results of holdout method with two hidden
+layers.
+TPR
+FPR
+FNR
+TNR
+𝑃
+Normal
+0.996
+0.008
+0.004
+0.992
+0.999
+Flooding
+1
+0.003
+0
+0.997
+0.753
+Scheduling
+0.984
+0
+0.016
+1
+0.991
+Grayhole
+0.714
+0.006
+0.286
+0.994
+0.838
+Blackhole
+0.818
+0.011
+0.182
+0.989
+0.669
+Avg.
+0.98
+0.008
+0.02
+0.992
+0.982
+Table 11: Summary results of holdout method with three hidden
+layers.
+TPR
+FPR
+FNR
+TNR
+𝑃
+Normal
+0.995
+0.016
+0.005
+0.984
+0.998
+Flooding
+0.989
+0.003
+0.011
+0.997
+0.734
+Scheduling
+0.973
+0.001
+0.027
+0.999
+0.954
+Grayhole
+0.576
+0.001
+0.424
+0.999
+0.965
+Blackhole
+0.989
+0.016
+0.011
+0.984
+0.631
+Avg.
+0.978
+0.015
+0.022
+0.985
+0.984
+Table 12: Summary results of 10-Fold Cross Validation with one
+hidden layer.
+TPR
+FPR
+FNR
+TNR
+𝑃
+Normal
+0.998
+0.018
+0.002
+0.982
+0.998
+Flooding
+0.994
+0.001
+0.006
+0.999
+0.904
+Scheduling
+0.922
+0
+0.078
+1
+0.995
+Grayhole
+0.756
+0.003
+0.244
+0.997
+0.911
+Blackhole
+0.928
+0.009
+0.072
+0.991
+0.730
+Avg.
+0.985
+0.017
+0.015
+0.983
+0.987
+method for classifying the attacks is Cross Validation with
+one hidden layer (CV1). It was the best in classifying all
+attacks except for Scheduling and Grayhole attack where it
+Table 13: Summary results of 10-Fold Cross Validation with two
+hidden layers.
+TPR
+FPR
+FNR
+TNR
+𝑃
+Normal
+0.998
+0.02
+0.002
+0.98
+0.998
+Flooding
+0.985
+0.001
+0.015
+0.999
+0.900
+Scheduling
+0.915
+0
+0.085
+1
+0.992
+Grayhole
+0.867
+0.007
+0.133
+0.993
+0.832
+Blackhole
+0.778
+0.005
+0.222
+0.995
+0.810
+Avg.
+0.985
+0.019
+0.015
+0.981
+0.985
+Table 14: Summary results of 10-Fold Cross Validation with three
+hidden layers.
+TPR
+FPR
+FNR
+TNR
+𝑃
+Normal
+0.994
+0.045
+0.006
+0.955
+0.995
+Flooding
+0.754
+0.001
+0.246
+0.999
+0.855
+Scheduling
+0.761
+0.001
+0.239
+0.999
+0.946
+Grayhole
+0.689
+0.01
+0.311
+0.99
+0.743
+Blackhole
+0.843
+0.013
+0.157
+0.987
+0.638
+Avg.
+0.972
+0.041
+0.028
+0.959
+0.974
+was slightly more accurate to use holdout method with one
+hidden layer (H1).
+Figure 4 shows FPR. In FPR the smaller the rate, the better
+the performance. On average H1 was the best method; it is
+slightly better than CV1; however, CV1 was better than H1
+in classifying Flooding, Scheduling, and Grayhole attacks.
+H1 was better in classifying the normal behavior and the
+Blackhole attack.
+Figure 5 shows the error rate of all methods using Root
+Mean Squared Error (RMSE).
+Figure 5 shows that CV1 was the best in terms of RMSE.
+From the results of TPR, FPR, and RMSE in Figures 3–5, it is
+concluded that the use of CV1 architecture outperforms other
+ANN architectures in classifying DoS attacks in WSN.
+From the previous results obtained from applying ANN
+to WSN-DS dataset, high accuracy was achieved in the task
+of classifying four DoS attacks to determine whether the
+protocol is in its normal mode or exposed to any type of
+attack.
+7. Conclusions and Future Work
+The aim of this paper is to design an intelligent intrusion
+detection and prevention mechanism that could work effi-
+ciently to limit DoS attacks with reasonable cost in terms
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

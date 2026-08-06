@@ -1,0 +1,138 @@
+we assume the model outputs only the conﬁdence for the
+positive class.1 Given a sample xi, we have access to ˆpi –
+the network’s predicted probability of yi = 1, as well as
+zi ∈R – which is the network’s non-probabilistic output,
+or logit. The predicted probability ˆpi is derived from zi us-
+ing a sigmoid function σ; i.e. ˆpi = σ(zi). Our goal is to
+produce a calibrated probability ˆqi based on yi, ˆpi, and zi.
+Histogram binning
+(Zadrozny & Elkan, 2001) is a sim-
+ple non-parametric calibration method. In a nutshell, all
+uncalibrated predictions ˆpi are divided into mutually ex-
+clusive bins B1, . . . , BM. Each bin is assigned a calibrated
+score θm; i.e. if ˆpi is assigned to bin Bm, then ˆqi = θm. At
+test time, if prediction ˆpte falls into bin Bm, then the cali-
+brated prediction ˆqte is θm. More precisely, for a suitably
+chosen M (usually small), we ﬁrst deﬁne bin boundaries
+0 = a1 ≤a2 ≤. . . ≤aM+1 = 1, where the bin Bm
+is deﬁned by the interval (am, am+1]. Typically the bin
+boundaries are either chosen to be equal length intervals or
+to equalize the number of samples in each bin. The predic-
+tions θi are chosen to minimize the bin-wise squared loss:
+min
+θ1,...,θM
+M
+X
+m=1
+n
+X
+i=1
+1(am ≤ˆpi < am+1) (θm −yi)2 ,
+(7)
+where 1 is the indicator function. Given ﬁxed bins bound-
+aries, the solution to (7) results in θm that correspond to the
+average number of positive-class samples in bin Bm.
+Isotonic regression
+(Zadrozny & Elkan, 2002), arguably
+the most common non-parametric calibration method,
+learns a piecewise constant function f to transform un-
+calibrated outputs; i.e.
+ˆqi = f(ˆpi).
+Speciﬁcally, iso-
+tonic regression produces f to minimize the square loss
+Pn
+i=1(f(ˆpi) −yi)2. Because f is constrained to be piece-
+wise constant, we can write the optimization problem as:
+min
+M
+θ1,...,θM
+a1,...,aM+1
+M
+X
+m=1
+n
+X
+i=1
+1(am ≤ˆpi < am+1) (θm −yi)2
+subject to
+0 = a1 ≤a2 ≤. . . ≤aM+1 = 1,
+θ1 ≤θ2 ≤. . . ≤θM.
+where M is the number of intervals; a1, . . . , aM+1 are the
+interval boundaries; and θ1, . . . , θM are the function val-
+ues. Under this parameterization, isotonic regression is a
+strict generalization of histogram binning in which the bin
+boundaries and bin predictions are jointly optimized.
+Bayesian Binning into Quantiles (BBQ)
+(Naeini et al.,
+2015) is a extension of histogram binning using Bayesian
+1 This is in contrast with the setting in Section 2, in which the
+model produces both a class prediction and conﬁdence.
+model averaging. Essentially, BBQ marginalizes out all
+possible binning schemes to produce ˆqi. More formally, a
+binning scheme s is a pair (M, I) where M is the number
+of bins, and I is a corresponding partitioning of [0, 1] into
+disjoint intervals (0 = a1 ≤a2 ≤. . . ≤aM+1 = 1). The
+parameters of a binning scheme are θ1, . . . , θM. Under this
+framework, histogram binning and isotonic regression both
+produce a single binning scheme, whereas BBQ considers
+a space S of all possible binning schemes for the valida-
+tion dataset D. BBQ performs Bayesian averaging of the
+probabilities produced by each scheme:2
+P(ˆqte | ˆpte, D) =
+X
+s∈S
+P(ˆqte, S = s | ˆpte, D)
+=
+X
+s∈S
+P(ˆqte | ˆpte, S =s, D) P(S =s | D).
+where P(ˆqte | ˆpte, S = s, D) is the calibrated probability
+using binning scheme s. Using a uniform prior, the weight
+P(S =s | D) can be derived using Bayes’ rule:
+P(S =s | D) =
+P(D | S =s)
+P
+s′∈S P(D | S =s′).
+The parameters θ1, . . . , θM can be viewed as parameters of
+M independent binomial distributions. Hence, by placing
+a Beta prior on θ1, . . . , θM, we can obtain a closed form
+expression for the marginal likelihood P(D | S = s). This
+allows us to compute P(ˆqte | ˆpte, D) for any test input.
+Platt scaling
+(Platt et al., 1999) is a parametric approach
+to calibration, unlike the other approaches.
+The non-
+probabilistic predictions of a classiﬁer are used as features
+for a logistic regression model, which is trained on the val-
+idation set to return probabilities. More speciﬁcally, in the
+context of neural networks (Niculescu-Mizil & Caruana,
+2005), Platt scaling learns scalar parameters a, b ∈R and
+outputs ˆqi = σ(azi + b) as the calibrated probability. Pa-
+rameters a and b can be optimized using the NLL loss over
+the validation set. It is important to note that the neural
+network’s parameters are ﬁxed during this stage.
+4.2. Extension to Multiclass Models
+For classiﬁcation problems involving K > 2 classes, we
+return to the original problem formulation. The network
+outputs a class prediction ˆyi and conﬁdence score ˆpi for
+each input xi. In this case, the network logits zi are vectors,
+where ˆyi = argmaxk z(k)
+i
+, and ˆpi is typically derived using
+the softmax function σSM:
+σSM(zi)(k) =
+exp(z(k)
+i
+)
+PK
+j=1 exp(z(j)
+i
+)
+,
+ˆpi = max
+k
+σSM(zi)(k).
+The goal is to produce a calibrated conﬁdence ˆqi and (pos-
+sibly new) class prediction ˆy′
+i based on yi, ˆyi, ˆpi, and zi.
+2 Because the validation dataset is ﬁnite, S is as well.

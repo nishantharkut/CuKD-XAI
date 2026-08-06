@@ -1,0 +1,49 @@
+Page 10 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+dataset. Since each dataset possesses its unique feature set, it’s crucial to eliminate irrel­
+evant features dimensions that are not critical to the output label. Retaining such insig­
+nificant features can lead to overfitting or underfitting, thereby adversely affecting both 
+the execution time and classifier performance.
+Employing Redundancy-Adjusted Logistic MIFS (RAL-MIFS) enhances feature engi­
+neering for Cyber Attack Detection Systems (ADS) by refining Mutual Information 
+Feature Selection (MIFS). By adjusting for feature redundancy and leveraging logistic 
+weighting, RAL-MIFS prioritizes the most informative features. This approach improves 
+the efficacy and accuracy of ADS, ensuring better detection of attacks in complex 
+datasets.
+The original dataset’s high-dimensional features pose challenges for the proposed 
+light-weight attack detection model. To address this, selecting an appropriate feature 
+dimension reduction method is crucial. In this investigation, we propose RAL-MIFS 
+combined with two-stage IPCA approach to solve the issue of high-dimensional fea­
+tures. The two-stage IPCA method involves performing IPCA in sequential stages, each 
+stage refining the dimensionality reduction process further. This approach efficiently 
+transforms high-dimensional features into lower-dimensional representations through 
+mapping functions, thereby facilitating dimensionality reduction. By employing a two-
+stage IPCA approach, we target to optimize the reduction of feature dimensions while 
+preserving the relevant information necessary for accurate attack detection.
+Through the usage of feature engineering techniques and the innovative RAL-MIFS + 
+two-stage IPCA method, the aim is to enhance the features quality and relevance used 
+in our light-weight attack detection model. By transforming the data from sensors which 
+is raw into a more meaningful representation and refining the dimensionality reduction 
+process iteratively, we can improve the model capacity to discern patterns and anomalies 
+effectively. This ensures that our model is not only efficient but also capable of accurately 
+identifying and classifying various attack types within the dataset.
+Normalization
+It is a technique manly used in preprocessing of dataset for DL algorithms. The aim 
+of normalization is to change the numeric column values in a data to a uniform scale 
+while keeping changes in value bounds. Each feature of CIC-IDS2017 dataset, and CIC-
+IoT2023 dataset has unique values. A certain amount of feature values reach into the 
+thousands, and some may contain negative figures that degrade the model performance. 
+To solve this challenge, the dataset was normalized between zero and one via min max 
+technique, as shown in Eq. 1.The data is transformed into a NumPy array and resized to 
+match the total number of records and input features utilizing Python’s NumPy library.
+xnormalized =
+x −xmin
+xmax −xmin 
+(1)
+Data Splitting
+Break apart the data to train, test, and validation sets is the widely used preprocessing 
+steps used to investigate the DL models’ performance. When dealing with balanced data, 
+it is advantageous to utilize random sampling due to its simplicity and ability to repre­
+sent the entire dataset. Random sampling is effective in creating subsets that are repre­
+sentative of the whole dataset without introducing systematic bias. Random sampling 
+was employed to partition the dataset into training, validation, and test sets, thereby 

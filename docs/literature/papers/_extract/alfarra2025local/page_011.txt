@@ -1,0 +1,116 @@
+Energy-Eﬃcient Hybrid Learning for Secure Wireless Sensor Networks
+703
+ruption and ensure continuity of IDS operation even
+under gateway-level failures.
+6. ANSWERS OF RESEARCH QUESTIONS
+RQ
+1-Which
+hybrid
+deep-learning
+architecture
+gives the best detection accuracy for the DoS attacks
+studied?
+Among the two candidates we trained, the CNN-
+LSTM backbone consistently delivered the highest
+accuracy without prohibitive cost. Its pruned + INT8
+model achieved 98 % overall accuracy and a macro-
+F1 of 0.93 on the mixed-attack test set , whereas
+the lighter Auto-encoder-GRU variant (results in Ap-
+pendix A, not needed for the main text) levelled oﬀ
+at 0.91 macro-F1 after comparable compression. Be-
+cause both networks require the same 32-window in-
+put tensor, the CNN’s ability to exploit spatial cor-
+relations in header features gave it the edge, so the
+ﬁnal system adopts the CNN-LSTM shown in (Table
+1).
+RQ 2-How much does the rule-based sensor ﬁlter
+cut false alarms and energy without hurting accuracy?
+The rule layer ﬂags only traﬃc with anomalous en-
+tropy, timing variance or low battery, discarding ∼95
+% of benign packets for ≤0.05 mJ per check. Re-
+moving that ﬁlter leaves detection quality unchanged
+(macro-F1 still 0.98) yet network lifetime collapses
+from 69 d to 39 d because every packet must be radio-
+forwarded to the gateway. In practice, the ﬁlter also
+cuts false positives: the mixed-attack scenario pro-
+duced only 14 false alarms per million packets, ver-
+sus 310 FP / M without ﬁltering (detail in Appendix
+B). Thus, the rule stage keeps accuracy intact while
+throttling both radio energy and false-alarm volume.
+RQ 3-What is the energy footprint of the complete
+hybrid IDS on constrained WSN nodes?
+Sensor side: rule execution ≤0.05 mJ pkt−1 (58 in-
+teger ops) and no extra RAM beyond the 32-byte slid-
+ing window. Gateway side: quantized CNN-LSTM
+inference 28 mJ per 32-window batch with 42 ms
+latency, well inside a Pi Zero W’s power envelope.
+Network lifetime: in 50-node LoRa simulations the
+hybrid scheme ran 69 days before 50 % of nodes ex-
+pired, beating pure on-node GRU deep learning by 82
+% (38 d) and a gateway-only signature IDS by 35 %
+(51 d). These ﬁgures meet the design goal of cutting
+per-node energy by >30 % relative to standalone DL
+while preserving ≥95 % accuracy.
+RQ 4-How does the hybrid system compare with
+traditional ML and standalone DL in accuracy, ro-
+bustness and eﬃciency?
+The hybrid design equals or exceeds the accuracy
+of standalone DL and best ML reports, yet outlasts
+every comparator by at least 18 days and slashes ra-
+dio traﬃc by three quarters. Robustness stems from
+layered defense: simple rules stop most benign noise,
+while the CNN-LSTM generalizes to unfamiliar at-
+tack variations that signature-based or shallow ML
+methods miss.
+7. THREATS TO VALIDITY
+To help readers judge the reliability and generaliz-
+ability of our ﬁndings, we discuss four standard threat
+categories construct, internal, external, and conclu-
+sion validity and how we mitigated them. Although
+we have taken multiple precautions, some residual
+limitations remain and point to avenues for future
+work.
+7.1 Construct validity
+Construct validity concerns whether the experi-
+mental artefacts truly measure the phenomena of in-
+terest. Our IDS rely on eighteen header-level or tim-
+ing features drawn from WSN-DS and ns-3 traces.
+These features capture routing anomalies and burst
+traﬃc patterns, yet they omit physical-layer ﬁnger-
+prints such as carrier-frequency oﬀset or I/Q imbal-
+ance. Consequently, attacks that manifest exclusively
+at the PHY layer (e.g., jamming with very low-rate
+spectral signatures) might evade detection. We par-
+tially addressed this risk by adding per-packet RSSI
+and LQI statistics, and by re-running the pipeline on
+a 48-hour rooftop trace in which link-quality noise dif-
+fers markedly from the benchmark data; the macro-
+F1 drop was limited (0.98 →0.95). Energy modelling
+poses a second construct threat:
+ns-3’s LiIonEn-
+ergySource neglects temperature-dependent leakage
+and cell ageing.
+To ground the model, we bench-
+marked identical workloads on LoPy4 nodes instru-
+mented with an INA219 power monitor and found
+the simulated consumption to be within ±5 % of mea-
+sured values. Although these steps improve realism,
+future work should incorporate full battery discharge
+curves and PHY features to close remaining gaps.
+7.2 Internal validity
+Internal validity asks whether causal relationships
+claimed by the study could be explained by con-
+founding factors.
+Performance might depend on a
+lucky node placement or random number seed. We
+mitigated this by executing ten independent seeds
+(RngSeed 1–10) for every scenario and by reporting
+95 % conﬁdence intervals obtained via bootstrap re-
+sampling. A second danger is hyper-parameter bias:
+the hybrid model received systematic grid-search tun-
+ing, whereas baseline SVM and Random-Forest con-
+ﬁgurations were taken from the literature. We there-
+fore retuned those baselines on the same validation
+split; the resulting uplift (< 0.5 % macro-F1) did
+not change the ranking of schemes, reducing the like-
+lihood that our gains stem from unfair tuning ef-

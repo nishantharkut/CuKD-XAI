@@ -1,0 +1,46 @@
+Page 2 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+175 billion parameters, requiring at least 320 gigabytes of storage in half-precision (i.e., 
+16-bit floating point) [4].
+The diffusion of low-resource devices, such as mobile and Internet-of-Things (IoT) 
+ones, driven by novel edge AI paradigms, led to the increasing need for finding effi-
+cient ways to deploy and run complex deep learning models on such small and com-
+pact devices [5, 6]. In this context, different techniques for model compression such as 
+pruning and quantization have emerged, as well as some approaches relying on Knowl-
+edge Distillation (KD) [7, 8]. In particular, knowledge distillation has been leveraged to 
+transfer knowledge from a complex model, referred to as the teacher, to a more com-
+pact, computationally efficient one, known as the student. Despite the ability of such 
+approaches to achieve comparable performance to the original model while significantly 
+reducing computational demands, they may struggle to transfer the rationale behind 
+the teacher’s decision process to the student. Indeed, as the field of artificial intelligence 
+continues to progress, there has been a growing emphasis on transparency and inter-
+pretability in deep learning systems. The demand for eXplainable Artificial Intelligence 
+(XAI) has arisen as a response to the need for comprehensibility in the decision-making 
+processes of complex predictive models.
+Only a few efforts have been made in the literature to leverage recent advancements 
+in XAI to drive the learning process of deep learning models [9, 10]. In this paper, we 
+propose DiXtill, a novel approach to distilling knowledge from transformer-based 
+LLMs into lightweight neural architectures, specifically a bi-directional Long Short-
+Term Memory network. The main idea behind DiXtill is to leverage local explanations 
+to guide the distillation process of a teacher model into a self-explainable student. This 
+XAI-driven distillation process aims at transferring the knowledge and the explanations 
+from the teacher to the student model, thus enhancing both the performance and inter-
+pretability of the distilled student model.
+Our method allows the student to achieve comparable performance to the teacher 
+LLM, while also delivering significantly higher compression ratio and speedup compared 
+to post-training quantization and pruning, thus easing the deployment and inference on 
+low-resource devices. In addition, experimental results show how the teacher’s explana-
+tions can be effectively transferred to the student model during the distillation process. 
+In particular, we measured a strong agreement between the teacher’s word attributions, 
+computed by the Integrated Gradients method, and those of the self-explainable student 
+learned during the distillation process.
+The contribution of our work can be summarized as follows:
+•	 We identify a limitation of traditional knowledge distillation methods in conveying 
+explainable knowledge from a teacher LLM to the student.
+•	 We propose to integrate local explanations within the distillation process of a teacher 
+LLM into a self-explainable lightweight student, which enhances both the accuracy 
+and interpretability of the distilled model.
+•	 By employing a cross-architecture knowledge distillation process, a significantly 
+smaller and more computationally efficient model can be attained compared to other 
+compression techniques such as quantization and pruning, which instead retain the 
+same complex architecture as the teacher model.

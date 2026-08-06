@@ -1,0 +1,130 @@
+22
+reduces the MAC to an XNOR. However, BC and BNN have
+an accuracy loss of 19% and 29.8%, respectively [129].
+In order to reduce this accuracy loss, Binary Weight
+Nets (BWN) and XNOR-Nets introduced several signiﬁcant
+modiﬁcations to the DNN processing [129]. This includes
+multiplying the outputs with a scale factor to recover the
+dynamic range (i.e., the weights effectively become -w and
+w, where w is the average of the absolute values of the
+weights in the ﬁlter)9, keeping the ﬁrst and last layers at 32-bit
+ﬂoating point precision, and performing normalization before
+convolution to reduce the dynamic range of the activations.
+With these changes, BWN reduced the accuracy loss to 0.8%,
+while XNOR-Nets reduced the loss to 11%. The loss of XNOR-
+Net can be further reduced by increasing the precision of the
+activations to be slightly larger than one bit. For instance,
+Quantized Neural Networks (QNN) [119], DoReFa-Net [120],
+and HWGQ-Net [130] allow the activations to have 2-bits,
+while the weights remain at 1-bit; in HWGQ-Net, this reduces
+the accuracy loss to 5.2%.
+All the previously described binary nets limit the weights
+to two values (-w and w); however, there may be beneﬁts
+for allowing weights to be zero (i.e., -w, 0, w). Although
+this requires an additional bit per weight compared to binary
+weights, the sparsity of the weights can be exploited to reduce
+computation and storage cost, which can potentially cancel
+out the cost of the additional bit. This is explored in Ternary
+Weight Nets (TWN) [131] and then extended in Trained Ternary
+Quantization (TTQ) where a different scale is trained for each
+weight (i.e., -w1, 0, w2) for an accuracy loss of 0.6% [132],
+assuming 32-bit ﬂoating point for the activations.
+Hardware implementations for binary/ternary nets have
+been explored in recent publications. YodaNN [133] uses
+binary weights, while BRein [134] uses binary weights and
+activations. Binary weights are also used in the compute
+in SRAM work [102] described in Section VI. Finally, the
+nominally spike-inspired TrueNorth chip can implement a
+reduced precision neural network with binary activations and
+ternary weights using TrueNorth’s quantized weight table [9].
+These works tend not to support state-of-the-art DNN models
+(with the exception of YodaNN).
+2) Non-linear quantization: The previous works described
+involve linear quantization where the levels are uniformly
+spaced out. It has been shown that the distributions of the
+weights and activations are not uniform [118, 135], and thus
+a non-linear quantization can potentially improve accuracy.
+Speciﬁcally, there have been two popular approaches taken
+in recent works: (1) log domain quantization; (2) learned
+quantization or weight sharing.
+Log domain quantization If the quantization levels are
+assigned based on a logarithmic distribution as shown in
+Fig 37(b), the weights and activations are more equally
+distributed across the different levels and each level is used
+more efﬁciently resulting in less quantization error. For instance,
+using 4 bits in linear quantization results in a 27.8% loss in
+accuracy versus a 5% loss for log base-2 quantization for
+9This can also be thought of as a form of weights sharing, where only two
+weights are used per ﬁlter.
+Weight 
+Decoder/
+Dequant 
+U x 16b 
+Weight  
+index 
+(log2U-bits) 
+Weight  
+(16-bits) 
+Weight  
+Memory 
+CRSM x 
+log2U-bits 
+Output 
+Activation 
+(16-bits) 
+  
+  
+    
+MAC 
+Input 
+Activation  
+(16-bits) 
+Fig. 40.
+Weight sharing hardware.
+VGG-16 [117]. Furthermore, when weights are quantized to
+powers of two, the multiplication can be replaced with a bit-
+shift [122, 135].10 Incremental Network Quantization (INQ)
+can be used to further reduce the loss in accuracy by dividing
+the large and small weights into different groups, and then
+iteratively quantizing and re-training the weights [136].
+Weight Sharing forces several weights to share a single value.
+This reduces the number of unique weights in a ﬁlter or a
+layer. One example is to group the weights by using a hashing
+function and use one value for each group [137]. Alternatively,
+the weights can be grouped by the k-means algorithm [118].
+Both the shared weights and the indexes indicating which
+weight to use at each position of the ﬁlter are stored. This
+leads to a two step process to fetch the weight: (1) read the
+weight index; (2) using the weight index, read the shared
+weights. This approach can reduce the cost of reading and
+storing the weights if the weight index (log2 of the number of
+unique weights) is less than the bitwidth of the weight itself.
+For instance, in Deep Compression [118], the number of
+unique weights per layer is reduced to 256 for convolutional
+layers and 16 for fully-connected layers in AlexNet, requiring
+8-bit and 4-bit weight indexes, respectively. Assuming there
+are U unique weights and the size of the ﬁlters in the layer
+is C×R×S×M from Fig. 9(b), there will be energy savings
+if reading from a CRSM × log2U-bit memory plus a U×16-
+bit memory (as shown in Fig. 40) cost less than reading
+from a CRSM×16-bit memory. Note that unlike the previous
+quantization methods, the weight sharing approach does not
+reduce the precision of the MAC computation itself and only
+reduces the weight storage requirement.
+B. Reduce Number of Operations and Model Size
+In addition to reducing the size of each operation or operand
+(weight/activation), there is also a signiﬁcant amount of research
+on methods to reduce the number of operations and model
+size. These techniques can be loosely classiﬁed as exploiting
+activation statistics, network pruning, network architecture
+design and knowledge distillation.
+1) Exploiting Activation Statistics: As discussed in Sec-
+tion III-A1, ReLU is a popular form of non-linearity used in
+DNNs that sets all negative values to zero as shown in Fig. 41(a).
+As a result, the output activations of the feature maps after the
+ReLU are sparse; for instance, the feature maps in AlexNet
+have sparsity between 19% to 63% as shown in Fig. 41(b).
+This sparsity gives ReLU an implementation advantage over
+other non-linearities such as sigmoid, etc.
+10Note however that multiplications do not account for a signiﬁcant portion
+of the total energy.

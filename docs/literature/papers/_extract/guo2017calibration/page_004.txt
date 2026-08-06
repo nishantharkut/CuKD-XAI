@@ -1,0 +1,107 @@
+0
+100
+200
+300
+400
+500
+20
+25
+30
+35
+40
+45
+Epoch
+Error (%) / NLL (scaled)
+NLL Overfitting on CIFAR−100
+ 
+ 
+Test error
+Test NLL
+Figure 3. Test error and NLL of a 110-layer ResNet with stochas-
+tic depth on CIFAR-100 during training. NLL is scaled by a con-
+stant to ﬁt in the ﬁgure. Learning rate drops by 10x at epochs 250
+and 375. The shaded area marks between epochs at which the best
+validation loss and best validation error are produced.
+den layers. Recent research suggests that these normal-
+ization techniques have enabled the development of very
+deep architectures, such as ResNets (He et al., 2016) and
+DenseNets (Huang et al., 2017). It has been shown that
+Batch Normalization improves training time, reduces the
+need for additional regularization, and can in some cases
+improve the accuracy of networks.
+While it is difﬁcult to pinpoint exactly how Batch Normal-
+ization affects the ﬁnal predictions of a model, we do ob-
+serve that models trained with Batch Normalization tend to
+be more miscalibrated. In the middle right plot of Figure 2,
+we see that a 6-layer ConvNet obtains worse calibration
+when Batch Normalization is applied, even though classi-
+ﬁcation accuracy improves slightly. We ﬁnd that this result
+holds regardless of the hyperparameters used on the Batch
+Normalization model (i.e. low or high learning rate, etc.).
+Weight decay,
+which used to be the predominant regu-
+larization mechanism for neural networks, is decreasingly
+utilized when training modern neural networks. Learning
+theory suggests that regularization is necessary to prevent
+overﬁtting, especially as model capacity increases (Vapnik,
+1998). However, due to the apparent regularization effects
+of Batch Normalization, recent research seems to suggest
+that models with less L2 regularization tend to generalize
+better (Ioffe & Szegedy, 2015). As a result, it is now com-
+mon to train models with little weight decay, if any at all.
+The top performing ImageNet models of 2015 all use an or-
+der of magnitude less weight decay than models of previous
+years (He et al., 2016; Simonyan & Zisserman, 2015).
+We ﬁnd that training with less weight decay has a negative
+impact on calibration. The far right plot in Figure 2 dis-
+plays training error and ECE for a 110-layer ResNet with
+varying amounts of weight decay. The only other forms
+of regularization are data augmentation and Batch Normal-
+ization. We observe that calibration and accuracy are not
+optimized by the same parameter setting. While the model
+exhibits both over-regularization and under-regularization
+with respect to classiﬁcation error, it does not appear that
+calibration is negatively impacted by having too much
+weight decay.
+Model calibration continues to improve
+when more regularization is added, well after the point of
+achieving optimal accuracy. The slight uptick at the end of
+the graph may be an artifact of using a weight decay factor
+that impedes optimization.
+NLL
+can be used to indirectly measure model calibra-
+tion. In practice, we observe a disconnect between NLL
+and accuracy, which may explain the miscalibration in Fig-
+ure 2. This disconnect occurs because neural networks can
+overﬁt to NLL without overﬁtting to the 0/1 loss. We ob-
+serve this trend in the training curves of some miscalibrated
+models. Figure 3 shows test error and NLL (rescaled to
+match error) on CIFAR-100 as training progresses. Both
+error and NLL immediately drop at epoch 250, when the
+learning rate is dropped; however, NLL overﬁts during the
+remainder of training. Surprisingly, overﬁtting to NLL is
+beneﬁcial to classiﬁcation accuracy. On CIFAR-100, test
+error drops from 29% to 27% in the region where NLL
+overﬁts. This phenomenon renders a concrete explanation
+of miscalibration: the network learns better classiﬁcation
+accuracy at the expense of well-modeled probabilities.
+We can connect this ﬁnding to recent work examining the
+generalization of large neural networks. Zhang et al. (2017)
+observe that deep neural networks seemingly violate the
+common understanding of learning theory that large mod-
+els with little regularization will not generalize well. The
+observed disconnect between NLL and 0/1 loss suggests
+that these high capacity models are not necessarily immune
+from overﬁtting, but rather, overﬁtting manifests in proba-
+bilistic error rather than classiﬁcation error.
+4. Calibration Methods
+In this section, we ﬁrst review existing calibration meth-
+ods, and introduce new variants of our own. All methods
+are post-processing steps that produce (calibrated) proba-
+bilities. Each method requires a hold-out validation set,
+which in practice can be the same set used for hyperparam-
+eter tuning. We assume that the training, validation, and
+test sets are drawn from the same distribution.
+4.1. Calibrating Binary Models
+We ﬁrst introduce calibration in the binary setting, i.e.
+Y = {0, 1}. For simplicity, throughout this subsection,

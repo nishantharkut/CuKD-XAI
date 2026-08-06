@@ -1,0 +1,107 @@
+422
+Page 18 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Table 7 Classiﬁcation results for
+Setting 3 with non-IID data
+distribution from different
+datasets
+Client
+Botnet Class
+Precision
+Recall
+F1-Score
+Accuracy
+Client 1
+Bashlite
+0.99999
+0.99992
+0.99996
+0.99992
+Normal
+0.99942
+0.99942
+0.99967
+Weighted avg
+0.99992
+0.99992
+0.99992
+Client 2
+Mirai
+0.99998
+1.00000
+0.99999
+1.00000
+Normal
+1.00000
+1.00000
+1.00000
+Weighted avg
+1.00000
+1.00000
+1.00000
+Client 3
+Normal
+0.99888
+0.99908
+0.99898
+0.99979
+Torii
+0.99894
+0.99872
+0.99883
+Weighted avg
+0.99979
+0.99979
+0.99979
+Client 4
+Neris
+1.00000
+1.00000
+1.00000
+1.00000
+Normal
+1.00000
+1.00000
+1.00000
+Weighted avg
+1.00000
+1.00000
+1.00000
+Client 5
+Normal
+1.00000
+0.99997
+0.99998
+0.99999
+RBoT
+0.99998
+1.00000
+0.99999
+Weighted avg
+0.99999
+0.99999
+0.99999
+Fig. 7 Confusion matrix of ﬁrst 3 clients of Setting 3
+Fig. 8 Confusion matrix of last 2 clients of Setting 2
+clients, which had varied botnet types and normal trafﬁc. This
+illustrates the model’s effectiveness in detecting attacks in
+a distributed environment without centralized data sharing.
+Setting 2 further validated this by expanding client diver-
+sity and maintaining excellent performance, showcasing the
+approach’s adaptability in scenarios with even more varied
+botnet and normal data distributions. Setting 3 involved data
+from multiple datasets and botnets (Bashlite, Mirai, Torii,
+Neris, RBoT), demonstrating the model’s capability to gen-
+eralize across different botnet families.
+The computational complexity of the proposed federated
+learning approach for IoT botnet attack detection is opti-
+mized to balance efﬁciency, scalability, and the constraints
+of IoT environments. Local model training, employing Ran-
+dom Forest classiﬁers, scales with O(t · n · log(n)) per tree,
+where t is the number of trees and n is the number of samples
+per client. This ensures efﬁcient training on non-IID client
+datasets while distributing computational demands across
+devices. The SHAP-based feature importance computation,
+essential for explainability and knowledge distillation, oper-
+ates with a complexity of O(T · L · D), where T is the
+123

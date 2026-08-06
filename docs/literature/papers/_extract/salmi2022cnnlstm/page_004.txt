@@ -1,0 +1,76 @@
+traffic. ML modules are used to classify the traffic into 
+attack or non-attack traffic to detect DDoS based on the  
+ 
+Fig. 3. proposed system architecture. 
+A. Dataset 
+To train our ML model, we used the CI-CDDoS2019 
+dataset [7]. It contains 12 different types of DDoS 
+attacks, and each type is in a separate file. The attack 
+types are UDP, SNMP, NetBIOS, LDAP, TFTP, NTP, 
+SYN, Web DDoS, MSSQL, UDP-Lag, DNS, and SSDP 
+DDoS-based attacks. The data is labeled as benign and 
+DDoS. The CI-CDDoS2019 dataset is a publicly 
+available dataset that was released in 2019 by the 
+Canadian Institute for Cybersecurity. It contains network 
+traffic data collected from a real-world network 
+environment that was subjected to various DDoS 
+attacks. The dataset also includes labeled data for each 
+attack type, as well as benign traffic data, which can be 
+used for training and testing ML-based DDoS detection 
+models. The dataset provides a comprehensive set of 
+attack scenarios and can be used to evaluate the 
+performance of ML-based DDoS detection methods. 
+B. Data Preprocessing  
+The size of the dataset is 400,000 datapoints. To 
+reduce the size before the Preprocessing phase, we 
+removed the Flow ID, Source IP, Source Port, 
+Destination IP, Destination Port, and Timestamp 
+columns as they are unnecessary and have no effect on 
+the result because these features are changed per case.  
+Furthermore, we replace the labels with numerical 
+values, where Benign' is represented as 0 and DDoS' 
+with 1. 
+Finally, we split the dataset first during data 
+preparation and training to validation split. We did use a 
+cross-validation set that is 15% the size of the training 
+set. Since it helps to prepare the data for analysis and 
+ensures that the ML model can accurately learn from it, 
+data preprocessing is an important step in machine 
+learning-based DDoS detection. The files' size is 
+decreased to 400,000 data points in the first data 
+preparation stage. This phase is essential to ensuring that 
+the ML model can handle the data effectively and lower 
+the computational complexity of the model. Several 
+columns are eliminated from the dataset in the second 
+stage since they are unique to each network and do not 
+contain any data that can be used to identify DDoS. Flow 
+ID, Source IP, Source Port, and Timestamp are among 
+the fields in this table. The dataset's dimensionality is 
+decreased by removing these columns. 
+C. CNN-LSTM Model for DDoS Detection 
+Convolutional neural networks (CNNs) and long 
+short-term memory (LSTM) are used in DDoS 
+Detection. CNN is a deep learning model for processing 
+data with a grid pattern, such as pictures. The first two 
+layers are convolutional and max pooling to extract 
+features, whereas the fully connected layer transfers the 
+extracted features into the final output, which is 
+classification. Convolutional, max-pooling, and fully 
+connected layers are essential to CNN. Our CNN-LSTM 
+architecture consists of 11 layers. Figure 4 shows a 
+CNN-LSTM architecture.  
+ 
+Fig. 4. CNN-LSTM architecture 
+The first layer only reshapes the incoming array to 
+the required shape. Our input data has 67 features. So, 
+the reshape layer makes an input shape of (67, 1), where 
+1 is the batch size. Next are the convolutional layers. 
+They have filtered the filters. We have 64 filtered 
+conv1D layer that moves along 67 data dimensions with 
+a stride length of 2, so they each would have to move 
+(2*2*64) = 256 trainable parameters. And each of them 
+would again have more filters in the next layers. So, it 
+increases exponentially. The max pooling layer is added 
+to decrease the number of parameters to take only the 
+max of the values in the window.  
+Authorized licensed use limited to: INDIAN INST OF INFO TECH AND MANAGEMENT. Downloaded on August 06,2026 at 16:16:16 UTC from IEEE Xplore.  Restrictions apply. 

@@ -1,0 +1,146 @@
+18
+Normalized
+Energy/MAC
+RF
+NoC
+buffer
+DRAM
+ALU
+WS
+OSA
+OSB
+OSC
+NLR
+RS
+DNN Dataflows
+0
+0.5
+1
+1.5
+2
+(a) Energy breakdown across memory hierarchy
+0
+0.5
+1
+1.5
+2
+Normalized
+Energy/MAC
+WS
+OSA
+OSB
+OSC
+NLR
+RS
+psums
+weights
+pixels
+DNN Dataflows
+(b) Energy breakdown across data type
+Fig. 33.
+Comparison of energy efﬁciency between different dataﬂows in the
+CONV layers of AlexNet with a batch size of 16 [3]: (a) breakdown in terms
+of storage levels and ALU, (b) breakdown in terms of data types. OSA, OSB
+and OSC are three variants of the OS dataﬂow that are commonly seen in
+different implementations [80].
+0
+0.5
+1
+1.5
+2
+psums
+weights
+pixels
+Normalized
+Energy/MAC
+WS
+OSA
+OSB
+OSC
+NLR
+RS
+DNN Dataflows
+Fig. 34.
+Comparison of energy efﬁciency between different dataﬂows in the
+FC layers of AlexNet with a batch size of 16 [80].
+VI. NEAR-DATA PROCESSING
+The previous section highlighted that data movement domi-
+nates energy consumption. While spatial architectures distribute
+the on-chip memory such that it is closer to the computation
+(e.g., into the PE), there have also been efforts to bring the
+off-chip high density memory closer to the computation or to
+integrate the computation into the memory itself; the latter is
+often referred to as processing-in-memory or logic-in-memory.
+In embedded systems, there have also been efforts to bring the
+computation into the sensor where the data is ﬁrst collected.
+ALU 
+RF 
+NoC 
+buffer 
+DRAM 
+2.0e10 
+1.5e10 
+1.0e10 
+0.5e10 
+0 
+L1 
+L8 
+L2 
+L3 
+L4 
+L5 
+L6 
+L7 
+Normalized 
+Energy 
+(1 MAC = 1) 
+CONV Layers 
+FC Layers 
+RF dominates 
+DRAM dominates 
+Total Energy 
+80% 
+20% 
+Fig. 35.
+Energy breakdown across layers of the AlexNet [80]. RF energy
+dominates in convolutional layers. DRAM energy dominates in the fully
+connected layer. Convolutional layer dominate energy consumption.
+In this section, we will discuss how moving compute and data
+closer to reduce data movement (i.e., near-data processing) can
+be achieved using mixed-signal circuit design and advanced
+memory technologies.
+Many of these works use analog processing which has the
+drawback of increased sensitivity to circuit and device non-
+idealities. Consequentially, the computation is often performed
+at reduced precision, which can be accounted for during
+the training of the DNNs using the techniques discussed in
+Section VII. Another factor to take into consideration is that
+DNNs are often trained in the digital domain; thus for analog
+processing, there is an additional overhead cost for analog-
+to-digital conversion (ADC) and digital-to-analog conversion
+(DAC).
+A. DRAM
+Advanced memory technology can reduce the access energy
+for high density memories such as DRAMs. For instance,
+embedded DRAM (eDRAM) brings high density memory on-
+chip to avoid the high energy cost of switching off-chip
+capacitance [97]; eDRAM is 2.85× higher density than SRAM
+and 321× more energy efﬁcient than DRAM (DDR3) [93].
+eDRAM also offers higher bandwidth and lower latency
+compared to DRAM. In DNN processing, eDRAM can be used
+to store tens of megabytes of weights and activations on-chip
+to avoid off-chip access, as demonstrated in DaDianNao [93].
+The downside of eDRAM is that it has lower density than
+off-chip DRAM and can increase the cost of the chip.
+Rather than integrating DRAM into the chip itself, the
+DRAM can also be stacked on top of the chip using through
+silicon vias (TSV). This technology is often referred to as 3-D
+memory, and has been commercialized in the form of Hybrid
+Memory Cube (HMC) [98] and High Bandwidth Memory
+(HBM) [99]. 3-D memory delivers an order of magnitude higher
+bandwidth and reduces access energy by up to 5× relative to
+existing 2-D DRAMs, as TSV have lower capacitance than
+typical off-chip interconnects. Recent works have explored the
+use of HMC for efﬁcient DNN processing in a variety of ways.
+For instance, Neurocube [100] integrates SIMD processors into
+the logic die of the HMC to bring the memory and computation

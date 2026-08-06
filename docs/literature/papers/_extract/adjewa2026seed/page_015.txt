@@ -1,0 +1,56 @@
+Sensors 2026, 26, 356
+15 of 22
+For the Edge-Level model training, we utilized a high-performance server equipped
+with an NVIDIA A100 GPU with 80 GB of memory, 12 CPU cores, and a total computing
+power of 312 TFLOPs. To accelerate experiments related to IoT-level model training, we
+employed an NVIDIA T4 GPU with 16 GB of RAM, 4 CPU cores, and a peak performance
+of 65 TFLOPs. It is worth noting that the T4 was used solely to speed up training; the IoT
+models are lightweight enough that they can also be trained on a standard CPU, with longer
+training times.
+To evaluate the performance of our SEED models, we used standard classification
+metrics including accuracy, precision, recall, and F1-score. These metrics are defined
+as follows:
+•
+Accuracy measures the proportion of correctly classified instances among all samples:
+Accuracy =
+TP + TN
+TP + TN + FP + FN
+(1)
+•
+Precision quantifies the proportion of correctly predicted positive instances among all
+instances predicted as positive:
+Precision =
+TP
+TP + FP
+(2)
+•
+Recall measures the proportion of correctly predicted positive instances among all
+actual positive instances:
+Recall =
+TP
+TP + FN
+(3)
+•
+F1-score is the harmonic mean of precision and recall, providing a balanced metric for
+classification performance:
+F1-score = 2 × Precision × Recall
+Precision + Recall
+(4)
+Here, TP, TN, FP, and FN represent the number of true positives, true negatives, false
+positives, and false negatives, respectively.
+5.2. Results and Discussion
+The evaluation begins with assessing the performance of the EdgeBERT model. It
+was trained on the entire training set of the Edge-IIoTset dataset for approximately 15 min
+on an NVIDIA A100 GPU, corresponding to one epoch. For comparison, training the full
+BERT-base model on the same dataset would have required an estimated 3.5 h per epoch.
+After training, EdgeBERT achieved nearly 100% accuracy.
+Figure 5 shows the variation of loss and accuracy every 1000 mini-batches during
+training. Due to the density of the dataset, the model converged rapidly, with convergence
+effectively reached around the 4000th mini-batch. This fast convergence eliminated the
+need for additional epochs. Considering both training time and performance, EdgeBERT
+represents an effective trade-off, as the full BERT model with over 100 million parameters
+is not strictly necessary for intrusion detection in this context.
+Figure 6 illustrates the confusion matrix for the 15-class classification scenario.
+The model is able to almost perfectly distinguish between all classes, although a small
+amount of confusion is observed between the ‘Fingerprinting’ and ‘DDoS-HTTP’ classes.
+https://doi.org/10.3390/s26020356

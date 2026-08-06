@@ -1,0 +1,198 @@
+(a) Pet Images
+(b) Potato Early Blight
+Figure 5. Sample visualisation of Distilled and residual features
+on PetImages and Plant disease dataset.
+residual features are extracted from the areas localised by
+UniCAM, while layer-specific features are extracted from
+regions localised using Grad-CAM. Distilled features indi-
+cate how relevant the knowledge learned from the Teacher
+is for the Student. In contrast, residual features represent
+features the Student deemed less useful for the task and thus
+ignored. Layer-specific features provide an overall view of
+features encoded at each layer, helping assess which model
+has better localisation and a higher RS, indicating more rel-
+evant features. Models trained with various KD techniques
+show higher RS than their equivalent Base models, with
+overhaul feature distillation achieving the best performance
+by transferring intermediate feature representations, allow-
+ing the Student to learn more fine-grained and diverse fea-
+tures.
+4.2.3
+Exploring the capacity gap impact
+The Student’s performance often declines when there is a
+large architecture (capacity) gap between the Teacher and
+Table 1. Relevance of features (RS) learned by Student (ResNet-
+50) and Base model (ResNet-50).
+Dataset
+KD-Technique
+Layer#
+Layer-Specific Features
+Residual / Distilled Features
+Base Model
+Student
+Base Model
+Student
+ASIRRA [15]
+Response-based
+L1
+0.0092
+0.0189
+0.0024
+0.0017
+L2
+0.0054
+0.0130
+0.0001
+0.0040
+L3
+0.0100
+0.0365
+0.0007
+0.008
+L4
+0.0141
+0.0861
+0.0043
+0.006
+Attention-based
+L1
+0.0092
+0.0107
+0.0049
+0.0047
+L2
+0.0054
+0.0189
+0.0022
+0.0035
+L3
+0.0100
+0.0431
+0.0045
+0.0100
+L4
+0.0141
+0.0583
+0.0082
+0.0102
+Feature-based
+L1
+0.0092
+0.0465
+0.0063
+0.0101
+L2
+0.0054
+0.0453
+0.0027
+0.0048
+L3
+0.0100
+0.0570
+0.0036
+0.0196
+L4
+0.0141
+0.0953
+0.0012
+0.0258
+CIFAR10 [28]
+Response-based
+L1
+0.0063
+0.0304
+0.0040
+0.0155
+L2
+0.0133
+0.0378
+0.0090
+0.0148
+L3
+0.0282
+0.0432
+0.0046
+0.0113
+L4
+0.0417
+0.0585
+0.0090
+0.0106
+Attention-based
+L1
+0.0063
+0.0232
+0.0043
+0.0136
+L2
+0.0133
+0.0280
+0.0099
+0.0101
+L3
+0.0282
+0.0256
+0.0087
+0.0063
+L4
+0.0417
+0.0437
+0.0017
+0.0021
+Feature-based
+L1
+0.0063
+0.0311
+0.0028
+0.0185
+L2
+0.0133
+0.0388
+0.0017
+0.0153
+L3
+0.0282
+0.0457
+0.0070
+0.0117
+L4
+0.0417
+0.0794
+0.0024
+0.0150
+the Student [29,38]. The drop in the Student’s performance
+may stem from either its own challenges in learning relevant
+features or the overwhelming knowledge of the Teacher. To
+investigate this issue, we employ two distillation strategies
+in our experiments using ResNet-101 as the Teacher and
+ResNet-18 as the Student, which have a significant capacity
+disparity. In the first approach, we conduct direct distilla-
+tion from ResNet-101 to ResNet-18. The second approach
+introduces an intermediate “Teacher assistant” [37] to help
+bridge the capacity gap between ResNet-101 and ResNet-
+18. We use UniCAM and RS to analyse the KD process in
+these settings, with a focus on how well the smaller model
+manages to learn relevant features.
+Using the proposed methods, we first examine the impact
+of a large capacity gap on the knowledge transfer between
+Teacher and Student. We use ResNet-101 as the Teacher
+and ResNet-18 as the Student and apply KD to train the
+Student model. Fig. 6 demonstrates that, in this setting, the
+Base Model captures more relevant features than the Stu-
+dent model. This suggests that a large capacity gap impedes
+knowledge transfer, as the Student model cannot effectively
+learn from the complex Teacher’s knowledge.
+To bridge the capacity gap, we use an intermediate
+Teacher assistant [29] to enable a more effective and fo-
+cused knowledge transfer from ResNet-101 to ResNet-18
+via ResNet-50. Figure 7 compares the saliency maps of the
+distilled features learned by two Students: ResNet-18 di-
+rectly distilled from ResNet-101 (R18-R101) and ResNet-
+18 distilled from ResNet-101 through Teacher assistant
+ResNet-50 (R18-R50-R101).
+The saliency maps, visu-
+alised using UniCAM, reveal that the Teacher assistant helps
+learn more relevant features that highlight the object parts.
+In contrast, R18-R101 learns some irrelevant features and
+misses the salient features for the gt prediction. In fact,
+3473

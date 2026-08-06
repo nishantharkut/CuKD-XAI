@@ -1,0 +1,49 @@
+422
+Page 12 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Algorithm 1 Proposed SHAP-Based Knowledge Distillation Approach
+Using this global feature importance proﬁle, the server
+then selects the top n features that are most relevant across
+all clients. These selected features, Xtop, form a reﬁned fea-
+ture set that focuses on the key characteristics shared across
+all clients, thereby reducing dimensionality and enhancing
+training efﬁciency. Each client proceeds to train a new local
+model fk using only these globally selected top features,
+Xtop
+k
+, with corresponding labels yk. This ensures that each
+local model is consistent with the globally identiﬁed feature
+space while still being tailored to the local data distribution.
+Finally, the trained models are evaluated on each client’s
+original data using the selected features Xtop
+k
+. The trained
+model fk generates predictions 
+yk, which are compared with
+the true labels yk to compute key performance metrics, such
+as accuracy, precision, recall, and F1-score. This ﬁnal evalu-
+ation step conﬁrms the model’s effectiveness in each client’s
+speciﬁc context, demonstrating the success of the federated
+learning approach in achieving robust local models aligned
+to a globally optimized feature set without centralizing client
+data.
+Algorithm 2 describes the process for training and evaluat-
+ing a global model on each client in a federated learning setup
+using a SHAP-based knowledge distillation approach with
+Random Forest classiﬁers. The algorithm begins by select-
+ing the top n features based on the global feature importance
+proﬁle global, which is shared with each client. For each
+client k, the local dataset Xk is aligned to include only the
+selected top features, creating X(top)
+k
+. Each client then initial-
+izes a Random Forest classiﬁer f (global)
+k
+, which consists of
+multiple decision trees. In the training phase, each tree in the
+Random Forest is trained on a bootstrapped subset of X(top)
+k
+and the corresponding labels yk. This enables each client to
+learn from its local data while leveraging the globally deter-
+mined important features.
+123

@@ -1,0 +1,157 @@
+3
+Neurons 
+(activations) 
+Synapses 
+(weights) 
+(a) Neurons and synapses
+X1 
+X2 
+X3 
+Y1 
+Y2 
+Y3 
+Y4 
+W11 
+W34 
+L1 Input Neurons 
+(e.g. image pixels) 
+Layer 1 
+L1 Output Neurons 
+a.k.a. Activations 
+Layer 2 
+L2 Output Neurons 
+(b) Compute weighted sum for each layer
+Fig. 3.
+Simple neural network example and terminology (Figure adopted
+from [7]).
+Fig. 3(a) shows a diagrammatic picture of a computational
+neural network. The neurons in the input layer receive some
+values and propagate them to the neurons in the middle layer
+of the network, which is also frequently called a ‘hidden
+layer’. The weighted sums from one or more hidden layers are
+ultimately propagated to the output layer, which presents the
+ﬁnal outputs of the network to the user. To align brain-inspired
+terminology with neural networks, the outputs of the neurons
+are often referred to as activations, and the synapses are often
+referred to as weights as shown in Fig. 3(a). We will use the
+activation/weight nomenclature in this article.
+Fig. 3(b) shows an example of the computation at each
+layer: yj = f(
+3P
+i=1
+Wij × xi + b), where Wij, xi and yj are the
+weights, input activations and output activations, respectively,
+and f(·) is a non-linear function described in Section III-A1.
+The bias term b is omitted from Fig. 3(b) for simplicity.
+Within the domain of neural networks, there is an area called
+deep learning, in which the neural networks have more than
+three layers, i.e., more than one hidden layer. Today, the typical
+numbers of network layers used in deep learning range from
+ﬁve to more than a thousand. In this article, we will generally
+use the terminology deep neural networks (DNNs) to refer to
+the neural networks used in deep learning.
+DNNs are capable of learning high-level features with more
+complexity and abstraction than shallower neural networks. An
+example that demonstrates this point is using DNNs to process
+visual data. In these applications, pixels of an image are fed into
+the ﬁrst layer of a DNN, and the outputs of that layer can be
+interpreted as representing the presence of different low-level
+features in the image, such as lines and edges. At subsequent
+layers, these features are then combined into a measure of the
+likely presence of higher level features, e.g., lines are combined
+into shapes, which are further combined into sets of shapes.
+And ﬁnally, given all this information, the network provides a
+probability that these high-level features comprise a particular
+object or scene. This deep feature hierarchy enables DNNs to
+achieve superior performance in many tasks.
+C. Inference versus Training
+Since DNNs are an instance of a machine learning algorithm,
+the basic program does not change as it learns to perform its
+given tasks. In the speciﬁc case of DNNs, this learning involves
+determining the value of the weights (and bias) in the network,
+backpropagation 
+∂L
+∂y4
+∂L
+∂y1
+∂L
+∂y2
+∂L
+∂y3
+W11 
+W34 
+∂L
+∂x1
+∂L
+∂x2
+∂L
+∂x3
+(a) Compute the gradient of the loss
+relative to the ﬁlter inputs
+backpropagation 
+∂L
+∂y4
+∂L
+∂y1
+∂L
+∂y2
+∂L
+∂y3
+X1 
+X3 
+∂L
+∂w34
+∂L
+∂w11
+…….. 
+(b) Compute the gradient of the loss
+relative to the weights
+Fig. 4.
+An example of backpropagation through a neural network.
+and is referred to as training the network. Once trained, the
+program can perform its task by computing the output of
+the network using the weights determined during the training
+process. Running the program with these weights is referred
+to as inference.
+In this section, we will use image classiﬁcation, as shown
+in Fig. 6, as a driving example for training and using a DNN.
+When we perform inference using a DNN, we give an input
+image and the output of the DNN is a vector of scores, one for
+each object class; the class with the highest score indicates the
+most likely class of object in the image. The overarching goal
+for training a DNN is to determine the weights that maximize
+the score of the correct class and minimize the scores of the
+incorrect classes. When training the network the correct class
+is often known because it is given for the images used for
+training (i.e., the training set of the network). The gap between
+the ideal correct scores and the scores computed by the DNN
+based on its current weights is referred to as the loss (L).
+Thus the goal of training DNNs is to ﬁnd a set of weights to
+minimize the average loss over a large training set.
+When training a network, the weights (wij) are usually
+updated using a hill-climbing optimization process called
+gradient descent. A multiple of the gradient of the loss relative
+to each weight, which is the partial derivative of the loss with
+respect to the weight, is used to update the weight (i.e., updated
+wt+1
+ij
+= wt
+ij −α ∂L
+∂wij , where α is called the learning rate). Note
+that this gradient indicates how the weights should change in
+order to reduce the loss. The process is repeated iteratively to
+reduce the overall loss.
+An efﬁcient way to compute the partial derivatives of
+the gradient is through a process called backpropagation.
+Backpropagation, which is a computation derived from the
+chain rule of calculus, operates by passing values backwards
+through the network to compute how the loss is affected by
+each weight.
+This backpropagation computation is, in fact, very similar
+in form to the computation used for inference as shown
+in Fig. 4 [10].2 Thus, techniques for efﬁciently performing
+2To backpropagate through each ﬁlter: (1) compute the gradient of the loss
+relative to the weights from the ﬁlter inputs (i.e., the forward activations) and
+the gradients of the loss relative to the ﬁlter outputs; (2) compute the gradient
+of the loss relative to the ﬁlter inputs from the ﬁlter weights and the gradients
+of the loss relative to the ﬁlter outputs.

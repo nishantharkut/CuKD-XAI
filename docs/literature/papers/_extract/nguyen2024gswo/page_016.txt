@@ -1,0 +1,104 @@
+Sensors 2024, 24, 3339
+16 of 26
+5. Experiments and Evaluations
+5.1. Dataset Description
+5.1.1. NSL-KDD Dataset
+The first dataset, NSL-KDD from [46], is a typical dataset used for classification during
+implementation. This dataset has 41 unique parameters, including the content type, core
+category, and traffic categorization, which are thoroughly explained in Table 2. Each data
+input reveals a wide variety of flow characteristics, each of which is methodically classified
+as an attack category or a normal instance.
+Table 2. NSL-KDD Dataset description [48].
+Criteria
+Description
+Dataset’s name
+NSL-KDD
+Quantity of records
+149,470
+Quantity of network features
+41
+Quantity of attack categories
+4 (DoS, Probe, R2L, U2R)
+Characteristics of network features
+Basic features, host features, traffic features,
+and content features
+Furthermore, the 42nd presents five unique types of system connection vectors. These
+vectors are then classified into a normal category and four distinct attack types. As outlined
+in [49], the four categories of attacks—Denial of Service (DoS), Probe, Remote to Local
+(R2L), and User to Root (U2R)—are further categorized into specific types of intrusions.
+This dataset is considered a merging set, which is divided into training and testing
+sets with a rate of 7:3. The statistics of each attack class are listed in Table 3. We used
+this dataset to demonstrate that our method works well for both categorical features and
+numerical features.
+Table 3. Summarizing the distribution of training and testing set in this study.
+Datasets
+The Traffic Type
+Training Set
+Testing Set
+NSL-KDD dataset
+Benign
+54,093
+22,960
+Dos
+37,424
+16,138
+Probe
+9780
+4299
+R2L
+2490
+1079
+U2R
+173
+79
+CICIDS2017 dataset
+Normal
+260,415
+65,266
+Bot
+1561
+382
+Brute Force
+6824
+1727
+DoS/ DDoS
+256,401
+63,868
+Infiltration
+27
+9
+Portscan
+45,779
+11,526
+Web Attack
+1716
+402
+WSN-DS dataset
+Blackhole
+8104
+1945
+Grayhole
+10,598
+2624
+Flooding
+2405
+597
+TDMA
+5306
+1322
+Normal
+259,621
+65,020
+WSN-BFSF dataset
+Normal
+210,223
+52,628
+Flooding
+23,913
+5931
+Blackhole
+9441
+2325
+Forwarding
+6108
+1537

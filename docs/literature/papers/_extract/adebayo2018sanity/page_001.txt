@@ -1,0 +1,45 @@
+Sanity Checks for Saliency Maps
+Julius Adebayo∗, Justin Gilmer♯, Michael Muelly♯, Ian Goodfellow♯, Moritz Hardt♯†, Been Kim♯
+juliusad@mit.edu, {gilmer,muelly,goodfellow,mrtz,beenkim}@google.com
+♯Google Brain
+†University of California Berkeley
+Abstract
+Saliency methods have emerged as a popular tool to highlight features in an input
+deemed relevant for the prediction of a learned model. Several saliency methods
+have been proposed, often guided by visual appeal on image data. In this work, we
+propose an actionable methodology to evaluate what kinds of explanations a given
+method can and cannot provide. We ﬁnd that reliance, solely, on visual assessment
+can be misleading. Through extensive experiments we show that some existing
+saliency methods are independent both of the model and of the data generating
+process. Consequently, methods that fail the proposed tests are inadequate for
+tasks that are sensitive to either data or model, such as, ﬁnding outliers in the data,
+explaining the relationship between inputs and outputs that the model learned,
+and debugging the model. We interpret our ﬁndings through an analogy with
+edge detection in images, a technique that requires neither training data nor model.
+Theory in the case of a linear model and a single-layer convolutional neural network
+supports our experimental ﬁndings2.
+1
+Introduction
+As machine learning grows in complexity and impact, much hope rests on explanation methods as
+tools to elucidate important aspects of learned models [1, 2]. Explanations could potentially help
+satisfy regulatory requirements [3], help practitioners debug their model [4, 5], and perhaps, reveal
+bias or other unintended effects learned by a model [6, 7]. Saliency methods3 are an increasingly
+popular class of tools designed to highlight relevant features in an input, typically, an image. Despite
+much excitement, and signiﬁcant recent contribution [8–21], the valuable effort of explaining machine
+learning models faces a methodological challenge: the difﬁculty of assessing the scope and quality
+of model explanations. A paucity of principled guidelines confound the practitioner when deciding
+between an abundance of competing methods.
+We propose an actionable methodology based on randomization tests to evaluate the adequacy
+of explanation approaches. We instantiate our analysis on several saliency methods for image
+classiﬁcation with neural networks; however, our methodology applies in generality to any explanation
+approach. Critically, our proposed randomization tests are easy to implement, and can help assess the
+suitability of an explanation method for a given task at hand.
+In a broad experimental sweep, we apply our methodology to numerous existing saliency methods,
+model architectures, and data sets. To our surprise, some widely deployed saliency methods are
+independent of both the data the model was trained on, and the model parameters. Consequently,
+∗Work done during the Google AI Residency Program.
+2All code to replicate our ﬁndings will be available here: https://goo.gl/hBmhDt
+3We refer here to the broad category of visualization and attribution methods aimed at interpreting trained
+models. These methods are often used for interpreting deep neural networks particularly on image data.
+32nd Conference on Neural Information Processing Systems (NeurIPS 2018), Montréal, Canada.
+arXiv:1810.03292v3  [cs.CV]  6 Nov 2020

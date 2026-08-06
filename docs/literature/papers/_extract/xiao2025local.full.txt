@@ -1,0 +1,1502 @@
+
+
+===== PAGE 1 =====
+
+Signal, Image and Video Processing (2025) 19:1335
+https://doi.org/10.1007/s11760-025-04880-4
+ORIGINAL PAPER
+Metaheuristically optimized deep soft-voting ensemble
+for explainable and resource-aware signal processing in wireless
+sensor network intrusion detection
+Xiongzhi Xiao1 · Wenzhou Duan1
+Received: 14 August 2025 / Revised: 19 September 2025 / Accepted: 5 October 2025 / Published online: 3 November 2025
+© The Author(s), under exclusive licence to Springer-Verlag London Ltd., part of Springer Nature 2025
+Abstract
+Wireless Sensor Networks (WSN) are widely employed in various sensitive areas; however, due to their limited computing
+power, energy, and memory, these networks are exposed to signal-level anomalies as well as cyber-attacks. This study aims
+to introduce a metaheuristically optimized deep soft-voting ensemble that integrates Deep Neural Networks and CATBoost
+classiﬁers to enable secure intrusion detection. To achieve a seamless integration between convergence accuracy and explo-
+ration divergence, the authors have employed two complementary metaheuristics, Quadratic Interpolation Optimization (QIO)
+and Osprey Optimization Algorithm (OOA), for tuning the hyperparameters and decision thresholds. The system derives 23
+operational and topological signal features that represent normal trafﬁc and four major attack types, i.e., Blackhole, Grayhole,
+Flooding, and TDMA Scheduling. Rigorous preprocessing, such as Variance Inﬂation Factor analysis, supports that the fea-
+tures are independent and stable. The metrics used include accuracy, precision, recall, F1-score, speciﬁcity, and AUC, with
+the QIO-enabled model (DCQI) leading the way with the highest test accuracy of 95.62%.DCQI outperforms the baseline
+(DNCA) and the OOA-enhanced models, and thus, both class-level detection and balanced performance can be achieved. The
+feature sensitivity analysis based on the Cosine Amplitude Method and ranking both distinctly and consistently indicates Is
+CH, Who CH, and Dist to CH as the most inﬂuential predictors, which not only strengthens the understanding of WSNs but
+also shows the computational efﬁciency of the adopted security.
+Keywords Wireless sensor networks · Intrusion detection system · Signal processing · Deep neural network · Soft voting
+ensemble · Feature sensitivity analysis
+1 Introduction
+Wireless Sensor Networks (WSNs) have emerged as one
+of the most transformative paradigms in modern communi-
+cation and computing systems. They are widely deployed
+in diverse real-world applications, including environmen-
+tal monitoring, industrial automation, disaster management,
+healthcare, and military surveillance [1]. A typical WSN con-
+sists of multiple energy-efﬁcient, cost-effective sensor nodes
+that capture environmental changes, process the data locally,
+and transmit it wirelessly to a sink node or base station
+for further analysis. Depending on the deployment scenario,
+B Wenzhou Duan
+duanwzh16@163.com
+1
+Information Department, The Afﬁliated Guangdong Second
+Provincial General Hospital of Jinan University, Guangzhou
+510317, Guangdong, China
+sensor nodes may be equipped with thermal, acoustic, chemi-
+cal, optical, or pressure sensors, enabling broad functionality
+across domains. Despite their versatility, WSNs face severe
+challenges due to inherent hardware constraints, including
+limited energy capacity, restricted memory, and low compu-
+tational power [2, 3].
+These vulnerabilities make WSNs highly susceptible to
+security breaches, particularly when deployed in open and
+potentially hostile environments. Attackers can exploit these
+weaknesses by compromising nodes, eavesdropping on com-
+munications, injecting false data, tampering with message
+integrity, or exhausting network resources [4]. Among such
+threats, Denial-of-Service (DoS) attacks are particularly
+damaging, as they disrupt network functionality in multiple
+ways.
+Intrusion Detection Systems (IDSs) are therefore essential
+to safeguard WSNs. An effective IDS must not only detect
+known attacks but also adapt to previously unseen threats,
+123
+
+
+
+===== PAGE 2 =====
+
+1335
+Page 2 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+issuing timely alerts upon observing abnormal behavior [5,
+6]. However, designing IDSs for WSNs is difﬁcult due to
+several constraints: the lack of specialized training datasets,
+the need for high detection accuracy, and the demand for
+lightweight implementations that minimize computational
+and energy overhead [7]. This has motivated the integration
+of machine learning (ML) and deep learning (DL) tech-
+niques, which are increasingly employed to enhance IDS
+adaptability, detection capability, and efﬁciency in resource-
+constrained WSN environments.
+Several papers have been written on the implementation of
+ML concepts to address the localization problem in wireless
+sensor networks (WSNs). One of the energy-efﬁcient local-
+ization techniques based on ML was the UWB frequency
+spectrum combined with angle of arrival (AOA) [8] and
+time difference of arrival (TDOA) [9] methods. The study by
+Ahmadi et al. [10] highlighted that different sensor types with
+speciﬁctechnicalfeaturescouldbeleveragedtoenhanceML-
+based localization in WSNs. Although such methods provide
+high accuracy, their heavy dependence on specialized hard-
+ware increases deployment costs, motivating the search for
+more affordable alternatives.
+Multiple machine learning-based methods have been
+proposed to address the limitations mentioned. For exam-
+ple, Kim et al. [11] employed Support Vector Regression
+(SVR) to design an RSSI-based localization algorithm that
+improved robustness and precision. Similarly, a three-layer
+feed-forward Artiﬁcial Neural Network (ANN) was reported
+to achieve small error rates for indoor localization [12]. The
+use of ANNs has been extensive. While an RSSI and KNN
+proﬁling approach was characterized as having a low cost and
+good estimation accuracy, a Bayesian-based plan for large-
+scale Wireless Sensor Networks (WSNs) was introduced as
+the ﬁrst in [13]. Merhi et al. [14] combined decision tree
+(DT) classiﬁers with TDOA features to develop an acous-
+tic target localization method. Furthermore, the Event-Based
+MAC (EB-MAC) protocol for efﬁcient target acquisition in
+acoustic WSNs was also their contribution.
+Optimization methods have also been widely adopted to
+improve localization further. For instance, Lee et al. [15]
+integrated particle swarm optimization (PSO) with RSSI-
+based models for indoor target tracking, while Wang et al.
+[16] leveraged probability distributions of node distances
+observed by anchor nodes. Cao and Xu [17] enhanced the
+classical DV-Hop algorithm using optimum anchor node
+subsets (OANS DV-Hop), employing both binary and contin-
+uous PSO variants for improved precision. In another study,
+TDOA and Kalman ﬁltering were combined with DV-Hop,
+while ensemble optimization techniques further reduced bea-
+con deployment errors and localization inaccuracies [18].
+These approaches often achieved localization errors of less
+than 2%, but they remain limited by computational demands
+and challenges in large-scale deployments. Table 1 shows the
+comparison of the recent articles with the present study.
+This study builds on these directions and introduces
+a metaheuristically optimized deep soft-voting ensemble
+that combines Deep Neural Networks (DNNs) and CAT-
+Boost classiﬁers to strengthen intrusion detection in WSNs.
+The framework leverages two complementary metaheuris-
+tic optimizers, Quadratic Interpolation Optimization (QIO)
+and the Osprey Optimization Algorithm (OOA), to ﬁne-tune
+hyperparameters and decision thresholds. A comprehensive
+dataset of 23 operational and topological features, collected
+under both normal conditions and diverse attack scenarios
+(Blackhole, Grayhole, Flooding, and TDMA Scheduling), is
+employed to validate the framework. The main contributions
+of this work are as follows:
+i.
+Hybrid voting meta-ensemble architecture Develop-
+ment of a soft-voting ensemble that integrates Deep
+Neural Networks (DNNs) for nonlinear feature abstrac-
+tion with CATBoost classiﬁers for effective handling of
+tabular and categorical data. This combination leverages
+the complementary strengths of deep representation
+learning and gradient-boosted decision trees, resulting
+in expressive yet stable decision boundaries.
+ii.
+Metaheuristic optimization for hyperparameter tuning
+Incorporation of two complementary population-based
+optimization algorithms, Quadratic Interpolation Opti-
+mization (QIO) for rapid convergence and exploita-
+tion, and Osprey Optimization Algorithm (OOA)
+for exploratory search—ensuring robust hyperparam-
+eter tuning, avoidance of premature convergence, and
+improved decision thresholds.
+iii. Feature-rich dataset design Compilation of a dataset
+containing 23 network attributes, covering both nor-
+mal trafﬁc and four major attack scenarios (Black-
+hole, Grayhole, Flooding, and TDMA Scheduling).
+Multicollinearity issues are addressed using the Vari-
+ance Inﬂation Factor (VIF) analysis, thereby enhancing
+model stability and interpretability.
+iv.
+Comprehensive evaluation metrics Performance assess-
+ment across accuracy, precision, recall, F1-score, speci-
+ﬁcity, and AUC, with both aggregate and per-class
+evaluations to ensure balanced performance across dif-
+ferent attack types.
+v.
+Explainable sensitivity and feature importance analysis
+Application of Cosine Amplitude Method (CAMs) and
+sensitivity ranking to highlight key predictors such as Is
+CH, Who CH, and Dist to CH. This enhances explain-
+ability and strengthens trust in model decisions.
+vi.
+Empirical validation of optimization efﬁcacy Exper-
+imental results demonstrate that the QIO-enhanced
+ensemble (DCQI) consistently outperforms both the
+baseline ensemble (DNCA) and the OOA-enhanced
+123
+
+
+
+===== PAGE 3 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 3 of 15
+1335
+Table 1 Comparison of state-of-the-art IDS approaches in WSNs and the research gap addressed by this study
+References
+Objective
+Advantages
+Limitations
+Research gap
+How this study ﬁlls the gap
+Gupta et al. [1]
+Multi-objective ML framework
+for WSN optimization
+Balances performance trade-offs;
+energy efﬁcient
+Lacks deep integration of
+explainability; limited attack
+diversity
+Missing explainable
+ensemble optimization for
+IDS
+Introduces metaheuristically
+optimized soft-voting
+ensemble with
+explainability via CAM and
+feature ranking
+Talukder et al. [2]
+Hybrid ML with balancing +
+dimensionality reduction
+Improved detection with reduced
+bias
+Ofﬂine optimization; no
+real-time adaptability
+Gap in adaptive and
+resource-aware IDS
+Proposes resource-aware
+optimization (QIO, OOA)
+enabling adaptability and
+robustness
+Alanazi et al. [3]
+ML-driven routing for
+energy-efﬁcient 6G-WSN
+Energy-aware routing
+optimization
+Focuses on routing, not
+intrusion detection
+Lack of IDS focus for
+evolving threats
+Shifts focus to intrusion
+resilience while maintaining
+energy/resource awareness
+Birahim et al. [4]
+PSO-based explainable
+ensemble IDS
+Adds explainability; swarm
+optimization
+Risk of premature convergence;
+limited generalizability
+Gap in balancing
+exploration & exploitation
+for stable IDS
+Combines QIO (exploitation)
++ OOA (exploration) for
+stability + resilience
+Alipio and Bures
+[5]
+DRL-based congestion control
+in WSN
+Learns dynamic congestion
+control
+Focused on routing/congestion,
+not IDS
+IDS against adaptive attacks
+not addressed
+Provides deep IDS framework
+adaptable to adversarial
+WSN environments
+Ahmed [6]
+Context-aware ML-based IDS
+Adds contextual information to
+improve detection
+Limited scalability; no
+ensemble integration
+Gap in robust ensemble with
+context/explainability
+Adds deep-boosted ensemble
+with explainable AI and
+scalable optimization
+Priyadarshi [7]
+Review of ML in IoT-WSN
+routing challenges
+Comprehensive survey; identiﬁes
+key issues
+Review only, no proposed
+framework
+Identiﬁes lack of adaptive,
+resource-aware IDS
+Proposes novel explainable,
+meta-ensemble IDS directly
+addressing
+survey-highlighted issues
+This study
+Metaheuristically optimized
+deep soft-voting ensemble
+IDS
+High detection (multi-metric),
+explainable AI,
+resource-aware, balanced
+exploration/exploitation,
+resilience to adversarial noise
+Dataset still controlled; no full
+real-time retraining
+Expands IDS research by
+unifying deep + boosted
+ensemble, explainability,
+resource awareness, and
+optimization trade-offs
+Provides novel, explainable,
+resource-aware, and
+adaptive IDS framework for
+WSNs
+123
+
+
+
+===== PAGE 4 =====
+
+1335
+Page 4 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+model (DCOA), achieving superior detection accuracy,
+stability, and generalization.
+In summary, this study introduces a resource-aware
+and explainable intrusion detection framework for WSNs,
+achieving high detection accuracy while maintaining com-
+putational efﬁciency. The proposed system is robust against
+diverse attack types and tailored for the constrained environ-
+ments typical of WSN deployments.
+2 Data collection
+To generate the dataset and gather the necessary data from the
+transmitted and received packets within the WSN, a low-cost
+monitoring service is required. On the other hand, all rele-
+vant network data should be captured to aid in the detection,
+classiﬁcation, and prevention of various potential assaults. In
+this study, to disperse the load across sensor nodes, each sen-
+sor participates in the monitoring process and must be able
+to monitor a collection of its neighbors. The task was deter-
+mining the optimal number of nodes to observe by a sensor
+node in order to monitor all network sensors. The dataset was
+gathered from a published study, which included an exper-
+imental process for monitoring, with 374,661 samples, and
+23 attributes were extracted to identify each node’s status in
+the network [19]. The dataset is listed in Table 2.
+Figure 1 illustrates the correlation matrix among the vari-
+ables. Regarding the relationship between the Attack Type
+and the input features, the variable “Is CH” exhibits a strong
+positive correlation with the output, whereas “JOIN S” shows
+a strong negative correlation. Additionally, several other
+variables display varying degrees of positive and negative
+correlations, which had a key role in guiding the process of
+feature selection and prioritization for subsequent analysis.
+Table 3 presents the description of features alongside their
+Variance Inﬂation Factor (VIF) scores for both the initial
+and reduced feature vectors. VIF analysis was conducted to
+detect multicollinearity among predictors, with higher VIF
+values indicating stronger correlation with other variables.
+In the initial feature vector, most variables had acceptable
+VIF values (typically below the critical threshold of 10),
+except for “JOIN S” (VIF = 37.1710) and “SCH R” (VIF
+= 27.8604), which showed extremely high multicollinearity.
+These two features were therefore removed in the reduced
+feature vector to improve model stability and avoid redun-
+dancy in prediction. After removal, the VIF scores of the
+remaining features generally decreased, indicating reduced
+multicollinearity. For example, “Dist To CH” decreased from
+3.5336 to 2.3373, and “DATA S” dropped from 4.3942 to
+2.7054. The reductions suggest that the elimination of highly
+collinear variables had a positive effect on the overall qual-
+ity of the feature set. The retained variables, such as “Is
+Table 2 Description of used attributes
+Attribute
+Description
+Node ID
+A unique identiﬁer to distinguish the
+sensor node in any round and stage.
+Example: node number 25 in the
+third round and ﬁrst stage →001
+003 025
+Time
+The current simulation time of the
+node
+Is CH?
+A ﬂag indicating whether the node is a
+Cluster Head (CH) — 1 if CH, 0 if
+normal
+Who CH?
+The ID of the CH in the current round
+RSSI
+Received Signal Strength Indication
+between the node and its CH in the
+current round
+Distance to CH
+The distance between the node and its
+CH in the current round
+Max distance to CH
+The maximum distance between the
+CH and any node within the cluster
+Average distance to CH
+The average distance between nodes
+in the cluster and their CH
+Current energy
+The current energy level of the node in
+the current round
+Energy consumption
+The amount of energy consumed in
+the previous round
+ADV CH send
+Number of advertised CH broadcast
+messages sent to the nodes
+ADV CH receives
+Number of advertised CH messages
+received from CHs
+Join REQ send
+Number of join request messages sent
+by nodes to the CH
+Join REQ receive
+Number of join request messages
+received by the CH from the nodes
+ADV SCH send
+Number of advertised TDMA
+schedule broadcast messages sent to
+the nodes
+ADV SCH receives
+Number of TDMA schedule messages
+received from CHs
+Rank
+The position/order of this node within
+the TDMA schedule
+Data sent
+Number of data packets sent from a
+sensor node to its CH
+Data received
+Number of data packets received from
+the CH
+Data sent to BS
+Number of data packets sent to the
+Base Station (BS)
+Distance CH to BS
+The distance between the CH and the
+BS
+Send code
+The cluster sending code
+Attack type
+Type of the node, one of: Blackhole,
+Grayhole, Flooding, Scheduling, or
+Normal (if not an attacker)
+123
+
+
+
+===== PAGE 5 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 5 of 15
+1335
+Fig. 1 Correlation plot for the
+relation between the variables
+CH”, “who CH”, and “Dist CH To BS”, maintained mod-
+erate VIF values, meaning they provide independent and
+valuable information for the model. This reﬁned feature vec-
+tor serves as a more robust input set, minimizing redundant
+relationships and improving both interpretability and predic-
+tive performance in subsequent analyses.
+3 Methods
+3.1 Voting meta ensemble
+The proposed Voting Meta-Ensemble combines the predic-
+tive capabilities of multiple base learners to improve clas-
+siﬁcation performance. Each independently trained model
+produces a probability distribution over the target classes.
+These outputs are then fused using soft voting, which aver-
+ages the predicted class probabilities and selects the class
+with the highest average. This approach allows models with
+higher conﬁdence to exert greater inﬂuence on the ﬁnal deci-
+sion, improving generalization compared to single models.
+In this framework, DNNs extract complex nonlinear features,
+while CATBoost efﬁciently handles tabular and categorical
+data. The combination, optimized by metaheuristic algo-
+rithms, mitigates both bias and variance, common limitations
+of individual learners, resulting in robust and accurate intru-
+sion detection [20, 21].
+3.2 Deep neural networks
+DNNs are employed for their ability to model complex non-
+linear relationships in high-dimensional data. Each network
+consists of an input layer, several hidden layers, and an
+output layer. Hidden layers perform afﬁne transformations
+followed by nonlinear activations, enabling hierarchical fea-
+ture learning. A variable selection process ensures that only
+informative features are used, reducing overﬁtting and com-
+putational load. The DNN outputs class probabilities for
+intrusion detection, trained via gradient-based optimization
+and backpropagation [22, 23].
+123
+
+
+
+===== PAGE 6 =====
+
+1335
+Page 6 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Table 3 Description of features and determination of selected features
+NO
+Feature
+VIF score-initial
+feature vector
+VIF
+score-reduced
+feature vector
+1
+Time
+5.0682
+4.8860
+2
+Is CH
+3.6955
+3.3497
+3
+who CH
+3.5590
+3.5374
+4
+Dist To CH
+3.5336
+2.3373
+5
+ADV S
+1.2691
+1.2538
+6
+ADV R
+3.7796
+3.1978
+7
+JOIN S
+37.1710
+Removed
+8
+JOIN R
+2.9168
+2.8654
+9
+SCH S
+1.9004
+1.8978
+10
+SCH R
+27.8604
+Removed
+11
+Rank
+1.9650
+1.6762
+12
+DATA S
+4.3942
+2.7054
+13
+DATA R
+2.8153
+2.8054
+14
+Data Sent To
+BS
+1.7960
+1.7755
+15
+Dist CH To BS
+3.2483
+3.2063
+16
+Send code
+3.5184
+3.0072
+17
+Expaned
+Energy
+1.8788
+1.8684
+3.3 CAT-Boost classification (CATC)
+CATBoost is a gradient-boosted decision tree algorithm opti-
+mized for categorical and tabular data. It reduces overﬁtting
+through ordered boosting and Bayesian estimation of feature
+contributions.Inthisstudy,CATBoostoutputsclassprobabil-
+ities that are used alongside DNN outputs in the soft-voting
+ensemble. Equations detailing the internal computation of
+prediction values have been simpliﬁed to focus on how fea-
+tures are weighted and combined, rather than step-by-step
+algebra, improving clarity while retaining technical accuracy
+[24].
+3.4 Metaheuristic optimization
+Two population-based optimizers, Quadratic Interpolation
+Optimization (QIO) [25] and the Osprey Optimization Algo-
+rithm (OOA) [26, 27], are applied to ﬁne-tune hyperparam-
+eters and decision thresholds.
+• QIO emphasizes exploitation, allowing rapid conver-
+gence by approximating optimal parameter values using
+quadratic interpolation. Its fast convergence and local
+search efﬁciency make it suitable for reﬁning decision
+boundaries in high-dimensional feature spaces.
+• OOA focuses on exploration, mimicking the hunting
+behavior of ospreys to escape local optima and identify
+globally optimal parameter conﬁgurations.
+Compared to classical optimizers such as Particle Swarm
+Optimization (PSO) or Genetic Algorithms (GA), QIO and
+OOA provide a complementary balance of convergence
+speed and exploration diversity. PSO often converges pre-
+maturely, while GA requires extensive iterations and can be
+computationally costly. By integrating QIO and OOA, the
+ensemble achieves faster, more reliable optimization with
+lower computational overhead.
+3.5 Soft-voting ensemble operation
+• DNN and CATBoost are independently trained on the fea-
+ture set.
+• Each model outputs a probability distribution over classes.
+• Softvotingaveragestheseprobabilities,assigningtheclass
+with the highest mean probability.
+• Optimized hyperparameters from QIO and OOA improve
+both model accuracy and ensemble reliability.
+This design allows the ensemble to leverage the nonlin-
+ear representation power of DNNs, the categorical handling
+strength of CATBoost, and the efﬁcient hyperparameter
+optimization of metaheuristics, yielding a robust intrusion
+detection system for WSNs.
+3.6 Performance evaluation metrics
+To evaluate how well the classiﬁcation models work, the
+authors use several performance metrics that are common
+in the literature. These metrics measure different aspects of
+prediction quality, allowing for an extensive assessment of
+the models.
+Accuracy represents the total fraction of instances that
+were correctly classiﬁed and can be expressed as:
+Accuracy =
+TP + TN
+TP + TN + FP + FN
+(1)
+True Positives (TP) mean positive cases that were iden-
+tiﬁed correctly, and True Negatives (TN) denote negative
+cases that were correctly identiﬁed. False Positives (FP)
+are negative cases that were mislabeled as positive, and
+False Negatives (FN) are positive cases that were incorrectly
+labeled as negative.
+Precision is the measure of the ratio of correctly identi-
+ﬁed positive cases to all predicted positive cases, which is a
+calculated value that shows:
+Precision =
+TP
+TP + FP
+(2)
+123
+
+
+
+===== PAGE 7 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 7 of 15
+1335
+Recall or True Positive Rate (TPR), as well as Sensitivity,
+deﬁnesthefractionofthosepositivecasesthatwereidentiﬁed
+correctly:
+Recall =
+TP
+TP + FN
+(3)
+F1 Score is one of the measures that combines the fea-
+tures of Precision and Recall, offering a balanced measure
+that reﬂects the errors that are both false positives and false
+negatives:
+F1 −score = 2 × Recall × Precision
+Recall + Precision
+(4)
+When classiﬁcation performance is evaluated using var-
+ious metrics, it provides evaluators with a comprehensive
+evaluation that considers true correctness, positive detec-
+tion, and prediction reliability, particularly for imbalanced
+datasets where a single metric can lead to incorrect interpre-
+tation.
+3.7 Model training and reproducibility
+To ensure reproducibility and transparency, all models were
+trained with explicit hyperparameter settings, data split strat-
+egy, and preprocessing steps. The dataset was split into 80%
+training and 20% testing, with stratiﬁcation applied to main-
+tain the class distribution across splits. Table 4 shows the
+hyperparameters and architectural details for reproducibil-
+ity.
+The DNN architecture consists of a single hidden layer
+with 128 neurons, using ReLU activation for hidden lay-
+ers and Sigmoid for output. Training was conducted with a
+learning rate of 0.1, a batch size of 32, and 100 epochs. The
+CATBoost classiﬁer was conﬁgured with a depth of 6, learn-
+ing rate of 0.15, L2 regularization of 3, and the RMSE loss
+function. The metaheuristic optimizers, QIO and OOA, were
+set with a population size of 30, search bounds deﬁned per
+hyperparameter, and an iteration limit of 200. The stopping
+criterion was either convergence of the objective function or
+reaching the maximum number of iterations.
+4 Result and discussion
+This section presents the results from the ensemble-based
+intrusion detection framework, the proposal, and compares
+its performance with that of baseline models. The presenta-
+tion of results ﬁrst focuses on the convergence behavior of the
+optimization-enhanced ensembles, and a subsequent stage
+is the evaluation of their predictive performance by utiliz-
+ing several classiﬁcation metrics. Besides the overall model
+accuracy, the class-wise detection counts are also taken into
+account, thus providing a deeper understanding of the inter-
+actions between precision, recall, and F1-score for different
+attack scenarios. The aspects of the model, such as stability,
+behavior,andsensitivitytofeaturesthatresultinperformance
+patterns being linked to the latent optimization strategies, are
+revealed by convergence plots, heatmaps, ROC curves, and
+sensitivity analyses.
+Figure 2 depicts a radial convergence plot that provides a
+visual comparison of the iterative performance trajectories of
+DCQI and DCOA, two hybrid ensemble conﬁgurations, over
+the entire process of optimization. The iteration progression
+and accuracy convergence are evident in the radial layout,
+which does not require detailed analysis, as each concentric
+arc represents incremental increases in classiﬁcation accu-
+racy. Right from the ﬁrst iterations, DCQI (in yellow) goes
+to higher levels of accuracy faster, exceeding the value of
+0.94 within the ﬁrst few cycles of the optimization process,
+and also continuing with its upward trend until it reaches a
+level above 0.955, where it stabilizes. This means that the
+Quadratic Interpolation Optimization method is very effec-
+tive in speeding up the convergence process by cutting off
+the decision boundaries in a more targeted and exploitation-
+drivenway.Conversely,DCOA(inlightred)tracesadifferent
+pattern with a slower than DCQI convergence curve, where it
+is only after a long number of iterations that it becomes com-
+petitive at accuracy levels. Its ﬁnal performance is marginally
+lower than that of DCQI, but the less steep slope signiﬁes that
+OOA is more likely to employ the explorative search strategy,
+which can be one of the reasons why it is less prone to prema-
+ture convergence in more complex optimization landscapes.
+The decrease of the performance gains in both models for the
+last iterations is very gradual, which is a strong indication of
+the saturation phase of the metaheuristic search, where the
+near-optimal solutions have been reached and the marginal
+improvements become smaller. The image as a whole high-
+lights DCQI’s advantages, including fast convergence and
+ﬁnal accuracy, while also showing DCOA as strong in the
+exploration phase.
+The computational efﬁciency of the proposed framework
+was carefully evaluated considering the resource constraints
+typical of WSNs. Experiments were conducted on a system
+with an Intel 11th Gen Core i7-1165G7 CPU @ 2.80 GHz
+and 16 GB RAM, using Python with a batch size of 512
+for the DNN. The baseline DNN + CATBoost (DNCA)
+ensemble required approximately 35–36 min for training
+across 200 iterations, with soft-voting overhead being neg-
+ligible. Its storage footprint was estimated at 93 MB. When
+metaheuristic optimization was incorporated, the training
+time increased due to multiple hyperparameter evaluations:
+the QIO-enhanced ensemble (DCQI) completed training in
+around 175 min (~ 2 h 55 min) with an estimated storage
+size of ~ 125 MB, beneﬁting from faster convergence via
+its exploitation-oriented search, whereas the OOA-boosted
+123
+
+
+
+===== PAGE 8 =====
+
+1335
+Page 8 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Table 4 Hyperparameters and architectural details for reproducibility
+Model
+Hyperparameter
+Layers
+Activation functions
+Learning rate
+Batch size
+Epochs
+Random seed
+DNN
+128
+ReLU, Sigmoid
+0.1
+32
+100
+CatBoost Parameters
+Depth
+Learning rate
+L2 regularization
+Loss function
+42
+6
+0.15
+3
+RMSE
+Optimization Algorithms
+(QIO/OOA)
+Population size
+Search bounds
+30
+upper
+Fig. 2 Radial plot illustrating the optimization process’s convergence
+overiterations,showingcontinuousimprovementinmodelperformance
+ensemble (DCOA) took approximately 190–195 min (~ 3 h
+10–15 min) with 93 MB storage due to its exploration-driven
+search strategy.
+To ensure the effectiveness and reliability of the intrusion
+detection system, the dataset was split into 80% training and
+20% testing, while maintaining the original class distribution
+using stratiﬁcation. Table 5 presents the number of samples
+per class for both training and testing phases.
+Table 6 visually summarizes the quantitative evaluation
+of the base ensemble design (DNN + CAT; DNCA) and
+its metaheuristically improved versions, DNCA + QIO
+(DCQI) and DNCA + OOA (DCOA), by means of ﬁve
+canonical performance indices: accuracy, precision, recall,
+F1-score, and speciﬁcity, measured in both training and
+testing regimes. The DNCA model deﬁnes the reference
+framework, with an accuracy of 0.9218 (train) and 0.9217
+(test), combined with high precision (0.9580/0.9557) and
+speciﬁcity (0.9807/0.9804), which are indicative of a con-
+servative decision boundary that suppresses false positive
+rates effectively. However, the recall values (0.9218/0.9217)
+indicatethepotentialforenhancementofsensitivitytominor-
+ity or subtle attack classes. The addition of QIO (DCQI)
+to DNCA was the most effective in raising the perfor-
+mance level, reaching maximum training accuracy (0.9545)
+and testing accuracy (0.9562), as well as a balanced and
+raised F1-score (0.9593/0.9607), thus providing evidence
+of the optimizer’s ability to adapt the decision surfaces in
+high-dimensional feature manifolds correctly. The positive
+predictive value increases signiﬁcantly when precision val-
+ues are close to one (0.9700/0.9703), whereas speciﬁcity
+metrics (0.9884/0.9892) reveal a stable performance under
+noise. The DCOA variation also presented a signiﬁcant
+improvement over the baseline, characterized by accuracies
+of 0.9468 (train) and 0.9464 (test), with corresponding high
+F1-scores (0.9530/0.9527). This implies the effectiveness of
+OOA in improving generalization without overﬁtting, as evi-
+denced by the negligible divergence between train and test
+performance. It is worth noting that precision was always
+higher than recall in all experiments, which points to a
+deliberate preference for false alarm reduction being the
+operationally most important feature in intrusion detection in
+resource-limited wireless sensor networks. The achievement
+ofhighaccuracy,balancedF1-scores,andsuperiorspeciﬁcity
+in the metaheuristically augmented ensembles constitutes a
+strong argument in favor of exploiting the synergy between
+deep neural architectures, gradient-boosted decision trees,
+and sophisticated population-based optimizers to generate
+WSN security-context models that are stable, discriminative,
+and generalizable.
+Figure 3 presents detailed views of the confusion matrix
+heatmaps for the baseline ensemble (DNCA) and its meta-
+heuristically optimized variants (DCQI and DCOA) by
+showing the classiﬁcation performance for all attack cate-
+gories as well as for normal trafﬁc. The main features of
+the diagonal are correctly classiﬁed instances, which, in the
+“Normal” category for all models, are very high. The highest
+number of true negatives (324,756) is reported from DCQI,
+which indicates that the latter is the best benign trafﬁc detec-
+tor. In line with this, DCQI lowers the number of false
+123
+
+
+
+===== PAGE 9 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 9 of 15
+1335
+Table 5 Class-wise Sample
+Distribution in Training and
+Testing Phases for the WSN
+Intrusion Dataset
+Phase
+Classes (attack type)
+Normal: 0
+Flooding: 1
+TDMA: 2
+Gray hole: 3
+Blackhole: 4
+Train
+273,129
+2851
+5013
+11,307
+7433
+Test
+66,937
+462
+1626
+3290
+2617
+Table 6 Evaluation metrics were
+employed to measure the
+predictive accuracy and overall
+performance of the models
+Phase
+Category
+Models
+Metrics
+Accuracy
+Precision
+Recall
+F1
+_score
+Speciﬁcity
+Train
+Ensemble
+DNN + CAT
+(DNCA)
+0.9218
+0.9580
+0.9218
+0.9335
+0.9807
+Ensemble-
+Hybrid
+DNCA + QIO
+(DCQI)
+0.9545
+0.9700
+0.9545
+0.9593
+0.9884
+DNCA +
+OOA
+(DCOA)
+0.9468
+0.9668
+0.9468
+0.9530
+0.9866
+Test
+Ensemble
+DNN + CAT
+(DNCA)
+0.9217
+0.9557
+0.9217
+0.9331
+0.9804
+Ensemble-
+Hybrid
+DNCA + QIO
+(DCQI)
+0.9562
+0.9703
+0.9562
+0.9607
+0.9892
+DNCA +
+OOA
+(DCOA)
+0.9464
+0.9658
+0.9464
+0.9527
+0.9868
+classiﬁcations when compared to DNCA in all adversarial
+scenarios. For instance, it can be seen from the heatmaps that
+the greatest differences in the numbers of false classiﬁcations
+between DCQI and DNCA occur in the “Flooding” and “TD-
+MA” attack categories. QIO can enable the reﬁnement of the
+decision boundary, thus providing a better distribution of the
+points and consequently reducing the number of false classi-
+ﬁcations. DCOA is able to show very good results, especially
+regarding “Blackhole” and “Grayhole” intrusions; however,
+the improvement in accuracy is somewhat less than that of
+DCQI, which is consistent with the optimization strategy that
+is more focused on the exploration of the solution space.
+Figure 4 visually compares the on-hand and forecasted
+results via a column plot for the baseline ensemble model
+(DNCA) and its metaheuristically optimized counterparts
+(DCQI and DCOA) over different attack categories and
+normal trafﬁc. The similarity between the measured and pre-
+dicted bars allows a quick visual check of the respective
+models’ potential to reﬂect the underlying class distributions.
+When looking at the “Normal” class, all models demonstrate
+that the measured and predicted values are very close, with
+DCQI being the closest one, thus the best precision and recall.
+On the other hand, the DNCA model is quite off in its predic-
+tions for the “Flooding” and “TDMA” scenarios; both false
+and true counts are signiﬁcantly underestimated. The opti-
+mized models, in particular DCQI, extend the contributions
+of these discrepancies to a great extent; hence, they are able
+to improve decision boundary reﬁnement and balance detec-
+tion. Moreover, DCOA also works towards closing the gap
+between the on-hand and predicted counts, albeit to a lesser
+extent than DCQI, which is parallel with its slightly lower
+overall accuracy. Thus, the ﬁgure is a visual conﬁrmation of
+the quantitative results, where the metaheuristic optimiza-
+tion, particularly QIO, is shown to be the most effective in
+achieving the predictive alignment with the actual network
+behaviors in wireless sensor network intrusion detection.
+Table 7 breaks down the performance of the models across
+different attack scenarios, among which are the baseline
+DNCA ensemble and its metaheuristically improved ver-
+sions, DCQI and DCOA. In the case of “Normal”, there is
+almost perfect precision for all models (> 0.998) with high
+recall (> 0.92), showing their ability to detect benign traf-
+ﬁc with a high level of conﬁdence. The DCQI model had
+the best F1-score value (0.9764) among all the others. This
+ﬁgure is the best indication that the model had a good balance
+between sensitivity and speciﬁcity. While adversarial condi-
+tions cause substantial variances, these kinds of variances are
+less pronounced in clean scenarios. In the “Flooding” setting,
+which represents an attack with a high level of noise and a
+high packet rate, the DNCA model’s precision was notably
+low (0.2942), whereas its recall was quite high (0.9218). It
+is the model’s habitual conduct, however, that it over-detects
+123
+
+
+
+===== PAGE 10 =====
+
+1335
+Page 10 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Fig. 3 Heatmap illustrating the classiﬁcation performance of models across different classes
+and thus generates a larger number of false positives. The pre-
+cision of both DCQI and DCOA can be raised to a high level
+(0.4338 and 0.3877, respectively), with DCQI providing the
+highest F1-score (0.5969) as a result. Additionally, not only
+do the hybrid ensembles in the “TDMA” and “Grayhole”
+conditions contribute to a much higher precision, but also
+the F1-scores over DNCA, which is the key to the role that
+metaheuristic optimization plays in redeﬁning the decision
+boundary. DCQI performance is also clearly observed in the
+“Blackhole” case, where packet-drop actions were the main
+features (precision: 0.6993, F1-score: 0.8060), while DCOA
+can only achieve a limited improvement over the baseline.
+In general, DCQI is more likely than DCOA to attain higher
+precision and balanced classiﬁcation metrics, suggesting that
+its optimization technique is more successful in locating the
+decision boundaries that are compatible with the different
+intrusion patterns in wireless sensor networks.
+Figure 5 shows the Receiver Operating Characteristic
+(ROC) curves along with the corresponding Area Under the
+Curve (AUC) values for the baseline ensemble (DNCA) and
+the metaheuristically enhanced models (DCQI and DCOA).
+123
+
+
+
+===== PAGE 11 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 11 of 15
+1335
+Fig. 4 Column plot comparing
+measured and predicted values of
+models for different classes
+Table 7 The models’
+performance was evaluated under
+various conditions
+Category
+Model
+Condition
+Metrics
+Precision
+Recall
+F1 score
+Ensemble
+DNCA
+Normal
+0.9980
+0.9216
+0.9582
+Flooding
+0.2942
+0.9218
+0.4461
+TDMA
+0.4584
+0.9266
+0.6134
+Grayhole
+0.6557
+0.9209
+0.7660
+Blackhole
+0.5698
+0.9264
+0.7056
+Ensemble-Hybrid
+DCQI
+Normal
+0.9987
+0.9550
+0.9764
+Flooding
+0.4338
+0.9568
+0.5969
+TDMA
+0.5992
+0.9551
+0.7364
+Grayhole
+0.7766
+0.9542
+0.8563
+Blackhole
+0.6993
+0.9510
+0.8060
+DCOA
+Normal
+0.9986
+0.9467
+0.9719
+Flooding
+0.3877
+0.9496
+0.5506
+TDMA
+0.5590
+0.9480
+0.7033
+Grayhole
+0.7447
+0.9457
+0.8333
+Blackhole
+0.6636
+0.9486
+0.7809
+The ROC curves are a complete measure of the models’ dif-
+ferentiating capabilities by showing the relationship between
+the True Positive Rate (TPR) and the False Positive Rate
+(FPR) for different decision thresholds. As the AUC values
+approach one, better classiﬁcation performances are indi-
+cated along with a lower difﬁculty of differentiating between
+attack classes and benign trafﬁc. The DCQI conﬁguration is
+the one that achieves the highest AUC in all categories, thus
+demonstrating its capability of elevating the sensitivity lev-
+els without reducing the speciﬁcity, an immediate effect of
+the QIO-driven decision boundary optimization. Apart from
+that, DCOA also shows a signiﬁcant increment compared
+to DNCA; however, the AUC values are somewhat lower
+than those of DCQI, which agrees with the fact that its opti-
+mization strategy is more directed towards exploration. The
+baseline DNCA, which still has a high AUC in “Normal”
+and less complex attack types, decreases its performance in
+highly variable intrusion patterns such as “Flooding.” In gen-
+eral, the diagram corroborates the numerical indicators by
+illustrating that metaheuristic integration, particularly QIO,
+achieves classiﬁer robustness across various types of intru-
+sion scenarios in wireless sensor networks.
+Figure 6 presents a sensitivity analysis based on the cosine
+amplitude method (CAM) [28] that provides a quantitative
+visualization of the relative importance of each input feature
+to the predictive behavior of the suggested intrusion detection
+123
+
+
+
+===== PAGE 12 =====
+
+1335
+Page 12 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Fig. 5 ROC curves with corresponding AUC values illustrating the clas-
+siﬁcation performance of the models
+Fig. 6 CAM sensitivity analysis highlighting the contribution of each
+feature to the model’s predictions
+framework. Two complementary analytical methods have
+been applied to open up a clear and rigorous explanation of
+the feature contributions in the meta-ensemble introduced.
+The CAM characterizes the extent of agreement between
+each input feature vector and the output of the model’s pre-
+dicted class. To be more precise, for each feature, the cosine
+similarity is computed between its activation over the dataset
+and the predicted probability vector, thus offering a contin-
+uous relevance measure that indicates both the size and the
+direction of the feature’s consistency with the model’s deci-
+sion. This technique enables the detection of features that
+are the main contributors to class discrimination, as well as
+handling the correlations existing in the feature space. The
+radar plot overlays two sensitivity proﬁles, S1 and ST, thus
+enabling direct comparison of feature contributions under
+different experimental setups. It is noteworthy that “Is CH”
+emerges as the most inﬂuential feature, with sensitivity val-
+ues exceeding 0.75 in the S1 proﬁle, indicating its decisive
+role in distinguishing cluster head-related behavioral pat-
+terns that are closest to attack detection. Besides, “Time,”
+“Dist to CH,” and “Who CH” are among the leading features
+that uncovered signiﬁcant contributions in overcoming the
+limitations in topological and temporal dynamics in WSN
+communications.
+On the other hand, the parameters such as “DATA R,”
+“DATA S,” and “Rank” have relatively low sensitivity val-
+ues, based on which it can be suggested that these features
+have a few but minor contributions in the decision space. The
+departure between S1 and ST distributions implies that the
+model’s sensitivity varies across different analytical settings,
+indicating an interaction between feature relevance and the
+adopted optimization or ensemble strategy.
+Figure 7 represents the results of a quick sensitivity anal-
+ysis, measuring the relative inﬂuence of each input feature
+on the model’s output predictions. FAST sensitivity analysis
+[29] is a perturbation-based technique aimed at making efﬁ-
+cient estimations of the impact of features on the output of
+the model. For each feature, its value is changed systemat-
+ically within the observed range, and the model’s predicted
+probabilities are checked for changes. After that, the sensi-
+tivity scores are combined and normalized to allow a ranking
+of feature importance to be drawn, which indicates those fea-
+tures that best affect the model’s decisions. It uses a dual-axis
+depiction that shows S1 (black) on the left scale and ST (blue)
+on the right, giving a view of both absolute contribution and
+normalizedimportanceat thesametime. Theresearchreveals
+that “Is CH,” “Who CH,” and “Dist to CH” are the three fea-
+tures with the highest sensitivity values in both S1 and ST,
+and hence the most inﬂuential in changing the properties
+of the classiﬁcation boundaries in wireless sensor network
+intrusion detection. On the other hand, the “Data Sent to BS”
+and “Expanded Energy” attributes, showing substantial dif-
+ferences, pinpoint the consumption of energy together with
+the ﬂow of data as the vital signs of the network’s abnormal
+behavior. Moreover, the features “Rank” and “ADV S” have
+such a small inﬂuence on other features that their role in the
+network is expected to be that of a helper. The degree of simi-
+larity between S1 and ST is the largest intersection of feature
+trends in signiﬁcance from different perspectives of the anal-
+ysis, which constitutes their strongest point of agreement.
+By comparing the two pictures, Figs. 6 and 7, the main
+characteristics of the two given methods of sensory analy-
+sis and their respective impact on the understanding of the
+feature importance are discussed. The CAM-based analysis
+(Fig. 6) gives a more spatially distributed picture of the rel-
+ative importance of features such as ‘Is CH’, ‘Who CH’,
+‘Dist to CH’, etc., in a multidimensional decision space,
+thus implying their structural and topological signiﬁcance.
+Whereas, the fast sensitivity analysis (Fig. 7) is more detailed
+123
+
+
+
+===== PAGE 13 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 13 of 15
+1335
+Fig. 7 Fast sensitivity analysis
+showing the relative impact of
+each input feature on the model
+output
+and absolute value-oriented, where S1 and ST impacts are
+shown, thus indicating the same key attributes’ highest con-
+tributions as well as minor changes in the secondary features,
+“Expanded Energy” and “Data Sent to BS”, for which the
+rest of the features are presumed to stay at a similar level.
+Besides, the CAM paradigm can be exploited for revealing
+the relative weightings in a holistic scenario, while the fast
+sensitivity technique makes it possible for the users to obtain
+the exact numerically-based rankings. As a result, these two
+methods together offer a richer, more corroborated, and more
+reliable account of feature dependencies in the model as well
+as feature stability across different analytical frameworks.
+To ensure reliability and robustness, sanity checks were
+conducted. The analyses were repeated across multiple ran-
+dom seeds and on subsampled portions of the dataset,
+conﬁrming that top-ranked features remained stable and low-
+impact features had negligible inﬂuence. Both CAM and
+FAST sensitivity consistently identiﬁed key structural and
+topological predictors, such as Is CH, Who CH, and Dist to
+CH, as the dominant drivers of model predictions. This dual-
+method approach not only validates the internal logic of the
+meta-ensemble but also enhances interpretability and trust-
+worthiness, demonstrating that meaningful and explainable
+features underpin the model’s high predictive performance.
+5 Conclusion
+This study has unveiled and solidly substantiated a novel
+intrusion detection framework for Wireless Sensor Networks
+(WSNs), whereby the integration of artiﬁcial deep neural
+networks, gradient-boosted decision trees, and metaheuris-
+tic optimization strategies has been implemented to unlock
+the latent capabilities of WSNs. Whereas the developed soft-
+voting meta-ensemble, consisting of Deep Neural Networks
+(DNNs) and CATBoost classiﬁers, had been thoroughly opti-
+mized by applying Quadratic Interpolation Optimization
+(QIO) and Osprey Optimization Algorithm (OOA), each sup-
+plying a different set of exploration and exploitation aspects
+to the indagation journey. The new arrangement is effectively
+agnostic about the very hardware limitations, the nonsta-
+tionarity of trafﬁc, and the variability of the opponent’s
+tactic entailed by the WSN intrusion problem in resource-
+limited environments. Extensive experimental assessments
+include a multi-metric evaluation protocol (accuracy, pre-
+cision, recall, F1-score, speciﬁcity, and AUC) as evidence
+of the metaheuristically optimized ensembles outperforming
+the baseline model. The QIO-enhanced ensemble (DCQI)
+was notably the most performance-efﬁcient across all met-
+rics, characterized by fast convergence, high sensitivity to
+minority-class attack patterns, and great stability in the
+decision boundaries. The OOA-boosted (DCOA), while not
+outperforming DCQI in the last accuracy results, has proven
+to be more of an exploratory search behavior, thus less-
+ening the danger of premature convergence and providing
+resilience in the more difﬁcult optimization scenarios. Sen-
+sitivity of features to the model has been investigated by
+means of the Cosine Amplitude Method (CAM) and FAST
+feature ranking, not only to verify structural and topologi-
+cal predictors, notably Is CH, Who CH, and Dist to CH as
+the main driving factors, but also to suggest a stable pattern
+of feature importance across optimization strategies. This
+trust-enhancing factor opens up new opportunities for the
+administrator’s intuitive problem-solving while also engag-
+ing in the explainable AI debate community in cybersecurity
+program/applicationﬁelds.Notably,theproposedframework
+demonstrates robustness against unknown attacks and noisy
+data by leveraging probabilistic soft-voting, metaheuristic
+optimization, and feature sensitivity analysis. The ensemble
+can identify abnormal patterns even when attack signatures
+were not present in the training set, and its hierarchical fea-
+ture representation allows resilience to random perturbations
+or sensor noise.
+5.1 Limitations
+Even though the results of this research show potential,
+the study still has some limitations that are worth mention-
+ing. First of all, the dataset used, which is rich in features
+and includes multiple high-impact attack types, was cre-
+ated under the conditions of controlled experiments, so
+123
+
+
+
+===== PAGE 14 =====
+
+1335
+Page 14 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+the ability of the model to be generalized to large-scale,
+diverse, and fully dynamic WSN deployments is still empiri-
+cally conﬁrmed. Secondly, while metaheuristic optimization
+may be less time-consuming than other methods, it still
+requires ofﬂine training, which limits the possibility of real-
+time retraining in highly volatile environments. Thirdly,
+the range of attacks considered by the authors, although
+including major threats such as Blackhole, Grayhole, Flood-
+ing, and TDMA Scheduling, does not fully encompass the
+undetectable and evolving intrusion patterns (for instance,
+low-rate DoS, data exﬁltration, and coordinated attacks
+across layers). Fourth, while the ensemble shows resilience
+to noisy or partially missing data, extreme levels of sensor
+failure or adversarial noise could still challenge detection
+performance. Lastly, this research is based on the assumption
+of the centralized detection model, while the distributed or
+federated detection systems, which can be more suitable for
+privacy-sensitive or geographically dispersed deployments,
+were not part of the study’s focus.
+5.2 Future directions
+Due to these constraints, the researchers will concentrate on
+broadening the design to include online and adaptive learning
+paradigms. This will allow the system to change its decision
+boundaries on the ﬂy as new and evolving attack vectors are
+encountered. Moreover, the adoption of federated learning
+might alleviate issues related to both scalability and privacy,
+while the use of lightweight deep learning (e.g., quantized or
+pruned networks) could make it easier for ultra-low-power
+sensornodestobedeployed.Futureworkwillalsoinvestigate
+enhanced anomaly detection strategies and noise-resilient
+learning to improve the detection of completely novel attacks
+and mitigate the impact of data corruption. Future works
+will focus on multimodal intrusion detecting, integrating
+cross-layer and contextual information that will improve the
+system’s resistance to sophisticated and untraceable cyber-
+attacks. To recap, this work offers a deep-ensemble-based
+intrusion detection system optimized with metaheuristics
+which is both computationally efﬁcient and interpretable.
+Apart from being a potential avenue for the development
+of next-generation security systems for wireless sensor net-
+works that are not only robust, resource-aware, and adaptable
+to the ever-increasing complexity and adversarial landscape
+of wireless sensing environments, this framework also signi-
+ﬁes such a fund.
+Authors contribution X.X. developed the algorithms, conducted exper-
+iments, and drafted the manuscript. W.D. supervised the study, reﬁned
+the methodology, and edited the manuscript. All authors reviewed and
+approved the ﬁnal version.
+Funding This research did not receive any external funding.
+Data availability Data are available from the author upon reasonable
+request.
+Declarations
+Conﬂict of interest The authors declare no competing interests.
+References
+1. Gupta, S.K., Pandey, V.K., Alsolbi, I., et al.: An efﬁcient multi-
+objective framework for wireless sensor network using machine
+learning. Sci. Rep. 15, 6370 (2025)
+2. Talukder,M.A.,Khalid,M.,Sultana,N.:Ahybridmachinelearning
+model for intrusion detection in wireless sensor networks leverag-
+ing data balancing and dimensionality reduction. Sci. Rep. 15, 4617
+(2025)
+3. Alanazi,R.,Obayya,M.,Alghamdi,A.M.,etal.:Machinelearning-
+driven routing optimization for energy-efﬁcient 6G-enabled wire-
+less sensor networks. Alex. Eng. J. 129, 877–888 (2025)
+4. Birahim, S.A., Paul, A., Rahman, F., et al.: Intrusion detection for
+wireless sensor network using particle swarm optimization based
+explainable ensemble machine learning approach. IEEE Access
+(2025)
+5. Alipio, M., Bures, M.: A cache-aware congestion control mech-
+anism using deep reinforcement learning for wireless sensor
+networks. Ad Hoc Netw. 166, 103678 (2025)
+6. Ahmed, O.: Enhancing intrusion detection in wireless sensor net-
+works through machine learning techniques and context awareness
+integration. Int. J. Math. Stat. Comput. Sci. 2, 244–258 (2024)
+7. Priyadarshi, R.: Exploring machine learning solutions for over-
+coming challenges in IoT-based wireless sensor network routing:
+a comprehensive review. Wirel. Netw. 30, 2647–2673 (2024)
+8. Wen, F., Liang, C.: Fine-grained indoor localization using single
+access point with multiple antennas. IEEE Sens. J. 15, 1538–1544
+(2014)
+9. Wan,P., Li Z, Hao, B.: Time delay estimation of co-frequency sig-
+nals in TDOA localization based on WSN. In: 2016 International
+Conference on Computer, Information and Telecommunication
+Systems (CITS). IEEE. pp 1–5 (2016)
+10. Ahmadi, H., Viani, F., Bouallegue, R.: An accurate prediction
+method for moving target localization and tracking in wireless sen-
+sor networks. Ad Hoc Netw. 70, 14–22 (2018)
+11. Kim, S., Kavuri, S., Lee, M.: Deep network with support vector
+machines. In: Neural Information Processing: 20th International
+Conference, ICONIP 2013, Daegu, Korea, November 3–7, 2013.
+Proceedings, Part I 20. Springer, pp 458–465 (2013)
+12. Ifthekhar, M.S., Le, N.T., Hossain, M.A., et al.: Neural network-
+based indoor positioning using virtual projective invariants. Wirel.
+Pers. Commun. 86, 1813–1828 (2016)
+13. Morelande, MR., Moran, B., Brazil, M.: Bayesian node locali-
+sation in wireless sensor networks. In: 2008 IEEE International
+Conference on Acoustics, Speech and Signal Processing. IEEE, pp
+2545–2548 (2008)
+14. Merhi, Z., Elgamel, M., Bayoumi, M.: A lightweight collaborative
+fault tolerant target localization system for wireless sensor net-
+works. IEEE Trans. Mob. Comput. 8, 1690–1704 (2009)
+15. Lee, S.-H., Cheng, C.-H., Lin, C.-C., Huang, Y.-F.: PSO-based
+target localization and tracking in wireless sensor networks. Elec-
+tronics 12, 905 (2023)
+16. Wang, P., Zhou, R., Fan, X., Zhao, D.: A distance estimation model
+for dv-hop localization in wsns. IEEE Trans. Veh. Technol. 72,
+5290–5299 (2022)
+123
+
+
+
+===== PAGE 15 =====
+
+Signal, Image and Video Processing (2025) 19 :1335
+Page 15 of 15
+1335
+17. Cao, Y., Xu, J.: Dv-hop-based localization algorithm using opti-
+mum anchor nodes subsets for wireless sensor network. Ad Hoc
+Netw. 139, 103035 (2023)
+18. Lakshmi, Y.V., Singh, P., Mahajan, S., et al.: Accurate range-free
+localization with hybrid DV-hop algorithms based on PSO for
+UWB wireless sensor networks. Arab. J. Sci. Eng. 49, 4157–4178
+(2024)
+19. Almomani,I.,Al-Kasasbeh,B.,Al-Akhras,M.:WSN-DS:adataset
+for intrusion detection systems in wireless sensor networks. J. Sens.
+2016, 4731953 (2016)
+20. Sultana, N., Islam, MM.: Meta classiﬁer-based ensemble learning
+for sentiment classiﬁcation. In: Proceedings of International Joint
+Conference on Computational Intelligence: IJCCI 2018. Springer,
+pp 73–84 (2019)
+21. Kayit, A.D., Tahir, M.I.: Novel way to predict stock movements
+using multiple models and comprehensive analysis: leveraging vot-
+ing meta-ensemble techniques. J. Niger. Soc. Phys. Sci. Vol. 2039
+(2024)
+22. Rong, S., Hamdan, E., Cetin, A.E.: Multi-resolution training
+improves robustness against adversarial attacks. Signal Image
+Video Process. 19, 481 (2025). https://doi.org/10.1007/s11760-
+025-04038-2
+23. Hesamifard, E., Takabi, H., Ghasemi, M.: Deep neural networks
+classiﬁcation over encrypted data. In: Proceedings of the Ninth
+ACM Conference on Data and Application Security and Privacy.
+pp 97–108 (2019)
+24. Jayanthi, G., Archana, E., Saravanan, R., et al.: Comparative anal-
+ysis of psychological stress detection: a study of artiﬁcial neural
+networks and cat boost algorithm. Int. J. Intell. Syst. Appl. Eng.
+12, 385–394 (2024)
+25. Ahmed, S., Sheikh, K.H., Mirjalili, S., Sarkar, R.: Binary simu-
+lated normal distribution optimizer for feature selection: theory
+and application in COVID-19 datasets. Expert Syst. Appl. 200,
+116834 (2022)
+26. Dehghani, M., Trojovský, P.: Osprey optimization algorithm: a new
+bio-inspired metaheuristic algorithm for solving engineering opti-
+mization problems. Front. Mech. Eng. 8, 1126450 (2023)
+27. Wen, X., Liu, X., Yu, C, et al.: IOOA: a multi-strategy fusion
+improved Osprey Optimization Algorithm for global optimization.
+Electron Res. Arch., Vol. 31 (2024)
+28. Kim, K.M., Park, H.J.: A comparative study of fuzzy based
+frequency ratio and cosine amplitude method for landslide sus-
+ceptibility in Jinbu area. Econ. Environ. Geol. 50, 195–214 (2017)
+29. McRae, G.J., Tilden, J.W., Seinfeld, J.H.: Global sensitivity anal-
+ysis—a computational implementation of the Fourier amplitude
+sensitivity test (FAST). Comput. Chem. Eng. 6, 15–25 (1982)
+Publisher’s Note Springer Nature remains neutral with regard to juris-
+dictional claims in published maps and institutional afﬁliations.
+Springer Nature or its licensor (e.g. a society or other partner) holds
+exclusive rights to this article under a publishing agreement with the
+author(s) or other rightsholder(s); author self-archiving of the accepted
+manuscript version of this article is solely governed by the terms of such
+publishing agreement and applicable law.
+123

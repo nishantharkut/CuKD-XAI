@@ -1,0 +1,76 @@
+Sensors 2024, 24, 7320
+13 of 15
+5. Conclusions and Future Work
+In this study, we proposed a CatBoost-based IDS for IoT devices in smart homes.
+The system is designed to work with IoT devices that communicate with the cloud, elim-
+inating the need for resource-intensive gateways like Raspberry Pi or computers. Our
+embedded machine learning-based IDS effectively protects these devices from DoS and
+MITM attacks without relying on gateways or cloud processing. The results showed that
+the CatBoost-based IDS achieved 99.03% accuracy for binary classification and 98.15%
+accuracy for multi-class classification. Due to the limited processing power and memory of
+the ESP32-based smart thermostat, the highest achieved accuracy was 98.71% for binary
+classification and 97.51% for multi-class classification. The CatBoost IDS performed binary
+classification in 276 µs and multi-class classification in 273 µs. Additionally, CatBoost-based
+IDS outperformed the XGBoost-based IDS in terms of accuracy, program storage, and in-
+ference time. While FS methods slightly improved accuracy, the inference time remained
+unaffected, as the number of trees and tree depth did not change.
+For future work, we plan to expand the IDSH dataset to include more attack types
+and a larger sample size. Due to the limited resources and restricted access to network
+parameters in the lwIP library, we were able to extract only a limited set of network features
+from the microcontroller. Moving forward, we aim to extract a wider range of network
+parameters directly from IoT devices to further improve the IDS’s effectiveness. Addition-
+ally, we will explore other machine learning techniques that require fewer computational
+resources while delivering higher accuracy.
+Author Contributions: Conceptualization, A.J., M.N.A., A.-u.-H.Q. and H.L.; methodology, A.J.,
+M.N.A., A.-u.-H.Q., M.J. and J.A.; software, A.J., M.N.A. and M.J.; validation, A.J., M.N.A., A.-u.-H.Q.,
+M.J., J.A. and H.L.; formal analysis, A.J., M.N.A., A.-u.-H.Q., M.J. and J.A.; investigation, A.J., M.N.A.,
+J.A., A.-u.-H.Q. and H.L.; resources, A.J. and A.-u.-H.Q.; data curation, A.J., M.N.A., J.A., H.L.
+and M.J.; writing—original draft preparation, A.J., M.N.A., M.J. and A.-u.-H.Q.; writing—review and
+editing, A.J., M.J., M.N.A., J.A., H.L. and A.-u.-H.Q.; visualization, A.J., M.N.A., A.-u.-H.Q. and J.A.;
+supervision, A.J. and A.-u.-H.Q.; project administration, A.J. and A.-u.-H.Q.; funding acquisition, A.J.
+and A.-u.-H.Q. All authors have read and agreed to the published version of the manuscript.
+Funding: The APC was funded by Department of Cyber Security and Networks, School of Computing,
+Engineering and Built Environment, Glasgow Caledonian University, UK.
+Informed Consent Statement: Informed consent was obtained from all subjects involved in
+the study.
+Data Availability Statement: The dataset presented in the study is openly available on Kaggle at
+https://doi.org/10.1109/JIOT.2023.3289206 (accessed on 8 October 2024).
+Conflicts of Interest: The authors declare no conflicts of interest.
+Appendix A
+Table A1. Description of the IDSH dataset.
+ID
+Feature
+Type
+Description
+1
+timestamp
+Time
+Timestamp of connection
+2
+source_ip
+String
+Source IP address
+3
+source_port
+Number
+Source ports which originate endpoint’s TCP/UDP ports
+4
+destination_ip
+String
+Destination IP address
+5
+dst_port
+Number
+Destination ports which respond to endpoint’s TCP/UDP ports
+6
+protocol
+String
+Transport layer protocols of flow connections
+7
+Family
+String
+Address family
+8
+Service
+String
+Dynamically detected protocols, such as DNS, HTTP, and SSL

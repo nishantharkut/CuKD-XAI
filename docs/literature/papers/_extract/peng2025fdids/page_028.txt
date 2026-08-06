@@ -1,0 +1,51 @@
+Sensors 2025, 25, 4309
+28 of 31
+Despite its strengths, the proposed method has certain limitations that warrant fur-
+ther improvement and optimization in future research. Firstly, while the integration of a
+proximal term and KD improves model performance, it also increases the computational
+burden on clients. This may pose challenges for resource-constrained IoT devices. Future
+research will aim to optimize the distillation process by designing lightweight distillation
+mechanisms that reduce computational complexity while maintaining performance im-
+provements. Secondly, we recognize that the current work has not explicitly addressed
+the issue of concept drift. Specifically, this study assumed a static data distribution and
+did not account for the dynamic nature of network environments and attack patterns in
+IoT applications. In practice, intrusion behaviors and normal traffic characteristics within
+IoT systems often evolve over time, exhibiting significant concept drift, which may lead
+to model performance degradation or even failure in long-term deployments. Without
+dynamic adaptation capabilities, IDSs may struggle to effectively respond to continuously
+changing threat scenarios. To ensure long-term robustness and adaptability, future research
+will explore mechanisms that enable FD-IDS to continuously adapt to concept drift and
+evolving attack patterns, including—but not limited to—online learning, incremental learn-
+ing, and continual learning strategies. Thirdly, although the effectiveness of FD-IDS has
+been demonstrated using the Edge-IIoTset and N-BaIoT datasets—which include a repre-
+sentative range of common IoT attack scenarios—relying solely on these two datasets may
+fail to capture the full heterogeneity present in IoT. To further validate the adaptability of
+the proposed method, future research will consider conducting comprehensive evaluations
+on multiple publicly available IoT intrusion detection datasets. Finally, this study assumed
+that all client nodes were secure, and it did not account for potential security threats.
+However, in practical scenarios, FL may be vulnerable to various malicious behaviors,
+such as poisoning attacks and membership inference attacks. These threats can not only
+lead to significant degradation in global model performance, but also pose severe risks of
+user privacy breaches. Therefore, future research will focus on developing a more robust
+and secure federated intrusion detection framework. Key directions include the incorpo-
+ration of adversarial defense mechanisms, such as client trust evaluation and weighted
+aggregation strategies, as well as the integration of privacy-preserving techniques, like
+differential privacy, to effectively mitigate the risk of sensitive information leakage. These
+enhancements aim to ensure the reliability and practicality of the system under non-ideal
+or even adversarial conditions.
+5. Conclusions
+This paper proposes an IDS based on FL, termed FD-IDS, which conducts an in-depth
+investigation and introduces effective improvements to address the widespread issue
+of Non-IID data in IoT environments. First, the MI-based feature selection method is
+adopted to filter out redundant features from high-dimensional data, thereby reducing the
+computational overhead while enhancing the representation capability of features. Second,
+to tackle the performance degradation and global model drift caused by Non-IID data
+distributions in FL environments, this work introduces the FedProx aggregation strategy.
+By adding a proximal term during optimization, the method effectively suppresses the
+instability and performance degradation stemming from data heterogeneity across devices.
+In addition, a KD-based training mechanism is proposed, where the global model acts
+as a teacher to supervise the training of local models. This global–local collaborative
+approach enhances the overall model performance and improves the detection accuracy in
+heterogeneous data environments. Comprehensive experiments were performed utilizing
+both Edge-IIoT and N-BaIoT. The results demonstrate that FD-IDS achieves outstanding
+performance in Non-IID scenarios. Moreover, it exhibits favorable adaptability in terms of

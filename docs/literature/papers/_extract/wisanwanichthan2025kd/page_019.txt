@@ -1,0 +1,63 @@
+Computers 2025, 14, 291
+19 of 25
+4.5. UAV IDS
+The UAV IDS results (Table 12) reflect a similar pattern to other datasets, with the
+teacher model achieving the strongest performance overall but at a higher computational
+cost. The teacher model reaches an accuracy and F1 score of 99.93%, reflecting its ability to
+capture complex patterns in UAV network traffic. However, its inference speed is relatively
+slow at 2.650 × 10−5 s, due to the model’s size (194,507 parameters). The student model
+without KD, despite having only 9803 parameters, performs well with an accuracy of
+97.97% and F1 score of 97.86%, and a faster inference speed of 2.386 × 10−5 s. This suggests
+that even without KD, the student model is capable of learning dominant patterns in the
+UAV IDS dataset, although it sacrifices a small degree of generalization and recall.
+After applying KD, the student model sees further gains in performance, achieving
+98.63% accuracy and an F1 score of 98.59%, while also improving inference speed slightly
+to 2.462 × 10−5 s. These results indicate that KD effectively bridges the performance
+gap, enabling the student model to approximate the teacher’s performance more closely
+without obviously increasing its computational footprint. The confusion matrices and
+ROC curves (Figures 10 and 11) show that the KD-enhanced student achieves improved
+class separability and reduced misclassification rates, particularly in detecting UAV-specific
+attacks such as GPS jamming and spoofing. Although the dataset is relatively small, the
+improvements through KD emphasize its value even in less noisy or skewed scenarios.
+These findings support the feasibility of using KD to deploy accurate, real-time UAV
+intrusion detection systems on resource-constrained platforms.
+Table 12. Comparison of teacher and student models on the UAV IDS dataset.
+Model’s Architecture
+No. of Parameters
+Accuracy (%)
+Precision (%)
+F1 Score (%)
+Inference Time
+Deep Neural Network
+(Teacher)
+194,507
+99.93
+99.93
+99.93
+2.650
+Shallow Neural Network
+(Student without KD)
+9803
+97.97
+98.02
+97.86
+2.386
+Shallow Neural Network
+(Student with KD)
+9803
+(−94.96%)
+98.63
+(+0.66%)
+98.65
+(+0.63%)
+98.59
+(+0.73%)
+2.462
+(−7.09%)
+Figure 10. Confusion matrix of teacher (left), student without KD (middle), and student with KD
+(right) models on UAV IDS.
+Additionally, we provided a table for statistical analysis (confidence intervals) as
+shown in Table 13. Across the five datasets, we observe that for NSL-KDD, UNSW-NB15,
+and CIC-IDS2017, the 95% confidence intervals for the teacher and distilled student overlap
+almost completely, indicating that the tiny accuracy differences (less than 0.1%) lie within
+random variation and are not statistically significant. In contrast, on IoTID20 the distilled

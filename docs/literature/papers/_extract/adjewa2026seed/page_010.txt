@@ -1,0 +1,67 @@
+Sensors 2026, 26, 356
+10 of 22
+ployment on IoT devices impractical, as such environments typically lack the necessary
+resources (e.g., GPUs) for large-scale model training and inference.
+To address these limitations, we propose a collaborative Edge-to-IoT learning scheme,
+referred to as SEED, in which a Transformer-based model is trained at the edge layer, while
+a compact neural network is deployed at the IoT layer. Compared to IoT devices, edge
+nodes offer significantly greater computational resources, enabling the training of a BERT-
+based intrusion detection model capable of learning rich and generalized representations
+of network traffic patterns across multiple attack types.
+Since networks generate unstructured and vast amoung of data that make it difficult
+to extract direct insights [26], the edge-level model encodes network traffic in a high-
+dimensional embedding space, thus capturing complex semantic relationships between
+packet-level features. As stated earlier, raw network data are not directly exploitable
+by transformer-based models. To overcome this limitation, Algorithm 1 converts the
+network dataset into a textual representation by concatenating each feature name with
+its corresponding feature value, separated by a predefined marker (“$” in our case). This
+process is applied uniformly across the entire dataset.
+Algorithm 1 Data preprocessing: feature-wise textual serialization
+Input: Dataset D = {(xi, yi)}N
+i=1
+Input: Feature set F
+▷selected features to encode
+Input: Hash function H(·)
+▷privacy-preserving fixed-length encoder
+Output: Serialized corpus S = {si}N
+i=1
+1: Initialize S ←[ ]
+2: for (xi, yi) ∈D do
+3:
+Initialize token list Ti ←[ ]
+4:
+for f ∈F do
+5:
+v ←xi[ f ]
+▷value of feature f in sample xi
+6:
+t ←H( f ∥$ ∥toString(v))
+7:
+Append t to Ti
+8:
+end for
+9:
+si ←join(Ti, ””)
+▷space-separated token sequence
+10:
+Append si to S
+11: end for
+12: return S
+Once the textual corpus is constructed, a new vocabulary of size 32,522 (corresponding
+to the default BERT vocabulary size) is learned from scratch based on this newly formed
+context. Consequently, the model is trained exclusively on this domain-specific vocabulary,
+allowing it to learn deep semantic representations tailored to network traffic data. Unlike
+the approach in [27], our method does not rely on dataset matching. Instead, the proposed
+preprocessing strategy can be applied to multiple heterogeneous datasets (e.g., IoT traffic
+and traditional network traffic), enabling the construction of a broader contextual space to
+enable a more flexible and generalizable intrusion detection system.
+The key idea is to exploit these embeddings to bridge the performance–efficiency gap
+between edge and IoT. Once trained, the edge model generates embeddings for incoming
+IoT traffic and transmits them to the IoT level, where a lightweight neural network processes
+the embedding vectors instead of raw packet features. In our framework, we use the
+condensed representation produced by BERT as the embedding of each network traffic
+sample (processed as batch of size Bsize), specifically the hidden state associated with the
+[CLS] token from the final encoder layer due to its compactness. Our confirmation outputs
+an embedding vector with a fixed-length of dimension 256, which serves as a global, context-
+aware representation of the entire input sequence. The inference performed by the IoT-side
+https://doi.org/10.3390/s26020356

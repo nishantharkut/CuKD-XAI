@@ -1,0 +1,178 @@
+6
+Journal of Sensors
+Table 3: Observations for five different simulation scenarios (A–E) when determining the number of nodes monitored by each node.
+Number of
+neighbors to
+watch
+Max number of monitors for a
+specific node
+Min number of monitors for a
+specific node
+Number of overall monitored
+nodes
+A
+B
+C
+D
+E
+A
+B
+C
+D
+E
+A
+B
+C
+D
+E
+3
+6
+7
+7
+6
+7
+0
+0
+0
+1
+0
+97
+99
+99
+100
+97
+4
+7
+9
+8
+8
+9
+0
+0
+0
+1
+0
+99
+99
+99
+100
+99
+5
+10
+9
+10
+10
+10
+1
+1
+1
+1
+2
+100
+100
+100
+100
+100
+6
+11
+12
+11
+10
+13
+1
+1
+1
+2
+2
+100
+100
+100
+100
+100
+TDMA Scheduling technique at the data transmission level.
+Additionally, it uses both Code Division Multiple Access
+(CDMA) and CSMA codes to avoid and reduce collisions and
+interferences that may exist in the network.
+4. WSN-DS Dataset Description and Creation
+In order to build the dataset and collect the required data
+from the sent and received packets within WSN, a monitoring
+service is needed with minimum cost. On the other hand, we
+need to guarantee that necessary data related to the network
+which help in detecting, classifying, and then preventing
+different possible attacks are collected. In this research, to
+distribute the load among sensor nodes, each sensor will take
+part in the monitoring process and should be able to monitor
+set of its neighbors. The challenge was how to find the suitable
+number of nodes to be watched by a sensor node in order
+to monitor all network sensors. Many experiments have been
+conducted to decide on this number and the summary of the
+results is shown in Table 3.
+When each sensor node has watched 3 nodes of its
+neighbors, it has been noticed that the largest number of
+sensor nodes which could be monitored by a single node was
+seven. In other words, the BS has received seven different
+reports about the same node from seven different watching
+nodes. To make sure that the received information are correct,
+these reports could be checked for consistency. In some
+scenarios, some sensor nodes were not monitored by any
+sensor. This indicates that monitoring 3 neighboring nodes
+is not enough to get information about all network sensor
+nodes.
+Additionally, an improvement has occurred when 4
+neighbors are being watched. But only when the number
+is 5, all sensor nodes are being watched in all 5 scenarios.
+Similar results have been obtained when a sensor node was
+watching 6 of its neighbors. Consequently, it has been found
+that monitoring 5 neighbors is enough to get information
+about all nodes in the network and there is no need to increase
+the computational complexity by going further.
+Choosing 5 neighbors to be monitored is done at the
+beginning of the simulation. All nodes broadcast a Hello
+message. Accordingly, each node selects the first 5 nodes
+it heard from. Then it monitors them over the simulation
+period, so that each node sends a report to its CH at the
+end of each round. Then the CH sends the received reports
+to the BS. For security purposes and in case of suspecting
+the CH and having one monitor for this node (one report),
+these reports could be sent directly to the BS at the expense
+of consuming more energy if this node is further from the BS
+than the CH. After deep study of LEACH routing protocol, we
+have succeeded to extract 23 attributes to help in identifying
+the status of each node in the network, These attributes are
+listed as follows.
+WSN-DS Dataset Attributes
+Node ID: a unique ID to distinguish the sensor node
+in any round and at any stage. For example, node
+number 25 in the third round and in the first stage
+is to be symbolized as 001 003 025.
+Time: the current simulation time of the node.
+Is CH? A flag to distinguish whether the node is CH
+with value 1 or normal node with value 0.
+Who CH? The ID of the CH in the current round.
+RSSI: Received Signal Strength Indication between
+the node and its CH in the current round.
+Distance to CH: the distance between the node and its
+CH in the current round.
+Max distance to CH: the maximum distance between
+the CH and the nodes within the cluster.
+Average distance to CH: the average distance between
+nodes in the cluster to their CH.
+Current energy: the current energy for the node in the
+current round.
+Energy consumption: the amount of energy con-
+sumed in the previous round.
+ADV CH send: the number of advertise CH’s broad-
+cast messages sent to the nodes.
+ADV CH receives: the number of advertise CH mes-
+sages received from CHs
+Join REQ send: the number of join request messages
+sent by the nodes to the CH.
+Join REQ receive: the number of join request mes-
+sages received by the CH from the nodes.
+ADV SCH send: the number of advertise TDMA
+schedule broadcast messages sent to the nodes.
+ADV SCH receives: the number of TDMA schedule
+messages received from CHs.
+Rank: the order of this node within the TDMA
+schedule.
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

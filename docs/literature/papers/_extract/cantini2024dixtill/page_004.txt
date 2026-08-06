@@ -1,0 +1,46 @@
+Page 4 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+Tang et al. [15] proposed a method to distill knowledge from BERT into a single-layer 
+bi-directional LSTM, demonstrating comparable performance to the original network 
+without external training data or additional input features. Quantization involves reduc-
+ing the precision of model parameters (e.g., weights and activations from 32-bit floating-
+point values to 8-bit integers) to achieve smaller memory footprints and faster inference 
+times. Generally, a deep neural model can be quantized using two main approaches: 
+Post-Training Quantization (PTQ) and Quantization-Aware Training (QAT)  [19]. The 
+former quantizes the model parameters after training without modifying its underly-
+ing architecture, while the latter integrates quantization into the model’s training pro-
+cess, allowing it to adapt to low-precision representations and ensuring higher accuracy 
+compared to PTQ. However, since QAT methods cannot easily scale to large models 
+like LLMs [20], common PTQ-based algorithms are generally used in the case of LLMs, 
+including Activation-aware Weight Quantization (AWQ) [20], GPTQ [21], and dynamic 
+quantization, which computes the range for each activation based on the data range 
+observed at runtime. Finally, another common method for the compression of large 
+models is pruning, which aims to reduce the size of the model by removing unneces-
+sary network elements. This technique can be applied in an unstructured manner [4], 
+by removing individual weights to build an irregular sparse structure, or in a structured 
+one [22], by removing high-granularity components of the network, such as neurons, 
+channels, or layers. While unstructured pruning significantly reduces model size, con-
+ventional hardware like GPUs struggle to leverage the unstructured sparse patterns to 
+accelerate model inference  [23]. Consequently, several structured pruning techniques 
+have gained popularity in the landscape of LLM compression, such as attention head 
+pruning  [24], which involves removing individual attention heads without significant 
+impacts on performance and without requiring model retraining.
+Explainable artificial intelligence
+Deep learning models pose a challenge in offering interpretable explanations for their 
+predictions, hindering their practical utility in crucial domains such as healthcare and 
+legal contexts [25]. To address this issue, eXplainable Artificial Intelligence (XAI) tech-
+niques have emerged, which can be distinguished between local explainers, which only 
+explain the reasoning behind an individual prediction, and global explainers, which 
+instead provide a rationale for the whole dataset [26]. XAI approaches can be further 
+categorized into post-hoc and interpretable-by-design methods. Post-hoc methods aim 
+at interpreting black-box models after training. Most post-hoc techniques are currently 
+model-agonistic since they make any assumption about the structure of the deep learn-
+ing model to be explained but treat it as a black-box model. In contrast, self-explainable 
+models are inherently designed for interpretability during the prediction phase, pro-
+viding ante-hoc explanations that faithfully represent the model’s reasoning. However, 
+these methods are not flexible and may not easily be integrated with other deep learning 
+models [27, 28]. Among post-hoc methods, LIME (Locally Interpretable Model-Agnostic 
+Explainer) [29] is a local and model-agnostic explanation technique that extracts fea-
+ture importance scores by perturbing real samples and observing the corresponding 
+changes in the model’s predictions. Then a simple and interpretable model is built that 
+approximates the original model’s behavior in the neighborhood of the original samples. 

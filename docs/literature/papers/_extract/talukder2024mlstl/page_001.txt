@@ -1,0 +1,65 @@
+International Journal of Information Security (2024) 23:2139–2158
+https://doi.org/10.1007/s10207-024-00833-z
+REGULAR CONTRIBUTION
+MLSTL-WSN: machine learning-based intrusion detection using
+SMOTETomek in WSNs
+Md. Alamin Talukder1 · Selina Sharmin2 · Md Ashraf Uddin3 · Md Manowarul Islam2 · Sunil Aryal3
+Published online: 19 March 2024
+© The Author(s) 2024
+Abstract
+In the domain of cyber-physical systems, wireless sensor networks (WSNs) play a pivotal role as infrastructures, encompassing
+both stationary and mobile sensors. These sensors self-organize and establish multi-hop connections for communication,
+collectively sensing, gathering, processing, and transmitting data about their surroundings. Despite their signiﬁcance, WSNs
+face rapid and detrimental attacks that can disrupt functionality. Existing intrusion detection methods for WSNs encounter
+challenges such as low detection rates, computational overhead, and false alarms. These issues stem from sensor node resource
+constraints, data redundancy, and high correlation within the network. To address these challenges, we propose an innovative
+intrusion detection approach that integrates machine learning (ML) techniques with the Synthetic Minority Oversampling
+Technique Tomek Link (SMOTE-TomekLink) algorithm. This blend synthesizes minority instances and eliminates Tomek
+links, resulting in a balanced dataset that signiﬁcantly enhances detection accuracy in WSNs. Additionally, we incorporate
+feature scaling through standardization to render input features consistent and scalable, facilitating more precise training
+and detection. To counteract imbalanced WSN datasets, we employ the SMOTE-Tomek resampling technique, mitigating
+overﬁtting and underﬁtting issues. Our comprehensive evaluation, using the wireless sensor network dataset (WSN-DS)
+containing 374,661 records, identiﬁes the optimal model for intrusion detection in WSNs. The standout outcome of our
+research is the remarkable performance of our model. In binary classiﬁcation scenarios, it achieves an accuracy rate of 99.78%,
+and in multiclass classiﬁcation scenarios, it attains an exceptional accuracy rate of 99.92%. These ﬁndings underscore the
+efﬁciency and superiority of our proposal in the context of WSN intrusion detection, showcasing its effectiveness in detecting
+and mitigating intrusions in WSNs.
+Keywords Wireless sensor network · Intrusion detection · Machine learning · SMOTE · Sensor nodes
+B Md Ashraf Uddin
+ashraf.uddin@deakin.edu.au
+Md. Alamin Talukder
+alamin.cse@iubat.edu
+Selina Sharmin
+selina@cse.jnu.ac.bd
+Md Manowarul Islam
+manowar@cse.jnu.ac.bd
+Sunil Aryal
+sunil.aryal@deakin.edu.au
+1
+Department of Computer Science and Engineering,
+International University of Business Agriculture and
+Technology, Dhaka, Bangladesh
+2
+Department of Computer Science and Engineering, Jagannath
+University, Dhaka, Bangladesh
+3
+School of Information Technology, Deakin University, Waurn
+Ponds Campus, Geelong, Australia
+1 Introduction
+Wireless Sensor Networks (WSNs) have emerged as a trans-
+formative technology that enables the collection, processing,
+andtransmissionofdatafromdistributedsensornodes.These
+nodes are equipped with various sensors and communication
+capabilities, allowing them to monitor and sense the environ-
+ment [1]. WSNs ﬁnd applications in diverse domains such
+as environmental monitoring, healthcare, smart cities, and
+industrial automation. They offer the advantage of remote
+and real-time data acquisition from inaccessible or hazardous
+locations, enabling efﬁcient data-driven decision-making
+processes [2, 3]. WSN security is of paramount importance
+due to the sensitive nature of the data transmitted and the
+potential vulnerabilities in the network [4]. WSNs face var-
+ious security threats, including unauthorized access, data
+tampering, and denial of service attacks [5]. The distributed
+and wireless nature of WSNs makes them more susceptible
+123

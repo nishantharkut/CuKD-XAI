@@ -1,0 +1,25 @@
+Figure B.5: Scatter plots of fidelity (measured by KL divergence) between teacher ensem-
+bles and student during KD training. For KL divergence, a higher value implies lower
+fidelity. Thus, these increasing tendencies align with the decreasing ones with Top-1 A in
+the main text.
+Appendix B. Fidelity with KL divergence Measurement
+In the main text Section 6.2, Top-1 A is used for the fidelity metric.
+Here we also provide results with Kullback-Leibler (KL) divergence between
+teacher ensembles and student during KD training, as in Figure B.5. Note
+that for KL divergence, a higher value implies lower fidelity.
+Appendix C. In-Depth Results for the A/B Test
+In the main text, to demonstrate the causality between teachers’ atten-
+tion divergence and low student-teacher fidelity, an A/B test is conducted
+for ensemble KD with two teachers. Experiments reveal a p-value less than
+0.05, suggesting that more divergent teacher attentions (i.e., lower IoU val-
+ues) does cause the decrease in student-teacher fidelity. In this section, we
+further provides the detailed experimental results of the A/B test, as shown
+in Table C.2, C.3 and C.4. Here, vKD denotes the control group of vanilla
+KD experiments, and hKD denotes the control group of half-image inputs
+experiments. From these results, it can be seen that in average, hKD has far
+less attention IoU values than vKD, while keeping comparable generalization
+performance (indicated by a lower accuracy gap).
+Appendix D. IoU between T1 and T2 Attentions versus Affinity
+In the main text, we show that during training, a consistent decrease
+is observed in the Intersection over Union (IoU) of attention maps between
+19

@@ -1,0 +1,129 @@
+19
+0.02
+0.04
+0.06
+WLDAC Code
+ΔVBL (V)
+0
+5
+10
+15
+20
+25
+30
+35
+Ideal transfer curve
+Nominal transfer curve
+Standard Deviation  
+(from Monte Carlo 
+simulations) 
+IBC 
+WLDAC  
+code 
+ΔVBL 
+(a) Multiplication performed by bit-cell
+(Figure from [102])
+V1 
+G1 
+I1 = V1×G1 
+V2 
+G2 
+I2 = V2×G2 
+I = I1 + I2  
+= V1×G1 + V2×G2 
+(b) Gi is conductance of resistive
+memory (Figure from [104])
+Fig. 36.
+Analog computation by (a) SRAM bit-cell and (b) non-volatile
+resistive memory.
+closer together. Tetris [101] explores the use of HMC with
+the Eyeriss spatial architecture and row stationary dataﬂow.
+It proposes allocating more area to computation than on-chip
+memory (i.e., larger PE array and smaller global buffer) in
+order to exploit the low energy and high throughput properties
+of the HMC. It also adapts the dataﬂow to account for the
+HMC memory and smaller on-chip memory. Tetris achieves
+a 1.5× reduction in energy consumption and 4.1× increase
+in throughput over a baseline system with conventional 2-D
+DRAM.
+B. SRAM
+Rather than bringing the memory near the compute, recent
+work has also investigated bringing the compute into the
+memory. For instance, the multiply and accumulate operation
+can be directly integrated into the bit-cells of an SRAM
+array [102], as shown in Fig. 36(a). In this work, a 5-bit
+DAC is used to drive the word line (WL) to an analog voltage
+that represents the feature vector, while the bit-cells store the
+binary weights ±1. The bit-cell current (IBC) is effectively
+a product of the value of the feature vector and the value of
+the weight stored in the bit-cell; the currents from the bit-
+cells within a column add together to discharge the bitline
+(VBL). This approach gives 12× energy savings compared to
+reading the 1-bit weights from the SRAM and performing the
+computation separately. To counter circuit non-idealities, the
+DAC accounts for the non-linear bit-line discharge with respect
+to the WL voltage, and boosting is used to combine the weak
+classiﬁers that are susceptible to device variations to form a
+strong classiﬁer [103].
+C. Non-volatile Resistive Memories
+The multiply and accumulate operation can also be directly
+integrated into advanced non-volatile high density memories
+by using them as programmable resistive elements, commonly
+referred to as memristors [105]. Speciﬁcally, a multiplication
+is performed with the resistor’s conductance as the weight, the
+voltage as the input, and the current as the output as shown in
+Fig. 36(b). The addition is done by summing the currents of
+different memristors with Kirchhoff’s current law. This is the
+ultimate form of a weight stationary dataﬂow, as the weights
+are always held in place. The advantages of this approach
+include reduced energy consumption since the computation
+is embedded within memory which reduces data movement,
+and increased density since memory and computation can be
+densely packed with a similar density to DRAM [106].8
+There are several popular candidates for non-volatile resistive
+memory devices including phase change memory (PCM),
+resistive RAM (RRAM or ReRAM), conductive bridge RAM
+(CBRAM), and spin transfer torque magnetic RAM (STT-
+MRAM) [107]. These devices have different trade-offs in terms
+of endurance (i.e., how many times it can be written), retention
+time, write current, density (i.e., cell size), variations and speed.
+Processing with non-volatile resistive memories has several
+drawbacks as described in [108]. First, it suffers from the
+reduced precision and ADC/DAC overhead of analog process-
+ing described earlier. Second, the array size is limited by the
+wires that connect the resistive devices; speciﬁcally, wire energy
+dominates for large arrays (e.g., 1k×1k), and the IR drop along
+wire can degrade the read accuracy. Third, the write energy
+to program the resistive devices can be costly, in some cases
+requiring multiple pulses. Finally, the resistive devices can also
+suffer from device-to-device and cycle-to-cycle variations with
+non-linear conductance across the conductance range.
+There have been several recent works that explore the use of
+memristors for DNNs. ISAAC [104] replaces the eDRAM in
+DaDianNao with memristors. To address the limited precision
+support, ISAAC computes a 16-bit dot product operation with
+8 memristors each storing 2-bits; a 1-bit×2-bit multiplication
+is performed at each memristor, where a 16-bit input requires
+16 cycles to complete. In other words, the ISAAC architecture
+trades off area and time for increased precision. Finally, ISAAC
+arranges its 25.1M memristors in a hierarchical structure to
+avoid issues with large arrays. PRIME [109] also replaces the
+DRAM main memory with memristors; speciﬁcally, it uses
+256×256 memristor arrays that can be conﬁgured for 4-bit
+multi-level cell computation or 1-bit single level cell storage.
+It should be noted that results from ISAAC and PRIME are
+obtained from simulations. The task of actually fabricating
+large memristors arrays is still very much a research challenge;
+for instance, [110] uses a fabricated 12×12 memristor array
+to demonstrate a linear classiﬁer.
+D. Sensors
+In certain applications, such as image processing, the data
+movement from the sensor itself can account for a signiﬁcant
+portion of the system energy consumption. Thus there has
+also been research on performing the computation as close
+as possible to the sensor. In particular, much of the work
+focuses on moving the computation into the analog domain to
+avoid using the ADC within the sensor, which accounts for a
+signiﬁcant portion of the sensor power. However, as mentioned
+8The resistive devices can be inserted between the cross-point of two wires
+and in certain cases can avoid the need for an access transistor.

@@ -1,0 +1,129 @@
+detection applications in IoT networks. These results highlight the trade-off between computation time and 
+performance, with our proposed model offering an optimal balance for efficient and accurate predictions.
+The complexity analysis of various ML models on the TON-IoT-Network dataset is presented in Table 
+16. This analysis evaluates the training, prediction, and total time required for each model under different 
+preprocessing techniques. Experiment 1, using STL+PCA, reveals that the RFC has the longest total time 
+of 865.554 seconds, followed by the CBC at 1700.610 seconds. Experiment 2, utilizing GAN+PCA, shows a 
+reduction in total times for most models, with RFC taking 740.333 seconds. For Experiment 3, applying 
+KMS+PCA, the RFC model again takes the longest time, totaling 894.537 seconds, but this is still efficient 
+compared to the other models. Specifically, the DTC maintains a lower time requirement, with 40.369 seconds 
+for total time. Although KMS+PCA preprocessing adds some time overhead, it helps in improving classification 
+performance, as demonstrated by the shorter prediction times for most models compared to STL+PCA. This 
+indicates that the application of KMS+PCA improves data quality for training, leading to better model efficiency 
+and performance, while still maintaining reasonable computational costs. The complexity analysis highlights the 
+trade-offs between model accuracy and time efficiency, with the proposed model (KMS+PCA+RFC) providing 
+a balance of high performance and manageable computational demands for real-time applications in IoT-based 
+intrusion detection systems.
+The computational trade-offs and scalability of employing KMS for real-time intrusion detection in resource-
+constrained WSN environments were evaluated using the TON-IoT dataset. Results in Tables 6, 7 and 15, 16 
+demonstrate that KMS significantly outperforms STL and GAN in both computational efficiency and model 
+performance respectively. The proposed model (KMS+PCA+RFC) achieved the lowest total time (251.090 
+seconds) compared to STL (602.360 seconds) and GAN (312.986 seconds) while delivering superior performance, 
+including 99.94% accuracy, precision, recall, and F1 score in WSN. Similary on TON-IoT Network, achieved the 
+lowest total time (8.94.537 seconds) compared to STL (865.554 seconds) and GAN (740.333 seconds) while 
+delivering superior performance, including 99.97% accuracy, precision, recall, and F1 score. These results 
+highlight the method’s ability to correctly identify attacks with minimal computational overhead, making it ideal 
+for large-scale and dynamic datasets. The balance between reduced computational cost and enhanced detection 
+performance confirms its scalability and suitability for resource-constrained WSNs.
+Practical implementation of IDS in real-world scenarios
+Our research addresses the dynamic nature of WSN environments and evolving attack patterns by presenting a 
+robust and adaptable intrusion detection framework. We employ advanced data processing techniques, including 
+StandardScaler for feature standardization, KMeans SMOTE for handling class imbalance, and PCA with the 
+Kaiser Criterion for dimensionality reduction, to efficiently process diverse attack scenarios. By validating our 
+approach on benchmark datasets such as WSN-DS and TON-IoT, we demonstrate its effectiveness in real-
+world scenarios. Furthermore, the lightweight design of our machine learning models ensures compatibility 
+with resource-constrained WSN environments, offering a scalable and efficient solution for real-time intrusion 
+detection.
+Addressing the adaptability to various attack types
+The inherent limitations of KMS in certain scenarios, such as handling highly diverse attack types or adapting 
+to varying network topologies. To address these challenges, we evaluated its performance alongside other 
+Exp. No.
+DB. Tech.
+Model Name
+Training Time (s)
+Prediction Time (s)
+Total Time (s)
+1
+STL+PCA
+DTC
+36.745
+0.052
+36.796
+RFC
+858.795
+6.760
+865.554
+CBC
+1697.640
+2.969
+1700.610
+XGBC
+91.203
+5.297
+96.500
+LGBC
+70.621
+28.021
+98.642
+HGBC
+61.308
+8.388
+69.696
+2
+GAN+PCA
+DTC
+36.051
+0.042
+36.093
+RFC
+735.018
+5.315
+740.333
+CBC
+1675.049
+3.070
+1678.118
+XGBC
+85.460
+4.856
+90.317
+LGBC
+63.061
+23.389
+86.450
+HGBC
+57.499
+8.210
+65.709
+3
+KMS+PCA
+DTC
+40.307
+0.062
+40.369
+RFC
+887.191
+7.347
+894.537
+CBC
+1700.508
+2.904
+1703.411
+XGBC
+90.031
+5.042
+95.072
+LGBC
+74.114
+28.524
+102.638
+HGBC
+47.937
+6.400
+54.336
+Table 16.  Complexity analysis of ML models on TON-IoT-Network. Significant values are in bold.
+ 
+Scientific Reports |         (2025) 15:4617 
+20
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

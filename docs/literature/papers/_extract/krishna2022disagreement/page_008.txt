@@ -1,0 +1,28 @@
+Published in Transactions on Machine Learning Research (06/2024)
+Figure 1: Disagreement between explanation methods for neural network model trained on COMPAS dataset
+measured by six metrics: rank correlation and pairwise rank agreement across all features, and feature, rank,
+sign, and signed rank agreement across top k “ 5 features. Heatmaps show the average metric value over
+the test set data points for each pair of explanation methods, with lower values (lighter colors) indicating
+stronger disagreement. The disagreement between a pair of explanations is considered non-trivial if less than
+75% of the features agree (i.e., if feature agreement, rank agreement, sign agreement, signed rank agreement,
+or pairwise rank agreement is less than 0.75), or if the correlation among features is only moderately positive,
+nonexistent, or negative (i.e. if the rank correlation is less than 0.50). Across all six heatmaps, the standard
+error ranges between 0 and 0.01.
+All the patterns discussed above are also generally reflected in the German Credit dataset (Appendix C.1).
+However, explanation methods sometimes display stronger disagreement for the German Credit dataset than
+for the COMPAS dataset. For example, rank agreement and signed rank agreement are lower for the German
+Credit dataset than for the COMPAS dataset at the top 25%, 50%, 75%, and 100% of features for both
+logistic regression and neural network models. One possible reason is that the German Credit dataset has a
+larger set of features than the COMPAS dataset, resulting in a larger number of possible ranking and sign
+combinations assigned by a given explanation method and making it less likely for two explanation methods
+to produce consistent explanations.
+Morever, explanation methods display trends associated with model complexity. For example, the disagreement
+between explanation methods is similar or stronger for the neural network model than for the logistic regression
+model across metrics and values of k, for both COMPAS and German Credit datasets (Appendix C.1). In
+addition, explanation methods show similar levels of disagreement for the random forest and gradient-boosted
+tree models. These trends suggest that disagreement among explanation methods may increase with model
+complexity. As the complexity of the black box model increases, it may be more difficult to accurately
+approximate the black box model with a simpler model (LIME’s strategy, for example) and more difficult to
+disentangle the contribution of each feature to the model’s prediction. Thus, the higher the model complexity,
+the more difficult it may be for different explanation methods to generate the true explanation and the
+8

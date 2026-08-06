@@ -1,0 +1,40 @@
+Sensors 2026, 26, 356
+12 of 22
+Pruning
+Pruning techniques eliminate redundant or non-critical parameters from the neural
+network. These methods exploit the observation that not all weights contribute equally
+to model performance. By removing near-zero or low-impact weights, pruning reduces
+both model size and computational burden. However, as this process alters the model’s
+structure, fine-tuning is typically required post-pruning to recover potential performance
+loss and ensure inference stability.
+Knowledge Distillation
+Knowledge distillation transfers knowledge from a large, high-performing teacher
+model to a smaller, efficient student model [28]. The student learns to replicate the behavior
+of the teacher, retaining much of the original performance while being significantly smaller
+and faster. This approach is particularly suitable for resource-constrained devices that
+cannot accommodate full-scale LLMs.
+4.3. On-Device and Edge Deployment Strategy
+Beyond model compression, architectural innovations have been introduced to accom-
+modate LLM deployment in constrained edge environments. Researchers have proposed
+several strategies to minimize latency, optimize resource use, and preserve operational
+privacy, as illustrated in Figure 3.
+Figure 3. Deployment strategies for LLMs in IoT environments [29].
+Edge Offloading
+Edge computing offers a promising paradigm wherein computational tasks are par-
+tially or fully offloaded from IoT endpoints to nearby edge servers. Instead of executing
+LLM inference directly on the device, IoT systems can send requests to more capable nodes,
+which process the queries and return results [29]. This approach significantly reduces
+on-device load but introduces concerns around network latency and availability.
+In [30], the authors proposed Edge-LLM, a framework for efficient edge-based LLM
+deployment. It introduces a Layer-wise Unified Compression (LUC) technique to apply
+layer-specific pruning and quantization. Furthermore, an Adaptive Layer Tuning and
+Voting scheme reduces memory demands during backpropagation. Coupled with an
+efficient hardware scheduler, this framework achieved a 2.92× speedup and 4× mem-
+ory reduction with negligible performance loss, demonstrating its feasibility for on-edge
+LLM deployment.
+Edge-Based and Hybrid Architectures
+When edge devices are unable to support inference entirely, edge-based or hybrid
+solutions are essential. In hybrid models, certain inference stages are performed at the
+edge, while computationally intensive tasks are handled in the cloud. For instance, ref. [31]
+proposed a collaborative edge-cloud model in which edge devices generate tokens serially,
+https://doi.org/10.3390/s26020356

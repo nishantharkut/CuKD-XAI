@@ -1,0 +1,88 @@
+CIFAR-100
++12.5k GAN
++25k GAN
++37.5k GAN
++50k GAN
+70
+71
+72
+73
+74
+75
+Test Agreement
+70
+71
+72
+73
+74
+75
+Test Accuracy
+CIFAR-100
++12.5k GAN
++25k GAN
++37.5k GAN
++50k GAN
+70
+72
+74
+76
+78
+80
+Test Agreement
+70
+72
+74
+76
+78
+80
+Test Accuracy
+Teacher-Student Agreement
+Student Accuracy
+Teacher Accuracy
+(a) Self-distillation
+(b) Ensemble distillation
+Figure 1: Evaluating the ﬁdelity of knowledge distillation. The effect of enlarging the CIFAR-100
+distillation dataset with GAN-generated samples. (a): The student and teacher are both single
+ResNet-56 networks. Student ﬁdelity increases as the dataset grows, but test accuracy decreases.
+(b): The student is a single ResNet-56 network and the teacher is a 3-component ensemble. Student
+ﬁdelity again increases as the dataset grows, but test accuracy now slightly increases. The shaded
+region corresponds to µ ± σ, estimated over 3 trials.
+2
+Related Work
+Knowledge distillation can improve model efﬁciency [34, 40], unsupervised domain adaptation [33],
+improved object detection [9], model transparency [43], and adversarial robustness [14, 38].
+Seminal work by Bucil˘a et al. [5] showed that teacher-ensembles with thousands of simple components
+could be compressed into a single shallow network that matched or outperformed its teacher. Other
+early work proposed distilling ensembles of shallow networks into a single network [49], an idea
+which resonates with more recent work on the distillation of deep ensembles [2, 7, 41, 45, 47].
+Recently Fakoor et al. [12] developed a data-augmentation scheme for the distillation of large
+ensembles of simple models for tabular data, achieving impressive results on a wide range of tabular
+benchmarks. Malinin et al. [31] proposed a method to model the implicit distribution over predictive
+distributions from which the ensemble component predictive distributions are drawn, rather than just
+the ensemble model average.
+Our work focuses explicitly on student ﬁdelity, decoupling our understanding of good ﬁdelity from
+good generalization. We show that achieving good ﬁdelity is extremely difﬁcult, even with a variety
+of interventions, and seek to understand, by systematically considering several hypotheses, why
+knowledge distillation does not produce high ﬁdelity students for modern architectures and datasets.
+In contrast, the distillation literature focuses largely on improving student generalization, without
+particularly distinguishing between ﬁdelity and generalization.
+For example, concurrent work by Beyer et al. [4] does not carefully distinguish generalization and
+ﬁdelity metrics, but they assert that high student ﬁdelity is conceptually desirable and apparently
+difﬁcult to achieve when measured as the gap between teacher and student accuracy. As a result
+their work focuses most heavily on practical modiﬁcations to the distillation procedure for the best
+student top-1 accuracy. In this paper we investigate many of the same prescriptions, including
+careful treatment of data augmentation (such as showing the teacher and student the exact same input
+images), the addition of MixUp, and extended training duration. We also ﬁnd that such interventions
+do improve student accuracy, but there still remains a large discrepancy between the predictive
+distributions of the teacher and the student. We also investigate multiple optimizers. While we do not
+pursue Shampoo [16, 1] speciﬁcally, Beyer et al. [4] ﬁnd similar qualitative results for Shampoo and
+Adam, besides faster convergence for Shampoo.
+3
+Preliminaries
+We will focus on the supervised classiﬁcation setting, with input space X and label space Y, where
+|Y| = c. Let f : X × Θ →Rc be a classiﬁer parameterized by θ ∈Θ whose outputs deﬁne a categor-
+ical predictive distribution over Y, ˆp(y = i|x) = σi(f(x, θ)), where σi(z) := exp(zi)/ P
+j exp(zj)
+is the softmax link function. We will often refer to the outputs of a classiﬁer z := f(x, θ) as logits.
+For convenience, we will use t and s as shorthand for fteacher and fstudent, respectively. When the
+2

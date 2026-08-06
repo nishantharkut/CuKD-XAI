@@ -1,0 +1,51 @@
+Published in Transactions on Machine Learning Research (06/2024)
+compute rank correlation on all the pixels (features) to capture disagreement between explanations output by
+gradient-based methods.
+Unlike earlier trends with tabular and text data, we see higher agreement between KernelSHAP and LIME
+on all six metrics: rank correlation of 0.8977, pairwise rank agreement of 0.9302, feature agreement of 0.9535,
+rank agreement of 0.8478, sign agreement of 0.9218 and signed rank agreement of 0.8193.
+However, the trends are quite the opposite when we compute rank correlation at pixel-level for gradient-based
+methods (See Appendix C). For instance, the rank correlation between Integrated Gradients and SmoothGrad
+is 0.001, indicating strong disagreement. The disagreement is similarly quite strong in the case of other pairs
+of gradient-based methods. This suggests that disagreement could potentially vary significantly based on the
+granularity of image representation.
+Remark 1. Throughout this section, we carried out a comprehensive empirical analysis with six explanation
+methods and four real-world datasets spanning three data modalities to study the disagreement problem. While
+our results generally show a moderate to high degree of disagreement among all pairs of explanations across
+all data modalities, we observe that the extent of disagreement is slightly lower when we consider variants of
+the proposed metrics. For example, we explored additional metrics such as weighted rank agreement, top-k
+pairwise rank agreement, and top-k rank correlation and we discuss these metrics and corresponding results
+in Appendix D.2.
+5
+Resolving the Disagreement Problem in Practice: A Qualitative Study
+After establishing the fact that the majority of practitioners observe disagreement between explanations
+using both qualitative analysis (Section 3) as well as quantitative analysis (Section 4), we try to understand
+the different ways practitioners tackle this disagreement. To this end, we conduct a qualitative user study
+targeted towards explainability practitioners. We next describe our user study design and discuss our findings.
+5.1
+User Study Design
+In total, 25 participants participated in our study, 13 from academia and 12 from industry. Participants from
+academia were graduate students and postdoctoral researchers. In contrast, participants from industry were
+data scientists and ML engineers from three different for-profit companies in the technology and financial
+services sectors across the United States. We recruited these participants by emailing the explainable ML
+groups (and relevant mailing lists) within these organizations. 12 participants in this study (48%) also
+participated in the interviews in Section 3.1.4 We conducted basic checks (e.g., pre-screening interviews and
+profile checks) to ensure that each recruited participant has at least one year of experience as a data scientist,
+and has working knowledge of data science and ML. 20 of these participants indicated that they had used
+explanation methods in their work in various ways, including doing research, helping clients explain their
+models, and debugging their own models. Following the setup in Section 4, we asked participants to compare
+the output of five pairs of explanation methods on the predictions made by the neural network we trained on
+the COMPAS dataset. We chose the COMPAS dataset because it only has 7 features, making it easy for
+participants to understand the explanations.
+First, the participants are shown an information page explaining the COMPAS risk score binary prediction
+setting and various explanation methods. We indicate that we trained a neural network to predict the
+COMPAS risk score (low or high) from the seven COMPAS features. We also give a brief description of each
+of these seven features to participants and tell them to assume that the criminal defendant’s risk of recidivism
+is correctly predicted to be high risk. In this information page, we also briefly introduce and summarize the
+six explanation methods we use in the study (LIME, KernelSHAP, Vanilla Gradient, Gradient times Input,
+SmoothGrad, and Integrated Gradients). Finally, we provide links to the papers describing each method. We
+include a screenshot of this information page in Appendix E.1.
+Next, participants were shown a series of 5 prompts, a sample of which is shown in Figure 5. Each prompt
+presented two explanations of the neural network model’s prediction corresponding to a particular data
+4The remaining 13 participants from the interviews were unavailable during the time of the second study.
+11

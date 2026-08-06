@@ -1,0 +1,114 @@
+Energy-Eﬃcient Hybrid Learning for Secure Wireless Sensor Networks
+697
+Recent studies (2023–2025) further emphasize the
+importance of hybrid and energy-aware IDSs in wire-
+less sensor networks. For example, Alenezi et al. [21]
+examined lightweight ML-based approaches for eﬃ-
+cient DoS detection, while Jeong et al. [5] applied
+deep reinforcement learning to manage group bat-
+tery replacement, indirectly informing IDS energy-
+preservation strategies.
+Similarly, Saleh et al.
+[1]
+provided a 2024 survey underscoring that integrat-
+ing rule-based ﬁlters with pruned and quantized deep
+models remains a critical open challenge. By explic-
+itly situating our framework within these contempo-
+rary directions, we reinforce both the novelty and
+timeliness of our contribution.
+Fig.2:
+Methodology pipeline for Hybrid IDS.
+3. METHODOLOGY
+The research strategy couple’s simulation-driven
+experimentation with a hardware micro-benchmark
+to quantify both security accuracy and energy over-
+head. Figure 2 (above) shows the full pipeline.
+3.1 Data Acquisition & Pre-Processing
+1. Benchmark traces
+• WSN-DS (19 features × 87 k packets) pro-
+vides labelled DoS, ﬂooding, blackhole and
+normal traﬃc.
+2. Synthetic augmentation
+• NS-3 v3.40 with BLE/LoRa PHY generates
+10 k additional ﬂows per attack to balance
+classes and reproduce realistic MAC inter-
+arrival gaps.
+3. Real-node logs
+• 48 h capture on a 10-node LoPy4 test-
+bed (Temp/Humidity sensing) injects gen-
+uine noise, link errors and duty-cycle gaps.
+4. Feature pipeline (Python 3.11 + tsfresh)
+• Header-level statistics (length, TTL, LQI).
+• 5-packet temporal windows to build ﬂow
+tensors R<sup>5 × 12</sup>.
+• Min–max scaling for CNN; bit-shift scaling
+(×2<sup>k</sup>) for integer rules.
+3.2 Stage-1 Rule Filter Design
+• Entropy rule: ﬂag if Shannon entropy of desti-
+nation addresses in last 50 packets < 0.2.
+• SoC rule: drop deep inspection if battery < 15
+%.
+• Timing rule: ﬂag if inter-arrival variance > 3 ×
+nominal.
+• Complexity: worst-case 58 integer ops →0.05
+mJ/packet on STM32L4.
+• False-negative guard: 1 % random sampling of
+“benign” traﬃc forwarded for DL audit.
+3.3 Stage-2 Deep Classiﬁer
+Table 1:
+CNN-LSTM Model Architecture and Hy-
+perparameters.
+Block
+Hyper-params
+CNN
+3 × conv (16/32/32, k = 3, stride = 1) +
+ReLU + BN
+LSTM
+2 layers, 64 units, h = 128
+FC Soft-
+4 classes (Normal, Flood, Black, Gray)
+Max
+• Training: Adam, 200 epochs, LR = 10−3, batch
+= 128.
+• 8-bit symmetric quantization (TensorFlow Lite)
+with 50 % structured pruning (magnitude-
+based).
+• Result: 95.4 % macro-F1, –65 % MACs, –50 %
+RAM, inference = 28 mJ on Pi Zero W.
+3.4 Federated Learning Layer (Optional)
+• Client selector:
+knapsack optimization using
+node residual energy as weight, gradients as
+value.
+• Round schedule: every 12 h; Fed AVG α = 1.0.
+• Privacy:
+l<sub>2</sub> gradient clipping
+(1.0) + Gaussian noise (σ = 0.4) for DP-FL
+ε ≈5.
+3.5 Simulation Framework
+Table 2:
+NS-3 Simulation Parameters and Experi-
+mental Settings.
+Parameter
+Setting
+Topology
+50 sensor nodes (LEACH clustering), 1
+edge gateway
+Radio
+BLE v5 @ 1 Mbps, TX = 8 mA, RX = 7
+mA
+Energy
+2500 mAh Li-ion; CPU 48 MHz @ 5
+model
+mA; sleep = 12 µA
+Traﬃc
+Periodic 5 pkt/min + event burst
+Attacks
+Blackhole, Flooding, Grayhole, TDMA-
+spoof (mixed)
+Runs
+10 seeds × {No-attack, Single DoS,
+Mixed}
+3.6 Evaluation Metrics
+• Detection: Accuracy, Precision, Recall, Macro-
+F1, AUC.

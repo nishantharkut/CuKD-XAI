@@ -1,0 +1,54 @@
+(A)
+(B)
+SHAP
+Shapley sampling
+LIME
+True Shapley value
+Dense original model
+Sparse original model
+Feature importance
+Figure 3: Comparison of three additive feature attribution methods: Kernel SHAP (using a debiased
+lasso), Shapley sampling values, and LIME (using the open source implementation). Feature
+importance estimates are shown for one feature in two models as the number of evaluations of the
+original model function increases. The 10th and 90th percentiles are shown for 200 replicate estimates
+at each sample size. (A) A decision tree model using all 10 input features is explained for a single
+input. (B) A decision tree using only 3 of 100 input features is explained for a single input.
+5
+Computational and User Study Experiments
+We evaluated the beneﬁts of SHAP values using the Kernel SHAP and Deep SHAP approximation
+methods. First, we compared the computational efﬁciency and accuracy of Kernel SHAP vs. LIME
+and Shapley sampling values. Second, we designed user studies to compare SHAP values with
+alternative feature importance allocations represented by DeepLIFT and LIME. As might be expected,
+SHAP values prove more consistent with human intuition than other methods that fail to meet
+Properties 1-3 (Section 2). Finally, we use MNIST digit image classiﬁcation to compare SHAP with
+DeepLIFT and LIME.
+5.1
+Computational Efﬁciency
+Theorem 2 connects Shapley values from game theory with weighted linear regression. Kernal SHAP
+uses this connection to compute feature importance. This leads to more accurate estimates with fewer
+evaluations of the original model than previous sampling-based estimates of Equation 8, particularly
+when regularization is added to the linear model (Figure 3). Comparing Shapley sampling, SHAP, and
+LIME on both dense and sparse decision tree models illustrates both the improved sample efﬁciency
+of Kernel SHAP and that values from LIME can differ signiﬁcantly from SHAP values that satisfy
+local accuracy and consistency.
+5.2
+Consistency with Human Intuition
+Theorem 1 provides a strong incentive for all additive feature attribution methods to use SHAP
+values. Both LIME and DeepLIFT, as originally demonstrated, compute different feature importance
+values. To validate the importance of Theorem 1, we compared explanations from LIME, DeepLIFT,
+and SHAP with user explanations of simple models (using Amazon Mechanical Turk). Our testing
+assumes that good model explanations should be consistent with explanations from humans who
+understand that model.
+We compared LIME, DeepLIFT, and SHAP with human explanations for two settings. The ﬁrst
+setting used a sickness score that was higher when only one of two symptoms was present (Figure 4A).
+The second used a max allocation problem to which DeepLIFT can be applied. Participants were told
+a short story about how three men made money based on the maximum score any of them achieved
+(Figure 4B). In both cases, participants were asked to assign credit for the output (the sickness score
+or money won) among the inputs (i.e., symptoms or players). We found a much stronger agreement
+between human explanations and SHAP than with other methods. SHAP’s improved performance for
+max functions addresses the open problem of max pooling functions in DeepLIFT [7].
+5.3
+Explaining Class Differences
+As discussed in Section 4.2, DeepLIFT’s compositional approach suggests a compositional approxi-
+mation of SHAP values (Deep SHAP). These insights, in turn, improve DeepLIFT, and a new version
+8

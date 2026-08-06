@@ -1,0 +1,69 @@
+Sensors 2019, 19, 4383
+8 of 20
+24.
+validation_accuracy = evaluate_ GXGBoost (GXGBoost_model, Training_Set, Validation_Set)
+25.
+population_validation_accuracy.append (validation_accuracy)
+26.
+If validation_accuracy > max_accuracy:
+27.
+max_accuracy = validation_accuracy
+28.
+best_model = GXGBoost_model
+29.
+End if
+30.
+End for
+31.
+// Create new population with new generations
+32.
+# every generation will use the current best GXGBoost_model to mate
+33.
+For pop_index in range (num_population):
+34.
+model1 = population_GXGBoost [pop_index]
+35.
+model1_validation_accuracy = population_validation_accuracy [pop_index]
+36.
+model2 = best_model
+37.
+model2_validation_accuracy= max_accuracy
+38.
+// Create new generation with crossover
+39.
+new_model = crossover_GXGBoost (model1, model1_validation_accuracy, model2,
+model2_validation_accuracy)
+40.
+mutate_GXGBoost (new_model) // Mutate new generation
+41.
+population_GXGBoost [pop_index] = new_model // Replace current model
+42.
+End for
+43.
+End for
+44.
+Return best_model, max_accuracy
+45.
+End
+Time Complexity Analysis of Proposed Model’s Algorithm
+Based on the computational complexity theory, time complexity analysis is used to compute
+the computational time of the proposed algorithm. Therefore, the worst case of running time can be
+deﬁned as a function of its input using big O notation [56]. The big O notation usually deﬁnes the
+asymptotic behavior or the growth rate of the function’s upper bound as follows:
+O(g(n)) = f|∃c⟩0, ∃n0 > 0, ∀n ≥n0 : 0 ≤f ≤cg(n)	
+(6)
+This means that f ∈(g(n)) if and only if there exist two positive constants c and n0 for all n ≥n0
+such that the inequality 0 ≤f ≤cg(n) is satisﬁed. In this case, we can say that f is big O of g(n)
+or that g(n) is the asymptotic upper bound for f [57]. By analyzing the main steps of Algorithm 3,
+the pseudocode contains a for loop in line 13. This loop depends on the number of populations and
+contains a generation operation of gradient boosting model with random values for its parameters.
+The generating operation takes a constant time c. Suppose that the number of populations in worst
+case is also n. Consequently, this loop runs in O(cn). In addition, the pseudocode contains a for loop
+in line 21. This for loop depends on the number of iterations and contains two independent for loops.
+Each one depends on the number of populations. Let us assume that the number of iterations is n and
+the number of populations is n in the worst case. In line 24, the ﬁrst for loop contains a construction
+operation of the gradient boosting model. According to Reference [58], the time complexity to construct
+the gradient boosting model is O(dn), where d represents the number of features, and n is the number
+of data samples. Thus, the ﬁrst for loop runs in O(n3). The second for loop has a set of operations that
+have a constant time c and runs in O(cn). Therefore, the Algorithm 3 runs in a cubic polynomial time
+for building the GXGBoot model.

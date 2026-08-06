@@ -1,0 +1,47 @@
+Sensors 2024, 24, 3339
+5 of 26
+there is a lack of discussion on how to effectively compare alternative metaheuristic op-
+timization techniques for FS over a range of intrusion detection datasets. Finally, we
+acknowledge that a close examination of the tradeoff between the WOA’s exploration and
+exploitation capabilities is necessary to propose a novel approach for improving WOA
+for FS.
+2.3. Fine-Tuning Hyperparameters for Machine Learning Model
+Random search, which was developed by Bergstra et al. [33], is a traditional method
+that uses stochastic selection to determine hyperparameter values. Although a random
+search is known for being quick, it does not always guarantee the best possible results.
+Grid Search, on the other hand, provides an extensive examination of the hyperparameter
+space for a predetermined subset. It should be noted that using the Grid Search approach
+might become unfeasible if the parameter space is too large.
+Bayesian optimization, introduced by Quitadamo et al. [34], is a robust methodology
+for fine-tuning the hyperparameters associated with computationally demanding and
+resource-intensive processes. It operates by generating a probabilistic model that is subse-
+quently optimized to strategically guide the selection of the next evaluation points for the
+model’s objective function. All prior function evaluations inform this decision.
+Furthermore, Olson et al. [35] proposed the Tree-based Pipeline Optimization Tool
+(TPOT), an algorithm that leverages genetic programming techniques, and demonstrated its
+capacity to autonomously identify high-performing machine learning algorithm pipelines
+without requiring domain-specific expertise or human intervention. Notably, the genetic
+approach is particularly well-suited for expansive search spaces, although it is essential to
+acknowledge that computational efficiency may be limited, albeit adjustable, through the
+manipulation of parameters such as the number of generations and population size.
+SHERPA [36], introduced by Hertel et al., is an advanced hyperparameter tuning
+methodology primarily engineered to cater to tasks requiring resource-intensive and itera-
+tive function assessments, particularly in contexts such as hyperparameter optimization
+for deep learning models. Akiba et al. [37] proposed a new hyperparameter optimiza-
+tion software called Optuna (version 3.6.1), which is characterized by its capacity to dy-
+namically construct parameter search spaces, efficiently implement search and pruning
+strategies, and offer a flexible and easily deployable architecture suitable for a wide range
+of applications.
+An illustrative example is the work by Gabriel et al., who introduced a novel model
+termed BSOXGB [38] (BorutaShap feature selection combined with Optuna hyperparam-
+eter tuning of eXtremely Gradient Boost), achieving a notable accuracy of 97.70% in the
+diagnosis of Coronary Artery Disease (CAD). They underscored the importance of data
+preprocessing (DP) and hyperparameter tuning (HP) to ensure optimal performance in
+CAD prediction models.
+In conclusion, based on the recent studies comprehensively reviewed above, we found
+that to achieve the highest accuracy and efficiency, it is necessary to combine and enhance
+pertinent FS, ML models, and hyperparameter optimization techniques. Therefore, we
+propose a novel IDS that integrates a proposed optimization strategy called GSWO to select
+pertinent features and fine-tune hyperparameters for the CatBoost classifier. A summary of
+the intrusion detection methods mentioned above and our work in this context is presented
+in Table 1.

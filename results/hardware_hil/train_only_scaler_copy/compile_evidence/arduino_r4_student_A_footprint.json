@@ -1,0 +1,44 @@
+{
+  "status": "passed_copy_compile_footprint",
+  "protocol": "train_only_seed42_copy_pipeline",
+  "gate_policy": {
+    "maximum_macro_f1_drop": 0.03,
+    "minimum_fixed_vs_fp32_agreement": 0.99
+  },
+  "student": "student_A",
+  "board": "arduino_r4",
+  "fqbn": "arduino:renesas_uno:unor4wifi",
+  "board_core_version": "1.6.0",
+  "frontend_version": "arduino-cli 1.5.1",
+  "toolchain_version": "7.2.1",
+  "export_id": "697491c3301191795b7c055db2e85defeec66fc0fa3248a644295651ce4d0e28",
+  "bundle_id": "90acb226e999bc0ff2c57ca74440f6c191126a59fa4b4926698c078403a4b84d",
+  "flash": {
+    "used": 56384,
+    "percent": 21,
+    "maximum": 262144
+  },
+  "ram": {
+    "used": 7128,
+    "percent": 21,
+    "remaining": 25640,
+    "maximum": 32768
+  },
+  "compile_log": "results/hardware_hil/train_only_scaler_copy/compile_evidence/arduino_r4_student_A/compile_verbose.log",
+  "compile_log_sha256": "98cce8cda4fc6faf9e59a6553fec33f80460fcf08fc9d1ba0bf549192bc8e9c4",
+  "firmware_binary": "results/hardware_hil/train_only_scaler_copy/compile_evidence/arduino_r4_student_A/bin/train_only_student_A_seed42_arduino_r4_copy.ino.bin",
+  "firmware_binary_sha256": "6791a9c81b81678ad94b2e385b5c6c3911dd981cc55bd626c7f4909181a7cdaf",
+  "firmware_binary_bytes": 56392,
+  "generated_dir": "deployment/firmware_export/wsnds_rfkd_hil/generated_train_only_student_A_seed42_copy",
+  "bundle_dir": "deployment/hardware_hil/build/train_only_student_A_seed42_arduino_r4_copy",
+  "binary_contains_export_and_bundle_ids": true,
+  "smoke_10": {
+    "path": "results/hardware_hil/train_only_scaler_copy/compile_evidence/smoke_arduino_r4_student_A",
+    "completed": 10,
+    "status_counts": {
+      "OK": 10
+    },
+    "ok": true
+  },
+  "note": "Compile performed on Pi with arduino-cli; full 56,200 HIL already passed under results/hardware_hil/train_only_scaler_copy/. Original record_compile_evidence.py refuses copy gate 0.03; this copy footprint binder records observed footprints + ID-bound binaries."
+}

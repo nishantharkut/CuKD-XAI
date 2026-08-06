@@ -1,0 +1,148 @@
+{
+  "id": "cantini2024dixtill",
+  "n_pages": 17,
+  "bytes": 1874672,
+  "metadata": {
+    "format": "PDF 1.4",
+    "title": "Xai-driven knowledge distillation of large language models for efficient deployment on low-resource devices",
+    "author": "Riccardo Cantini ",
+    "subject": "Journal of Big Data, https://doi.org/10.1186/s40537-024-00928-3",
+    "keywords": "Knowledge distillation; eXplainable Artificial Intelligence; Low-resource devices; Edge AI; Large language models; Sustainable AI",
+    "creator": "Springer",
+    "producer": "Acrobat Distiller 10.1.8 (Windows); modified using iText\u00ae 5.3.5 \u00a92000-2012 1T3XT BVBA (SPRINGER SBM; licensed version)",
+    "creationDate": "D:20240521082206+05'30'",
+    "modDate": "D:20240521094712+02'00'",
+    "trapped": "",
+    "encryption": null
+  },
+  "page1_first_lines": [
+    "Open Access",
+    "\u00a9 The Author(s) 2024, corrected publication 2024. Open Access  This article is licensed under a Creative Commons Attribution 4.0 Interna-",
+    "tional License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appro-",
+    "priate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made.",
+    "The images or other third party material in this article are included in the article\u2019s Creative Commons licence, unless indicated otherwise in",
+    "a credit line to the material. If material is not included in the article\u2019s Creative Commons licence and your intended use is not permitted by",
+    "statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of",
+    "this licence, visit http://\u200bcreat\u200biveco\u200bmmons.\u200borg/\u200blicen\u200bses/\u200bby/4.\u200b0/.",
+    "RESEARCH",
+    "Cantini\u00a0et\u00a0al. Journal of Big Data  (2024) 11:63",
+    "https://doi.org/10.1186/s40537-024-00928-3",
+    "Journal of Big Data",
+    "Xai\u2011driven knowledge distillation of\u00a0large",
+    "language models for\u00a0efficient deployment",
+    "on\u00a0low\u2011resource devices",
+    "Riccardo\u00a0Cantini1*, Alessio\u00a0Orsino1\u00a0and Domenico\u00a0Talia1",
+    "Abstract",
+    "Large Language Models (LLMs) are characterized by\u00a0their inherent memory inef-",
+    "ficiency and\u00a0compute-intensive nature, making them impractical to\u00a0run on\u00a0low-",
+    "resource devices and\u00a0hindering their applicability in\u00a0edge AI contexts. To address this",
+    "issue, Knowledge Distillation approaches have been adopted to\u00a0transfer knowledge",
+    "from\u00a0a\u00a0complex model, referred to\u00a0as\u00a0the teacher, to\u00a0a\u00a0more compact, computationally",
+    "efficient one, known as\u00a0the\u00a0student. The aim is\u00a0to\u00a0retain the\u00a0performance of\u00a0the\u00a0original",
+    "model while\u00a0substantially reducing computational requirements. However, traditional",
+    "knowledge distillation methods may struggle to\u00a0effectively transfer crucial explainable",
+    "knowledge from\u00a0an\u00a0LLM teacher to\u00a0the\u00a0student, potentially leading to\u00a0explanation",
+    "inconsistencies and\u00a0decreased performance. This paper presents DiXtill, a\u00a0method",
+    "based on\u00a0a\u00a0novel approach to\u00a0distilling knowledge from\u00a0LLMs into\u00a0lightweight neural",
+    "architectures. The main idea is\u00a0to\u00a0leverage local explanations provided by\u00a0an\u00a0eXplain-",
+    "able Artificial Intelligence (XAI) method to\u00a0guide the\u00a0cross-architecture distillation",
+    "of\u00a0a\u00a0teacher LLM into\u00a0a\u00a0self-explainable student, specifically a\u00a0bi-directional LSTM",
+    "network.Experimental results show that\u00a0our XAI-driven distillation method allows",
+    "the\u00a0teacher explanations to\u00a0be effectively transferred to\u00a0the\u00a0student, resulting in\u00a0bet-",
+    "ter agreement compared to\u00a0classical distillation methods,thus enhancing the\u00a0student",
+    "interpretability. Furthermore, it enables the\u00a0student to\u00a0achieve comparable perfor-",
+    "mance to\u00a0the\u00a0teacher LLM while\u00a0also\u00a0delivering a\u00a0significantly higher compression",
+    "ratio and\u00a0speedup compared to\u00a0other techniques such as\u00a0post-training quantiza-",
+    "tion and\u00a0pruning, which paves the\u00a0way for\u00a0more efficient and\u00a0sustainable edge AI",
+    "applications",
+    "Keywords:\u2002 Knowledge distillation, eXplainable Artificial Intelligence, Low-resource"
+  ],
+  "abstract_guess": "Large Language Models (LLMs) are characterized by\u00a0their inherent memory inef-\nficiency and\u00a0compute-intensive nature, making them impractical to\u00a0run on\u00a0low-\nresource devices and\u00a0hindering their applicability in\u00a0edge AI contexts. To address this \nissue, Knowledge Distillation approaches have been adopted to\u00a0transfer knowledge \nfrom\u00a0a\u00a0complex model, referred to\u00a0as\u00a0the teacher, to\u00a0a\u00a0more compact, computationally \nefficient one, known as\u00a0the\u00a0student. The aim is\u00a0to\u00a0retain the\u00a0performance of\u00a0the\u00a0original \nmodel while\u00a0substantially reducing computational requirements. However, traditional \nknowledge distillation methods may struggle to\u00a0effectively transfer crucial explainable \nknowledge from\u00a0an\u00a0LLM teacher to\u00a0the\u00a0student, potentially leading to\u00a0explanation \ninconsistencies and\u00a0decreased performance. This paper presents DiXtill, a\u00a0method \nbased on\u00a0a\u00a0novel approach to\u00a0distilling knowledge from\u00a0LLMs into\u00a0lightweight neural \narchitectures. The main idea is\u00a0to\u00a0leverage local explanations provided by\u00a0an\u00a0eXplain-\nable Artificial Intelligence (XAI) method to\u00a0guide the\u00a0cross-architecture distillation \nof\u00a0a\u00a0teacher LLM into\u00a0a\u00a0self-explainable student, specifically a\u00a0bi-directional LSTM \nnetwork.Experimental results show that\u00a0our XAI-driven distillation method allows \nthe\u00a0teacher explanations to\u00a0be effectively transferred to\u00a0the\u00a0student, resulting in\u00a0bet-\nter agreement compared to\u00a0classical distillation methods,thus enhancing the\u00a0student \ninterpretability. Furthermore, it enables the\u00a0student to\u00a0achieve comparable perfor-\nmance to\u00a0the\u00a0teacher LLM while\u00a0also\u00a0delivering a\u00a0significantly higher compression \nratio and\u00a0speedup compared to\u00a0other techniques such as\u00a0post-training quantiza-\ntion and\u00a0pruning, which paves the\u00a0way for\u00a0more efficient and\u00a0sustainable edge AI \napplications",
+  "resultish_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "n_chars": 3690
+    },
+    {
+      "page": 2,
+      "n_chars": 3560
+    },
+    {
+      "page": 3,
+      "n_chars": 3194
+    },
+    {
+      "page": 4,
+      "n_chars": 3800
+    },
+    {
+      "page": 5,
+      "n_chars": 3415
+    },
+    {
+      "page": 6,
+      "n_chars": 2374
+    },
+    {
+      "page": 7,
+      "n_chars": 3276
+    },
+    {
+      "page": 8,
+      "n_chars": 3231
+    },
+    {
+      "page": 9,
+      "n_chars": 3073
+    },
+    {
+      "page": 10,
+      "n_chars": 1585
+    },
+    {
+      "page": 11,
+      "n_chars": 2964
+    },
+    {
+      "page": 12,
+      "n_chars": 2543
+    },
+    {
+      "page": 13,
+      "n_chars": 1595
+    },
+    {
+      "page": 14,
+      "n_chars": 3309
+    },
+    {
+      "page": 15,
+      "n_chars": 3461
+    },
+    {
+      "page": 16,
+      "n_chars": 5469
+    },
+    {
+      "page": 17,
+      "n_chars": 751
+    }
+  ]
+}

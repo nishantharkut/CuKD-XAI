@@ -1,0 +1,53 @@
+We report the student accuracy and teacher-student agreement for each augmentation strategy, and
+also include results for Baseline with τ = 1 and τ = 4 to demonstrate the effect of logit tempering.
+We ﬁrst observe that the best augmentation policies for generalization, MixUp, and GAN4, are not
+the best policies for ﬁdelity. Furthermore, although many augmentation strategies enable slightly
+higher distillation ﬁdelity compared to Baseline (τ = 1), even the best augmentation policy, Mixup
+(τ = 4), only achieves a modest 86% test agreement. In fact the Baseline (τ = 4) policy is quite
+competitive, achieving 84.5% test agreement. Many of the augmentation strategies also slightly
+improve teacher-student KL relative to Baseline (τ = 4) (see Figure 11).
+In Figure 11 in Appendix B.3 we report all generalization and ﬁdelity metrics for a range of ensemble
+sizes, as well as the results for the independent student baseline discussed in Section 3.2. Often these
+independent students, taught how to mimic a completely different model, have nearly as good test
+agreement with the teacher as the student explicitly trained to emulate it. See Appendix A.1 for a
+detailed description of the augmentation procedures.
+Should data augmentation be close to the data distribution?
+In theory, any data augmentation
+should help with identiﬁability: if a student matches a teacher on more data, it is more likely to match
+the teacher elsewhere. However, the Noise and OOD augmentation strategies based on noise and out-
+of-distribution data fail on all metrics, decreasing performance compared to the baseline. In practice,
+data augmentation has an effect beyond improving identiﬁability — it has a regularizing effect,
+making optimization more challenging. We explore this facet of data augmentation in Section 6.
+The slight improvements to ﬁdelity with extensive augmentations suggest that increasing the support
+of the distillation dataset can indeed improve distillation ﬁdelity. However, since the beneﬁt is so
+small compared to heuristics like logit tempering (which does not modify the support at all), it is very
+unlikely that an insufﬁcient quantity of teacher labels is the primary obstacle to high ﬁdelity.
+5.2
+The data recycling hypothesis
+If simply showing the student more labels does not always signiﬁcantly improve ﬁdelity, perhaps we
+are not showing the student the right labels. Additional data augmentation during distillation does
+give the student more teacher labels to match, but also introduces a distribution shift between the
+images the teacher was trained on and the images the student is distilling on. Even when the teacher
+and student have the same augmentation policy, reusing the teacher’s training data for distillation
+violates the assumptions of empirical risk minimization (ERM) because the distillation data is not an
+independent draw from the true joint distribution over images and teacher labels. What if there was
+no augmentation distribution shift, and the student was distilled on a fresh draw from the joint test
+distribution over images and teacher labels?
+To investigate the effect of recycling teacher data during distillation we randomly split the CIFAR-100
+training dataset D into two equal parts, D0 and D1. We train teacher ResNet-56 ensembles on D0,
+and then compare s0, a student distilled on the original D0, s1, a student distilled on the unseen D1,
+and s0∪1, a student distilled on both: D0 ∪D1. Note that the students cannot access the true labels,
+only those provided by the teacher. We present the results in Figure 4, varying the ensemble size in
+the top row and the logit temperature in the bottom row.
+Surprisingly, s0 attains higher test accuracy than s1, while showing worse ECE and lower ﬁdelity
+(measured by test teacher-student agreement and test teacher-student KL). Therefore, the hypothesis
+that s1 should be a higher ﬁdelity distillation of the teacher than s0 does hold, but the gain in ﬁdelity
+does not result in s1 best replicating the teacher’s accuracy. The best attributes of s0 and s1 are
+combined by s0∪1, which coincides with how unlabeled data is typically used in practice [2]. The
+reason for this puzzling observation is simply that for the larger teachers ﬁdelity has not improved
+enough to also improve generalization. In fact, the best teacher-student agreement is only around
+85%, no improvement when compared to the results from extensive data augmentation in the last
+section. We again ﬁnd that modifying the distillation data can slightly improve ﬁdelity, but the
+evidence does not support blaming poor distillation ﬁdelity on the wrong choice of distillation data.
+4Unlike Figure 1, for Figure 3 we generated new GAN samples every epoch, to mimic data augmentation.
+7

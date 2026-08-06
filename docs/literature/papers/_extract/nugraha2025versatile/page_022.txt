@@ -1,0 +1,69 @@
+1116
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 13 Execution time for
+LIME local explanations with
+TabNet model
+CAML is unsuitable for tabular datasets and XGBoost is
+not an attention weights-based model, we replaced CAML
+with TabNet [45], which is a deep learning model speciﬁ-
+cally designed for tabular data and is also equipped with an
+attention mechanism. TabNet uses a sparse attention mech-
+anism that dynamically selects the most relevant features
+for each sample during training. The attention-based Feature
+Transformer focuses on important features and learns their
+signiﬁcance. Through an iterative process, TabNet reﬁnes its
+predictionsstepbystep,witheachstepbuildingontheknowl-
+edgegainedfromearlierstepstoimproveitsunderstandingof
+the data. We ﬁne-tuned the hyperparameters of the TabNet
+architecture using GridSearchCV. The resulting conﬁgura-
+tion is as follows: the model uses eight decision dimensions
+(n_d=8)andeightattentiondimensions(n_a=8),withthree
+decision steps (n_steps=3) to iteratively reﬁne feature
+importance and predictions. The learning rate (lr=0.02)
+ensures steady optimization, and batch processing is opti-
+mized with a batch size of 512 and a virtual batch size of
+128 to balance memory efﬁciency and training speed. These
+parameters, combined with the sparse attention mechanism,
+allow TabNet to dynamically focus on signiﬁcant features in
+the datasets.
+We conducted experiments on CIC-DDoS2019 and
+CICIoT2023 datasets, and analyzed the explanation gener-
+ation time, focusing on the impact of feature reduction. As
+shown in Fig.13, the explanation generation time decreases
+signiﬁcantly when fewer features are used. For instance, in
+the SYN Flood dataset, the time dropped from 48.13 to
+15.43s when using 10 features, and for Portmap, it decreased
+from 15.77 to 6.14s. These results conﬁrm that the Feature
+Reduction process introduced in our framework improves
+the efﬁciency of LIME’s explanation generation when paired
+with attention-weight-based models like TabNet. In addition,
+we observe that using XGBoost achieves faster explanation
+generation times, as TabNet’s attention mechanism intro-
+duces additional computational complexity. The codes and
+datasets utilized in this study are publicly available online1
+to facilitate full reproducibility.
+4.2.5 Ablation study
+Table 16 shows the ablation results for Portmap trafﬁc, where
+both SHAP-only and ANOVA+SHAP fusion maintain per-
+fect alignment with the full-feature baseline (F1 = 0.9994).
+ANOVA-only selection, however, causes a noticeable decline
+(F1 = 0.9981), indicating that purely statistical ﬁltering may
+miss interaction effects critical to Portmap classiﬁcation.
+Fromanefﬁciencyperspective,SHAP-onlyachievesthelow-
+estLIMEtime(1.85s),whilethecombinedvariantretainsthe
+same detection quality with only a marginal increase (2.29
+s), suggesting that fusion preserves interpretability without
+introducing overhead.
+For SYN Flood (Table 17), all models achieve near-
+identical performance to the full-feature baseline (F1 =
+0.9999), conﬁrming the separability of this attack class.
+ANOVA-only again exhibits a minor drop (F1 = 0.9990), but
+it reduces LIME explanation time to 1.90 s, while SHAP-
+only requires 2.18 s. The ANOVA+SHAP fusion offers a
+balanced compromise (2.29 s), maintaining perfect accuracy
+while trimming redundant features.
+The HTTP Flood subset (Table 18) further illustrates these
+trends. Both SHAP-only and ANOVA+SHAP achieve per-
+fect scores, while ANOVA-only shows a small reduction (F1
+1 https://github.com/DLTeamTUC/XAI-IDS
+123

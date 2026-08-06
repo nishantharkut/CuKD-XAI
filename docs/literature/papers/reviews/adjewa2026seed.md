@@ -1,0 +1,74 @@
+# Review card: adjewa2026seed
+
+**Status:** PASS1B+PASS2_TEXT+PASS2_VISUAL_TITLE OK
+**PDF text pages extracted:** 22
+**Ground truth extract:** `_extract/adjewa2026seed.full.txt`
+**Evidence JSON:** `_pass1b_evidence/adjewa2026seed.json`
+**Generated:** 2026-08-06
+
+## Identity (page-1 text)
+- **Title:** Revised: 23 December 2025 distributed under the terms and conditions of the Creative Commons
+- **Tags:** XAI, quant
+
+## Abstract (extracted)
+> The convergence of Artificial Intelligence (AI) and the Internet of Things (IoT) is enabling a new class of intelligent applications. Specifically, Large Language Models (LLMs) are emerging as powerful tools not only for natural language understanding but also for enhancing IoT security. However, the integration of these computationally intensive models into resource-constrained IoT environments presents significant challenges. This paper provides an in-depth examination of how LLMs can be adapted to secure IoT ecosystems. We identify key application areas, discuss major challenges, and propose optimization strategies for resource-limited settings. Our primary contribution is a novel collaborative embeddings offloading mechanism for IoT intrusion detection named SEED (Semantic Embeddings for Efficient Detection). This system leverages a lightweight, fine-tuned BERT model, chosen for its proven contextual and semantic understanding of sequences, to generate rich network embeddings at the edge. A compact neural network deployed on the end-device then queries these embeddings to assess network flow normality. This architecture alleviates the computational burden of running a full transformer on the device while capitalizing on its analytical performance. Our optimized BERT model is reduced by approximately 90% from its original size, now representing approximately 41 MB, suitable for the Edge. The resulting compact neural network is a mere 137 KB, appropriate for the IoT devices. This system achieves 99.9% detection accuracy with an average inference time of under 70 ms on a standard CPU. Finally, the paper discusses the ethical implications of LLM-IoT integration and evaluates the resilience of LLMs in dynamic and adversarial environments.
+
+## Table headers present in PDF text (exact lines)
+- `Table 1. Common Vulnerabilities in IoT Architectures.`
+- `Table 2. Comparative summary of case studies on LLM applications in IoT cybersecurity, highlighting`
+- `Table 2. Cont.`
+- `Table 3 summarizes the configurations of our SEED models. The EdgeBERT model`
+- `Table 3. SEED Model Configurations, Parameters, and Memory Sizes.`
+- `Table 4 presents the classification report for the Edge-level model. These results`
+- `Table 4. Classification Report for the Edge Model Network.`
+- `Table 5. End-to-End Latency Summary for SEED Inference Pipeline.`
+
+## Metric-bearing lines (exact PDF lines; PASS2-verified)
+- `appropriate for the IoT devices. This system achieves 99.9% detection accuracy with an`
+- `2025)). This unprecedented growth is reshaping modern life, with transformative impacts`
+- `achieves up to 99% accuracy for both binary (normal vs. abnormal) and multi-category`
+- `98.2% detection accuracy with sub-150 ms inference latency on an average CPU. Its com-`
+- `employed fine-tuned LLMs to achieve 94.9% accuracy in DDoS detection, surpassing tradi-`
+- `BERT consistently outperformed GPT-2, achieving up to 94.0% accuracy on TON-IoT due`
+- `prediction and BERT for accuracy assessment, using the CICIoT2023 dataset [22]. BART`
+- `achieved 98.26% classification accuracy, while BERT provided robust contextual validation.`
+- `Although parameter transfer (1.17 million parameters) introduced delays, reducing the`
+- `SecurityBERT, a lightweight model with 98.2% detection accuracy and sub-150ms inference`
+- `accuracy on CICIoT2023 dataset.`
+- `9: Freeze the trained model parameters`
+- `to lower-precision formats such as 8-bit integers (int8) or 4-bit (int4), quantization can`
+- `while drastically reducing parameter count. For instance, TinyBERT achieves up to 96%`
+- `trade-offs in accuracy [29].`
+- `and 2 fully connected layers, resulting in over 10 million parameters [23]. The IoT-level`
+- `and dropout; the binary and five-category models contain only 33k and 34k parameters,`
+- `Table 3. SEED Model Configurations, Parameters, and Memory Sizes.`
+- `metrics including accuracy, precision, recall, and F1-score. These metrics are defined`
+- `F1-score is the harmonic mean of precision and recall, providing a balanced metric for`
+- `F1-score = 2 × Precision × Recall`
+- `After training, EdgeBERT achieved nearly 100% accuracy.`
+- `Figure 5 shows the variation of loss and accuracy every 1000 mini-batches during`
+- `represents an effective trade-off, as the full BERT model with over 100 million parameters`
+- `Figure 5. Loss and Accuracy variation of EdgeBERT every 1000 mini batches.`
+- `lowest performance, with an F1-score of 0.9673. This behavior is partly explained by its`
+- `At the IoT level, the compact 137 KB neural network achieves an accuracy of 99.99%`
+- `F1-Score`
+- `with 4 cores. Table 5 summarizes these metrics. These latency magnitudes align well`
+- `Table 5. End-to-End Latency Summary for SEED Inference Pipeline.`
+
+## CuKD freeze notes (non-numeric)
+- XAI neighborhood → do not invent Spearman ρ; C6 is CuKD measurement.
+- Quantization neighborhood → Jacob/C4 PTQ honesty.
+- **Numbers only from exact lines above.**
+
+## Verification
+- PASS1B: evidence JSON written with exact lines from extract
+- PASS2: all `38` quoted lines re-found in full extract (by construction)
+- PASS2_TEXT: OK; PASS2_VISUAL_TITLE: OK
+
+## PASS2 independent text re-check (2026-08-06)
+- **PASS2_OK** — 38/38 quotes exact-match in full extract
+
+## PASS2 visual title check (2026-08-06)
+- page_001.png exists: True
+- title word hit ratio vs page-1 text: 1.000
+- **PASS2_VISUAL_TITLE_OK** (title words supported by page-1 text + PNG on disk)

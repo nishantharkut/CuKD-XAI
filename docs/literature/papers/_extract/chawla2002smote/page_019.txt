@@ -1,0 +1,56 @@
+SMOTE
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+Covtype ROC
+%FP
+%TP
+Under−C4.5     
+300 SMOTE−C4.5 
+Naive Bayes    
+Hull           
+Figure 13: Forest Cover.
+Comparison of SMOTE-C4.5, Under-C4.5, and Naive Bayes.
+SMOTE-C4.5 and Under-C4.5 ROC curves are very close to each other. How-
+ever, more points from the SMOTE-C4.5 ROC curve lie on the ROC convex
+hull, thus establishing a dominance.
+inates. Adhering to the deﬁnition of ROC convex hull, most of the potentially optimal
+classiﬁers are the ones generated with SMOTE.
+5.3 AUC Calculation
+The Area Under the ROC curve (AUC) is calculated using a form of the trapezoid rule. The
+lower leftmost point for a given ROC curve is a classiﬁer’s performance on the raw data.
+The upper rightmost point is always (100%, 100%). If the curve does not naturally end at
+this point, the point is added. This is necessary in order for the AUC’s to be compared
+over the same range of %FP.
+The AUCs listed in Table 5.3 show that for all datasets the combined synthetic mi-
+nority over-sampling and majority over-sampling is able to improve over plain majority
+under-sampling with C4.5 as the base classiﬁer.
+Thus, our SMOTE approach provides
+an improvement in correct classiﬁcation of data in the underrepresented class. The same
+conclusion holds from an examination of the ROC convex hulls. Some of the entries are
+missing in the table, as SMOTE was not applied at the same amounts to all datasets. The
+amount of SMOTE was less for less skewed datasets. Also, we have not included AUC’s
+for Ripper/Naive Bayes. The ROC convex hull identiﬁes SMOTE classiﬁers to be poten-
+tially optimal as compared to plain under-sampling or other treatments of misclassiﬁcation
+costs, generally. Exceptions are as follows: for the Pima dataset, Naive Bayes dominates
+over SMOTE-C4.5; for the Oil dataset, Under-Ripper dominates over SMOTE-Ripper. For
+the Can dataset, SMOTE-classiﬁer (classiﬁer = C4.5 or Ripper) and Under-classiﬁer ROC
+339

@@ -1,0 +1,65 @@
+Gradient
+SmoothGrad
+Gradient   Input
+Guided 
+Back-propagation
+GradCAM
+Integrated Gradients
+Integrated Gradients-SG
+logits
+conv2d_1a_3x3
+mixed_7c
+mixed_7b
+conv2d_2a_3x3
+conv2d_2b_3x3
+conv2d_4a_3x3
+mixed_7a
+mixed_6e
+mixed_6d
+mixed_6c
+mixed_6b
+mixed_6a
+mixed_5d
+mixed_5c
+mixed_5b
+conv2d_3b_1x1
+Original Explanation
+Guided GradCAM
+Independent ‘layer’ randomization
+Original Image
+Figure 3: Independent randomization on Inception v3 (ImageNet). Similar to Figure 2, however
+each ‘layer’/‘block’ is randomized independently, i.e., the rest of the weights are kept at the pre-trained
+values, while only each layer/block is randomized. Masks derived from these partially randomized
+networks are shown here. We observe, again, that Guided Backprop is sensitive to only the lower
+layer weights.
+4
+Data Randomization Test
+The feasibility of accurate prediction hinges on the relationship between instances (e.g., images)
+and labels encoded by the data. If we artiﬁcially break this relationship by randomizing the labels,
+no predictive model can do better than random guessing. Our data randomization test evaluates the
+sensitivity of an explanation method to the relationship between instances and labels. An explanation
+method insensitive to randomizing labels cannot possibly explain mechanisms that depend on the
+relationship between instances and labels present in the data generating process. For example, if an
+explanation did not change after we randomly assigned diagnoses to CT scans, then evidently it did
+not explain anything about the relationship between a CT scan and the correct diagnosis in the ﬁrst
+place (see [32] for an application of Guided BackProp as part of a pipepline for shadow detection in
+2D Ultrasound).
+In our data randomization test, we permute the training labels and train a model on the randomized
+training data. A model achieving high training accuracy on the randomized training data is forced to
+memorize the randomized labels without being able to exploit the original structure in the data. As it
+turns out, state-of-the art deep neural networks can easily ﬁt random labels as was shown in Zhang
+et al. [31].
+In our experiments, we permute the training labels for each model and data set pair, and train the
+model to greater than 95% training set accuracy. Note that the test accuracy is never better than
+randomly guessing a label (up to sampling error). For each resulting model, we then compute
+explanations on the same test bed of inputs for a model trained with true labels and the corresponding
+model trained on randomly permuted labels.
+Gradient is sensitive. We ﬁnd, again, that gradients, and its smoothgrad variant, undergo substan-
+tial changes. We also observe that GradCAM masks undergo changes that result in masks with
+disconnected patches.
+Sole reliance on the visual inspection can be misleading. For Guided BackProp, we observe a
+visual change; however, we ﬁnd that the masks still highlight portions of the input that would seem
+plausible, given correspondence with the input, on naive visual inspection. For example, from the
+diverging masks (Figure 6-Right), we see that the Guided BackProp mask still assigns positive
+relevance across most of the digit for the network trained on random labels.
+6

@@ -1,0 +1,114 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1103
+validation. This step evaluates the effectiveness of the feature
+reduction process by comparing performance metrics before
+(ﬁrst stage) and after (second stage) the feature reduction.
+The expected outcome is that the model sustains high classi-
+ﬁcation performance while requiring fewer features, which
+translates to reduced computational costs, faster training, and
+decreased storage needs.
+To enhance interpretability, SHAP and LIME Local
+Explanations are applied to a randomly selected sample to
+explain the model’s decision-making process. SHAP gener-
+ates explanations by assigning Shapley values to features,
+showing their contributions to speciﬁc predictions. LIME
+complements this by creating local surrogate models to
+approximate the decision boundaries of the original model
+for the selected samples. The synergy between these methods
+provides a comprehensive view of the feature contributions
+to each decision.
+The explanation consistency check is performed to ensure
+alignment between SHAP and LIME outputs. This step val-
+idates the reliability of the explanations and identiﬁes any
+inconsistencies or potential biases in feature interpretation.
+The insights from this process are fed back into the Fea-
+ture Reassessment loop, where features are re-evaluated, and
+potentially new features are identiﬁed, reﬁning the Feature
+Reduction process for greater accuracy and efﬁciency.
+This iterative process ensures that our framework adapts
+dynamicallytothecharacteristicsofthedataset,continuously
+improving both the model’s interpretability and prediction
+performance. The second stage thus serves as the critical
+link between feature reduction and real-time application,
+ensuring that the IDS framework remains both efﬁcient and
+reliable.
+4 Performance evaluation
+4.1 Datasets, ML model, and performance metrics
+selection
+For evaluating the proposed framework, we select the CIC-
+DDoS2019 [41], CICIoT2023 [42], and 5G PFCP [43]
+datasets, which together cover a broad spectrum of attack
+trafﬁc and benign ﬂows across different networking environ-
+ments. CIC-DDoS2019 provides representative volumetric
+DDoS attacks (e.g., HTTP Flood, SYN Flood) that domi-
+nate IP-based networks, CICIoT2023 reﬂects the complexity
+of IoT-oriented threats, and 5G PFCP highlights emerging
+control-plane vulnerabilities in mobile-core systems. Within
+these datasets, we deliberately select a set of representa-
+tive attacks, namely volumetric (HTTP, SYN), low-and-slow
+(Slowloris), reconnaissance (Portmap), and 5G control-
+plane (Session Deletion, Session Establishment), to capture
+diverse trafﬁc characteristics and detection challenges. This
+selection ensures coverage of both common and hard-to-
+detect attack families, while keeping the evaluation tractable
+and focused without compromising the generality of the con-
+clusions. Table 3 shows that all three datasets have been
+pre-processed to be class-balanced but vary in size and num-
+ber of features. The Portmap set has 59 features for 8000
+ﬂows, CICIoT2023 is much larger but reduces to 35 fea-
+tures, and the 5G PFCP data has just 14 features. This
+highlights the framework’s ability to handle different data
+scales without being affected by class imbalance. Because
+the balanced variants of CIC-DDoS2019 (Portmap), the three
+CICIoT2023 ﬁles, and the two 5G PFCP corpora each con-
+tain virtually equal numbers of benign and malicious ﬂows
+(Table 3), class imbalance was not an issue. Consequently, no
+resampling or cost-sensitive weighting was applied; instead,
+all train/validation/test partitions are stratiﬁed to preserve the
+1:1 class ratio.
+Data preprocessing involves three main steps: removing 5-
+tuple features, removing ﬂow-related features, and removing
+constant features. The 5-tuple attributes (source IP, desti-
+nation IP, source port, destination port, and protocol) are
+removed because they are speciﬁc to individual connections.
+These attributes might also introduce an unnecessary model
+bias towards speciﬁc IP addresses or port numbers, which
+could make the detection of general attack patterns more
+difﬁcult. Flow-related features, such as ﬂow duration, are
+excluded because they require waiting for the entire ﬂow to
+be completed before being calculated. This step is important
+for achieving real-time detection, where the IDS must pro-
+cess trafﬁc as it arrives without waiting for ﬂow completion.
+Constant features are removed because they do not provide
+anyvariabilityorusefulinformationforthemodel’sdecision-
+making process. Since constant features have the same value
+across all samples, they do not help the model differentiate
+between malicious and benign trafﬁc and can unneces-
+sarily increase the number of features the model needs
+to process, potentially leading to increased computational
+costs without improving performance. After preprocessing,
+the CIC-DDoS2019 dataset samples have 59 features, the
+CICIoT2023 dataset samples have 36 features, and the 5G
+Table 3 Summary of the
+datasets
+Dataset
+Benign
+Attack
+Total
+Features
+CIC-DDoS2019 (Portmap)
+4000
+4000
+8000
+59
+CICIoT2023 (3 variants)
+60,000
+60,000
+120,000
+35
+5G PFCP (2 variants)
+3103
+3103
+6206
+14
+123

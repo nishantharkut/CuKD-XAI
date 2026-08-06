@@ -1,0 +1,237 @@
+{
+  "protocol": "train_only_seed42_qat_refine_v1",
+  "parent_deployment_root": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42",
+  "parent_execution_contract_sha256": "1e8d4fe0d72c53e214118e89bee02770885daeddde8d96b80b51c18b1cada584",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "qat_hyperparameters": {
+    "epochs": 10,
+    "lr": 0.0001,
+    "batch_size": 256,
+    "seed": 42
+  },
+  "students": {
+    "A": {
+      "base_state_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "refined_state_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42_qat\\qat_refined_student_A_fp32.pt",
+      "refined_state_sha256": "7653fd8d065b5e0650a97d011624692b3b8ea70e0ce9a14706296101476ec0ee",
+      "baseline_ptq": {
+        "agreement": 0.9914768683274021,
+        "macro_f1_fp32": 0.9485087159320515,
+        "macro_f1_fixed": 0.9220849407880305,
+        "macro_f1_drop": 0.026423775144021056,
+        "per_class_f1_fp32": [
+          0.9157266091572661,
+          0.9539347408829175,
+          0.9225894069714803,
+          0.9977644428756324,
+          0.9525283797729618
+        ],
+        "per_class_f1_fixed": [
+          0.8505410938871015,
+          0.9539347408829175,
+          0.8531017369727047,
+          0.9979015081684285,
+          0.9549456240290005
+        ],
+        "calibration_layer_max_abs": [
+          83.56107330322266,
+          99.99954986572266,
+          41.15989685058594
+        ],
+        "passes_agreement_0_99": true,
+        "passes_macro_drop_0_01": false,
+        "passes_macro_drop_0_03": true
+      },
+      "qat": {
+        "best_val_macro_f1": 0.8883725215379105,
+        "epochs": 10,
+        "lr": 0.0001,
+        "batch_size": 256,
+        "freeze_observer_after": 5,
+        "history": [
+          {
+            "epoch": 1,
+            "val_macro_f1": 0.8736941447698389
+          },
+          {
+            "epoch": 2,
+            "val_macro_f1": 0.8755914013510446
+          },
+          {
+            "epoch": 3,
+            "val_macro_f1": 0.8883725215379105
+          },
+          {
+            "epoch": 4,
+            "val_macro_f1": 0.8822594501747302
+          },
+          {
+            "epoch": 5,
+            "val_macro_f1": 0.8810960646587545
+          },
+          {
+            "epoch": 6,
+            "val_macro_f1": 0.8752000606144288
+          },
+          {
+            "epoch": 7,
+            "val_macro_f1": 0.8798944323979498
+          },
+          {
+            "epoch": 8,
+            "val_macro_f1": 0.8773740971965271
+          },
+          {
+            "epoch": 9,
+            "val_macro_f1": 0.8793260047785493
+          },
+          {
+            "epoch": 10,
+            "val_macro_f1": 0.8829353958189508
+          }
+        ],
+        "qconfig": "fbgemm_default_qat"
+      },
+      "after_qat_ptq": {
+        "agreement": 0.9963167259786477,
+        "macro_f1_fp32": 0.8784164162561424,
+        "macro_f1_fixed": 0.8656101692616929,
+        "macro_f1_drop": 0.012806246994449544,
+        "per_class_f1_fp32": [
+          0.784783741532048,
+          0.9395085066162571,
+          0.7399783315276273,
+          0.9966903351894955,
+          0.9311211664152841
+        ],
+        "per_class_f1_fixed": [
+          0.786199686356508,
+          0.9377358490566038,
+          0.7282349827996825,
+          0.9948146763354422,
+          0.8810656517602283
+        ],
+        "calibration_layer_max_abs": [
+          85.04931640625,
+          98.71842956542969,
+          30.695632934570312
+        ],
+        "passes_agreement_0_99": true,
+        "passes_macro_drop_0_01": false,
+        "passes_macro_drop_0_03": true
+      }
+    },
+    "B": {
+      "base_state_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+      "refined_state_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42_qat\\qat_refined_student_B_fp32.pt",
+      "refined_state_sha256": "292d6141081551d0377e73c096f09b04c4c9db0f05e4502b5f195f0b10ee896c",
+      "baseline_ptq": {
+        "agreement": 0.9929537366548042,
+        "macro_f1_fp32": 0.9449299339062804,
+        "macro_f1_fixed": 0.9297131598718824,
+        "macro_f1_drop": 0.015216774034398028,
+        "per_class_f1_fp32": [
+          0.9033909149072297,
+          0.9539347408829175,
+          0.9152305542617606,
+          0.9980882915208377,
+          0.9540051679586563
+        ],
+        "per_class_f1_fixed": [
+          0.8490566037735849,
+          0.9539347408829175,
+          0.8964776632302406,
+          0.9979902551885729,
+          0.9511065362840968
+        ],
+        "calibration_layer_max_abs": [
+          31.03759002685547,
+          43.185455322265625,
+          28.40285301208496
+        ],
+        "passes_agreement_0_99": true,
+        "passes_macro_drop_0_01": false,
+        "passes_macro_drop_0_03": true
+      },
+      "qat": {
+        "best_val_macro_f1": 0.9084491036652071,
+        "epochs": 10,
+        "lr": 0.0001,
+        "batch_size": 256,
+        "freeze_observer_after": 5,
+        "history": [
+          {
+            "epoch": 1,
+            "val_macro_f1": 0.9084491036652071
+          },
+          {
+            "epoch": 2,
+            "val_macro_f1": 0.900817368743853
+          },
+          {
+            "epoch": 3,
+            "val_macro_f1": 0.8934536098705399
+          },
+          {
+            "epoch": 4,
+            "val_macro_f1": 0.9046522999943868
+          },
+          {
+            "epoch": 5,
+            "val_macro_f1": 0.9052036934158597
+          },
+          {
+            "epoch": 6,
+            "val_macro_f1": 0.9022596858486913
+          },
+          {
+            "epoch": 7,
+            "val_macro_f1": 0.9066422404705555
+          },
+          {
+            "epoch": 8,
+            "val_macro_f1": 0.9044063268284294
+          },
+          {
+            "epoch": 9,
+            "val_macro_f1": 0.8941796893383629
+          },
+          {
+            "epoch": 10,
+            "val_macro_f1": 0.904724069100804
+          }
+        ],
+        "qconfig": "fbgemm_default_qat"
+      },
+      "after_qat_ptq": {
+        "agreement": 0.9962811387900355,
+        "macro_f1_fp32": 0.908890873641219,
+        "macro_f1_fixed": 0.9045531380528017,
+        "macro_f1_drop": 0.004337735588417324,
+        "per_class_f1_fp32": [
+          0.8263591433278419,
+          0.9439696106362773,
+          0.854655056932351,
+          0.9967002533734017,
+          0.9227703039362232
+        ],
+        "per_class_f1_fixed": [
+          0.8208130081300813,
+          0.9430740037950665,
+          0.8429307640600493,
+          0.9963848556889404,
+          0.9195630585898709
+        ],
+        "calibration_layer_max_abs": [
+          30.852458953857422,
+          42.45160675048828,
+          28.576671600341797
+        ],
+        "passes_agreement_0_99": true,
+        "passes_macro_drop_0_01": true,
+        "passes_macro_drop_0_03": true
+      }
+    }
+  },
+  "historical_note": "Archived HIL export_summary source paths pointed at wsnds_deployment_qat_outputs/*_fp32.pt. Archived Student A hil_reference macro drop was ~0.0035; Student B ~0.0266. Old exporter enforced agreement only, not a 0.01 macro-drop gate."
+}

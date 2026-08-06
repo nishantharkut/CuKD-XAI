@@ -1,0 +1,44 @@
+Page 14 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+financial domain reflects a pessimistic outlook among investors, anticipating a 
+decline in asset prices and an overall market downturn.
+•	 In the second example, the model correctly identifies the provided text as bullish, 
+focusing on words like raised, stock, and price. Notably, a bullish sentiment indicates 
+a positive perspective among investors, foreseeing an increase in asset values and 
+overall market expansion.
+•	 The last example is correctly classified as neutral by the model, as it does not convey 
+any explicit bearish or bullish tendency. In this case, the model focuses on the words 
+little, impact, credit, and suisse, where Credit Suisse is a global financial services com-
+pany based in Switzerland.
+Discussion
+Our research showcased the efficacy of the proposed XAI-driven distillation method in 
+transferring explainable knowledge from an LLM to a lightweight self-explainable stu-
+dent network. This allows the student to achieve comparable classification performance 
+to the teacher LLM, outperforming other traditional distillation methods, such as KL 
+distillation and matching logits with MSE. Moreover, by integrating teacher explana-
+tions into the distillation process, DiXtill allows for achieving a higher level of inter-
+pretability and faithfulness of the distilled student model, whose explanations, learned 
+via backpropagation, show a stronger agreement with those of the teacher, compared 
+to traditional distillation techniques. In terms of computational and memory efficiency, 
+employing a cross-architecture knowledge distillation approach enables the use of a 
+substantially smaller and more compact student network, which facilitates deploy-
+ment and inference on resource-constrained devices. Conversely, common compression 
+techniques, such as post-training quantization and attention head pruning, retain the 
+same complex neural architecture as the teacher model, resulting in lower compression 
+ratios and speedup compared to DiXtill. As a consequence, despite ensuring a high level 
+of accuracy, such techniques may fail to produce models compact enough for deploy-
+ment on resource-constrained devices, such as IoT ones. Furthermore, the compres-
+sion achieved by quantization techniques is constrained by the representation range of 
+weights and activations, while, as noticed in our experiments, performance achieved 
+through attention head pruning deteriorates dramatically as more heads are removed 
+beyond a certain threshold.
+Conclusion
+Despite their remarkable performance in natural language understanding and gen-
+eration tasks, Large Language Models are inherently memory- and compute-intensive, 
+which hinders their deployment on resource-constrained devices. To tackle this issue, 
+compression techniques such as quantization and pruning have emerged as promising 
+solutions, alongside approaches based on knowledge distillation.
+In this paper, we propose DiXtill, a novel approach to distilling explainable knowledge 
+from an LLM into a lightweight, self-explainable neural architecture, leveraging local 
+explanations as a complement to the usual prediction-based supervision. In particular, 
+an additional loss term is introduced to quantify the degree of misalignment between 

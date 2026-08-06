@@ -1,0 +1,63 @@
+Sensors 2024, 24, 3339
+11 of 26
+techniques: encircling prey technique and Bubble-net attack technique, while there is only
+one technique, searching for prey, to explore and expand the search area. A parallel branch
+of the genetics operator is proposed to address the problem of an imbalance between
+exploration and exploitation in this optimization algorithm. Exploitative and exploratory
+subpopulations were copied and stored in a new matrix to perform genetic operators.
+For this branch, the position of each whale is considered as a chromosome. Our proposed
+method performs a crossover between a good individual and a poor individual to create
+more diversity instead of a crossover between two good individuals, as in the traditional
+GA, which creates two new nearly identical chromosomes similar to the parents, leading to
+less diversity. Another point that makes our technique suitable for combination with WOA
+is that it only takes one child with more chromosomes from a good parent, which is the
+individual in exploitative subpopulations. Furthermore, to avoid bias in the exploration
+phase, we propose the formula presented in Equation (14) to control the number of genes
+changing among parents and retain some informative chromosomes. After that, we used a
+traditional mutation method.
+k = round(0.5 × O −0.4 × O × t
+M),
+(14)
+where k is the number of genes performing the crossover, t is the current iteration index,
+and M is the total iteration. Based on extensive experiments, it is beneficial for k to
+decrease linearly from half to 10% of the total number of genes (O) because, in some early
+iterations, individuals cannot determine which chromosomes are helpful. However, later
+on, individuals in the exploitative population identified that they contained chromosomes
+that carried much information, so fewer genes needed to be exchanged.
+The number of individuals in the population increases after new individuals are
+created through the GA. Assuming that the WOA population is N and the GA population
+is G, the new population is a combined (N + G) population, leading to a population boom
+after some iterations. To avoid a population explosion, which leads to high computational
+costs, a conditional choice strategy, inspired by the Altruism strategy [44], is proposed to
+sacrifice individuals in the new population with the number of sacrificed whales equal
+to G. Therefore, the similarity index (SI), which is described in Equation (15), is used to
+calculate the similarity score of each whale with their counterparts in the population.
+SI =
+1
+HD(⃗Xt
+1,⃗Xt
+2) +
+Fitt
+1 −Fitt
+2
+ + ξ1
+,
+(15)
+where⃗Xt
+1,⃗Xt
+2 are candidate individuals and Fitt
+1, Fitt
+2 are their fitness values. HD represents
+the Hamming distance between⃗Xt
+1 and⃗Xt
+2. The Hamming distance, denoted by (⃗Xt
+1,⃗Xt
+2),
+quantifies the disparity between two binary-encoded candidate solutions by counting
+the points of variation. A minimal value ξ1 is added to the denominator to prevent
+errors in scenarios where the denominator becomes zero. After calculating, one of the
+two individuals in pairs with the highest SI will be removed randomly. The number of
+individuals removed is equal to G to ensure the consistency of the algorithm, which is a
+final population size of N after each iteration.
+A flowchart of the GSWO is illustrated in Figure 4. The pseudocode for the proposed
+method is presented in Algorithm 1.

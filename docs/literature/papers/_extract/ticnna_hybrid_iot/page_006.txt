@@ -1,0 +1,99 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+FIGURE 3. Proposed TIGAN discriminator architecture.
+selects T based on the Interquartile Range (Equation 4). This
+ensures the threshold adapts to the skewness of the specific
+dataset distribution, preventing over-generation in slightly
+imbalanced classes while aggressively augmenting extreme
+minority classes.
+C. PROPOSED TRANSFORMED IMAGE CONVOLUTION
+NEURAL NETWORK (TICNN) THAT RESOLVES RQ1
+The proposed model for image classification consists of
+convolutional layers with 64, 128, and 256 filters using ReLU
+activation to extract features. Max pooling layers downsam-
+ple feature maps, maintaining important details. A Global
+Average Pooling layer reduces parameters, followed by a
+fully connected layer consisting of 256 units paired with a
+dropout layer set at a 0.5 rate to mitigate overfitting. The
+model employs softmax activation along with categorical
+cross-entropy loss to enhance classification performance and
+optimization, with each component serving a specific pur-
+pose. The Table 2 represents the TICNN architecture model.
+TABLE 2. CNN architecture for TICNN.
+The 2D convolution operation is a key element, applied to
+an input image, denoted I, using a kernel K, and it yields
+an output feature map O. For each position (m, n) in the
+output, the feature value O(m, n) is computed by summing
+element-wise products between the kernel and corresponding
+portions of the image, mathematically expressed as:
+O(m, n) =
+P−1
+X
+p=0
+Q−1
+X
+q=0
+K(p, q) · I(m + p, n + q)
+(7)
+Here, O(m, n) denotes the computed feature at position
+(m, n), representing a localized interpretation of the input
+data, allowing the network to capture spatial patterns. The
+input image I measures H by W, with H representing its
+height and W its width. The convolution kernel K is a
+matrix of dimensions P × Q, where P and Q define the
+height and width of the filter. Indices p and q iterate across
+the kernel’s dimensions, aggregating information from all
+kernel locations to build each feature map component. For
+classification, the TICNN model uses softmax activation in
+the final layer to convert raw output logits into probabilities
+for each class [1]. Given the logits z from the model’s
+last layer, the softmax function calculates the predicted
+probability ˆyi for class i as follows:
+ˆyi = σ(zi) =
+ezi
+PC
+j=1 ezj
+for i = 1, . . . , C
+(8)
+In this equation, ˆyi represents the predicted probability for
+class i, and zi is the corresponding logit for that class. The
+softmax function transforms these logits so that they sum to
+1 across all C classes, ensuring each output is interpretable
+as a probability. This probability distribution is beneficial
+in multi-class classification tasks as it allows the network
+to assign confidence levels across multiple categories.
+To evaluate model performance, the TICNN employs the
+categorical cross-entropy loss function [1], which measures
+the difference between the true class distribution y and the
+predicted probabilities ˆy. This loss function is defined as:
+L(y, ˜y) = −
+K
+X
+k=1
+yk log(˜yk)
+(9)
+In this scenario, L(y, ˜y) represents the loss for a prediction.
+The binary indicator yk indicates if class k is correct, while
+˜y shows the predicted probability for that class. Categorical
+cross-entropy loss is useful in multi-class classification as
+it penalizes high-confidence wrong predictions, helping the
+model increase the probability of the correct class and
+decrease it for incorrect ones.
+IV. PERFORMANCE EVALUATION AND RESULTS
+The experiments were conducted on a system equipped
+with an AMD Ryzen Threadripper Pro processor featuring
+12 cores, 62.7 GiB of memory, and an NVIDIA GeForce
+RTX 3070 GPU. The primary dataset used for evaluation
+is the CICIoT2023 dataset, which contains over 46 million
+attack samples distributed across 33 attack classes and
+1 benign class, as visualized in Fig. 6. The dataset is highly
+imbalanced, posing a substantial challenge for accurate and
+fair classification. This makes it well-suited for evaluating the
+robustness and effectiveness of deep learning-based intrusion
+detection systems. To further assess the generalizability of the
+proposed model, the CICIDS2017 dataset was also employed.
+CICIDS2017 comprises 14 attack classes and 1 benign
+class represented in Fig. 7, offering a broad spectrum of
+contemporary network threats including DDoS, PortScan,
+Botnet, and more. The inclusion of both datasets—each
+23418
+VOLUME 14, 2026

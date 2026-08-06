@@ -1,0 +1,52 @@
+{
+  "id": "jacob2018integer",
+  "n_pages": 10,
+  "title": "Quantization and Training of Neural Networks for Ef\ufb01cient Integer-Arithmetic-Only Inference",
+  "abstract": "The rising popularity of intelligent mobile devices and the daunting computational cost of deep learning-based models call for ef\ufb01cient and accurate on-device inference schemes. We propose a quantization scheme that allows inference to be carried out using integer-only arithmetic, which can be implemented more ef\ufb01ciently than \ufb02oating point inference on commonly available integer-only hard- ware. We also co-design a training procedure to preserve end-to-end model accuracy post quantization. As a result, the proposed quantization scheme improves the tradeoff be- tween accuracy and on-device latency. The improvements are signi\ufb01cant even on MobileNets, a model family known for run-time ef\ufb01ciency, and are demonstrated in ImageNet classi\ufb01cation and COCO detection on popular CPUs.",
+  "table_headers": [
+    "Table 4.1: ResNet on ImageNet: Floating-point vs quantized net-",
+    "Table 4.2: ResNet on ImageNet: Accuracy under various quan-",
+    "table 4.1. Accuracies of integer-only quantized networks",
+    "Table 4.3 shows that 7-bit quantized training produces",
+    "Table 4.3: Inception v3 on ImageNet: Accuracy and recall 5 com-",
+    "Table 4.4 shows the latency-vs-accuracy tradeoff be-",
+    "Table 4.4: Object detection speed and accuracy on COCO dataset",
+    "Table 4.5: Face detection accuracy of \ufb02oating point and integer-",
+    "Table 4.6: Face attributes: relative average category precision of"
+  ],
+  "metric_lines": [
+    "[29], are all over-parameterized by design in order to extract",
+    "Top 1 Accuracy",
+    "the fast integer-arithmetic circuits in common CPUs to deliver an improved latency-vs-accuracy tradeoff (section 4). The \ufb01gure compares",
+    "and just a few parameters (bias vectors) as 32-bit integers.",
+    "relative accuracy. Multiplication by M0 can thus be imple-",
+    "to preserve good end-to-end neural network accuracy6.",
+    "smoothing parameter being close to 1 so that observed",
+    "a much higher range and precision compared to the 8 bit",
+    "Here \u03b3 is the batch normalization\u2019s scale parameter, \u03c32",
+    "Table 4.2: ResNet on ImageNet: Accuracy under various quan-",
+    "ing, and quantized models with ReLU6 have less accuracy",
+    "recall 5",
+    "Table 4.3: Inception v3 on ImageNet: Accuracy and recall 5 com-",
+    "Top 1 Accuracy",
+    "Figure 4.1: Latency-vs-accuracy tradeoff of \ufb02oat vs. integer-only",
+    "Top 1 Accuracy",
+    "Figure 4.2: Latency-vs-accuracy tradeoff of \ufb02oat vs. integer-only",
+    "time budget. The accuracy gap is quite substantial (\u223c10%)",
+    "for Snapdragon 835 LITTLE cores at the 33ms latency",
+    "Table 4.4 shows the latency-vs-accuracy tradeoff be-",
+    "minimal loss in accuracy (\u22121.8% relative).",
+    "Table 4.4: Object detection speed and accuracy on COCO dataset",
+    "Table 4.5: Face detection accuracy of \ufb02oating point and integer-",
+    "correct detection, for x in {0.5, 0.55, . . . , 0.95}. Latency (ms) of",
+    "pendix D.1, quantization provides close to a 2\u00d7 latency",
+    "the latency of quantized models. Table Appendix D.1 shows",
+    "Figure 4.3 shows the latency-vs-",
+    "Table 4.6: Face attributes: relative average category precision of",
+    "Figure 4.3: Latency-vs-accuracy tradeoff of \ufb02oat vs. integer-only",
+    "with 50x fewer parameters and\u00a1 1mb model size."
+  ],
+  "tags": [
+    "quant"
+  ]
+}

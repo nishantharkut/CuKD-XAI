@@ -1,0 +1,109 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+a maximum accuracy of 99.36%, the model outperformed
+other widely-used models.
+Nguyen et al. [25] introduced a unique strategy called
+Genetic Sacrificial Whale Optimization (GSWO) to address
+and overcome existing methods of intrusion detection. In ad-
+dition to the efficient quantization of the GSWO algorithm,
+classification was performed using a CatBoost model.
+In the WSN-DS, WSNBFSF, NSL-KDD, and CICIDS2017
+datasets, the GSWO-CatBoost approach has above 90%
+accuracy and has been reported to be faster than deep learning
+methods.
+An intrusion detection system (IDS) tailored for software-
+defined 5G networks was proposed by Bocu et al. [26].
+The solution leverages the scalability and adaptability of
+software-defined networks (SDN) for efficient implementa-
+tion by integrating artificial intelligence models to detect
+intrusions that were previously undetected. The system’s
+accuracy falls short of some of the most advanced models
+in the field, despite its practical usefulness for real-world
+deployment in 5G contexts.
+Despite significant advancements in IDS for WSN, several
+research gaps remain. First, many existing models are limited
+by dataset imbalances, which affect detection accuracy
+and lead to high false-positive rates. While techniques
+like SMOTE improve class balance, the performance gains
+are often marginal. Second, many approaches, including
+optimization algorithms like PSO and Firefly, have demon-
+strated high accuracy but tend to suffer from computational
+inefficiency, scalability issues, or limited generalization
+across diverse datasets. Furthermore, while deep learning
+models have shown promise, their high complexity and
+computational demands restrict their practicality for real-
+time applications. Lastly, intrusion prevention, especially
+in dynamic and large-scale WSN environments, remains
+underexplored, with a focus predominantly on detection
+rather than preemptive measures to block evolving attacks.
+Addressing these gaps requires the development of more
+efficient, scalable, and adaptive models capable of handling
+dynamic network conditions and real-world attack scenarios.
+III. METHODOLOGY
+In this study, a comprehensive approach to intrusion detection
+in WSN is presented, utilizing a robust ML model that has
+been optimized for performance and interpretability through
+advanced data processing and ensemble techniques. The
+dataset, known as WSN-DS, contains diverse real-world
+network scenarios and attack conditions. Preprocessing of
+the dataset involved converting categorical variables into
+numerical forms for compatibility with the machine learning
+model. To address the class imbalance, SMOTE was applied
+to balance the dataset. The data was split into 80% for training
+and 20% for testing. Hyperparameter tuning was performed
+using PSO to enhance model performance, as it proved to be
+highly efficient and emerged as the most effective technique
+compared to other optimization techniques. Various machine
+learning methods were employed in the process of finding
+best outcome, and at the end combining different algorithms
+proved to be effective. Thus, an ensemble model comprising
+RF, DT, and KNN algorithms was employed, with its
+effectiveness evaluated using 5-fold cross-validation. Metrics
+such as accuracy, precision, recall, and F1 score were used to
+assess the model’s performance. SHAP and LIME methods
+were incorporated to provide global and local explanations
+of the model’s behavior.
+A. DATASET DESCRIPTION
+A dataset called WSN-DS by Almomani et al. [41] is intended
+for the identification of DoS assaults, comprising 374,661
+records, with 9% identified as DoS attacks. The LEACH
+system, a popular hierarchical routing system in Wireless
+Sensor Networks (WSNs), was used to curate this dataset,
+which covers typical network behaviors and four different
+kinds of DoS assaults (Grayhole, Blackhole, TDMA, and
+Flooding). Network Simulator 2 (NS-2) was used to gather
+data, and after processing, 23 features were produced, adding
+value to the dataset. Researchers looking to create strategies
+for mitigating DoS attacks and improving network security
+will find this dataset to be a useful resource [27].
+B. DATA PREPROCESSING
+Data preprocessing, which involves cleaning and transform-
+ing raw data to ensure its quality and suitability for analysis,
+is an essential stage in the construction of models. This
+process is vital for the model’s effectiveness, particularly in
+achieving successful detection in Wireless Sensor Networks
+(WSN) and ensuring data compatibility with ML models. The
+subsequent section will detail the specific preprocessing steps
+applied to the dataset.
+1) MANUAL FEATURE SELECTION
+Manual feature selection is the identification of features
+for incorporation into a machine learning model based on
+domain expertise, intuition, or exploratory data analysis,
+rather than depending on automated techniques. This method
+depends on human discernment to identify and eliminate
+features considered unnecessary, redundant, or unhelpful for
+augmenting the model’s prediction efficacy. In the WSN
+dataset, the feature labeled ’ id’ was considered extraneous
+for attack detection, as it failed to demonstrate any patterns
+linked to assault scenarios. As a result, this feature was
+eliminated during the preprocessing stage. Omitting this
+feature improves the model’s effectiveness by decreasing the
+amount of features it must analyze, enabling it to concentrate
+exclusively on the most pertinent data.
+2) LABEL ENCODING
+In ML, label encoding is a technique that transforms category
+input into a numerical representation that is appropriate
+for algorithmic processing. When dealing with categorical
+characteristics that have a limited number of different values,
+this strategy is quite helpful [28]. The target variable in the
+13714
+VOLUME 13, 2025

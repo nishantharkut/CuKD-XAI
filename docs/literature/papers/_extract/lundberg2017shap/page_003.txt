@@ -1,0 +1,62 @@
+2.2
+DeepLIFT
+DeepLIFT was recently proposed as a recursive prediction explanation method for deep learning
+[8, 7]. It attributes to each input xi a value C∆xi∆y that represents the effect of that input being set
+to a reference value as opposed to its original value. This means that for DeepLIFT, the mapping
+x = hx(x′) converts binary values into the original inputs, where 1 indicates that an input takes its
+original value, and 0 indicates that it takes the reference value. The reference value, though chosen
+by the user, represents a typical uninformative background value for the feature.
+DeepLIFT uses a "summation-to-delta" property that states:
+n
+X
+i=1
+C∆xi∆o = ∆o,
+(3)
+where o = f(x) is the model output, ∆o = f(x) −f(r), ∆xi = xi −ri, and r is the reference input.
+If we let φi = C∆xi∆o and φ0 = f(r), then DeepLIFT’s explanation model matches Equation 1 and
+is thus another additive feature attribution method.
+2.3
+Layer-Wise Relevance Propagation
+The layer-wise relevance propagation method interprets the predictions of deep networks [1]. As
+noted by Shrikumar et al., this menthod is equivalent to DeepLIFT with the reference activations of all
+neurons ﬁxed to zero. Thus, x = hx(x′) converts binary values into the original input space, where
+1 means that an input takes its original value, and 0 means an input takes the 0 value. Layer-wise
+relevance propagation’s explanation model, like DeepLIFT’s, matches Equation 1.
+2.4
+Classic Shapley Value Estimation
+Three previous methods use classic equations from cooperative game theory to compute explanations
+of model predictions: Shapley regression values [4], Shapley sampling values [9], and Quantitative
+Input Inﬂuence [3].
+Shapley regression values are feature importances for linear models in the presence of multicollinearity.
+This method requires retraining the model on all feature subsets S ⊆F, where F is the set of all
+features. It assigns an importance value to each feature that represents the effect on the model
+prediction of including that feature. To compute this effect, a model fS∪{i} is trained with that feature
+present, and another model fS is trained with the feature withheld. Then, predictions from the two
+models are compared on the current input fS∪{i}(xS∪{i}) −fS(xS), where xS represents the values
+of the input features in the set S. Since the effect of withholding a feature depends on other features
+in the model, the preceding differences are computed for all possible subsets S ⊆F \ {i}. The
+Shapley values are then computed and used as feature attributions. They are a weighted average of all
+possible differences:
+φi =
+X
+S⊆F \{i}
+|S|!(|F| −|S| −1)!
+|F|!
+
+fS∪{i}(xS∪{i}) −fS(xS)
+
+.
+(4)
+For Shapley regression values, hx maps 1 or 0 to the original input space, where 1 indicates the input
+is included in the model, and 0 indicates exclusion from the model. If we let φ0 = f∅(∅), then the
+Shapley regression values match Equation 1 and are hence an additive feature attribution method.
+Shapley sampling values are meant to explain any model by: (1) applying sampling approximations
+to Equation 4, and (2) approximating the effect of removing a variable from the model by integrating
+over samples from the training dataset. This eliminates the need to retrain the model and allows fewer
+than 2|F | differences to be computed. Since the explanation model form of Shapley sampling values
+is the same as that for Shapley regression values, it is also an additive feature attribution method.
+Quantitative input inﬂuence is a broader framework that addresses more than feature attributions.
+However, as part of its method it independently proposes a sampling approximation to Shapley values
+that is nearly identical to Shapley sampling values. It is thus another additive feature attribution
+method.
+3

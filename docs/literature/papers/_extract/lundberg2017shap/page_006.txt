@@ -1,0 +1,49 @@
+Below we show how to avoid heuristically choosing the parameters in Equation 2 and how to ﬁnd the
+loss function L, weighting kernel πx′, and regularization term Ωthat recover the Shapley values.
+Theorem 2 (Shapley kernel) Under Deﬁnition 1, the speciﬁc forms of πx′, L, and Ωthat make
+solutions of Equation 2 consistent with Properties 1 through 3 are:
+Ω(g) = 0,
+πx′(z′) =
+(M −1)
+(M choose |z′|)|z′|(M −|z′|),
+L(f, g, πx′) =
+X
+z′∈Z
+[f(hx(z′)) −g(z′)]2 πx′(z′),
+where |z′| is the number of non-zero elements in z′.
+The proof of Theorem 2 is shown in the Supplementary Material.
+It is important to note that πx′(z′) = ∞when |z′| ∈{0, M}, which enforces φ0 = fx(∅) and f(x) =
+PM
+i=0 φi. In practice, these inﬁnite weights can be avoided during optimization by analytically
+eliminating two variables using these constraints.
+Since g(z′) in Theorem 2 is assumed to follow a linear form, and L is a squared loss, Equation 2
+can still be solved using linear regression. As a consequence, the Shapley values from game theory
+can be computed using weighted linear regression.2 Since LIME uses a simpliﬁed input mapping
+that is equivalent to the approximation of the SHAP mapping given in Equation 12, this enables
+regression-based, model-agnostic estimation of SHAP values. Jointly estimating all SHAP values
+using regression provides better sample efﬁciency than the direct use of classical Shapley equations
+(see Section 5).
+The intuitive connection between linear regression and Shapley values is that Equation 8 is a difference
+of means. Since the mean is also the best least squares point estimate for a set of data points, it is
+natural to search for a weighting kernel that causes linear least squares regression to recapitulate
+the Shapley values. This leads to a kernel that distinctly differs from previous heuristically chosen
+kernels (Figure 2A).
+4.2
+Model-Speciﬁc Approximations
+While Kernel SHAP improves the sample efﬁciency of model-agnostic estimations of SHAP values, by
+restricting our attention to speciﬁc model types, we can develop faster model-speciﬁc approximation
+methods.
+Linear SHAP
+For linear models, if we assume input feature independence (Equation 11), SHAP values can be
+approximated directly from the model’s weight coefﬁcients.
+Corollary 1 (Linear SHAP) Given a linear model f(x) = PM
+j=1 wjxj + b: φ0(f, x) = b and
+φi(f, x) = wj(xj −E[xj])
+This follows from Theorem 2 and Equation 11, and it has been previously noted by Štrumbelj and
+Kononenko [9].
+Low-Order SHAP
+Since linear regression using Theorem 2 has complexity O(2M + M 3), it is efﬁcient for small values
+of M if we choose an approximation of the conditional expectations (Equation 11 or 12).
+2During the preparation of this manuscript we discovered this parallels an equivalent constrained quadratic
+minimization formulation of Shapley values proposed in econometrics [2].
+6

@@ -1,0 +1,126 @@
+STL addresses both the imbalance and noise in datasets by combining oversampling and undersampling, 
+reducing the risk of model overfitting and misclassification. STL enhances IDS models’ recall and precision by 
+generating realistic synthetic samples while eliminating noisy instances, improving overall detection rates.
+GAN—generative adversarial network
+Generative Adversarial Networks (GANs) are DL-based methods that generate synthetic samples for the 
+minority class using a generator and discriminator model33. The generator creates synthetic samples, while the 
+discriminator evaluates their authenticity against real samples. The generator learns to produce realistic samples 
+that the discriminator cannot distinguish from real data.
+The optimization goal for GAN is:
+	
+min
+G max
+D
+Ex∼Pdata[log D(x)] + Ez∼Pz[log(1 −D(G(z)))]
+(5)
+where G is the generator, D is the discriminator, x represents real data, and z is a noise vector.
+GANs are effective in generating complex and realistic data distributions, making them suitable for highly 
+imbalanced datasets. GANs create high-quality synthetic samples for minority classes, improving the ability of 
+IDS models to detect rare intrusions without overfitting.
+KMS—KMeansSMOTE
+KMeansSMOTE is a clustering-based oversampling technique that applies K-Means clustering to partition data 
+before generating synthetic samples using SMOTE. The dataset is first clustered using K-Means, and SMOTE 
+is applied within each cluster to generate synthetic samples for the minority class. This localized oversampling 
+preserves the original data distribution and reduces noise.
+The clustering is performed as:
+	
+arg min
+C
+k
+∑
+i=1
+∑
+x∈Ci
+||x −µi||2
+(6)
+where C represents clusters, µi is the centroid of cluster i, and k is the number of clusters.
+KMS overcomes the limitations of global oversampling by focusing on local distributions within each cluster, 
+generating more representative synthetic samples. KMS improves the balance and quality of IDS datasets, leading 
+to more accurate and robust intrusion detection. By preserving data distribution, it reduces the risk of overfitting 
+and enhances detection rates for minority classes. In this study, we propose using KMS for data balancing. 
+Its ability to cluster data before generating synthetic samples ensures that the data distribution is preserved, 
+and noise is minimized. This approach makes it particularly well-suited for improving the performance of IDS 
+models.
+Table 3 highlights the impact of data balancing techniques-STL, GAN, and KMS-on the WSN-DS dataset. It 
+demonstrates how these methods address class imbalances by significantly increasing the number of samples in 
+minority classes, ensuring a balanced dataset for effective model training. Notably, KMS achieves comparable 
+balancing performance with slightly optimized total samples, enhancing data consistency.
+Table 4 demonstrates the effects of data balancing techniques-STL, GAN, and KMS-on the TON-IoT network 
+dataset. The table highlights how these methods substantially increase the number of samples in minority 
+classes, ensuring a balanced distribution across various attack types. KMS shows an effective performance in 
+data balancing, providing a slight improvement in the total number of samples compared to STL and GAN while 
+maintaining a well-distributed dataset for accurate model training.
+The integration of KMS addresses the challenges of class imbalance in WSNs intrusion datasets by clustering 
+the majority class data using KMeans and generating synthetic samples within these clusters for the minority 
+STL
+GAN
+KMS
+Class
+Before
+After
+Class
+Before
+After
+Class
+Before
+After
+Normal
+340066
+340063
+Normal
+340066
+340066
+Normal
+340066
+340068
+Grayhole
+14596
+340038
+Grayhole
+14596
+340066
+Grayhole
+14596
+340067
+Blackhole
+10049
+340020
+Blackhole
+10049
+340066
+Blackhole
+10049
+340066
+TDMA
+6638
+339803
+TDMA
+6638
+340066
+TDMA
+6638
+340066
+Flooding
+3312
+339784
+Flooding
+3312
+340066
+Flooding
+3312
+340066
+Total
+374661
+1699708
+Total
+374661
+1700330
+Total
+374661
+1700333
+Table 3.  Before and after data balancing techniques on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+7
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

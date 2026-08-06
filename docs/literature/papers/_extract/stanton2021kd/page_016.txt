@@ -1,0 +1,315 @@
+We used random horizontal ﬂips (p = 0.5) as data augmentation for the discriminator. To evaluate
+FID and IS scores, we used 5K samples from the generator and the pretrained PyTorch Inception-v3
+networks6. For the discriminator and generator architectures the reader is referred to Appendix A.2.
+Text classiﬁers:
+For text classiﬁcation on IMDB dataset, we train LSTM networks for 100 epochs
+with learning rate 10−2, weight decay 10−3 and batch size 100 sequences. For the data loader, we
+use 100 as maximum sequence length and ﬁlter out tokens in the vocabulary that are present less than
+10 times.
+ImageNet experiments:
+we trained the teachers with weight decay 10−4 and did not use weight
+decay for training the students. We trained both the teachers and the students for 90 epochs using the
+SGD optimizer with momentum 0.9 and a cosine decay learning rate schedule with a linear learning
+rate ramp-up for 5 epochs to the initial value of 0.1. We used a batch size of 1024.
+B
+Additional understanding experiments
+In this section we include additional experimental results that were not included in the main text in
+the interest of clarity, but are still noteworthy to those seeking a deep understanding of the behavior
+of knowledge distillation.
+B.1
+Understanding the effect of teacher capacity on the distillation labels
+In this subsection, we explore the qualitative effect of teacher ensemble size, network depth, and
+distillation temperature on the predictive distributions on train and test, to get a better understanding
+of what the students are being asked to emulate.
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+Class Probability
+ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+Class Probability
+3×ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+Class Probability
+5×ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+Class Probability
+ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+Class Probability
+3×ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+Class Probability
+5×ResNet-20
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Class Probability
+ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Class Probability
+3×ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+Class Probability
+5×ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.1
+0.2
+0.3
+0.4
+Class Probability
+ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+Class Probability
+3×ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+Class Probability
+5×ResNet-56
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Class Probability
+ResNet-110
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Class Probability
+3×ResNet-110
+0
+20
+40
+60
+80
+100
+Class id
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Class Probability
+5×ResNet-110
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+Class Probability
+ResNet-110
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+Class Probability
+3×ResNet-110
+0
+20
+40
+60
+80
+100
+Class id
+0.00
+0.05
+0.10
+0.15
+0.20
+Class Probability
+5×ResNet-110
+(a) Train Data
+(b) Test Data
+Figure 8: Teacher predictive distributions for example images from CIFAR-100 train (left) and test
+(right). For train examples we show the distribution when τ = 1 in blue and the tempered distribution
+when τ = 4 in green. For test examples we only show τ = 1. Each row corresponds to a different
+teacher depth, and the column corresponds to the number of ensemble components.
+Since deep ensemble components are typically large networks that achieve almost 100% accuracy
+on train with very high conﬁdence, it is tempting to assume that each ensemble component conveys
+effectively the same information when used for distillation. One consequence of that assumption
+would be that adding ensemble components would produce little or no improvement in the student if
+the distillation was performed on train. In fact, we ﬁnd that although the component networks are
+indeed very conﬁdent on the train, there is sufﬁcient variation in their predictive distributions for
+the student to beneﬁt signiﬁcantly. In Figure 8 we provide examples of teacher logits, varying the
+ensemble size, network depth, and temperature, comparing examples from CIFAR-100 train and test.
+As discussed in Section 3.1 in order to beneﬁt from soft teacher labels, one must choose τ large
+enough that the student directs some capacity towards mimicking the smaller teacher logits (Figure
+6https://pytorch.org/docs/stable/torchvision/models.html?highlight=inception#
+torchvision.models.inception_v3
+16

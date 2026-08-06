@@ -1,0 +1,116 @@
+where feature extraction completes in under 1 ms, tree-
+based models deliver sub-30 ms inference, and CNNs
+remain viable when accuracy is prioritized over latency.
+The rest of the paper is organized as follows. Section II re-
+views related work. Section III describes the adopted method-
+ology. Section V presents the results and discussions. Sec-
+tion VI presents the hardware implementation and deployment
+results. Finally, Section VII concludes the paper and outlines
+future work.
+II. RELATED WORK
+A. ML and DL Approaches
+Extensive research has explored intrusion detection us-
+ing traditional ML methods such as decision trees (DT)
+and random forests (RF), as well as DL architectures like
+convolutional neural networks (CNNs) and recurrent neural
+networks (RNNs). These approaches have demonstrated strong
+performance across various datasets.
+The study in [1] reported that RF achieved the highest
+performance with an accuracy of 80.83%, while [7] evaluated
+several ML models for malware detection and found RF to be
+the top performer with 94.1% on the Edge-IIoTset dataset [1].
+Several DL-based IDS models have also been proposed.
+The work in [5] has developed a Long Short-Term Memory
+(LSTM) network with three hidden layers, achieving 86.6%
+accuracy. In [11], the authors have evaluated several tree-
+based models on a real-world traffic dataset, where XGBoost
+achieved the best performance with 89.09% accuracy using
+feature selection. While DL models show strong accuracy,
+many require optimization to meet the memory and compute
+constraints of edge deployment.
+Other works have explored hybrid and ensemble ap-
+proaches. The study in [12] has proposed a hybrid CNN-LSTM
+model for privacy-aware intrusion detection, achieving 97.14%
+accuracy. In [6], the authors have proposed an attention-based
+hybrid model (AB-HDL) combining CNN and autoencoder
+with an attention mechanism, achieving 99.95% accuracy.
+These approaches improve detection accuracy but often
+overlook hardware constraints such as memory, latency,
+and energy, which are critical for practical deployment on
+resource-constrained devices.
+B. Hardware-Aware Optimization for ML and DNN
+Model optimization is essential for meeting performance
+and deployment goals, especially on resource-constrained de-
+vices. A popular approach for optimizing deep models is
+neural architecture search (NAS) [9], [13], which automates
+the design of deep neural networks (DNNs) to maximize
+accuracy. To support real-world deployment, HW-NAS extends
+this idea by including constraints on memory, compute, and
+energy in the search process.
+Despite this progress, many NAS and optimization ap-
+proaches still focus mainly on accuracy [8], [9], overlooking
+practical deployment constraints. Traditional hyperparameter
+tuning and heuristics also rarely account for strict resource
+budgets, which limits their use on embedded platforms [8].
+Recent HW-NAS methods address this by generating models
+for limited devices [3], [14]–[16], and have shown success in
+domains where performance and efficiency must be balanced.
+This work explores hardware-aware optimization for IDS,
+as prior efforts often focus only on accuracy. We aim to find
+models that stay accurate while fitting the resource limits of
+edge devices. To achieve this, we apply optimization to both
+DNN and traditional ML models to design efficient solutions
+and expose their tradeoffs under constrained settings.
+III. METHODOLOGY
+Deploying ML and DNN models on constrained platforms
+requires optimizing predictive performance under strict hard-
+ware budgets. Our proposal addresses this challenge using
+two strategies: tree-based ML models selected via grid search,
+and compact DNNs designed through HW-NAS. We formalize
+model selection as an optimization problem, where m denotes
+a candidate model and M the set of all candidate models
+under consideration:
+max
+m ∈M
+Accuracyval(m)
+s.t.
+Flash(m) ≤Fmax,
+RAM(m) ≤Tmax,
+Compute(m) ≤Cmax
+(1)
+Here, Flash(m) denotes the non-volatile memory to store the
+model (e.g., all decision nodes for tree ensembles or weights
+for DNNs), RAM(m) is the peak intermediate memory usage
+during inference, and Compute(m) quantifies the per-inference
+computational cost. For DNNs, Compute(m) is expressed in
+floating-point operations (FLOPs), while for tree-based ML
+models it is expressed in decision operations (Ops). The
+thresholds (Fmax,Tmax,Cmax) follow target device specifica-
+tions and, as in prior work [3], [14]–[16], ensure the resulting
+models fit within the memory, compute, and latency budgets
+of the intended hardware. FLOPs and Ops act as proxies for
+inference latency and energy consumption [17], while Flash
+and RAM bounds control the model’s memory footprint.
+A. Hardware-Constrained ML Models via Grid Search
+The ML search space includes three tree-based ensemble
+methods: Light Gradient Boosting Machine (LightGBM), Ex-
+treme Gradient Boosting (XGBoost), and Random Forest (RF).
+These models are chosen for their strong performance on
+structured traffic features, as reported in prior work [11], [18],
+and because, unlike k-NN or SVM whose inference cost scales
+with the reference set or kernel evaluations, their per-inference
+cost can be expressed in split comparisons (Ops), which
+integrates naturally with our hardware-constraint checks.
+Hyperparameters are tuned via grid search over the
+Cartesian
+product
+of
+predefined
+ranges,
+using
+identical
+train/validation splits and preprocessing across models to
+ensure a fair and reproducible comparison.
+For each configuration explored, hardware measures are
+analytically estimated from the trained model structure prior
+to deployment. Ops are derived as an upper-bound from the

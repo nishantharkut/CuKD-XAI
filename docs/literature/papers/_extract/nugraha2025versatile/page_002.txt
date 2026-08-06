@@ -1,0 +1,102 @@
+1096
+Annals of Telecommunications (2025) 80:1095–1120
+plexity, which can be particularly problematic in real-time
+IDS environments where timely and accurate explanations
+are essential. Chuang et al. [6] have categorized XAI meth-
+ods into non-amortized and amortized techniques, each with
+its own set of trade-offs between accuracy and computa-
+tional efﬁciency. Non-amortized methods, while preserving
+the precision of individual explanations, can struggle with
+scalability due to their sample-speciﬁc computations. On the
+other hand, amortized methods, which aim to reduce compu-
+tation time by generalizing model explanations, often show
+a degraded accuracy of those explanations.
+To address these limitations, we propose a novel two-stage
+XAI-based IDS framework that combines interpretability,
+efﬁciency, and scalability, making it suitable for various
+networkingenvironments.Ourapproachintroducestwoorig-
+inality aspects not found in prior XAI-IDS research: (i)
+a dual-stage feature selection that fuses statistical rank-
+ing (ANOVA) with model-based global importance (SHAP),
+achieving substantial dimensionality reduction without com-
+promising accuracy; and (ii) a cross-validation of explana-
+tions between SHAP and LIME to detect inconsistencies,
+paired with a time-efﬁciency evaluation of explanation
+generation—an aspect largely overlooked in existing lit-
+erature. This structured design mitigates computational
+inefﬁciencies, addresses interpretability gaps, and adds a
+robustness layer to the explanatory process.
+In the ﬁrst stage, ANOVA [7] with SHAP Global Expla-
+nation is applied to perform feature selection, thus reducing
+feature complexity without sacriﬁcing detection accuracy.
+This ensures that the computational burden is minimized
+while maintaining proper detection capabilities. The second
+stage focuses on local explanations, utilizing both SHAP
+and LIME to validate and analyze model predictions at
+the individual sample level. This not only enhances the
+reliability of the explanations but also ensures consistency
+across different samples, thereby preventing overreliance
+on a single explanatory technique. To our knowledge, no
+prior IDS framework combines these three elements—dual-
+stage feature selection, SHAP–LIME cross-validation, and
+time-efﬁciency evaluation—within a uniﬁed, reproducible
+pipeline.
+The contributions of this paper are threefold: First, we
+introduce an efﬁcient and interpretable XAI-based IDS
+framework tailored for legacy IP, IoT, and 5G networking
+environments. Second, we demonstrate the signiﬁcant com-
+putational efﬁciency gains, particularly in real-time explana-
+tion generation, without compromising accuracy. Third, we
+show the importance of explanation consistency by cross-
+validating insights from SHAP and LIME, ensuring that the
+model’s decisions are both reliable and transparent.
+This article extends and signiﬁcantly improves upon our
+earlier conference paper [8]. Compared to the original ver-
+sion, this manuscript introduces three main enhancements
+along with several methodological improvements:
+1. A new dataset family that includes 5G PFCP Session
+Establishment and Session Deletion attacks, showing that
+the framework generalizes beyond legacy IP and IoT traf-
+ﬁc;
+2. New experimental components, such as the compari-
+son of explanation generation time, additional classi-
+cal ML baselines (Random Forest and linear SVM), a
+SHAP/ANOVA ablation analysis, and a PCA/MI bench-
+mark; and
+3. An extended efﬁciency evaluation that measures SHAP
+and LIME explanation time across different feature sets
+and hardware, and includes full hyperparameter settings,
+dataset statistics, and public code for reproducibility.
+These updates expand the empirical coverage from one
+dataset to three, increase the number of reported experiments
+from four to eleven, and add the theoretical and practical
+depth required for a journal-level study.
+The remainder of the paper is organized as follows: Sect.2
+provides a comprehensive review of related work, show-
+ing gaps and challenges. In Sect.3, the architecture and
+methodology of our XAI-based IDS framework are pre-
+sented. Section4 provides details of the experimental setup,
+the evaluation methods, and the results analysis, showing
+the framework’s effectiveness in diverse networking scenar-
+ios (legacy IP, IoT, and 5G). Finally, Sect.5 concludes with
+a summary of ﬁndings and outlines potential directions for
+future research.
+2 Related work
+2.1 Feature selection methods
+Recent research has explored various feature selection
+strategies for improving IDS performance. Ferreira et al.
+[9] benchmarked multiple classiﬁers across UNSW-NB15,
+NSL-KDD, and CIC-IDS2017, showing that XGBoost with
+Lasso or ANOVA feature selection provides strong accu-
+racy but leaving the interpretability problem largely unad-
+dressed. Khani et al. [10] extended this direction by applying
+XAI-based selectors (SHAP, GradCAM, Guided Backprop-
+agation) alongside classical ANOVA, RFE, and Decision
+Tree methods for encrypted trafﬁc, demonstrating that
+SHAP often rivals or surpasses conventional approaches,
+yet their study remained focused on CNN-based classi-
+ﬁcation and feature ranking. Shaker et al. [11] further
+leveraged SHAP within a wrapper-based scheme for early-
+stage APT detection, reducing 77 features to four with
+high precision and recall on SCVIC-APT-2021, though the
+123

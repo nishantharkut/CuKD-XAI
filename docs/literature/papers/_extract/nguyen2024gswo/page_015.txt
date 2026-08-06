@@ -1,0 +1,39 @@
+Sensors 2024, 24, 3339
+15 of 26
+•
+r ∈range[0, 10] is illustrated by 8 bits.
+•
+b ∈range[0, 10] is illustrated by 8 bits
+As a result, the form of a candidate whale in the input population is illustrated in
+Figure 7. Through comprehensive experiments for fine-tuning hyperparameters of the
+CatBoost model, the total iteration (M), the number of crossovers (G), the number of
+whales in the population (N) are set as 40, 20, and 30, respectively. In addition, an initial
+population of 30 whales can be depicted in Figure 8. Note that an initial population is
+initialized randomly.
+Figure 7. An example of a candidate whale for hyperparameter optimization.
+Figure 8. An example of an input whale population for hyperparameter optimization.
+The fitness function for hyperparameter optimization was different from that for FS.
+To optimize hyperparameters to enhance the accuracy and inference speed, minimizing the
+error of the classification model, iterations, and depth is necessary. Therefore, the fitness
+function for hyperparameter optimization, which is the weighted sum of the errors of
+the classification model, iterations, and depth, is defined by Equation (20). Therefore,
+the optimization goal involves minimizing the fitness function.
+Fiti = γ × err(⃗Xt
+i) + 1 −γ
+2
+× iter + 1 −γ
+2
+× d,
+(20)
+where the value of the weight γ is set as 0.9 through comprehensive experiments in this
+study; err(⃗Xt
+i) is the false prediction rate of the CatBoost model, which is gained from
+training and evaluating it on a specific dataset with the hyperparameters established in the
+candidate whale⃗Xt
+i.
+Finally, Algorithm 1 is applied to run the GSWO algorithm 30 rounds. As a result,
+a candidate whale with the lowest fitness value, corresponding to the most effective
+hyperparameters for the CatBoost model to process a specific dataset, is determined.
+Figure 9 illustrates that the first whale, which has the lowest fitness value, is chosen as the
+output of GSWO for hyperparameter optimization.
+Figure 9. An example of a result of GSWO for hyperparameter optimization.

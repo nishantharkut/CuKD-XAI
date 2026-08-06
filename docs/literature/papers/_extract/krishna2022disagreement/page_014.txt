@@ -1,0 +1,61 @@
+Published in Transactions on Machine Learning Research (06/2024)
+Theme Highlighted
+Sample Quotes
+1. One method’s
+paper/theory suggests
+that it’s inherently
+better (33%).
+• “I have no reason to believe the gradient holds anywhere other than
+very locally.”
+• “[Integrated Gradients is] more rigorous [than SmoothGrad] based on
+the paper and axioms”
+• “gradient explanations are more unstable”
+2. One explanation
+matches intuition
+better (32%).
+• “seems unlikely that all features contributed to a positive classification”
+• “features such as priors_count and length of stay [are] important for
+determining”
+• “Gradient*Input only consider[s] sensitive features (age, race) as im-
+pactful which could be a sign of a biased underlying data distribution”
+3. LIME/SHAP are
+better for tabular data
+(23%).
+• “I use LIME for structured data”
+• “SHAP is more commonly used [than Vanilla Gradient] for tabular
+data”
+Table 1: Themes summarizing how participants decided between explanations when faced with disagreement
+along with quotes.
+disagreements between explanations output by state-of-the-art methods in your day-to-day workflow? and
+(Q2): How do you resolve such disagreements in your day to day workflow?.
+One of the 20 participants declined to respond to (Q1) and (Q2) because they were not a practitioner. Out
+of the other 19, 14 participants (74%) responded “yes” to (Q1), indicating that they did in fact encounter
+explanation disagreement in practice. Of the remaining 5 who said they did not, 3 said they had not really
+paid attention to the issue. We also aimed to uncover how participants dealt with the disagreement problem
+when it arose in practice (Q2). 14 participants responded affirmatively to (Q1), and their responses to (Q2)
+can be grouped into 3 categories. 50% favored using ad-hoc heuristics based on personal preferences for
+choosing which methods to use (“picking their favorite method”, “rules of thumb based on results in papers”).
+These heuristics varied among participants and included ease of implementation, accompanying theoretical
+results, recency of publication, ease of understanding, and documentation of packages. 36% did not indicate
+any explicit way for resolving these disagreements but instead demonstrated confusion and uncertainty (“no
+clear answer to me”). Several of these responses also indicated the desire for the research community to make
+progress and help (“I hope research community can provide some guidance”). The remaining 14% proposed
+to use other metrics such as fidelity (“try and use some metric to measure fidelity”). See Appendix E.7 for
+more details including the breakdown of our results for participants in academia and industry.
+6
+Discussion and Conclusion
+The main takeaway from our work is the observation that state-of-the-art explanation methods consistently
+disagree with each other across various datasets and data modalities, as quantified by the metrics we outlined.
+Our empirical estimates of explanation disagreement closely align with human assessments of disagreements
+among leading explainable AI methods. Our focus was on highlighting the prevalence of disagreement within
+the literature on explainable AI and examining how practitioners address these disagreements. To this end,
+we also conducted extensive user studies (semi-structured interviews and an online user study) and empirical
+analyses. Our semi-structured interviews with machine learning practitioners highlighted that 84% of them
+regularly face explanation disagreements. While there exist metrics and frameworks to both evaluate and
+compare explanations output by state-of-the-art methods (Agarwal et al., 2021; 2022; Han et al., 2022),
+several practitioners (86% of respondents in our online user study) admitted to using ad hoc heuristics or
+being uncertain about resolving explanation disagreements in practice. This highlights a critical gap between
+research and practice in explainable machine learning.
+In this work, we prioritized examining the prevalence of explanation disagreement rather than exploring
+its underlying causes, given the complexity of this analysis. Nonetheless, subsequent research building
+14

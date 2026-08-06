@@ -1,0 +1,33 @@
+• Additional features like Packet Timing Variability and Desti-
+nation Bytes received notable attributions, reflecting a more dis-
+tributed emphasis on various characteristics of the dataset.
+Interestingly, the Student model de-emphasized certain features such as
+Average Packet Sizes (−0.0149), which were down-weighted when deemed
+less relevant. This redistribution of attributions demonstrates the effective-
+ness of knowledge distillation, allowing the Student model to maintain high
+performance while reducing computational complexity.
+4.5.3. Multi-Class Classification Results on UKM20 Dataset
+Explainability Insights from the Teacher Model. The Teacher model
+achieved a final predicted value of approximately 0.999 with an initial baseline
+probability (intercept) of 0.034. Noteworthy contributions to the prediction
+came from features such as:
+• Source Bytes, which contributed +0.0512, signifying data transfer
+activity relevant to multi-class distinctions.
+• Flow Duration, adding +0.0507, which indicates temporal patterns
+significant for differentiating classes.
+• Backward Packet Timing Variability, which contributed min-
+imally or negatively (−0.0002), showing its lower importance for this
+task.
+These contributions highlight the Teacher model’s ability to identify and
+focus on critical features, ensuring precision in multi-class predictions. By
+mapping latent dimensions to influential features, the model offers trans-
+parency and interpretability for multi-class classification, enabling analysts
+to validate its predictions effectively.
+Explainability Insights from the Student Model. The Student model,
+designed to replicate the Teacher’s performance with reduced computational
+complexity, produced a final predicted value of 0.956. While prioritizing sev-
+eral key features similar to the Teacher model, the Student model distributed
+its attributions more broadly. Key insights include:
+• Source Bytes contributed +0.0323, reinforcing its significance across
+both models.
+37

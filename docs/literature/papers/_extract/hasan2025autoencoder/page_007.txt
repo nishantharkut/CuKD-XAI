@@ -1,0 +1,180 @@
+Table 3: Summary of model performance (Binary)
+Algorithm
+Accuracy PrecisionRecall
+F1
+AUC
+Geo
+Mean
+Train
+Time
+(s)
+Test
+Time
+(s)
+LGBM
+1.0000
+1.0000 1.0000 1.0000 1.0000 1.0000
+1.0752
+0.1099
+XGB
+0.9999
+0.9999 1.0000 0.9999 0.9996 0.9998
+1.0283
+0.0597
+DecisionTree
+0.9998
+0.9999 0.9999 0.9999 0.9994 0.9996
+1.1718
+0.0042
+LDA
+0.8754
+0.8908 0.9710 0.9292 0.4487 0.5973
+0.1600
+0.0072
+TabNet
+0.9999
+0.9999 1.0000 0.9999 1.0000 0.9997
+1735.4461
+2.7580
+Bi-LSTM
+0.9997
+0.9997 1.0000 0.9998 0.9998 0.9920
+0.9990
+982.2894
+Table 4: Summary of model performance (Multi Class)
+Algorithm
+Accuracy Precision
+Recall
+F1 Score
+Geo
+Mean
+Train
+Time(s)
+Test
+Time(s)
+Macro Weighted Macro
+Weighted Macro
+Weighted
+DecisionTree
+0.9994
+0.9994 0.9994
+0.9994 0.9994
+0.9994 0.9994
+0.9997 3.7432 0.0124
+XGB
+0.8181
+0.8106 0.8233
+0.7974 0.8181
+0.801
+0.8183
+0.8872 33.9725 0.8476
+LGBM
+0.7946
+0.7915 0.8058
+0.7737 0.7946
+0.7768 0.795
+0.8731 18.5499 4.8402
+LDA
+0.4663
+0.3762 0.4359
+0.3677 0.4663
+0.3333 0.4261
+0.5946 0.2051 0.0178
+TabNet
+0.7756
+0.7751 0.7905
+0.7488 0.7756
+0.7548 0.7769
+0.8584 4436.65 —
+LSTM
+0.7729
+0.7682 0.7882
+0.74
+0.7729
+0.7279 0.7567
+0.8532 958.55 3.1581
+ity classes. This results in lower F1-scores and
+reduces their effectiveness in capturing nuanced
+patterns of intrusion. On the other hand, mod-
+els like [Ferrag et al., 2022] and [Ullah et al.,
+2023] achieve high accuracy through complex ar-
+chitectures but fail to address the computational
+constraints of edge devices, making them unsuit-
+able for real-time IIoT applications. In contrast,
+our approach not only outperforms these tech-
+niques but also addresses these limitations com-
+prehensively. By leveraging an autoencoder for
+dimensionality reduction and feature learning, our
+model effectively mitigates the challenges posed
+by class imbalance. This is evident from our supe-
+rior F1-score, as shown in Table 4, which demon-
+strates our ability to accurately classify both ma-
+jority and minority classes. Additionally, while
+the accuracy metric is commonly used, it can
+be misleading in imbalanced settings; our model
+achieves an outstanding accuracy of 99.94%,
+striking a balance between precision and robust-
+ness that outperforms existing methods. Further-
+more, our approach is novel in its emphasis on
+practical deployment.
+Unlike prior work, our
+model introduces a lightweight architecture ex-
+plicitly designed for edge environments, ensur-
+ing scalability and efficiency.
+We are the first
+to deploy an intrusion detection model on a Jet-
+son Nano, achieving exceptionally low inference
+times of 0.185 ms for binary classification and
+0.187 ms for multiclass classification. This ca-
+Table 5: Comparison of Techniques and Performance
+Metrics
+Authors
+Techniques
+Accuracy
+F1
+Edge
+Alshehri et al.
+SA-DCNN
+99.95%
+99.53%
+No
+Douiba et al.
+GB & DT
+100%
+99.50%
+No
+Ferrag et al.
+DT, RF, SVM,
+KNN, DNN
+94.67
+99%
+No
+Ullah et al.
+MAGRU
+99.97%
+99.64%
+No
+Our
+Approach
+DT, XGB,
+LGBM, LDA,
+TabNet, LSTM
+99.94%
+99.94%
+Yes
+pability demonstrates our model’s suitability for
+real-world IIoT applications, where low-latency
+and resource efficiency are paramount.
+These
+contributions collectively establish our method as
+a robust, high-performance, and deployable solu-
+tion that addresses the critical challenges faced by
+state-of-the-art intrusion detection systems.
+5
+Conclusion
+Our
+Intrusion
+Detection
+System
+(IDS)
+achieved a 99.94% F1 score on the Edge-IIoT

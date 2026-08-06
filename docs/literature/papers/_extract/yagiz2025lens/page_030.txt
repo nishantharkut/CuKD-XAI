@@ -1,0 +1,80 @@
+Table 9: Performance metrics comparison for the LENS-XAI framework on the NSL-KDD
+dataset across various attack types.
+Attack Type
+Accuracy (%)
+Precision (%)
+Recall (%)
+F1 Score (%)
+DoS (Teacher)
+99.50
+99.68
+99.51
+99.60
+DoS (Student)
+99.59
+99.46
+99.60
+99.53
+Normal (Teacher)
+98.31
+99.01
+98.32
+98.66
+Normal (Student)
+98.05
+98.78
+98.05
+98.41
+Probe (Teacher)
+98.61
+100.0
+100.0
+100.0
+Probe (Student)
+98.21
+96.96
+98.22
+97.59
+U2R (Teacher)
+37.14
+63.93
+37.14
+46.99
+U2R (Student)
+23.80
+55.56
+23.81
+33.33
+R2L (Teacher)
+89.15
+78.98
+89.15
+83.76
+R2L (Student)
+85.46
+77.61
+85.47
+81.35
+closely followed with slight increases in misclassifications. Both models per-
+formed well on Normal traffic, maintaining accuracies above 98%. However,
+rare attacks like U2R remain challenging due to class imbalance, with the
+Teacher achieving 37.14% accuracy compared to 23.80% for the Student.
+In general, the LENS-XAI framework ensures high classification performance
+and scalability, with minimal misclassifications for major attack types.
+Confusion Matrix Analysis. Figure 7 illustrates the confusion matrices
+for the LENS-XAI framework, highlighting the performance of the Teacher
+and Student models on the NSL-KDD dataset for multiclass classification.
+The Teacher model demonstrates exceptional accuracy with minimal misclas-
+sifications, such as 121 DoS and 237 Normal instances. The Student model
+closely mirrors the Teacher’s performance, correctly classifying 47,783 DoS
+and 68,934 Normal instances, showcasing its efficiency and robustness in
+knowledge distillation.
+4.4. Model Complexity and Inference Time
+4.4.1. Multi-Class Classification Analysis
+Table 10 provides a detailed comparison of the Student and Teacher mod-
+els in terms of the number of parameters and inference time per batch for
+multi-class classification across three benchmark datasets: UKM20, Edge-
+IIoTset, and NSL-KDD.
+• Model Complexity: The Teacher model exhibits a significantly higher
+parameter count compared to the Student model across all datasets.
+30

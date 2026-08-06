@@ -1,0 +1,36 @@
+Sensors 2025, 25, 4309
+21 of 31
+thereby limiting the global model’s generalization capability across different clients. How-
+ever, compared to FedAvg, FedProx demonstrated a smaller performance decline, achieving
+an accuracy and F1-score of 93.86% and 92.70%, respectively, thus outperforming FedAvg.
+This advantage was attributed to FedProx’s proximal term, which effectively constrains the
+excessive deviations of local models from the global model, thereby alleviating the model
+drift caused by Non-IID data. As a result, FedProx is able to maintain better global model
+performance even when client data distributions are highly heterogeneous. Moreover,
+FedProx reduced the FNR from 7.01% to 6.14% under high-Non-IID conditions. Although
+its FPR increased slightly from 0.18% to 0.21%, it remained at a low level. Given that FPR
+has a relatively smaller impact on system security risks compared to FNR, this trade-off is
+generally acceptable in practical applications. Nevertheless, the additional computational
+overhead introduced by FedProx should not be overlooked. Under both Non-IID scenarios,
+its execution times reached 1399.09 s and 2104.78 s, respectively, i.e., significantly higher
+than those of FedAvg. The proximal term requires the computation of the divergence be-
+tween the local and global models during each local optimization step, thereby increasing
+the computational complexity per training round.
+Figure 9 illustrates the accuracy trends of the FedAvg and FedProx aggregation algo-
+rithms over communication rounds under low- and high-Non-IID data conditions, with
+the KD mechanism incorporated. When θ = 1, due to the relatively consistent data distri-
+butions across clients, the local update directions during model training were generally
+aligned. Consequently, the performance differences between FedAvg and FedProx were
+minimal. Both methods exhibited a rapid increase in accuracy during the early training
+stages and gradually converged in the later stages, with their accuracy curves almost
+overlapping. This indicates that, under low-Non-IID conditions, both algorithms can
+achieve stable global model training. However, when θ = 0.1, the extreme data distri-
+bution imbalance poses greater challenges for both algorithms. During the initial stages,
+FedAvg and FedProx showed similar accuracy improvement trends accompanied by no-
+ticeable fluctuations. With an increasing number of communication rounds, the accuracy
+of FedProx progressively surpassed that of FedAvg and maintained a clear advantage in
+the later stages. This observation suggests that the introduction of the proximal term in
+FedProx effectively mitigates the model drift caused by divergent client updates, thereby
+demonstrating adaptability and model performance in highly Non-IID environments.
+Figure 9. Accuracy comparison of the two aggregation algorithms under different Non-IID scenarios
+with KD on Edge-IIoT.

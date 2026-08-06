@@ -1,0 +1,77 @@
+1335
+Page 12 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Fig. 5 ROC curves with corresponding AUC values illustrating the clas-
+siﬁcation performance of the models
+Fig. 6 CAM sensitivity analysis highlighting the contribution of each
+feature to the model’s predictions
+framework. Two complementary analytical methods have
+been applied to open up a clear and rigorous explanation of
+the feature contributions in the meta-ensemble introduced.
+The CAM characterizes the extent of agreement between
+each input feature vector and the output of the model’s pre-
+dicted class. To be more precise, for each feature, the cosine
+similarity is computed between its activation over the dataset
+and the predicted probability vector, thus offering a contin-
+uous relevance measure that indicates both the size and the
+direction of the feature’s consistency with the model’s deci-
+sion. This technique enables the detection of features that
+are the main contributors to class discrimination, as well as
+handling the correlations existing in the feature space. The
+radar plot overlays two sensitivity proﬁles, S1 and ST, thus
+enabling direct comparison of feature contributions under
+different experimental setups. It is noteworthy that “Is CH”
+emerges as the most inﬂuential feature, with sensitivity val-
+ues exceeding 0.75 in the S1 proﬁle, indicating its decisive
+role in distinguishing cluster head-related behavioral pat-
+terns that are closest to attack detection. Besides, “Time,”
+“Dist to CH,” and “Who CH” are among the leading features
+that uncovered signiﬁcant contributions in overcoming the
+limitations in topological and temporal dynamics in WSN
+communications.
+On the other hand, the parameters such as “DATA R,”
+“DATA S,” and “Rank” have relatively low sensitivity val-
+ues, based on which it can be suggested that these features
+have a few but minor contributions in the decision space. The
+departure between S1 and ST distributions implies that the
+model’s sensitivity varies across different analytical settings,
+indicating an interaction between feature relevance and the
+adopted optimization or ensemble strategy.
+Figure 7 represents the results of a quick sensitivity anal-
+ysis, measuring the relative inﬂuence of each input feature
+on the model’s output predictions. FAST sensitivity analysis
+[29] is a perturbation-based technique aimed at making efﬁ-
+cient estimations of the impact of features on the output of
+the model. For each feature, its value is changed systemat-
+ically within the observed range, and the model’s predicted
+probabilities are checked for changes. After that, the sensi-
+tivity scores are combined and normalized to allow a ranking
+of feature importance to be drawn, which indicates those fea-
+tures that best affect the model’s decisions. It uses a dual-axis
+depiction that shows S1 (black) on the left scale and ST (blue)
+on the right, giving a view of both absolute contribution and
+normalizedimportanceat thesametime. Theresearchreveals
+that “Is CH,” “Who CH,” and “Dist to CH” are the three fea-
+tures with the highest sensitivity values in both S1 and ST,
+and hence the most inﬂuential in changing the properties
+of the classiﬁcation boundaries in wireless sensor network
+intrusion detection. On the other hand, the “Data Sent to BS”
+and “Expanded Energy” attributes, showing substantial dif-
+ferences, pinpoint the consumption of energy together with
+the ﬂow of data as the vital signs of the network’s abnormal
+behavior. Moreover, the features “Rank” and “ADV S” have
+such a small inﬂuence on other features that their role in the
+network is expected to be that of a helper. The degree of simi-
+larity between S1 and ST is the largest intersection of feature
+trends in signiﬁcance from different perspectives of the anal-
+ysis, which constitutes their strongest point of agreement.
+By comparing the two pictures, Figs. 6 and 7, the main
+characteristics of the two given methods of sensory analy-
+sis and their respective impact on the understanding of the
+feature importance are discussed. The CAM-based analysis
+(Fig. 6) gives a more spatially distributed picture of the rel-
+ative importance of features such as ‘Is CH’, ‘Who CH’,
+‘Dist to CH’, etc., in a multidimensional decision space,
+thus implying their structural and topological signiﬁcance.
+Whereas, the fast sensitivity analysis (Fig. 7) is more detailed
+123

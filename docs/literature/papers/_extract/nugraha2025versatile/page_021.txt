@@ -1,0 +1,31 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1115
+Fig. 12 Execution time for the
+SHAP and LIME local
+explanations with XGBoost
+model
+networks. Its Feature Transformer processes input features
+to capture complex relationships, while the iterative deci-
+sion steps reﬁne the predictions by progressively building
+hierarchical feature representations. We ﬁne-tuned the hyper-
+parameters of the TabNet architecture using GridSearchCV.
+Theresultingconﬁgurationisasfollows:themodeluseseight
+decisiondimensions(n_d=8)andeightattentiondimensions
+(n_a=8), with three decision steps (n_steps=3) to itera-
+tively reﬁne feature importance and predictions. The learning
+rate (lr=0.02) ensures steady optimization, and batch pro-
+cessing is optimized with a batch size of 512 and a virtual
+batch size of 128 to balance memory efﬁciency and training
+speed. These parameters, combined with the sparse attention
+mechanism, allow TabNet to dynamically focus on signiﬁ-
+cant features in the datasets.
+Furthermore, we exchanged the XGBoost model in our
+framework by the method proposed by Santhiappan et al.
+[33], which employs the Convolutional Attention for Multi-
+Label classiﬁcation (CAML) model, an attention weight-
+based model designed for text data. Their method enhances
+LIME’s efﬁciency by using attention weights derived from
+CAML to focus on the most relevant features. This approach
+reduces the number of features that LIME needs to examine,
+thereby accelerating the explanation generation time. Since
+123

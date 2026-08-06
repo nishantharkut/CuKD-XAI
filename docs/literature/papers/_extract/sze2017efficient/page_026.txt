@@ -1,0 +1,115 @@
+26
+Complex 
+DNN B 
+(teacher) 
+Simple DNN 
+(student) 
+softmax 
+softmax 
+Complex 
+DNN A 
+(teacher) 
+softmax 
+scores 
+class  
+probabilities 
+Try to match 
+Fig. 45.
+Knowledge distillation matches the class scores of a small DNN to
+an ensemble of large DNNs.
+the teacher DNN can also be incorporated as the extra hints
+to train the student DNN [161].
+VIII. BENCHMARKING METRICS FOR DNN EVALUATION
+AND COMPARISON
+As we have seen in this article, there has been a signiﬁcant
+amount of research on efﬁcient processing of DNNs. We should
+consider several key metrics to compare the various strengths
+and weaknesses of different designs and proposed techniques.
+These metrics should cover important attributes such as accu-
+racy/robustness, power/energy consumption, throughput/latency
+and cost. Reporting all these metrics is important in order
+to provide a complete picture of the trade-offs made by a
+proposed design or technique. We have prepared a website to
+collect these metrics from various publications [162].
+In terms of accuracy and robustness, it is important that the
+accuracy be reported on widely-accepted datasets as discussed
+in Section IV. The difﬁculty of the dataset and/or task should
+be considered when measuring the accuracy. For instance, the
+MNIST dataset for digit recognition is signiﬁcantly easier than
+the ImageNet dataset. As a result, a DNN that performs well
+on MNIST may not necessarily perform well on ImageNet.
+Thus it is important that the same dataset and task is used when
+comparing the accuracy of different DNN models; currently
+ImageNet is preferred since it presents a challenge for DNNs,
+as opposed to MNIST, which can also be addressed with simple
+non-DNN techniques. To demonstrate primarily hardware
+innovations, it would be desirable to report results for widely-
+used DNN models (e.g., AlexNet, GoogLeNet) whose accuracy
+and robustness have been well studied and tested.
+Energy and power are important when processing DNNs at
+the edge in embedded devices with limited battery capacity
+(e.g., smart phones, smart sensors, UAVs, and wearables), or in
+the cloud in data centers with stringent power ceilings due to
+cooling costs, respectively. Edge processing is preferred over
+the cloud for certain applications due to latency, privacy or
+communication bandwidth limitations. When evaluating the
+power and energy consumption, it is important to account
+for all aspects of the system including the chip and external
+memory accesses.
+High throughput is necessary to deliver real-time perfor-
+mance for interactive applications such as navigation and
+robotics. For data analytics, high throughput means that more
+data can be analyzed in a given amount of time. As the amount
+of visual data is growing exponentially, high-throughput big
+data analytics becomes important, particularly if an action needs
+to be taken based on the analysis (e.g., security or terrorist
+prevention; medical diagnosis).
+Low latency is necessary for real-time interactive applications.
+Latency measures the time between when the pixel arrives
+to a system and when the result is generated. Latency is
+measured in terms of seconds, while throughput is measured
+in operations/second. Often high throughput is obtained by
+batching multiple images/frames together for processing; this
+results in multiple frame latency (e.g., at 30 frames per second,
+a batch of 100 frames results in a 3 second delay). This delay
+is not acceptable for real-time applications, such as high-speed
+navigation where it would reduce the time available for course
+correction. Thus achieving low latency and high throughput
+simultaneously can be a challenge.
+Hardware cost is in large part dictated by the amount of
+on-chip storage and the number of cores. Typical embedded
+processors have limited on-chip storage on the order of a few
+hundred kilobytes. Since there is a trade-off between the amount
+of on-chip memory and the external memory bandwidth, both
+metrics should be reported. Similarly, there is a correlation
+between the number of cores and the throughput. In addition,
+while many cores can be built on a chip, the number of cores
+that can actually be used at a given time should be reported. It is
+often unrealistic to assume peak utilization and performance due
+to limitations of mapping and memory bandwidth. Accordingly,
+the power and throughput should be reported for running actual
+DNNs as opposed to only reporting theoretical limits.
+A. Metrics for DNN Models
+To evaluate the properties of a given DNN model, we should
+consider the following metrics:
+• The accuracy of the model in terms of the top-5 error
+on datasets such as ImageNet. Also, the type of data
+augmentation used (e.g., multiple crops, ensemble models)
+should be reported.
+• The network architecture of the model should be reported,
+including number of layers, ﬁlter sizes, number of ﬁlters
+and number of channels.
+• The number of weights impact the storage requirement of
+the model and should be reported. If possible, the number
+of non-zero weights should be reported since this reﬂects
+the theoretical minimum storage requirements.
+• The number of MACs that needs to be performed should
+be reported as it is somewhat indicative of the number
+of operations and potential throughput of the given DNN.
+If possible, the number of non-zero MACs should also
+be reported since this reﬂects the theoretical minimum
+compute requirements.
+Table IV shows how these metrics are reported for various
+well known DNNs. The accuracy is reported for the case where
+only a single crop for a single model is used for classiﬁcation,
+such that the number of weights and MACs in the table are

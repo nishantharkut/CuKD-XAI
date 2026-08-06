@@ -1,0 +1,120 @@
+Sensors 2019, 19, 4383
+13 of 20
+To prepare training and testing sets, the holdout method is used to separate the dataset into 60%
+training and 40% testing. The number of instances in these two sets is presented in Table 3.
+Table 3. The dataset separated 60% training set and 40% testing set using holdout method.
+The Attack Type
+Training Set (60%)
+Testing Set (40%)
+Blackhole
+6029
+4020
+Grayhole
+8758
+5838
+Flooding
+1988
+1324
+Scheduling
+3982
+2656
+Normal
+204,039
+136,027
+Sum
+224,796
+149,865
+3.2. Evaluation Metrics
+A set of evaluation metrics including the accuracy (ACC), precision (PR), recall (RE), and f1-score
+are utilized to evaluate and compare the results of proposed intrusion detection model. They were
+used because they produced comparable results and frequently used in the machine learning ﬁeld for
+evaluating and comparing its models. These performance evaluation metrics are computed as:
+Accuracy (ACC) = (TP + TN) ⁄ (TP + FP + TN + FN)
+(7)
+Precision (PR) or Positive Predictive value (PPV) = TP/(TP + FP)
+(8)
+Recall (RE) (True Positive Rate) (Sensitivity) = TP ⁄ (TP + FN)
+(9)
+F1-Score = 2*((Precision * Recall)/(Precision + Recall))
+(10)
+Speciﬁcity, Selectivity or True Negative Rate (TNR) = TN ⁄ (TN + FP)
+(11)
+False Positive Rate (FPR) = FP/(FP + TN)
+(12)
+False Negative Rate (FNR) = FN/(FN + TP)
+(13)
+where TP, TN, FP, and FN are the true positive, true negative, false positive, and false negative,
+computed from the confusion matrix.
+3.3. Experimental Results and Comparisons
+The subsection describes the experimental results and comparisons with other models and related
+works. The results of our experiment are obtained using both 10 fold cross validation and holdout
+methods on the simulated WSN-DS dataset [46]. In the 10 fold cross validation, the dataset is divided
+into 10 parts, one of them is used for testing for 10 times. Tables 4–8 show the results of the 10 fold
+cross validation method.
+Table 4. Precision results of the 10 fold cross validation.
+Fold No.
+Normal
+Flooding
+Scheduling
+Grayhole
+Blackhole
+1
+1.00
+0.96
+0.99
+0.99
+0.99
+2
+1.00
+0.97
+0.99
+0.99
+0.99
+3
+1.00
+0.97
+0.99
+0.99
+0.99
+4
+1.00
+0.95
+0.99
+0.99
+0.99
+5
+1.00
+0.94
+0.98
+0.99
+0.99
+6
+1.00
+0.95
+0.98
+0.99
+0.99
+7
+1.00
+0.97
+1.00
+0.99
+0.99
+8
+1.00
+0.94
+0.99
+0.99
+1.00
+9
+1.00
+0.96
+0.99
+0.99
+0.99
+10
+1.00
+0.97
+0.99
+0.99
+0.99

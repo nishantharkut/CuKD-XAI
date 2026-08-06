@@ -1,0 +1,55 @@
+arXiv:1503.02531v1  [stat.ML]  9 Mar 2015
+Distilling the Knowledge in a Neural Network
+Geoffrey Hinton∗†
+Google Inc.
+Mountain View
+geoffhinton@google.com
+Oriol Vinyals†
+Google Inc.
+Mountain View
+vinyals@google.com
+Jeff Dean
+Google Inc.
+Mountain View
+jeff@google.com
+Abstract
+A very simple way to improve the performance of almost any machine learning
+algorithm is to train many different models on the same data and then to average
+their predictions [3]. Unfortunately, making predictions using a whole ensemble
+of models is cumbersome and may be too computationally expensive to allow de-
+ployment to a large number of users, especially if the individual models are large
+neural nets. Caruana and his collaborators [1] have shown that it is possible to
+compress the knowledge in an ensemble into a single model which is much eas-
+ier to deploy and we develop this approach further using a different compression
+technique. We achieve some surprising results on MNIST and we show that we
+can signiﬁcantly improve the acoustic model of a heavily used commercial system
+by distilling the knowledge in an ensemble of models into a single model. We also
+introduce a new type of ensemble composed of one or more full models and many
+specialist models which learn to distinguish ﬁne-grained classes that the full mod-
+els confuse. Unlike a mixture of experts, these specialist models can be trained
+rapidly and in parallel.
+1
+Introduction
+Many insects have a larval form that is optimized for extracting energy and nutrients from the envi-
+ronment and a completely different adult form that is optimized for the very different requirements
+of traveling and reproduction. In large-scale machine learning, we typically use very similar models
+for the training stage and the deployment stage despite their very different requirements: For tasks
+like speech and object recognition, training must extract structure from very large, highly redundant
+datasets but it does not need to operate in real time and it can use a huge amount of computation.
+Deployment to a large number of users, however, has much more stringent requirements on latency
+and computational resources. The analogy with insects suggests that we should be willing to train
+very cumbersome models if that makes it easier to extract structure from the data. The cumbersome
+model could be an ensemble of separately trained models or a single very large model trained with
+a very strong regularizer such as dropout [9]. Once the cumbersome model has been trained, we
+can then use a different kind of training, which we call “distillation” to transfer the knowledge from
+the cumbersome model to a small model that is more suitable for deployment. A version of this
+strategy has already been pioneered by Rich Caruana and his collaborators [1]. In their important
+paper they demonstrate convincingly that the knowledge acquired by a large ensemble of models
+can be transferred to a single small model.
+A conceptual block that may have prevented more investigation of this very promising approach is
+that we tend to identify the knowledge in a trained model with the learned parameter values and this
+makes it hard to see how we can change the form of the model but keep the same knowledge. A more
+abstract view of the knowledge, that frees it from any particular instantiation, is that it is a learned
+∗Also afﬁliated with the University of Toronto and the Canadian Institute for Advanced Research.
+†Equal contribution.
+1

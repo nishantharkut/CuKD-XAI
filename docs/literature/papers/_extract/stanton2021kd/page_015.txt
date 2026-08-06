@@ -1,0 +1,47 @@
+Figure 7: Sample images from our SN-GAN (FID = 74.2617, IS = 6.6023) trained on CIFAR-100.
+without batch-normalization, with implementation directly adapted from https://github.com/
+pytorch/vision/blob/master/torchvision/models/vgg.py. For experiments on MNIST
+and EMNIST we used a 5-layer LeNet [28]. For ImageNet we used ResNet50 networks for both
+teacher and students.
+Image generators
+We used the standard three-stage ResNet architectures for the SN-GAN gener-
+ator and discriminator from Miyato et al. [35]. The generator latent dimension was 128, and each
+generator stage had 256 ﬁlters. The discriminator had 128 ﬁlters in each stage. Sample images are
+shown in Figure 7.
+Text classiﬁer
+In section C.4 on IMDB sentimental analysis problem, we use a bidirectional LSTM
+recurrent neural network with 2 layers, embedding size 128 and LSTM cell size 70.
+A.3
+Training procedures
+In our experiments, we consider pre-activation ResNet networks with depths 20, 56 and 110 [18].
+We evaluate on MNIST/EMNIST [11] and CIFAR-100 [27], focusing primarily on the latter. We
+chose CIFAR-100 rather than CIFAR-10 because increasing the problem difﬁculty increases the gap
+in performance between a single model and an ensemble, making signiﬁcant trends more apparent.
+We independently train each network in the teacher-ensemble to minimize LNLL for 200 epochs, and
+we distill each student by training it to minimize LKD for 300 epochs (i.e. we take α in Ls to be
+0). Note that in the literature one typically sees α > 0. We have chosen α = 0 so that our objective
+reﬂects our aim of producing the highest ﬁdelity student possible. We use an SGD optimizer with
+initial learning rate 5 × 10−2 and cosine annealing learning rate schedule. We produce augmented
+datasets for distillation by sampling images from a set of speciﬁed sources, including rotations or
+color jitter applied to ground truth images, uniform ‘white noise’ images, or synthetic GAN-generated
+images. Unless speciﬁed otherwise, the only augmentations applied when training the teacher were
+the standard random horizontal ﬂip (p = 0.5) and padded random crop (4 pixel pad width), regardless
+of the choice of distillation dataset.
+Teacher image classiﬁers:
+The teacher models were trained through the standard empirical cross-
+entropy loss for 200 epochs with a batch size of 256 using SGD with momentum (0.9 momentum
+weight) and weight decay of 1.0 × 10−4. We used a cosine annealing learning rate schedule with
+ηmax = 0.1, ηmin = 0. For data augmentation we used random horizontal ﬂips (p = 0.5) and random
+crops (padding width 4).
+Student image classiﬁers:
+Our student models were distilled through the temperature-scaled
+teacher-student cross-entropy with varying temperatures τ for 300 epochs, with a batch size of 128
+using SGD with Nesterov momentum (0.9 momentum weight) and weight decay of 1.0 × 10−4. We
+used a cosine annealing learning rate schedule with ηmax = 5.0 × 10−2, ηmin = 1.0 × 10−6. For
+details on the data augmentation procudures we considered, the reader is directed to Appendix A.1.
+Image generators:
+For synthetic image generation we trained SN-GAN models with the hinge
+discriminator loss from Miyato et al. [35]. We trained the generator for 100K gradient steps with
+a batch size of 128. For each generator step, we took 5 discriminator steps. We used Adam
+(β1 = 0, β2 = 0.9) and a linearly decayed learning rate ηmax = 2.0 × 10−4, ηmin = 1.0 × 10−6.
+15

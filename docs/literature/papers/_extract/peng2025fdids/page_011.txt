@@ -1,0 +1,45 @@
+Sensors 2025, 25, 4309
+11 of 31
+attacks. If local models are aggregated without appropriate constraints, the resulting global
+model may fail to detect certain attack types effectively. While the FedProx algorithm
+reduces the divergence between client models and the global model by adding a proximal
+term, its performance may still deteriorate or undergo drift in situations with extreme data
+distributions. To overcome these challenges, this paper introduces an innovative approach
+that incorporates KD into the FL framework. This method leverages continuous guidance
+from the global model to the client models, mitigating the model drift in Non-IID scenarios
+and, thereby, improving the detection accuracy of diverse IoT attacks while enhancing the
+overall security performance of the system.
+KD, originally introduced as a model compression technique, relies on the concept of
+transferring information from a teacher model to a student model to enhance the student’s
+performance [41,42]. In the proposed FL framework, the global model functions as the
+teacher model, while the local models on the clients serve as the student models. Through
+KD, the global model continuously provides soft target distributions to the client models
+during each training round. These soft targets not only offer richer supervision compared
+to hard labels, but also effectively bridge the discrepancies caused by Non-IID between
+the global and local models. This mechanism ensures that the training of client models is
+consistently aligned with the global model’s guidance, preventing model drift due to local
+data imbalances. The distillation process is illustrated in Figure 5.
+Figure 5. Distillation process.
+KD transfers probabilistic information between the teacher model (global model) and
+the student model (client model) by calculating the Kullback–Leibler (KL) divergence
+between their respective outputs [43]. The distillation loss is defined as follows:
+Lsoft = T2 · KL
+
+softmax
+ Zt
+T
+
+∥softmax
+ Zs
+T
+
+,
+(4)
+where Zt and Zs represent the logits of the teacher model (global model) and the student
+model (client model), respectively. The parameter T is a temperature factor that smooths
+the output probability distribution. By increasing the temperature T, the student model
+can capture finer-grained probabilities from the global model, enhancing its generalization
+capabilities. In this study, T was set to 3.
+Under the FedAvg aggregation strategy, the total distillation loss is defined as follows:
+Ldistill = λ · Lhard + (1 −λ) · Lsoft,
+(5)

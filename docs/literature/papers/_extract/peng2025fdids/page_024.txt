@@ -1,0 +1,71 @@
+Sensors 2025, 25, 4309
+24 of 31
+ing in a compact size of 0.08 MB, thus exhibiting a lightweight architecture suitable for
+resource-constrained environments.
+To assess the computational burden during the local training phase, this study adopted
+floating-point operations (FLOPs) as a unified metric, quantifying the total number of
+multiply–accumulate operations involved in each training round. FLOPs are widely rec-
+ognized as a standard measure of complexity in both the training and inference of neural
+networks, and they also serve as an indirect indicator of runtime memory requirements
+due to intermediate activations and temporary data storage—making them particularly
+relevant for edge deployment considerations. Under the experimental configuration of
+this work, each client performed two local training iterations per communication round,
+with an average computational cost of approximately 2.16 × 108 FLOPs per iteration. To
+assess the practicality of deploying the proposed algorithm on IoT devices, we compared
+the computational workload of each training iteration with the measured peak perfor-
+mance of commonly adopted Raspberry Pi platforms, as reported in refs. [46,47]. The
+earlier-generation Raspberry Pi Zero and Raspberry Pi Model 2B exhibited peak perfor-
+mance levels of approximately 3.19 × 108 and 1.47 × 109 FLOPS, respectively, with the
+latter offering a significant performance improvement over the former. Moreover, the
+more recently developed Raspberry Pi 4 Model B—widely used in contemporary edge
+computing evaluations—achieved a peak performance of around 1.15 × 1010 FLOPs. A
+comparative analysis revealed that the computational load required by a single client per
+training iteration was approximately 2.16 × 108 FLOPs, which was slightly below the peak
+performance of the Raspberry Pi Zero. In contrast, this workload was substantially lower
+than the computed capacities of higher-performance edge platforms, such as the Raspberry
+Pi 2B and Raspberry Pi 4B.
+Table 14. Summary of the computational and communication costs in FD-IDS.
+Metric
+Value
+Description
+Number of Model Parameters
+22,095
+Total number of trainable parameters in the model.
+Model Size (MB)
+0.08
+Storage space occupied by the model file on the device.
+Total FLOPs
+1.56 × 1011
+Total computation across all clients during 40 commu-
+nication rounds.
+Average FLOPs per Round
+2.16 × 108
+Computation cost per client per local training iteration
+per round.
+Total Communication Volume
+(MB)
+60.69
+Total upload + download volume across all clients over
+40 rounds.
+Communication Volume per
+Round (MB)
+1.52
+Upload
++
+download
+volume
+across
+all
+clients
+per round.
+Per-Client Communication per
+Round (MB)
+0.17
+Upload + download volume per client per round.
+In FL architectures, communication overhead is another critical factor influencing
+deployment feasibility. As reported in Table 14, the proposed model incurred an aggregate
+communication volume of approximately 60.69 MB from all clients over 40 communication
+rounds, corresponding to an average of 1.52 MB per round (with each client transmitting
+and receiving approximately 0.17 MB of data per round). This level of communication
+demand falls well within the theoretical bandwidth supported by mainstream wireless
+standards, such as LTE-M [48].

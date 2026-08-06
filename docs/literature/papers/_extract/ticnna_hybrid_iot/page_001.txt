@@ -1,0 +1,61 @@
+Received 18 January 2026, accepted 1 February 2026, date of publication 10 February 2026, date of current version 13 February 2026.
+Digital Object Identifier 10.1109/ACCESS.2026.3663379
+TICNN—A Hybrid Light-Weight CNN for Large
+Imbalanced Multi-Class Datasets on Intrusion
+Detection System in IoT
+AVINASH AWASTHI
+1, (Member, IEEE), ANIL KUMAR PRAJAPATI
+2, (Member, IEEE),
+PRITAM VEDIYA1, AND RAMESH BABU BATTULA
+1, (Member, IEEE)
+1Department of Computer Science and Engineering, Malaviya National Institute of Technology (MNIT), Jaipur, Rajasthan 302017, India
+2Department of Data Science and Engineering, Manipal University Jaipur, Rajasthan 303007, India
+Corresponding author: Anil Kumar Prajapati (anilkumar.prajapati@jaipur.manipal.edu)
+This work was supported by the Manipal University Jaipur, Jaipur, Rajasthan, India.
+ABSTRACT The swift growth in ubiquitous connectivity, such as 5G and 6G, cloud computing, which
+enables data-driven automation and increases efficiency across industries, gave rise to the Internet of Things.
+This proliferation significantly expands the network attack surface, making IoT-based networks increasingly
+vulnerable to a multitude of attacks. To mitigate the attacks, Intrusion detection systems are developed. While
+developing the IDS, a primary challenge is the data collection of attack patterns and their training. The
+data collected is often massive, heterogeneous, and, critically, imbalanced. Training conventional models
+on such imbalanced data typically leads to poor performance, particularly in overlooking minority attack
+classes during multi-class classification. Our proposed system directly addresses this challenge of data
+imbalance. We introduce a hybrid technique, the Transformed Image Generative Adversarial Network
+(TIGAN), that generates high-fidelity attack samples and is then used to augment underrepresented attack
+classes, complemented by downsampling of overrepresented ones. The balanced data allows our lightweight
+deep learning model, Transformed Image Convolutional Neural Network (TICNN), to achieve robust attack
+detection. The experimental TICNN-based IDS delivers a faster detection time and detection accuracy
+of 99.56% at the macro level, which showcases its strong capability to identify diverse attacks, sporadic
+minority classes, in challenging IoT settings.
+INDEX TERMS IoT threat vector, generative adversarial networks (GANs), multi-class classification, deep
+transfer learning, convolutional neural network, IDS.
+I. INTRODUCTION
+The Internet of Things (IoT) is rapidly growing due to
+enhanced connectivity, automation, and data analysis in
+sectors such as manufacturing (Industrial IoT), healthcare,
+smart cities, retail, agriculture, transportation and logistics,
+energy and utilities, and smart homes. The developments in
+next-generation systems have improved connectivity, helping
+IoT devices communicate seamlessly, enabling real-time data
+exchange, and improving operational performance. However,
+IoT devices often lack adequate security, as functionality may
+The associate editor coordinating the review of this manuscript and
+approving it for publication was Jiachen Yang
+.
+be prioritized over protective measures. The sheer number
+of connected devices within an IoT ecosystem creates a
+vast attack surface, making them vulnerable to cyberattacks,
+unauthorised access, data breaches, etc. Thus, Real-time
+detection of attacks is crucial for safeguarding IoT systems.
+Machine learning-based intrusion detection systems (IDS)
+address IoT vulnerabilities by analyzing network traffic
+patterns and identifying anomalies as they occur. Deploying
+advanced machine learning-based IDS algorithms may detect
+real-time vulnerabilities and protect the IoT environment
+from malicious activity.
+In the existing research, deep learning models are used
+for anomaly-based IDS. A transfer learning approach is
+VOLUME 14, 2026
+ 2026 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.
+For more information, see https://creativecommons.org/licenses/by/4.0/
+23413

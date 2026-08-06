@@ -1,0 +1,122 @@
+Teacher
+Student
+0
+50000
+100000
+150000
+200000
+250000
+Throughput (samples/sec)
+36810
+238656
+(a) Throughput over the validation set, in samples/s.
+Teacher mean
+Teacher p95
+Student mean
+Student p95
+0
+500
+1000
+1500
+2000
+2500
+Latency per full pass (ms)
+1963
+2605
+303
+310
+(b) Latency per validation pass with batch size 1024,
+showing mean and p95.
+Fig. 7. Runtime comparison between teacher and student models. Panel (a)
+highlights throughput gains, while panel (b) details latency reductions.
+accuracy and fail to capture the variability of real traffic.
+As highlighted in prior work, evolving attack morphologies
+and non-IID flows typically reduce detection performance
+in practice [11], [12]. Evaluations on idealized corpora may
+therefore obscure vulnerabilities that emerge in operational IoT
+scenarios with heterogeneous devices and energy-constrained
+inference.
+Future research should address these gaps through more
+challenging evaluation protocols. Cross-dataset validation, for
+instance, could reveal generalization limits by training on
+TON IOT and testing on X-IIoT-ID or CIC-IDS2021. Ro-
+bustness may further be examined via controlled label noise,
+adversarial perturbations, or synthetic datasets that emulate
+temporal drift. Another open question concerns deployment-
+level trade-offs: the effect of varying compression ratios on
+energy–accuracy balance, and the resilience of distilled Kro-
+necker networks to unseen attack variants in federated or
+highly resource-limited environments. Tackling these ques-
+tions would move IDS research closer to trustworthy operation
+in next-generation IoT networks.
+VI. CONCLUSION
+This work presented a lightweight intrusion detection frame-
+work for IoT that integrates SHAP-guided feature pruning
+with knowledge-distilled Kronecker networks, demonstrating
+that feature-aware pruning and structured compression can
+drastically reduce model parameters, memory footprint, and
+inference latency while retaining essential detection capabil-
+ities. Experiments confirmed that the student model achieves
+millisecond-level inference and a footprint below one per-
+cent of the teacher, supporting feasibility for deployment
+in constrained edge devices. However, the results also re-
+vealed reduced macro-F1, emphasizing the need for more
+effective strategies to handle imbalanced traffic and rare at-
+tack categories, as well as a deeper understanding of the
+interaction between pruning depth, distillation temperature,
+and Kronecker rank in heterogeneous environments. Future
+directions include adaptive pruning strategies, workload-aware
+scheduling, privacy-preserving distillation for federated IoT,
+and cross-dataset stress testing, all aiming to narrow the
+energy–accuracy gap while ensuring scalability, robustness,
+and transparency in real-world IoT scenarios.
+REFERENCES
+[1] A. Serhane, K. Ibrahimi, E.-M. Hamzaoui, M. Jouhari, and J. Ben-
+Othman, “IoT Intrusion Detection Using Machine Learning Classifiers
+and PCA Dimensionality Reduction for N-BaIoT Dataset,” in ICC 2025
+- IEEE International Conference on Communications, 2025, pp. 5809–
+5814.
+[2] H. Benaddi, M. Jouhari, and O. Elharrouss, “A lightweight hybrid
+approach for intrusion detection systems using a chi-square feature
+selection approach in IoT,” Internet of Things, vol. 32, p. 101624, 2025.
+[3] M. A. Akif, I. Butun, A. Williams, and I. Mahgoub, “Hybrid Machine
+Learning Models for Intrusion Detection in IoT: Leveraging a Real-
+World IoT Dataset,” 2025.
+[4] M. Jouhari, H. Benaddi, and K. Ibrahimi, “Efficient Intrusion Detection:
+Combining X2 Feature Selection with CNN-BiLSTM on the UNSW-
+NB15 Dataset,” in 2024 11th International Conference on Wireless
+Networks and Mobile Communications (WINCOM), 2024, pp. 1–6.
+[5] A. H. Md. S. Saif, and S. I. Md. “A novel federated learning approach
+for IoT botnet intrusion detection using SHAP-based knowledge distil-
+lation,” Complex & Intelligent Systems, vol. 11, no. 1, pp. 1–23, 2025.
+[6] A. Kaushik and H. Al-Raweshidy, “A novel intrusion detection system
+for internet of things devices and data,” Wireless Networks, vol. 30,
+no. 1, pp. 285–294, 2023.
+[7] F. Ebrahimi, R. Javidan, R. Akbari, and Y. Hosseini, “Intrusion detection
+in the internet of things using convolutional neural networks: an explain-
+able AI approach,” Cybersecurity, vol. 8, no. 1, p. 66, Sep. 2025.
+[8] S. Ullah, J. Wu, M. M. Kamal, A. K. J. Saudagar et al., “KronNet:
+A Lightweight Kronecker Enhanced Feed-Forward Neural Network for
+Efficient IoT Intrusion Detection,” Scientific Reports, vol. 15, no. 20850,
+2025.
+[9] J. Gou, B. Yu, S. J. Maybank, and D. Tao, “Knowledge Distillation: A
+Survey,” International Journal of Computer Vision, vol. 129, no. 6, pp.
+1789–1819, 2021.
+[10] S. E. Sorour, M. Aljaafari, A. M. Shaker, and A. E. Amin, “LSTM-
+JSO framework for privacy preserving adaptive intrusion detection in
+federated IoT networks,” Scientific Reports, vol. 15, no. 1, p. 11321,
+2025.
+[11] N. Moustafa, “A new distributed architecture for evaluating AI-based
+security systems at the edge: Network TON IoT datasets,” Sustainable
+Cities and Society, vol. 72, p. 102994, 2021.
+[12] T. M. Booij, I. Chiscop, E. Meeuwissen, N. Moustafa, and F. T.
+H. d. Hartog, “ToN IoT: The Role of Heterogeneity and the Need for
+Standardization of Features and Attack Types in IoT Network Intrusion
+Data Sets,” IEEE Internet of Things Journal, vol. 9, no. 1, pp. 485–496,
+2022.
+[13] I. Tareq, B. M. Elbagoury, S. El-Regaily, and E.-S. M. El-Horbaty,
+“Analysis of ToN-IoT, UNW-NB15, and Edge-IIoT Datasets Using DL
+in Cybersecurity for IoT,” Applied Sciences, vol. 12, no. 19, 2022.
+[14] S. Roy, J. Li, B.-J. Choi, and Y. Bai, “A lightweight supervised intrusion
+detection mechanism for IoT networks,” Future Gener. Comput. Syst.,
+vol. 127, no. C, p. 276–285, Feb. 2022.

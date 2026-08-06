@@ -1,0 +1,225 @@
+C.1
+Capacity: is the student capable of emulating the teacher?
+1
+3
+5
+Teacher size
+0.66
+0.68
+0.70
+0.72
+Test Accuracy
+ResNet-20→ResNet-20
+1
+3
+5
+Teacher size
+1.0
+1.2
+1.4
+1.6
+Test NLL
+ResNet-20→ResNet-20
+1
+3
+5
+Teacher size
+0.05
+0.10
+0.15
+Test ECE
+ResNet-20→ResNet-20
+1
+3
+5
+Teacher size
+0.675
+0.700
+0.725
+0.750
+Test Agreement
+ResNet-20→ResNet-20
+1
+3
+5
+Teacher size
+0.6
+0.7
+0.8
+0.9
+1.0
+Test KL(T||S)
+ResNet-20→ResNet-20
+1
+3
+5
+Teacher size
+0.66
+0.68
+0.70
+0.72
+0.74
+Test Accuracy
+ResNet-20→ResNet-56
+1
+3
+5
+Teacher size
+1.0
+1.2
+1.4
+1.6
+Test NLL
+ResNet-20→ResNet-56
+1
+3
+5
+Teacher size
+0.05
+0.10
+0.15
+Test ECE
+ResNet-20→ResNet-56
+1
+3
+5
+Teacher size
+0.70
+0.75
+0.80
+Test Agreement
+ResNet-20→ResNet-56
+1
+3
+5
+Teacher size
+0.4
+0.6
+0.8
+Test KL(T||S)
+ResNet-20→ResNet-56
+1
+3
+5
+Teacher size
+0.72
+0.74
+0.76
+Test Accuracy
+ResNet-56→ResNet-56
+1
+3
+5
+Teacher size
+1.0
+1.2
+1.4
+Test NLL
+ResNet-56→ResNet-56
+1
+3
+5
+Teacher size
+0.05
+0.10
+0.15
+Test ECE
+ResNet-56→ResNet-56
+1
+3
+5
+Teacher size
+0.74
+0.76
+0.78
+Test Agreement
+ResNet-56→ResNet-56
+1
+3
+5
+Teacher size
+0.7
+0.8
+0.9
+1.0
+Test KL(T||S)
+ResNet-56→ResNet-56
+1
+3
+5
+Teacher size
+0.72
+0.74
+0.76
+Test Accuracy
+ResNet-56→ResNet-110
+1
+3
+5
+Teacher size
+1.0
+1.2
+1.4
+1.6
+Test NLL
+ResNet-56→ResNet-110
+1
+3
+5
+Teacher size
+0.05
+0.10
+0.15
+Test ECE
+ResNet-56→ResNet-110
+1
+3
+5
+Teacher size
+0.74
+0.76
+0.78
+0.80
+Test Agreement
+ResNet-56→ResNet-110
+1
+3
+5
+Teacher size
+0.6
+0.7
+0.8
+Test KL(T||S)
+ResNet-56→ResNet-110
+Student
+Ind Baseline
+Teacher
+Figure 12: Here we show the effect of increasing the student capacity, holding the teacher capacity
+ﬁxed. The top two rows correspond to ResNet20 teacher-ensemble components with ResNet20 and
+ResNet56 students, respectively. The bottom two rows are similarly ResNet56 teacher components
+with ResNet56 and ResNet110 students. The column corresponds to the evaluation metric. Increasing
+student capacity from 20 to 56 provides some beneﬁt to both accuracy and ﬁdelity, but increasing
+student capacity from 56 to 110 improves only accuracy.
+One possible cause of low student ﬁdelity when distilling ResNet ensembles on CIFAR-100 is
+that a single student network does not have capacity to perfectly emulate an ensemble of multiple
+networks. This explanation is already rendered unlikely by our similar observations in the context of
+self-distillation. Nevertheless in Figure 12 we demonstrate the effect of increasing student capacity
+beyond that of the individual teacher components as additional contrary evidence to the capacity
+explanation. Increasing the student capacity does slightly improve ﬁdelity – doubling the student
+network depth results in a 2% to 3% improvement in test agreement. If capacity were a primary cause
+of low ﬁdelity, we would expect a much larger effect on distillation ﬁdelity when the student capacity
+is signiﬁcantly increased.
+C.2
+Architecture: is low ﬁdelity an artifact of using ResNets?
+Another possible explanation of low student ﬁdelity in our experiments is our choice of network
+architecture. ResNet-style backbones are ubiquitous across most computer vision tasks, so even
+were the issue restricted to ResNets it would merit close investigation. Nevertheless, in the interest
+of empirical rigor we repeat the augmentation ablation in Section 5.1 with VGG networks and a
+subset of the augmentation policies. In Figure 13, the teacher is a 5-component ensemble of VGG-16
+networks trained with the Baseline augmentation policy (horizontal ﬂips and random crops). We
+report the student accuracy, negative log-likelihood and teacher-student agreement for a VGG-16
+student trained with different data augmentation policies.
+The results are generally analogous to the ones for ResNet-56 presented in Section 5.1. The CombAug
+augmentation strategy underperforms all other strategies, including Baseline, on student accuracy,
+but provides the best results on NLL and only slightly loses to MixUp on teacher-student agreement.
+19

@@ -1,0 +1,98 @@
+Benchmarking TinyML Systems
+Table 1. Survey of TinyML Use Cases, Models, and Datasets
+INPUT TYPE
+USE CASES
+MODEL TYPES
+DATASETS
+AUDIO
+AUDIO WAKE WORDS
+CONTEXT RECOGNITION
+CONTROL WORDS
+KEYWORD DETECTION
+DNN
+CNN
+RNN
+LSTM
+SPEECH COMMANDS (WARDEN, 2018A)
+AUDIOSET (GEMMEKE ET AL., 2017)
+EXTRASENSORY (VAIZMAN ET AL., 2017)
+IMAGE
+VISUAL WAKE WORDS
+OBJECT DETECTION
+IMAGE CLASSIFICATION
+GESTURE RECOGNITION
+OBJECT COUNTING
+TEXT RECOGNITION
+DNN
+CNN
+SVM
+DECISION TREES
+KNN
+LINEAR
+VISUAL WAKE WORDS (CHOWDHERY ET AL., 2019)
+CIFAR10 (KRIZHEVSKY ET AL., 2009B)
+MNIST (LECUN & CORTES, 2010)
+IMAGENET (DENG ET AL., 2009)
+DVS128 GESTURE (AMIR ET AL., 2017)
+PHYSIOLOGICAL /
+BEHAVIORAL
+METRICS
+SEGMENTATION
+FORECASTING
+ACTIVITY DETECTION
+DNN
+DECISION TREE
+SVM
+LINEAR
+PHYSIONET (GOLDBERGER ET AL., 2000)
+HAR (CRAMARIUC, 2019)
+DSA (ALTUN ET AL., 2010)
+OPPORTUNITY (ROGGEN ET AL., 2010)
+UCI EMG (LOBOV ET AL., 2018)
+INDUSTRY
+TELEMETRY
+SENSING (LIGHT, TEMP, ETC)
+ANOMALY DETECTION
+MOTOR CONTROL
+PREDICTIVE MAINTENANCE
+DNN
+DECISION TREE
+SVM
+LINEAR
+NAIVE BAYES
+UCI AIR QUALITY (DE VITO ET AL., 2008)
+UCI GAS (VERGARA ET AL., 2012)
+NASA’S PCOE (SAXENA & GOEBEL, 2008)
+Figure 1. A logorithmic comparison of the active power consump-
+tion between TinyML systems and those supported by MLPerf.
+TinyML systems can be up to four orders of magnitude smaller in
+the power budget as compared to state-of-the-art MLPerf systems.
+3
+TINY HARDWARE CONSTRAINTS
+TinyML hardware is deﬁned by its ultra-low power con-
+sumption, which is often in the range of 1 mWatt and below.
+At the top of this range are efﬁcient 32-bit MCUs, like those
+based on the Arm Cortex-M7 or RISC-V PULP processors,
+and at the bottom are novel ultra-low-power inference en-
+gines. Even the largest TinyML devices consume drastically
+less power than the smallest traditional ML devices. Figure
+1 shows the logarithmic comparison of the active power
+consumption between TinyML devices and those currently
+supported by MLPerf (v0.5 inference results from the open
+and closed divisions). TinyML devices can be up to four or-
+ders of magnitude smaller in the power budget as compared
+to state-of-the-art MLPerf systems.
+The advent of low-power, cheap 32-bit MCUs have revolu-
+tionized the compute capability at the very edge. Cortex-M
+based platforms are now regularly performing tasks that
+were previously infeasible at this scale, mostly due to sup-
+port for single instruction multiple data (SIMD) and digital
+signal processing (DSP) instructions. This fast vector math
+supports NN and highly efﬁcient SVM implementations, it
+also accelerates many feature computations using 8bit ﬁxed
+point arithmetic.
+A feature of MCUs is the prevalence of on-chip SRAM
+and embedded Flash. Thus, when models can ﬁt within the
+tight on-chip memory constraints, they are free of the costly
+DRAM accesses that hamper traditional ML. Widespread
+adoption and dispersion of TinyML are reliant on the capa-

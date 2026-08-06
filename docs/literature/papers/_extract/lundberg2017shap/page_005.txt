@@ -1,0 +1,57 @@
+Figure 1: SHAP (SHapley Additive exPlanation) values attribute to each feature the change in the
+expected model prediction when conditioning on that feature. They explain how to get from the
+base value E[f(z)] that would be predicted if we did not know any features to the current output
+f(x). This diagram shows a single ordering. When the model is non-linear or the input features are
+not independent, however, the order in which features are added to the expectation matters, and the
+SHAP values arise from averaging the φi values across all possible orderings.
+8, where fx(z′) = f(hx(z′)) = E[f(z) | zS], and S is the set of non-zero indexes in z′ (Figure 1).
+Based on Sections 2 and 3, SHAP values provide the unique additive feature importance measure that
+adheres to Properties 1-3 and uses conditional expectations to deﬁne simpliﬁed inputs. Implicit in this
+deﬁnition of SHAP values is a simpliﬁed input mapping, hx(z′) = zS, where zS has missing values
+for features not in the set S. Since most models cannot handle arbitrary patterns of missing input
+values, we approximate f(zS) with E[f(z) | zS]. This deﬁnition of SHAP values is designed to
+closely align with the Shapley regression, Shapley sampling, and quantitative input inﬂuence feature
+attributions, while also allowing for connections with LIME, DeepLIFT, and layer-wise relevance
+propagation.
+The exact computation of SHAP values is challenging. However, by combining insights from current
+additive feature attribution methods, we can approximate them. We describe two model-agnostic
+approximation methods, one that is already known (Shapley sampling values) and another that is
+novel (Kernel SHAP). We also describe four model-type-speciﬁc approximation methods, two of
+which are novel (Max SHAP, Deep SHAP). When using these methods, feature independence and
+model linearity are two optional assumptions simplifying the computation of the expected values
+(note that ¯S is the set of features not in S):
+f(hx(z′)) = E[f(z) | zS]
+SHAP explanation model simpliﬁed input mapping
+(9)
+= Ez ¯
+S|zS[f(z)]
+expectation over z ¯S | zS
+(10)
+≈Ez ¯
+S[f(z)]
+assume feature independence (as in [9, 5, 7, 3])
+(11)
+≈f([zS, E[z ¯S]]).
+assume model linearity
+(12)
+4.1
+Model-Agnostic Approximations
+If we assume feature independence when approximating conditional expectations (Equation 11), as
+in [9, 5, 7, 3], then SHAP values can be estimated directly using the Shapley sampling values method
+[9] or equivalently the Quantitative Input Inﬂuence method [3]. These methods use a sampling
+approximation of a permutation version of the classic Shapley value equations (Equation 8). Separate
+sampling estimates are performed for each feature attribution. While reasonable to compute for a
+small number of inputs, the Kernel SHAP method described next requires fewer evaluations of the
+original model to obtain similar approximation accuracy (Section 5).
+Kernel SHAP (Linear LIME + Shapley values)
+Linear LIME uses a linear explanation model to locally approximate f, where local is measured in the
+simpliﬁed binary input space. At ﬁrst glance, the regression formulation of LIME in Equation 2 seems
+very different from the classical Shapley value formulation of Equation 8. However, since linear
+LIME is an additive feature attribution method, we know the Shapley values are the only possible
+solution to Equation 2 that satisﬁes Properties 1-3 – local accuracy, missingness and consistency. A
+natural question to pose is whether the solution to Equation 2 recovers these values. The answer
+depends on the choice of loss function L, weighting kernel πx′ and regularization term Ω. The LIME
+choices for these parameters are made heuristically; using these choices, Equation 2 does not recover
+the Shapley values. One consequence is that local accuracy and/or consistency are violated, which in
+turn leads to unintuitive behavior in certain circumstances (see Section 5).
+5

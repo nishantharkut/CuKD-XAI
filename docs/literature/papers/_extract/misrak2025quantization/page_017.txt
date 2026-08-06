@@ -1,0 +1,51 @@
+Page 17 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+ 	•
+Model compression: This involves compressing the network by removing 
+redundancies and decreasing the number of parameters.
+For this thesis work based on the consideration to produce a model which is lightweight, 
+short training, and time of inference, an advanced dynamic quantization (QAT + PTDQ) 
+was used and as detailed in Sect. 3.6.2.
+3.6.2  Advanced dynamic quantization
+Advanced quantization is an optimization strategy utilized to decrease the bit width of 
+model parameters from 32-bit floating-point to achieve better resolution and efficiency. 
+It is significantly enhanced by employing advanced dynamic quatization a combined 
+approach of quantization-aware training (QAT) and post-training dynamic quantiza­
+tion (PTDQ) techniques. QAT integrates the considerations of quantization effects into 
+the process of training, guaranteeing that the model adapts effectively to the constraints 
+imposed by lower bit-width representations. This proactive approach results in models 
+that are inherently more robust to quantization, leading to better performance post-
+quantization compared to conventional methods.
+By incorporating QAT to the training process, the model will becomes more resilient 
+to variations in data distribution and noise, leading to enhanced generalizability across 
+diverse datasets. QAT enables the earning capability to the model robust features that 
+are less sensitive to quantization-induced distortions, thereby facilitating better adapta­
+tion to unseen data during inference.
+Furthermore, the utilization of post-training dynamic quantization techniques ensures 
+that the model’s performance remains consistent across different deployment scenarios. 
+These techniques optimize the quantization process while preserving crucial informa­
+tion, thus minimizing the risk of accuracy degradation on real-world data.
+The combined approach of QAT and advanced quantization not only optimizes model 
+efficiency but also enhances its generalizability to novel, unseen data. This is particu­
+larly crucial in real-world applications where models must perform consistently under 
+various settings and datasets, ensuring consistent and accurate results across different 
+environments.
+3.6.3  Quantized DNN_BiLSTMQ model
+The workflow of the quantized model is as follows.
+ 	•
+Train the DNN-BiLSTM model using full-precision (FP32) weights.
+ 	•
+Apply quantization-aware training (QAT) with low-precision (e.g., INT8) effects 
+during fine-tuning.
+ 	•
+Perform post-training dynamic quantization on linear layers to convert weights and 
+activations to low-bit representations.
+ 	•
+Export the quantized model for deployment in resource-constrained environments.
+ 	•
+Run model inference using optimized integer arithmetic, significantly reducing 
+memory usage and computational load while maintaining detection performance.
+Remarkable proficiency in discerning intricate data patterns compared to conventional 
+machine learning models, its streamlined network structure excels in extracting nonlin­
+ear features from network data, surpassing even the most intricate deep learning archi­
+tectures in terms of simplicity and efficiency. Consequently, we have opted for DNN 

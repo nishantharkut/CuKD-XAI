@@ -1,0 +1,22 @@
+F.8 provides scatter plots of teacher attention IoU, fidelity, mutual informa-
+tion, and student entropy in 3-teacher ensemble KD cases, for CIFAR100 and
+CIFAR100 imb100 datasets. These plots align with the tendencies observed
+in 2-teacher cases in the main text.
+Figure F.8: Scatter plots of teacher attention IoU, fidelity, mutual information, and stu-
+dent entropy in 3-teacher ensemble KD cases. These results, aligning with the tendencies
+observed in 2-teacher cases, further support our conclusions in the main text.
+Appendix G. Quantitative Evaluation
+Table G.5 compares our method with SOTA baselines: LFME Xiang et al
+(2020) and DMAE Bai et al (2023), focusing on the top-1 validation accuracy.
+LFME is specifically designed for long-tailed datasets, so we only present its
+results on those. DMAE is initially designed for balanced datasets, so its
+performance on balanced ones is less satisfying. For our method shown in
+this table: Ours(1T) is refferred to the KD with one ResNet50 teacher model
+distilled to one ResNet18 student model, with TwSs. Ours(2T) is refferred to
+the KD with two ResNet50 teacher models distilled to one ResNet18 student
+model, with T1sT2wSs. Ours(3T) is refferred to the KD with three ResNet50
+teacher models distilled to one ResNet18 student model, with T1sT2wT3wSs.
+This table demonstrates that our approach, achieved solely by injecting
+varied levels of randomness into the dataset through controlled data aug-
+mentation strength, can attain comparable student performance on both
+23

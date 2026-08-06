@@ -1,0 +1,152 @@
+Journal of Sensors
+11
+Table 5: Ns-2 simulation parameters.
+Parameter
+Value
+Number of nodes
+100 nodes
+Number of clusters
+5
+Network area
+100 m × 100 m
+Base station location
+(50, 175)
+Size of data packet
+500 bytes
+Size of packet header
+25 bytes
+Maximum transmission range
+200 m
+Routing protocol
+LEACH
+MAC protocol
+CSMA/TDMA
+Simulation time
+3600 s
+Initial energy (in joule)
+5, 50
+Attackers’ intensities
+10%, 30%, 50%
+In order to gather the required data, NS-2 was used [45].
+Simulation parameters are summarized in Table 5.
+This section shows the results obtained from the dataset
+collected as described in Section 4. Waikato Environment
+for Knowledge Analysis (WEKA) Toolbox was used in the
+simulation experiments to evaluate the proposed dataset.
+WEKA is an open source data mining software suite built
+using Java programming language and developed at the Uni-
+versity of Waikato in New Zealand. Data mining algorithms
+in WEKA could be applied to datasets and be called using
+either WEKA’s interface or user customized Java code. WEKA
+contains a lot of algorithms for data preprocessing, clustering,
+classification, association rules, regression, and visualization
+[46, 47].
+Experiments were conducted on an Intel Core i5-
+4210U CPU @ 1.70 GHz 2.40 GHz, 8.00 GB RAM with Win-
+dows 8.1 64-bit Operating System.
+Because different performance metrics are appropriate in
+different settings, in this paper seven performance metrics are
+used: True Positive Rate (TPR), True Negative Rate (TNR),
+False Positive Rate (FPR), False Negative Rate (FNR), Overall
+Accuracy (𝐴), Precision (𝑃), and Root Mean Square Error
+(RMSE).
+TPR represents the rate of attack cases identified correctly,
+TNR represents the rate of normal (no-attack) cases iden-
+tified correctly, FPR represents the rate of no-attack cases
+identified as attacks by the system, and FNR represents the
+rate of attack cases identified as normal ones. 𝐴is the total rate
+of correct decisions whether identifying an attack correctly
+or deciding there is no attack when really there is no attack.
+𝑃represents the predicted positive cases that were correctly
+classified; RMSE provides information on the efficiency that
+indicates the difference between the outputs and the targets.
+Lower values of RMSE indicates more accurate evaluation.
+Zero means no error:
+TPR =
+TP
+TP + FN,
+(2)
+TNR =
+TN
+FN + TP,
+(3)
+FPR =
+FP
+FP + TN,
+(4)
+Table 6: Dataset separated 60% training set and 40 testing sets using
+holdout method.
+The attack type
+Training set (60%)
+Testing set (40%)
+Blackhole
+6029
+4020
+Grayhole
+8758
+5838
+Flooding
+1988
+1324
+Scheduling
+3982
+2656
+Normal
+204039
+136027
+Sum
+224796
+149865
+FNR =
+FN
+FN + TP,
+(5)
+𝐴=
+TP + TN
+TP + TN + FP + FN,
+(6)
+𝑃=
+TP
+TP + FP,
+(7)
+RMSE = √∑𝑛
+𝑖=1 (𝑂𝑖−𝑇𝑖)2
+𝑛
+,
+(8)
+where TP is the number of attack cases classified correctly
+as attacks. TN is the number of normal (no-attack) cases
+classified correctly as normal (no-attack). FP is the number
+of normal (no-attack) cases classified incorrectly as attacks.
+FN is the number of attack cases classified incorrectly as
+normal (no-attack). 𝑂𝑖and 𝑇𝑖are the output and target values,
+respectively, and 𝑛is the total number of data points.
+The classification results of this dataset were obtained
+through a number of test cases applied using Artificial Neural
+Networks (ANNs), which can be built in several ways. ANN
+is used as a classifier were the 23 attributes extracted from
+the simulation experiments are used as inputs and the type
+of attack, including the normal case, is used as output. ANN
+training algorithm includes a built-in procedure to help
+minimizing the error between the neural network output and
+the desired output. Its iterative training procedure terminates
+when that error reaches a value below a predetermined
+threshold. After the training phase, the trained neural net-
+work is used on the test dataset to check its generalization
+accuracy.
+We are extracting different results with two ANNs test
+options. The first one is by using holdout method where the
+dataset is separated to 60% training data and 40% testing data.
+Table 6 shows data separation using holdout method.
+The second option is by using 10-Fold Cross Validation
+which separates the training dataset into 10 equal parts. This
+method trains ANN using nine of the 10 parts and evaluates
+it with the remaining part. The same process is repeated
+for all 10 parts using a sliding window to determine the
+test set and the remaining parts are used for training the
+ANN. After the completion of the 10 iterations, the results are
+compiled and averages are computed. The main advantage of
+the 10-Fold Cross Validation is using all records in the dataset
+alternately for both training and testing. On the other hand,
+it is computationally expensive.
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

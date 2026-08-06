@@ -1,0 +1,104 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+frequently
+adopted,
+optimized
+through
+hyperparameter
+tuning. It achieved high accuracy but is constrained to
+major attack classes or binary classification, limiting its
+generalizability to broader IoT threats [1]. Some existing
+research on multi-class classification used a few attack
+classes rather than all the attack classes in the IDS datasets
+for developing an IDS system. The IDS system performed
+well for attack and benign classes but failed at macro-level
+minority classes classification, which was very poor [2].
+The Fig. 1. illustrates an Intrusion Detection System (IDS)
+monitoring network traffic containing two types of DDoS
+attacks: a prevalent ICMP Flood and a less frequent HTTP
+Flood. This IDS model was trained on data where ICMP
+Flood samples significantly outnumbered HTTP Flood
+samples, which shows that IDS effectively identifies and
+mitigates major ICMP attacks. In contrast, its ability to
+detect the minor HTTP Flood attack is compromised, which
+showcases the challenge of data imbalance leading to poor
+generalization for underrepresented threats.
+FIGURE 1. Impact of skewed training data: IDS effectively detects
+majority DDoS ICMP attacks (red) but misses minority DDoS HTTP attacks
+(purple) in live traffic.
+To solve the data imbalance problem the existing
+research solutions applied synthetic data generation tech-
+niques using Generative Adversarial Networks (GAN),
+Magento, ADASYN, SMOTE, etc, to oversample the minor-
+ity classes [3]. However, the dataset sizes are minimal to
+process the text IDS data, and these techniques utilize higher
+computational resources; at the same time, they are omitting
+sub-class classification and its imbalance issues; most of the
+undersample classes are not considered in the IDS, which
+creates severe security issues [4], [5]. To further solve the
+imbalanced problem, we have proposed work that transforms
+large datasets into 2D images for faster, resource-efficient
+training to minimize the duration of training and enhance the
+classification of various classes and their sub-classes. TIGAN
+applies optimized hybrid sampling to balance classes by
+generating synthetic data that helps to upsample the minority
+classes and downsample the majority classes. The TICNN
+model, trained on this balanced data, is evaluated with the
+CICIoT2023, CICIDS2017 IDS datasets, covering multiple
+attack class types and one benign class, achieving robust
+subclass-level anomaly detection.
+Advanced machine/deep learning-based intrusion detec-
+tion systems are proposed by many researchers, but there are
+still a lot of research issues which were not yet resolved:
+RQ1 While techniques like sampling [2], [6] and Generative
+Adversarial Networks (GANs) [7] are being actively
+explored to address data imbalance, how can we
+develop DL models that achieve both high accuracy
+and efficiency when classifying imbalanced data,
+particularly for rare or minority attack sub-classes [8]?
+RQ2 The synthetic data generation done by previous
+research has a synthetic bias. How can we design a
+sampling method and GAN that effectively generate
+correct amount of synthetic data?
+RQ3 With growing dataset sizes and model complexity,
+how can we ensure that DL-based IDS remain com-
+putationally efficient for real-time deployment without
+compromising classification accuracy, especially when
+dealing with high-dimensional data and multiple attack
+classes [9]?
+The primary contributions of this work, which differentiate
+it from existing literature that often focuses on majority-class
+binary classification and high computational IDS models not
+feasible for existing scenarios, are as follows: (1) We propose
+a dense 2D RGB latent space transformation for tabular
+data that achieves a 4× theoretical memory compression,
+addressing the memory bottlenecks of traditional IDS.
+(2) We introduce the TIGAN framework, which utilizes an
+adaptive IQR-based thresholding rule that helps mitigate
+the effects of synthetic bias associated with traditional
+GAN-based techniques of oversampling and undersampling
+RGB image data. (3) We develop the TICNN architecture.
+The lightweight model employs Global Average Pooling
+to achieve 1.81 million parameters while attaining 99.56%
+macro accuracy. In contrast to past efforts that relied solely
+on optimizing ensembles, we focus on optimizing both the
+granularity of detection for smaller minority subclasses and
+computational efficiency to facilitate IoT deployment at the
+edge of the network.
+II. LITERATURE REVIEW
+Researchers have developed anomaly-based Intrusion Detec-
+tion Systems (IDS) that are robust and have success in
+attack detection in IoT networks. However, traditional IDS
+measures often fall short when faced with the unique
+challenges of IoT environments, such as device heterogeneity,
+resource limitations, and the sheer volume of data generated.
+Consequently, researchers are shifting more towards Machine
+Learning (ML) and Deep Learning (DL) techniques to
+develop more adaptive and effective IDS [9], [10].
+A significant body of research focuses on applying various
+DL architectures to enhance IDS performance. Early work
+included the development of optimized Convolutional Neural
+Networks (CNNs) combined with Transfer Learning to
+secure the Internet of Vehicles (IoV) [1]. Transfer learning,
+which allows pre-trained models to be fine-tuned for specific
+23414
+VOLUME 14, 2026

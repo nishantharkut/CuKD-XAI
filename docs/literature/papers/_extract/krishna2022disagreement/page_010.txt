@@ -1,0 +1,29 @@
+Published in Transactions on Machine Learning Research (06/2024)
+4.3.2
+Text Data
+Figure 4: Disagreement between explanation methods for LSTM trained on the AG_News dataset using
+k “ 11 features for metrics operating on top-k features, and all features for other metrics. Each heatmap
+shows the metric value averaged over test data for each pair of explanation methods. Lighter colors indicate
+more disagreement. Standard error ranges from 0.0 to 0.0025 for all six metrics.
+In the case of text data, we deal with a high-dimensional feature space where words are features. We plot
+the six metrics for k “ 11 which is around 25% of the average text length of a sentence (data point) in the
+dataset (Figure 4). As seen in the figure, we observe severe disagreements across all the six disagreement
+metrics. Rank agreement and signed rank agreement are the lowest between explanations with values under
+0.1 for most cases indicating disagreement in over 90% of the top-k features. Trends are quite similar for
+rank correlation and feature agreement with better agreement between gradient-based explanation methods,
+such as a feature agreement of 0.61 for the Gradient times Input and Vanilla Gradient method pair.
+In addition to the broader disagreements between various explanation methods, we notice specific patterns
+of agreement between certain explanation methods. Based on the middle and right panels of Figure 3, we
+observe a higher rank correlation between different pairs of gradient-based explanations. We also observe from
+Figure 4 that LIME exhibits higher agreement with other explanation methods compared to KernelSHAP
+(e.g., Figure 4 shows that the average rank correlation between LIME and all other explanation methods is
+0.273, as opposed to 0.113 in case of KernelSHAP). This finding is consistent with the insights we observed
+in the case of the COMPAS dataset (Figure 1, top left panel). Lastly, we notice a higher disagreement among
+explanation methods for text data than for tabular data.
+4.3.3
+Image Data
+While LIME and KernelSHAP consider superpixels of images as features, gradient-based methods consider
+pixels as features. In addition, the notion of top-k features and the metrics we define on top-k features are
+not semantically meaningful when we consider pixels as features. We compute all six metrics to capture
+disagreement between explanations output by LIME and KernelSHAP with superpixels as features. We also
+10

@@ -1,0 +1,26 @@
+Figure 3: Scatter plots of Top: Fidelity (measured by top-1 A) and Bottom: Mutual
+Information (MI) between teacher ensembles and student during KD training.
+These
+decreasing tendencies along with the improved student validation accuracy are in contrast
+to the traditional viewpoint that higher fidelity consistently benefits student performance,
+indicating that some extent of student independency may be desired during KD training.
+the total number of trials as Num, the corresponding p-value is calculated
+as:
+p-value = #|fidelity(hKD) > fidelity(vKD)|
+Num
+(9)
+Experiments reveal a p-value less than 0.05, suggesting that we should
+reject this null hypothesis.
+Detailed experimental results are provided in
+Appendix C. In summary, more divergent teacher attentions (i.e., lower IoU
+values) does cause the decrease in student-teacher fidelity.
+This counterintuitive result aligns with and complements the paradoxical
+observation in (Stanton et al, 2021). It implies that while the student model
+develops a certain level of independence from the teachers (evidenced by
+lower fidelity and mutual information), it still effectively captures and gener-
+alizes the core knowledge of the teachers. Combining with the observation on
+how varying data augmentation strengths influence the teachers’ attention
+divergence in Section 6.1, we highlight attention diversification in teacher en-
+sembles as a deeper reason why a student with good generalization may be
+unable to match the teacher during KD training: Stronger data augmentation
+15

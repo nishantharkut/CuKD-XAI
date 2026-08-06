@@ -1,0 +1,97 @@
+x ⊙v as noise increases. We conduct this experiment on Fashion MNIST and ImageNet samples.
+We observe that the input does indeed dominate the product (see Figure 19 in Appendix). We also
+observe that the input dominance persists even as the noisy gradient vectors change drastically. This
+experiment indicates that methods that approximate the “input-times-gradient” mostly return the
+input, in cases where the gradients look visually noisy as they tend to do.
+5.3
+Analysis for simple models
+Gradient
+Gradient 
+SmoothGrad
+GBP
+IG
+RGB
+Gray Scale
+Figure 7: Explanations derived for the
+1-layer Sum-Pooling Convolution archi-
+tecture. We show gradient, SmoothGrad,
+Integrated Gradients and Guided Back-
+Prop explanations.
+To better understand our ﬁndings, we analyze the output of
+the saliency methods tested on two simple models: a linear
+model and a 1-layer sum pooling convolutional network.
+We ﬁnd that the output of the saliency methods, on a
+linear model, returns a coefﬁcient that intuitively measures
+the sensitivity of the model with respect to that variable.
+However, these methods applied to a random convolution
+seem to result in visual artifacts that are akin to an edge
+detector.
+Linear Model.
+Consider a linear model f : Rd →R
+deﬁned as f(x) = w · x where w ∈Rd are the model
+weights. For gradients we have Egrad(x) = ∂(w·x)
+∂x
+= w.
+Similarly for SmoothGrad we have Esg(x) = w (the gradi-
+ent is independent of the input, so averaging gradients over
+noisy inputs yields the same model weight). Integrated
+Gradients reduces to “gradient ⊙input” for this case:
+EIG(x) = (x −¯x) ⊙
+Z 1
+0
+∂f(¯x + α(x −¯x))
+∂x
+dα
+= (x −¯x) ⊙
+Z 1
+0
+wαdα = (x −¯x) ⊙w/2 .
+Consequently, we see that the application of the basic gradient method to a linear model will pass our
+sanity check. Gradients on a random model will return an image of white noise, while integrated
+gradients will return a noisy version of the input image. We did not consider Guided Backprop and
+GradCAM here because both methods are not deﬁned for the linear model considered above.
+1 Layer Sum-Pool Conv Model.
+We now show that the application of these same methods to a
+1-layer convolutional network may result in visual artifacts that can be misleading unless further
+analysis is done. Consider a single-layer convolutional network applied to a grey-scale image
+x ∈Rn×n. Let w ∈R3×3 denote the 3 × 3 convolutional ﬁlter, indexed as wij for i, j ∈{−1, 0, 1}.
+We denote by w ∗x ∈Rn×n the output of the convolution operation on the image x. Then the output
+of this network can be written as l(x) =
+nP
+i=1
+nP
+j=1
+σ(w ∗x)ij , where σ is the ReLU non-linearity
+applied point-wise. In particular, this network applies a single 3x3 convolutional ﬁlter to the input
+image, then applies a ReLU non-linearity and ﬁnally sum-pools over the entire convolutional layer
+for the output. This is a similar architecture to the one considered in [34]. As shown in Figure 7, we
+see that different saliency methods do act like edge detectors. This suggests that the convolutional
+structure of the network is responsible for the edge detecting behavior of some of these saliency
+methods.
+To understand why saliency methods applied to this simple architecture visually appear to be edge
+detectors, we consider the closed form of the gradient
+∂
+∂xij l(x). Let aij = 1 {(w ∗x)ij ≥0} indicate
+the activation pattern of the ReLU units in the convolutional layer. Then for i, j ∈[2, n −1] we have
+∂
+∂xij
+l(x) =
+1
+X
+k=−1
+1
+X
+l=−1
+σ′((w ∗x)i+k,j+l)wkl =
+1
+X
+k=−1
+1
+X
+l=−1
+ai+k,j+lwkl
+(Recall that σ′(x) = 0 if x < 0 and 1 otherwise). This implies that the 3 × 3 activation pattern local
+to pixel xij uniquely determines
+∂
+∂xij . It is now clear why edges will be visible in the produced
+9

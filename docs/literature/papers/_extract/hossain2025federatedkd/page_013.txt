@@ -1,0 +1,29 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 13 of 23
+422
+After training, each client performs classiﬁcation on its
+local dataset using the trained Random Forest model. Since
+each client may have a different number of classes, classi-
+ﬁcation for each sample xi in X(top)
+k
+is achieved through a
+majority voting mechanism across the decision trees. Each
+tree casts a vote for a class, and the class with the maxi-
+mum votes is assigned as the predicted label 
+yk, i. Finally,
+the algorithm calculates evaluation metrics—accuracy, pre-
+cision, recall, and F1-score—on each client’s predictions to
+assess model performance.
+Algorithm 2 Global Model Training and Classiﬁcation Process for Each Client with Random Forest
+By training on the selected globally relevant features, each
+client’s model is tuned to capture the most important patterns
+for botnet detection, regardless of the non-IID nature of the
+datasets. This training process enables each client to achieve
+improved performance on local data while maintaining align-
+ment with the global feature importance proﬁle.
+In this way, the global model training process enhances
+the overall accuracy and generalization capability of the
+federated learning framework across heterogeneous IoT
+environments, supporting robust detection of diverse botnet
+types.
+123

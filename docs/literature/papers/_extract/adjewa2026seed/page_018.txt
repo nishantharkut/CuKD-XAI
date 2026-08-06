@@ -1,0 +1,20 @@
+Sensors 2026, 26, 356
+18 of 22
+Figure 7. IoT level 5-attacks classification scenario.
+Figure 8. IoT binary classification scenario.
+While promising, the proposed method also presents several limitations that must
+be addressed for real-world deployment. A primary concern lies in the transmission of
+embeddings from the edge to IoT devices. Each embedding vector consists of 256 FP32 val-
+ues (approximately 1 KB), which is lightweight in storage but may impose non-negligible
+communication demands, especially under constrained or unstable network conditions.
+Since real-world IoT networks are prone to latency, interference, and bandwidth fluctua-
+tions, maintaining continuous embedding transfers may become a performance bottleneck.
+Future work should therefore investigate mitigation strategies such as local caching, tem-
+porary buffering of embeddings, or adaptive communication schedules.
+Another important consideration relates to the communication strategy between IoT
+devices and the edge, particularly during Step 2 of the SEED pipeline illustrated in Figure 2.
+In our experimental setup, embeddings are requested in batches of size B during inference
+to optimize throughput. However, determining the optimal batch size and more generally,
+when communication should be initiated, remains a non-trivial design choice. Excessively
+frequent communication may overload the network, whereas overly large batches may
+https://doi.org/10.3390/s26020356

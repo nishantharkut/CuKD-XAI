@@ -1,0 +1,61 @@
+Sensors 2024, 24, 7320
+10 of 15
+machine. Therefore, we can conclude that applying quantization for limited memory-based
+ESP32 did not compromise the accuracy of the detection.
+Figure 3. Comparison of IDS implemented with quantization and without quantization.
+4.6. IDS Implementation on Smart Thermostat for Real-Time Intrusion Detection
+The implementation of IDS on a smart thermostat is challenging due to its limited
+memory and processing power. In our previous work, we implemented an XGBoost-based
+IDS for binary classification without using an FS technique. In this section, we evaluate
+the implementation of a CatBoost-based IDS on a smart thermostat for both binary and
+multi-class classification. Additionally, we compare the performance of the CatBoost-based
+IDS with the XGBoost-based IDS on the smart thermostat.
+The ESP32 has limited RAM and program storage, which prevents embedding an IDS
+with a large number of trees and deep models. In Table 7, for Depth = 6, a CatBoost model
+with 200 trees can be embedded for binary classification. Beyond 200 trees, the memory
+overflows on the ESP32. For Depth = 7, a CatBoost model with 120 trees can be embed-
+ded without using FS, and with FS, a model with 140 trees can be embedded. Similarly,
+the implementation results for the maximum possible number of trees and depths are
+shown in Table 7. The results show that for binary classification, the CatBoost-based IDS
+achieved the highest accuracy of 98.71%, outperforming the XGBoost-based IDS developed
+in our previous work [19], which had an accuracy of 97.66%. The results indicate that the
+CatBoost-based IDS is more accurate and faster than the XGBoost-based IDS.
+For multi-class classification, the highest accuracy of 97.51% was achieved by the
+CatBoost-based IDS (90 trees, depth = 6). In comparison, the highest accuracy achieved by
+the XGBoost-based IDS (50 trees, depth = 7) was 96.70%, with an inference time of 2111 µs,
+whereas the inference time for CatBoost was only 267 µs.
+Table 7. Implementation of IDS on the smart thermostat for binary and multi-classification.
+ML Models (Hyperparameters)
+No. of
+Features
+Classification
+Accuracy
+Inference
+Time µs
+(Average)
+Program
+Storage
+CatBoost (Trees = 200, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Binary
+98.63%
+284
+72.20%
+CatBoost (Trees = 120, Depth = 7, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Binary
+98.55%
+223
+72.83%
+CatBoost (Trees = 70, Depth = 8, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Binary
+98.47%
+249
+71.85%
+CatBoost (Trees = 200, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3)
+9
+Binary
+98.71%
+276
+72.17%

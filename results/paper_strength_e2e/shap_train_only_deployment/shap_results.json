@@ -1,0 +1,239 @@
+{
+  "protocol": "train_only_deployment_seed42_shap_v1",
+  "subject": "deployment_clean_seed42_rf_kd",
+  "not_subject": "multi_seed_pipeline_seed42_checkpoint",
+  "feature_names": [
+    "Time",
+    "Is_CH",
+    "who CH",
+    "Dist_To_CH",
+    "ADV_S",
+    "ADV_R",
+    "JOIN_S",
+    "JOIN_R",
+    "SCH_S",
+    "SCH_R",
+    "Rank",
+    "DATA_S",
+    "DATA_R",
+    "Data_Sent_To_BS",
+    "dist_CH_To_BS",
+    "send_code",
+    "Expaned Energy"
+  ],
+  "class_names": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "n_train": 262252,
+  "n_test": 56200,
+  "background_size": 100,
+  "explain_size": 500,
+  "bootstrap_repeats": 5,
+  "rf_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "random_state": 42
+  },
+  "students": {
+    "A": {
+      "weights_path": "results/wsnds/confirmation_runs_v2/deployment_seed_42/seed_42/student_A_KD_from_RF_fp32.pt",
+      "weights_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "ranking_agreement_spearman": 0.2377450980392157,
+      "ranking_agreement_p": 0.35817139991630287,
+      "per_class_spearman": {
+        "Blackhole": {
+          "rho": -0.1936274509803922,
+          "p": 0.4564969285487544
+        },
+        "Flooding": {
+          "rho": 0.3088235294117647,
+          "p": 0.22778565332325174
+        },
+        "Grayhole": {
+          "rho": 0.2303921568627451,
+          "p": 0.3736648667172987
+        },
+        "Normal": {
+          "rho": 0.2058823529411765,
+          "p": 0.42791485314270766
+        },
+        "TDMA": {
+          "rho": -0.303921568627451,
+          "p": 0.23563584127730536
+        }
+      },
+      "bootstrap_spearman_values": [
+        0.2377450980392157,
+        0.16421568627450983,
+        0.058823529411764705,
+        0.28186274509803927,
+        0.14950980392156862
+      ],
+      "bootstrap_spearman_ps": [
+        0.35817139991630287,
+        0.5288225629141268,
+        0.8225588681711513,
+        0.2730598973799546,
+        0.5668307307163287
+      ],
+      "bootstrap_spearman_mean": 0.1784313725490196,
+      "bootstrap_spearman_std": 0.08596619374349178,
+      "student_global_importance": {
+        "Time": 0.3524218321407912,
+        "Is_CH": 1.2386078740571334,
+        "who CH": 0.2729586822568526,
+        "Dist_To_CH": 0.14318949545344803,
+        "ADV_S": 0.47185268476231723,
+        "ADV_R": 0.20717598134686413,
+        "JOIN_S": 0.8396457599915564,
+        "JOIN_R": 0.15315613423618052,
+        "SCH_S": 0.2370652317008935,
+        "SCH_R": 0.39100525896442123,
+        "Rank": 0.1572042327467614,
+        "DATA_S": 0.13850987490245026,
+        "DATA_R": 0.22969734528786812,
+        "Data_Sent_To_BS": 0.5199366272865183,
+        "dist_CH_To_BS": 0.5537793895452982,
+        "send_code": 0.13531426694300608,
+        "Expaned Energy": 0.3863405151592102
+      },
+      "teacher_global_importance": {
+        "Time": 0.002159544510667867,
+        "Is_CH": 0.022168160170238548,
+        "who CH": 0.0024344488702140316,
+        "Dist_To_CH": 0.004086045844652959,
+        "ADV_S": 0.019785914028830003,
+        "ADV_R": 0.003018862315566996,
+        "JOIN_S": 0.004979260155426766,
+        "JOIN_R": 0.0029147935292353345,
+        "SCH_S": 0.006782113413135031,
+        "SCH_R": 0.0010207807490543164,
+        "Rank": 0.00835882225322278,
+        "DATA_S": 0.008981153897373344,
+        "DATA_R": 0.0029542938962422334,
+        "Data_Sent_To_BS": 0.010837939516275945,
+        "dist_CH_To_BS": 0.005661338732303262,
+        "send_code": 0.0052872967566329,
+        "Expaned Energy": 0.008256661588344691
+      },
+      "student_top5": [
+        "Is_CH",
+        "JOIN_S",
+        "dist_CH_To_BS",
+        "Data_Sent_To_BS",
+        "ADV_S"
+      ],
+      "teacher_top5": [
+        "Is_CH",
+        "ADV_S",
+        "Data_Sent_To_BS",
+        "DATA_S",
+        "Rank"
+      ],
+      "rank_table": "results/paper_strength_e2e/shap_train_only_deployment/student_A_feature_ranks.csv",
+      "interpretation": "low_alignment_student_diverges_from_rf_global_ranks"
+    },
+    "B": {
+      "weights_path": "results/wsnds/confirmation_runs_v2/deployment_seed_42/seed_42/student_B_KD_from_RF_fp32.pt",
+      "weights_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+      "ranking_agreement_spearman": 0.22549019607843138,
+      "ranking_agreement_p": 0.3841966507618189,
+      "per_class_spearman": {
+        "Blackhole": {
+          "rho": -0.10539215686274511,
+          "p": 0.6872658389566565
+        },
+        "Flooding": {
+          "rho": 0.6911764705882353,
+          "p": 0.0021211192581910513
+        },
+        "Grayhole": {
+          "rho": 0.01715686274509804,
+          "p": 0.9478908818232219
+        },
+        "Normal": {
+          "rho": 0.4264705882352942,
+          "p": 0.08780457420797681
+        },
+        "TDMA": {
+          "rho": -0.232843137254902,
+          "p": 0.368459654854376
+        }
+      },
+      "bootstrap_spearman_values": [
+        0.22549019607843138,
+        0.18872549019607845,
+        0.08088235294117649,
+        0.13970588235294118,
+        0.17647058823529413
+      ],
+      "bootstrap_spearman_ps": [
+        0.3841966507618189,
+        0.4681922842798525,
+        0.7576329086921563,
+        0.5928010818860754,
+        0.49806765732373415
+      ],
+      "bootstrap_spearman_mean": 0.16225490196078432,
+      "bootstrap_spearman_std": 0.054843938177219005,
+      "student_global_importance": {
+        "Time": 0.57101031048554,
+        "Is_CH": 0.9590783361852635,
+        "who CH": 0.26514305198172805,
+        "Dist_To_CH": 0.14425185657993425,
+        "ADV_S": 0.4626641853787878,
+        "ADV_R": 0.18665618499439443,
+        "JOIN_S": 0.7412793205503374,
+        "JOIN_R": 0.06709792014124615,
+        "SCH_S": 0.18222331923538587,
+        "SCH_R": 0.41528494723491605,
+        "Rank": 0.20659982296933593,
+        "DATA_S": 0.27840471810062883,
+        "DATA_R": 0.1788212202626659,
+        "Data_Sent_To_BS": 0.3952293808715418,
+        "dist_CH_To_BS": 0.3160026448798366,
+        "send_code": 0.09324894267617928,
+        "Expaned Energy": 0.1492512468778732
+      },
+      "teacher_global_importance": {
+        "Time": 0.002159544510667867,
+        "Is_CH": 0.022168160170238548,
+        "who CH": 0.0024344488702140316,
+        "Dist_To_CH": 0.004086045844652959,
+        "ADV_S": 0.019785914028830003,
+        "ADV_R": 0.003018862315566996,
+        "JOIN_S": 0.004979260155426766,
+        "JOIN_R": 0.0029147935292353345,
+        "SCH_S": 0.006782113413135031,
+        "SCH_R": 0.0010207807490543164,
+        "Rank": 0.00835882225322278,
+        "DATA_S": 0.008981153897373344,
+        "DATA_R": 0.0029542938962422334,
+        "Data_Sent_To_BS": 0.010837939516275945,
+        "dist_CH_To_BS": 0.005661338732303262,
+        "send_code": 0.0052872967566329,
+        "Expaned Energy": 0.008256661588344691
+      },
+      "student_top5": [
+        "Is_CH",
+        "JOIN_S",
+        "Time",
+        "ADV_S",
+        "SCH_R"
+      ],
+      "teacher_top5": [
+        "Is_CH",
+        "ADV_S",
+        "Data_Sent_To_BS",
+        "DATA_S",
+        "Rank"
+      ],
+      "rank_table": "results/paper_strength_e2e/shap_train_only_deployment/student_B_feature_ranks.csv",
+      "interpretation": "low_alignment_student_diverges_from_rf_global_ranks"
+    }
+  }
+}

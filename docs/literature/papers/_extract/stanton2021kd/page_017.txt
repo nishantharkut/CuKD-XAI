@@ -1,0 +1,108 @@
+4, bottom). If τ is chosen too small (e.g. τ = 1), then the student distilled from a 3-component
+ResNet56 ensemble is no better than a student distilled from a single network. The improvements in
+student performance and ﬁdelity taper off fairly quickly as ensemble components are added.
+1
+4
+8
+16
+Temperature
+1
+3
+5
+59.38
+59.65
+60.25
+61.33
+62.78
+63.21
+59.87
+62.12
+62.18
+59.16
+61.38
+61.45
+Test Accuracy
+1
+4
+8
+16
+Temperature
+1
+3
+5
+58.04
+63.91
+67.16
+65.31
+72.77
+74.77
+65.24
+72.38
+75.32
+65.27
+71.56
+74.92
+Test Agreement
+Figure 9: Subsampled CIFAR-100 experiment performed with ResNet20 networks. ResNet20
+networks are much less conﬁdent on train than ResNet56 networks. As a result increasing the
+ensemble size will improve the student even with a small temperature setting τ = 1.
+The correct choice of τ depends on the level of conﬁdence the teacher has on train. ResNet56
+networks achieve nearly 100% accuracy on train with high conﬁdence, so a temperature like τ = 4
+works well. When ResNet20 networks are used (networks which are not capable of perfectly ﬁtting
+CIFAR-100), we see that lower temperatures can be used, although τ = 4 still outperforms other
+choices (Figure 9). The reason lower temperatures work with ResNet20 teachers on CIFAR-100 is
+because ResNet20 networks do not attain 100% accuracy on train, so the teacher logits are much less
+sharply peaked (see also Figure 8, top row).
+2
+4
+6
+8
+10
+12
+Teacher Size
+70
+72
+74
+76
+78
+Test Accuracy
+Student
+Teacher
+2
+4
+6
+8
+10
+12
+Teacher Size
+77.5
+80.0
+82.5
+85.0
+87.5
+Test Agreement
+Figure 10: The effect on accuracy (left) and agreement (right) of the number of models (m) in
+the teacher ensemble (α = 0, τ = 1). Student accuracy quickly saturates as m increases, despite
+continuing improvements in teacher accuracy. The teacher-student agreement continues to improve
+after the accuracy has saturated.
+B.2
+Understanding the effect of teacher ensemble size on distillation
+In Figure 10 we demonstrate the effect of increasing the number (m) of teacher ensemble ResNet56
+components on test accuracy and agreement. In the main text we only considered teacher ensembles
+with up to 5 components – here we provide results for up to 12 components. Although it is plausible
+that ensembles with more components would have more complex predictive distributions that would
+be difﬁcult for a single student to match, in reality we see the exact opposite. Deep ensembles with
+more components are easier to emulate (indicated by higher agreement). One possible explanation is
+that adding more ensemble components smooths the logits of unlikely classes, making the distribution
+easier to match. Closer investigation into this phenomenon could potentially yield insights into how
+to improve distillation ﬁdelity in general.
+In agreement with the results on self-distillation [13, 36], we see that the student is more accurate
+than the teacher when m = 1. However the accuracy of the student does not substantially improve as
+we increase the number m of models in the teacher ensemble past 4, even though both the accuracy
+of the teacher and the teacher-student agreement continue to increase monotonically with m.
+B.3
+Detailed results for distillation with heavy data augmentation
+In Figure 11 we report more detailed results for the experiment in Figure 3 (in the main text). In
+particular, for the sake of simplicity we only reported results for m = 5 in the main text. Here we
+report results for m = 1 and m = 3 as well for comparison.
+17

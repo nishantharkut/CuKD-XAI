@@ -1,0 +1,49 @@
+Sensors 2019, 19, 4383
+4 of 20
+based on a number of diﬀerent metrics, such as recall (R), precision (P), true positive rate (TP), and
+false positive rate (FP). This study demonstrated that the SVM achieves a high detection rate of 96.7%
+compared to the other classiﬁers.
+Le et al. [48] proposed to use the random forest (RF) classiﬁer for detecting the type of DoS attacks
+in WSNs. The proposed classiﬁer attains best F1-score results are 96%, 99%, 98%, 96% and 100% for
+ﬂooding, blackhole, grayhole, scheduling (TDMA), and normal attacks, respectively. However, the
+result of this study was for a small number of instances in the testing phase, which approximately
+represents 25% (94,042 instances) of the data. Recently, Tan et al. [49] proposed a method for intrusion
+detection using random forest classiﬁer and synthetic minority oversampling (SMOTE) technique.
+They used the SMOTE technique for oversampling the minority samples. The experimental results of
+the study showed that the accuracy of using random forest classiﬁer was 92.39% and the accuracy of
+using SMOTE has increased the accuracy to 92.57%.
+2. Research Methodology
+2.1. Genetic Algorithm (GA)
+Genetic algorithm (GA) is deﬁned as a heuristic adaptive search algorithm and inspired from
+the evolutionary ideas of genetics. It represents an intelligent exploitation that uses a random search
+for solving both unconstrained and constrained optimization problems [50]. The GA repetitively
+alters individual solutions of a population and at each step, it selects randomly individuals from the
+population that are currently in process to be parents; then, it utilizes them to generate the children for
+the next generation of population. Undergoing development of these consecutive generations; the
+solution is improved to optimality. Genetic algorithm is used to solve a variety of problems, including
+mixed integer programming problems or the problems in which their objective function is stochastic,
+non-diﬀerentiable, discontinuous, or highly nonlinear. Generally, the GA applies three diﬀerent rules on
+the current population at each step to produce the next generation. These rules are:
+•
+Selection rules, which selects the individuals to be parents for contributing at next generation;
+•
+Crossover rules, which combines two parents to generate the children of next generation;
+•
+Mutation rules, which changes randomly the individual of children.
+The GA diﬀers from a classical derivative-based optimization algorithm (DOA) in two key ways:
+it creates a population of solutions at each iteration in which the best solution approaches to optimality
+and uses a random computation for selecting the next population. While, the classical DOA creates a
+single solution at each iteration in which a sequence of solutions approaches to the optimal situation
+and uses a deterministic computation for selecting the next solution in the sequence. Algorithm 1
+illustrates the pseudocode of GA as sequence of steps.
+2.2. Gradient Boosting (GB) Model
+Gradient boosting (GB) is an ensemble learning technique, used for classiﬁcation and regression
+problems, proposed by Friedman [51,52]. It can produce an eﬀective model consisting of weak learners,
+usually decision trees. The basic idea of GB is to build and generalize the ensemble model in a stage
+wise fashion by optimizing an objective arbitrary loss function [53]. The GB technique constructs
+its model from the previous loss function of negative gradient in an iteration manner. In the ML,
+minimizing the loss function is an important issue and needs to be optimized. In other words, the
+loss function represents the diﬀerence between the predicted output and the target. A low value
+of loss function means a high prediction or classiﬁcation result. When the loss function decreases
+sequentially and iteratively, the model goes consecutively along a speciﬁc direction, which is the
+Gradient of loss function.

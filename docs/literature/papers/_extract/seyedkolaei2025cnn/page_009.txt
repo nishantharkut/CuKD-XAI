@@ -1,0 +1,67 @@
+Future Internet 2025, 17, 230
+9 of 21
+the network. The first convolutional layer, consisting of 32 filters with a kernel size of 3
+and a stride of 1, applies ReLU activation and focuses on identifying short-range spatial
+patterns, such as correlations between packet rate and connection duration. This kernel size
+was specifically chosen to capture local dependencies while maintaining computational
+efficiency.
+The second convolutional layer uses 64 filters with the same kernel size (3) to detect
+more complex and abstract features, such as DDoS attack signatures. This two-layer design
+is inspired by previous studies on network traffic processing, which have shown that
+two convolutional layers are sufficient for effectively learning spatio-temporal patterns
+in one-dimensional data. Initial experimentation with larger kernels (e.g., size 5) did
+not yield meaningful improvements in detection accuracy but introduced unnecessary
+computational overhead, reinforcing the choice of a compact and efficient architecture.
+The output of the l-th convolutional layer for the j-th feature map is computed by
+Equation (1):
+yl
+j = σ(
+Nl−1
+∑
+i=1
+conv1D(Wl
+i,j, Xl−1
+i
+) + bl
+j
+(1)
+In Equation (1), Xl−1
+i
+denotes the i-th feature in layer l −1, while yl
+j denotes the j-th
+feature vector in layer l. The term Wl
+i,j refers to the convolution kernel. Nl−1 indicates the
+number of feature vectors in layer l −1. The symbol b refers to the bias, while σ denotes the
+ReLU activation function, which helps to prevent overfitting. Its mathematical formulation
+is outlined in Equation (2), where x represents the neuron’s input.
+σ(x) =
+(
+0, x ≤0
+x, x > 0
+(2)
+Following each convolution, max pooling layers with a pool size and stride of 2 are
+applied to reduce the spatial dimensions by half. This downsampling process preserves
+the most critical features while significantly decreasing the number of parameters and com-
+putational load. By striking a balance between information retention and model efficiency,
+these max pooling layers help the network to maintain its ability to detect essential patterns
+in the data while remaining suitable for resource-constrained environments such as IoT
+and IIoT systems. The pooling operation is defined by Equation (3):
+pa
+i = max(pa′
+i : a ≤a′ < a + s)
+(3)
+In Equation (3), a′ and pa′
+i represent the neurons in the i-th feature vector prior to
+the max pooling operation, while a and pa
+i represent the neurons in the i-th feature map
+following the max pooling operation. The extracted features are then mapped to class
+probabilities through a fully connected layer (128 neurons, ReLU activation), culminating
+in a softmax output layer that generates a probability distribution across 15 attack classes.
+Trained using the Adam optimizer (α = 0.001, β1 = 0.9, β2 = 0.999) with sparse categor-
+ical cross-entropy loss, the model processes data in batches of 32 over 10 epochs, with early
+stopping to prevent overfitting. Key advantages include dimensionality reduction (75%
+fewer parameters via pooling), generalization (ReLU and pooling mitigate overfitting), and
+efficiency (lightweight design compatible with edge devices). This architecture balances
+spatial feature extraction, computational efficiency, and multiclass accuracy, addressing the
+unique security challenges of IoT/IIoT networks. The parameter values set in the model
+are presented in Table 4.

@@ -1,0 +1,31 @@
+Published in Transactions on Machine Learning Research (06/2024)
+point generated using two different explanation methods (e.g., LIME and KernelSHAP in Figure 5). The
+explanations (and data points) within these prompts were selected to ensure high disagreement between them
+as per the metrics discussed in prior sections. We displayed the full set of k “ 7 COMPAS features, showing
+the feature importance of each feature. The red and blue bars indicate that the feature contributes negatively
+and positively, respectively, to the model prediction. Participants were first asked the question “To what
+extent do you think the two explanations shown above agree or disagree with each other?” and given four
+choices: completely agree, mostly agree, mostly disagree, and completely disagree. If the participants indicated
+any level of disagreement (i.e., any of the latter 3 choices), we then asked them “Since you believe that the
+above explanations disagree (to some extent), which explanation would you rely on?” and presented them
+with three choices: the two explanation methods shown and “it depends”. Then, they were asked to explain
+their response. Participants were allowed to take as much time as they needed.
+Figure 5: The user interface for a prompt. The user is shown two explanations for a COMPAS data point,
+showing the feature importance value of each of the 7 features. Red and blue indicate negative and positive
+feature values, respectively. See the text for more details.
+5.2
+Results and Insights
+We now discuss the results and findings from our user study.
+5.2.1
+Do practitioners observe disagreements?
+We aggregated the responses to the first question in each prompt, “To what extent do you think the explanations
+shown above agree or disagree with each other?”. Overall, 4%, 28%, 50%, and 18% of responses indicate
+completely agree, mostly agree, mostly disagree, and completely disagree, respectively, highlighting that there
+is significant disagreement among our prompts. See Appendix E.4 for more details.
+5.2.2
+Are certain explanations favored over others?
+Next, since different explanation methods have different levels of popularity, we analyze if certain methods
+are chosen more often in disagreements. Figure 6a shows the distribution of how participants resolved
+disagreements for each prompt (dropping prompts with 4 or fewer responses). We first emphasize that there
+is high variability in how participants chose to resolve disagreements, showing a lack of consensus for the
+12

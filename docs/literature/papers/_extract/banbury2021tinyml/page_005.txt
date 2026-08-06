@@ -1,0 +1,115 @@
+Benchmarking TinyML Systems
+Table 2. Existing Benchmarks
+BENCHMARK
+ML?
+POWER?
+TINY?
+COREMARK
+×
+√
+√
+MLMARK
+√
+×
+×
+MLPERF INFERENCE
+√
+√
+×
+TINYML REQUIREMENTS
+√
+√
+√
+A benchmark suite must balance optimality with portabil-
+ity, and comparibility with representativeness. A TinyML
+benchmark should support many options for model deploy-
+ment but the impact of that choice on the results must be
+carefully evaluated.
+5
+RELATED WORK
+There are a number of ML related hardware benchmarks,
+however, none that accurately represent the performance
+of TinyML workloads on tiny hardware. Table 2 shows a
+sampling of the widely accepted industry benchmarks that
+are directly applicable to the discussion on TinyML systems.
+EEMBC CoreMark (Gal-On & Levy) has become the stan-
+dard performance benchmark for MCU-class devices due
+to its ease of implementation and use of real algorithms.
+Yet, CoreMark does not proﬁle full programs, nor does it
+accurately represent machine learning inference workloads.
+EEMBC MLMark (Torelli & Bangale) addresses these is-
+sues by using actual ML inference workloads. However, the
+supported models are far too large for MCU-class devices
+and are not representative of TinyML workloads. They re-
+quire far too much memory (GBs) and have signiﬁcant run
+times. Additionally, while CoreMark supports power mea-
+surements with ULPMark-CM (EEMBC), MLMark does
+not, which is critical for a TinyML benchmark.
+MLPerf, a community-driven benchmarking effort, has
+recently introduced a benchmarking suite for ML infer-
+ence (Reddi et al., 2019) and has plans to add power mea-
+surements.
+However, much like MLMark, the current
+MLPerf inference benchmark precludes MCUs and other
+resource-constrained platforms due to a lack of small bench-
+marks and compatible implementations.
+As Table 2 summarizes, there is a clear and distinct need for
+a TinyML benchmark that caters to the unique needs of ML
+workloads, makes power a ﬁrst-class citizen and prescribes
+a methodology that suits TinyML.
+6
+BENCHMARKS
+To overcome theses challenges, we adopt a set of principles
+for the development of a robust TinyML benchmarking suite
+and select a set of 4 benchmarks.
+6.1
+Open and Closed Divisions
+As previously stated, TinyML is a diverse ﬁeld, therefore
+not all systems can be accommodated under strict rules,
+however, without strict rules, direct comparison of the hard-
+ware becomes more difﬁcult. To address this issue, we
+adopt MLPerf’s open and closed structure. More traditional
+TinyML solutions can submit to the closed division where
+submissions must use a model that is considered equivalent
+to the reference model. TinyML systems that fall outside
+the bounds of the ”closed” benchmark can submit results to
+the open division which will allow submissions to deviate
+as necessary from the closed reference. We believe this
+structure increases the inclusivity of the bechmarking suite
+while maintaining the comparability of the results.
+Additionally, the open division allows for submissions to
+demonstrate novel software optimizations. Software based
+organizations can submit results using the reference plat-
+form while altering the model or inference engine to demon-
+strate the relative advantage of their unique solutions.
+6.2
+Use Cases
+Our use case selection process prioritized diversity, fea-
+sibility, and industry relevance. Diversity to ensure our
+benchmark suite covered as much of the ﬁeld as possible,
+feasibility in terms of access to open source datasets and
+models, and relevance to real world applications.
+The group has selected four use cases to target: audio
+wake words, visual wake words, image classiﬁcation, and
+anomaly detection. Audio wake words refers to the com-
+mon, keyword spotting task (e.g. “Alexa”, “Ok Google”,
+and “Hey Siri”). Visual wake words is a binary image classi-
+ﬁcation task that indicates if a person is visible in the image
+or not. The image classiﬁcation use cases targets small label
+set size image classiﬁcation. Anomaly detection is a broader
+use case that classiﬁes time series data as “normal” or “ab-
+normal”. We speciﬁcally select audio anomaly detection as
+our use case due to the availability of a relevant dataset.
+These use cases have been selected to represent the broad
+range of TinyML. They encompass three distinct input data
+types and range from relatively resource hungry (visual
+wake words) to light weight (anomaly detection). Further-
+more the models traditionally used for these use cases are
+varied therefore the benchmarking suite can support a di-
+verse set of ML techniques.
+6.3
+Dataset Selection
+The group has selected a dataset for each use case, as shown
+in Table 3. The datasets help specify the use cases, are used
+to train the reference models, and are sampled to create the
+tests sets used during the measurement on device. Further-

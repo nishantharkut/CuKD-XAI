@@ -1,0 +1,31 @@
+Sensors 2024, 24, 7320
+5 of 15
+Figure 1. Proposed architecture of embedded IDS for smart thermostats.
+3.1. Threat Model
+The adversary does not know the ML-based IDS is running on the smart thermostat.
+The adversary aims to intercept and modify the communication between the cloud and the
+smart thermostat. Moreover, the adversary can launch a DoS attack on the smart thermostat
+or cloud to make them irresponsive.
+3.1.1. Targeted System
+The targeted system is a smart thermostat controlling the split air conditioner for main-
+taining indoor thermal comfort. The smart thermostat uploads the indoor air temperature
+to a website using WiFi and can be remotely controlled through HTTP.
+3.1.2. Adversarial Capabilities
+The adversary node is implemented using Raspberry Pi 4 (manufactured by the
+Raspberry Pi Foundation, Cambridge, United Kingdom) with Kali Linux OS (version:
+2023.3). The adversary can connect to the hotspot from which the smart thermostat is also
+connected and can generate DoS and MITM attacks as shown in Figure 1.
+3.1.3. Adversary Goals
+The adversary’s primary objective is to compromise the communication between the
+smart thermostat and the cloud. The specific goals of the adversary include the following:
+•
+Launching DoS attacks on either the smart thermostat or the cloud server to render
+them unresponsive.
+•
+Eavesdropping on the communication between the smart thermostat and the cloud
+via MITM attacks.
+•
+Manipulating the control signals sent to the air conditioner.
+•
+Altering the temperature and humidity data uploaded to the webpage by the smart
+thermostat.

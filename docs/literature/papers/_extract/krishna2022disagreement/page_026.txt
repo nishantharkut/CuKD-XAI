@@ -1,0 +1,192 @@
+Published in Transactions on Machine Learning Research (06/2024)
+D.2.2
+Top-K Pairwise Rank Agreement
+Here, we introduce a new metric called top-k pairwise rank agreement which is a variant of our previously
+proposed pairwise rank agreement metric, and it is computed using the top-k features of any two given
+explanations. Given two explanations Ea and Eb, top-k pairwise rank agreement is formulated as:
+TopKPairwiseRankAgreementpEa, Eb, F 1q “
+ř
+fi,fjPF 1 and iăj
+1rROpEa, fi, fjq “ ROpEb, fi, fjqs
+`|F 1|
+2
+˘
+where
+F 1 “ TFpEa, kq Y TFpEb, kq
+.
+and TFpE, kq returns the set of top-k features of explanation E based on the magnitude of the feature
+importance values. The relative ordering function ROpE, fi, fjq is an indicator function that returns 1 if
+feature fi is more important than feature fj according to explanation E and returns 0 otherwise.
+For the COMPAS dataset, we plot the disagreement between different explanation methods according to
+top-k pairwise rank agreement in Figures 13 and 14. For both the logistic regression and neural network
+models, the L2X method exhibits the lowest top-k rank correlation with the other explanation methods
+compared, suggesting it provides quite different feature importance rankings than the other approaches.
+LIME
+Kernel
+SHAP
+Grad
+Grad*
+Input
+IntGrad
+Smooth
+Grad
+L2X
+LIME
+Kernel
+SHAP
+Grad
+Grad*
+Input
+IntGrad
+Smooth
+Grad
+L2X
+1.000
+0.696
+0.591
+0.457
+0.457
+0.591
+-0.017
+0.696
+1.000
+0.407
+0.321
+0.321
+0.407
+0.061
+0.591
+0.407
+1.000
+0.235
+0.235
+1.000
+-0.042
+0.457
+0.321
+0.235
+1.000
+1.000
+0.235
+-0.123
+0.457
+0.321
+0.235
+1.000
+1.000
+0.235
+-0.123
+0.591
+0.407
+1.000
+0.235
+0.235
+1.000
+-0.042
+-0.017
+0.061
+-0.042
+-0.123
+-0.123
+-0.042
+1.000
+Top-k Rank correlation (k = 5)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Standard errors: min=0.0, max=0.012
+LIME
+Kernel
+SHAP
+Grad
+Grad*
+Input
+IntGrad
+Smooth
+Grad
+L2X
+LIME
+Kernel
+SHAP
+Grad
+Grad*
+Input
+IntGrad
+Smooth
+Grad
+L2X
+1.000
+0.823
+0.716
+0.648
+0.648
+0.716
+0.518
+0.823
+1.000
+0.677
+0.608
+0.608
+0.677
+0.529
+0.716
+0.677
+1.000
+0.576
+0.576
+1.000
+0.461
+0.648
+0.608
+0.576
+1.000
+1.000
+0.576
+0.464
+0.648
+0.608
+0.576
+1.000
+1.000
+0.576
+0.464
+0.716
+0.677
+1.000
+0.576
+0.576
+1.000
+0.461
+0.518
+0.529
+0.461
+0.464
+0.464
+0.461
+1.000
+Top-k Pairwise rank agreement (k = 5)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Standard errors: min=0.0, max=0.005
+Figure 13: Disagreement between explanation methods for logistic regression model trained on COMPAS
+dataset measured using Top-K Pairwise Rank Agreement and Top-K Rank Correlation metric across top
+k “ 5 features.
+D.2.3
+Top-K Rank Correlation
+Here, we introduce a new metric called top-k rank correlation which is a variant of our previously proposed
+rank correlation metric, and it is computed using the top-k features of any two given explanations. Given
+two explanations Ea and Eb, top-k rank correlation is formulated as:
+TopKRankCorrelationpEa, Eb, F 1q “ rspRpEa, F 1q, RpEb, F 1qq
+where
+F 1 “ TFpEa, kq Y TFpEb, kq
+As defined previously, TFpE, kq returns the set of top-k features of explanation E based on the magnitude of
+the feature importance values, RpE, F 1q is a vector containing the rank of every feature f P F 1 according to
+explanation E, and rs computes Spearman’s rank correlation coefficient.
+26

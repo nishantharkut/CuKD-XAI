@@ -1,0 +1,79 @@
+Figure 2: Autoencoder Loss Curve
+Figure 3: Proposed AutoEncoder based IDS Module
+of class weighting into the training process elimi-
+nates the need for external methods like oversam-
+pling or data augmentation, which can introduce
+biases or increase computational costs. The re-
+sults demonstrate the effectiveness of this strat-
+egy, as the model achieves superior performance
+on rare attack types without compromising overall
+accuracy. Compared to traditional autoencoders
+or VAEs, our method is more efficient, scalable,
+and specifically tailored for real-world deploy-
+ment in IIoT environments.
+The combination
+of architectural optimization and cost-sensitive
+learning underscores the novelty of our approach
+and its ability to address the unique challenges of
+intrusion detection in imbalanced IIoT datasets.
+Fig. 2 shows the training and validation loss
+curves of our autoencoder model which employs
+class weights inversely proportional to their fre-
+quencies, emphasizing the learning of underrep-
+resented attack types. As shown in Fig. 4 this
+approach enhances the model’s ability to detect
+less frequent but critical attack types within the
+dataset, effectively addressing the class imbalance
+issue and improving the overall robustness of the
+intrusion detection system.
+4
+Performance Evaluation
+In this section, we evaluate the performance of
+our proposed approach.
+4.1
+Experimental Setup
+The experiments were conducted on two plat-
+forms: a workstation with Ubuntu 20.04.3 LTS,
+16 GB RAM, and a 2.20 GHz Intel Xeon proces-
+sor, and a Jetson Nano with a 128-core Maxwell
+GPU and a 1.43 GHz Quad-core ARM A57 CPU.
+The workstation used Python 3.10.12, while the
+Jetson Nano used Python 3.7.
+4.2
+Evaluation metrics
+The performance evaluation of various models
+used is summarized in the following tables and
+the confusion matrix. We evaluated our models
+based on the following metrics.
+Accuracy =
+TP+TN
+TP+FP+TN +FN
+(1)
+Precision =
+TP
+TP+FP
+(2)
+Recall =
+TP
+TP+FN
+(3)
+F1 = 2∗Precision∗Recall
+Precision+Recall
+(4)
+4.3
+Confusion Matrix
+Table 2 presents the confusion matrix for several
+models, with the LGBM model achieving perfect
+detection accuracy (4820 TPs, 25620 TNs, 0 FP,
+0 FN), while the XGB model also performs well
+(4818 TPs, 25619 TNs, 2 FPs, 1 FN). In contrast,
+the LDA model shows significantly weaker per-
+formance (1771 TPs, 24876 TNs, 3049 FPs, 744
+FNs).
+4.4
+Results of Binary Classification
+We present the results of binary classification in
+Table 3.
+LGBM achieves perfect performance
+across all metrics, while XGB and Decision Tree
+models also perform well but with slightly longer

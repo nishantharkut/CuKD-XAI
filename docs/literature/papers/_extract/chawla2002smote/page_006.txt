@@ -1,0 +1,44 @@
+Chawla, Bowyer, Hall & Kegelmeyer
+that is, a feature vector reﬂecting occurrences of words in the page is constructed. Usually,
+there are very few instances of the interesting category in text categorization. This over-
+representation of the negative class in information retrieval problems can cause problems
+in evaluating classiﬁers’ performances. Since error rate is not a good metric for skewed
+datasets, the classiﬁcation performance of algorithms in information retrieval is usually
+measured by precision and recall:
+recall =
+TP
+TP + FN
+precision =
+TP
+TP + FP
+Mladeni´c and Grobelnik (1999) proposed a feature subset selection approach to deal
+with imbalanced class distribution in the IR domain.
+They experimented with various
+feature selection methods, and found that the odds ratio (van Rijsbergen, Harper, & Porter,
+1981) when combined with a Naive Bayes classiﬁer performs best in their domain. Odds
+ratio is a probabilistic measure used to rank documents according to their relevance to the
+positive class (minority class). Information gain for a word, on the other hand, does not
+pay attention to a particular target class; it is computed per word for each class. In an
+imbalanced text dataset (assuming 98 to 99% is the negative class), most of the features will
+be associated with the negative class. Odds ratio incorporates the target class information in
+its metric giving better results when compared to information gain for text categorization.
+Provost and Fawcett (1997) introduced the ROC convex hull method to estimate the
+classiﬁer performance for imbalanced datasets. They note that the problems of unequal
+class distribution and unequal error costs are related and that little work has been done to
+address either problem (Provost & Fawcett, 2001). In the ROC convex hull method, the
+ROC space is used to separate classiﬁcation performance from the class and cost distribution
+information.
+To summarize the literature, under-sampling the majority class enables better classiﬁers
+to be built than over-sampling the minority class. A combination of the two as done in
+previous work does not lead to classiﬁers that outperform those built utilizing only under-
+sampling. However, the over-sampling of the minority class has been done by sampling with
+replacement from the original data. Our approach uses a diﬀerent method of over-sampling.
+4. SMOTE: Synthetic Minority Over-sampling TEchnique
+4.1 Minority over-sampling with replacement
+Previous research (Ling & Li, 1998; Japkowicz, 2000) has discussed over-sampling with
+replacement and has noted that it doesn’t signiﬁcantly improve minority class recognition.
+We interpret the underlying eﬀect in terms of decision regions in feature space. Essentially,
+as the minority class is over-sampled by increasing amounts, the eﬀect is to identify similar
+but more speciﬁc regions in the feature space as the decision region for the minority class.
+This eﬀect for decision trees can be understood from the plots in Figure 3.
+326
