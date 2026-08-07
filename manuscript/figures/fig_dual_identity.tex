@@ -1,0 +1,23 @@
+% Dual evaluation units (professional, grayscale-safe)
+\begin{tikzpicture}[
+  font=\footnotesize\sffamily,
+  >=Latex,
+  box/.style={draw, line width=0.6pt, align=center, inner sep=4pt, minimum height=10mm, text width=28mm},
+  emph/.style={box, fill=black!8},
+  arr/.style={-{Latex[length=1.8mm]}, line width=0.6pt},
+  lab/.style={font=\scriptsize\sffamily}
+]
+\node[box] (split) {Fixed stratified\\split (seed 42)\\train / val / test};
+\node[emph, below left=12mm and 2mm of split] (ums) {\textbf{Unit U-MS}\\multi-config\\train-only pipeline\\10 seeds};
+\node[emph, below right=12mm and 2mm of split] (udc) {\textbf{Unit U-DC}\\deploy-clean\\single-route RF-KD\\seed 42 only};
+\node[box, below=10mm of ums] (tab) {Primary multi-seed\\tables (macro-F1\\mean $\pm$ std)};
+\node[box, below=10mm of udc] (hil) {Export / ONNX /\\fixed-point /\\dual-board HIL};
+\draw[arr] (split) -- (ums);
+\draw[arr] (split) -- (udc);
+\draw[arr] (ums) -- (tab);
+\draw[arr] (udc) -- (hil);
+\node[lab, below=2mm of tab.south west, anchor=north west, text width=70mm] {%
+Do not treat the U-MS seed-42 cell as interchangeable with the U-DC deploy-clean macro-F1
+(Student A $=0.9485$ from train-only seed-42 runtime package; full precision in \texttt{figures/\_provenance.json}).
+};
+\end{tikzpicture}

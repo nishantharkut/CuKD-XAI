@@ -1,0 +1,53 @@
+% Professional system + HIL figure (IEEE-style, grayscale-safe).
+% Include with: \input{figures/fig_system_hil}
+% No decorative AI styling: thin strokes, light fills, explicit labels only.
+\begin{tikzpicture}[
+  font=\footnotesize\sffamily,
+  >=Latex,
+  box/.style={draw, line width=0.6pt, align=center, inner sep=2pt, minimum height=10mm},
+  ideal/.style={box, dashed, text width=26mm},
+  solidbox/.style={box, text width=28mm},
+  host/.style={box, fill=black!6, text width=26mm},
+  mcu/.style={box, fill=black!10, text width=24mm},
+  note/.style={align=left, font=\scriptsize\sffamily, text width=38mm},
+  arr/.style={-{Latex[length=1.8mm]}, line width=0.6pt},
+  lab/.style={font=\scriptsize\sffamily}
+]
+% --- Row 1: ideal WSN (conceptual) ---
+\node[ideal] (mote) {WSN mote\\(ideal on-node\\IDS site)};
+\node[ideal, right=12mm of mote] (radio) {Low-power\\radio};
+\node[ideal, right=12mm of radio] (gw) {Gateway /\\sink};
+\node[ideal, right=12mm of gw] (cloud) {Optional\\cloud};
+\draw[arr] (mote) -- (radio);
+\draw[arr] (radio) -- (gw);
+\draw[arr] (gw) -- (cloud);
+\node[lab, above=1mm of mote.north west, anchor=west] {\textbf{(a) Conceptual WSN deployment}};
+\node[note, right=8mm of cloud] {Hybrid prior work often keeps\\heavy models on the gateway.\\Our target class is \emph{on-node}\\inference when motes exist.};
+
+% --- Row 2: software training ---
+\node[solidbox, below=18mm of mote] (csv) {WSN-DS\\feature CSV\\(17 features)};
+\node[solidbox, right=12mm of csv] (split) {Train-only\\scaler + split};
+\node[solidbox, right=12mm of split] (train) {RF teacher $\to$\\tiny MLP\\students A/B};
+\node[solidbox, right=12mm of train] (export) {FP32 export\\fixed-point C};
+\draw[arr] (csv) -- (split);
+\draw[arr] (split) -- (train);
+\draw[arr] (train) -- (export);
+\node[lab, above=1mm of csv.north west, anchor=west] {\textbf{(b) Offline model development (host PC)}};
+
+% --- Row 3: HIL ---
+\node[host, below=18mm of csv] (pi) {Raspberry Pi\\HIL host\\(orchestrator)};
+\node[mcu, right=18mm of pi] (esp) {ESP32-C3\\inference\\DUT};
+\node[mcu, right=12mm of esp] (r4) {Arduino R4\\WiFi DUT};
+\node[solidbox, right=14mm of r4] (ref) {Fixed-point\\reference\\predictions};
+\draw[arr] (pi) -- node[lab, above] {USB serial vectors} (esp);
+\draw[arr] (pi) -- node[lab, below, pos=0.35] {USB serial} (r4);
+\draw[arr] (esp) -- node[lab, above] {class IDs} ++(10mm,0) |- (ref);
+\draw[arr] (r4) |- (ref);
+\node[lab, above=1mm of pi.north west, anchor=west] {\textbf{(c) Hardware-in-the-loop fidelity (this work)}};
+
+\node[note, below=4mm of pi.south west, anchor=north west, text width=120mm] {%
+\textbf{Scope of (c):} model-core preprocessing + inference on full test replay ($N{=}56{,}200$), not live RF.
+\textbf{Limitation:} instrumented WSN motes with over-the-air traffic were unavailable; two commercial MCUs proxy the constrained on-node class.
+\textbf{Not a gateway model:} the Pi does not run the student classifier for reported HIL agreement.
+};
+\end{tikzpicture}

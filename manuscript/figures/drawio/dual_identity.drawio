@@ -1,0 +1,27 @@
+<mxfile host="app.diagrams.net" agent="CuKD-XAI" version="22.0.0">
+  <diagram id="dual-id" name="Dual identity">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Dual evaluation units (same fixed WSN-DS split)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="500" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="split" value="Fixed stratified split (seed 42)&#xa;train / val / test" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#f0f0f0;" vertex="1" parent="1">
+          <mxGeometry x="320" y="70" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="ums" value="&lt;b&gt;Unit U-MS&lt;/b&gt;&#xa;multi-config train-only pipeline&#xa;10-seed tables&#xa;(load means from aggregate CSV)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#e8e8e8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="udc" value="&lt;b&gt;Unit U-DC&lt;/b&gt;&#xa;deploy-clean RF-KD seed 42&#xa;export / ONNX / HIL&#xa;(load F1 from runtime JSON)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#e8e8e8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="200" width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="1" source="split" target="ums"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="1" source="split" target="udc"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="note" value="Do not interchange U-MS distributional cells with U-DC deploy-clean macro-F1.&#xa;Exact values: see manuscript/figures/_provenance.json after build_all_figures.py" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fontFamily=Helvetica;fontSize=10;strokeColor=#000000;fillColor=#fafafa;size=14;" vertex="1" parent="1">
+          <mxGeometry x="180" y="340" width="480" height="70" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
