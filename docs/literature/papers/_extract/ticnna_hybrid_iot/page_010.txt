@@ -1,0 +1,53 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+TABLE 4. Performance comparison of VGG16, VGG19, Xception, and TICNN models before and after performing TIGAN for CICIDS2017 (TICNN Enhanced).
+TABLE 5. Comparison of major and minor class attacks metrics before and after performing TIGAN for CICIoT2023 and CICIDS2017.
+of computational latency, TICNN demonstrates a distinct
+advantage. While baseline models like VGG16 and Xception
+typically exhibit inference times ranging from 12 ms to 22 ms
+due to their deep architectures and dense parameter counts,
+TICNN achieves a packet detection time of just 1.5–2.9 ms.
+This approx. 6× speedup validates the efficiency of replacing
+heavy fully connected layers with Global Average Pooling,
+making TICNN highly suitable for real-time IoT constraints.
+To rigorously quantify this efficiency, we analyzed the
+computational complexity of TICNN in comparison to
+the baseline architectures. Table 6 details the Parameter
+count (Params), Floating Point Operations (FLOPs), and
+architectural depth of each model. While VGG16 and
+VGG19 rely on massive parameter sets (approx. 138M
+and 143M, respectively) largely due to their dense fully
+connected headers, TICNN utilizes a compact design with
+only 1.81 million parameters. This represents a model size
+reduction of over 98% compared to VGG-based baselines.
+Furthermore, TICNN requires only 6.1 GFLOPs per infer-
+ence, significantly lower than the 30.9 GFLOPs required
+by VGG16. This reduction in computational load, combined
+with a shallow depth of 13 layers (vs. 71 for Xception),
+directly correlates to the observed low-latency performance,
+making TICNN uniquely suited for resource-constrained IoT
+edge devices.
+D. ABLATION STUDY
+1) IMAGE GENERATION
+This ablation study examines the effects of image resolution
+and feature dimensionality on model performance in image
+generation tasks. By segmenting the dataset based on feature
+TABLE 6. Computational complexity comparison: TICNN vs. Baselines.
+TABLE 7. Comparison of CICIDS2017 and CICIoT2023 with state of the art
+for multiclass classification and TICNN - overall accuracy.
+size, we explore the trade-offs among macro-averaged
+performance metrics, overfitting tendencies, data fidelity, and
+preprocessing duration. The findings indicate that the image
+generation algorithm demonstrates resilience to variations in
+image size, suggesting its capability to accommodate diverse
+model architectures effectively.
+The number of samples generated is calculated as:
+No. of Samples = ⌈Image Size
+Feature Size⌉
+(12)
+where the image size is represented as Height × Width ×
+Channels, and the feature size corresponds to the model’s
+receptive field or layer output size.
+We experimented with six common image sizes: 29×29×
+3, 71×71×3, 128×128×3, 224×224×3, 256×256×3 for
+23422
+VOLUME 14, 2026

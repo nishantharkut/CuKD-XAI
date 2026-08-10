@@ -1,0 +1,64 @@
+Complex & Intelligent Systems (2025) 11:422
+https://doi.org/10.1007/s40747-025-02001-9
+ORIGINAL ARTICLE
+A novel federated learning approach for IoT botnet intrusion detection
+using SHAP-based knowledge distillation
+Md. Alamgir Hossain1,2
+· Sadman Saif1 · Md. Saiful Islam1
+Received: 22 November 2024 / Accepted: 17 June 2025 / Published online: 21 August 2025
+© The Author(s) 2025
+Abstract
+The exponential growth of the Internet of Things (IoT) has introduced new security vulnerabilities, particularly from botnet
+attacks that exploit the heterogeneity and limited processing capabilities of IoT devices. Traditional centralized intrusion
+detection models are ineffective in protecting distributed IoT environments due to data privacy concerns and the challenges
+posed by non-IID (non-independent and identically distributed) data. In response, we propose a novel, privacy-preserving
+federated learning framework tailored for IoT intrusion detection. Our framework leverages SHAP (Shapley Additive Expla-
+nations), a technique for computing feature importance, to provide interpretable insights while maintaining data privacy. Each
+IoT client trains locally on its unique, heterogeneous data, computes SHAP values to quantify feature relevance, and shares
+only distilled feature knowledge with the central server. This aggregated knowledge forms a global feature proﬁle that enables
+the global model to accurately detect diverse botnet intrusions across non-IID client data. Experimental results demonstrate
+that our model achieves near-perfect accuracy (99.99%) across various botnet types, showcasing robustness in identifying
+botnet-speciﬁc attack patterns while preserving privacy. By addressing IoT data heterogeneity, non-IID data, and privacy
+concerns, our framework provides a scalable, interpretable, and privacy-compliant federated learning solution, advancing the
+security of IoT networks against botnet intrusions.
+Keywords Federated IoT security · Privacy-preserving intrusion detection · SHAP-based knowledge distillation ·
+Decentralized feature aggregation · Non-IID data handling · Botnet detection in IoT · Distributed IoT security framework ·
+Heterogeneous IoT networks
+Introduction
+Background and motivation
+Botnets such as Bashlite, Mirai, Neris, RBoT, and Torii [1–3]
+are among the most pervasive threats to the IoT landscape,
+exploiting vulnerabilities in low-security, resource-limited
+B Md. Alamgir Hossain
+alamgir.cse14.just@gmail.com
+Sadman Saif
+sadmansaif.eece@gmail.com
+Md. Saiful Islam
+mdsaifulislam@iict.buet.ac.bd
+1
+Institute of Information and Communication Technology
+(IICT), Bangladesh University of Engineering and
+Technology (BUET), Dhaka 1000, Bangladesh
+2
+Department of Computer Science and Engineering, State
+University of Bangladesh, Dhaka 1461, Bangladesh
+devices to launch extensive and highly disruptive cyber-
+attacks. These botnets hijack IoT devices to form vast
+networks under remote control, which are weaponized for
+destructive activities like DDoS attacks that disrupt critical
+services, data exﬁltration for unauthorized access, and even
+manipulation of IoT networks for large-scale data breaches
+[4–6]. In an IoT environment characterized by diverse
+devices, from smart home products to industrial systems, the
+heterogeneity of hardware, software, and network protocols
+compounds the complexity of detecting such attacks. This
+heterogeneity, coupled with non-IID data where data dis-
+tributions vary widely between devices, creates formidable
+barriers for intrusion detection systems.
+Addressing botnet-driven disruptions in IoT environments
+is essential due to the increasing reliance on IoT devices in
+critical sectors such as healthcare, ﬁnance, transportation,
+and smart cities. Botnets have demonstrated their potential
+to cause widespread service outages, ﬁnancial loss, and even
+physical harm by exploiting vulnerabilities in IoT systems.
+123

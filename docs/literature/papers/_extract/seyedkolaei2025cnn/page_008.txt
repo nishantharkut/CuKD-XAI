@@ -1,0 +1,42 @@
+Future Internet 2025, 17, 230
+8 of 21
+Figure 4. General architecture of the proposed CNN-based intrusion detection method.
+The proposed CNN-based intrusion detection system was evaluated using the DNN-
+EdgeIIoT dataset [7], a benchmark specifically designed for IoT/IIoT security research.
+This dataset was generated using a heterogeneous testbed comprising 42 IoT/IIoT devices
+(e.g., sensors, actuators, edge nodes) and 14 attack scenarios emulating real-world threats
+(e.g., DDoS, SQL injection, ransomware). Each sample represents a bidirectional traffic flow
+between devices and edge/cloud nodes, captured over 30 days of continuous operation.
+•
+Unique Attributes of DNN-EdgeIIoT:
+o
+Protocol Diversity: Includes lightweight protocols (MQTT, CoAP) and industrial
+standards (Modbus, OPC UA).
+o
+Feature Granularity: A total of 63 features per flow, spanning network-layer
+metrics (e.g., packet inter-arrival times), protocol-specific attributes (e.g., MQTT
+topic flags), and system-level telemetry (CPU/memory usage).
+o
+Temporal Context: Flows are timestamped to enable time series analysis, though
+our CNN model processes samples independently to prioritize real-time detection.
+•
+Preprocessing Specific to This Work:
+o
+Outlier Removal: Flows with malformed headers or implausible feature values
+(e.g., negative packet counts) were excluded (1.2% of raw data).
+o
+Normalization: Min–max scaling was applied to mitigate bias from features
+with large dynamic ranges (e.g., byte counts vs. protocol flags).
+This dataset’s realism and granularity enable robust evaluation of spatial attack pat-
+terns, a key focus of our CNN architecture.
+The proposed convolutional neural network (CNN) architecture is designed for multi-
+class intrusion detection in IoT/IIoT networks, leveraging spatial feature extraction and
+hierarchical learning to classify 15 attack types. The model is trained and evaluated on the
+DNN-EdgeIIoT dataset, comprising 2,219,201 traffic flows, each represented by 63 normal-
+ized features scaled to [0, 1] using min–max normalization to ensure balanced contributions
+during training. The dataset is partitioned into 80% training (1,775,361 samples) and 20%
+testing (443,840 samples) via stratified sampling to preserve class distribution.
+The architecture begins with a one-dimensional sequential input layer of shape
+(63 × 1), representing the features of each network traffic flow. To balance the extraction
+of both low-level and high-level features while considering the computational constraints
+typical of IoT and IIoT environments, two Conv1D layers are employed as the core of

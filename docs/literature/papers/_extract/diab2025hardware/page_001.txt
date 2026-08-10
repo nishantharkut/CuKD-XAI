@@ -1,0 +1,96 @@
+Intrusion Detection on Resource-Constrained IoT
+Devices with Hardware-Aware ML and DL
+A. Diab1, A. Chehade2, E. Ragusa2, P. Gastaldo2, R. Zunino2, A. Baghdadi3, M. Rizk1,4
+1 Faculty of Sciences, Lebanese University, Hadath, Lebanon
+2 DITEN, University of Genova, Genova, Italy
+3IMT Atlantique, Lab-STICC UMR CNRS 6285, Brest, France
+4 School of Arts and Sciences, Lebanese American University, Beirut, Lebanon
+Abstract—This paper proposes a hardware-aware intrusion
+detection system (IDS) for Internet of Things (IoT) and Industrial
+IoT (IIoT) networks; it targets scenarios where classification
+is essential for fast, privacy-preserving, and resource-efficient
+threat detection. The goal is to optimize both tree-based machine
+learning (ML) models and compact deep neural networks (DNNs)
+within strict edge-device constraints. This allows for a fair
+comparison and reveals trade-offs between model families. We
+apply constrained grid search for tree-based classifiers and
+hardware-aware neural architecture search (HW-NAS) for 1D
+convolutional neural networks (1D-CNNs). Evaluation on the
+Edge-IIoTset benchmark shows that selected models meet tight
+flash, RAM, and compute limits: LightGBM achieves 95.3%
+accuracy using 75 KB flash and 1.2 K operations, while the HW-
+NAS–optimized CNN reaches 97.2% with 190 KB flash and 840 K
+floating-point operations (FLOPs). We deploy the full pipeline on
+a Raspberry Pi 3 B+, confirming that tree-based models operate
+within 30 ms and that CNNs remain suitable when accuracy
+outweighs latency. These results highlight the practicality of
+hardware-constrained model design for real-time IDS at the edge.
+Index Terms—Intrusion detection, Edge AI, Hardware-aware
+NAS, Traffic classification, Lightweight deep learning, TinyML.
+I. INTRODUCTION
+The widespread deployment of Internet of Things (IoT)
+systems has expanded the attack surface of modern networks,
+which now include critical infrastructure and operational en-
+vironments vulnerable to advanced cyber threats [1], [2].
+In such contexts, intrusion detection systems (IDS) must
+deliver high detection performance while operating within
+tight hardware constraints. Cloud-based IDS often add latency,
+rely on constant connectivity, and raise privacy issues due
+to traffic offloading to remote servers [3]. These limitations
+have motivated a shift toward local inference, where detection
+is performed directly at the edge. This work addresses the
+design of IDS models that operate under constrained memory,
+compute, and energy budgets, while ensuring timely and
+accurate predictions in resource-limited environments.
+Several recent studies have applied machine learning (ML)
+and deep learning (DL) to traffic-based intrusion detection,
+reporting satisfactory accuracy on public benchmarks [4]–
+[7]; however, most ignore edge constraints such as memory,
+computation, and latency, causing many models that perform
+well offline to exceed hardware budgets when deployed.
+This work focuses on tabular traffic data, where each flow
+is represented by handcrafted features from packet headers
+and metadata, capturing protocol and transport-level behavior.
+These features must be extractable in real time without delay
+or heavy overhead. Tree-based ML models, such as decision
+tree ensembles, are generally efficient but still require tuning to
+meet memory and latency constraints. Their performance can
+vary with hyperparameter configurations [8]. Deep models,
+such as convolutional and recurrent neural networks, often
+demand structural adaptation to operate within the compute
+and memory limits of embedded platforms [3]. Supporting
+both families calls for model design strategies that balance
+detection performance with hardware feasibility.
+Hardware-aware neural architecture search (HW-NAS) has
+recently been employed across domains to design efficient
+DL models [9], [10]. In this work, we frame model selection
+as a constrained optimization problem, aiming to maximize
+accuracy under strict memory and compute limits. For DL,
+we adopt HW-NAS to generate compact 1D convolutional
+neural networks (1D-CNNs) tailored to tabular traffic data,
+with memory and computation constraints embedded into the
+search. For tree-based ML models, we apply a constrained grid
+search under the same hardware considerations. We character-
+ize these constraints in terms of available flash, RAM, and
+compute load; the latter is measured using operation counts
+(Ops) for ML models, which rely on integer comparisons and
+logical branching, and floating-point operations (FLOPs) for
+CNNs, which perform dense arithmetic. This dual-track strat-
+egy enables a fair, hardware-constrained comparison between
+ML and DL approaches for edge-based IDS.
+The main contributions of this study are as follows:
+• We formulate IDS for IoT as a constrained optimization
+problem and address it using two strategies: grid search
+for tree-based ML and HW-NAS for CNNs.
+• We present a systematic comparison of the models de-
+rived from both strategies, all designed under shared
+hardware constraints, and tailored for deployment on IoT
+gateway platforms.
+• Our hardware-aware search produces highly efficient yet
+accurate models: LightGBM achieves 95.3% accuracy
+using just 75 KB of flash and 1.2 K operations, while the
+optimized CNN reaches 97.2% accuracy within 190 KB
+and 840 K FLOPs. The latter is up to 10× more efficient
+than recent DL baselines while preserving accuracy.
+• We demonstrate full deployment on a Raspberry Pi 3 B+,
+arXiv:2512.02272v1  [cs.NI]  1 Dec 2025

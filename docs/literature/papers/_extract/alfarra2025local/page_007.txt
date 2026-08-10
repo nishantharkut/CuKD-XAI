@@ -1,0 +1,143 @@
+Energy-Eﬃcient Hybrid Learning for Secure Wireless Sensor Networks
+699
+4.3 Attack Scenarios
+We executed each scenario separately as well as in
+mixed attack mode, repeating all experiments with
+10 random seeds (RngSeed 1–10). Table 5 lists the
+four adversarial behaviors that we injected into the
+ns-3 network. Each attack begins at a diﬀerent time
+and launches from a distinct sensor node, which en-
+sures clear attribution in the results. The start times
+in Table 5 (600s, 900s, 1200s, 1500s) were chosen to
+stagger the onset of each adversarial behavior. This
+avoids overlap during early stages of simulation and
+ensures that the eﬀect of each attack can be observed
+both in isolation and when combined in the mixed-
+attack scenario. Each compromised node was selected
+randomly but ﬁxed across all runs to guarantee re-
+producibility. We restricted the number of compro-
+mised nodes to one per attack so that the impact of
+each attack type could be measured independently
+before analyzing combined eﬀects. This assumption
+follows prior WSN-DS conventions, where each attack
+trace originates from a single adversary node, mak-
+ing our ns-3 simulation directly comparable to the
+benchmark dataset. For the Flooding scenario, the
+rate of 60 RREQ/s was selected based on ns-3 traﬃc
+benchmarks and earlier studies [7, 9, 11] that report
+this rate as suﬃcient to saturate medium access in a
+50-node LoRa network. Lower rates produced min-
+imal observable disruption, whereas higher rates re-
+sulted in unrealistic saturation that does not reﬂect
+practical WSN deployments.
+By aligning our sim-
+ulation settings with WSN-DS characteristics while
+extending them through ns-3 augmentation, we en-
+sured consistency between dataset-driven evaluation
+and dynamic network behavior. This linkage allows
+results from Section 5 to be interpreted both against a
+standard dataset and under realistic simulated attack
+conditions.
+Table 5: Attack Scenarios Injected in the ns-3 Sim-
+ulation.
+Attack
+Start
+Compromised
+Parameters
+Time
+Node
+Blackhole
+600 s
+♯7
+Drops all
+received packets
+Flooding
+900 s
+♯12
+60 RREQ /s
+Grayhole
+1 200 s
+♯18
+Drops 50 % of
+traﬃc
+TDMA
+1 500 s
+♯5
+Sends forged
+Spoof
+schedule
+4.4 Hybrid IDS Conﬁguration
+Table 6.
+shows how the workload is split be-
+tween ultra-light processing on each sensor and a
+compressed deep model at the gateway.
+On-node
+rule checks cost ≤0.05 mJ per packet trivial com-
+pared with LoRa transmission while the INT8, 50
+%-pruned CNN-LSTM at the gateway executes a 32-
+window batch for just 28 mJ. A queue threshold of
+16 ﬂagged windows (or 2 s) balances latency (∼42
+ms) against energy. Federated updates are disabled
+for these steady-state simulations, isolating the im-
+pact of the two-stage inference pipeline on detection
+accuracy and network lifetime.
+Table 6:
+Hybrid IDS Conﬁguration Parameters.
+Stage
+Location
+Details
+Rule ﬁlter
+Sensor MCU
+Entropy < 0.20, inter-
+arrival variance > 3×,
+battery < 15 % bypass;
+≤0.05 mJ per check
+Classiﬁer
+Gateway
+CNN (16-32-32) +
+LSTM (64×2), INT8,
+50 % pruned; 28 mJ
+per 32-window batch
+Batch
+Gateway
+Inference when queue
+trigger
+≥16 ﬂagged windows
+or after 2 s
+Federated
+Disabled in
+updates
+simulation (fo-
+cus on steady-
+state)
+4.5 Hardware Micro-Benchmark (for energy
+numbers)
+Sensor mock-up: LoPy4 ESP32 running CMSIS-
+DSP; power logged with INA219 @ 1 kHz.
+Gate-
+way: Raspberry Pi Zero W; TFLite INT8 interpreter;
+power logged identically.
+4.6 Evaluation Metrics
+Detection Accuracy, Precision, Recall, Macro-F1,
+confusion matrix. Energy (1) Mean Joules per win-
+dow at gateway; (2) Network lifetime T50 time until
+25 of 50 nodes deplete to 0 % SoC. Latency Sensor
+gateway inference delay (mean, 95ptth). Statistics All
+metrics reported as mean ± 95 % CI (bootstrap, n =
+1 000); paired Wilcoxon test (σ = 0.05) for baselines.
+4.7 Availability of code and data
+All scripts, trained models, and raw/derived data
+used in this study can be obtained from https://
+github.com/abalfattah-alfarra/WSNIDS
+5. RESULTS AND DISCUSSION
+5.1 Detection Accuracy (Figure 3)
+Figure 3. presents the confusion matrix produced
+by replaying 308 598 windows through the NS-3 net-
+work described in Section 4.2. Despite the extreme
+imbalance in the test split (≈1:185 between Flooding
+and Normal), the hybrid IDS delivers near-perfect ac-
+curacy while maintaining robust performance across
+minority classes. Table. 7 show that the hybrid IDS
+achieves near-perfect overall accuracy (98 %) while
+maintaining strong minority-class performance recall
+remains ≥0.84 even for the rare Flooding traﬃc. The

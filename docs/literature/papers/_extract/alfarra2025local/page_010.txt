@@ -1,0 +1,125 @@
+702
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+gateway compute scales only with ﬂagged traﬃc. A
+200-node simulation (not shown) still held gateway
+CPU <55%.
+Comparison with Existing IDS Baselines: Perfor-
+mance and Energy Trade-Oﬀs.
+As shown in (Table 10) and (Table 11), the hybrid
+IDS stand out as the only approach that combines
+deep-learning level accuracy (98%) with a network
+lifetime that extends beyond two months (69 days),
+demonstrating a balanced superiority over all base-
+lines.
+This longevity gain is driven mainly by the
+lightweight rule ﬁlter on each node: while maintain-
+ing the same detection quality as the on-node GRU
+solution, the ﬁlter discards roughly half of the ra-
+dio traﬃc, translating into an 82% increase in T50.
+In contrast, a signature-based Snort IDS eliminates
+local computation but forwards every packet, sacri-
+ﬁcing 18 days of lifetime and still missing zero-day
+attacks.
+Shallow-ML alternatives such as the NB
+→Random Forest pipeline or the IGR + Passive-
+Aggressive model do reduce energy at cluster heads,
+yet they pay for that economy with lower macro-F1
+scores and markedly higher false-positive rates, es-
+pecially when detecting stealthy Grayhole behavior.
+Collectively, these comparisons conﬁrm that intelli-
+gent workload partitioning ultra-light rule screening
+on the sensor node coupled with a quantized CNN-
+LSTM on the gateway achieves deep-learning robust-
+ness without undermining the energy sustainability
+that WSN deployments demand.
+An important operational consideration arises
+when the edge gateway becomes temporarily unreach-
+able. In such cases, ﬂagged packets cannot be for-
+warded to Stage 2, preventing deep learning–based
+classiﬁcation. To mitigate this security gap, the rule
+ﬁlter on each sensor node serves as a ﬁrst line of de-
+fense by discarding traﬃc that violates entropy, tim-
+ing, or residual-energy heuristics. Although this does
+not provide the full discrimination power of the CNN-
+LSTM, it ensures that the most abnormal ﬂows are
+already suppressed. In addition, our prototype nodes
+maintain a short buﬀer of ﬂagged windows, which
+are forwarded once connectivity to the gateway is
+restored. This buﬀering prevents permanent loss of
+ﬂagged data and allows the IDS to catch up when the
+gateway link recovers. We acknowledge that real-time
+detection is degraded during disconnection, but the
+rule ﬁlter’s low-cost safeguards limit exposure until
+the gateway is available again.
+Another energy-related concern occurs when the
+gateway is out of range. Without safeguards, sensor
+nodes may repeatedly attempt to retransmit ﬂagged
+packets, leading to unnecessary battery drain.
+To
+avoid this behavior, our implementation enforces a
+retry limit of three attempts per ﬂagged window. If
+delivery still fails, the packet is buﬀered locally until
+the gateway connection resumes. This strategy caps
+the energy spent on failed transmissions, preventing
+uncontrolled battery depletion during disconnection
+periods.
+Our ns-3 model already incorporates this
+retry ceiling, and power traces from the LoPy4 pro-
+totype conﬁrmed that retry limiting reduces wasted
+radio energy by more than 70% compared to unlim-
+ited retransmission. Thus, while temporary energy
+overhead exists during outages, it remains bounded
+and does not contradict the overall objective of en-
+ergy preservation.
+While disconnection reduces the immediate beneﬁt
+of radio suppression, our design prevents the complete
+nulliﬁcation of energy savings. First, retry limiting
+ensures that nodes expend only a bounded amount of
+energy during outages, preventing uncontrolled drain.
+Second, because the rule ﬁlter continues discarding
+∼95% of benign traﬃc locally, the volume of ﬂagged
+packets that actually attempt transmission remains
+small.
+For example, in mixed-attack simulations,
+only 4–6% of total packets were ﬂagged, which means
+even during gateway downtime, radio use never ap-
+proaches the levels of raw ﬂooding. Finally, buﬀered
+retransmission ensures that ﬂagged packets are sent
+only once connectivity resumes, rather than repeat-
+edly, thereby retaining most of the energy savings
+when viewed over the lifetime of the network.
+An additional risk of excessive retransmission is
+premature battery depletion, which can disable a sen-
+sor node’s sensing capability altogether. Our hybrid
+IDS mitigates this risk by combining retry limiting
+with the rule ﬁlter’s extremely low per-packet cost
+(≤0.05 mJ). Even if the gateway remains unreach-
+able for extended periods, the node’s sensing function
+continues because the ﬁlter operates with negligible
+energy overhead.
+In practice, our ns-3 simulations
+and LoPy4 measurements showed that nodes retained
+>95% of their baseline sensing lifetime even under
+repeated gateway outages, whereas systems without
+retry control lost more than 30% of their operational
+lifetime in the same scenario. These results conﬁrm
+that the hybrid IDS safeguards sensing capability by
+bounding radio energy waste and keeping node energy
+budgets largely intact.
+It is important to note that temporary gateway un-
+availability behaves similarly to a network-layer DoS,
+because ﬂagged traﬃc cannot reach the main process-
+ing point. Although this disruption is non-malicious,
+its impact on data delivery can mirror that of inten-
+tional ﬂooding or blackhole attacks. Our hybrid IDS
+treats such events as an operational limitation and
+partially mitigates the risk through on-node ﬁlter-
+ing and buﬀered retransmission, which ensure that
+the most abnormal traﬃc is contained locally and
+forwarded once connectivity resumes. Nevertheless,
+sustained gateway unreachability reduces real-time
+detection and must be treated as a resilience chal-
+lenge.
+Future work will explore multi-gateway re-
+dundancy and opportunistic peer relays, which can
+provide alternate forwarding paths to minimize dis-

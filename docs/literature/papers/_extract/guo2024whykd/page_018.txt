@@ -1,0 +1,39 @@
+7. Conclusion
+Our research, aiming to explain the fidelity paradox, intersects with and
+expands upon existing theories for ensemble Knowledge Distillation (KD) in
+several ways. (1) It introduces a novel perspective on the learning and knowl-
+edge transfer process by investigating the impact of attention map diversity
+on fidelity in KD with various data augmentation strength. (2) It reevalu-
+ates the teacher-student fidelity and mutual information challenge, providing
+insights into the ongoing debates about the relation between student’s ability
+to mimic its teachers and its generalization performance in KD. (3) It high-
+lights that for optimization towards facilitating student-teacher logits match-
+ing which relieves the logit shift and variance match problem, its benefit lies
+in the student generalization rather than the fidelity improvement. These
+insights have the potential to catalyze further theoretical advancements in
+the pursuit of robust KD.
+Appendix A. Detailed Experimental Settings
+The experiments are run on a GPU machine with RTX 4090 GPU, AMD
+5995WX CPU and 128 GB memory.
+In each trial, the teacher model of
+ResNet50 is trained for 30 epochs for ImageNet-LT dataset, and 60 epochs
+for all the others. The student model of ResNet18 is distilled for: 200 epochs
+for CIFAR-100; 175 epochs for CIFAR-100 imb100; 60 epochs for ImageNet;
+and 165 epochs for ImageNet-LT dataset, when their validation accuracy
+converges.
+Hyper-parameters, including temperatures of τ = 10, hard label weight
+of α = 0.2, initial learning rate of 0.1, momentum of 0.9, and batch size of
+128, remain the same throughout the entire procedure in each case, ensuring
+consistent and reliable results for evaluation.
+For training with balanced ImageNet dataset, we use a cosine annealing
+learning rate scheduler, with Tmax = 30, etamin = 0 for teacher training,
+and Tmax = 60, etamin = 0 for student distillation.
+For other datasets, a
+lambda learning rate scheduler is used. Specifically, during teacher training,
+with the following hyperparameters: step1 = 25, step2 = 40, step3 = 60
+for CIFAR-100; step1 = 25, step2 = 40, step3 = 60 for CIFAR-100 imb100;
+and step1 = 35, step2 = 50 for ImageNet-LT. During student distillation,
+with the following hyperparameters: step1 = 190, step2 = 195 for CIFAR-
+100; step1 = 160, step2 = 165, step3 = 170 for CIFAR-100 imb100; and
+step1 = 150, step2 = 155, step3 = 160 for ImageNet-LT.
+18

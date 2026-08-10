@@ -1,0 +1,92 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+Table 6. Actual values of the test sample chosen for the LIME
+explanation in the Figure 10.
+soft voting and PSO tuning, our model achieved 99.73%
+accuracy, outperforming models such as the CNN-based
+approaches, which reached only around 97% This demon-
+strates our method’s ability to handle complex WSN intrusion
+scenarios more effectively. By addressing the research gaps
+discussed in the literature, such as imbalanced datasets, high
+false positives, and the need for interpretability, the proposed
+model offers a robust, scalable, and explainable solution for
+WSN intrusion detection.
+F. MODEL’S EXPLAINIBILITY
+In this research work, the use of Explainable AI (XAI) tech-
+niques like LIME and SHAP allowed for the determination
+of each feature’s importance and provided explanations for
+the impact of every feature on specific decisions through
+both local and global representations. Local representation
+refers to explaining the influence of individual features on
+a particular test set, accomplished using LIME, SHAP force
+plots, and SHAP waterfall plots. Global representation, on the
+other hand, explains the importance of features across a group
+of test sets. This was demonstrated using SHAP summary
+plots, SHAP summary plots with violin distributions, and
+force plots encompassing all test data.
+1) EXPLAINABILITY OF THE OUTCOME USING LIME (LOCAL)
+LIME plots provide a clear visual explanation of each
+feature’s positive and negative impact on decision-making,
+offering deeper insights into why a particular decision was
+made by the proposed model. Figure 10 presents the LIME
+plot for the top eight most impactful features, showing their
+influence on determining whether the network is normal
+or under attack at a specific instance. A horizontal bar
+that extends to the right and is colored green in the plot
+indicates a feature’s beneficial influence on the decision-
+making process. On the other hand, a red-colored bar that
+extends to the left indicates a negative influence. These bars’
+lengths indicate how much of an impact each feature has,
+making it easy to see how much of a contribution each feature
+contributes to the model’s conclusion.
+According to Figure 10 of the LIME explanation, the
+feature named ‘‘SCH_S’’ has the most significant impact
+on the decision-making process for determining whether the
+network is normal or under attack. Table 6 indicates that the
+value of ‘‘SCH_S’’ is 13.00. However, the LIME explanation
+Figure 10. LIME explanation for normal class.
+reveals that the model has set a threshold value for ‘‘SCH_S’’
+at 1 or below for classifying a network state as normal.
+Since the value of ‘‘SCH_S’’ is considerably higher than the
+threshold, the model identifies this as an attack situation.
+Similarly, all features that fall within or outside the range
+set for normal classification contribute to either a positive
+or negative impact on the model’s decision. The magnitude
+of this impact is determined by how much the actual value
+deviates from the model’s defined range.
+Figure
+11
+provides
+valuable
+insights
+into
+the
+decision-making process of the proposed model by show-
+casing the features considered for each class before making
+a prediction. The figure includes five horizontal bar graphs,
+each representing one class, highlighting the top eight most
+impactful features for that class. These bar graphs indicate
+whether each feature had a positive or negative impact on
+the decision. The length and direction of the bars reveal how
+much each feature influenced the prediction.
+A table displaying the prediction probabilities for each
+class is also included in Figure 11; the class with the
+highest probability is the final prediction. This prediction
+probability provides an indication of how each class is
+assessed and judged by the model. To further aid in
+comprehending the model’s decision-making process, the
+image additionally contains a table that lists the actual values
+of the characteristics for a specific test case inside the
+predicted class.
+Figure 11 provides a detailed explanation of why the test
+case was predicted as a TDMA-type attack. The horizontal
+bar graphs for each class offer insights into the feature
+impacts that led to this prediction.
+Starting with the Blackhole class, the first graph shows
+that the features have a nearly balanced impact, with both
+positive and negative influences, making it difficult for the
+model to decisively predict this class. Similarly, the graphs
+for the Normal and Grayhole classes display a mix of feature
+impacts, but these classes lean towards the negative side,
+making them less likely to be selected as the prediction.
+VOLUME 13, 2025
+13723

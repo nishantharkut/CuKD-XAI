@@ -1,0 +1,192 @@
+13
+1 2 3
+4 5 6
+7 8 9
+1 2
+3 4
+Filter 
+Input Fmap 
+Output Fmap 
+* 
+= 
+1 2
+3 4
+1 2 3 4
+1 2 4 5
+2 3 5 6
+4 5 7 8
+5 6 8 9
+1 2 3 4 × 
+= 
+Toeplitz Matrix 
+(w/ redundant data) 
+Convolution: 
+Matrix Mult: 
+(a) Mapping convolution to Toeplitz matrix
+= 
+1 2 3 4
+1 2 3 4
+1
+2 3 4
+1 2 3 4
+1
+2
+4
+5
+2
+3
+5
+6
+4
+5
+7
+8
+5
+6
+8
+9
+1
+2
+4
+5
+2
+3
+5
+6
+4
+5
+7
+8
+5
+6
+8
+9
+1 2
+1 2 3 4
+3 4
+× 
+Toeplitz Matrix 
+(w/ redundant data) 
+Chnl 1 
+Chnl 2 
+Filter 1 
+Filter 2 
+Chnl 1 
+Chnl 2 
+Chnl 1 
+Chnl 2 
+(b) Extend Toeplitz matrix to multiple channels and ﬁlters
+Fig. 19. Mapping to matrix multiplication for convolutional layers.
+The matrix multiplications on these platforms can be further
+sped up by applying computational transforms to the data to
+reduce the number of multiplications, while still giving the
+same bit-wise result. Often this can come at a cost of increased
+number of additions and a more irregular data access pattern.
+Fast Fourier Transform (FFT) [10, 74] is a well known
+approach, shown in Fig. 20 that reduces the number of
+multiplications from O(N 2
+o N 2
+f ) to O(N 2
+o log2No), where the
+output size is No × No and the ﬁlter size is Nf × Nf. To
+perform the convolution, we take the FFT of the ﬁlter and
+input feature map, and then perform the multiplication in
+the frequency domain; we then apply an inverse FFT to the
+resulting product to recover the output feature map in the
+spatial domain. However, there are several drawbacks to using
+FFT: (1) the beneﬁts of FFTs decrease with ﬁlter size; (2) the
+size of the FFT is dictated by the output feature map size which
+is often much larger than the ﬁlter; (3) the coefﬁcients in the
+frequency domain are complex. As a result, while FFT reduces
+computation, it requires larger storage capacity and bandwidth.
+Finally, a popular approach for reducing complexity is to make
+the weights sparse, which will be discussed in Section VII-B2;
+using FFTs makes it difﬁcult for this sparsity to be exploited.
+Several optimizations can be performed on FFT to make it
+more effective for DNNs. To reduce the number of operations,
+the FFT of the ﬁlter can be precomputed and stored. In addition,
+the FFT of the input feature map can be computed once and
+used to generate multiple channels in the output feature map.
+Finally, since an image contains only real values, its Fourier
+Transform is symmetric and this can be exploited to reduce
+storage and computation cost.
+Other approaches include Strassen [75] and Winograd [76],
+which rearrange the computation such that the number of
+multiplications reduce from O(N 3) to O(N 2.807) and by 2.25×
+R 
+filter (weights) 
+S 
+E 
+F 
+input fmap 
+output fmap 
+H 
+W 
+an output  
+activation 
+* 
+= 
+FFT(W) 
+F
+F
+T
+FFT(I) 
+X 
+= 
+FFT(0) 
+F
+F
+T
+I
+F
+F
+T
+Fig. 20.
+FFT to accelerate DNN.
+  
+  
+    
+ALU 
+filter weight 
+fmap activation 
+partial sum 
+updated partial sum 
+Memory Read 
+Memory Write 
+MAC* 
+* multiply-and-accumulate 
+Fig. 21. Read and write access per MAC.
+for a 3×3 ﬁlter, respectively, at the cost of reduced numeri-
+cal stability, increased storage requirements, and specialized
+processing depending on the size of the ﬁlter.
+In practice, different algorithms might be used for different
+layer shapes and sizes (e.g., FFT for ﬁlters greater than 5×5,
+and Winograd for ﬁlters 3×3 and below). Existing platform
+libraries, such as MKL and cuDNN, dynamically chose the
+appropriate algorithm for a given shape and size [77, 78].
+B. Energy-Efﬁcient Dataﬂow for Accelerators
+For DNNs, the bottleneck for processing is in the memory
+access. Each MAC requires three memory reads (for ﬁlter
+weight, fmap activation, and partial sum) and one memory
+write (for the updated partial sum) as shown in Fig. 21. In the
+worst case, all of the memory accesses have to go through the
+off-chip DRAM, which will severely impact both throughput
+and energy efﬁciency. For example, in AlexNet, to support its
+724M MACs, nearly 3000M DRAM accesses will be required.
+Furthermore, DRAM accesses require up to several orders of
+magnitude higher energy than computation [79].
+Accelerators, such as spatial architectures as shown in
+Fig. 17, provide an opportunity to reduce the energy cost of
+data movement by introducing several levels of local memory
+hierarchy with different energy cost as shown in Fig. 22. This
+includes a large global buffer with a size of several hundred
+kilobytes that connects to DRAM, an inter-PE network that
+can pass data directly between the ALUs, and a register ﬁle
+(RF) within each processing element (PE) with a size of a
+few kilobytes or less. The multiple levels of memory hierarchy
+help to improve energy efﬁciency by providing low-cost data
+accesses. For example, fetching the data from the RF or
+neighbor PEs is going to cost 1 or 2 orders of magnitude
+lower energy than from DRAM.
+Accelerators can be designed to support specialized process-
+ing dataﬂows that leverage this memory hierarchy. The dataﬂow

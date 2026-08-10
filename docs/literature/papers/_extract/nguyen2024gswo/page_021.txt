@@ -1,0 +1,69 @@
+Sensors 2024, 24, 3339
+21 of 26
+The findings are illustrated in Figure 10, which emanate from a comparative analysis
+involving the proposed GSWO algorithm and other prominent algorithms. GSWO takes
+advantage of the good exploitation capabilities of the conventional WOA, boosts global
+search capabilities through the parallel use of extra genetic operators, and strikes a balance
+between exploratory and exploitative tendencies. Especially noteworthy is its performance
+in the context of large datasets, demonstrating superior outcomes as shown in Figure 10b
+for the CICIDS2017 dataset. These empirical observations substantiate the GSWO’s efficacy
+in circumventing local optima, establishing its capacity to find optimal solutions with
+greater precision than alternative algorithms, particularly the traditional WOA.
+The results, which are illustrated in Table 6, prove that the features selected by the
+proposed GSWO improved the classification rate on various datasets in terms of all classifi-
+cation metrics compared with the traditional WOA, GA, and other metaheuristic optimiza-
+tions and raw data. In particular, the results of the proposed method on the CICIDS 2017
+dataset demonstrate that it can work effectively with a large dataset.
+To evaluate the performance of our proposed algorithm for hyperparameter optimiza-
+tion, we used some of the most popular hyperparameter tuning methods, such as random
+search, grid search, and Optuna. Table 7 presents the values of CatBoost’s hyperparameters,
+which are the results of the algorithms, and Table 8 compares the efficiencies of these
+methods based on the evaluation metrics as presented in Section 5.2. The useful features
+selected from the GSWO-based FS were used in this comparison.
+A detailed comparative analysis of the metrics was used to evaluate the performance
+of some popular hyperparameter optimization approaches, such as grid search, random
+search, and Optuna, and the proposed method is presented in Table 8. After the experi-
+ments, we conclude that the proposed method can find productive hyperparameters to
+assist the classifier in correctly detecting and classifying various types of attacks. Therefore,
+the results indicate an enhancement of the proposed model for solving intrusion detection
+problems in complex and diverse WSN environments.
+Table 7. Results of hyperparameter optimization techniques.
+Datasets
+Techniques
+Hyperparameter Values
+WSN-DS
+Grid search
+[‘iter’: 211, ‘α’: 0.1, ‘d’: 10, ‘l2’: 1, ‘r’: 1, ‘b’: 1]
+Random search
+[‘iter’: 204, ‘α’: 0.1, ‘d’: 10, ‘l2’: 3, ‘r’: 2, ‘b’: 2]
+Optuna
+[‘iter’: 427, ‘α’: 0.46122, ‘d’: 11, ‘l2’: 2.5, ‘r’: 1, ‘b’: 2.748]
+Our method
+[’iter’: 370, ‘α’: 0.3033, ‘d’: 6, ‘l2’: 2.0, ‘r’: 8.9063, ‘b’: 0.7031]
+WSNBFSF
+Grid search
+[‘iter’: 179, ‘α’: 0.1, ‘d’: 10, ‘l2’: 1, ‘r’: 4.5, ‘b’: 2]
+Random search
+[‘iter’: 216, ‘α’: 0.07, ‘d’: 10, ‘l2’: 3, ‘r’: 1, ‘b’: 1]
+Optuna
+[‘iter’: 912, ‘α’: 0.3768, ‘d’: 10, ‘l2’: 6, ‘r’: 1, ‘b’: 7.577]
+Our method
+[‘iter’: 270, ‘α’: 0.28817, ‘d’: 5, ‘l2’: 2.0, ‘r’: 0.15625, ‘b’: 1.09375]
+NSL-KDD
+Grid search
+[‘iter’: 235, ‘α’: 0.1, ‘d’: 10, ‘l2’: 1, ‘r’: 5, ‘b’: 5]
+Random search
+[‘iter’: 284, ‘α’: 0.1, ‘d’: 10, ‘l2’: 3, ‘r’: 2, ‘b’: 2]
+Optuna
+[‘iter’: 515, ‘α’: 0.28, ‘d’: 6, ‘l2’: 2, ‘r’: 8.95, ‘b’: 3.34]
+Our method
+[‘iter’: 515, ‘α’: 0.3, ‘d’: 6, ‘l2’: 2, ‘r’: 8.9, ‘b’: 3.3]
+CICIDS2017
+Grid search
+[‘iter’: 220, ‘α’: 0.1, ‘d’: 10, ‘l2’: 3, ‘r’: 2.5, ‘b’: 3]
+Random search
+[‘iter’: 220, ‘α’: 0.1, ‘d’: 10, ‘l2’: 3, ‘r’: 2.5, ‘b’: 3]
+Optuna
+[‘iter’: 376, ‘α’: 0.3246, ‘d’: 10, ‘l2’: 5, ‘r’: 1, ‘b’: 8.31]
+Our method
+[‘iter’: 194, ‘α’: 0.2783, ‘d’: 9, ‘l2’: 2, ‘r’: 7.707, ‘b’: 2]

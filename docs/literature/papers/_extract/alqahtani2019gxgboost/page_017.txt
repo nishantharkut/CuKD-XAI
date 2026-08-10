@@ -1,0 +1,35 @@
+Sensors 2019, 19, 4383
+17 of 20
+Table 12. Average execution time of classiﬁcation in seconds (s).
+Model
+Average Classiﬁcation Time
+AdaBoost
+10.093 s
+GB
+3.338 s
+XGBoost
+2.172 s
+Proposed GXGBoost
+1.905 s
+We can see that the classiﬁcation time of GXGBoost and XGBoost is close to each other. However,
+the average classiﬁcation time of GXGBoost is lower than XGBoost since it selects appropriate values
+for its parameters in the training phase. The AdaBoost has a higher classiﬁcation time because it tries
+to classify all the cases into majority classes without losing the overall accuracy. In general, as seen in
+Table 10, the proposed model is eﬃcient for real-time WSNs intrusion detection.
+3.5. Comparison with Related Work
+To compare our work with the related recent work on the same dataset, the true positive rate (TPR)
+is used as a uniform metric to do that. Figure 5 shows the values of TPR for the proposed GXGBoost
+compared to the results of related work in Reference [46] using a 10 fold cross validation method.
+Figure 5. TPR percentage values of the proposed GXGBoost compared to the results of related work in
+Reference [46] using 10 fold cross validation method.
+From Figure 5, we can see how the GXGBoost is eﬀective to classify with the minority classes
+without signiﬁcantly aﬀecting the detection rates of the other classes.
+4. Conclusions and Future work
+A new model for WSN intrusion detection is proposed based on genetic algorithm (GA) and
+extreme gradient boosting (XGBoot) classiﬁer, called GXGBoost model. The GXGBoost model was
+designed to improve the performance of traditional models to detect minority classes of attacks in
+highly imbalanced data traﬃcs of wireless sensor networks. A set of experiments were conducted on
+WSN-DS dataset using holdout and 10-folds cross validation techniques. The results of 10-folds cross
+validation test revealed that the proposed model outperforms the state-of-the-art models and other
+ensemble learning classiﬁers with high detection rates of 98.2%, 92.9%, 98.9%, and 99.5% for Flooding,
+Scheduling, Grayhole, Blackhole attacks, respectively, in addition to 99.9% for Normal traﬃc. In the

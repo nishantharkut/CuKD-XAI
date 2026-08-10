@@ -1,0 +1,123 @@
+Sensors 2019, 19, 4383
+9 of 20
+3. Experiments and Discussion
+3.1. WSN-DS Dataset
+In our experiments, a simulated WSN-DS dataset collected by Almomani et al. [46] is used as a
+case study to evaluate the proposed model. This dataset was generated to apply machine-learning
+methods for detecting and classifying Denial of Service (DoS) attacks. By using machine-learning
+methods, the sensor nodes can be able to detect attacks patterns from the normal traﬃc. As a result,
+the sensor nodes can make a right decision instantly on time. The simulated dataset contains 23
+features extracted using LEACH routing protocol as shown in Table 1. The Low Energy Aware Cluster
+Hierarchy (LEACH) is a routing protocol which uses 23 features to identify the state of each sensor
+node in the wireless network. However, only 19 features as well as the class label were included in the
+dataset ﬁle. These 19 features were Id, Time, Is_CH, who_CH, Dist_To_CH, ADV_S, ADV_R, JOIN_S,
+JOIN_R, ADV_SCH_S, ADV_SCH_R, Rank, DATA_S, DATA_R, Data_Sent_BS, Dist_CH_BS, Send_code,
+Consumed_Energy, and Attack_Type. The distribution of attacks in the WSN-DS dataset is given in
+Figure 2. Furthermore, a number of data samples from this dataset is listed in Table 2.
+Table 1. Extracted features of the wireless sensor network-detection system (WSN-DS) Dataset.
+NO.
+Feature Name
+Symbol
+Description
+1
+Node ID
+Id
+It is a unique symbolized number of the sensor node.
+For example, the sensor node number 13 in the fourth
+round and in the second stage has ID 002004013.
+2
+Time
+Time
+It is the current time of the sensor node state in the
+simulation.
+3
+Is CH?
+Is_CH
+It is a ﬂag, which has 1 or 0 value for determining the
+node is cluster head (CH), or not.
+4
+Who CH
+who_CH
+It is the ID of the cluster head (CH) in the existing round.
+5
+Received Signal
+Strength Indication
+RSSI
+It is the RSSI between a sensor node and its cluster head
+in the existing round.
+6
+Distance to cluster
+head
+Dist_To_CH
+It is the computed distance between a sensor node and
+its cluster head in the existing round.
+7
+Max distance to
+cluster head
+M_D_CH
+It is the maximum computed distance between sensor
+nodes and its cluster head within the same cluster.
+8
+Average distance to
+cluster head
+A_D_CH
+It represents the average distance between sensor nodes
+within the cluster and their cluster head.
+9
+Current energy
+Current_Energy
+It is the current energy of the current round for a sensor
+node.
+10
+Energy
+consumption
+Consumed_Energy
+It is the energy amount consumed by the sensor node in
+the previous round.
+11
+Advertise cluster
+head sends
+ADV_S
+It is the number of advertise broadcast messages sent
+from the cluster head to the sensor nodes.
+12
+Advertise cluster
+head receives
+ADV_R
+It represents the number of advertise messages which
+are received by the sensor nodes from cluster heads.
+13
+Join request
+messages send
+JOIN_S
+It is the number of join request messages, which are sent
+by the sensor nodes to the cluster head.
+14
+Join request
+messages receive
+JOIN_R
+It is the number of join request messages, which are
+received by the cluster head from the sensor nodes.
+15
+Advertise SCH
+sends
+ADV_SCH_S
+It represents the number of advertise broadcast
+messages of the Time Division Multiple Access (TDMA)
+schedule which are sent to the sensor nodes.
+16
+Advertise SCH
+receives
+ADV_SCH_R
+It is the number of advertise broadcast messages for the
+TDMA schedule which are received from cluster heads.
+17
+Rank
+Rank
+It represents the order of the sensor node within the
+schedule of the TDMA.
+18
+Data sent
+Data_S
+It represents the number of data packets, which are sent
+from a sensor node to its cluster head.

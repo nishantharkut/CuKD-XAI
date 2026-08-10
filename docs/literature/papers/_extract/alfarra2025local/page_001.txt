@@ -1,0 +1,84 @@
+Energy-Ecient Hybrid Learning for Secure Wireless Sensor Networks
+693
+ECTI Transactions on Computer and Information Technology
+Journal homepage: https://ph01.tci-thaijo.org/index.php/ecticit/
+Published by the ECTI Association, Thailand, ISSN: 2286-9131
+Energy-Ecient Hybrid Learning for Secure Wireless Sensor
+Networks
+Abdalfattah M. Alfarra1 and Aiman A. AbuSamra2
+ABSTRACT
+Article information:
+Wireless Sensor Networks (WSNs) power critical applications from envi-
+ronmental monitoring to Internet-of-Medical-Things healthcare yet their
+tiny batteries and low-end microcontrollers leave them exposed to net-
+work-layer Denial-of-Service (DoS) attacks such as Blackhole, Grayhole,
+Flooding and TDMA scheduling. Signature IDSs miss zero-day variants
+and shallow machine-learning detectors produce many false alarms, while
+running monolithic deep-learning models on every node exhaust energy re-
+serve. We introduce a two-stage hybrid IDS in which each sensor executes
+an integer-only rule lter that costs ≤0.05 mJ per packet and discards
+≈95% of benign trac, forwarding only agged ows over BLE/LoRa
+to an edge gateway. There, a 50 %-pruned, 8-bit CNN-LSTM processes
+32-window batches in 28 mJ and ≈42 ms. Ex-periments on the public
+WSN-DS corpus, augmented by ns-3 simulations of a 50-node LoRa net-
+work, show that the scheme achieves 98 % accuracy, 0.93 macro-F1 and
+minority-class recalls of 0.840.95 while extending network lifetime (T50)
+to 69 days an 82 % gain over on-node GRU and 35 % over a signature IDS.
+Removing the rule lter erases most of the lifetime benet without aecting
+accuracy, conrming that local triage, not downsized deep models, is the
+key to energy eciency. The evaluation answers four research questions
+covering optimal hybrid architecture, rule-lter tuning, node-level energy
+overhead, and performance trade-os against traditional ML and stan-
+dalone DL baselines. These ndings demonstrate that intelligent workload
+partitioning can deliver deep-learning-level security without shortening the
+lifetime of resource-constrained WSN deployments.
+Keywords:
+Wireless Sensor
+Networks,
+Intrusion Detection
+System, Denial-of-Service, Deep
+Learning, Rule-Based Filtering,
+Energy Eciency, CNN-LSTM,
+WSN-DS
+Article history:
+Received: July 16, 2025
+Revised: September 9, 2025
+Accepted: October 23, 2025
+Published: October 31, 2025
+(Online)
+DOI: 10.37936/ecti-cit.2025194.263081
+1. INTRODUCTION
+Wireless Sensor Networks (WSNs) today form the
+tech-nological backbone of many modern domains
+ranging from micro-climate observation and auto-
+mated manu-facturing lines to continuous structural-
+health
+inspection
+and
+Internet-of-Medical-Things
+(IoMT) services [13].
+Each node in such a net-
+work is purposely inexpensive and self-contained: it
+hosts one or more sensing elements (for instance tem-
+perature, humidity, vibration, or biosignals), a low-
+frequency micro-controller, no more than 256 KB of
+volatile memory, and a modest battery of roughly
+10003000 mAh that can occasionally be supple-
+mented by miniature harvesters (tiny solar cells, vi-
+bration scavengers) [4, 5]. After acquiring data, the
+node performs only rudimentary preprocessing, then
+forwards the information over several wireless hops
+most often via Bluetooth Low Energy (BLE) or LoRa
+to an edge gateway or sink. Empirical studies con-
+rm that radio trac and processor cycles dominate
+the energy ledger of a sensor [4, 6]; hence any se-
+curity layer introduced into a WSN must keep both
+computation and communication overhead extremely
+low to avoid premature battery depletion and an
+overall loss of sensing coverage. Unfortunately, the
+very properties that make WSNs attractive unteth-
+1The author is with the Department of Computer Science, University College of Science and Technology, Khan Younis, Palestine,
+Email: Ab.alfarra@cst.ps
+2The author is with the Department of Computer Engineering, Islamic University of Gaza, Gaza, Palestine, Email:
+aasamra@iugaza.edu.ps
+1Corresponding author: Ab.alfarra@cst.ps

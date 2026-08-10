@@ -1,0 +1,144 @@
+Table 4 shows perfect performance of the proposed model in binary 
+classification, achieving 100 % precision, recall, and F1-score for both 
+attack and normal classes, confirming its exceptional accuracy in 
+anomaly detection.
+Fig. 9 displays the confusion matrix for binary classification, where 
+the CST-AFNet model perfectly distinguishes between normal and attack 
+traffic with zero misclassifications, confirming its exceptional reliability 
+for anomaly detection.
+The training history plots in Fig. 10 illustrate the performance of a 
+binary classification model is shown over 7 epochs. However, both 
+training and validation accuracy rapidly reach 100 %. In this research, 
+the validation accuracy remains relentlessly flat at 1.0 across all epochs.
+Our proposed model shows almost zero validation loss throughout 
+the training process. Table 5 shows our proposed model performs 
+outstanding than the existing methods for intrusion detection.
+5. Conclusion & future work
+This research introduced CST-AFNet, a novel dual attention-based 
+deep learning model for intrusion detection in IoT and IIoT environ­
+ments. The study explored both binary and multiclass classification on 
+the Edge-IIoTset dataset, leveraging multi-scale CNNs, BiGRU, and 
+temporal-channel attention mechanisms to extract meaningful spatio- 
+temporal patterns from traffic data. The model demonstrated 
+outstanding performance, achieving up to 100 % accuracy in binary 
+classification and 99.97 % in multiclass classification, including excel­
+lent results on minority classes. These findings highlight the effective­
+ness and robustness of CST-AFNet in detecting diverse and complex 
+attacks, making it a strong candidate for real-world IIoT security 
+deployment. Future work will explore the deployment of CST-AFNet in 
+federated and edge computing environments to enhance privacy and 
+scalability. Additionally, integrating online learning and explainable AI 
+techniques will improve adaptability to evolving threats and interpret­
+ability for security analysts. Finally, the model’s robustness against 
+adversarial attacks or data poisoning was not assessed, which is critical 
+for security-critical environments like industrial systems. Future work 
+should address these concerns by incorporating continual learning, 
+adversarial robustness, and real-time deployment evaluation.
+Fig. 7. Marco Average and weighted Average values for Multi-class 
+Classification.
+Fig. 8. Accuracy and Loss curve against number of epochs for multi class 
+intrusion detection.
+Table 4 
+Classification report for binary (anomaly) class classification.
+Class/Metric
+Precision
+Recall
+F1-Score
+Attack
+1.0000
+1.0000
+1.0000
+Normal
+1.0000
+1.0000
+1.0000
+Accuracy
+1.0000
+Macro Average
+1.0000
+1.0000
+1.0000
+Weighted Average
+1.0000
+1.0000
+1.0000
+Fig. 9. Confusion matrix for binary (anomaly) class classification.
+Fig. 10. Accuracy and Loss curve against number of epochs for binary class 
+intrusion detection.
+Table 5 
+The state-of-the-art analysis for IDS and CST-AFNet model.
+Reference
+Classifier
+Dataset
+Accuracy
+[35]
+FNN-Focal
+Bot-IoT
+0.9155
+[35]
+CNN-Focal
+Bot-IoT
+0.8677
+[39]
+CNN + LSTM
+UNSW-NB15
+0.929
+[40]
+RaNN
+ToN_IoT
+0.9905
+[41]
+DNN
+–
+0.8400
+[41]
+GAN-DNN
+UNSW-NB15
+0.9100
+[36]
+DNN
+NSL-KDD
+0.9890
+[36]
+DNN
+UNSW-NB15
+0.9670
+[36]
+DNN
+CIC-IDS-2017
+0.9874
+[36]
+DNN
+BOT-IOT
+0.9899
+[36]
+RNN
+–
+0.9958
+[36]
+CNN-BiLSTM
+–
+0.9976
+[42]
+LSTM
+–
+0.9973
+[42]
+CNN
+CICIDS2017
+0.9882
+[43]
+DNN
+DS2OS Traffic
+0.9490
+[43]
+FFNN
+–
+0.9867
+[43]
+LSTM
+NSL-KDD
+0.9644
+W. Ishtiaq et al.                                                                                                                                                                                                                                 
+Array 27 (2025) 100501 
+7 

@@ -1,0 +1,113 @@
+1335
+Page 2 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+issuing timely alerts upon observing abnormal behavior [5,
+6]. However, designing IDSs for WSNs is difﬁcult due to
+several constraints: the lack of specialized training datasets,
+the need for high detection accuracy, and the demand for
+lightweight implementations that minimize computational
+and energy overhead [7]. This has motivated the integration
+of machine learning (ML) and deep learning (DL) tech-
+niques, which are increasingly employed to enhance IDS
+adaptability, detection capability, and efﬁciency in resource-
+constrained WSN environments.
+Several papers have been written on the implementation of
+ML concepts to address the localization problem in wireless
+sensor networks (WSNs). One of the energy-efﬁcient local-
+ization techniques based on ML was the UWB frequency
+spectrum combined with angle of arrival (AOA) [8] and
+time difference of arrival (TDOA) [9] methods. The study by
+Ahmadi et al. [10] highlighted that different sensor types with
+speciﬁctechnicalfeaturescouldbeleveragedtoenhanceML-
+based localization in WSNs. Although such methods provide
+high accuracy, their heavy dependence on specialized hard-
+ware increases deployment costs, motivating the search for
+more affordable alternatives.
+Multiple machine learning-based methods have been
+proposed to address the limitations mentioned. For exam-
+ple, Kim et al. [11] employed Support Vector Regression
+(SVR) to design an RSSI-based localization algorithm that
+improved robustness and precision. Similarly, a three-layer
+feed-forward Artiﬁcial Neural Network (ANN) was reported
+to achieve small error rates for indoor localization [12]. The
+use of ANNs has been extensive. While an RSSI and KNN
+proﬁling approach was characterized as having a low cost and
+good estimation accuracy, a Bayesian-based plan for large-
+scale Wireless Sensor Networks (WSNs) was introduced as
+the ﬁrst in [13]. Merhi et al. [14] combined decision tree
+(DT) classiﬁers with TDOA features to develop an acous-
+tic target localization method. Furthermore, the Event-Based
+MAC (EB-MAC) protocol for efﬁcient target acquisition in
+acoustic WSNs was also their contribution.
+Optimization methods have also been widely adopted to
+improve localization further. For instance, Lee et al. [15]
+integrated particle swarm optimization (PSO) with RSSI-
+based models for indoor target tracking, while Wang et al.
+[16] leveraged probability distributions of node distances
+observed by anchor nodes. Cao and Xu [17] enhanced the
+classical DV-Hop algorithm using optimum anchor node
+subsets (OANS DV-Hop), employing both binary and contin-
+uous PSO variants for improved precision. In another study,
+TDOA and Kalman ﬁltering were combined with DV-Hop,
+while ensemble optimization techniques further reduced bea-
+con deployment errors and localization inaccuracies [18].
+These approaches often achieved localization errors of less
+than 2%, but they remain limited by computational demands
+and challenges in large-scale deployments. Table 1 shows the
+comparison of the recent articles with the present study.
+This study builds on these directions and introduces
+a metaheuristically optimized deep soft-voting ensemble
+that combines Deep Neural Networks (DNNs) and CAT-
+Boost classiﬁers to strengthen intrusion detection in WSNs.
+The framework leverages two complementary metaheuris-
+tic optimizers, Quadratic Interpolation Optimization (QIO)
+and the Osprey Optimization Algorithm (OOA), to ﬁne-tune
+hyperparameters and decision thresholds. A comprehensive
+dataset of 23 operational and topological features, collected
+under both normal conditions and diverse attack scenarios
+(Blackhole, Grayhole, Flooding, and TDMA Scheduling), is
+employed to validate the framework. The main contributions
+of this work are as follows:
+i.
+Hybrid voting meta-ensemble architecture Develop-
+ment of a soft-voting ensemble that integrates Deep
+Neural Networks (DNNs) for nonlinear feature abstrac-
+tion with CATBoost classiﬁers for effective handling of
+tabular and categorical data. This combination leverages
+the complementary strengths of deep representation
+learning and gradient-boosted decision trees, resulting
+in expressive yet stable decision boundaries.
+ii.
+Metaheuristic optimization for hyperparameter tuning
+Incorporation of two complementary population-based
+optimization algorithms, Quadratic Interpolation Opti-
+mization (QIO) for rapid convergence and exploita-
+tion, and Osprey Optimization Algorithm (OOA)
+for exploratory search—ensuring robust hyperparam-
+eter tuning, avoidance of premature convergence, and
+improved decision thresholds.
+iii. Feature-rich dataset design Compilation of a dataset
+containing 23 network attributes, covering both nor-
+mal trafﬁc and four major attack scenarios (Black-
+hole, Grayhole, Flooding, and TDMA Scheduling).
+Multicollinearity issues are addressed using the Vari-
+ance Inﬂation Factor (VIF) analysis, thereby enhancing
+model stability and interpretability.
+iv.
+Comprehensive evaluation metrics Performance assess-
+ment across accuracy, precision, recall, F1-score, speci-
+ﬁcity, and AUC, with both aggregate and per-class
+evaluations to ensure balanced performance across dif-
+ferent attack types.
+v.
+Explainable sensitivity and feature importance analysis
+Application of Cosine Amplitude Method (CAMs) and
+sensitivity ranking to highlight key predictors such as Is
+CH, Who CH, and Dist to CH. This enhances explain-
+ability and strengthens trust in model decisions.
+vi.
+Empirical validation of optimization efﬁcacy Exper-
+imental results demonstrate that the QIO-enhanced
+ensemble (DCQI) consistently outperforms both the
+baseline ensemble (DNCA) and the OOA-enhanced
+123

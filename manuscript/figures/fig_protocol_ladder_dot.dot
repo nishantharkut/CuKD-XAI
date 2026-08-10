@@ -1,0 +1,14 @@
+
+digraph ProtocolLadder {
+  graph [rankdir=LR, fontname="Helvetica", fontsize=9, pad=0.12, nodesep=0.3, ranksep=0.45];
+  node  [shape=box, style="rounded,filled", fillcolor="white", color="black",
+         fontname="Helvetica", fontsize=8, penwidth=0.9, margin="0.1,0.06"];
+  edge  [fontname="Helvetica", fontsize=7, penwidth=0.9, arrowsize=0.55];
+
+  rr [label=<<b>Random-row train-only</b><br/>A paired KD-scratch<br/>delta=0.0094 (t p=0.048, n=10)>, fillcolor="gray95"];
+  fg [label=<<b>Feature-group disjoint</b><br/>A paired KD-scratch<br/>delta=0.0002 (t p=0.946, n=5)>, fillcolor="gray90"];
+  eg [label=<<b>Edge group-aware</b><br/>A RF-KD 0.7676 +/- 0.0079 (n=5)<br/>KD-scratch mean 0.0340>, fillcolor="gray90"];
+
+  rr -> fg [label="stricter split"];
+  fg -> eg [label="cross-dataset"];
+}

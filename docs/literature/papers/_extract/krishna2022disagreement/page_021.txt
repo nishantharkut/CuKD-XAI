@@ -1,0 +1,53 @@
+Published in Transactions on Machine Learning Research (06/2024)
+B.2
+Explanation Methods
+For tabular data, the perturbation-based explanation methods (LIME and KernelSHAP) were applied to
+explain all four models while the gradient-based explanation methods (Vanilla Gradients, Integrated Gradients,
+Gradient*Input, and SmoothGRAD) were applied to explain the logistic regression and neural network models
+to explain samples from the test set (1,198 samples for the COMPAS dataset and 200 samples for the German
+Credit dataset). Because gradients are not computed for tree-based models, the gradient-based explanation
+methods were not applied to the random forest and gradient-boosted tree models. When applying explanation
+methods with a sample size hyperparameter (LIME, KernelSHAP, Integrated Gradients, SmoothGRAD), we
+performed a convergence check and selected the sample size at which an increase in the number of samples
+does not significantly change the explanations. Change in explanations at the current versus previous sample
+size is measured by the L2 distance of feature attributions, the L2 distance of the ranks of all features, and
+the six metrics. For both COMPAS and German Credit datasets, we used 2,000 samples for relevant methods
+(i.e. LIME, KernelSHAP, SmoothGRAD, and Integrated Gradients).
+For text data, we applied all six explanation methods on the LSTM-based classifier to explain predictions
+for 7,600 samples in the test set. For LIME and KernelSHAP, we follow the convergence analysis described
+above and find that attributions do not change significantly beyond 500 perturbations; hence, we use 500
+perturbations for LIME and KernelSHAP. Integrated Gradients explanations were generated using 500
+steps which is higher than the recommended number of steps mentioned in Sundararajan et al. (2017).
+SmoothGRAD explanations were generated using 500 samples to get the most confident attribution which is
+significantly higher than the recommended number of 50 samples Smilkov et al. (2017).
+For image data, we applied all six explanation methods on the ResNet-18 model He et al. (2016) to explain
+predictions for the PASCAL VOC 2012 test set of 1,449 samples. Integrated Gradients explanations were
+generated using 400 steps, significantly higher than the recommendation of 300 Sundararajan et al. (2017), to
+obtain a stable and confident attribution map. Similarly, SmoothGRAD explanations were generated using a
+sample size of 200 which is also higher than the recommended sample size of 50 Smilkov et al. (2017). For
+LIME and KernelSHAP, we chose 100 perturbations to train the surrogate model as we did not notice any
+significant changes in attributions beyond 50 perturbations. KernelSHAP and LIME were used to compute
+attributions of super-pixels annotated in PASCAL VOC 2012 segmentation maps. Due to a larger feature
+space in images compared to the previous tabular and text datasets, disagreement metrics based on top-k
+features may not provide a clear picture. Hence, we use Rank Correlation between attribution maps generated
+by a pair of explanation methods as the disagreement metric.
+C
+Results from Empirical Analysis of Disagreement Problem
+C.1
+Tabular Data: COMPAS and German Credit Datasets
+The tabular datasets consist of the COMPAS and German Credit datasets. The full set of figures showing
+explanation disagreement for the two datasets, over four models, measured by six metrics, displayed in two
+formats (metric mean in heatmap and metric distribution in boxplot) for varying values of top-k features
+can be found in the code repository accompanying this paper. Here, we elaborate on trends of explanation
+disagreement at the level of metrics, models, and datasets.
+At the level of metrics, explanations show stronger disagreement when measured by stricter metrics (such as
+signed rank agreement) than by less strict metrics (such as feature agreement and sign agreement). Generally,
+as the number of top-k features increases, metrics show stronger disagreement between explanations. The
+exception is the feature agreement metric which, by definition equals one (indicating perfect agreement) when
+the k is the total number of features. For both datasets, the majority of models and explanation pairs have
+several points for which the rank correlation metric is near zero or even negative, indicating disagreeing, and
+even opposing, explanations.
+At the level of models, explanations for more complex models (such as the neural network) tend to show
+similar or stronger disagreement than explanations for less complex models (such as the logistic regression
+model). As discussed in the main section of the paper, as the complexity of the black box model increases,
+21

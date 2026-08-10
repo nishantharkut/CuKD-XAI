@@ -1,0 +1,109 @@
+and are conducted on a workstation powered by an Nvidia
+RTX 3070 Ti GPU.
+Given the modest resources of the target device (Rasp-
+berry Pi 3 B+) and the need for stable, low-latency operation
+alongside other gateway tasks, we set conservative deployment
+budgets of ≤300 KB flash, ≤50 KB RAM, and ≤1.5×106
+operations (Ops for ML, FLOPs for DL). These limits apply
+uniformly to both ML and DL models and are intentionally
+well below both the device’s nominal capacity and the resource
+footprints in related work on tabular traffic data, with the
+latter’s hardware measures either computed from architectural
+details or taken directly from reported metrics. This ensures
+our approach remains robust under varying network loads,
+avoids resource contention, and leaves ample headroom for
+other on-device processes.
+Table II summarizes the hyperparameter ranges explored
+for both the ML grid search and the HW-NAS process in
+DL. The upper block lists the unified meta-parameters used
+across the three ensemble classifiers (RF, LightGBM, XG-
+Boost), where each column corresponds to a tunable param-
+eter (e.g., number of trees, maximum depth, feature subsam-
+pling ratio) and the second row specifies the discrete values
+tested; here, min_child_size is a generic label mapped
+to min_samples_leaf in RF, min_child_samples
+in LightGBM, and min_child_weight in XGBoost (in-
+terpreted as the minimum sum of instance weights). The
+num_leaves parameter applies only to LightGBM and con-
+trols the maximum number of leaves per tree. The lower block
+shows the HW-NAS search space for 1D CNN architectures,
+with each column giving one architectural attribute (e.g., filter
+count, kernel size, stride, dropout rate, pooling configuration,
+padding type) and the row beneath indicating the allowed
+range or options. This layout enables a quick comparison of
+the tuning scope across tree-based ML models and DL.
+For ML, the grid search exhaustively evaluates all param-
+eter combinations in the defined space, retaining those that
+meet the hardware budgets. For CNN-1D, HW-NAS runs for
+100 generations, producing 15 valid children per generation
+after hardware check. A holdout validation set comprising 20%
+of the training data guides architecture selection. Training is
+performed for up to 100 epochs using the Adam optimizer
+(initial learning rate 0.008, batch size 2048) and categorical
+cross-entropy loss, with adaptive learning rate decay when val-
+idation loss stagnates, and early stopping to prevent overfitting.
+Models achieving the highest validation accuracy while
+satisfying all constraints are retrained and assessed across the
+dataset’s experiments using stratified 5-fold cross-validation.
+The supporting code is available in our public repository.1
+V. RESULTS AND DISCUSSION
+A. Multiclass Classification (15-Class Scenario)
+We assess model performance on the primary multiclass
+task, involving 15 attack types, which serves as the target sce-
+nario for our grid search and HW-NAS optimization processes.
+Results are summarized separately for tree-based ML models
+and DL-based approaches.
+Table III reports the performance of tree-based ML models
+on the 15-class task using feature-based inputs. The columns
+show the average accuracy (Acc.) and F1-score (F1) in %,
+flash and RAM usage in KB, and the estimated number of
+operations (Ops) per inference in thousands. Results for our
+trained models, shown in bold, are obtained using 5-fold cross-
+validation with standard deviation; hardware metrics for [1] are
+not reported due to missing architectural details.
+LightGBM achieves the highest accuracy (95.25%) and F1-
+score (94.74%) with the smallest flash (74.93 KB) and RAM
+(1.13 KB) footprint among the tree-based models. XGBoost
+delivers comparable accuracy (95.11%) but incurs a flash size
+of 266.59 KB and 4.27 K operations per inference. Random
+Forest (RF) shows slightly lower accuracy (94.12%) and F1
+(93.21%), with notably higher RAM usage (4.61 KB) due
+to deeper tree traversal. All proposed models significantly
+outperform the baselines from [1], which exhibit accuracies
+between 67.11% and 80.83%; this shows our models are
+effective even in low-compute or resource-constrained tasks.
+Table IV presents a comparative evaluation between our
+proposed model (Prop.) and recent DL-based methods. The
+columns report accuracy (Acc.) and F1-score (F1) (in %),
+as well as flash size, peak RAM usage (both in KB), and
+computational complexity in terms of FLOPs (thousands). All
+models operate on feature-based inputs. Our results, shown in
+bold, are obtained using 5-fold cross-validation, with standard
+deviation shown below each score.
+The proposed model achieves 96.73% accuracy and 97.24%
+F1-score with minimal variation, indicating strong perfor-
+mance. While some methods report higher accuracy, such as
+99.96% in [19], they require significantly more memory and
+computation, with flash sizes exceeding 1 MB and FLOPs
+above 5000 K. In contrast, our model requires only 190 KB
+of flash, 6.89 KB of RAM, and 838.89 K FLOPs.
+The method proposed in [12] is lightweight in computation
+with only 52.03 K FLOPs but suffers from a low F1-score of
+74.62%, suggesting weak class-wise generalization. The ap-
+plied method in [1] reports 94.67% accuracy, and the proposed
+method in [20] reports 84.00% accuracy with 83.00% F1; both
+are lower than ours and do not provide architectural details.
+In contrast, the presented method in [21] achieves 98.20%
+accuracy but requires over 12 MB of flash and 8839.18 K
+FLOPs, limiting its practicality. Overall, the model proposed
+in this work offers a favorable balance between performance
+and efficiency, making it suitable for constrained environments
+where both accuracy and resource usage matter.
+B. Extended Evaluation Scenarios
+Table V presents the performance of tree-based ML models
+on two additional scenarios: a 6-class attack classification task
+and a 2-class (benign vs malicious) binary task. Each block
+reports the average accuracy (Acc.), F1-score (F1), flash and
+RAM usage (in KB), and number of operations (Ops) per
+inference in thousands. Results for our models are shown
+in bold and are obtained using 5-fold cross-validation; other

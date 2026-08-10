@@ -1,0 +1,87 @@
+Computers 2025, 14, 291
+6 of 25
+Table 1. Cont.
+Study
+Datasets Used
+Methods
+Key Contributions
+Chen et al. (2023) [18]
+Campus network traffic
+Semi-supervised KD with
+labeled and unlabeled data
+Realized 98.49% parameter
+reduction and 98.52%
+FLOPs decrease for student
+models, with only 1–2%
+drop in accuracy.
+Li & Yao (2024) [15]
+KDD CUP99, NSL-KDD,
+UNSW-NB15, BoT-IoT,
+CIC-IDS2017
+CL-SKD two-stage
+detection: contrastive
+self-supervision, self-KD,
+and depth-wise separable
+convolution
+Achieved up to 99.95% in
+binary and 99.93% in
+multi-class accuracy on
+KDD CUP99 ,and strong
+generalization across
+multiple IDS datasets.
+Ali et al. (2024) [26]
+NSL-KDD, CIC-IDS2017,
+IoT-23
+Generative adversarial
+networks with KD
+Demonstrated >95%
+accuracy in NSL-KDD and
+CIC-IDS2017 datasets and
+89% in IoT-23, but
+performance drops with
+adversarial training.
+Wang et al. (2025) [31]
+CIC-IDS2017, BoT-IoT,
+TON-IoT
+Self-KD (TBCLNN) with
+binary Harris hawk
+optimization for feature
+selection and tied block
+convolution
+Obtained 99% multiclass
+classification accuracy
+across all three benchmarks
+while remaining
+computationally efficient.
+This Work
+NSL-KDD, UNSW-NB15,
+CIC-IDS2017, IoTID20,
+UAV-IDS
+Four-layer FCN teacher to
+two-layer FCN student via
+KD (alpha = 0.4, T = 3)
+First to apply vanilla KD
+uniformly across five
+diverse IDS domains,
+achieving > 90% parameter
+reduction and 11% faster
+inference without accuracy
+loss.
+3. Methodology
+3.1. Dataset Introduction
+3.1.1. NSL-KDD
+NSL-KDD is a refined version of the KDD’99 dataset, addressing problems such as
+redundant records and imbalance. It has been widely used in recent years for the evaluation
+of IDS, since it contains a balanced distribution of attack types, reducing the chances of
+biased model training for intrusion detection [32]. These four categories, namely, DoS,
+Probe, R2L, and U2R, represent most of the common intrusion scenarios. The diversity of
+the attacks enables IDS models to be trained and tested on a wide range of realistic cyber
+threats [25].
+NSL-KDD is divided into two files: the KDDTrain+, containing 125,973 records for
+training, and the KDDTest+, which contains 22,544 records for testing. One of the challenges
+of this dataset is that some of the attack types in the test data are not represented in the
+training data. Interestingly, this reflects real-world situations where the IDS will be expected
+to detect new threats without having to have seen them before. Therefore, models tested
+on NSL-KDD must generalize and be flexible, and this dataset is a good benchmark for
+evaluating the performance of IDS in dynamic environments [33]. The attack categories
+presented in this dataset are shown in Table 2.

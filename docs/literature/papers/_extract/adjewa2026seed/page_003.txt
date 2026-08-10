@@ -1,0 +1,59 @@
+Sensors 2026, 26, 356
+3 of 22
+an encoder-only Transformer model that is context-dependent and capable of generating
+semantically rich embeddings based on token position and surrounding context [13]. BERT
+is particularly well suited for downstream tasks involving sequential data, while remaining
+open source, architecturally flexible for fine-tuning, and comparatively lightweight when
+contrasted with more advanced encoder-only Transformer models. These characteristics
+enable efficient deployment and improved inference time, which are critical requirements
+for practical intrusion detection systems. Since these embeddings are inherently task-
+dependent, we fine-tune the bert-base model to adapt its pretrained knowledge to the
+network intrusion detection task.
+Despite the promising potential of LLMs (which, in the academic context of this work,
+broadly refer to Transformer-based models) for enhancing cybersecurity, particularly in IoT
+settings, their deployment in resource-constrained and heterogeneous IoT environments
+remains insufficiently explored. This gap motivates further investigation into efficient and
+scalable learning frameworks tailored to such constrained scenarios.
+To bridge the existing research gap, this paper makes the following key contributions:
+•
+We provide a structured overview grounded in the fundamentals of LLM-based cyber-
+security for IoT systems, addressing the current lack of comprehensive frameworks in
+this domain.
+•
+We establish the foundational concepts that support IoT security, including typical
+IoT architectures, their associated vulnerabilities, and the emerging role of Large
+Language Models in cybersecurity contexts.
+•
+We analyze the evolving threat landscape in IoT environments, identifying common
+attack vectors and layer-specific vulnerabilities that challenge secure system design
+and operation.
+•
+We present a detailed examination of LLM applications in IoT cybersecurity, which
+includes anomaly and intrusion detection, threat intelligence, secure configuration
+management, and human-in-the-loop security workflows.
+•
+We propose SEED (Semantic Embeddings for Efficient Detection), an approach that
+leverages Edge-derived Transformer semantics to enable lightweight and accurate
+intrusion detection on resource-constrained IoT devices. In SEED, a BERT-based
+Transformer model is trained and deployed at the edge level, where it is reduced by
+approximately 90% of its original size, resulting in a compact 41 MB model responsible
+for generating rich semantic embeddings of network traffic. These embeddings are
+then used to train a highly compact IoT-level neural network of only 137 KB, which
+achieves up to 99% accuracy for both binary (normal vs. abnormal) and multi-category
+threat detection tasks. The IoT-level classifier maintains an average inference latency
+of under 70 ms on CPU hardware, demonstrating the practicality and efficiency of
+SEED for real-world IoT deployments.
+•
+We illustrate the practical potential of LLMs in IoT cybersecurity through empirical
+case studies, demonstrating improvements in threat detection accuracy and malware
+analysis, particularly when hybrid or ensemble learning techniques are employed.
+•
+Finally, we discuss adversarial robustness and ethical implications of integrating LLMs
+into IoT security systems, emphasizing the need for secure, interpretable, and resilient
+model deployments, especially under changing or potentially hostile conditions.
+2. Background and Related Work
+This section provides an overview of IoT architectures and their associated security
+requirements, followed by a discussion of the role of AI in cybersecurity and the recent
+emergence of LLMs as transformative tools in this domain. It concludes by presenting
+relevant works that have applied LLMs to various cybersecurity tasks.
+https://doi.org/10.3390/s26020356

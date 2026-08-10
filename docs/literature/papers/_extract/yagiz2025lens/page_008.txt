@@ -1,0 +1,35 @@
+2.6. Problem Statement and Motivation
+Existing IDS frameworks face significant challenges in scalability, dataset-
+specific performance, and adaptability to dynamic environments. Many mod-
+els rely on static feature selection techniques and heuristic-driven metrics,
+which limit their ability to identify critical relationships among features,
+particularly in the context of imbalanced datasets. Additionally, the compu-
+tational overhead of existing solutions restricts their real-time applicability,
+especially in resource-constrained environments like IoT and edge comput-
+ing. The limited scenario-based evaluations and reliance on specific datasets
+further constrain the generalizability of these models, leaving critical gaps
+in their ability to address diverse real-world applications.
+Moreover, the
+absence of dynamic threat adaptation mechanisms undermines the effective-
+ness of IDS frameworks in handling evolving cyber threats. These challenges
+necessitate the development of robust, scalable, and generalizable IDS solu-
+tions capable of operating efficiently in resource-constrained environments.
+By addressing these limitations, it becomes possible to enhance the overall
+efficiency, adaptability, and reliability of IDS frameworks, ensuring improved
+security across diverse and dynamic network scenarios.
+3. Methodology
+3.1. Framework Overview
+The proposed workflow begins with input datasets, which undergo pre-
+processing to remove inconsistencies, transform categorical attributes, and
+normalize numerical features. The processed data is fed into a VAE, cap-
+turing latent representations critical for anomaly detection. To enhance ef-
+ficiency, Knowledge Distillation transfers the learned representations from a
+robust teacher model to a lightweight student model, optimizing computa-
+tional performance for resource-constrained environments. Finally, a variable
+attribution-based explainability method provides transparent insights into
+the decision-making process, enhancing trust and usability in the detection
+framework.
+3.2. Data Preprocessing and Feature Engineering
+Real-world intrusion detection datasets (e.g., CTU-13, UKM20, NSL-
+KDD, and Edge-IIoTset) often contain missing values, categorical features,
+8

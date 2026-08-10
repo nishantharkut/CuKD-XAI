@@ -1,0 +1,115 @@
+drastic compression and low-latency inference while pre-
+serving high detection accuracy.
+• An open-source implementation and benchmark dataset
+splits to facilitate reproducibility and future comparative
+studies1.
+The remainder of the paper is organized as follows. Sec-
+tion II reviews prior work on lightweight IDS, explainable
+pruning, knowledge distillation, and Kronecker factorization.
+Section III introduces the proposed framework, Section IV
+presents the experimental setup and results, Section V dis-
+cusses implications and research directions, and Section VI
+concludes the paper.
+II. RELATED WORK
+Research on intrusion detection for the IoT has progressed
+across several complementary directions, including lightweight
+model design, explainable feature selection, knowledge distil-
+lation, and structured parameter reduction. Six representative
+contributions from leading journals are highlighted here to
+situate the present work.
+Federated learning has been combined with explainable
+feature aggregation, where local clients share SHAP-derived
+importance profiles to a central server that constructs a global
+model with high detection accuracy while maintaining pri-
+vacy constraints [5]. Although effective, this approach omits
+structured compression. Meta-heuristic optimisation has also
+been employed to select features and hyperparameters, with
+teaching–learning based optimisation reducing communication
+overhead while sustaining detection rates against diverse attack
+types [6]. Such optimisation, however, remains confined to
+classical classifiers and does not support interpretability or
+model transfer.
+Deep learning-based IoT IDS have been made more trans-
+parent by incorporating SHAP and LIME explanations. A one-
+dimensional convolutional detector achieves near-perfect F1-
+scores on the ToN-IoT dataset, while offering both global
+and local interpretability [7]. Despite its transparency, the
+model lacks compression or distillation mechanisms. Struc-
+tured compression has been explored through Kronecker prod-
+uct factorisation, where KronNet reduces parameter counts by
+orders of magnitude and still delivers accuracy above 99%
+on benchmark datasets [8]. This demonstrates the promise of
+Kronecker-based designs, but without feature-guided pruning
+or teacher–student transfer.
+Knowledge distillation surveys underscore its potential for
+deploying compact models on constrained devices, classifying
+techniques by knowledge type, training strategy, and applica-
+tion [9]. However, most studies focus on the vision and lan-
+guage domains rather than intrusion detection. Finally, adap-
+tive federated IDS frameworks have integrated Long Short-
+Term Memory with joint strategy optimisation, dynamically
+adjusting hyperparameters across heterogeneous clients while
+maintaining privacy [10]. These systems achieve robustness
+1https://github.com/mohammed-jouhari/iot-ids-lightweight
+Data Preprocessing
+Standardize numeric +
+One-hot encode
+categorical
+SHAP
+Feature Ranking &
+Pruning
+Feature ranking →
+select top-K [SHAP]
+Teacher Training
+High-capacity model
+on pruned features
+Student
+Optimization
+Pruning + Kronecker
+compression + INT8
+quantization
+Predictions 
+ Near-teacher accuracy
+under constraints
+Deployment 
+ Edge deployment: low
+latency, low energy
+Knowledge 
+distillation 
+Fig. 1.
+Architectural overview of the proposed IDS: data preprocess-
+ing, SHAP-based feature ranking and pruning, teacher training, Kronecker-
+compressed student optimization with knowledge distillation, and final de-
+ployment on resource-constrained IoT devices.
+under non-stationary traffic, but do not incorporate explainable
+feature pruning or structural compression.
+The reviewed literature collectively advances federated de-
+tection, meta-heuristic optimization, explainability, Kronecker
+compression, and distillation, but each dimension has evolved
+largely in isolation. The present work addresses this frag-
+mentation by unifying SHAP-guided pruning with knowledge-
+distilled Kronecker networks, resulting in an interpretable and
+compact IDS suitable for heterogeneous IoT deployments.
+III. PROPOSED MODEL
+This work aims to design an intrusion detection system
+(IDS) that preserves high detection accuracy while remaining
+feasible for deployment on resource-constrained IoT devices.
+To achieve this objective, we adopt a teacher–student frame-
+work in which a high-capacity teacher model is trained on the
+complete feature space and subsequently guides a compressed
+student model. The proposed framework is depicted at two
+levels: Fig. 1 provides a schematic overview of the system
+architecture, while Algorithm 1 details the corresponding
+training procedure.
+A. Preprocessing and Teacher Network
+As shown in the first block of Fig. 1, raw traffic flows un-
+dergo preprocessing where numeric features are standardized
+and categorical ones are one-hot encoded. This corresponds
+to line 1 in Algorithm 1. Each flow is represented as x ∈Rd
+with ground-truth label y ∈{0, 1}. After preprocessing, the
+expanded input vector ex ∈Rp has p = 1,624 dimensions.
+Lines 2–3 in Algorithm 1 correspond to the training of
+the teacher model. The teacher is a multilayer perceptron
+(MLP) with hidden layers of widths 512, 256, and 128,
+each employing batch normalization, ReLU activation, and
+dropout. Given ex, the teacher outputs logits z = f(ex) and

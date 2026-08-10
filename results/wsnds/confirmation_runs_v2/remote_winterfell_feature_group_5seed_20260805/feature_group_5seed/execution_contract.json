@@ -1,0 +1,70 @@
+{
+  "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "mode": "duplicate-sensitivity",
+  "script_sha256": "b63f506d85ebabf40037e2e7deeb7c0c4267757cc9ba4605a664068d1f33c362",
+  "common_module_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001
+  ],
+  "students": {
+    "student_A": [
+      32,
+      16
+    ],
+    "student_B": [
+      64,
+      32
+    ]
+  },
+  "routes": [
+    "scratch",
+    "rf_kd"
+  ],
+  "kd_hyperparameters": {
+    "T": 4.0,
+    "alpha": 0.7
+  },
+  "kd_hyperparameter_source": "fixed values selected once by the active-v1 preliminary MLP-teacher validation grid; candidate initialization/shuffle streams were not held constant, so this is not an RF-KD optimum; no confirmation-test retuning",
+  "training_config": {
+    "epochs": 30,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.001,
+    "patience": 8
+  },
+  "teacher_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "calibration_method": "isotonic",
+    "calibration_cv": 3
+  },
+  "teacher_calibration_strategy": "stratified_group_kfold_with_zero_exact_feature_group_overlap",
+  "bound_teacher_soft_target_provenance": null,
+  "environment": {
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "device": "cuda",
+    "device_name": "NVIDIA T1000 8GB",
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms_enabled": true,
+    "deterministic_algorithms_warn_only": false,
+    "cudnn_version": 90100,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false
+  },
+  "execution_fingerprint_sha256": "cc1173911ea72f05def4f644cba2db3b55167d929d4af3a4c5766c4cc7f6a6fb"
+}

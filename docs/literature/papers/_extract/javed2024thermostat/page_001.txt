@@ -1,0 +1,74 @@
+Citation: Javed, A.; Awais, M.N.;
+Qureshi, A.-u.-H.; Jawad, M.; Arshad,
+J.; Larijani, H. Embedding Tree-Based
+Intrusion Detection System in Smart
+Thermostats for Enhanced IoT
+Security. Sensors 2024, 24, 7320.
+https://doi.org/10.3390/s24227320
+Academic Editor: Gianluigi Ferrari
+Received: 15 October 2024
+Revised: 6 November 2024
+Accepted: 15 November 2024
+Published: 16 November 2024
+Copyright: © 2024 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license (https://
+creativecommons.org/licenses/by/
+4.0/).
+sensors
+Article
+Embedding Tree-Based Intrusion Detection System in Smart
+Thermostats for Enhanced IoT Security
+Abbas Javed 1
+, Muhammad Naeem Awais 1, Ayyaz-ul-Haq Qureshi 2,*, Muhammad Jawad 1
+, Jehangir Arshad 1
+and Hadi Larijani 3
+1
+Department of Electrical and Computer Engineering, COMSATS University Islamabad, Lahore Campus,
+Lahore 54000, Pakistan; abbasjaved@cuilahore.edu.pk (A.J.); naeem.awais@cuilahore.edu.pk (M.N.A.);
+mjawad@cuilahore.edu.pk (M.J.); jehangirarshad@cuilahore.edu.pk (J.A.)
+2
+Department of Cyber Security and Networks, School of Computing, Engineering and Built Environment,
+Glasgow Caledonian University, Glasgow G4 0BA, UK
+3
+SMART Technology Research Centre, Department of Cyber Security and Networks, School of Computing,
+Engineering and Built Environment, Glasgow Caledonian University, Glasgow G4 0BA, UK;
+h.larijani@gcu.ac.uk
+*
+Correspondence: aqu2@gcu.ac.uk
+Abstract: IoT devices with limited resources, and in the absence of gateways, become vulnerable to
+various attacks, such as denial of service (DoS) and man-in-the-middle (MITM) attacks. Intrusion
+detection systems (IDS) are designed to detect and respond to these threats in IoT environments.
+While machine learning-based IDS have typically been deployed at the edge (gateways) or in the
+cloud, in the absence of gateways, the IDS must be embedded within the sensor nodes themselves.
+Available datasets mainly contain features extracted from network traffic at the edge (e.g., Raspberry
+Pi/computer) or cloud servers. We developed a unique dataset, named as Intrusion Detection in
+the Smart Homes (IDSH) dataset, which is based on features retrievable from microcontroller-based
+IoT devices. In this work, a Tree-based IDS is embedded into a smart thermostat for real-time
+intrusion detection. The results demonstrated that the IDS achieved an accuracy of 98.71% for binary
+classification with an inference time of 276 microseconds, and an accuracy of 97.51% for multi-
+classification with an inference time of 273 microseconds. Real-time testing showed that the smart
+thermostat is capable of detecting DoS and MITM attacks without relying on a gateway or cloud.
+Keywords: intrusion detection system; embedded ML; TinyML; DoS; MITM; CatBoost
+1. Introduction
+The Internet of Things (IoT) integrates a wide range of smart objects, devices, and wire-
+less sensor nodes (WSNs) for seamless communication and data exchange. The applications
+of IoT have been reported in smart homes, smart farming, smart cities, smart wearables,
+healthcare, education, etc. [1]. It is estimated that the number of IoT devices will surpass
+27 billion by 2025 [2]. Billions of IoT devices communicate with each other over the internet
+and most of the IoT devices have limited memory and computational capabilities, making
+them vulnerable to a wide range of attacks. These IoT devices are not designed to detect
+and respond to security attacks [3].
+Cybercriminals often target smart homes because they hold a high concentration of
+valuable digital assets, including sensitive personal information, home security controls,
+and access to connected devices, such as cameras and locks. These assets are attractive for
+identity theft, financial fraud, or unauthorized surveillance, making smart homes prime
+targets [4,5]. These devices are particularly vulnerable to cyberattacks due to occupants’
+lack of knowledge, insecure IoT devices, weak security controls, and improper configura-
+tions. Based on STRIDE taxonomy, the possible cyberattacks on smart homes are spoofing,
+tampering, repudiation, information disclosure, DoS, and elevation of privilege [5]. In a
+Sensors 2024, 24, 7320. https://doi.org/10.3390/s24227320
+https://www.mdpi.com/journal/sensors

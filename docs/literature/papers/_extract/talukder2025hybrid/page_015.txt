@@ -1,0 +1,186 @@
+or negatives. Grayhole Class: The Grayhole class exhibited outstanding classification metrics with a precision of 
+99.96%, a recall of 99.97%, and an f1-score of 99.97%. This demonstrates the model’s robust ability to detect and 
+classify Grayhole attacks accurately. Blackhole Class: The RFC model delivered near-perfect results for Blackhole 
+attacks, achieving a precision of 99.98%, a recall of 99.99%, and an f1-score of 99.99%. These scores signify the 
+model’s capability to handle this attack type with precision and consistency. TDMA Class: The model achieved 
+a perfect precision of 100.00%, a recall of 99.87%, and an f1-score of 99.93% for TDMA. This highlights the 
+model’s strength in minimizing false positives while maintaining high recall. Flooding Class: The Flooding class 
+classification also showed excellent results, with a precision of 99.92%, a recall of 99.99%, and an f1-score of 
+99.96%. This indicates the model’s ability to accurately identify Flooding attacks with almost no misclassification.
+The RFC model’s performance surpasses most of the other models (DTC, CBC, LGBC, HGBC, and XGBC) in 
+terms of precision, recall, and f1-score across all classes. Notably, its metrics for Blackhole, Grayhole, and TDMA 
+classes outperform all competing models. While some models like XGBC and HGBC also achieve competitive 
+scores, the RFC model demonstrates consistently high performance with minimal variability across all classes, 
+making it the most reliable option among the models tested. The RFC (KMS+PCA+RFC) model demonstrates 
+superior classification capabilities across all network behavior and attack types on the WSN-DS dataset, making 
+it an excellent choice for robust and precise intrusion detection in wireless sensor networks.
+Table 11 compares the classification performance of various models on the TON-IoT Network dataset, 
+evaluated across multiple attack categories. Key metrics such as Precision, Recall, and f1-score are provided 
+for each class (Normal, Scanning, Dos, Injection, Ddos, Password, Xss, Ransomware, Backdoor, and Mitm). 
+DTC: Achieves excellent performance across all classes, with nearly perfect metrics for Scanning, Ransomware, 
+Backdoor, and Mitm (f1-score ≥99.99%). Slightly lower but still strong results for Normal (f1-score: 99.85%) 
+and Xss (f1-score: 99.92%). XGBC: Strong overall performance but marginally lower than DTC in several classes 
+(e.g., Normal with f1-score: 99.67%). Excels in Scanning, Ransomware, Backdoor, and Mitm, maintaining near-
+perfect metrics. RFC (Proposed Model): Outperforms other models with consistently high metrics across all 
+classes. Achieves perfect scores for Scanning, Backdoor, and Mitm (Precision, Recall, and f1-score = 100%). 
+Demonstrates robust generalization with a slightly lower f1-score for Normal (99.91%). LGBC: Metrics are 
+notably lower compared to other models, especially for Normal (f1-score: 96.92%) and Backdoor (f1-score: 
+97.27%). Struggles with classes such as Password and Ddos, with performance below that of DTC and RFC. 
+CBC: Strong performance with near-perfect scores for Backdoor and Mitm (f1-score = 99.99% and 99.94%, 
+respectively). Slightly underperforms in Normal and Injection classes compared to DTC and RFC. HGBC: 
+Competitive with CBC, achieving near-perfect scores for most attack classes (e.g., Backdoor: 100%, Ransomware: 
+99.94%). Marginally lower f1-scores for Normal (98.74%) and Ddos (99.45%).
+RFC (Proposed Model) demonstrates the most consistent and superior performance across all classes, 
+particularly excelling in Scanning, Backdoor, and Mitm categories. Models like LGBC show room for 
+improvement, especially in Normal and Ddos detection. All models achieve high classification metrics, 
+highlighting the effectiveness of the KMS+ML approach on the TON-IoT dataset. Conclusion: The RFC model, 
+when integrated with the KMS data balancing technique with PCA for the dimension reduction process, proves 
+to be the most effective among the tested models for classifying normal and attack classes in the TON-IoT dataset. 
+Its ability to achieve perfect precision, recall, and f1-scores for critical attack types underlines its robustness and 
+suitability for network intrusion detection.
+Justification of KFCV
+To address the effectiveness of k-fold cross-validation (KFCV) in mitigating model overfitting and variance 
+compared to alternative strategies like stratified sampling (SS), we conducted a comprehensive analysis using 
+the KMS+ML models on the WSN dataset. Results presented in Table 12 indicate that both approaches deliver 
+Model
+Class
+Precision
+Recall
+F1-score
+Model
+Class
+Precision
+Recall
+F1-score
+DTC
+Normal
+99.77
+99.75
+99.76
+XGBC
+Normal
+99.85
+99.89
+99.87
+Grayhole
+99.92
+99.93
+99.93
+Grayhole
+99.95
+99.94
+99.95
+Blackhole
+99.98
+99.97
+99.97
+Blackhole
+99.95
+99.99
+99.97
+TDMA
+99.86
+99.88
+99.87
+TDMA
+99.99
+99.87
+99.93
+Flooding
+99.94
+99.94
+99.94
+Flooding
+99.93
+99.99
+99.96
+RFC
+Normal
+99.85
+99.88
+99.87
+LGBC
+Normal
+99.66
+99.68
+99.67
+Grayhole
+99.96
+99.97
+99.97
+Grayhole
+99.83
+99.18
+99.51
+Blackhole
+99.98
+99.99
+99.99
+Blackhole
+99.80
+99.94
+99.87
+TDMA
+100.00
+99.87
+99.93
+TDMA
+99.83
+99.84
+99.84
+Flooding
+99.92
+99.99
+99.96
+Flooding
+99.48
+99.95
+99.71
+CBC
+Normal
+99.85
+99.84
+99.84
+HGBC
+Normal
+99.83
+99.79
+99.81
+Grayhole
+99.91
+99.78
+99.85
+Grayhole
+99.90
+99.93
+99.92
+Blackhole
+99.80
+99.96
+99.88
+Blackhole
+99.95
+99.99
+99.97
+TDMA
+100.00
+99.87
+99.93
+TDMA
+99.94
+99.88
+99.91
+Flooding
+99.90
+99.99
+99.94
+Flooding
+99.94
+99.98
+99.96
+Table 10.  Classification reports of (KMS+PCA+ML) models on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+15
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

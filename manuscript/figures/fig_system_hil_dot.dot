@@ -1,0 +1,46 @@
+
+digraph SystemHIL {
+  graph [rankdir=LR, fontname="Helvetica", fontsize=9, pad=0.15, nodesep=0.35, ranksep=0.45,
+         splines=true, newrank=true];
+  node  [shape=box, style="rounded,filled", fillcolor="white", color="black",
+         fontname="Helvetica", fontsize=8, penwidth=0.9, margin="0.05,0.04", height=0.4];
+  edge  [fontname="Helvetica", fontsize=7, penwidth=0.9, arrowsize=0.55];
+
+  subgraph cluster_a {
+    label="(a) Ideal WSN stack";
+    labelloc="t"; fontsize=9; fontname="Helvetica-Bold";
+    color="gray50"; style="dashed";
+    mote [label="WSN mote\n(on-node IDS)"];
+    radio [label="Low-power\nradio"];
+    gw    [label="Gateway\n/ sink"];
+    cloud [label="Optional\ncloud"];
+    mote -> radio -> gw -> cloud;
+  }
+
+  subgraph cluster_b {
+    label="(b) Offline development";
+    labelloc="t"; fontsize=9; fontname="Helvetica-Bold";
+    color="gray50";
+    csv   [label="WSN-DS CSV\n17 features", fillcolor="gray95"];
+    split [label="Train-only scaler\n+ fixed split"];
+    train [label="RF teacher →\ntiny MLP students"];
+    export [label="FP32 export\n+ fixed-point C"];
+    csv -> split -> train -> export;
+  }
+
+  subgraph cluster_c {
+    label="(c) HIL fidelity (this work)";
+    labelloc="t"; fontsize=9; fontname="Helvetica-Bold";
+    color="black";
+    pi  [label="Raspberry Pi\nHIL host only", fillcolor="gray90"];
+    esp [label="ESP32-C3\nDUT", fillcolor="gray85"];
+    r4  [label="Arduino R4\nWiFi DUT", fillcolor="gray85"];
+    ref [label="Fixed-point ref\nN=56200", fillcolor="gray95"];
+    pi -> esp [label="USB"];
+    pi -> r4  [label="USB"];
+    esp -> ref [label="class"];
+    r4  -> ref;
+  }
+
+  export -> pi [style=dashed, label="weights"];
+}

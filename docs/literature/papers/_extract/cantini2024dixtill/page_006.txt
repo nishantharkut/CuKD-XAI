@@ -1,0 +1,32 @@
+Page 6 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+The student model is composed of three main trainable modules, i.e., the Embed-
+ding layer, the Bi-LSTM network, and the Masked attention layer. Given an input sen-
+tence x, composed of a sequence of words w1, w2, . . . , wk , the embedding layer learns 
+a continuous vector representation of x, i.e., a sequence of k d-dimensional vectors 
+E = e1, e2, . . . , ek , where ei ∈ℜd is the embedding of wi , and E ∈ℜd×k is the embed-
+ding matrix. Subsequently, the matrix is inputted into the bi-directional Long Short-
+Term Memory (bi-LSTM) layer, which learns a sequence of hidden states denoted as 
+h1, h2, . . . , hk . Such representations are obtained by concatenating the left-to-right 
+(i.e., −→
+hi ) and right-to-left (i.e., ←−
+hi  ) components, which consist of u-dimensional vec-
+tors, thus generating a hidden states matrix H ∈ℜ2u×k . Afterward, a weight is com-
+puted for each hidden state in H by the masked attention layer. Specifically, a score 
+vector σ is calculated to determine the unnormalized importance of each of the k ele-
+ments in the sequence for the model’s classification. This vector is obtained using a 
+Bahdanau-like attention mechanism [37], implemented by a parameterized feed-for-
+ward neural network, in which a trainable matrix U ∈ℜ2u×2u is employed to perform 
+a linear projection of H, which is subsequently fed into a tanh layer. Following this, a 
+learnable vector v ∈ℜ2u is utilized to calculate the ultimate vector σ ∈ℜk , formally: 
+σ = vTtanh(U · H).
+An attention mask is incorporated to prevent the model from attending to padding 
+tokens. Specifically, for each sequence, a mask vector µ ∈ℜk is computed such that 
+µi = 0 if wi corresponds to the PAD token, µi = 1 otherwise. This vector is then used 
+to mask the attention scores σ by computing the Hadamard product σ = σ ⊙µ . Then, 
+the µ vector is adjusted to transform values corresponding to a mask of 0 into highly 
+negative numbers, whereas values associated with a mask of 1 remain unaltered. This 
+ensures that when computing the α weights through the softmax distribution, ele-
+ments masked with 0 receive exponentially small values, preventing the model from 
+Fig. 1  Distillation process in DiXtill. The Explainer, the Teacher LLM, and the Student are indicated in red, green, 
+and blue colors, respectively

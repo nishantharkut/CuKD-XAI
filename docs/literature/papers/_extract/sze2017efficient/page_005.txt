@@ -1,0 +1,127 @@
+5
+Dog (0.7) 
+Cat (0.1) 
+Bike (0.02) 
+Car (0.02) 
+Plane (0.02) 
+House (0.04) 
+Machine 
+Learning  
+(Inference) 
+Class Probabilities 
+Fig. 6.
+Example of an image classiﬁcation task. The machine learning
+platform takes in an image and outputs the conﬁdence scores for a predeﬁned
+set of classes.
+0 
+5 
+10 
+15 
+20 
+25 
+30 
+2010 
+2011 
+2012 
+2013 
+2014 
+2015 
+Human 
+Accuracy (Top-5 error) 
+AlexNet 
+OverFeat 
+GoogLeNet 
+ResNet 
+Clarifai 
+VGG 
+Large error rate reduction due to Deep CNN 
+Fig. 7.
+Results from the ImageNet Challenge [14].
+improvements.
+In conjunction with the trend to deep learning approaches
+for the ImageNet Challenge, there has been a corresponding
+increase in the number of entrants using GPUs. From 2012
+when only 4 entrants used GPUs to 2014 when almost all
+the entrants (110) were using them. This reﬂects the almost
+complete switch from traditional computer vision approaches
+to deep learning-based approaches for the competition.
+In 2015, the ImageNet winning entry, ResNet [15], exceeded
+human-level accuracy with a top-5 error rate4 below 5%. Since
+then, the error rate has dropped below 3% and more focus
+is now being placed on more challenging components of the
+competition, such as object detection and localization. These
+successes are clearly a contributing factor to the wide range
+of applications to which DNNs are being applied.
+E. Applications of DNN
+Many applications can beneﬁt from DNNs ranging from
+multimedia to medical space. In this section, we will provide
+examples of areas where DNNs are currently making an impact
+and highlight emerging areas where DNNs hope to make an
+impact in the future.
+• Image and Video Video is arguably the biggest of the
+big data. It accounts for over 70% of today’s Internet
+trafﬁc [16]. For instance, over 800 million hours of video
+is collected daily worldwide for video surveillance [17].
+Computer vision is necessary to extract meaningful infor-
+mation from video. DNNs have signiﬁcantly improved the
+accuracy of many computer vision tasks such as image
+classiﬁcation [14], object localization and detection [18],
+image segmentation [19], and action recognition [20].
+4The top-5 error rate is measured based on whether the correct answer
+appears in one of the top 5 categories selected by the algorithm.
+• Speech and Language DNNs have signiﬁcantly improved
+the accuracy of speech recognition [21] as well as many
+related tasks such as machine translation [2], natural
+language processing [22], and audio generation [23].
+• Medical DNNs have played an important role in genomics
+to gain insight into the genetics of diseases such as autism,
+cancers, and spinal muscular atrophy [24–27]. They have
+also been used in medical imaging to detect skin cancer [5],
+brain cancer [28] and breast cancer [29].
+• Game Play Recently, many of the grand AI challenges
+involving game play have been overcome using DNNs.
+These successes also required innovations in training
+techniques and many rely on reinforcement learning [30].
+DNNs have surpassed human level accuracy in playing
+Atari [31] as well as Go [6], where an exhaustive search
+of all possibilities is not feasible due to the unimaginably
+huge number of possible moves.
+• Robotics DNNs have been successful in the domain of
+robotic tasks such as grasping with a robotic arm [32],
+motion planning for ground robots [33], visual naviga-
+tion [4, 34], control to stabilize a quadcopter [35] and
+driving strategies for autonomous vehicles [36].
+DNNs are already widely used in multimedia applications
+today (e.g., computer vision, speech recognition). Looking
+forward, we expect that DNNs will likely play an increasingly
+important role in the medical and robotics ﬁelds, as discussed
+above, as well as ﬁnance (e.g., for trading, energy forecasting,
+and risk assessment), infrastructure (e.g., structural safety, and
+trafﬁc control), weather forecasting and event detection [37].
+The myriad application domains pose new challenges to the
+efﬁcient processing of DNNs; the solutions then have to be
+adaptive and scalable in order to handle the new and varied
+forms of DNNs that these applications may employ.
+F. Embedded versus Cloud
+The various applications and aspects of DNN processing
+(i.e., training versus inference) have different computational
+needs. Speciﬁcally, training often requires a large dataset5 and
+signiﬁcant computational resources for multiple weight-update
+iterations. In many cases, training a DNN model still takes
+several hours to multiple days and thus is typically performed
+in the cloud. Inference, on the other hand, can happen either
+in the cloud or at the edge (e.g., IoT or mobile).
+In many applications, it is desirable to have the DNN
+inference processing near the sensor. For instance, in computer
+vision applications, such as measuring wait times in stores
+or predicting trafﬁc patterns, it would be desirable to extract
+meaningful information from the video right at the image
+sensor rather than in the cloud to reduce the communication
+cost. For other applications such as autonomous vehicles,
+drone navigation and robotics, local processing is desired since
+the latency and security risks of relying on the cloud are
+too high. However, video involves a large amount of data,
+which is computationally complex to process; thus, low cost
+hardware to analyze video is challenging yet critical to enabling
+5One of the major drawbacks of DNNs is their need for large datasets to
+prevent over-ﬁtting during training.

@@ -1,0 +1,77 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 9 of 23
+422
+Fig. 2 Selected features with their importance score for the different datasets
+relevance, diversity, and information density. This ﬁnal selec-
+tion step ensures that the dataset is optimized for effective
+model training and efﬁcient computation in the federated
+learning process. The selected features with their importance
+score for the different datasets are presented in Fig. 2.
+Client data partitioning for federated learning
+To implement a federated learning framework that reﬂects
+real-world IoT environments, we partition the dataset across
+multiple clients, each receiving a subset of data with a unique
+combinationofbotnettypes.Thissetupcreatesnon-IID(non-
+independent and identically distributed) data distributions,
+simulating the heterogeneity common in decentralized IoT
+networks. Multiple partitioning settings are deﬁned to test
+the model’s adaptability and performance across different
+conﬁgurations.
+Data partitioning based on botnet types
+Each client is assigned data speciﬁc to particular botnet types,
+creating variability in the distribution and class composition
+for each client. This ensures that the clients’ datasets are
+non-IID, making the learning process more representative
+of real-world IoT scenarios where devices may be exposed
+to different botnet types. Let D represent the full dataset,
+and Dk ⊂D be the subset of data assigned to client k. The
+partitioning based on botnet types is as follows:
+Dk = {(Xi, yi)|yi ϵ botnet types assigned to client k}
+(11)
+For instance, if client 1 is assigned Bashlite and Normal
+data, then:
+D1 = {(Xi, yi)|yi ϵ {Bashlite, Normal}}
+(12)
+This non-IID partitioning approach allows each client to
+train on a subset of the total dataset that reﬂects speciﬁc types
+of botnet attacks, introducing heterogeneity and simulating
+a distributed IoT network under various attack patterns.
+Deﬁne Client datasets for multiple settings
+To further explore the performance and adaptability of the
+federated learning model, we deﬁne four unique settings,
+each with different client conﬁgurations and combinations
+of botnet types from different datasets.
+• Setting 1: Clients receive data containing combinations of
+the most prevalent botnet types: Bashlite, Mirai, Torii, and
+Normal from MedBIoT dataset. This setting provides a
+balanced distribution across clients, with each client han-
+dling two or more botnet types. The data distribution for
+this setting is as follows: D1 = {Bashlite, Normal}, D2 =
+{Mirai, Normal}, D3 = {Torii, Normal}.
+• Setting 2: Clients are assigned combinations of botnet
+types with an emphasis on minimal class overlap. This
+setup isolates botnet types across speciﬁc clients, allow-
+ing for the evaluation of the model’s performance on less
+complex and more distinct data conﬁgurations. The data
+distribution for this setting from the dataset MedBIoT is:
+D1 = {Bashlite, Normal}, D2 = {Mirai, Normal}, D3 =
+{Torii, Normal}, D4 = {Bashlite, Mirai, Normal}, D5 =
+{Bashlite, Torii, Normal}, D6 = {Mirai, Torii, Normal},
+D7 = {Bashlite, Mirai, Torii, Normal}.
+• Setting 3: This setting introduces additional botnet types,
+such as RBoT and Neris, alongside Bashlite, Mirai, and
+Torii from MedBIoT, N-BaioT, NCC2 datasets. Clients
+receivedatawithabroadercombinationofbotnettypesand
+benign trafﬁc, increasing the diversity of data distribution
+and enabling the evaluation of the model’s adaptability to
+more complex, mixed attack scenarios. The data distribu-
+tion is as follows: D1 = {Bashlite, Normal}, D2 = {Mirai,
+Normal}, D3 = {Torii, Normal}, D4 = {Neris, Normal},
+D5 = {RBoT, Normal}.
+Data distribution across clients with various types of bot-
+netattacksandnormalfordifferentsettingsisshowninFig.3.
+And the amount of data for each client across different clients
+was used to develop the model presented in Table 3.
+Each setting simulates different levels of client data diver-
+sity, enabling a comprehensive evaluation of the model’s
+123

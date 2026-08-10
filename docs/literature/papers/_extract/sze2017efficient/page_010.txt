@@ -1,0 +1,112 @@
+10
+that are more discriminative and also provides more levels
+of hierarchy in the learned representation [15, 50, 51, 55].
+The number of ﬁlter shapes continues to vary across layers,
+thus ﬂexibility is still important. Furthermore, most of the
+computation has been placed on CONV layers rather than FC
+layers. In addition, the number of weights in the FC layers is
+reduced and in most recent networks (since GoogLeNet) the
+CONV layers also dominate in terms of weights. Thus, the
+focus of hardware implementations should be on addressing
+the efﬁciency of the CONV layers, which in many domains
+are increasingly important.
+IV. DNN DEVELOPMENT RESOURCES
+One of the key factors that has enabled the rapid development
+of DNNs is the set of development resources that have been
+made available by the research community and industry. These
+resources are also key to the development of DNN accelerators
+by providing characterizations of the workloads and facilitating
+the exploration of trade-offs in model complexity and accuracy.
+This section will describe these resources such that those who
+are interested in this ﬁeld can quickly get started.
+A. Frameworks
+For ease of DNN development and to enable sharing of
+trained networks, several deep learning frameworks have been
+developed from various sources. These open source libraries
+contain software libraries for DNNs. Caffe was made available
+in 2014 from UC Berkeley [46]. It supports C, C++, Python
+and MATLAB. Tensorﬂow was released by Google in 2015,
+and supports C++ and python; it also supports multiple CPUs
+and GPUs and has more ﬂexibility than Caffe, with the
+computation expressed as dataﬂow graphs to manage the
+tensors (multidimensional arrays). Another popular framework
+is Torch, which was developed by Facebook and NYU and
+supports C, C++ and Lua. There are several other frameworks
+such as Theano, MXNet, CNTK, which are described in [60].
+There are also higher-level libraries that can run on top of
+the aforementioned frameworks to provide a more universal
+experience and faster development. One example of such
+libraries is Keras, which is written in Python and supports
+Tensorﬂow, CNTK and Theano.
+The existence of such frameworks are not only a convenient
+aid for DNN researchers and application designers, but they
+are also invaluable for engineering high performance or more
+efﬁcient DNN computation engines. In particular, because the
+frameworks make heavy use of a set primitive operations,
+such processing of a CONV layer, they can incorporate use of
+optimized software or hardware accelerators. This acceleration
+is transparent to the user of the framework. Thus, for example,
+most frameworks can use Nvidia’s cuDNN library for rapid
+execution on Nvidia GPUs. Similarly, transparent incorporation
+of dedicated hardware accelerators can be achieved as was
+done with the Eyeriss chip [61].
+Finally, these frameworks are a valuable source of workloads
+for hardware researchers. They can be used to drive experi-
+mental designs for different workloads, for proﬁling different
+workloads and for exploring hardware-software trade-offs.
+B. Models
+Pretrained DNN models can be downloaded from various
+websites [56–59] for the various different frameworks. It should
+be noted that even for the same DNN (e.g., AlexNet) the
+accuracy of these models can vary by around 1% to 2%
+depending on how the model was trained, and thus the results
+do not always exactly match the original publication.
+C. Popular Datasets for Classiﬁcation
+It is important to factor in the difﬁculty of the task when
+comparing different DNN models. For instance, the task of
+classifying handwritten digits from the MNIST dataset [62]
+is much simpler than classifying an object into one of 1000
+classes as is required for the ImageNet dataset [14](Fig. 16).
+It is expected that the size of the DNNs (i.e., number of
+weights) and the number of MACs will be larger for the more
+difﬁcult task than the simpler task and thus require more
+energy and have lower throughput. For instance, LeNet-5[48]
+is designed for digit classiﬁcation, while AlexNet[3], VGG-
+16[50], GoogLeNet[51], and ResNet[15] are designed for the
+1000-class image classiﬁcation.
+There are many AI tasks that come with publicly available
+datasets in order to evaluate the accuracy of a given DNN.
+Public datasets are important for comparing the accuracy of
+different approaches. The simplest and most common task
+is image classiﬁcation, which involves being given an entire
+image, and selecting 1 of N classes that the image most likely
+belongs to. There is no localization or detection.
+MNIST is a widely used dataset for digit classiﬁcation
+that was introduced in 1998 [62]. It consists of 28×28 pixel
+grayscale images of handwritten digits. There are 10 classes
+(for 10 digits) and 60,000 training images and 10,000 test
+images. LeNet-5 was able to achieve an accuracy of 99.05%
+when MNIST was ﬁrst introduced. Since then the accuracy has
+increased to 99.79% using regularization of neural networks
+with dropconnect [63]. Thus, MNIST is now considered a fairly
+easy dataset.
+CIFAR is a dataset that consists of 32×32 pixel colored
+images of of various objects, which was released in 2009 [64].
+CIFAR is a subset of the 80 million Tiny Image dataset [65].
+CIFAR-10 is composed of 10 mutually exclusive classes. There
+are 50,000 training images (5000 per class) and 10,000 test
+images (1000 per class). A two-layer convolutional deep belief
+network was able to achieve 64.84% accuracy on CIFAR-10
+when it was ﬁrst introduced [66]. Since then the accuracy has
+increased to 96.53% using fractional max pooling [67].
+ImageNet is a large scale image dataset that was ﬁrst
+introduced in 2010; the dataset stabilized in 2012 [14]. It
+contains images of 256×256 pixel in color with 1000 classes.
+The classes are deﬁned using the WordNet as a backbone to
+handle ambiguous word meanings and to combine together
+synonyms into the same object category. In otherwords, there
+is a hierarchy for the ImageNet categories. The 1000 classes
+were selected such that there is no overlap in the ImageNet
+hierarchy. The ImageNet dataset contains many ﬁne-grained
+categories including 120 different breeds of dogs. There are
+1.3M training images (732 to 1300 per class), 100,000 testing

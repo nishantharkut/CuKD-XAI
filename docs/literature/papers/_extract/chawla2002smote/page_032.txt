@@ -1,0 +1,43 @@
+Chawla, Bowyer, Hall & Kegelmeyer
+6.3 Application of SMOTE to Information Retrieval
+We are investigating the application of SMOTE to information retrieval (IR). The IR prob-
+lems come with a plethora of features and potentially many categories. SMOTE would have
+to be applied in conjunction with a feature selection algorithm, after transforming the given
+document or web page in a bag-of-words format.
+An interesting comparison to SMOTE would be the combination of Naive Bayes and
+Odds ratio. Odds ratio focuses on a target class, and ranks documents according to their
+relevance to the target or positive class. SMOTE also focuses on a target class by creating
+more examples of that class.
+7. Summary
+The results show that the SMOTE approach can improve the accuracy of classiﬁers for
+a minority class. SMOTE provides a new approach to over-sampling. The combination
+of SMOTE and under-sampling performs better than plain under-sampling. SMOTE was
+tested on a variety of datasets, with varying degrees of imbalance and varying amounts of
+data in the training set, thus providing a diverse testbed. The combination of SMOTE and
+under-sampling also performs better, based on domination in the ROC space, than varying
+loss ratios in Ripper or by varying the class priors in Naive Bayes Classiﬁer: the methods
+that could directly handle the skewed class distribution. SMOTE forces focused learning
+and introduces a bias towards the minority class. Only for Pima — the least skewed dataset
+— does the Naive Bayes Classiﬁer perform better than SMOTE-C4.5. Also, only for the Oil
+dataset does the Under-Ripper perform better than SMOTE-Ripper. For the Can dataset,
+SMOTE-classiﬁer and Under-classiﬁer ROC curves overlap in the ROC space. For all the
+rest of the datasets SMOTE-classiﬁer performs better than Under-classiﬁer, Loss Ratio,
+and Naive Bayes. Out of a total of 48 experiments performed, SMOTE-classiﬁer does not
+perform the best only for 4 experiments.
+The interpretation of why synthetic minority over-sampling improves performance where
+as minority over-sampling with replacement does not is fairly straightforward. Consider
+the eﬀect on the decision regions in feature space when minority over-sampling is done
+by replication (sampling with replacement) versus the introduction of synthetic examples.
+With replication, the decision region that results in a classiﬁcation decision for the minority
+class can actually become smaller and more speciﬁc as the minority samples in the region are
+replicated. This is the opposite of the desired eﬀect. Our method of synthetic over-sampling
+works to cause the classiﬁer to build larger decision regions that contain nearby minority
+class points. The same reasons may be applicable to why SMOTE performs better than
+Ripper’s loss ratio and Naive Bayes; these methods, nonetheless, are still learning from
+the information provided in the dataset, albeit with diﬀerent cost information. SMOTE
+provides more related minority class samples to learn from, thus allowing a learner to carve
+broader decision regions, leading to more coverage of the minority class.
+Acknowledgments
+This research was partially supported by the United States Department of Energy through
+the Sandia National Laboratories ASCI VIEWS Data Discovery Program, contract number
+352

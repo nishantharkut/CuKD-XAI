@@ -1,0 +1,149 @@
+Sensors 2024, 24, 3339
+6 of 26
+Table 1. Some recent works about intrusion detection in WSN.
+Year
+Authors
+Feature
+Selection
+Model
+Parameters
+Fine-Tuning
+Type of
+Classification
+Dataset
+Accuracy (%)
+2023
+Salmi and
+Oughdir [26]
+None
+DNN,
+CNN,
+RNN,
+CNN+RNN
+None
+Multi-class
+WSN-DS
+97.04,
+98.79,
+96.48,
+96.86
+2020
+Jiang et al.
+[27]
+SBS
+LightGBM
+None
+Multi-class
+WSN-DS
+99.53
+2019
+Vinayakumar
+et al. [23]
+None
+DNN
+None
+Multi-class &
+Binary
+KDD Cup’99,
+NSL-KDD,
+UNSW-NB15,
+CICIDS2017,
+WSN-DS
+95.00–99.00,
+95.00–99.00,
+65.00–75.00,
+93.00–96.00,
+96.00–99.00
+2018
+Le et al. [6]
+None
+Random
+Forest
+None
+Multi-class
+WSN-DS
+98.00
+2021
+Liu et al. [28]
+PSO-
+LightGBM
+OCSVM
+None
+Multi-class
+UNSW-NB15
+86.68
+2020
+Vijayanand
+et al. [29]
+WOA-GA
+(sequentially)
+SVM
+None
+Multi-class
+CICIDS2017,
+ADFA-LD
+95.91,
+94.44
+2023
+Mohiuddin
+et al. [31]
+WOA-SCA
+XgBoost
+None
+Multi-class &
+Binary
+UNSW-NB15,
+CICIDS2017
+91.00–99.00,
+96.00–98.00
+2023
+Kasongo et al.
+[32]
+GA
+RF
+None
+Multi-class
+UNSW-NB15
+87.61
+2022
+Hussain et al.
+[30]
+WOA-ABC
+DNN
+None
+Multi-class
+NSL-KDD
+98.00
+2024
+Our
+GSWO
+CatBoost
+GSWO
+Multiclass
+NSL-KDD,
+CICIDS2017,
+WSN-DS,
+WSNBFSF
+99.79,
+99.74,
+99.62,
+99.99
+3. Proposed System
+An intrusion is defined as a malicious activity that gains network access and imple-
+ments unauthorized tasks. IDSs’ role is to secure networks by detecting malicious and
+unauthorized activities. Figure 1 describes the proposed IDS in WSNs and the overall
+procedure inside it from the training stage to the testing stage.
+The proposed intrusion detection model comprises two stages. The first stage involves
+selecting the most prominent features, and the second stage involves classification with
+hyperparameter optimization. After preprocessing the data to eliminate redundant data
+and noise, some informative features are selected using our proposed GSWO algorithm
+and the CatBoost classifier as fitness functions. A CatBoost-based ensemble learning
+approach [39,40] was developed to effectively detect and classify intrusive behaviors in
+terms of both accuracy and inference time when implemented in a real environment.
+However, few studies have used CatBoost in this field because of the difficulty of tuning
+the parameters to optimize the model and obtain the highest efficiency. The CatBoost
+hyperparameters affect the complexity of the model, training time, chance of overfitting,
+and speed of convergence. Therefore, the proposed GSWO algorithm was employed
+to address this problem after selecting the most informative features from the former
+block. After completing this specific phase in the training stage, the trained and optimized
+CatBoost model verifies its performance with the test set, including only useful features.

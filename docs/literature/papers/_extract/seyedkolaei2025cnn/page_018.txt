@@ -1,0 +1,42 @@
+Future Internet 2025, 17, 230
+18 of 21
+Finally, Figure 6 displays the five most significant features for the 6-class classification.
+These results were obtained by analyzing the predictions using the random forest model,
+which highlights the influence of each feature in detecting the type of attack and shows that
+features related to MQTT and DNS protocols are of high relevance for traffic classification.
+Figure 6. The most important features in the 6-class classification.
+Finally, according to the results obtained, the CNN-based model achieves exceptional
+performance in multiclass attack classification for IoT/IIoT networks, particularly in detect-
+ing complex and evolving threats. While marginal accuracy gains (e.g., 100% vs. 99.98%)
+may appear incremental, they hold critical significance in high-stakes industrial environ-
+ments, where even a 0.02% reduction in false negatives can prevent dozens of dangerous
+attacks from going undetected. The model’s strength lies in its ability to autonomously
+extract spatial patterns from traffic flows, especially for protocol-specific attacks (e.g.,
+DDoS, SQL injection) in the DNN-EdgeIIoT dataset. However, traditional methods like
+random forest may outperform CNNs on datasets with weaker spatial correlations (e.g.,
+UNSW-NB15), underscoring the importance of context-driven architecture selection.
+The proposed model, with two convolutional layers and 96 trainable parameters (post-
+quantization), ensures high accuracy (95.5%). Comparative tests with shallower models
+(1 convolutional layer) revealed that adding the second layer improves accuracy by 8%.
+This trade-off is justified for IIoT environments where accuracy and real-time response
+are critical.
+The proposed CNN-based intrusion detection system offers a robust solution for
+IoT/IIoT security, achieving 95.5% accuracy in 15-class attack classification, outperforming
+traditional methods like random forest (93.82%) and SVM (55.65%). Its strength lies in
+spatial feature extraction, enabling precise distinction between protocol-specific attacks (e.g.,
+MQTT spoofing vs. Modbus tampering) and autonomous learning of localized correlations
+(e.g., packet rate spikes with protocol anomalies). The model’s edge compatibility and
+lightweight design make it ideal for latency-sensitive IIoT environments.
+However, class imbalance impacts the detection of underrepresented attacks (e.g.,
+XSS: 0.428 F1 score), necessitating techniques like synthetic oversampling (SMOTE) or
+cost-sensitive learning. While the model excels on the DNN-EdgeIIoT dataset, preliminary
+tests on external datasets (e.g., CIC-IDS2017) reveal sensitivity to feature distributions,
+highlighting the need for cross-dataset benchmarking (e.g., Bot-IoT) to validate generaliz-
+ability. Ultra-constrained nodes (e.g., <1 GB RAM) may struggle with inference, suggesting
+federated learning for distributed optimization.
+By addressing protocol diversity (MQTT, Modbus, OPCUA) and balancing accuracy,
+speed, and resource efficiency, the CNN-based approach emerges as a scalable, adaptive
+defense mechanism for evolving IoT/IIoT ecosystems, though further work is needed to
+enhance robustness against data variability and hardware constraints.
+The proposed framework enhances IoT/IIoT intrusion detection through intelligent,
+adaptive, and scalable methods built on a CNN-based foundation. For intelligent detection,

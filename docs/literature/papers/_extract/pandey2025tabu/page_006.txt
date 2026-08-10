@@ -1,0 +1,44 @@
+Hyperparameter optimization
+A Tabu Search algorithm was defined and implemented forhyperparameter tuning, where n_estimators and 
+max_depth were experimented with; the best fitting model was selected by maximizing precision.
+Optimized model development
+The optimized parameters-hyperparameters were used to develop a new RF Classifier, which was later trained 
+on training data.
+Comparative analysis
+The same set of evaluation metrics was used for the original and optimized models for the comparison. 
+Confusion matrices and ROC curves were drawn to better visualize the correctlyclassified instances and class 
+differentiation. The classification report offers a detailed overview of the performance by class in terms of 
+precision, recall, F1 score, and support.
+Results interpretation
+The performance of the original and optimized models was compared to determine whether the optimization 
+process had an effect. It could be seen that improvements were made across several metrics, so it is safe to claim 
+the optimized model performs better than the original. Perhaps most importantly, the optimized model handled 
+the minority classes much better, which is often a problem when addressing imbalance in a dataset.
+Mathematical modeling of RF optimization using Tabu-search
+Objective function
+The optimization model mainly aims to maximize classification performance as several key performance metrics 
+are integrated, each assigned a weighted importance. The model maximizes the function given in Eq. 1 below:
+	
+F (θ) = w1A (θ) + w2P (θ) + w3R (θ) + w4F1 (θ) + w5K (θ) + w6ROC (θ)
+(1)
+where θ = (n, d) ϵS represents the solution vector, with n as the number of estimators and d as the maximum 
+depth of the model. Each element in the function corresponds to a performance metric:A (θ) is accuracy, 
+calculated as follows:(TP + TN)/(TP + TN + FP + FN); P (θ) is precision described as TP/TP + FP; 
+R (θ) is the recall can be represented as TP/TP + FN; F1 (θ) is the F1 score, balancing both precision and 
+recall as 2(P ∗R)/P + R; K (θ) is Cohen’s Kappa, which measures the agreement between prediction and 
+actual outcomes on anything other than a chance basis, as (P0 −Pe)/(1 −Pe); and ROC (θ) is the area under 
+the receiver operating characteristic, or AUC, understood as the integral of the true positive rate to the false 
+positive rate. Letting the weights be w1, w2, w3, w4,w5, w6 the model allows for varying degrees of aspect 
+importance to classification performance through the solution vector θ.
+Constraints
+The optimization model is constrained over the solution vector,θ = (n, d) with positive integers: the number of 
+estimators n and the maximum depth d, that is, n, d ∈Z+. Further, the number of estimators will lie in between 
+lower and upper bounds nmin ≤n ≤nmax and the depth will then also lie in between the lower and upper 
+bounds of dmin ≤d ≤dmax. Due to these bounding functions, the optimization process will remain within 
+feasible and practical limits for the model parameters.
+Fig. 3.  Flowchart of proposed methodology.
+ 
+Scientific Reports |        (2025) 15:18634 
+6
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

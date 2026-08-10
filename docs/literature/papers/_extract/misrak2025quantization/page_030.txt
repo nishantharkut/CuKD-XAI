@@ -1,0 +1,37 @@
+Page 30 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+4.5  Deployment architecture
+Deploying the model in real-world smart homes requires a careful balance between 
+accuracy, latency, and resource efficiency. While the model’s compact design suits low-
+power edge devices, its performance across diverse IoT platforms must be optimized for 
+minimal delay and robust attack detection. Scalability is also crucial, as the model must 
+adapt to both small-scale and large IoT environments. This research [49] offers comple­
+mentary insights on lightweight AI models for IoT security, which can further inform 
+the optimization of model to ensure high detection accuracy while maintaining compu­
+tational efficiency.
+In edge computing, data processing occurs at the network edge, near data sources, 
+reducing reliance on cloud or fog infrastructure [50]. In smart home automation, edge 
+devices serve as intermediaries between IoT nodes and cloud servers, enabling low-
+latency processing and quick response times. Fog computing [51] extends cloud capa­
+bilities by offering localized computing, storage, and networking closer to IoT devices. 
+As a middleware layer, it reduces latency through distributed processing across hetero­
+geneous nodes.
+Cyber attack detection in IoT networks [52] typically employs host-based or network-
+based architectures [50]. Host-based systems run on individual IoT or fog devices to 
+monitor localized activity, while network-based systems analyze traffic at gateways to 
+detect distributed threats.
+A Hybrid Deep Learning-based Host-Based Attack Detection System (HDL-ADS) is 
+proposed, optimized for low-power IoT devices at the fog layer, as illustrated in Fig. 13. 
+Designed for real-time smart home environments, HDL-ADS operates on AI-enabled 
+edge chips, enabling fast, microcontroller platforms, offline inference with minimal 
+memory usage. This edge deployment reduces latency, avoids cloud dependency, and 
+mitigates data leakage risks. However, the compact model size imposes a trade-off with 
+accuracy.
+HDL-ADS focuses solely on inbound traffic, assuming device trustworthiness. For 
+enhanced security, a complementary Network-Based Attack Detection System (NADS) 
+can be deployed at the fog node, leveraging more computational resources and hardware 
+acceleration for deep learning tasks.
+The HDL-ADS model is implemented using Python for Raspberry Pi and the Arduino 
+IDE for microcontroller platforms. Inference is performed using hardware-compatible 
+Fig. 13  Proposed implementation architecture
+ 

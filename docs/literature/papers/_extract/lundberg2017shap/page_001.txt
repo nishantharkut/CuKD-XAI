@@ -1,0 +1,49 @@
+A Uniﬁed Approach to Interpreting Model
+Predictions
+Scott M. Lundberg
+Paul G. Allen School of Computer Science
+University of Washington
+Seattle, WA 98105
+slund1@cs.washington.edu
+Su-In Lee
+Paul G. Allen School of Computer Science
+Department of Genome Sciences
+University of Washington
+Seattle, WA 98105
+suinlee@cs.washington.edu
+Abstract
+Understanding why a model makes a certain prediction can be as crucial as the
+prediction’s accuracy in many applications. However, the highest accuracy for large
+modern datasets is often achieved by complex models that even experts struggle to
+interpret, such as ensemble or deep learning models, creating a tension between
+accuracy and interpretability. In response, various methods have recently been
+proposed to help users interpret the predictions of complex models, but it is often
+unclear how these methods are related and when one method is preferable over
+another. To address this problem, we present a uniﬁed framework for interpreting
+predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature
+an importance value for a particular prediction. Its novel components include: (1)
+the identiﬁcation of a new class of additive feature importance measures, and (2)
+theoretical results showing there is a unique solution in this class with a set of
+desirable properties. The new class uniﬁes six existing methods, notable because
+several recent methods in the class lack the proposed desirable properties. Based
+on insights from this uniﬁcation, we present new methods that show improved
+computational performance and/or better consistency with human intuition than
+previous approaches.
+1
+Introduction
+The ability to correctly interpret a prediction model’s output is extremely important. It engenders
+appropriate user trust, provides insight into how a model may be improved, and supports understanding
+of the process being modeled. In some applications, simple models (e.g., linear models) are often
+preferred for their ease of interpretation, even if they may be less accurate than complex ones.
+However, the growing availability of big data has increased the beneﬁts of using complex models, so
+bringing to the forefront the trade-off between accuracy and interpretability of a model’s output. A
+wide variety of different methods have been recently proposed to address this issue [5, 8, 9, 3, 4, 1].
+But an understanding of how these methods relate and when one method is preferable to another is
+still lacking.
+Here, we present a novel uniﬁed approach to interpreting model predictions.1 Our approach leads to
+three potentially surprising results that bring clarity to the growing space of methods:
+1. We introduce the perspective of viewing any explanation of a model’s prediction as a model itself,
+which we term the explanation model. This lets us deﬁne the class of additive feature attribution
+methods (Section 2), which uniﬁes six current methods.
+1https://github.com/slundberg/shap
+31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA.

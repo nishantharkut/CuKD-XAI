@@ -1,0 +1,116 @@
+LNetֺֺ
+−2
+Iteration t-2
+DSConv
+Depthwise Convolution
+Pointwise Convolution
+Decision Boundary
+LNet
+z
+DSConv
+MFM
+Pooling
+max
+LNet-SKD
+DeepMax
+（a）The framework of LNet-SKD   
+（b）Deep Separable Convolution   
+（c）DeepMax block   
+ℒ푆ƵƮ
+ℒ푆ƵƮ
+Iteration t-1
+ℒƭƬ
+Logits
+LNet
+Iteration t
+Input data
+Fig. 2. The overview of proposed LNet-SKD for network intrusion detection. (a) The soft prediction in the last iteration will guide current iteration training.
+(b) Each filter kernel only calculates with the corresponding feature map. (c) Channels and feature sizes will be half with the DeepMax block.
+into depth-wise convolution and point-wise convolution. The
+depth-wise convolution operation extracts each channel’s fea-
+ture with separate kernels, which reduces the computation
+drastically. Then, point-wise convolution is used to match the
+output feature channel, which is implemented as 1 × 1 kernel
+convolution. The whole process for Ci input and Co output
+channels can be written as:
+Fnew
+j
+= 1
+Ci
+· Kp
+j ∗
+Ci−1
+X
+i=0
+Kd
+i ∗Fold
+i
+, j ∈[0, ..., Co −1],
+(1)
+where ∗indicates convolutional operation, K is the corre-
+sponding kernel and F is the feature map.
+To further reduce the network size, we concatenate the
+MFM layer after the aforementioned DSConv layer to half
+the channel numbers. As shown in Fig. 2(c), MFM applies
+Eq. 2 to combine two feature maps and output the maximum
+value of each element, thus focusing the network on prominent
+elements.
+Fnew
+i
+(x, y) = max
+h
+Fold
+i
+(x, y), Fold
+i+C/2(x, y)
+i
+,
+(2)
+where i ∈[0, C/2 −1] and C is current number of channels.
+Finally, we add a pooling layer to reduce the feature map
+size and construct the complete DeepMax block. Through ef-
+fective feature extraction and selection, compact representation
+can be obtained with satisfactory computational consumption.
+To be implemented as a lightweight network for intrusion
+detection, it is enough to stack only two DeepMax blocks
+with a liner layer in LNet to achieve state-of-the-art results.
+C. Complexity analysis
+Here, we give an in-depth analysis of how LNet reduces the
+model size and saves the FLOPs. Consider an input feature
+map F ∈RH×W and in / out channel Ci / Co. In the
+standard convolution block, the filtering and combination steps
+are performed upon all input channels, and the number of
+parameters is Ci × K × K × Co, where K denotes the kernel
+size. In contrast, our DeepMax block conducts separable
+convolution for each input channel and an additional 1 × 1
+convolution to create a linear combination to match the output
+channel. Considering no extra parameters are introduced in the
+MFM or pooling operation, the total parameter number in the
+whole block is Ci × K × K + Ci × 1 × 1 × Co. It is clear that
+the DeepMax only needs Ci × (K2 + Co) gradient-required
+parameters, which is less than classical ones Ci × (K2 × Co)
+by a large margin. For the computational cost, the DeepMax
+block narrows half the channel number by the MFM module
+and half the output feature size by the pooling layer if the
+pooling size is 2 × 2.
+D. Self-Knowledge Distillation
+To compensate for the performance drop incurred by model
+compression, we adopt the batch-wise self-knowledge distil-
+lation strategy inspired by [15], which improves the gener-
+alization ability by learning sample-level soft labels given
+by skillful teacher models. Specifically, the soft prediction
+of the last iteration is used as the smooth label for self-
+distillation to provide instantaneous distillation for each batch
+of training samples, which leads to the regularization of
+training consistency. As shown in Fig. 2(a), for each input
+sample(x, y), the LNet will produce the predicted distribution
+p = {p1, · · · , pm} ∈RM by the suggested softmax function
+[12].
+pi(x; τ) =
+exp (zi(x)/τ)
+P
+j exp (zj(x)/τ),
+(3)
+where τ denotes the temperature scale to soften the probability
+distribution for better distillation. Considering the imbalance
+of intrusion detection datasets, we use a class-balanced cross-

@@ -1,0 +1,53 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1109
+4.2.2 Performance metrics comparison: Before vs after
+feature reduction
+Tables 7, 8, 9, and 10 give a detailed comparison of the per-
+formance metrics of the XGBoost model in the ﬁrst stage
+(all features) and the second stage (after feature reduction)
+for the CIC-DDoS2019 and CICIoT2023 datasets, thereby
+quantifying the impact of feature reduction on detection qual-
+ity. Figure5 complements these tables by visualizing how
+AccuracyandF1evolvewith K ∈{5, 10, 20, 30, all}:perfor-
+mance remains ﬂat from “All Features” down to the Top-10
+set and degrades noticeably only at Top-5, conﬁrming that
+ten features constitute a robust operating point. Across the
+ten stratiﬁed cross-validation folds, the average absolute gap
+between validation and test accuracies is below 0.10 percent-
+age points for every attack class (Portmap: 0.09 pp, SYN
+Flood: 0.02 pp, HTTP Flood: 0.01 pp, Slowloris: 0.03 pp;
+standard deviations range from 0.01 pp to 0.13 pp). The aver-
+age absolute gap between validation and test accuracies is
+deﬁned as the mean of
+Accval,i −Acctest,i
+ × 100% over
+all ten folds, i.e. the percentage-point difference between the
+accuracy measured on the inner validation subset and that
+on the corresponding held-out test subset, so smaller gaps
+Table
+11 Confusion matrix - Portmap (Top-10 features, CIC-
+DDoS2019)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+787 (TN)
+17 (FP)
+Actual Pos.
+13 (FN)
+783 (TP)
+indicate closer agreement and stronger generalization. These
+results conﬁrm that the model generalizes extremely well and
+that the metrics reported in the tables are reliable.
+For the Portmap attack, retaining the top 10 features sus-
+tains a high accuracy of 98.125% and precision of 97.875%;
+a further reduction to 5 features causes a marked decline
+(81.063% accuracy, 77.666% precision), indicating loss of
+critical information.
+For SYN Flood, performance remains strong with 10
+features(99.250%accuracy,99.381%recall),whereasreduc-
+ing to 5 features lowers accuracy to 96.438% and recall to
+96.755%. A similar trend is observed for HTTP Flood: accu-
+racy stays above 99.513% with 10 features but recall and F1
+Score fall to 96.514% and 96.386% with 5 features.
+Fig. 5 Performance trends across feature sets
+123

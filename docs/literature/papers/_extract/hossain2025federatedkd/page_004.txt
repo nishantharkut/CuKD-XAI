@@ -1,0 +1,106 @@
+422
+Page 4 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Despite achieving strong detection rates, the approach faces
+signiﬁcant limitations: handling non-IID data in federated
+setups impacts model aggregation and reduces TPR on rare
+attacks, and using simpliﬁed MLP models in the federated
+setting limits ﬂexibility, making it challenging to maintain
+low FPR across heterogeneous data distributions.
+Popoola et al. [25] proposed an FDL approach for botnet
+detection on the Bot-IoT and N-BaIoT datasets, achiev-
+ing up to 98.6% accuracy. The model effectively handled
+data privacy constraints and was optimized for resource-
+limited IoT devices, showing robust performance in detecting
+common botnet attacks. However, despite these positive
+results, the FDL model encountered limitations in detect-
+ing minority classes and zero-day attacks, with variability in
+TPR and an increase in FPR for underrepresented classes.
+Additionally, the federated training process required sig-
+niﬁcant computational resources, leading to longer training
+times, particularly challenging in real-time IoT environ-
+ments. Another approach proposed by Zhang et al. [26] for
+detecting zero-day botnet attacks in IoT networks, utilizing a
+K-greedy aggregation algorithm to prioritize model updates
+from devices with higher detection uncertainty. This strat-
+egy enhances the global model’s adaptability to unknown
+attack patterns while maintaining data privacy by training
+locally on IoT devices. Tested on the N-BaIoT dataset, the
+approach achieved up to 92.42% accuracy with a low false
+alarm rate of 0.48%, signiﬁcantly outperforming traditional
+FL methods like FedAvg, which averaged 59.87% accuracy.
+However, the framework faces challenges with ﬂuctuating
+performance across devices and computational demands due
+to reliance on uncertainty estimation.
+Zhang et al. [27] explore a FL framework for IIoT intru-
+siondetection,incorporatinginstance-basedtransferlearning
+to address non-IID data and imbalance issues. Using a
+weighted voting aggregation method based on maximum
+mean discrepancy (MMD), the approach applies AdaBoost
+and Random Forest as base models. Tested on a physical
+IIoT testbed with Raspberry Pis, the model achieved promis-
+ing accuracy, reaching 95.97% with AdaBoost. However,
+limitations include ﬂuctuating accuracy due to data hetero-
+geneity, potential scalability issues with ensemble models,
+and challenges in asynchronous network scenarios, affecting
+its applicability in dynamic real-world IIoT environments.
+Sarhan et al. [28] propose a FL-based cyber threat intelli-
+gence (CTI) sharing scheme to enhance network intrusion
+detection systems (NIDS) across multiple organizations
+without data sharing. They leverage federated learning to
+enable each organization to train models on local data,
+thereby preserving privacy. The methodology includes ini-
+tiating a global model and averaging locally trained model
+updates to produce an aggregated model capable of detecting
+varied network intrusions. The evaluation compares feder-
+ated, centralized, and localized learning approaches using
+two diverse datasets, NF-UNSW-NB15-v2 and NF-BoT-
+IoT-v2. Results indicate that federated learning achieves
+detection rates close to centralized models, particularly
+excelling in non-IID environments, while maintaining data
+privacy. However, limitations include higher false alarm rates
+(FAR) compared to centralized methods, and challenges with
+detection in highly heterogeneous data, underscoring the
+need for improved adaptability in federated models.
+Non-IID data challenges in federated learning for IoT
+IoT datasets are often non-IID, with client data exhibiting
+variability due to device-speciﬁc factors and usage patterns.
+Federated learning in such settings can struggle to gener-
+alize due to data imbalance across clients. Previous studies
+have addressed this by implementing techniques like trans-
+fer learning and weighted aggregation to improve model
+accuracy across heterogeneous data sources. However, these
+solutions often do not integrate interpretation to discern how
+well the model adapts to client-speciﬁc patterns [29, 30].
+However, the non-IID nature of IoT data, which varies across
+devices and networks, remains a critical challenge. Many
+studies have incorporated weighted aggregation techniques
+and transfer learning within FL frameworks to address these
+data heterogeneity issues, though without fully tackling inter-
+pretability and privacy concerns.
+Other approaches to IoT botnet detection, summarized
+in Table 2, highlight signiﬁcant limitations in centralized
+methods when addressing IoT-speciﬁc challenges. Central-
+ized models, such as DNN [31], A3E [32], and SGDC [33],
+demonstrate high performance on individual datasets (e.g.,
+N-BaIoT, MedBIoT, NCC2) but fail to address critical issues
+like data heterogeneity and non-IID distributions. While
+methods like IHHO-NN [34] and ER-VEC [35] incorpo-
+rate dimensionality reduction, they still rely on centralized
+datacollection,whichcompromisesscalabilityandraisespri-
+vacy concerns. The inability of these approaches to handle
+heterogeneous IoT environments or adapt to non-IID data
+signiﬁcantly limits their applicability in real-world scenar-
+ios. Moreover, none of the reviewed methods incorporate
+explainable artiﬁcial intelligence (XAI) techniques, leaving
+them as black-box solutions with limited interpretability for
+network administrators. Despite the inclusion of advanced
+architectures like CNN-LSTM [36] and Bi-LSTM [37], the
+lack of focus on addressing data imbalance, resource con-
+straints, and decentralized learning frameworks creates a
+substantial gap in the literature. This gap underscores the
+urgent need for federated and decentralized approaches that
+can effectively handle IoT-speciﬁc challenges, ensure pri-
+vacy, and provide explainable insights for robust botnet
+detection.
+123

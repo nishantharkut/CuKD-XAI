@@ -1,0 +1,62 @@
+Signal, Image and Video Processing (2025) 19:1335
+https://doi.org/10.1007/s11760-025-04880-4
+ORIGINAL PAPER
+Metaheuristically optimized deep soft-voting ensemble
+for explainable and resource-aware signal processing in wireless
+sensor network intrusion detection
+Xiongzhi Xiao1 · Wenzhou Duan1
+Received: 14 August 2025 / Revised: 19 September 2025 / Accepted: 5 October 2025 / Published online: 3 November 2025
+© The Author(s), under exclusive licence to Springer-Verlag London Ltd., part of Springer Nature 2025
+Abstract
+Wireless Sensor Networks (WSN) are widely employed in various sensitive areas; however, due to their limited computing
+power, energy, and memory, these networks are exposed to signal-level anomalies as well as cyber-attacks. This study aims
+to introduce a metaheuristically optimized deep soft-voting ensemble that integrates Deep Neural Networks and CATBoost
+classiﬁers to enable secure intrusion detection. To achieve a seamless integration between convergence accuracy and explo-
+ration divergence, the authors have employed two complementary metaheuristics, Quadratic Interpolation Optimization (QIO)
+and Osprey Optimization Algorithm (OOA), for tuning the hyperparameters and decision thresholds. The system derives 23
+operational and topological signal features that represent normal trafﬁc and four major attack types, i.e., Blackhole, Grayhole,
+Flooding, and TDMA Scheduling. Rigorous preprocessing, such as Variance Inﬂation Factor analysis, supports that the fea-
+tures are independent and stable. The metrics used include accuracy, precision, recall, F1-score, speciﬁcity, and AUC, with
+the QIO-enabled model (DCQI) leading the way with the highest test accuracy of 95.62%.DCQI outperforms the baseline
+(DNCA) and the OOA-enhanced models, and thus, both class-level detection and balanced performance can be achieved. The
+feature sensitivity analysis based on the Cosine Amplitude Method and ranking both distinctly and consistently indicates Is
+CH, Who CH, and Dist to CH as the most inﬂuential predictors, which not only strengthens the understanding of WSNs but
+also shows the computational efﬁciency of the adopted security.
+Keywords Wireless sensor networks · Intrusion detection system · Signal processing · Deep neural network · Soft voting
+ensemble · Feature sensitivity analysis
+1 Introduction
+Wireless Sensor Networks (WSNs) have emerged as one
+of the most transformative paradigms in modern communi-
+cation and computing systems. They are widely deployed
+in diverse real-world applications, including environmen-
+tal monitoring, industrial automation, disaster management,
+healthcare, and military surveillance [1]. A typical WSN con-
+sists of multiple energy-efﬁcient, cost-effective sensor nodes
+that capture environmental changes, process the data locally,
+and transmit it wirelessly to a sink node or base station
+for further analysis. Depending on the deployment scenario,
+B Wenzhou Duan
+duanwzh16@163.com
+1
+Information Department, The Afﬁliated Guangdong Second
+Provincial General Hospital of Jinan University, Guangzhou
+510317, Guangdong, China
+sensor nodes may be equipped with thermal, acoustic, chemi-
+cal, optical, or pressure sensors, enabling broad functionality
+across domains. Despite their versatility, WSNs face severe
+challenges due to inherent hardware constraints, including
+limited energy capacity, restricted memory, and low compu-
+tational power [2, 3].
+These vulnerabilities make WSNs highly susceptible to
+security breaches, particularly when deployed in open and
+potentially hostile environments. Attackers can exploit these
+weaknesses by compromising nodes, eavesdropping on com-
+munications, injecting false data, tampering with message
+integrity, or exhausting network resources [4]. Among such
+threats, Denial-of-Service (DoS) attacks are particularly
+damaging, as they disrupt network functionality in multiple
+ways.
+Intrusion Detection Systems (IDSs) are therefore essential
+to safeguard WSNs. An effective IDS must not only detect
+known attacks but also adapt to previously unseen threats,
+123

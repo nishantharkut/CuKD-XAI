@@ -1,0 +1,35 @@
+Sensors 2024, 24, 7320
+12 of 15
+classification and 90 for multi-classification. When depth is increased to eight, the maximum
+number of trees drops to 70 for binary classification and 25 for multi-classification.
+Figure 4. Comparison of IDS implemented with CatBoost and XGBoost on the smart thermostat.
+The FS method improved the accuracy for binary classification by using a reduced
+number of features. Table 4 shows that with a reduced number of features, the accuracy
+improves. However, on the microcontroller, the FS technique did not reduce inference time
+or program storage. The inference time depends on the number of trees and the depth of
+the trees. Since the number of trees was either the same or greater, the inference time was
+not significantly improved.
+CatBoost and XGBoost are both based on the gradient boosting framework, using decision
+trees as base learners. However, CatBoost is particularly well-suited for constrained devices like
+the ESP32 due to its native support for categorical data, eliminating the need for preprocessing.
+CatBoost’s ordered boosting technique efficiently handles training and inference without storing
+large amounts of data, making it ideal for memory-limited environments.
+Additionally, CatBoost prevents target leakage by splitting the data into multiple parts
+and using only past data for predictions. This approach not only maintains high accuracy
+but also reduces storage requirements and prevents overfitting as depicted in Figure 4.
+Unlike XGBoost, CatBoost uses symmetric trees, which require fewer computations for
+predictions, contributing to faster inference times. This is critical for implementing IDS on
+resource-constrained devices like the ESP32, where minimal inference time is crucial.
+Furthermore, CatBoost’s symmetric tree structure allows it to use fewer trees and
+shallower depths while maintaining performance, which further enhances inference speed
+as shown in Table 7. These characteristics make CatBoost a more efficient choice than
+XGBoost for IDS deployment on microcontrollers.
+In smart homes, IoT devices have limited computational resources and are used in
+sensitive applications like door locks, CCTVs, and smart thermostat, etc. During the
+interaction with the cloud, an adversary can stop the operation of these devices with a DoS
+attack or can intercept the sensitive information through an MITM attack. A lightweight
+IDS that can quickly and efficiently detect these attacks with minimal computational
+load can enhance security for homeowners. Rapid detection of DoS attacks is especially
+crucial, as it allows for mitigation before the device is overwhelmed. In this work, we
+demonstrate that a CatBoost-based IDS can detect these attacks in under 276 microseconds,
+without sacrificing accuracy.

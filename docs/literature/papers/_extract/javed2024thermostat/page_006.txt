@@ -1,0 +1,38 @@
+Sensors 2024, 24, 7320
+6 of 15
+3.2. Training Dataset for IDS
+Most of the well-known datasets like TON_IoT [37] and EdgeIIoT [38] used packet
+capture tools for dataset collection. These datasets required gateways to be part of the
+IoT architecture. The IDS proposed using such datasets is intended to be implemented
+on the gateway (Raspberry Pi). However, most IoT devices are connected to WiFi access
+points, and single-board computer (Raspberry Pi) gateways are not always available. We
+developed an IDSH dataset [23] that was captured on the ESP32 without using packet
+capture tools like Wireshark or tcpdump. We used the IDSH dataset to implement IDS on a
+smart thermostat for detecting DoS and MITM attacks. The dataset consists of sensor data,
+HVAC control signals, and network traffic features (connection activity and statistical data).
+The block diagram of the testbed is shown in Figure 2 and the parameters collected at
+each step are detailed in Figure 2. The steps involved in dataset collection are described
+in our previous work [19]. The IDSH dataset features description is given in Appendix A
+in Table A1. The IDSH dataset contains 4144 samples, which include instances of normal
+traffic, DoS attacks, and MITM attacks. The input features and target of IDS are shown in
+Table 1. The timestamp, source IP, and destination IP were excluded to prevent overfitting.
+Table 1. Inputs and target of IDS.
+Selected Input Features
+Target
+source_port, dst_port, protocol, Family, Service, Duration,
+source_bytes, destination_bytes, conn_state, missed_bytes,
+source_packets, src_ip_bytes, destination_packets,
+dst_ip_bytes, Temperature, Humidity, Status
+Label
+(binary
+classification),
+Type (multi-class classification)
+Figure 2. Dataset collection on smart thermostats.
+3.2.1. Data Preprocessing
+The dataset is normalized using the standard Min-Max normalization function, which
+scales the data to a range of [0, 1] for positive values or [−1, 1] when negative values are
+present. Label encoding is applied to convert the string-based output variables into integer
+format, enabling their use in training machine learning algorithms.
+3.2.2. Feature Selection
+The chi-square [39] is used for FS to reduce the number of features. Table 2 shows the
+features selected by chi-square.

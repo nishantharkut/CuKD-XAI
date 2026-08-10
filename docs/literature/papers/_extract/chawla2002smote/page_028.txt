@@ -1,0 +1,41 @@
+Chawla, Bowyer, Hall & Kegelmeyer
+6. Future Work
+There are several topics to be considered further in this line of research. Automated adaptive
+selection of the number of nearest neighbors would be valuable. Diﬀerent strategies for
+creating the synthetic neighbors may be able to improve the performance. Also, selecting
+nearest neighbors with a focus on examples that are incorrectly classiﬁed may improve
+performance. A minority class sample could possibly have a majority class sample as its
+nearest neighbor rather than a minority class sample. This crowding will likely contribute
+to the redrawing of the decision surfaces in favor of the minority class.
+In addition to
+these topics, the following subsections discuss two possible extensions of SMOTE, and an
+application of SMOTE to information retrieval.
+6.1 SMOTE-NC
+While our SMOTE approach currently does not handle data sets with all nominal features,
+it was generalized to handle mixed datasets of continuous and nominal features. We call this
+approach Synthetic Minority Over-sampling TEchnique-Nominal Continuous [SMOTE-NC].
+We tested this approach on the Adult dataset from the UCI repository. The SMOTE-NC
+algorithm is described below.
+1. Median computation: Compute the median of standard deviations of all continuous
+features for the minority class. If the nominal features diﬀer between a sample and
+its potential nearest neighbors, then this median is included in the Euclidean distance
+computation. We use median to penalize the diﬀerence of nominal features by an
+amount that is related to the typical diﬀerence in continuous feature values.
+2. Nearest neighbor computation: Compute the Euclidean distance between the feature
+vector for which k-nearest neighbors are being identiﬁed (minority class sample) and
+the other feature vectors (minority class samples) using the continuous feature space.
+For every diﬀering nominal feature between the considered feature vector and its
+potential nearest-neighbor, include the median of the standard deviations previously
+computed, in the Euclidean distance computation. Table 2 demonstrates an example.
+F1 = 1 2 3 A B C [Let this be the sample for which we are computing nearest
+neighbors]
+F2 = 4 6 5 A D E
+F3 = 3 5 6 A B K
+So, Euclidean Distance between F2 and F1 would be:
+Eucl = sqrt[(4-1)2 + (6-2)2 + (5-3)2 + Med2 + Med2]
+Med is the median of the standard deviations of continuous features of the mi-
+nority class.
+The median term is included twice for feature numbers 5: B→D and 6: C→E,
+which diﬀer for the two feature vectors: F1 and F2.
+Table 6: Example of nearest neighbor computation for SMOTE-NC.
+348

@@ -1,0 +1,33 @@
+Future Internet 2025, 17, 230
+15 of 21
+ 
+Figure 5. Comparison of the proposed method’s accuracy with other methods.
+The CNN’s accuracy on Raspberry Pi 4 decreased to 98.7% due to hardware constraints
+(low-power processors and limited memory) and optimizations like model pruning (30%
+parameter reduction) and INT8 quantization. Class imbalance (e.g., rare attacks like XSS)
+further challenged detection. Despite this, the CNN’s ability to identify spatial–temporal
+patterns (e.g., DDoS, SQL injection) ensures its effectiveness in IIoT environments, where
+traditional methods struggle with high-dimensional, multiclass data.
+These results highlight the CNN’s robustness in handling complex traffic flows and
+diverse attack types, leveraging its capacity to capture intricate data patterns—a critical
+advantage over resource-efficient, but less accurate, traditional approaches.
+The summarized results, including F1 score, recall, and precision, obtained using
+different machine learning methods (DT, RF, SVM, and KNN) compared to the proposed
+CNN method for binary and multiclass classifications (2, 6, and 15 classes), are shown in
+Tables 10–12, respectively. Table 10 presents the binary classification results, demonstrating
+that the proposed method attained the highest values in precision, recall, and F1 score.
+This indicates the model’s strong performance in accurately identifying normal traffic and
+detecting attacks. However, other methods (DT and RF) also managed to achieve these
+high levels of classification.
+Based on the results obtained in Tables 10–12, the CNN-based intrusion detection sys-
+tem demonstrates superior performance in multiclass attack classification, particularly in
+scenarios requiring spatial pattern recognition inherent to IoT/IIoT network traffic. Unlike
+traditional methods, such as SVM and KNN, which rely on manual feature engineering, the
+CNN autonomously learns localized correlations between features (e.g., abrupt packet rate
+spikes in DDoS attacks or anomalous payload patterns in SQL injections). This capability
+underpins its high precision and recall for most attack types, including near-perfect detec-
+tion of DDoS_ICMP/UDP- and MITM-based attacks, where spatial–temporal dependencies
+are pronounced.
+However, performance disparities emerge in underrepresented classes (e.g., password-
+based, XSS), where limited training samples lead to lower F1 scores. These gaps highlight
+the dataset’s inherent class imbalance, suggesting the need for synthetic oversampling (e.g.,

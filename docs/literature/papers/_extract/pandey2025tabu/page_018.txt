@@ -1,0 +1,38 @@
+positives (TP), false positives (FP), true negatives (TN), and false negatives (FN) to show the classifier’s overall 
+classification performance associated with the pre-optimization model. Figure 14 is the ROC AUC (area under 
+the curve) curve. The AUC curve shows how well the model can discriminate between classes, while AUC 
+reflects how effective the model is overall. Figure 15 displays the confusion matrix for the RF classifier of the 
+post-optimization model, hopefully indicating a more accurate classification performance and better balance of 
+sensitivity and specificity. Figure 16 displays the ROC AUC curve of the post-optimization model, indicating 
+that the model also likely has better discrimination. All four figures allow readers to view the performance of 
+pre- and post-optimization, demonstrating improvements.
+Implications and future directions
+The deep analysis of the experiments above reveals several essential insights about the performance of the RF 
+model in the intrusion detection system. It shows good scalability with the performance compared to extensive 
+alternatives for handling large data sizes and exhibiting high value for all metrics. In this case, the optimized 
+model has an outstanding level of reliability of attack detection in terms of its ability to distinguish between two 
+similar patterns of attacks, particularly in such complex Grayhole and TDMA cases, and still maintains low false 
+positives for regular traffic and therefore also provides balanced performance across all types of attacks. From an 
+operational point of view, although the computational complexity does increase during optimization with more 
+trees and a deeper depth, the trade-off is well justified because of the gains obtained in terms of performance 
+with high precision that finally leads to the minimization of false alarms in operations and better-than-chance 
+performance justified by improved Cohen’s Kappa score. Such results show that an optimized model is suitable 
+for real-time network monitoring and automated attack detection systems, thus forming a robust solution for 
+the comprehensive management of WSN security in real-time network monitoring, automated attack detection 
+systems, and policy enforcement in network security.
+Comparison with state-of-the-art techniques
+We compared the Tabu Search-optimized Random Forest (TS-RF) model with existing state-of-the-art methods 
+in WSN intrusion detection to demonstrate the effectiveness of the proposed approach. Table 6 shows a 
+comparison of multiple datasets and evaluation metrics.
+The results clearly show the superiority of our TS-RF model over all published state-of-the-art methods in all 
+datasets. In particular, on the WSN-DS dataset, the TS-RF model outperforms the best competitor (XGBoost56) 
+by 1.05%. Regarding network security, there is much more at stake, and any improvement in accuracy, however 
+small, can result in reduced missed detections or false alarms. We see that in the case of the CICIDS2017 
+dataset, our method has consistently improved approximately 0.43% over the Decision Tree method in58. When 
+considering the CIC-IoT-2023 dataset, the TS-RF method had an accuracy improvement of 0.90% compared to 
+Fig. 16.  ROC AUC curve of optimized RF model over CIC-IoT 2023.
+ 
+Scientific Reports |        (2025) 15:18634 
+18
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

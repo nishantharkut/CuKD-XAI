@@ -1,0 +1,60 @@
+Future Internet 2025, 17, 230
+6 of 21
+Table 3. Distribution of 15-class samples.
+Classes
+Samples
+Normal
+1,615,643
+Backdoor-based attack
+24,862
+DDoS_HTTP-based attack
+49,911
+DDoS_ICMP-based attack
+116,436
+DDoS_TCP-based attack
+50,062
+DDoS_UDP-based attack
+121,568
+Fingerprinting-based attack
+1001
+MITM-based attack
+1214
+Password-based attack
+50,153
+Port_Scanning-based attack
+22,564
+Ransomware-based attack
+10,925
+SQL_injection-based attack
+51,203
+Uploading-based attack
+37,634
+Vulnerability_scanner-based attack
+50,110
+XSS-based attack
+15,915
+3.2. Convolutional Neural Network (CNN)-Based Methodology for Intrusion Detection
+In this section, we introduce the proposed method for designing an intrusion detec-
+tion system tailored for IoT and IIoT networks. While numerous approaches exist for
+implementing intrusion detection in these environments, traditional machine learning
+algorithms often face limitations in scalability and accuracy when applied to large-scale,
+high-dimensional IoT traffic. Consequently, deep learning techniques—particularly convo-
+lutional neural networks (CNNs)—offer a more effective solution for attack detection.
+CNNs are well-suited for this task due to their ability to identify spatial correlations
+among adjacent features within network traffic data, such as packet rates, connection dura-
+tions, and protocol flags. These convolutional filters excel at capturing local patterns, which
+are often overlooked by classical models. In addition, CNNs handle high-dimensional input
+effectively through max pooling layers that reduce feature dimensions while preserving
+salient information, thus improving generalization and reducing the risk of overfitting.
+Their hierarchical structure enables robust multiclass classification, making CNNs
+capable of distinguishing between normal traffic and various types of attacks. Prior works,
+including those by Altunay et al. [18] and Vaiyapuri et al. [11], support the superiority of
+CNNs in the IoT intrusion detection domain. Although hybrid models like CNN + LSTM
+can enhance performance, we selected a pure CNN to minimize computational overhead,
+making the system more suitable for deployment in resource-constrained IoT/IIoT settings.
+The proposed detection method includes four key stages: (1) preprocessing, (2) data
+splitting, (3) feature extraction and classification via CNN, and (4) model evaluation. As
+illustrated in Figure 3, the CNN consists of convolutional, pooling, and fully connected
+layers. The convolutional layer serves as the core, identifying relevant local features. The
+pooling layer reduces data dimensionality, and the fully connected layer acts as the final
+classifier [19].

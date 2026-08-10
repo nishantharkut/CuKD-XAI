@@ -1,0 +1,108 @@
+has the same architecture as the Student but is trained using
+only raw data. When the Teacher and Student have simi-
+lar architecture, then the Teacher will act as a suitable Base
+model.
+Our framework consists of two main components:
+• Visual explainability tool – We introduce UniCAM
+(Unique Class Activation Mapping), a gradient-based
+visual explanation method designed explicitly for KD
+scenarios.
+UniCAM distinguishes between distilled
+and residual features using partial distance correlation
+to isolate unique features learned by each model. (de-
+tailed methodology in Section 3.1).
+• Knowledge transfer metrics – We introduce Feature
+Similarity Score (FSS) and Relevance Score (RS). The
+former, FSS, quantifies the alignment of attention pat-
+terns between Student and Teacher (Base model) us-
+ing distance correlation. The latter, RS, evaluates the
+task relevance of distilled and residual features using
+distance correlation between the extracted features and
+BERT embeddings of the ground truth labels [12].
+FSS and RS work in tandem to provide a comprehen-
+sive analysis of KD’s effectiveness. While FSS measures
+the similarity of learned representations between the Base
+model and the Student, RS assesses their relevance to the
+target task. This dual approach is crucial because high simi-
+larity (FSS) does not always guarantee optimal task-specific
+learning (RS). For example, a Student might closely imitate
+a Teacher’s attention patterns (high FSS) but struggle to dif-
+ferentiate between important and irrelevant features for the
+specific task (potentially low RS).
+Our key contributions are fourfold:
+• Introducing Unique Class Activation Maps (Uni-
+CAM), a novel method for visualising the knowledge
+transfer process in KD. This approach offers insights
+into how Students acquire relevant features and dis-
+card less important ones under the Teacher’s guidance,
+addressing challenges 1 and 2.
+• Proposing the complementary FSS and RS metrics,
+which enable quantitative analysis of KD effective-
+ness. This dual-metric approach captures both the sim-
+ilarity of learned representations (FSS) and their task-
+specific relevance (RS), addressing challenges 2 and 3.
+• Conducting extensive experiments across various KD
+techniques and model architectures, demonstrating the
+broad applicability of our approach. Our evaluation
+encompasses standard image classification datasets
+(CIFAR-10 [28], Microsoft PetImages [15]) and a
+more challenging fine-grained plant disease classifica-
+tion task [24]. This comprehensive assessment vali-
+dates the effectiveness of our methods across diverse
+scenarios.
+• Providing a detailed examination of KD failure cases,
+particularly those arising from significant capacity
+gaps between Teacher and Student models. Through
+this analysis, we demonstrate how our method can
+guide the selection of appropriate Teacher models or
+intermediate architectures (Teacher assistants) to im-
+prove KD outcomes, addressing challenge 4.
+2. Related Work
+Recent works on KD have focused on improving the
+performance of the Student [25], adapting the distillation
+process to specific tasks [13], or developing alternative
+methods for knowledge transfer [22].
+In contrast to the
+performance-oriented works, some studies have explored
+KD explainability using various techniques. For instance,
+Cheng et al. [3] used information theory and mutual in-
+formation to visualise and measure knowledge during KD.
+However, this method requires human annotations of the
+background and foreground objects, which limits its appli-
+cability and scalability. Moreover, using entropy to quantify
+randomness might be unreliable in scenarios with highly
+correlated data or multiple modes.
+Similarly, Wang et
+al. [42] used the KD and generative models to diagnose and
+interpret image classifiers, but this approach does not ac-
+count for the knowledge acquired by the Student.
+Existing visual explainability techniques offer valuable
+insights into how CNNs make decisions (e.g., [2, 7]). Ap-
+plying these methods to KD could reveal if the Student fo-
+cuses on the same input areas as a Base model and learns
+similar or superior features. For example, DeepVID [40]
+visually interprets and diagnoses image classifiers through
+KD. Haselhoff et al. [20] proposed a probability density
+encoder and a Gaussian discriminant decoder to describe
+how explainers deviate from concepts’ training data in KD.
+However, existing visual explainability techniques cannot
+visualise the saliency maps of distilled and residual fea-
+tures. Similarity metrics offer a promising strategy to mea-
+sure and identify features unique to one model [45], which
+could be useful to effectively quantify and explain the dis-
+tilled knowledge.
+Similarity measures have been widely employed across
+various disciplines, including machine learning [1,8,10,11],
+information theory [6, 9, 16], and computational neuro-
+science [27]. These measures offer valuable insights into
+how information is processed and encoded in different con-
+texts. In deep learning, similarity metrics have been use-
+ful to (1) quantify how DNNs replicate the brain’s en-
+coding process [41], (2) compare vision transformers and
+convnets [26, 33], (3) gain insights into transfer learn-
+ing [14, 30], and (4) explain the mechanisms behind deep
+model training [18].
+In this study, we propose a novel
+gradient-based visual explainability technique and quanti-
+tative metrics that leverage similarity measures to isolate
+3468

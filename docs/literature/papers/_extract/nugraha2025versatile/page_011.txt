@@ -1,0 +1,56 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1105
+We compare the attack detection results obtained from
+the ﬁrst stage of our framework (which utilizes all fea-
+tures, i.e., 59 features for the CIC-DDoS2019 dataset and
+36 features for the CICIoT2023 dataset) with those from
+the second stage after the Feature Reduction. Note that the
+5G PFCP dataset is not used for the model performance
+comparison before and after the Feature Reduction due to
+its small initial feature set size (9 features). Instead, it is
+used to evaluate our framework’s capability to detect and
+explain 5G-speciﬁc control-plane attacks using both global
+andlocalexplanations.TheFeatureReductionprocess,based
+on SHAP Global Explanation and statistical methods, selects
+features that are both statistically signiﬁcant and practically
+impactful,improvingtheframework’sefﬁciencywithoutsac-
+riﬁcing prediction accuracy. To assess the effect of Feature
+Reduction, we examine the XGBoost model performance
+by applying the top 5, 10, 20, and 30 features. This evalua-
+tion enables us to understand the trade-offs between reducing
+computational overhead and maintaining high detection per-
+formance, especially for datasets with a larger number of
+initial features.
+4.2.1 Results of SHAP global explanation, feature selection,
+and feature reduction processes
+Figures 2, 3, and 4 display the SHAP global summary
+plots for the Portmap, SYN Flood, HTTP Flood, Slowloris,
+PFCP Session Deletion, and PFCP Session Establishment
+attacks, respectively, highlighting the most inﬂuential fea-
+tures on model predictions. The Y-axis lists the features
+in the order of their importance, while the X-axis, indi-
+cating the SHAP values, shows each feature’s impact on
+the model’s prediction. Positive SHAP values push pre-
+dictions towards the malicious class, while negative values
+push towards the benign class. The explanations for two dis-
+tinct DDoS attack types: volumetric (Portmap, SYN Flood,
+HTTP Flood) and slow (Slowloris) are investigated. For
+the Portmap attack, the ‘Fwd Packet Length Min’
+feature emerges as the most signiﬁcant. Lower values of
+this feature, indicated by blue dots, signiﬁcantly decrease
+the model’s output and push the prediction towards the
+benign class. The ‘Inbound’ feature is the second most
+important one, with higher values (red dots) generally push-
+ing the prediction towards the malicious class. Similarly,
+for the SYN Flood attack, ‘syn_flag_number’ and
+‘Number’ emerge as the most signiﬁcant features, with
+high values of these features strongly indicating SYN Flood
+attack samples. The ‘Header_Length’ feature is the
+next most important one, where lower values are indica-
+tive of SYN Flood attacks. For the HTTP Flood attack, the
+‘Number’ feature, representing the number of packets in
+a ﬂow, is the most inﬂuential one. The ‘fin_count’ fea-
+ture, which counts packets with the FIN ﬂag set, also plays a
+crucial role. Higher values tend to push predictions towards
+Fig. 2 SHAP global explanation results for Portmap and SYN Flood attacks
+123

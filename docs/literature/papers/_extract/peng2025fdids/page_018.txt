@@ -1,0 +1,108 @@
+Sensors 2025, 25, 4309
+18 of 31
+Table 7. Performance comparison of the different KD intervals in different Non-IID scenarios (N-
+BaIoT).
+KD Intervals
+Accuracy
+Precision
+Recall
+F1
+Low Non-IID (θ = 1)
+Periodic KD
+86.28
+79.91
+86.28
+81.96
+End-of-Training KD
+86.25
+79.87
+86.25
+81.93
+Round-wise KD
+87.70
+82.23
+87.70
+83.52
+High Non-IID (θ = 0.1)
+Periodic KD
+81.53
+74.29
+81.53
+76.00
+End-of-Training KD
+80.72
+76.15
+80.72
+76.72
+Round-wise KD
+83.81
+78.39
+83.81
+78.24
+4.3.3. Effectiveness of the Knowledge Distillation in FD-IDS
+To assess how KD influences the performance of FD-IDS under Non-IID data scenarios,
+we designed comparative experiments incorporating and omitting KD based on the FedProx
+aggregation strategy. The results obtained with Edge-IIoT are presented in Table 8. In
+the case of a low-Non-IID scenario, the performance improvement from KD was slight.
+Specifically, the classification accuracy increased from 94.74% to 94.82%, and the F1 score
+improved from 94.17% to 94.35%. This slight enhancement can be attributed to the relatively
+minor data distribution differences among clients in low-Non-IID conditions, leading to
+more consistent model update directions and a more stable global aggregation process. In
+this context, even without KD, the FedProx effectively facilitated model convergence and
+performance improvement. Furthermore, the false positive rate (FPR) decreased from 0.14%
+to 0.13%, while the false negative rate (FNR) dropped from 5.26% to 5.18%. It is worth
+noting that, with respect to IDS, the impact of FNR is typically more critical than that of
+FPR. A FP indicates that benign traffic has been misclassified as an attack, which may lead
+to unnecessary resource consumption or degraded user experience, but the consequences
+are generally manageable. In contrast, a FN means that actual malicious traffic has gone
+undetected, allowing the attack to bypass the defense system, potentially resulting in severe
+consequences.
+Table 8. Performance comparison of an IDS with and without distillation under high- and low-Non-
+IID scenarios on Edge-IIoT (FedProx strategy).
+KD
+Accuracy
+Precision
+Recall
+F1
+FPR
+FNR
+Runtime (s)
+Low Non-IID (θ = 1)
+No
+94.74
+95.98
+94.74
+94.17
+0.14
+5.26
+1312.41
+Yes
+94.82
+96.20
+94.82
+94.35
+0.13
+5.18
+1399.09
+High Non-IID (θ = 0.1)
+No
+91.89
+94.67
+91.89
+90.71
+0.18
+8.11
+1948.90
+Yes
+93.86
+96.45
+93.86
+92.70
+0.21
+6.14
+2104.78
+In contrast, under the high-Non-IID scenario, the benefits of KD were more pro-
+nounced. The classification accuracy improved from 91.89% to 93.86%, and the F1 score
+increased from 90.71% to 92.70%. This advantage stems from the unique adaptability of KD
+in heterogeneous data environments. Given the substantial data distribution divergence
+across clients, local models are prone to converging to local optima, and aggregation suffers

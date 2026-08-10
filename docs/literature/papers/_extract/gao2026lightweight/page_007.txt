@@ -1,0 +1,70 @@
+Electronics 2026, 15, 938
+7 of 20
+3.3.2. Mutual Information and Correlation-Based Feature Selection
+Variance filtering relies solely on the statistical distribution characteristics of the
+network data, without considering the relationship between features and labels. To address
+this issue, mutual information and Pearson Correlation Coefficients are used to measure
+the relationship between them. Mutual information, a fundamental concept in information
+theory, is employed to quantify the dependency between two variables. It measures the
+information that one variable conveys about the other. When knowledge of one variable
+enables accurate prediction of the other, the mutual information between them is considered
+high [27]. Assume thaty denotes the corresponding class label in the dataset. According to
+Ref. [28], the mutual information between the class label and a feature can be expressed as:
+MI(y, fi) = H(y) + H(fi) −H(y, fi)
+(3)
+where H(y) and H(fi) denote the information entropies of the y and fi, respectively,
+and H(y, fi) represents their joint entropy. As shown in Formula (3), a higher mutual
+information value suggests that a feature preserves more label-related information and
+thus contributes more effectively to classification performance.
+3.3.3. mRMR-Based Feature Selection
+The correlation between selected feature subsets can easily introduce feature redun-
+dancy, thus affecting the classification performance of intrusion detection models. In-
+fluenced by the Minimum Redundancy Maximum Relevance (mRMR) model, Ambu-
+saidi et al. [29] used the Pearson Correlation Coefficient between features and labels to
+measure the redundancy between features and labels. The expression can be expressed
+as follows:
+JmRMR(fi) = argmax
+fi
+
+MI(y, fi) −1
+|S| ∑
+fs∈|S|
+corr(fi,fs)
+corr(y, fi)
+
+
+(4)
+where corr(y, fi) denotes the Pearson Correlation Coefficient betweeny and fi. It is defined
+as follows:
+corr(y, fi) =
+u
+∑
+t=1
+(yt −y)(fit −fi)
+s
+u
+∑
+t=1
+(yt −y)2(fit −fi)
+2
+(5)
+3.3.4. Hybrid Feature Selection Method
+Correlations among features and labels can provide additional information to guide the
+selection of the features. Consequently, in this article, the Pearson Correlation Coefficient
+is also employed to evaluate the correlations of features and labels. The overall objective
+function of the proposed feature selection method is formulated as:
+J(fi) = argmax
+fi
+
+MI(y, fi) + corr(y, fi) −1
+|S| ∑
+fs∈|S|
+corr(fi, fs)
+corr(y, fi)
+
+
+(6)
+where S denotes the already selected feature subset, and fi represents a candidate feature.
+Based on the above analysis, the hybrid feature selection algorithm proposed in this paper
+is presented in Algorithm 1.
+https://doi.org/10.3390/electronics15050938

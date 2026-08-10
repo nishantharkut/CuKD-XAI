@@ -1,0 +1,115 @@
+total number of split comparisons implied by the ensemble’s
+structure. Flash usage is the estimated memory required to
+store all decision nodes, and peak RAM usage is computed
+from the maximum tree depth combined with the memory
+needed for traversal state and temporary buffers. Each con-
+figuration is evaluated for validation accuracy and profiled
+against these measures; configurations violating any constraint
+are discarded, and the retained baselines are those achieving
+the highest validation performance within all budgets.
+B. Hardware-Aware Neural Architecture Search (HW-NAS)
+For DL, we use HW-NAS to automatically design compact
+1D-CNN architectures optimized for the same hardware bud-
+gets. 1D-CNNs are chosen as the backbone since prior work
+[3], [10], [14] shows their strong performance on network
+traffic with lower memory and compute needs than RNNs or
+Transformers. Although based on handcrafted traffic features
+derived from packet headers and flow metadata, 1D-CNNs
+effectively capture local correlations that reveal attack patterns
+while remaining efficient under tight device constraints.
+The HW-NAS search space is defined as block-wise 1D-
+CNN architectures, where each block can vary in number of
+filters, kernel size, stride, padding type, and dropout rate, and
+may include optional max or average pooling. Each block
+also contains batch normalization and activation layers, and
+the network is formed by stacking these blocks sequentially.
+The search process, implemented via an evolutionary al-
+gorithm [3], [14], [15], runs for a predefined number of
+generations, with a fixed number of children generated per
+generation. Starting from an initial population of random
+architectures, new candidates are created by mutating the
+best-performing valid parent from the previous generation.
+Mutations may add, remove, or modify a CNN block. Each
+candidate undergoes hardware profiling before training; archi-
+tectures that exceed any constraint are discarded immediately,
+while valid ones are retained until the target number of
+children for that generation is reached. The best-performing
+valid child in each generation becomes the parent for the
+next. At the end of the process, the model with the highest
+validation accuracy across all generations is selected as the
+final architecture, enabling efficient on-device inference.
+IV. EXPERIMENTAL SETUP
+A. Dataset
+This study employs the Edge-IIoTset dataset [1], a recent
+benchmark tailored for intrusion detection in IoT and industrial
+IoT environments. It captures labeled network flows repre-
+senting both benign activity and 14 distinct attack types, such
+as DDoS over TCP, SQL injection, man-in-the-middle, and
+backdoor access. These events span multiple protocol layers,
+including network, transport, and application.
+The dataset is available in two curated formats: a DL
+subset with 2,218,386 samples and an ML subset with 157,800
+samples. Each entry is represented by 63 numerical features
+extracted from flow-level and protocol-level headers.
+We consider three classification schemes, each reflecting a
+progressively finer level of semantic granularity. The binary
+setting separates benign traffic from all forms of attack,
+using a general attack label. The 6-class configuration maps
+the 14 attack types into five broader categories: denial of
+service, injection, malware, reconnaissance, and man-in-the-
+middle. The most detailed setup, the 15-class configuration,
+preserves all individual attack types as originally labeled. This
+fine-grained mode serves as the principal classification target
+throughout our evaluation.
+B. Data Preprocessing
+Real-time inference on low-power edge devices requires
+selecting features that are both informative and efficient to
+extract. We retain 47 features from the original set of 63, ex-
+cluding those that are unsuitable for real-time extraction, such
+as payload fields, string-based application-layer attributes,
+and high-cardinality identifiers. These are removed due to
+their incompatibility with streaming environments and limited
+relevance for lightweight deployment.
+The retained features are all readily derivable from flow and
+protocol headers without deep packet inspection. They include
+indicators such as tcp.flags, udp.port, icmp.seq le, and basic
+flow counters, covering key aspects of the network, transport,
+and flow layers.
+We first remove duplicate entries and rows with missing
+values. All features are normalized to the [0, 1] range using
+min–max scaling for numerical stability. The same preprocess-
+ing is used consistently across the three classification modes
+and both ML and DL pipelines, with one-hot encoding of class
+labels applied during training in the DL case. The complete
+list of selected features is available in our project repository1.
+C. Target Gateway Platform
+Our deployment target is the Raspberry Pi3 Model B+, a
+compact, Linux-based single-board computer intended for use
+as a gateway in a local network. In this role, it may process
+local traffic and support additional services such as logging,
+monitoring, or lightweight control functions.
+Table I lists the key hardware specifications, covering com-
+pute capability, memory, storage, connectivity, and power re-
+quirements. These features make the Pi suitable for continuous
+operation in network edge environments where resources must
+be shared among multiple tasks.
+TABLE I: Key specs of the Raspberry Pi 3 Model B+.
+Component
+Specification
+CPU
+Quad-core 1.4 GHz Cortex-A53
+RAM
+1 GB LPDDR2
+Storage
+microSD (OS and data)
+Connectivity
+Gigabit Ethernet, 802.11ac Wi-Fi, Bluetooth 4.2
+OS
+Raspbian Lite (Linux)
+Power
+5 V, up to 2.5 A
+D. Model Search and Implementation
+Experiments use preprocessed tabular features from the 15-
+class classification scenario, the primary task of the dataset,
+1https://github.com/AliiDiabb/Efficient-AI-based-Intrusion-Detection-Sys
+tem-for-IOT-Networks

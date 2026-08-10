@@ -1,0 +1,75 @@
+Computers 2025, 14, 291
+9 of 25
+supports the development of robust IDS solutions capable of detecting diverse characteris-
+tics of IoT-focused intrusions including package and flow data [39]. The attack categories
+presented in this dataset are shown in Table 5.
+Table 5. IoTID20 [37] class descriptions and data distribution.
+Class
+Description
+No. of Training
+No. of Testing
+DoS
+An attack that floods a system to make it unavailable to
+users.
+47,513
+11,878
+Mirai
+Malware that infects IoT devices, creating botnets for
+launching large-scale DDoS attacks.
+28,302
+7075
+MITM ARP Spoofing
+Intercepting communication by tricking devices into
+sending data through the attacker’s system.
+332,247
+83,062
+Normal
+Normal traffic.
+32,058
+8015
+Scan
+Probing a network or system to identify open ports,
+services, or vulnerabilities.
+60,212
+15,053
+3.1.5. UAV IDS
+The UAV IDS dataset is a specialized intrusion detection dataset designed to address
+security threats targeting unmanned aerial vehicles (UAVs). It focuses on two primary
+types of attacks: GPS spoofing and GPS jamming, both of which represent critical threats to
+UAV navigation and operational integrity. This focus on UAV-specific vulnerabilities makes
+the dataset particularly suitable for developing intrusion detection systems (IDS) aimed
+at protecting UAVs from cyber and electronic interference [40]. By including both attack
+data and benign flight data, the dataset offers a comprehensive foundation for training
+models to distinguish between normal and malicious UAV behavior highlighting the need
+to AI-based detection systems [41].
+It contains three CSV files of GPS jamming, GPS spoofing, and benign flight with a
+total of 10,067 records. As no predefined split exists for training and testing, the total data
+are combined and divided using stratified train/test split to ensure class distribution in
+evaluating both types of attacks. The targeted nature and real-world relevance of the UAV
+IDS dataset make it a valuable contribution to researchers and developers working on UAV
+security and resilience against GPS-based attacks [42]. The attack categories presented in
+this dataset are shown in Table 6.
+Table 6. UAV IDS [40] class descriptions and data distribution.
+Class
+Description
+No. of Training
+No. of Testing
+Benign
+Normal traffic.
+4459
+3650
+Jamming
+Disrupting communication signals by overwhelming them with
+interference or noise.
+803
+657
+Spoofing
+Falsifying data or signals to impersonate a legitimate source and
+deceive a target.
+274
+224
+3.2. Data Preprocessing
+We utilized MinMaxScaler to normalize numerical data and a one-hot encoder to
+process categorical features for consistency across all datasets. MinMaxScaler adjusts
+numerical values to a uniform range, between 0 and 1, ensuring that all features have
+comparable scales. This prevents features with larger magnitudes from dominating the

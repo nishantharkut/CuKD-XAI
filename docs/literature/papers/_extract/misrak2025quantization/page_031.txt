@@ -1,0 +1,47 @@
+Page 31 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+libraries optimized for 32-bit ARM Cortex-M-based microcontrollers, such as Arduino, 
+ESP32, and similar devices.
+Two deployment methods are used for host-based detection:
+ 	•
+Direct Hardware Deployment: The model runs on devices like Arduino Portenta 
+H7, STM32 Nucleo, and Raspberry Pi 3B+/4.
+ 	•
+Source Code Integration: The model is converted into .h and .c files and embedded 
+into the main firmware of the microcontroller.
+The proposed model supports both methods, offering a flexible deployment strategy that 
+enables seamless adaptation across heterogeneous hardware. To enhance real-time per­
+formance and minimize latency, the model is deployed on a fog node located after the 
+gateway, utilizing its computational capabilities for efficient and low-latency inference.
+This research model was experimentally validated on two distinct real-time heteroge­
+neous IoT datasets, ensuring interoperability and adaptability to different and emerging 
+attack types.
+The model employs a dual-stage feature selection mechanism, combining RAL-MIFS 
+with two-stage IPCA. This approach effectively identifies the most relevant features from 
+diverse, real-time, and heterogeneous IoT datasets, improving both efficiency and inter­
+pretability. By selecting the most informative features, the model ensures its interoper­
+ability and scalability, making it adaptable to a wide range of IoT settings.
+Furthermore, the model incorporates a hybrid architecture that combines DNN-BiL­
+STM models, enhanced with advanced dynamic quantization for improved performance 
+and reduced computational overhead. This architecture significantly boosts accu­
+racy and interpretability, making it suitable for real-time inference even on resource-
+constrained edge devices. The dynamic quantization further optimizes the model for 
+deployment on edge devices, ensuring both efficiency and scalability. The model remains 
+adaptable to both edge and fog computing nodes, delivering robust low-latency perfor­
+mance while ensuring security across diverse IoT environments.
+5  Conclusion and future works
+In addressing the challenges posed by large-scale, sophisticated IoT cyber attack identi­
+fication and classification, besides the need for lightweight and real-time detection and 
+classification solutions, this research proposes a hybrid DL based cyber attack identifica­
+tion and classification system integrating DNN and BiLSTM model.
+Our proposed methodology introduces a novel RAL-MIFS + two-stage IPCA tech­
+niques for reducing feature dimension during data preprocessing. It leverages DNN-BiL­
+STM architectures to extract nonlinear, bidirectional long-range features from network 
+data. Furthermore, we use advanced dynamic quantization and Optuna hyperparameter 
+optimization to model unit structure pre and post-training, resulting in a DNN-BiL­
+STMQ (Quantized) model tailored for lightweight cyber attack detection.
+To assess the effectiveness of our approach, we have done an experiments using CIC-
+IDS2017 and CIC-IoT2023 datasets, which simulate industrial and network IoT envi­
+ronments. Our experiment demonstrates superior detection performance compared to 
+existing methods across both datasets. Additionally, our approach offers smaller model 
+sizes and lower complexities compared to alternative detection methods.

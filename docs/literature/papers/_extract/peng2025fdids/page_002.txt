@@ -1,0 +1,52 @@
+Sensors 2025, 25, 4309
+2 of 31
+limited. CL generally depends on aggregating the vast data produced by IoT devices onto
+a centralized server to facilitate model training. This data-centralized processing poses
+significant threats to privacy-sensitive scenarios [8]. For instance, in intelligent health-
+care systems, hospitals generate and store large volumes of highly sensitive patient data,
+including diagnostic images and treatment histories (particularly for critical conditions
+such as cancer [9]). Uploading such data to a centralized server for model training raises
+substantial privacy concerns—especially in the event of cyber-attacks that could lead to
+large-scale patient data breaches. Moreover, the transmission of high-resolution medical
+images and textual records imposes considerable pressure on both network bandwidth and
+system resources. Similar challenges have been observed in smart grid environments [10].
+Smart meters deployed at the user end continuously record fine-grained electricity usage
+patterns, such as time-of-use distributions and appliance-level consumption frequencies.
+Studies have shown that such data can be exploited to infer household occupancy, activity
+patterns, and even family structure. If these data are centrally stored on utility provider
+servers, a successful cyber-attack or leakage may not only result in severe privacy violations,
+but also jeopardize the operational security and dispatch integrity of the power grid. To
+overcome these limitations, Google proposed the concept of federated learning (FL) in
+2016 [11]. In contrast to conventional CL approaches, FL enables training processes to be
+conducted locally across distributed devices, transmitting only model parameters through
+communication networks instead of raw data. This approach effectively mitigates the risk
+of sensitive information leakage. Additionally, it reduces the communication overhead and
+energy consumption associated with large-scale data transmission [12].
+Despite the substantial potential of FL in safeguarding data privacy and reducing
+communication costs, it faces significant challenges when applied to the non-independent
+and identically distributed (Non-IID) data in IoT environments [13–15]. Due to differ-
+ences in hardware configurations, usage scenarios, and network conditions, the local data
+distributions of IoT devices are often highly imbalanced. Such data heterogeneity not
+only undermines the effectiveness of the global model, but it also introduces considerable
+drift between the global and local models [16]. Model drift mainly describes the gradual
+widening of differences between the global model and local models throughout the training
+process, leading to substantial parameter inconsistencies. This divergence arises from
+differences in the clients’ objective functions, leading to conflicting update directions that
+undermine the effectiveness and generalization ability of the aggregated model [17,18].
+When the local gradient directions across clients are dispersed, the global updates struggle
+to balance the diverse objectives [19]. These challenges highlight the persistent bottle-
+necks in federated learning when addressing Non-IID data and when ensuring consistency
+between global and local models.
+To overcome the challenges outlined earlier, this study introduces an FL-based IDS,
+named FD-IDS, which was designed for Non-IID IoT environments. Specifically, FD-
+IDS employs a deep neural network (DNN) as the classification model, leveraging its
+powerful nonlinear mapping capabilities to better capture complex intrusion patterns in
+IoT environments. To enhance feature quality, a mutual information (MI)-based feature
+selection method was introduced to filter high-dimensional traffic data, thereby reducing
+data dimensionality and computational overhead. In terms of the federated training
+strategy, FD-IDS integrates a knowledge distillation (KD) directly into the FL process.
+Unlike conventional approaches that typically design the distillation process as an offline
+or decoupled stage outside the training loop, FD-IDS embeds the distillation mechanism
+within each round of federated training. In this setup, the global model acts as a teacher,
+providing soft label supervision to the local student models during each communication
+round, thereby forming an interactive round-wise distillation process. This mechanism

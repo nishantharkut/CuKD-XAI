@@ -1,0 +1,79 @@
+Electronics 2026, 15, 938
+5 of 20
+3. Proposed Methodologies
+This section presents the overall methodological framework of the proposed approach,
+as illustrated in Figure 1. As shown in Figure 1, the framework consists of three main
+stages: data preprocessing, hybrid feature selection, and TCN-based model training. First,
+the raw dataset is preprocessed through data cleaning and normalization to ensure data
+quality. Next, a hybrid feature selection module is applied to reduce feature redundancy
+and retain discriminative features. Finally, the selected feature sequences are fed into the
+TCN model for training and classification, enabling effective intrusion detection.
+Data Cleaning and 
+Normalization
+Edge-IIoTset 
+Dataset
+Hybrid Feature Selection
+√
+×
+√
+√
+0~1
+0~1
+0~1
+TCN Training Model
+Classification Output
+Variance Filtering
+Mutual  
+Information
+Spearman Correlation 
+Coefficient
+Feature Subset
+Softmax
+Normal
+Attack 1
+Attack N
+...
+Residual Block ( ,
+1)
+k d =
+Residual Block( ,
+2)
+k d =
+Residual Block( ,
+4)
+k d =
+Residual Block( ,
+8)
+k d =
+Figure 1. Overall process of the proposed model.
+3.1. Dataset Description
+In this study, we adopted the Edge-IIoTset dataset, which is widely used for security
+research in both IoT and Industrial IoT (IIoT) scenarios. Ferrag et al. [24], provide a detailed
+description of the Edge-IIoTset dataset, which was collected from a realistic IIoT testbed
+involving more than ten types of IoT devices. For experimental evaluation, we selected
+the DNN-EdgeIIoT-dataset.csv file from the Edge-IIoTset dataset as the benchmark dataset.
+This subset provides a large-scale and diverse collection of traffic samples, making it
+suitable for training and evaluating deep learning-based intrusion detection models. The
+dataset contains a total of 2,219,201 network flow records, each described by 61 features,
+covering 14 different attack categories, as well as normal traffic.
+3.2. Dataset Preprocessing
+To ensure data quality and enhance model training effectiveness, the raw dataset was
+preprocessed before model construction. As described in Ref. [25], we preprocessed the
+dataset in the following manner.
+3.2.1. Duplicate Row and Unnecessary Feature Removal
+First, duplicate rows were removed, resulting in the removal of 815 redundant entries.
+Second, we removed flow features such as IP addresses, ports, timestamps, and payload data
+since these primarily serve as network identifiers or payload information, contribute little
+to attack classification, and may add noise. Specifically, these features are: (1) frame.time,
+(2) ip.dst_host, (3) http.file_data, (4) ip.src_host, (5) arp.src.proto_ipv4, (6) arp.dst.proto_ipv4,
+(7) http.request.full_uri, (8) http.request.uri.query, (9) icmp.transmit_timestamp, (10) tcp.payload,
+(11) tcp.options, (12) tcp.srcport, (13) tcp.dstport, (14) udp.port, and (15) mqtt.msg. After re-
+moval of these columns, the dataset contained 1,909,671 records with 47 remaining features.
+3.2.2. Dummy Encoding
+After dropping duplicate rows and unnecessary features, the new dataset includes
+seven feature columns with the object data type, apart from the target variable Attack_type.
+These columns include (1) http.request.method, (2) http.referer, (3) http.request.version,
+(4) dns.qry.name.len, (5) mqtt.conack.flags, (6) mqtt.protoname, and (7) mqtt.topic. We used
+dummy encoding to convert these non-numerical features into binary variables. Dummy
+encoding is a data preparation technique that is widely applied in machine learning and
+https://doi.org/10.3390/electronics15050938

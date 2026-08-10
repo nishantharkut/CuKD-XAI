@@ -1,0 +1,57 @@
+mapping from input vectors to output vectors. For cumbersome models that learn to discriminate
+between a large number of classes, the normal training objective is to maximize the average log
+probability of the correct answer, but a side-effect of the learning is that the trained model assigns
+probabilities to all of the incorrect answers and even when these probabilities are very small, some
+of them are much larger than others. The relative probabilities of incorrect answers tell us a lot about
+how the cumbersome model tends to generalize. An image of a BMW, for example, may only have
+a very small chance of being mistaken for a garbage truck, but that mistake is still many times more
+probable than mistaking it for a carrot.
+It is generally accepted that the objective function used for training should reﬂect the true objective
+of the user as closely as possible. Despite this, models are usually trained to optimize performance
+on the training data when the real objective is to generalize well to new data. It would clearly
+be better to train models to generalize well, but this requires information about the correct way to
+generalize and this information is not normally available. When we are distilling the knowledge
+from a large model into a small one, however, we can train the small model to generalize in the same
+way as the large model. If the cumbersome model generalizes well because, for example, it is the
+average of a large ensemble of different models, a small model trained to generalize in the same way
+will typically do much better on test data than a small model that is trained in the normal way on the
+same training set as was used to train the ensemble.
+An obvious way to transfer the generalization ability of the cumbersome model to a small model is
+to use the class probabilities produced by the cumbersome model as “soft targets” for training the
+small model. For this transfer stage, we could use the same training set or a separate “transfer” set.
+When the cumbersome model is a large ensemble of simpler models, we can use an arithmetic or
+geometric mean of their individual predictive distributions as the soft targets. When the soft targets
+have high entropy, they provide much more information per training case than hard targets and much
+less variance in the gradient between training cases, so the small model can often be trained on much
+less data than the original cumbersome model and using a much higher learning rate.
+For tasks like MNIST in which the cumbersome model almost always produces the correct answer
+with very high conﬁdence, much of the information about the learned function resides in the ratios
+of very small probabilities in the soft targets. For example, one version of a 2 may be given a
+probability of 10−6 of being a 3 and 10−9 of being a 7 whereas for another version it may be the
+other way around. This is valuable information that deﬁnes a rich similarity structure over the data
+(i. e. it says which 2’s look like 3’s and which look like 7’s) but it has very little inﬂuence on the
+cross-entropy cost function during the transfer stage because the probabilities are so close to zero.
+Caruana and his collaborators circumvent this problem by using the logits (the inputs to the ﬁnal
+softmax) rather than the probabilities produced by the softmax as the targets for learning the small
+model and they minimize the squared difference between the logits produced by the cumbersome
+model and the logits produced by the small model. Our more general solution, called “distillation”,
+is to raise the temperature of the ﬁnal softmax until the cumbersome model produces a suitably soft
+set of targets. We then use the same high temperature when training the small model to match these
+soft targets. We show later that matching the logits of the cumbersome model is actually a special
+case of distillation.
+The transfer set that is used to train the small model could consist entirely of unlabeled data [1]
+or we could use the original training set. We have found that using the original training set works
+well, especially if we add a small term to the objective function that encourages the small model
+to predict the true targets as well as matching the soft targets provided by the cumbersome model.
+Typically, the small model cannot exactly match the soft targets and erring in the direction of the
+correct answer turns out to be helpful.
+2
+Distillation
+Neural networks typically produce class probabilities by using a “softmax” output layer that converts
+the logit, zi, computed for each class into a probability, qi, by comparing zi with the other logits.
+qi =
+exp(zi/T )
+P
+j exp(zj/T )
+(1)
+2

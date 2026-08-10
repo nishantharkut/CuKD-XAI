@@ -1,0 +1,47 @@
+C:\N Drive\Research\Cukd-XAI\CuKD-XAI\results\wsnds\leakage_free_rerun\main_10seed\executed_source_snapshot\_resume_B_only.py:1525: FutureWarning: The NumPy global RNG was seeded by calling `np.random.seed`. In a future version this function will no longer use the global RNG. Pass `rng` explicitly to opt-in to the new behaviour and silence this warning.
+  shap.summary_plot(
+Device: cuda
+PyTorch: 2.5.1+cu121
+Seeds: [8192, 9999]
+Quick mode: False
+Dataset: C:\N Drive\Research\Cukd-XAI\CuKD-XAI\data\wsnds\WSN-DS.csv
+Output directory: C:\N Drive\Research\Cukd-XAI\CuKD-XAI\results\wsnds\leakage_free_rerun\main_10seed
+Shape: (374661, 19)
+Columns: [' id', ' Time', ' Is_CH', ' who CH', ' Dist_To_CH', ' ADV_S', ' ADV_R', ' JOIN_S', ' JOIN_R', ' SCH_S', ' SCH_R', 'Rank', ' DATA_S', ' DATA_R', ' Data_Sent_To_BS', ' dist_CH_To_BS', ' send_code ', 'Expaned Energy', 'Attack type']
+
+First row:
+       id  Time  Is_CH  who CH  Dist_To_CH  ADV_S  ADV_R  JOIN_S  JOIN_R  SCH_S  SCH_R  Rank  DATA_S  DATA_R  Data_Sent_To_BS  dist_CH_To_BS  send_code  Expaned Energy Attack type
+0  101000    50      1  101000         0.0      1      0       0      25      1      0     0       0    1200               48      130.08535          0          2.4694      Normal
+Target column: Attack type
+Dropped id
+Classes: ['Blackhole', 'Flooding', 'Grayhole', 'Normal', 'TDMA']
+Mapping: {'Blackhole': 0, 'Flooding': 1, 'Grayhole': 2, 'Normal': 3, 'TDMA': 4}
+Input dim: 17
+Class distribution: {'Blackhole': 10049, 'Flooding': 3312, 'Grayhole': 14596, 'Normal': 340066, 'TDMA': 6638}
+Teacher MLP: 69893 params (273.02 KB fp32, 68.25 KB int8)
+Student A (32, 16): 1189 params (4.64 KB fp32, 1.16 KB int8)
+Student B (64, 32): 3397 params (13.27 KB fp32, 3.32 KB int8)
+Student A FLOPs: 2373
+Student B FLOPs: 6789
+Train: (262252, 17), Val: (56209, 17), Test: (56200, 17)
+Scaler fit partition: train only
+
+>>> KD hyperparameter grid search (seed 42, Student A)
+  T=2, alpha=0.5: val_f1=0.9112
+  T=2, alpha=0.7: val_f1=0.9079
+  T=2, alpha=0.9: val_f1=0.9096
+  T=3, alpha=0.5: val_f1=0.9079
+  T=3, alpha=0.7: val_f1=0.9121
+  T=3, alpha=0.9: val_f1=0.9055
+  T=4, alpha=0.5: val_f1=0.9028
+  T=4, alpha=0.7: val_f1=0.9137
+  T=4, alpha=0.9: val_f1=0.9102
+  T=5, alpha=0.5: val_f1=0.9036
+  T=5, alpha=0.7: val_f1=0.9083
+  T=5, alpha=0.9: val_f1=0.9114
+
+Best KD hyperparameters: T=4, alpha=0.7 (val F1 0.9137)
+
+>>> Running 2 seeds with Student A (32, 16)
+
+============================================================

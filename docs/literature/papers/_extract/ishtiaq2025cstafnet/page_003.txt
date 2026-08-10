@@ -1,0 +1,102 @@
+intrusion detection dataset using Deep Neural Network (DNN) methods 
+[36]. This study highlights the effectiveness of a deep learning-based 
+intrusion detection approach that leverages dynamically scaled gradi­
+ents through focal loss, enabling more efficient model training. The 
+proposed method is evaluated across three datasets representing distinct 
+IoT domains, demonstrating its adaptability and performance. Most of 
+the works are done on centralized task offloading from mobile devices 
+(MDs) to edge servers, limiting scalability and adaptability in dynamic 
+environments. To address this, a decentralized task offloading frame­
+work formulated as a stochastic optimization problem under partial 
+observability. Research in Ref. [37], the authors introduced a Mixed 
+Multi-Agent Proxy Policy Optimization (mixed MAPPO) algorithm that 
+enables efficient task distribution without inter-device coordination.
+To fill these gaps, this research introduces CST-AFNet, a dual 
+attention-based deep learning architecture that fuses multi-scale CNNs 
+and BiGRU with temporal and channel attention mechanisms. The 
+model is evaluated on Edge-IIoTset to demonstrate its robustness in 
+detecting a wide range of attacks, including underrepresented classes, 
+while maintaining scalability and interpretability for deployment in 
+real-world IIoT scenarios.
+3. Proposed Methodology
+The methodology of this study involved three components: (1) pro­
+posed Multi stages CNN method, (2) added Bi-directional GRU, and (3) 
+analysis the model with dual attention functions for the features 
+extraction that can rank as the best classification for both frequent and 
+rare cyberattacks.
+Fig. 1 shows, we have been creating a multi stages CNN model that 
+can concatenate with each other’s. However, our proposed model also 
+adds a type of recurrent neural network architecture is called Bi- 
+directional GRU.
+Then we create dual attention function while the model is extracting 
+the most important features. Finally, we add Global Maxpooling1D 
+layers, and a output layer is used for both binary and multiclass 
+classification.
+According to Table 1, the CST-AFNet model starts with three parallel 
+Conv1D layers with different kernel sizes for multiscale feature extrac­
+tion. The outputs are concatenated, normalized, and regularized with 
+dropout. For capturing sequential patterns, we use BiGRU layer, fol­
+lowed by dual attention mechanisms to emphasize key temporal and 
+channel-wise features. The final dense and softmax layers perform 
+classification over 15 attack categories.
+To capture the important features for detecting the different types of 
+intrusion, we use a multi-scale convolutional approach using kernel 
+sizes of 3, 5, and 7. Small kernels (e.g., 3 × 3) are used for detecting fine- 
+grained local patterns such as subtle anomalies in packet-level traffic. 
+Medium kernels (5 × 5) expand the receptive field to identify mid-level 
+features, while larger kernels (7 × 7) enable the network to capture 
+broader contextual information, such as aggregate behaviors and volu­
+metric patterns characteristic of complex attacks like DDoS.
+3.1. Dataset overview and preprocessing
+The dataset used in this research is the Edge-IIoTset dataset [38], a 
+comprehensive and realistic intrusion detection benchmark specifically 
+designed for IoT security research. It comprises approximately 2,219, 
+201 network flow records, covering 15 attack types along with normal 
+traffic, distributed across diverse communication protocols such as TCP, 
+UDP, MQTT, HTTP, Modbus TCP, and ICMP. Each sample contains 63 
+features describing various packet-level and protocol-level behaviors.
+The preprocessing involves the following steps. 
+i. Handling Missing Values: The dataset D =
+{
+xi, yi
+}N
+i=1, Where xi ∈
+Rd and yi represent the features and the labels. For numerical 
+Fig. 1. Methodology for Intrusion Detection using a multi stages CNN model.
+Table 1 
+Parameters of proposed CST-AFNet architecture.
+Component
+Details/Values
+Input Shape
+(60)
+Reshape Layer
+Reshape to (60, 1)
+Conv1D - Kernel Size 3
+Filters: 64, Activation: ReLU, Padding: Same
+Conv1D - Kernel Size 5
+Filters: 64, Activation: ReLU, Padding: Same
+Conv1D - Kernel Size 7
+Filters: 64, Activation: ReLU, Padding: Same
+Concatenation
+Merge outputs from all three Conv1D layers
+Batch Normalization
+Applied after concatenation
+Dropout 1
+Rate: 0.3
+BiGRU Layer
+Units: 64, Bidirectional, Return Sequences: True
+Temporal Attention
+Softmax attention across time dimension
+Channel Attention
+Dense layers: (64 →8 → 64), Activation: ReLU + Sigmoid
+Global Max Pooling
+Aggregates features across time
+Dense Layer
+Units: 128, Activation: ReLU
+Dropout 2
+Rate: 0.4
+Output Layer
+Units: 15, Activation: Softmax
+W. Ishtiaq et al.                                                                                                                                                                                                                                 
+Array 27 (2025) 100501 
+3 

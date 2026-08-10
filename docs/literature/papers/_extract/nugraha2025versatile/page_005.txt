@@ -1,0 +1,121 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1099
+a few IoT traces, none of the listed IDS frameworks address
+control-plane trafﬁc in 5G/6G networks, leaving emerging
+PFCP-based threats uncharted. (ii) Lack of dimensionality
+control: the majority retain the full feature space, which
+inﬂates explanation latency and hinders real-time deploy-
+ment. (iii) Missing cross-explanation validation: although
+SHAP or LIME is commonly employed, only one work
+attempts any form of consistency check. (iv) Sparse report-
+ing of computational cost: none of the past studies quantify
+the time required to generate explanations, making it difﬁ-
+cult to judge practical feasibility. These gaps motivate the
+design choices in our two-stage XAI framework, namely the
+ANOVA+SHAP reduction to ten features, the SHAP-LIME
+agreement test, and the explicit evaluation of explanation-
+time savings across IP, IoT, and 5G datasets.
+While ANOVA offers a statistically rigorous and compu-
+tationally efﬁcient method for feature selection, it is most
+effective when integrated with XAI techniques like SHAP
+for global and local explanations. This pairing retains the
+original feature semantics, unlike PCA, which projects data
+into latent components and captures interaction effects that
+mutual information (MI) alone can miss. In our initial exper-
+iment, PCA and MI top-10 ﬁlters achieved higher F1 Score
+(0.999 and 0.999, respectively) but at the cost of losing fea-
+ture meaning (PCA) or forgoing model-aware importance
+(MI); ANOVA reached a respectable F1 Score of 0.997
+with the fastest LIME explanation generation time (2.36s),
+thus, the ANOVA–SHAP integration offers the best balance
+between interpretability, statistical validity, and computa-
+tional efﬁciency. Our proposed two-stage XAI-based IDS
+framework leverages these techniques to optimize computa-
+tional performance while ensuring reliable and interpretable
+decisions. This approach is beneﬁcial, e.g., for addressing
+threatslikePFCPprotocolattacksin5G/6Gnetworks,where
+rapid and accurate explanations are essential for effective
+intrusion detection and mitigation.
+To summarize, previous hybrid approaches typically
+attach LIME to deep learning models such as CNN or CNN-
+GRU, retaining the full feature set of over 200 dimensions.
+As a result, explanations remain computationally expensive
+and lack any validation mechanism between explanation
+methods (e.g., studies using LIME and SHAP for explain-
+able IDS in VANETs). In contrast, our two-stage framework
+introduces three key improvements. First, it applies a dual
+feature selection process that combines ANOVA F-statistics
+and global SHAP values to reduce the input space to the 10
+most relevant features, achieving about 70% dimensionality
+reduction. Second, it replaces the complex CNN-GRU with
+a lightweight XGBoost classiﬁer trained on this reduced fea-
+ture set, reducing LIME explanation time from 36 to 4.9s (an
+87% improvement) on CICIoT-Slowloris, while maintaining
+F1 Score ≥99% across CIC-DDoS2019, CICIoT2023, and
+5G PFCP datasets. Third, it validates each LIME explanation
+Algorithm 1 Two-Stage XAI-Based IDS Framework
+1: Input: Tabular dataset D = (X, y)
+2: Output: Trained model M, explanations (eSHAP, eLIME), and con-
+sistency ﬂag γ
+3: // Stage 1: Pre-processing
+4: Drop ID columns, handle NaN/Inf, remove constant features
+5: Encode labels y; split D into Dtr, Dte
+6: // Stage 2: Feature Evaluation
+7: Compute ANOVA F-scores on Dtr
+8: Train temporary model
+˜
+M using XGBoost
+9: Obtain SHAP importances from
+˜
+M
+10: Normalize and combine (40% ANOVA + 60% SHAP) scores
+11: Select top K = 10 features F⋆
+12: // Stage 3: Model Training
+13: Reduce Dtr, Dte to F⋆
+14: Train ﬁnal model M on Dtr
+15: // Stage 4: Online Inference and Explanation (per instance x)
+16: for each test instance x do
+17:
+ˆy ←M(x)
+18:
+eSHAP ←TreeExplainer(M, x)
+19:
+eLIME ←LimeExplainer(M, x)
+20:
+if top-ℓfeatures in both explanations agree then
+21:
+γ ←1
+22:
+else
+23:
+γ ←0
+24:
+end if
+25:
+return ( ˆy, eSHAP, eLIME, γ )
+26: end for
+by comparing it to SHAP outputs, identifying inconsistencies
+and enhancing reliability. Together, these steps offer faster,
+more efﬁcient, and more reliable explanations than previous
+methods.
+3 Proposed XAI-based IDS framework
+3.1 Overview of the proposed framework
+Figure 1 presents the architecture of the proposed XAI-based
+IDS framework, which operates as a non-amortized approach
+to generate explanations for each individual instance. Unlike
+amortized techniques that reuse generalized explanation
+models, this design ensures that the interpretability out-
+put is tailored to the speciﬁc feature contributions of every
+detection, a critical property for high-stakes IDS scenarios
+where per-instance transparency is essential. The frame-
+work integrates three originality aspects absent from prior
+XAI–IDS studies: (i) a dual-stage feature selection pipeline
+that fuses statistical ranking (ANOVA) with model-based
+global importance (SHAP) to achieve substantial dimen-
+sionality reduction with minimal performance loss, (ii) a
+cross-validation mechanism that compares SHAP and LIME
+local explanations to detect inconsistencies, thus adding a
+reliability layer to interpretability, and (iii) a time-efﬁciency
+evaluation component that measures explanation generation
+latency under realistic IDS workloads. Operationally, the
+123

@@ -1,0 +1,153 @@
+Where, Wout and bout are weights and bias of the final layer and ̂y or ̂yj 
+represents the predicted probability for binary or each class, respec­
+tively. This final classification layer enables the model to adapt flexibly 
+to either binary decision-making (attack vs. normal) or fine-grained 
+multiclass threat identification.
+3.3. Model training strategy
+The training strategy of the proposed CST-AFNet model is carefully 
+designed to ensure robust convergence, mitigate overfitting, and maxi­
+mize generalization performance on the dataset. To ensure robust, we 
+proposed an adaptive learning strategy with different hyperparameters. 
+We have selected a callbacks function to optimize performance and 
+prevent overfitting. Moreover, the Adam optimizer provides efficient 
+gradient-based updates with an initial learning rate of 0.001. Further­
+more, this learning rate helps to prevent our loss values. Sparse Cate­
+gorical Crossentropy is used for multi-class classification with integer- 
+encoded labels. We use a large batch size to stabilize gradient updates 
+and train for a maximum of 10 epochs, with early stopping monitoring 
+the validation loss (patience = 5) and restoring the best weights. The 
+trained parameters with their values are presented Table 2.
+Fig. 2 illustrates the CST-AFNet Model training and compiled steps. 
+The dataset is divided into train and validation folder with 80 % and 20 
+% ratio. The 80:20 train-test split was chosen based on standard prac­
+tices in machine learning research, as it offers a good balance between 
+sufficient training data for deep model convergence and enough test 
+data to evaluate generalization. This ratio has also been used in prior IoT 
+intrusion detection studies [17,36] ensuring comparability and reli­
+ability of performance metrics.
+3.3.1. Loss function
+For binary classification problem (Normal vs. Attack), the Binary 
+Cross-Entropy (BCE) loss function is employed.
+The loss for a single instance is defined as: 
+L BCE(y,̂ y) = −(ylog(̂y) + (1 −y)log(1 −̂ y))
+Where, y ∈{0, 1} is the true binary label, ̂ y ∈{0, 1} is the predicted 
+probability output from the sigmoid activation. The overall loss mini­
+mized during training is the empirical average: L total = 1
+N
+∑N
+i=1 L BCE
+(
+yi,̂
+yi
+)
+.
+For multiclass classification (e.g., 15 attack categories), the Sparse 
+Categorical Cross-Entropy (SCCE) is used. The loss for an instance is 
+defined as: L SCCE(y,̂ y) = −
+log
+(̂
+yy
+)
+, where, y ∈{0, 1, …, C −1} is the 
+true class label (as an integer), ̂y ∈RC is the output softmax probability 
+vector, ̂yy is the predicted probability corresponding to the true class 
+index. The total loss over N samples is: L total = 1
+N
+∑N
+i=1 L SCCE
+(
+yi,̂ yi
+)
+. 
+This adaptive loss selection allows CST-AFNet to function seamlessly for 
+both binary and multiclass intrusion detection tasks using the appro­
+priate probabilistic output layer and loss formulation.
+3.3.2. Optimizer
+The model parameters are optimized using the Adam Optimizer, a 
+widely adopted method in deep learning due to its adaptive learning rate 
+and momentum capabilities. Adam updates parameters θ at iteration t 
+according to: 
+mt = β1mt−1 + (1 −β1)∇θL t, vt = β2vt−1 + (1 −β2)(∇θL t)2,̂
+mt =
+mt
+1 −βt
+1
+,̂ vt =
+vt
+1 −βt
+2
+, θt = θt−1 −η̂
+mt̅̅̅̅̅̂
+vt
+√
++ ϵ 
+Where, η = 10−3 (learning rate), β1 = 0.9, β2 = 0.999, ϵ = 10−8 (nu­
+merical stability).
+3.3.3. Training Configuration
+A batch size of 1024 is used, balancing memory efficiency with 
+gradient stability. The maximum number of epochs is set to 10, although 
+training is dynamically halted earlier if no improvement is observed. 20 
+% of the training set is reserved for validation during each epoch.
+Two important callbacks are integrated during training. Early Stop­
+ping Monitors validation loss. If validation loss does not improve for 5 
+consecutive epochs, training is halted. The best weights (based on lowest 
+validation loss) are restored automatically. Model Checkpoint saves the 
+model weights whenever the validation loss improves. Ensures that the 
+best-performing model during training is preserved.
+3.4. Evaluation metrics
+To evaluate the performance of the proposed CST-AFNet model, we 
+utilize the classification report and confusion matrix two widely adopted 
+metrics in intrusion detection tasks. The classification report provides 
+key indicators including precision, recall, and F1-score for each class, 
+offering insights into the model’s effectiveness in correctly identifying 
+both normal and attack instances, particularly in the presence of class 
+imbalance. The confusion matrix further complements this analysis by 
+detailing the true positives, true negatives, false positives, and false 
+negatives, enabling a granular understanding of misclassification 
+patterns.
+4. Results & analysis
+All experiments were conducted in Google Colab using Python 3 and 
+the TensorFlow/Keras deep learning framework. The proposed CST- 
+AFNet model was implemented with core layers such as Conv1D, 
+GRU, Dense, Dropout, BatchNormalization, and custom attention blocks 
+(channel_attention, temporal_attention). Data preprocessing utilized 
+pandas, StandardScaler, and LabelEncoder from sklearn. The model was 
+trained using the Adam optimizer (learning rate = 0.001), with a batch 
+size of 1024, 10 epochs, and EarlyStopping and ModelCheckpoint call­
+backs for regularization. Evaluation was performed using classi­
+fication_report and confusion_matrix from sklearn.metrics.
+Using precision in Fig. 4, recall in Fig. 3, and F1-score in Fig. 5 as 
+metrics, Table 3 represents the evaluation of the model’s effectiveness 
+across various cyberattack categories. The results indicate that our 
+proposed model performs outstanding, achieving a great score in 
+Table 2 
+CST-AFNet Model trained Parameters.
+Parameters
+Values
+Optimizer
+Adam
+Learning Rate
+0.001
+Loss Function
+Sparse Categorical Crossentropy
+Metric
+Accuracy
+Batch Size
+1024
+Epochs
+10
+Validation Split
+0.2
+Early Stopping
+Monitor: val_loss, Patience: 5, Restore Best Weights
+Model Checkpoint
+Save Best Only: best_cst_afnet_model.h5
+Train/Test Split Ratio
+80 % training, 20 % testing (with stratification)
+Label Encoding
+LabelEncoder used for class labels
+Fig. 2. Training and model evaluation steps using our proposed CST- 
+AFNet model.
+W. Ishtiaq et al.                                                                                                                                                                                                                                 
+Array 27 (2025) 100501 
+5 

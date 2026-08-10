@@ -1,0 +1,27 @@
+Sensors 2025, 25, 4309
+6 of 31
+3. Methodology
+3.1. Overview
+In IoT environments, the inherent Non-IID characteristics of data present considerable
+obstacles to the effectiveness of IDSs. Figure 1 illustrates a CL architecture in the context
+of IoT, where each client device uploads locally collected raw network traffic data to a
+central server for unified model training. The types and distributions of attacks vary across
+clients. Different colors and quantities of attacker icons represent class imbalance and
+sample diversity in local datasets, highlighting the inherent Non-IID characteristics of the
+data. Moreover, under this architecture, all sensitive data are collected and transmitted to
+the central server. In the event of a server compromise or data breach, users’ privacy would
+be exposed to significant security risks. To address these challenges, this paper proposes a
+novel intrusion detection method based on the FL, termed FD-IDS. The proposed method
+integrates a proximal term and KD mechanism to effectively mitigate the performance drift
+caused by Non-IID data while preserving data privacy. This approach enhances the overall
+detection performance of the system in heterogeneous environments.
+Figure 1. Data heterogeneity and privacy risk in a centralized intrusion detection architecture.
+To assess the effectiveness of FD-IDS in IoT environments, we utilized the publicly
+available Edge-IIoT and N-BaIoT datasets and performed data preprocessing. For the
+model architecture, a DNN was selected as the classifier for the IDS because of its strong
+feature extraction and learning capabilities, enabling precise identification of complex
+attack patterns.
+In the FL training phase, the FedProx aggregation algorithm was adopted. By incor-
+porating a proximal term into the objective function, FedProx effectively constrains the
+extent of local model updates, thereby alleviating the model drift caused by Non-IID [34].
+To further mitigate the drift issues resulting from data distribution discrepancies, this

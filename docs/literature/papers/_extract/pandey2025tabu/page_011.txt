@@ -1,0 +1,159 @@
+Class-wise performance analysis
+Tables 4 and 5 present the detailed classification reports for the initial and optimized models.
+Classification reports in Tables 4 and 5 show that the RF model performed remarkably well in detecting 
+network attacks and regular traffic in WSN environments with considerable improvements post-optimization. 
+Table 4 shows that the model scored 99% accuracy over 74,933 instances, whereby Normal traffic (67,965 cases; 
+90.70% dataset) produced perfect precision and recall at 1.00.The recall power of the first model was different for 
+all attack types. Blackhole attacks had 2,043 instances recalled per defect every single time, with a score of 1.00 
+and a precision of 0.97.Flooding attacks with 631 instances granted perfect recall, but precision was much lower, 
+0.90.Grayhole attacks had balanced performances at 2,985 cases, as their precision was equal to their recall with 
+scores of 0.97 and 0.94, respectively.
+TDMA attacks at 1,309 instances produced perfect precision but relatively low recall at 0.93.After 
+optimization, Table 5 depicts that the model was improved in all metrics, with an ideal accuracy of 1.00 and 
+enhanced performance in detecting the attack. Blackhole attacks have now improved to 0.99 precision while 
+keeping perfect recall. Flooding attacks are now at 0.93 precision with a recall of 0.99.Grayhole attacks had 
+balanced metrics of 0.98 for precision and recall, while TDMA attacks kept the perfect precision and had a 
+recall of 0.93.Macro averages improved from 0.97 to 0.98 while weighted averages increased from 0.99 to 1.00, 
+which indicates the enhanced ability of the model to handle class imbalance and distinguish between the types 
+of attacks, thus making the system of WSN attack detection more robust and more reliable with a minimum 
+number of false positives in all categories.
+Confusion matrix and ROC curve analysis initial RF model
+The confusion matrix in Fig. 5 and the ROC curve analysis in Fig. 6 represent the performance of the initial 
+RF model on a multiclass classification problem, which depicts high accuracy for most of the classes. Class 0 
+Class
+Precision
+Recall
+F1-score
+Support
+Blackhole
+0.99
+1.00
+0.99
+2043
+Flooding
+0.93
+0.99
+0.96
+631
+Grayhole
+0.98
+0.98
+0.98
+2985
+Normal
+1.00
+1.00
+1.00
+67,965
+TDMA
+1.00
+0.93
+0.96
+1309
+Accuracy
+–
+–
+1.00
+74,933
+Macro avg
+0.98
+0.98
+0.98
+74,933
+Weighted avg
+1.00
+1.00
+1.00
+74,933
+Table 5.  Classification report of the optimized RF model over WSN-DS.
+ 
+Class
+Precision
+Recall
+F1score
+Support
+Blackhole
+0.97
+1.00
+0.98
+2043
+Flooding
+0.90
+1.00
+0.95
+631
+Grayhole
+0.97
+0.94
+0.95
+2985
+Normal
+1.00
+1.00
+1.00
+67,965
+TDMA
+1.00
+0.93
+0.96
+1309
+Accuracy
+–
+–
+0.99
+74,933
+Macro avg
+0.97
+0.97
+0.97
+74,933
+Weighted avg
+0.99
+0.99
+0.99
+74,933
+Table 4.  Classification report of the initial RF model over WSN-DS.
+ 
+CICIDSS2017
+CIC-IoT-2023
+Metric
+Initial RF
+Optimized RF
+Initial RF
+Optimized RF
+Accuracy
+0.99
+0.99
+0.97
+0.99
+Precision
+0.99
+0.99
+0.97
+0.98
+Recall
+0.99
+0.99
+0.97
+0.99
+F1 Score
+0.99
+0.99
+0.96
+0.98
+Cohen’s Kappa
+0.99
+0.99
+0.96
+0.98
+ROC AUC
+0.99
+0.99
+0.99
+0.99
+Table 3.  The results for the initial and optimized CICIDS2017 and CIC-IoT-2023 models.
+ 
+Scientific Reports |        (2025) 15:18634 
+11
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

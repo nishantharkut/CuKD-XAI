@@ -1,0 +1,58 @@
+Sensors 2024, 24, 3339
+7 of 26
+Figure 1. Overall intrusion detection system architecture.
+4. Proposed Work
+4.1. Preliminaries
+4.1.1. Whale Optimization Algorithm
+Mirjalili and Lewis drew inspiration from the predation behavior of humpback whales
+to formulate a WOA in 2016 [18]. The algorithm emulates the feeding strategy of humpback
+whales, which is characterized by diving near the surface of the water and employing a
+spiral pattern to trap prey within a net of bubbles. This predation behavior was delineated
+into three distinct stages.
+•
+Encircling prey;
+•
+Searching for prey;
+•
+Bubble-net attacking.
+The probability rate ρ1 is employed for each whale to dynamically transition between
+the strategies of encircling prey/searching for prey and bubble-net attacks during the opti-
+mization process. In addition, individuals utilize a coefficient vector⃗At to make strategic
+choices between the two techniques of encircling and searching for prey. The complete
+computation for updating the position of each individual in the WOA is determined by
+Equation (1). In this equation, the probability rate ρ1 is a stochastic value within the range
+(0, 1), and the coefficient vectors⃗At and⃗Ct are calculated using Equations (2) and (3),
+respectively, where⃗ra and⃗rc are two vectors of a random number between [0, 1], and vector
+a is a linear reduction from 2 to 0 in direct proportion to the number of iterations according
+to Equation (4), where t and M are the current iteration and the maximum number of
+allowed iterations. [·] is an element-by-element multiplication.⃗
+Xt+1 =
+
+
+
+
+
+
+
+
+
+Encircling
+(ρ1 ≤0.5) and
+⃗At ≤1
+
+.
+Searching
+(ρ1 ≤0.5) and
+⃗At > 1
+
+.
+Attacking
+(ρ1 > 0.5).
+(1)⃗
+At = 2a · ra −a.
+(2)⃗
+Ct = 2 ∗⃗rc.
+(3)
+a = 2 −t 2
+M.
+(4)

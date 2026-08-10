@@ -1,0 +1,102 @@
+On Calibration of Modern Neural Networks
+Chuan Guo * 1 Geoff Pleiss * 1 Yu Sun * 1 Kilian Q. Weinberger 1
+Abstract
+Conﬁdence calibration – the problem of predict-
+ing probability estimates representative of the
+true correctness likelihood – is important for
+classiﬁcation models in many applications. We
+discover that modern neural networks, unlike
+those from a decade ago, are poorly calibrated.
+Through extensive experiments, we observe that
+depth, width, weight decay, and Batch Normal-
+ization are important factors inﬂuencing calibra-
+tion.
+We evaluate the performance of various
+post-processing calibration methods on state-of-
+the-art architectures with image and document
+classiﬁcation datasets. Our analysis and exper-
+iments not only offer insights into neural net-
+work learning, but also provide a simple and
+straightforward recipe for practical settings: on
+most datasets, temperature scaling – a single-
+parameter variant of Platt Scaling – is surpris-
+ingly effective at calibrating predictions.
+1. Introduction
+Recent advances in deep learning have dramatically im-
+proved neural network accuracy (Simonyan & Zisserman,
+2015; Srivastava et al., 2015; He et al., 2016; Huang et al.,
+2016; 2017). As a result, neural networks are now entrusted
+with making complex decisions in applications, such as ob-
+ject detection (Girshick, 2015), speech recognition (Han-
+nun et al., 2014), and medical diagnosis (Caruana et al.,
+2015). In these settings, neural networks are an essential
+component of larger decision making pipelines.
+In real-world decision making systems, classiﬁcation net-
+works must not only be accurate, but also should indicate
+when they are likely to be incorrect. As an example, con-
+sider a self-driving car that uses a neural network to detect
+pedestrians and other obstructions (Bojarski et al., 2016).
+*Equal contribution, alphabetical order.
+1Cornell University.
+Correspondence to: Chuan Guo <cg563@cornell.edu>, Geoff
+Pleiss <geoff@cs.cornell.edu>, Yu Sun <ys646@cornell.edu>.
+Proceedings of the 34 th International Conference on Machine
+Learning, Sydney, Australia, PMLR 70, 2017. Copyright 2017
+by the author(s).
+0.0 0.2 0.4 0.6 0.8 1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+% of Samples
+Avg. conﬁdence
+Accuracy
+LeNet (1998)
+CIFAR-100
+0.0 0.2 0.4 0.6 0.8 1.0
+Avg. conﬁdence
+Accuracy
+ResNet (2016)
+CIFAR-100
+0.0 0.2 0.4 0.6 0.8 1.0
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Accuracy
+Error=44.9
+Outputs
+Gap
+0.0 0.2 0.4 0.6 0.8 1.0
+Error=30.6
+Outputs
+Gap
+Conﬁdence
+Figure 1. Conﬁdence histograms (top) and reliability diagrams
+(bottom) for a 5-layer LeNet (left) and a 110-layer ResNet (right)
+on CIFAR-100. Refer to the text below for detailed illustration.
+If the detection network is not able to conﬁdently predict
+the presence or absence of immediate obstructions, the car
+should rely more on the output of other sensors for braking.
+Alternatively, in automated health care, control should be
+passed on to human doctors when the conﬁdence of a dis-
+ease diagnosis network is low (Jiang et al., 2012). Specif-
+ically, a network should provide a calibrated conﬁdence
+measure in addition to its prediction. In other words, the
+probability associated with the predicted class label should
+reﬂect its ground truth correctness likelihood.
+Calibrated conﬁdence estimates are also important for
+model interpretability. Humans have a natural cognitive in-
+tuition for probabilities (Cosmides & Tooby, 1996). Good
+conﬁdence estimates provide a valuable extra bit of infor-
+mation to establish trustworthiness with the user – espe-
+cially for neural networks, whose classiﬁcation decisions
+are often difﬁcult to interpret. Further, good probability
+estimates can be used to incorporate neural networks into
+other probabilistic models. For example, one can improve
+performance by combining network outputs with a lan-
+arXiv:1706.04599v2  [cs.LG]  3 Aug 2017

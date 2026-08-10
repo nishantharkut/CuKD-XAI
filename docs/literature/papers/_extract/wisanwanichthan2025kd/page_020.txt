@@ -1,0 +1,99 @@
+Computers 2025, 14, 291
+20 of 25
+student’s interval (93.10–93.38%) sits entirely above the undistilled student’s (86.96–87.34%),
+showing a significant gain from KD. For the smaller dataset such as UAV IDS, both student
+models remain significantly below the teacher despite KD recovering some performance.
+Thus, only on IoTID20 with KD yields a statistically significant accuracy boost across all
+datasets. On the other hand, KD consistently delivers 92–95% parameter reduction and up
+to 11% faster inference. This measure makes it valuable beyond accuracy gain alone.
+Figure 11. ROC curve of teacher (left), student without KD (middle), and student with KD (right)
+models on UAV IDS.
+Table 13. Statistical summary of model results (95% confidence interval).
+Dataset
+# Test Samples
+Model
+Accuracy (%)
+95% CI Lower (%)
+95% CI Upper (%)
+NSL-KDD
+22,544
+Teacher
+77.22
+76.67
+77.77
+Student without KD
+75.96
+75.40
+76.52
+Student with KD
+76.73
+76.18
+77.28
+UNSW-NB15
+82,332
+Teacher
+75.45
+75.16
+75.74
+Student without KD
+69.66
+69.35
+69.97
+Student with KD
+75.78
+75.49
+76.07
+CIC-IDS2017
+565,566
+Teacher
+98.22
+98.19
+98.25
+Student without KD
+97.81
+97.77
+97.85
+Student with KD
+97.88
+97.84
+97.92
+IoTID20
+125,083
+Teacher
+92.95
+92.81
+93.09
+Student without KD
+87.15
+86.96
+87.34
+Student with KD
+93.24
+93.10
+93.38
+UAV IDS
+4531
+Teacher
+99.93
+99.86
+100.00
+Student without KD
+97.97
+97.56
+98.38
+Student with KD
+98.63
+98.29
+98.97
+4.6. Discussion
+The IoTID20 results show that the distilled student model delivers exceptional detec-
+tion for the most prevalent attack types, e.g., DoS, Mirai, normal traffic, and scan, all with
+recalls above 96% and similarly high precision, driving the overall misclassification rate
+below 1%. False positives on benign traffic remain under 0.05%, so operators will not be
+overwhelmed by false alerts. While the rarer ARP-spoofing class shows somewhat lower
+recall, it represents under 5% of total flows, so its impact on overall IDS performance is
+relatively minimal.
+The UAV IDS results demonstrate that the model produces zero false positives on
+benign flights which is vital to avoid triggering unnecessary safe-landing procedures. But
+it misses about 3.5% of jamming and 17% of spoofing events. This trade-off (almost no
+false alarms versus a modest miss rate) reflects the operational reality of small drones that

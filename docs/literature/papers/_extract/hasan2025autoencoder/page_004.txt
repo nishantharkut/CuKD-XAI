@@ -1,0 +1,93 @@
+with
+constant
+values
+and
+highly
+correlated
+features(correlation > 0.6) were dropped to re-
+duce redundancy and computational complexity.
+3.2.2
+Label Encoding
+Categorical variables were converted to numerical
+format using label encoding to ensure compatibil-
+ity with machine learning algorithms.
+3.2.3
+Normalization
+Features were normalized to a [0, 1] range using
+Min-Max Scaling, preventing scale dominance
+and improving training efficiency for sensitive
+models like neural networks.
+3.3
+Addressing Class Imbalance with
+Cost-Sensitive Autoencoder
+As shown in Fig. 1 we introduce a cost-sensitive
+autoencoder to address the imbalanced nature of
+the Edge-IIoTset dataset.
+An autoencoder is a
+type of artificial neural network designed to learn
+efficient data representations by encoding inputs
+into a compressed latent space and then recon-
+structing the output as closely as possible to the
+original input.
+The proposed autoencoder sets itself apart
+from existing approaches, such as variational
+autoencoders (VAEs), by focusing on architec-
+tural simplicity and addressing data imbalance di-
+rectly. While VAEs aim to model data distribu-
+tions through probabilistic latent representations,
+our approach is deterministic, prioritizing com-
+pact and discriminative feature learning for accu-
+rate reconstruction. By excluding the probabilis-
+tic layers used in VAEs, our autoencoder reduces
+computational complexity and is better suited for
+resource-constrained environments, such as edge
+devices.
+This deterministic approach also en-
+sures stability in reconstruction, particularly when
+handling highly imbalanced datasets like Edge-
+IIoTset. Architecturally, our autoencoder is de-
+signed to efficiently handle the specific challenges
+posed by IIoT datasets. The encoder compresses
+the input feature space from 24 dimensions to a
+bottleneck layer of 6 dimensions, retaining crit-
+ical features while discarding redundant infor-
+mation. This reduction is mathematically repre-
+sented as:
+Figure 1: Architecture of the proposed cost-sensitive
+autoencoder.
+h = f(x) = σ(Wx+b)
+where W and b denote the weights and biases
+of the encoder, and σ is the nonlinear activation
+function. This compressed latent representation,
+h, captures the essential patterns of the input data.
+The decoder then reconstructs the input from h,
+expanding it back to the original dimensionality,
+as given by:
+ˆx = g(h) = σ(W ′h+b′)
+where W ′ and b′ represent the weights and bi-
+ases of the decoder. The reconstruction objective
+is to minimize the difference between the origi-
+nal input x and the reconstructed output ˆx. This
+difference is typically quantified using the mean
+squared error (MSE) loss function, defined as:
+L = 1
+N
+N
+∑
+i=1
+wyi(xi −ˆxi)2
+Here, N represents the number of inputs, xi
+and ˆxi are the original and reconstructed values,
+and wyi denotes the class weight for the i-th in-
+stance.
+To address the pronounced class imbalance
+in the Edge-IIoTset dataset, we employ a cost-
+sensitive learning mechanism using class weights.
+These weights are assigned inversely proportional
+to the frequency of each class, ensuring that mi-
+nority classes, such as ”MITM” and ”Fingerprint-
+ing,” receive greater attention during training. By
+amplifying the contribution of these underrepre-
+sented classes to the loss function, the autoen-
+coder becomes more sensitive to detecting sub-
+tle variations in their patterns. This integration

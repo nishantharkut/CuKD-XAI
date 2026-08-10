@@ -1,0 +1,79 @@
+CNN - MNIST
+True  
+Labels
+Random  
+Labels
+Gradient
+SmoothGrad
+Guided 
+BackProp
+GradCAM
+Guided  
+GradCAM
+Integrated  
+Gradients
+Integrated  
+Gradients-SG
+Gradient  
+Input
+True  
+Labels
+Random  
+Labels
+Gradient
+SmoothGrad
+Guided 
+BackProp
+GradCAM
+Guided  
+GradCAM
+Integrated  
+Gradients
+Integrated  
+Gradients-SG
+Gradient  
+Input
+Rank Correlation - Abs
+Rank Correlation - No Abs
+Absolute-Value Visualization
+Diverging Visualization
+Figure 6: Explanation for a true model vs. model trained on random labels. Top Left: Absolute-
+value visualization of masks for digit 0 from the MNIST test set for a CNN. Top Right: Saliency
+masks for digit 0 from the MNIST test set for a CNN shown in diverging color. Bottom Left:
+Spearman rank correlation (with absolute values) bar graph for saliency methods. We compare the
+similarity of explanations derived from a model trained on random labels, and one trained on real
+labels. Bottom Right: Spearman rank correlation (without absolute values) bar graph for saliency
+methods for MLP. See appendix for corresponding ﬁgures for CNN, and MLP on Fashion MNIST.
+5
+Discussion
+We now take a step back to interpret our ﬁndings. First, we discuss the inﬂuence of the model
+architecture on explanations derived from NNs. Second, we consider methods that approximate an
+element-wise producet of the input and the gradient, as several local explanations do [33, 18]. We
+show, empirically, that the input “structure” dominates the gradient, especially for sparse inputs.
+Third, we explain the observed behavior of the gradient explanation with an appeal to linear models.
+We then consider a single 1-layer convolution with sum-pooling architecture, and show that saliency
+explanations for this model mostly capture edges. Finally, we return to the edge detector and make
+comparisons between methods that fail our sanity checks and an edge detector.
+5.1
+The role of model architecture as a prior
+The architecture of a deep neural network has an important effect on the representation derived from
+the network. A number of results speak to the strength of randomly initialized models as classiﬁcation
+priors [34, 35]. Moreover, randomly initialized networks trained on a single input can perform tasks
+like denoising, super-resolution, and in-painting [36] without additional training data. These prior
+works speak to the fact that randomly initialized networks correspond to non-trivial representations.
+Explanations that do not depend on model parameters or training data might still depend on the
+model architecture and thus provide some useful information about the prior incorporated in the
+model architecture. However, in this case, the explanation method should only be used for tasks
+where we believe that knowledge of the model architecture on its own is sufﬁcient for giving useful
+explanations.
+5.2
+Element-wise input-gradient products
+A number of methods, e.g., ϵ-LRP, DeepLift, and integrated gradients, approximate the element-wise
+product of the input and the gradient (on a piecewise linear function like ReLU). To gain further
+insight into our ﬁndings, we can look at what happens to the input-gradient product E(x) = x⊙∂S
+∂x , if
+the input is kept ﬁxed, but the gradient is randomized. To do so, we conduct the following experiment.
+For an input x, sample two normal random vectors u, v (we consider both the truncated normal and
+uniform distributions) and consider the element-wise product of x with u and v, respectively, i.e.,
+x ⊙u, and x ⊙v. We then look at the similarity, for all the metrics considered, between x ⊙u and
+8

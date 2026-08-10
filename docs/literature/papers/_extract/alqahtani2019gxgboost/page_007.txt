@@ -1,0 +1,57 @@
+Sensors 2019, 19, 4383
+7 of 20
+More speciﬁcally, the GXGBoot model is composed of four main steps: generating the population
+of parameters’ values, selecting the population of parameters’ values, training the decision function of
+XGBoot, and evaluating the ﬁtness function of XGBoot. Figure 1 shows the GXGBoot ﬂow chart, and
+Algorithm 1 outlines the pseudocode of the main steps of GXGBoot.
+Figure 1. Flowchart of proposed genetic-based extreme gradient boosting (GXGBoot) Model.
+Algorithm 3. Pseudocode of GXGBoot’s steps.
+1.
+Initialization:
+2.
+mutation_rate = 0.1 //Mutation rate for GA
+3.
+min_mutation_momentum = 0.0001 //Min mutation momentum
+4.
+max_mutation_momentum = 0.1 //Max mutation momentum
+5.
+min_population = 5 //Min population for GA
+6.
+max_population = 10 //Max population for GA
+7.
+num_Iterations = 10 //Number of iterations to evaluate GA
+8.
+Input:
+9.
+Training Set, Validation Set
+10.
+Begin
+11.
+num_population = random.randint (min_population, max_population); // Generate initial population for
+GXGBoost
+12.
+population_GXGBoost = [[]
+13.
+For i in range (num_population):
+14.
+GXGBoost_parameters = random.randint (min_num_estimators, max_num_estimators) // GXGBoost
+parameters generation
+15.
+GXGBoost_ model = generate_ GXGBoost (GXGBoost_parameters)
+16.
+population_GXGBoost.append (GXGBoost_ model)
+17.
+End for
+18.
+max_accuracy = 0
+19.
+best_model = None
+20.
+population_validation_accuracy= [[]
+21.
+For i in range (num_Iterations):
+22.
+For j in range (num_population):
+23.
+GXGBoost_model = population_GXGBoost [j] // population selection
+// population evaluation

@@ -1,0 +1,23 @@
+Appendix E. Experiments with Vision Transformers
+In this section, we also provide experiments with Vision Transformers
+(ViTs) (Dosovitskiy et al, 2021) on CIFAR100 imb100 dataset where the
+attention map can be obtained directly with the built-in attention module.
+As shown in Figure E.7, our analysis method can be applied to attention-
+based methods such as ViT. The only difference is that when calculating
+IoU, we can directly use the built-in attention module of ViT to obtain the
+attention maps. In this experiment, two ViT-b32 teachers are distilled on
+one ViT-b16 student for CIFAR100 imb100 dataset. And the conclusions in
+our manuscript still holds for these two cases. That is, lower student-teacher
+fidelity and larger teachers’ attention diversity correlate with higher student
+validation accuracy.
+Figure E.7: Scatter plots for experiments with Vision Transformer (ViT) on CIFAR100
+imb100 dataset. Left: Fidelity (measured by top-1 A) and Right: IoU between T1 and T2
+during KD training. These decreasing tendencies align with our conclusions drawn from
+ResNet experiments, suggesting the applicability of our analysis method to attention-based
+methods like ViT. The main distinction is in calculating IoU, where we can directly use
+ViT’s built-in attention module to obtain the attention maps.
+Appendix F. Results with More Teacher Numbers in Ensemble
+Knowledge Distillation
+In the main text, we focused on Knowledge Distillation (KD) with 2
+teachers in the ensemble. Results with 3 teachers are discussed here. Figure
+22

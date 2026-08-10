@@ -1,0 +1,122 @@
+25
+layers in a compressed format. It uses an input stationary
+dataﬂow to deliver the compressed weights and activations to
+a multiplier array followed by a scatter network to add the
+scattered partial sums.
+Recent works have also explored the use of structured
+pruning to avoid the need for custom hardware [147, 148].
+Rather than pruning individual weights (also referred to as ﬁne-
+grained pruning), structured pruning involves pruning groups
+of weights (also referred to as coarse-grained pruning). The
+beneﬁts of structured pruning are (1) the resulting weights can
+better align with the data-parallel architecture (e.g., SIMD)
+found in existing general purpose hardware, which results in
+more efﬁcient processing [149]; (2) it amortizes the overhead
+cost required to signal the location of the non-zero weights
+across a group of weights, which improves compression and
+thus reduces storage cost. These groups of weights can include
+a pair of neighboring weights, an entire row or column of a
+ﬁlter, an entire channel of a ﬁlter or the entire ﬁlter itself; using
+larger groups tends to result in higher loss in accuracy [150].
+3) Compact Network Architectures: The number of weights
+and operations can also be reduced by improving the network
+architecture itself. The trend is to replace a large ﬁlter with a
+series of smaller ﬁlters, which have fewer weights in total; when
+the ﬁlters are applied sequentially, they achieve the same overall
+effective receptive ﬁeld (i.e., the region the ﬁlter uses from input
+image to compute an output). This approach can be applied
+during the network architecture design (before training) or by
+decomposing the ﬁlters of a trained network (after training).
+The latter one avoids the hassle of training networks from
+scratch. However, it is less ﬂexible than the former one. For
+example, existing methods can only decompose a ﬁlter in a
+trained network into a series of ﬁlters without non-linearity
+between them.
+a) Before Training: In recent DNN models, ﬁlters with
+a smaller width and height are used more frequently because
+concatenating several of them can emulate a larger ﬁlter as
+shown in Fig. 13. For example, one 5×5 convolution can be
+replaced with two 3×3 convolutions. Alternatively, one N×N
+convolution can be decomposed into two 1-D convolutions, one
+1×N and one N×1 convolution [53]; this basically imposes
+a restriction that the 2-D ﬁlter must be separable, which is
+a common constraint in image processing [151]. Similarly, a
+3-D convolution can be replaced by a set of 2-D convolutions
+(i.e., applied only on one of the input channels) followed by
+1×1 3-D convolutions as demonstrated in Xception [152] and
+MobileNets [153]. The order of the 2-D convolutions and 1×1
+3-D convolutions can be switched.
+1×1 convolutional layers can also be used to reduce the
+number of channels in the output feature map for a given
+layer, which reduces the number of ﬁlter channels and thus
+computation cost for the ﬁlters in the next layer as demonstrated
+in [15, 51, 52]; this is often referred to as a ‘bottleneck’ as
+discussed in Section III-B. For this purpose, the number of 1×1
+ﬁlters has to be less than the number of channels in the 1×1
+ﬁlter. For example, 32 ﬁlters of 1×1×64 can transform an input
+with 64 channels to an output of 32 channels and reduce the
+number of ﬁlter channels in the next layer to 32. SqueezeNet
+uses many 1×1 ﬁlters to aggressively reduce the number of
+weights [154]. It proposes a ﬁre module that ﬁrst ‘squeezes’
+the network with 1×1 convolution ﬁlters and then expands
+it with multiple 1×1 and 3×3 convolution ﬁlters. It achieves
+an overall 50× reduction in number of weights compared to
+AlexNet, while maintaining the same accuracy. It should be
+noted, however, that reducing the number of weights does not
+necessarily reduce energy; for instance, SqueezeNet consumes
+more energy than AlexNet, as shown in Fig. 43(a).
+b) After Training: Tensor decomposition can be used to
+decompose ﬁlters in a trained network without impacting the
+accuracy. It treats weights in a layer as a 4-D tensor and breaks
+it into a combination of smaller tensors (i.e., several layers).
+Low-rank approximation can then be applied to further increase
+the compression rate at the cost of accuracy degradation, which
+can be restored by ﬁne-tuning the weights.
+This approach is demonstrated using Canonical Polyadic (CP)
+decomposition, a high-order extension of singular value decom-
+position that can be solved by various methods, such as a greedy
+algorithm [155] or a non-linear least-square method [156].
+Combining CP-decomposition with low-rank approximation
+achieves a 4.5× speed-up on CPUs [156]. However, CP-
+decomposition cannot be computed in a numerically stable
+way when the dimension of the tensor, which represents the
+weights, is larger than two [156]. To alleviate this problem,
+Tucker decomposition is adopted instead in [157].
+4) Knowledge Distillation: Using a deep network or av-
+eraging the predictions of different models (i.e., ensemble)
+gives a better accuracy than using a single shallower network.
+However, the computational complexity is also higher. To get
+the best of both worlds, knowledge distillation transfers the
+knowledge learned by the complex model (teacher) to the
+simpler model (student). The student network can therefore
+achieve an accuracy that would be unachievable if it was
+directly trained with the same dataset [158, 159]. For example,
+[160] shows how using knowledge distillation can improve the
+speech recognition accuracy of a student net by 2%, which is
+similar to the accuracy of a teacher net that is composed of
+an ensemble of 10 networks.
+Fig.
+45
+shows
+the
+simplest
+knowledge
+distillation
+method [158]. The softmax layer is commonly used as the
+output layer in the image classiﬁcation networks to generate
+the class probabilities from the class scores12; it squashes the
+class scores into values between 0 and 1 that sum up to 1.
+For this knowledge distillation method, soft targets (values
+between 0 and 1) such as the class scores of the teacher DNN
+(or an ensemble of teacher DNNs) are used instead of the
+hard targets (values of either 0 or 1) such as the labels in the
+dataset. The objective is to minimize the squared difference
+between the soft targets and the class scores of the student DNN.
+Class scores are used as the soft targets instead of the class
+probabilities because small values in the class scores contain
+important information that may be eliminated by the softmax.
+Alternatively, class probabilities after the softmax layer can be
+used as soft targets if the softmax is conﬁgured to generate
+softer class probabilities where the smaller values retain more
+information [160]. Finally, the intermediate representations of
+12Also commonly referred to as logits.

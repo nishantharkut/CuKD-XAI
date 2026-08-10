@@ -1,0 +1,126 @@
+Electronics 2026, 15, 938
+6 of 20
+statistical modeling. This method is very similar to one-hot encoding; the main difference
+is that one-hot encoding generates k fields for k unique values, while dummy encoding
+generates k −1 fields for k unique values. That is, in the dummy encoding method, the
+first unique value line is filled with only 0 values [26]. This helps avoid multicollinearity
+in regression models while still encoding the categorical information numerically. After
+dummy encoding, the dataset contained 1,909,671 samples with 97 feature dimensions.
+3.2.3. Normalization
+Since the original network traffic features exhibited varying value ranges, numerical
+standardization was performed to ensure that all features shared the same scale. The
+min–max normalization method was applied, which is described by the following formula:
+f ′ =
+f −fmin
+fmax −fmin
+(1)
+where f ′ is the value of f after data normalization.
+3.3. Hybrid Feature Selection Algorithm
+Figure 2 illustrates the entire feature selection method, which consists of two sequential
+stages. In the first stage, a variance-based filtering method is applied to the original feature
+set to remove low-variance features. In the second stage, mutual information and Pearson
+Correlation Coefficients are further used to screen features. This section will describe in
+detail the principles of these two feature selection modules.
+1
+VAR(
+)
+mf
+T
+≤
+1
+T
+Variance Filtering
+VAR(
+)
+mf
+Mutual  Information
+Pearson Correlation 
+Coefficient
+1
+2
+{ , ,... }
+p
+F
+f f
+f
+=
+1
+( )
+arg max
+(
+)
+( , )
+( ,
+)
+i
+s
+i
+i
+i
+i
+s
+f
+f
+S
+J f
+MI
+,f
+corr
+f
+corr f f
+S
+∈
+
+
+
+
+=
++
+−
+
+
+
+
+
+y
+y
+1
+2
+{ , ,...
+}
+V
+p
+F
+f f
+f ′
+=
+1
+2
+{ , ,...
+}
+K
+F
+f f
+f
+′ =
+ 
+Figure 2. Feature selection process.
+3.3.1. Variance-Based Feature Selection
+Variance filtering is a statistical method for feature selection. Its core principle is
+to filter and reduce the dimensionality of features by calculating the variance of each
+feature in the dataset. When the variance is low, it indicates that the feature value does
+not vary significantly among samples, the distribution is tightly clustered, and the feature
+lacks discriminative power. In contrast, high variance suggests the feature has greater
+discriminative ability. Let fj be the j-th feature; its variance can be defined as:
+Var( fj) = 1
+N
+N
+∑
+i=1
+( fij −µj)2
+(2)
+where N denotes the number of samples, and µj denotes the mean of the jth feature. By
+using variance filtering to perform preliminary feature selection, initial dimensionality re-
+duction of the network data stream is achieved, which can effectively reduce the complexity
+of subsequent feature selection.
+https://doi.org/10.3390/electronics15050938

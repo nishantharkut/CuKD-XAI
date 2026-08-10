@@ -1,0 +1,14 @@
+{
+  "status": "explained",
+  "main_10seed_checkpoint_A_seed42_rfkd_macro_f1": 0.9248593568626194,
+  "main_10seed_checkpoint_A_seed42_rfkd_accuracy": 0.9877402135231317,
+  "deployment_seed42_A_rfkd_macro_f1": 0.9485087159320515,
+  "deployment_seed42_A_rfkd_accuracy": 0.991423487544484,
+  "deployment_test_n": 56200,
+  "rf_soft_targets_byte_identical_to_main_10seed": true,
+  "z_score_checkpoint42_vs_10seed_mean": 0.693,
+  "z_score_deployment42_vs_10seed_mean": 4.324,
+  "root_cause": "main_10seed run_all_configs sets seed once then trains many models before E_KD; deployment trains only RF-KD after set_seed(42)",
+  "hardware_validity": "HIL validates deployment weights, not the multi-seed-table seed-42 unit",
+  "report": "results/CRITICAL_BUG_INVESTIGATION_seed42_and_fg.md"
+}

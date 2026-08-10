@@ -1,0 +1,63 @@
+3. Of the methods tested, Gradients & GradCAM pass the sanity checks, while Guided BackProp &
+Guided GradCAM are invariant to higher layer parameters; hence, fail.
+4. Consequently, our ﬁndings imply that the saliency methods that fail our proposed tests are incapable
+of supporting tasks that require explanations that are faithful to the model or the data generating
+process.
+5. We interpret our ﬁndings through a series of analyses of linear models and a simple 1-layer
+convolutional sum-pooling architecture, as well as a comparison with edge detectors.
+2
+Methods and Related Work
+In our formal setup, an input is a vector x ∈Rd. A model describes a function S : Rd →RC,
+where C is the number of classes in the classiﬁcation problem. An explanation method provides an
+explanation map E : Rd →Rd that maps inputs to objects of the same shape.
+We now brieﬂy describe some of the explanation methods we examine. The supplementary materials
+contain an in-depth overview of these methods. Our goal is not to exhaustively evaluate all prior
+explanation methods, but rather to highlight how our methods apply to several cases of interest.
+The gradient explanation for an input x is Egrad(x) = ∂S
+∂x [22, 23, 8]. The gradient quantiﬁes how
+much a change in each input dimension would a change the predictions S(x) in a small neighborhood
+around the input.
+Gradient ⊙Input. Another form of explanation is the element-wise product of the input and the
+gradient, denoted x ⊙∂S
+∂x , which can address “gradient saturation”, and reduce visual diffusion [13].
+Integrated Gradients (IG) also addresses gradient saturation by summing over scaled versions of
+the input [14]. IG for an input x is deﬁned as EIG(x) = (x −¯x) ×
+R 1
+0
+∂S(¯x+α(x−¯x))
+∂x
+dα, where ¯x is
+a “baseline input” that represents the absence of a feature in the original input x.
+Guided Backpropagation (GBP) [9] builds on the “DeConvNet” explanation method [10] and
+corresponds to the gradient explanation where negative gradient entries are set to zero while back-
+propagating through a ReLU unit.
+Guided GradCAM. Introduced by Selvaraju et al. [19], GradCAM explanations correspond to the
+gradient of the class score (logit) with respect to the feature map of the last convolutional unit of a
+DNN. For pixel level granularity GradCAM, can be combined with Guided Backpropagation through
+an element-wise product.
+SmoothGrad (SG) [16] seeks to alleviate noise and visual diffusion [14, 13] for saliency maps by
+averaging over explanations of noisy copies of an input. For a given explanation map E, SmoothGrad
+is deﬁned as Esg(x) = 1
+N
+PN
+i=1 E(x + gi), where noise vectors gi ∼N(0, σ2) are drawn i.i.d. from
+a normal distribution.
+2.1
+Related Work
+Other Methods & Similarities.
+Aside gradient-based approaches, other methods ‘learn’ an expla-
+nation per sample for a model [20, 17, 12, 15, 11, 21]. More recently, Ancona et al. [24] showed that
+for ReLU networks (with zero baseline and no biases) the ϵ-LRP and DeepLift (Rescale) explanation
+methods are equivalent to the input ⊙gradient. Similarly, Lundberg and Lee [18] proposed SHAP
+explanations which approximate the shapley value and unify several existing methods.
+Fragility.
+Ghorbani et al. [25] and Kindermans et al. [26] both present attacks against saliency
+methods; showing that it is possible to manipulate derived explanations in unintended ways. Nie
+et al. [27] theoretically assessed backpropagation based methods and found that Guided BackProp
+and DeconvNet, under certain conditions, are invariant to network reparamaterizations, particularly
+random Gaussian initialization. Speciﬁcally, they show that Guided BackProp and DeconvNet both
+seem to be performing partial input recovery. Our ﬁndings are similar for Guided BackProp and
+its variants. Further, our work differs in that we propose actionable sanity checks for assessing
+explanation approaches. Along similar lines, Mahendran and Vedaldi [28] also showed that some
+backpropagation-based saliency methods can often lack neuron discriminativity.
+3

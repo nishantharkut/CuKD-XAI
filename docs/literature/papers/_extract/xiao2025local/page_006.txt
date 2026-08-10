@@ -1,0 +1,152 @@
+1335
+Page 6 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+Table 3 Description of features and determination of selected features
+NO
+Feature
+VIF score-initial
+feature vector
+VIF
+score-reduced
+feature vector
+1
+Time
+5.0682
+4.8860
+2
+Is CH
+3.6955
+3.3497
+3
+who CH
+3.5590
+3.5374
+4
+Dist To CH
+3.5336
+2.3373
+5
+ADV S
+1.2691
+1.2538
+6
+ADV R
+3.7796
+3.1978
+7
+JOIN S
+37.1710
+Removed
+8
+JOIN R
+2.9168
+2.8654
+9
+SCH S
+1.9004
+1.8978
+10
+SCH R
+27.8604
+Removed
+11
+Rank
+1.9650
+1.6762
+12
+DATA S
+4.3942
+2.7054
+13
+DATA R
+2.8153
+2.8054
+14
+Data Sent To
+BS
+1.7960
+1.7755
+15
+Dist CH To BS
+3.2483
+3.2063
+16
+Send code
+3.5184
+3.0072
+17
+Expaned
+Energy
+1.8788
+1.8684
+3.3 CAT-Boost classification (CATC)
+CATBoost is a gradient-boosted decision tree algorithm opti-
+mized for categorical and tabular data. It reduces overﬁtting
+through ordered boosting and Bayesian estimation of feature
+contributions.Inthisstudy,CATBoostoutputsclassprobabil-
+ities that are used alongside DNN outputs in the soft-voting
+ensemble. Equations detailing the internal computation of
+prediction values have been simpliﬁed to focus on how fea-
+tures are weighted and combined, rather than step-by-step
+algebra, improving clarity while retaining technical accuracy
+[24].
+3.4 Metaheuristic optimization
+Two population-based optimizers, Quadratic Interpolation
+Optimization (QIO) [25] and the Osprey Optimization Algo-
+rithm (OOA) [26, 27], are applied to ﬁne-tune hyperparam-
+eters and decision thresholds.
+• QIO emphasizes exploitation, allowing rapid conver-
+gence by approximating optimal parameter values using
+quadratic interpolation. Its fast convergence and local
+search efﬁciency make it suitable for reﬁning decision
+boundaries in high-dimensional feature spaces.
+• OOA focuses on exploration, mimicking the hunting
+behavior of ospreys to escape local optima and identify
+globally optimal parameter conﬁgurations.
+Compared to classical optimizers such as Particle Swarm
+Optimization (PSO) or Genetic Algorithms (GA), QIO and
+OOA provide a complementary balance of convergence
+speed and exploration diversity. PSO often converges pre-
+maturely, while GA requires extensive iterations and can be
+computationally costly. By integrating QIO and OOA, the
+ensemble achieves faster, more reliable optimization with
+lower computational overhead.
+3.5 Soft-voting ensemble operation
+• DNN and CATBoost are independently trained on the fea-
+ture set.
+• Each model outputs a probability distribution over classes.
+• Softvotingaveragestheseprobabilities,assigningtheclass
+with the highest mean probability.
+• Optimized hyperparameters from QIO and OOA improve
+both model accuracy and ensemble reliability.
+This design allows the ensemble to leverage the nonlin-
+ear representation power of DNNs, the categorical handling
+strength of CATBoost, and the efﬁcient hyperparameter
+optimization of metaheuristics, yielding a robust intrusion
+detection system for WSNs.
+3.6 Performance evaluation metrics
+To evaluate how well the classiﬁcation models work, the
+authors use several performance metrics that are common
+in the literature. These metrics measure different aspects of
+prediction quality, allowing for an extensive assessment of
+the models.
+Accuracy represents the total fraction of instances that
+were correctly classiﬁed and can be expressed as:
+Accuracy =
+TP + TN
+TP + TN + FP + FN
+(1)
+True Positives (TP) mean positive cases that were iden-
+tiﬁed correctly, and True Negatives (TN) denote negative
+cases that were correctly identiﬁed. False Positives (FP)
+are negative cases that were mislabeled as positive, and
+False Negatives (FN) are positive cases that were incorrectly
+labeled as negative.
+Precision is the measure of the ratio of correctly identi-
+ﬁed positive cases to all predicted positive cases, which is a
+calculated value that shows:
+Precision =
+TP
+TP + FP
+(2)
+123

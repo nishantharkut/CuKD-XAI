@@ -1,0 +1,92 @@
+Sensors 2024, 24, 7320
+9 of 15
+Table 5. Cont.
+Hyperparameters
+Accuracy
+Precision
+Recall
+F1-Score
+Trees = 150, Depth = 9, 12_Reg_Leaf = 3,
+LR = 0.3
+97.90%
+0.96
+0.96
+0.96
+Trees = 250, Depth = 10, 12_Reg_Leaf = 3,
+LR = 0.3
+97.66%
+0.96
+0.96
+0.96
+4.4. Catboost-Based IDS for Multi-Classification with Feature Selection
+The CatBoost model was also trained for multi-classification by using the FS tech-
+nique. We evaluated the performance of CatBoost with seven to sixteen features. Below
+seven features, the accuracy of IDS dropped below 90%. The performance of CatBoost was
+evaluated for depths from six to ten and the best performance at each depth with FS is
+shown in Table 6. The results show that CatBoost with depth=7 and with 10 features gave
+highest accuracy of 98.15%.
+Table 6. Performance of CatBoost for multi-classification with feature selection.
+Hyperparameters
+No. of Features
+Accuracy
+Precision
+Recall
+F1-Score
+Trees = 250, Depth = 6,
+12_Reg_Leaf = 3, LR = 0.3
+10
+97.91%
+0.97
+0.96
+0.96
+Trees = 200, Depth = 7,
+12_Reg_Leaf = 3, LR = 0.3
+10
+98.15%
+0.97
+0.97
+0.97
+Trees = 250, Depth = 8,
+12_Reg_Leaf = 3, LR = 0.3
+10
+97.91%
+0.97
+0.96
+0.96
+Trees = 150, Depth = 9,
+12_Reg_Leaf = 3, LR = 0.3
+10
+97.91%
+0.96
+0.96
+0.96
+Trees = 150, Depth = 10,
+12_Reg_Leaf = 3, LR = 0.3
+8
+97.74%
+0.96
+0.96
+0.96
+4.5. Quantization of CatBoost-Based IDS
+Quantization in ML is used for compressing large model data. The ESP32 has a
+limited memory and processing power; therefore, running a large ML model may not be
+feasible or may require a large inference time. The weights and parameters of trained
+CatBoost models are saved in double format for higher precision. The floating point
+numbers can be represented in half (16-bit), single (32-bit), and double (64-bit) precision.
+The hardware acceleration in ESP32 is only supported for single precision, while double
+is implemented using software that requires more memory and takes longer to complete
+the operation. Therefore, in this work, we utilized post-training quantization in which the
+model parameters and weights of the CatBoost model were stored using single precision.
+Quantization may result in a small decrease in model accuracy due to reduced numerical
+precision. However, in CatBoost models, where tree-based learning creates discrete splits,
+the impact is generally minimized. This trade-off is often acceptable for models that do
+not rely heavily on high precision in calculations, particularly for inference tasks on ESP32.
+Since the ESP32 supports hardware acceleration for single precision (32-bit float), converting
+the parameters of CatBoost from double to float results in lower memory consumption and
+faster inference time.
+Therefore, to support our aforementioned discussion, we also compared the detection
+accuracy of CatBoost (Depth = 6, Trees = 200) with and without quantization for binary
+classification in Figure 3 and the results illustrate that the accuracy did not decrease.
+In Figure 3, the graph shows the detection of benign (0) and attack (1) for 50 samples.
+The CatBoost with quantization results are the results of the model running on ESP32 and
+the CatBoost without quantization results are the results of the model running on the local

@@ -1,0 +1,53 @@
+SMOTE
+between corresponding feature values for all feature vectors is created.
+The distance δ
+between two corresponding feature values is deﬁned as follows.
+δ(V1, V2) =
+n
+
+i=1
+|C1i
+C1
+−C2i
+C2
+|
+k
+(1)
+In the above equation, V1 and V2 are the two corresponding feature values. C1 is the total
+number of occurrences of feature value V1, and C1i is the number of occurrences of feature
+value V1 for class i. A similar convention can also be applied to C2i and C2. k is a constant,
+usually set to 1. This equation is used to compute the matrix of value diﬀerences for each
+nominal feature in the given set of feature vectors. Equation 1 gives a geometric distance
+on a ﬁxed, ﬁnite set of values (Cost & Salzberg, 1993). Cost and Salzberg’s modiﬁed VDM
+omits the weight term wa
+f included in the δ computation by Stanﬁll and Waltz, which has
+an eﬀect of making δ symmetric. The distance ∆between two feature vectors is given by:
+∆(X, Y ) = wxwy
+N
+
+i=1
+δ(xi, yi)r
+(2)
+r = 1 yields the Manhattan distance, and r = 2 yields the Euclidean distance (Cost &
+Salzberg, 1993). wx and wy are the exemplar weights in the modiﬁed VDM. wy = 1 for a
+new example (feature vector), and wx is the bias towards more reliable examples (feature
+vectors) and is computed as the ratio of the number of uses of a feature vector to the number
+of correct uses of the feature vector; thus, more accurate feature vectors will have wx ≈
+1. For SMOTE-N we can ignore these weights in equation 2, as SMOTE-N is not used for
+classiﬁcation purposes directly. However, we can redeﬁne these weights to give more weight
+to the minority class feature vectors falling closer to the majority class feature vectors; thus,
+making those minority class features appear further away from the feature vector under
+consideration. Since, we are more interested in forming broader but accurate regions of the
+minority class, the weights might be used to avoid populating along neighbors which fall
+closer to the majority class. To generate new minority class feature vectors, we can create
+new set feature values by taking the majority vote of the feature vector in consideration and
+its k nearest neighbors. Table 6.2 shows an example of creating a synthetic feature vector.
+Let F1 = A B C D E be the feature vector under consideration
+and let its 2 nearest neighbors be
+F2 = A F C G N
+F3 = H B C D N
+The application of SMOTE-N would create the following fea-
+ture vector:
+FS = A B C D N
+Table 7: Example of SMOTE-N
+351

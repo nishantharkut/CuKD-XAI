@@ -1,0 +1,2530 @@
+
+
+===== PAGE 1 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+https://doi.org/10.1007/s12243-025-01118-9
+A versatile XAI-based framework for efﬁcient and explainable intrusion
+detection systems
+Beny Nugraha1 · Abhishek Venkatesh Jnanashree1 · Thomas Bauschert1
+Received: 22 January 2025 / Accepted: 21 September 2025 / Published online: 29 September 2025
+© The Author(s) 2025
+Abstract
+Artiﬁcialintelligence(AI)-basedintrusiondetectionsystems(IDSs)markedlyadvancenetworksecuritybyleveragingmachine
+learning (ML) and deep learning (DL) models for accurate, adaptive threat detection. Their main drawback, however, is an
+inherent “black-box” character that impedes trust, traceability, and regulatory compliance. To overcome this limitation, we
+propose an efﬁcient explainable-AI (XAI) framework that enhances both robustness and interpretability. The two-stage process
+ﬁrst couples a statistical selector (ANOVA) with global SHAP scores to retain only the ten most informative features, an
+approximately 70% dimensionality reduction, then retrains a lightweight XGBoost detector whose decisions are explained
+locally by SHAP and LIME. Cross-validating the two explanation modalities adds a reliability check absent from earlier
+hybrids, while the inclusion of a time-efﬁciency evaluation for explanation generation provides a new performance dimension
+that prior XAI-IDS studies have not addressed. To our knowledge, this is the ﬁrst framework to jointly apply dual-stage
+statistical–model-based feature selection and SHAP–LIME cross-validation in IDS, enabling near-real-time explainability
+without sacriﬁcing accuracy. Comprehensive experiments on three representative traces, CIC-DDoS2019 (legacy IP DDoS),
+CICIoT2023 (IoT malware), and 5G PFCP (control-plane attacks), conﬁrm the framework’s versatility: it sustains an F1 Score
+of at least 99 % while accelerating LIME explanation time from 36 to 4.9 s, an 87 % speed-up. These results demonstrate
+that high detection accuracy and transparent, near-real-time interpretability can be achieved simultaneously in modern IDS
+deployments.
+Keywords Explainable artiﬁcial intelligence · Network security · Intrusion detection system · SHAP · LIME ·
+Feature engineering
+1 Introduction
+In the digital era, robust intrusion detection systems (IDS)
+are crucial for safeguarding interconnected networks against
+the rise of cyber-attacks. AI-based IDS provides superior
+detection and analysis of anomalous trafﬁc through machine
+learning (ML) and deep learning (DL), representing a sig-
+niﬁcant advancement in cybersecurity. However, they face
+challenges due to their “black-box” nature, where decision-
+B Beny Nugraha
+beny.nugraha@etit.tu-chemnitz.de
+Abhishek Venkatesh Jnanashree
+abhishek.venkatesh-jnanashree@etit.tuchemnitz.de
+Thomas Bauschert
+thomas.bauschert@etit.tu-chemnitz.de
+1
+Chair of Communication Networks, Technische Universität
+Chemnitz, Chemnitz, Germany
+making processes are opaque, compromising trust among the
+involved parties [1, 2]. Deep neural networks (DNNs) further
+complicate explainability due to their vast parameter spaces
+[2].
+Explainable artiﬁcial intelligence (XAI) addresses these
+issues by introducing transparency and interpretability into
+AI systems, enabling stakeholders to comprehend and trust
+AI decisions. Techniques such as SHAP (SHapley Addi-
+tive exPlanations) and LIME (Local Interpretable Model-
+Agnostic Explanations) provide insights into feature contri-
+butions, enhancing the trustworthiness of AI-based IDSs [3,
+4]. However, while XAI enhances understanding, it intro-
+duces its own set of challenges. Overreliance on a single
+XAI technique can lead to complacency, ignoring poten-
+tial biases in explanatory models. Therefore, it is crucial to
+validate explanations and continually assess system accu-
+racy and fairness [5]. Another drawback is that conventional
+XAI methods often suffer from high computational com-
+123
+
+
+
+===== PAGE 2 =====
+
+1096
+Annals of Telecommunications (2025) 80:1095–1120
+plexity, which can be particularly problematic in real-time
+IDS environments where timely and accurate explanations
+are essential. Chuang et al. [6] have categorized XAI meth-
+ods into non-amortized and amortized techniques, each with
+its own set of trade-offs between accuracy and computa-
+tional efﬁciency. Non-amortized methods, while preserving
+the precision of individual explanations, can struggle with
+scalability due to their sample-speciﬁc computations. On the
+other hand, amortized methods, which aim to reduce compu-
+tation time by generalizing model explanations, often show
+a degraded accuracy of those explanations.
+To address these limitations, we propose a novel two-stage
+XAI-based IDS framework that combines interpretability,
+efﬁciency, and scalability, making it suitable for various
+networkingenvironments.Ourapproachintroducestwoorig-
+inality aspects not found in prior XAI-IDS research: (i)
+a dual-stage feature selection that fuses statistical rank-
+ing (ANOVA) with model-based global importance (SHAP),
+achieving substantial dimensionality reduction without com-
+promising accuracy; and (ii) a cross-validation of explana-
+tions between SHAP and LIME to detect inconsistencies,
+paired with a time-efﬁciency evaluation of explanation
+generation—an aspect largely overlooked in existing lit-
+erature. This structured design mitigates computational
+inefﬁciencies, addresses interpretability gaps, and adds a
+robustness layer to the explanatory process.
+In the ﬁrst stage, ANOVA [7] with SHAP Global Expla-
+nation is applied to perform feature selection, thus reducing
+feature complexity without sacriﬁcing detection accuracy.
+This ensures that the computational burden is minimized
+while maintaining proper detection capabilities. The second
+stage focuses on local explanations, utilizing both SHAP
+and LIME to validate and analyze model predictions at
+the individual sample level. This not only enhances the
+reliability of the explanations but also ensures consistency
+across different samples, thereby preventing overreliance
+on a single explanatory technique. To our knowledge, no
+prior IDS framework combines these three elements—dual-
+stage feature selection, SHAP–LIME cross-validation, and
+time-efﬁciency evaluation—within a uniﬁed, reproducible
+pipeline.
+The contributions of this paper are threefold: First, we
+introduce an efﬁcient and interpretable XAI-based IDS
+framework tailored for legacy IP, IoT, and 5G networking
+environments. Second, we demonstrate the signiﬁcant com-
+putational efﬁciency gains, particularly in real-time explana-
+tion generation, without compromising accuracy. Third, we
+show the importance of explanation consistency by cross-
+validating insights from SHAP and LIME, ensuring that the
+model’s decisions are both reliable and transparent.
+This article extends and signiﬁcantly improves upon our
+earlier conference paper [8]. Compared to the original ver-
+sion, this manuscript introduces three main enhancements
+along with several methodological improvements:
+1. A new dataset family that includes 5G PFCP Session
+Establishment and Session Deletion attacks, showing that
+the framework generalizes beyond legacy IP and IoT traf-
+ﬁc;
+2. New experimental components, such as the compari-
+son of explanation generation time, additional classi-
+cal ML baselines (Random Forest and linear SVM), a
+SHAP/ANOVA ablation analysis, and a PCA/MI bench-
+mark; and
+3. An extended efﬁciency evaluation that measures SHAP
+and LIME explanation time across different feature sets
+and hardware, and includes full hyperparameter settings,
+dataset statistics, and public code for reproducibility.
+These updates expand the empirical coverage from one
+dataset to three, increase the number of reported experiments
+from four to eleven, and add the theoretical and practical
+depth required for a journal-level study.
+The remainder of the paper is organized as follows: Sect.2
+provides a comprehensive review of related work, show-
+ing gaps and challenges. In Sect.3, the architecture and
+methodology of our XAI-based IDS framework are pre-
+sented. Section4 provides details of the experimental setup,
+the evaluation methods, and the results analysis, showing
+the framework’s effectiveness in diverse networking scenar-
+ios (legacy IP, IoT, and 5G). Finally, Sect.5 concludes with
+a summary of ﬁndings and outlines potential directions for
+future research.
+2 Related work
+2.1 Feature selection methods
+Recent research has explored various feature selection
+strategies for improving IDS performance. Ferreira et al.
+[9] benchmarked multiple classiﬁers across UNSW-NB15,
+NSL-KDD, and CIC-IDS2017, showing that XGBoost with
+Lasso or ANOVA feature selection provides strong accu-
+racy but leaving the interpretability problem largely unad-
+dressed. Khani et al. [10] extended this direction by applying
+XAI-based selectors (SHAP, GradCAM, Guided Backprop-
+agation) alongside classical ANOVA, RFE, and Decision
+Tree methods for encrypted trafﬁc, demonstrating that
+SHAP often rivals or surpasses conventional approaches,
+yet their study remained focused on CNN-based classi-
+ﬁcation and feature ranking. Shaker et al. [11] further
+leveraged SHAP within a wrapper-based scheme for early-
+stage APT detection, reducing 77 features to four with
+high precision and recall on SCVIC-APT-2021, though the
+123
+
+
+
+===== PAGE 3 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1097
+reliance on a single explainer limited robustness. Finally,
+Anagha et al. [12] combined oversampling of NSL-KDD
+with SHAP/CBFS/IGBFS-driven ranking and RF-wrapper
+evaluation, yielding a DNN with marginal F1 gains but only
+moderate compile-time savings. Collectively, these works
+highlight the importance of dimensionality reduction and the
+growing use of XAI in feature selection, yet most approaches
+either focus narrowly on accuracy or employ a single expla-
+nation technique, motivating our dual-stage ANOVA–SHAP
+reduction with SHAP–LIME cross-validation to ensure both
+efﬁciency and trustworthy, near–real-time interpretability.
+2.2 Application of XAI in intrusion detection systems
+The advancements in AI, particularly in ML and DL, have
+signiﬁcantly improved IDS capabilities for detecting Dis-
+tributed Denial of Service (DDoS) attacks by analyzing
+large-scale data to identify anomalies [13]. However, the
+inherent complexity of these models makes them less inter-
+pretable, raising concerns about accountability, reliability,
+and compliance with regulatory frameworks like the EU’s
+GDPR, which mandates transparency in AI-driven decisions
+[14]. XAI has emerged as a viable solution, making AI deci-
+sions in cybersecurity more transparent and comprehensible,
+therebyenhancingtrustandreducingfalsepositivesandoper-
+ational costs [13].
+Several studies have explored the role of XAI in address-
+ing the opaque nature of AI decisions in IDS. A recent survey
+by Khan et al. [15] provides a broad overview of XAI-based
+IDS in Industry 5.0, it provides taxonomies of ante-/post-
+hoc XAI, discusses challenges and adversarial XIDS, and
+synthesizes prior studies. Mane and Rao [16] applied SHAP
+and LIME to deep neural networks (DNNs), for enhancing
+interpretability but encounter challenges related to generaliz-
+ability and accuracy. Mahbooba et al. [17] employed decision
+trees to simplify interpretability but faced issues with overﬁt-
+ting and the increasing sophistication of cyber-attacks. Wang
+et al. [18] integrated CNN and LSTM with SHAP and LIME
+for trafﬁc analysis but struggled with the computational
+demands of real-time detection. Abou El Houda et al. [19]
+observed that many studies lack detailed analyses correlating
+features with speciﬁc attack types, which limits their prac-
+tical applicability. Barnard et al. [20] proposed a two-stage
+IDS combining XGBoost with SHAP for enhanced explain-
+ability but experienced detection performance limitations.
+Kaur and Gupta [21] enhanced the detection performance by
+using SHAP and LIME to eliminate less important features,
+but ignored the computational effort required for generating
+explanations. Marcilio-Jr and Eler [22] utilized SHAP for
+feature selection to improve interpretability and model per-
+formance, but their approach focused on general ML models
+rather than network security datasets, raising concerns about
+potential biases from overreliance on a single XAI method.
+More recent work has broadened the scope of explain-
+able IDS beyond conventional IP networks. Khan et al.
+proposed XSRU-IoMT for threat detection in Internet-of-
+Medical-Things environments; while SHAP explanations are
+provided, the study does not employ any feature reduction
+strategy and reports only model training cost, not the time
+required to generate explanations [23]. A companion paper
+by the same group introduced a CNN–LSTM autoencoder for
+IndustrialIoTcyber-threatdiscoverywithSHAPexplainabil-
+ity; again, no feature reduction is applied, and explanation
+latency is not analyzed [24]. Most recently, a collabora-
+tive SRU network with federated learning was presented
+for smart-healthcare systems [25]; it visualizes features via
+LIME, yet omits a dual-method consistency check, performs
+no systematic feature reduction, and, like the earlier works,
+does not measure explanation generation time.
+Some other recent work has also explored alternative
+explanation paradigms. Burkart and Huber proposed an
+Explanation Framework for Intrusion Detection based on
+counterfactual examples [26]; although it yields human-
+readable “what-if” scenarios, the study is conﬁned to NSL-
+KDD, applies no feature reduction step, and does not report
+explanation generation latency. Cumi´c et al. generated coun-
+terfactualexplanationsforarandom-forestmodelthatdetects
+SQL-Injection attacks [27]; again, no dimensionality reduc-
+tion or timing analysis is provided, and the method is
+evaluated on a single SQL dataset rather than 5G/6G trafﬁc.
+Ables et al. extracted eclectic rule sets from a deep neural-
+network IDS to create a surrogate decision tree [28]; while
+the rules improve interpretability, the paper does not address
+real-time efﬁciency, nor does it employ feature selection or
+consider emerging 5G control-plane datasets.
+Complementary XAI directions have also been investi-
+gated. Burkart and Huber proposed a counterfactual-based
+Explanation Framework for Intrusion Detection, but it is
+evaluated only on KDD-based datasets, applies no feature
+reduction step, and does not report explanation latency or
+consider 5G trafﬁc [26]. Cumi-Guzman et al. generated
+counterfactual explanations for a random-forest model that
+detects SQL-injection attacks; the work is limited to an
+SQL dataset, omits feature reduction, and provides no tim-
+ing analysis of explanation generation [27]. Ables et al.
+extracted eclectic rule sets from a DNN-based IDS and dis-
+cuss rule-extraction speed, yet the study does not measure
+per-instance explanation time, performs no feature reduc-
+tion, and is conﬁned to UNSW-NB15 and CIC-IDS-2017
+datasets without any 5G/6G scenarios [28]. Ouhssini et al.
+[29] developed a CNN–LSTM model for DDoS defense
+in cloud environments, integrating SHAP to identify the
+ten most inﬂuential features across CIC datasets. Unlike
+their SHAP-only approach, our framework combines dual-
+stage ANOVA–SHAP selection with SHAP–LIME cross-
+123
+
+
+
+===== PAGE 4 =====
+
+1098
+Annals of Telecommunications (2025) 80:1095–1120
+Table 1 Comparison of recent explainable IDS frameworks
+Study
+Detector Model
+Dataset(s)
+XAI Technique(s)
+This work
+XGBoost
+CIC-DDoS2019, CICIoT2023, 5G PFCP
+SHAP, LIME
+Mane and Rao [16]
+DNN
+NSL-KDD
+SHAP, LIME, CEM, ProtoDash, BRCG
+Mahbooba et al. [17]
+Decision Tree
+1999 KDD Cup
+Decision Tree
+Wang et al. [18]
+CNN+LSTM
+KDD99
+SHAP, LIME
+Houda et al. [19]
+DNN
+NSL-KDD, UNSW-NB15
+RuleFit, LIME, SHAP
+Barnard et al. [20]
+XGBoost
+NSL-KDD
+SHAP
+Kaur and Gupta [21]
+XGBoost
+CICIoT2023
+SHAP, LIME
+Hassan et al. [35]
+Random Forest
+Edge-IIoT
+SHAP, LIME
+Hassan et al. [36]
+Random Forest
+Application Layer DoS Attack Dataset
+LIME
+validation, ensuring explanation consistency and efﬁciency
+for near–real-time IDS.
+Mutlu and Rihani [30] combined federated learning with
+SHAP and LIME to build an interpretable IDS for IoT using
+CIC-IoT 2023, achieving high accuracy while preserving
+data privacy. Our work differs by extending beyond IoT to
+legacy IP and 5G scenarios, and by adding a novel time-
+efﬁciency evaluation of explanations absent from their study.
+While these studies advance XAI techniques for IDS, none
+address emerging 5G/6G threats, incorporate a systematic
+feature reduction pipeline, or quantify explanation genera-
+tion speed, all three aspects that are central to the framework
+proposed in this paper.
+2.3 Efficiency enhancement of XAI techniques
+The efﬁciency challenges of XAI techniques have been
+acknowledged in prior research, given their importance for
+real-time applications. Chuang et al. [6] categorized XAI
+methods into non-amortized and amortized techniques, each
+with its own trade-offs. Non-amortized techniques, such
+as Fast TreeSHAP by Yang [31], accelerate SHAP calcu-
+lations for decision tree ensembles but remain limited to
+tree-based models. Lemaire et al. [32] introduced an efﬁcient
+Shapley value algorithm tailored for Naive Bayes classiﬁers
+and demonstrated its scalability. However, this algorithm is
+constrained by the simplicity of the underlying model. Amor-
+tized techniques, like that proposed by Santhiappan et al.
+[33], enhance LIME’s efﬁciency using attention weights, but
+they are primarily designed for text-based models, which
+limits their applicability to IDS scenarios. Muschalik et al.
+[34] expanded the capabilities of SHAP to compute higher-
+order Shapley interactions, which improves versatility but at
+the cost of increased computational complexity. In [35], the
+authors applied a Random Forest model to the Edge-IIoT
+dataset and employed SHAP and LIME for explainability,
+without incorporating feature reduction, consistency checks,
+or time-efﬁciency evaluation. Similarly, [36] used a Random
+Forest model on the Application Layer DoS Attack Dataset
+with only LIME explanations, also without feature reduction,
+consistency checks, or time-efﬁciency evaluation. Despite
+these advancements, none of these studies have thoroughly
+investigated the efﬁciency of XAI techniques in the context
+of network security. Efﬁciency challenges are also present in
+5G/6G networking scenarios, where real-time explainabil-
+ity is required for high-bitrate data ﬂows and large trafﬁc
+volumes [37]. Tables 1 and 2 summarize the comparisons
+between our proposed method and previous studies. Taken
+together, the studies summarized in Tables 1 and 2 reveal four
+recurring limitations. (i) Narrow protocol scope: apart from
+Table 2 Comparison of recent
+explainable IDS frameworks
+(Continued)
+Study
+Feature Reduction
+Consistency Check
+Time Eff. Eval.
+This work
+Yes
+Yes
+Yes
+Mane and Rao [16]
+None
+None
+None
+Mahbooba et al. [17]
+None
+None
+None
+Wang et al. [18]
+None
+None
+None
+Houda et al. [19]
+None
+None
+None
+Barnard et al. [20]
+None
+None
+None
+Kaur et al. [21]
+None
+None
+None
+Hassan et al. [35]
+Yes
+Yes
+None
+Hassan et al. [36]
+None
+None
+None
+123
+
+
+
+===== PAGE 5 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1099
+a few IoT traces, none of the listed IDS frameworks address
+control-plane trafﬁc in 5G/6G networks, leaving emerging
+PFCP-based threats uncharted. (ii) Lack of dimensionality
+control: the majority retain the full feature space, which
+inﬂates explanation latency and hinders real-time deploy-
+ment. (iii) Missing cross-explanation validation: although
+SHAP or LIME is commonly employed, only one work
+attempts any form of consistency check. (iv) Sparse report-
+ing of computational cost: none of the past studies quantify
+the time required to generate explanations, making it difﬁ-
+cult to judge practical feasibility. These gaps motivate the
+design choices in our two-stage XAI framework, namely the
+ANOVA+SHAP reduction to ten features, the SHAP-LIME
+agreement test, and the explicit evaluation of explanation-
+time savings across IP, IoT, and 5G datasets.
+While ANOVA offers a statistically rigorous and compu-
+tationally efﬁcient method for feature selection, it is most
+effective when integrated with XAI techniques like SHAP
+for global and local explanations. This pairing retains the
+original feature semantics, unlike PCA, which projects data
+into latent components and captures interaction effects that
+mutual information (MI) alone can miss. In our initial exper-
+iment, PCA and MI top-10 ﬁlters achieved higher F1 Score
+(0.999 and 0.999, respectively) but at the cost of losing fea-
+ture meaning (PCA) or forgoing model-aware importance
+(MI); ANOVA reached a respectable F1 Score of 0.997
+with the fastest LIME explanation generation time (2.36s),
+thus, the ANOVA–SHAP integration offers the best balance
+between interpretability, statistical validity, and computa-
+tional efﬁciency. Our proposed two-stage XAI-based IDS
+framework leverages these techniques to optimize computa-
+tional performance while ensuring reliable and interpretable
+decisions. This approach is beneﬁcial, e.g., for addressing
+threatslikePFCPprotocolattacksin5G/6Gnetworks,where
+rapid and accurate explanations are essential for effective
+intrusion detection and mitigation.
+To summarize, previous hybrid approaches typically
+attach LIME to deep learning models such as CNN or CNN-
+GRU, retaining the full feature set of over 200 dimensions.
+As a result, explanations remain computationally expensive
+and lack any validation mechanism between explanation
+methods (e.g., studies using LIME and SHAP for explain-
+able IDS in VANETs). In contrast, our two-stage framework
+introduces three key improvements. First, it applies a dual
+feature selection process that combines ANOVA F-statistics
+and global SHAP values to reduce the input space to the 10
+most relevant features, achieving about 70% dimensionality
+reduction. Second, it replaces the complex CNN-GRU with
+a lightweight XGBoost classiﬁer trained on this reduced fea-
+ture set, reducing LIME explanation time from 36 to 4.9s (an
+87% improvement) on CICIoT-Slowloris, while maintaining
+F1 Score ≥99% across CIC-DDoS2019, CICIoT2023, and
+5G PFCP datasets. Third, it validates each LIME explanation
+Algorithm 1 Two-Stage XAI-Based IDS Framework
+1: Input: Tabular dataset D = (X, y)
+2: Output: Trained model M, explanations (eSHAP, eLIME), and con-
+sistency ﬂag γ
+3: // Stage 1: Pre-processing
+4: Drop ID columns, handle NaN/Inf, remove constant features
+5: Encode labels y; split D into Dtr, Dte
+6: // Stage 2: Feature Evaluation
+7: Compute ANOVA F-scores on Dtr
+8: Train temporary model
+˜
+M using XGBoost
+9: Obtain SHAP importances from
+˜
+M
+10: Normalize and combine (40% ANOVA + 60% SHAP) scores
+11: Select top K = 10 features F⋆
+12: // Stage 3: Model Training
+13: Reduce Dtr, Dte to F⋆
+14: Train ﬁnal model M on Dtr
+15: // Stage 4: Online Inference and Explanation (per instance x)
+16: for each test instance x do
+17:
+ˆy ←M(x)
+18:
+eSHAP ←TreeExplainer(M, x)
+19:
+eLIME ←LimeExplainer(M, x)
+20:
+if top-ℓfeatures in both explanations agree then
+21:
+γ ←1
+22:
+else
+23:
+γ ←0
+24:
+end if
+25:
+return ( ˆy, eSHAP, eLIME, γ )
+26: end for
+by comparing it to SHAP outputs, identifying inconsistencies
+and enhancing reliability. Together, these steps offer faster,
+more efﬁcient, and more reliable explanations than previous
+methods.
+3 Proposed XAI-based IDS framework
+3.1 Overview of the proposed framework
+Figure 1 presents the architecture of the proposed XAI-based
+IDS framework, which operates as a non-amortized approach
+to generate explanations for each individual instance. Unlike
+amortized techniques that reuse generalized explanation
+models, this design ensures that the interpretability out-
+put is tailored to the speciﬁc feature contributions of every
+detection, a critical property for high-stakes IDS scenarios
+where per-instance transparency is essential. The frame-
+work integrates three originality aspects absent from prior
+XAI–IDS studies: (i) a dual-stage feature selection pipeline
+that fuses statistical ranking (ANOVA) with model-based
+global importance (SHAP) to achieve substantial dimen-
+sionality reduction with minimal performance loss, (ii) a
+cross-validation mechanism that compares SHAP and LIME
+local explanations to detect inconsistencies, thus adding a
+reliability layer to interpretability, and (iii) a time-efﬁciency
+evaluation component that measures explanation generation
+latency under realistic IDS workloads. Operationally, the
+123
+
+
+
+===== PAGE 6 =====
+
+1100
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 1 Framework of the proposed XAI-based IDS
+framework is divided into an ofﬂine stage and an online
+stage. In the ofﬂine stage, the dual-stage feature selection
+process identiﬁes a compact, high-utility feature subset from
+the full dataset, reducing computational overhead for later
+inference. In the online stage, the trained model operates in
+real time to classify trafﬁc instances and simultaneously pro-
+duce SHAP and LIME explanations, with the consistency
+check ﬂag γ indicating whether the two explanation modal-
+ities align for the top-ℓranked features. In the following
+paragraphs, we describe both stages in more detail.
+The ﬁrst stage of the ofﬂine pipeline handles all compu-
+tationally demanding tasks. Data preprocessing is applied
+once to the historical dataset. First, identiﬁer columns with
+no predictive value (e.g., Flow ID, Src IP, Dst Port in CIC-
+DDoS2019 or ﬂow_duration, Protocol Type in CICIoT2023)
+are removed. Second, inﬁnite values are replaced with NaN,
+and any row with remaining NaN values is discarded. Third,
+features with only one unique value are dropped to prevent
+bias in the ANOVA ranking. Finally, labels are encoded as
+integers (0 for benign, 1 for attack). Since XGBoost is scale-
+invariant, normalization is not needed, which reduces the
+runtime of the online phase. The cleaned dataset is then used
+in a stratiﬁed 10-fold cross-validation, training the model
+on 80% of the data, validating on 10%, and testing on the
+remaining 10%, providing reliable performance estimates
+for the next stage of the framework. Concurrently, a statisti-
+cal feature selection process identiﬁes signiﬁcant features by
+analyzing the variance within the data. For example, ANOVA
+can be utilized for feature selection in a labeled dataset,
+while the K-Means clustering method can be used for an
+unlabeled dataset. The SHAP Global Explanation module
+analyzes the AI-based IDS output to identify impactful fea-
+tures. The selected features are compared and combined to
+obtain a robust feature set (feature reduction step). In the
+second stage, data with reduced features are fed into the AI-
+based IDS. Later, we compare the performance metrics of the
+AI-based IDS obtained from both stages to assess the impact
+of the feature reduction. SHAP Local Explanation and LIME
+LocalExplanationclarifythesigniﬁcanceoffeaturesforclas-
+sifying data samples as malicious or benign. An explanation
+consistency check ensures reliability by cross-verifying the
+SHAP and LIME explanations. The results, in turn, guide the
+reassessment of features in the feature reduction step.
+In the online part, only the second stage is performed,
+ensuring real-time capability, as the computationally inten-
+sive tasks have already been completed in the ofﬂine part.
+Real-time data is collected and pre-processed, and the fea-
+tures from the ofﬂine feature reduction process are used as
+input for the AI-based IDS. These features are then utilized
+for classiﬁcation and SHAP and LIME local explanations.
+The pre-processed data, along with the reduced feature set,
+can be used in the second stage of the ofﬂine process for fur-
+ther feature reassessment (which in turn might be applied in
+the online part).
+Algorithm 1 outlines the four stages of the proposed
+framework and their computational behavior, with each stage
+serving a distinct role in ensuring both efﬁciency and inter-
+pretability.
+Stage 1 performs dataset pre-processing by scanning the
+input once to remove identiﬁer columns, handle NaN or
+±∞values, prune constant features, and encode class labels
+before splitting into training and testing sets. This step is
+123
+
+
+
+===== PAGE 7 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1101
+linear in the size of the matrix X and ensures that only mean-
+ingful, non-redundant features are passed to the next stage.
+Stage 2 carries out feature evaluation through a hybrid
+selection process. First, ANOVA F-scores are computed for
+each feature to measure statistical relevance. Then, a tem-
+porary XGBoost model
+˜
+M is trained, and SHAP global
+importances are extracted directly from its tree structure.
+The two importance measures are normalized and combined
+(40% ANOVA + 60% SHAP), producing a ranked list from
+which the top K=10 features F⋆are selected in linear time.
+This combination leverages both statistical variance analysis
+and model-speciﬁc interpretability to yield a stable, informa-
+tive, and computationally light feature set.
+Stage 3 retrains the ﬁnal XGBoost model M using only
+the reduced feature set F⋆. Since K is ﬁxed, model training
+time scales linearly with the number of rows, making the
+model lightweight and suitable for real-time IDS deployment
+without accuracy loss.
+Stage 4 handles online inference and per-instance expla-
+nation. For each incoming instance x, a forward pass through
+M produces the prediction ˆy, while SHAP explanations are
+computed in the same pass. LIME explanations are gener-
+ated using a ﬁxed number of perturbed samples, ensuring
+bounded and predictable per-ﬂow latency regardless of the
+original dimensionality. A consistency ﬂag γ is set depend-
+ing on whether SHAP and LIME agree on the top-ℓfeatures,
+enabling operators to detect and respond when explanation
+methods diverge—an added safeguard absent in prior single-
+method XAI-IDS designs.
+Overall, all ofﬂine operations run in time proportional to
+thedatasetsize,andonlineoperationsmaintainconstant-time
+complexity per instance, meeting the low-latency require-
+ments of operational IDS environments while providing
+veriﬁable and reliable explanations.
+3.2 Applied XAI techniques
+Model explanations can be grouped into global and local
+types: the former reveal overall model logic, whereas the
+latter clarify speciﬁc decisions. As illustrated in Fig. 1, we
+employ SHAP for both global and local explanations and
+LIME solely for local ones. SHAP computes locally accu-
+rate, game-theoretic attributions by exploiting the internal
+structure of XGBoost (with T trees and L leaves), keeping
+per-instance latency comfortably low on a CPU while satisfy-
+ing the additivity and missingness axioms of Shapley theory.
+LIME is completely model-agnostic; its perturb-and-ﬁt strat-
+egy produces sparse linear explanations that many security
+analysts ﬁnd intuitive and easier to act upon than dense gra-
+dient heatmaps. Using both methods in tandem enables a
+cross-validation step: if the top-ℓcontributing features dis-
+agree, the instance is ﬂagged for further analyst scrutiny,
+thereby improving trust in the explanations. Formally, we
+compute a consistency coefﬁcient κ = |SSHAP∩SLIME|
+ℓ
+, where
+SSHAP and SLIME are the sets of the top-ℓfeatures returned by
+each explainer; we set ℓ= 5 and ﬂag an instance whenever
+κ < 0.50. On all three datasets, the median κ is 0.94, so only
+about 2% of ﬂows require analyst review. Because SHAP
+derives exact Shapley attributions from the tree ensemble,
+whereas LIME ﬁts a local linear surrogate around each
+instance, the two techniques reason about feature inﬂuence
+in fundamentally different ways; agreement reinforces con-
+ﬁdence, while disagreement highlights trafﬁc ﬂows that are
+likelynearthemodel’sdecisionboundaryorthatexhibitatyp-
+ical feature combinations. This complementary perspective
+provides a practical reliability layer that a single explainer
+cannot offer, justifying the modest additional computation
+introduced by LIME.
+Alternative XAI approaches such as Saliency Maps[38],
+Integrated Gradients[39], or DeepLIFT[40] can indeed offer
+valuable insight, particularly for deep neural networks. How-
+ever, most rely on backpropagation or extensive perturbation
+sampling, making them signiﬁcantly more computationally
+demanding (e.g., KernelSHAP time grows exponentially
+with feature count). Such latency overhead and usability
+issues are incompatible with our real-time IDS requirement,
+whereas the SHAP–LIME pair delivers the necessary balance
+of faithfulness, efﬁciency, and model-agnostic applicability
+for tabular network-ﬂow data.
+3.2.1 SHAP
+SHAP, introduced by Lundberg and Lee [3], employs Shap-
+ley values from game theory to quantify each feature’s
+contribution to an AI model’s prediction, assigning values
+that reﬂect each feature’s positive or negative impact. By
+averaging the marginal contributions of features across all
+possible combinations, SHAP ensures fair evaluation of fea-
+ture interactions. For a detailed description of the technical
+background of SHAP, we refer to Lundberg and Lee’s paper
+[3]. SHAP’s advantages lie in its game-theoretical founda-
+tion and properties: Symmetry (equal importance for equal
+contributors), Dummy (zero contribution for non-inﬂuential
+features), and Additivity (predictions as the sum of feature
+contributions).
+In our framework, SHAP, implemented through Tree-
+SHAP, the exact tree-ensemble variant, provides both global
+and local explanations. TreeSHAP leverages the internal
+structure of the XGBoost model to compute exact Shap-
+ley values in time linear to the number of leaves, making
+it far faster and more scalable than the model-agnostic
+KernelSHAP alternative. The global explanation aggregates
+feature contributions for a comprehensive view, offering
+insights into the overall behavior of the AI model. This
+is particularly important for understanding how the model
+operates on different trafﬁc datasets (e.g., CIC-DDoS2019,
+123
+
+
+
+===== PAGE 8 =====
+
+1102
+Annals of Telecommunications (2025) 80:1095–1120
+CICIoT2023, 5G PFCP). The summary plot (used to repre-
+sent the global explanation) yields a global view of feature
+importance across the entire dataset, showing the distribu-
+tion of SHAP values for each feature and indicating which
+features have the most signiﬁcant impact on the AI model’s
+predictions.
+The local explanation examines individual data samples,
+identifying speciﬁc feature contributions that inﬂuence the
+AI model’s predictions. The force plot (used to represent the
+local explanation) visualizes the SHAP values for a single
+data sample, showing how each feature contributes to the
+prediction. This visualization clearly indicates the features
+that push the prediction higher or lower relative to the base-
+line prediction.
+3.2.2 LIME
+LIME, developed by Ribeiro, Singh, and Guestrin [4],
+explains complex machine learning models by generating
+local surrogate models that approximate the AI model’s
+behavior around a speciﬁc sample. These surrogate models
+are simple and interpretable, such as linear regression or deci-
+sion trees. To obtain an explanation for a speciﬁc (original)
+sample, LIME creates perturbed samples out of the original
+sample by making slight modiﬁcations to its feature values.
+Each perturbed sample is then inputted to the original AI
+model to obtain a prediction. In the next step, the perturbed
+samples are weighted based on their similarity to the orig-
+inal sample, ensuring that perturbed samples that are more
+similar to the original sample have a greater inﬂuence. The
+weighted perturbed samples and their corresponding predic-
+tions are then used to train the surrogate model. The surrogate
+model approximates the complex original AI model’s deci-
+sion boundary around the speciﬁc sample, making it possible
+to explain the local behavior of the AI model. We encourage
+readers to refer to the publication [4] for a thorough discus-
+sion of the LIME algorithm.
+LIME offers several types of visualizations to help users to
+understand the explanations it generates. One of the primary
+visualizations is the feature importance plot, which displays
+the contribution of each feature to the prediction for a spe-
+ciﬁc sample. LIME’s model-agnostic nature allows it to be
+applied to any machine learning algorithm, offering ﬂexi-
+bility and versatility. This adaptability makes it particularly
+useful for local explanations, such as understanding why a
+speciﬁc sample in the CICIoT2023 dataset was classiﬁed as
+malicious. In our framework, LIME is exclusively used in
+the second stage, as it does not offer global explanations like
+SHAP. LIME provides local explanations of the AI model’s
+prediction behavior for individual samples, providing end-
+users with clear insights into the decision-making process.
+3.3 Implementation stages
+3.3.1 First stage
+The process begins with the preprocessing of a well-known
+ofﬂine dataset to ensure the dataset’s integrity and relevance
+while preventing issues such as computational inefﬁciency
+and model bias. The cleaned dataset is then normalized
+using the MinMaxScaler to ensure uniform feature scaling,
+which is crucial for the convergence and performance of the
+machine learning model.
+Once pre-processed, each dataset is subjected to a strati-
+ﬁed 10-fold cross-validation procedure: the shufﬂed data are
+partitionedintotenequalfoldsthatpreservethebenign/attack
+class ratio, eight folds (≈80%) are used to train the XGBoost
+model, one fold (≈10%) serves as an inner validation set for
+early stopping and hyper-parameter tuning, and the remain-
+ing fold (≈10%) provides an unseen test set. This cycle
+is repeated until every sample has appeared exactly once
+in the test fold, and we report the mean ± standard devi-
+ation of all performance and explanation-time metrics across
+the ten runs, yielding reliable estimates with markedly lower
+variance than a single train/test split. Concurrently, in the
+feature selection step, ANOVA identiﬁes features with sta-
+tistically signiﬁcant differences between classes. The SHAP
+Global Explanation module complements this by analyzing
+the model’s output to determine the features that are most
+inﬂuential on its predictions.
+The Feature Reduction process merges insights from
+ANOVA and SHAP Global Explanation, assigning a 60%
+weight to SHAP results and 40% to ANOVA results. This
+weighting prioritizes SHAP’s ability to capture feature
+importance in the context of model predictions while lever-
+aging ANOVA’s statistical rigor to ensure that the selected
+features are statistically signiﬁcant. By combining these
+approaches, we ensure that the most impactful features are
+retained, balancing computational efﬁciency with predictive
+accuracy. Preliminary trials with adjacent ratios (50:50 and
+70:30 produced the same top feature list, so 60:40 was kept
+as a balanced default that modestly favors the model-aware
+SHAP signal without sacriﬁcing ANOVA’s variance-based
+insight.
+The ﬁnal outcome of the ﬁrst stage is a reduced set of
+features that is both statistically signiﬁcant and crucial to
+model predictions. These features serve as input for the sec-
+ond stage, reducing dimensionality and computational costs
+while preserving the essential information needed for high-
+performance IDS operations.
+3.3.2 Second stage
+In the second stage, the dataset with reduced features is fed
+to the XGBoost model for another round of 10-fold cross-
+123
+
+
+
+===== PAGE 9 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1103
+validation. This step evaluates the effectiveness of the feature
+reduction process by comparing performance metrics before
+(ﬁrst stage) and after (second stage) the feature reduction.
+The expected outcome is that the model sustains high classi-
+ﬁcation performance while requiring fewer features, which
+translates to reduced computational costs, faster training, and
+decreased storage needs.
+To enhance interpretability, SHAP and LIME Local
+Explanations are applied to a randomly selected sample to
+explain the model’s decision-making process. SHAP gener-
+ates explanations by assigning Shapley values to features,
+showing their contributions to speciﬁc predictions. LIME
+complements this by creating local surrogate models to
+approximate the decision boundaries of the original model
+for the selected samples. The synergy between these methods
+provides a comprehensive view of the feature contributions
+to each decision.
+The explanation consistency check is performed to ensure
+alignment between SHAP and LIME outputs. This step val-
+idates the reliability of the explanations and identiﬁes any
+inconsistencies or potential biases in feature interpretation.
+The insights from this process are fed back into the Fea-
+ture Reassessment loop, where features are re-evaluated, and
+potentially new features are identiﬁed, reﬁning the Feature
+Reduction process for greater accuracy and efﬁciency.
+This iterative process ensures that our framework adapts
+dynamicallytothecharacteristicsofthedataset,continuously
+improving both the model’s interpretability and prediction
+performance. The second stage thus serves as the critical
+link between feature reduction and real-time application,
+ensuring that the IDS framework remains both efﬁcient and
+reliable.
+4 Performance evaluation
+4.1 Datasets, ML model, and performance metrics
+selection
+For evaluating the proposed framework, we select the CIC-
+DDoS2019 [41], CICIoT2023 [42], and 5G PFCP [43]
+datasets, which together cover a broad spectrum of attack
+trafﬁc and benign ﬂows across different networking environ-
+ments. CIC-DDoS2019 provides representative volumetric
+DDoS attacks (e.g., HTTP Flood, SYN Flood) that domi-
+nate IP-based networks, CICIoT2023 reﬂects the complexity
+of IoT-oriented threats, and 5G PFCP highlights emerging
+control-plane vulnerabilities in mobile-core systems. Within
+these datasets, we deliberately select a set of representa-
+tive attacks, namely volumetric (HTTP, SYN), low-and-slow
+(Slowloris), reconnaissance (Portmap), and 5G control-
+plane (Session Deletion, Session Establishment), to capture
+diverse trafﬁc characteristics and detection challenges. This
+selection ensures coverage of both common and hard-to-
+detect attack families, while keeping the evaluation tractable
+and focused without compromising the generality of the con-
+clusions. Table 3 shows that all three datasets have been
+pre-processed to be class-balanced but vary in size and num-
+ber of features. The Portmap set has 59 features for 8000
+ﬂows, CICIoT2023 is much larger but reduces to 35 fea-
+tures, and the 5G PFCP data has just 14 features. This
+highlights the framework’s ability to handle different data
+scales without being affected by class imbalance. Because
+the balanced variants of CIC-DDoS2019 (Portmap), the three
+CICIoT2023 ﬁles, and the two 5G PFCP corpora each con-
+tain virtually equal numbers of benign and malicious ﬂows
+(Table 3), class imbalance was not an issue. Consequently, no
+resampling or cost-sensitive weighting was applied; instead,
+all train/validation/test partitions are stratiﬁed to preserve the
+1:1 class ratio.
+Data preprocessing involves three main steps: removing 5-
+tuple features, removing ﬂow-related features, and removing
+constant features. The 5-tuple attributes (source IP, desti-
+nation IP, source port, destination port, and protocol) are
+removed because they are speciﬁc to individual connections.
+These attributes might also introduce an unnecessary model
+bias towards speciﬁc IP addresses or port numbers, which
+could make the detection of general attack patterns more
+difﬁcult. Flow-related features, such as ﬂow duration, are
+excluded because they require waiting for the entire ﬂow to
+be completed before being calculated. This step is important
+for achieving real-time detection, where the IDS must pro-
+cess trafﬁc as it arrives without waiting for ﬂow completion.
+Constant features are removed because they do not provide
+anyvariabilityorusefulinformationforthemodel’sdecision-
+making process. Since constant features have the same value
+across all samples, they do not help the model differentiate
+between malicious and benign trafﬁc and can unneces-
+sarily increase the number of features the model needs
+to process, potentially leading to increased computational
+costs without improving performance. After preprocessing,
+the CIC-DDoS2019 dataset samples have 59 features, the
+CICIoT2023 dataset samples have 36 features, and the 5G
+Table 3 Summary of the
+datasets
+Dataset
+Benign
+Attack
+Total
+Features
+CIC-DDoS2019 (Portmap)
+4000
+4000
+8000
+59
+CICIoT2023 (3 variants)
+60,000
+60,000
+120,000
+35
+5G PFCP (2 variants)
+3103
+3103
+6206
+14
+123
+
+
+
+===== PAGE 10 =====
+
+1104
+Annals of Telecommunications (2025) 80:1095–1120
+PFCP dataset samples have 9 features. All features are nor-
+malizedusingtheMinMaxScaler toensureuniformity. While
+the CIC-DDoS2019 and CICIoT2023 datasets are used for
+evaluating the XGBoost model’s performance before and
+after feature reduction, the 5G PFCP dataset is excluded from
+thisstepduetoitssmallinitialfeaturesetsize.Instead,the5G
+PFCP dataset is primarily used to evaluate our framework’s
+ability to explain 5G control-plane attacks.
+The XGBoost model [44] is chosen for the AI-based IDS
+due to its efﬁciency, scalability, and ability to handle imbal-
+anced training datasets, along with its reduced computation
+resource requirements compared to deep learning models.
+XGBoost’s advanced regularization minimizes overﬁtting,
+and its gradient boosting framework handles large train-
+ing datasets effectively. Compared to traditional machine
+learning models such as Random Forests or Support Vec-
+tor Machines (SVM), XGBoost requires lower training time
+and provides better control through hyperparameter tuning.
+While deep learning models like neural networks can achieve
+high accuracy, they often require large amounts of training
+data and computational resources. XGBoost offers a balance
+by providing good detection performance with lower com-
+putational overhead. For datasets like CIC-DDoS2019 and
+CICIoT2023, this balance is crucial for achieving high per-
+formance without excessive computational costs.
+To optimize model performance and reduce the risk of
+overﬁtting, we employed a hyperparameter tuning proce-
+dure using GridSearchCV combined with 10-fold cross-
+validation. This technique systematically evaluates all possi-
+ble combinations from a predeﬁned parameter grid, selecting
+the conﬁguration that yields the best cross-validation perfor-
+mance on the training folds. The full set of candidate values
+for each parameter is summarized in Table 4, with the ﬁnal
+selected settings highlighted in bold. We tuned seven key
+hyperparameters of the XGBoost classiﬁer. The number of
+estimators (n_estimators) controls the total number of boost-
+ing rounds, where a larger number can improve performance
+but may lead to overﬁtting if not counterbalanced by regular-
+ization. The learning_rate governs the contribution of each
+tree; smaller values require more trees but tend to improve
+Table 4 Parameter grid used for XGBoost hyperparameter tuning with
+GridSearchCV
+Parameter
+Values
+n_estimators
+{100, 200, 300, 400}
+learning_rate
+{0.05, 0.10, 0.20}
+max_depth
+{3, 4, 5, 6}
+gamma
+{0, 0.5, 1}
+reg_lambda
+{0.5, 1, 1.5}
+subsample
+{0.6, 0.8, 1.0}
+colsample_bytree
+{0.6, 0.8, 1.0}
+generalization. The max_depth deﬁnes the maximum depth
+of each tree, impacting the model’s capacity to capture com-
+plex patterns, i.e., higher values increase complexity but
+may reduce interpretability. The gamma parameter imposes
+a minimum loss reduction required to make a further split,
+thereby acting as a pruning mechanism. Reg_lambda is the
+L2 regularization term on leaf weights, which penalizes large
+coefﬁcients to improve model robustness. Subsample con-
+trols the proportion of training instances randomly sampled
+for each boosting round, reducing variance and helping avoid
+overﬁtting. Similarly, Colsample_bytree sets the fraction of
+features used when building each tree, promoting diver-
+sity among trees and lowering the chance of ﬁtting noise.
+The bolded values in Table 4 indicate the optimal conﬁg-
+uration selected by the grid search. These values reﬂect a
+balancedtrade-offbetweendetectionperformanceandmodel
+complexity, conﬁrmed by strong validation results across
+all datasets. The use of 10-fold stratiﬁed cross-validation
+ensured that the tuning process remained robust to class
+imbalance and provided reliable estimates of generalization.
+To compare the XGBoost model performance before and
+after feature reduction, we use ﬁve metrics: Accuracy, Preci-
+sion, Speciﬁcity, Recall, and F1 Score. These metrics allow
+for a comprehensive evaluation of our approach’s effective-
+ness beyond mere accuracy. For instance, Precision measures
+the model’s ability to correctly identify malicious samples,
+while Recall evaluates its capability to detect all malicious
+samples. Speciﬁcity shows the model’s ability to avoid false
+positives, and F1 Score provides a balance between Precision
+and Recall.
+4.2 Evaluation scenarios, results, and analysis
+We evaluate our XAI-based IDS framework using one dataset
+from CIC-DDoS2019 and three datasets from CICIoT2023,
+each containing benign trafﬁc samples as well as malicious
+trafﬁc samples of one of the following speciﬁc DDoS attack
+types: Portmap, SYN Flood, HTTP Flood, and Slowloris.
+These attacks are highly effective and represent both volu-
+metric (e.g., Portmap, SYN Flood, HTTP Flood) and slow
+(e.g., Slowloris) attack types, which pose signiﬁcant chal-
+lenges for an IDS due to their differing trafﬁc patterns.
+Additionally, we use the 5G PFCP dataset, which represents
+control-plane attacks in 5G networks. It focuses on two spe-
+ciﬁc attack types: PFCP Session Deletion and PFCP Session
+Establishment. These attacks rely on signaling protocols and
+packet-level manipulations rather than volumetric trafﬁc pat-
+terns seen in data plane attacks. This results in a smaller
+feature set, often limited to protocol-speciﬁc attributes like
+session counters or message types, which can make it difﬁ-
+cult to distinguish malicious activity from normal operations
+[43].
+123
+
+
+
+===== PAGE 11 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1105
+We compare the attack detection results obtained from
+the ﬁrst stage of our framework (which utilizes all fea-
+tures, i.e., 59 features for the CIC-DDoS2019 dataset and
+36 features for the CICIoT2023 dataset) with those from
+the second stage after the Feature Reduction. Note that the
+5G PFCP dataset is not used for the model performance
+comparison before and after the Feature Reduction due to
+its small initial feature set size (9 features). Instead, it is
+used to evaluate our framework’s capability to detect and
+explain 5G-speciﬁc control-plane attacks using both global
+andlocalexplanations.TheFeatureReductionprocess,based
+on SHAP Global Explanation and statistical methods, selects
+features that are both statistically signiﬁcant and practically
+impactful,improvingtheframework’sefﬁciencywithoutsac-
+riﬁcing prediction accuracy. To assess the effect of Feature
+Reduction, we examine the XGBoost model performance
+by applying the top 5, 10, 20, and 30 features. This evalua-
+tion enables us to understand the trade-offs between reducing
+computational overhead and maintaining high detection per-
+formance, especially for datasets with a larger number of
+initial features.
+4.2.1 Results of SHAP global explanation, feature selection,
+and feature reduction processes
+Figures 2, 3, and 4 display the SHAP global summary
+plots for the Portmap, SYN Flood, HTTP Flood, Slowloris,
+PFCP Session Deletion, and PFCP Session Establishment
+attacks, respectively, highlighting the most inﬂuential fea-
+tures on model predictions. The Y-axis lists the features
+in the order of their importance, while the X-axis, indi-
+cating the SHAP values, shows each feature’s impact on
+the model’s prediction. Positive SHAP values push pre-
+dictions towards the malicious class, while negative values
+push towards the benign class. The explanations for two dis-
+tinct DDoS attack types: volumetric (Portmap, SYN Flood,
+HTTP Flood) and slow (Slowloris) are investigated. For
+the Portmap attack, the ‘Fwd Packet Length Min’
+feature emerges as the most signiﬁcant. Lower values of
+this feature, indicated by blue dots, signiﬁcantly decrease
+the model’s output and push the prediction towards the
+benign class. The ‘Inbound’ feature is the second most
+important one, with higher values (red dots) generally push-
+ing the prediction towards the malicious class. Similarly,
+for the SYN Flood attack, ‘syn_flag_number’ and
+‘Number’ emerge as the most signiﬁcant features, with
+high values of these features strongly indicating SYN Flood
+attack samples. The ‘Header_Length’ feature is the
+next most important one, where lower values are indica-
+tive of SYN Flood attacks. For the HTTP Flood attack, the
+‘Number’ feature, representing the number of packets in
+a ﬂow, is the most inﬂuential one. The ‘fin_count’ fea-
+ture, which counts packets with the FIN ﬂag set, also plays a
+crucial role. Higher values tend to push predictions towards
+Fig. 2 SHAP global explanation results for Portmap and SYN Flood attacks
+123
+
+
+
+===== PAGE 12 =====
+
+1106
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 3 SHAP global explanation results for HTTP Flood and Slowloris attacks
+the malicious class. Similarly, in the case of Slowloris, the
+‘Number’ feature remains the most important one. Higher
+values signiﬁcantly increase the model’s output, driving pre-
+dictions towards the malicious class. The ‘IAT’ feature,
+representing the packet inter-arrival time, is also highly
+inﬂuential, with lower values pushing predictions towards a
+malicious outcome. In the case of 5G control-plane attacks,
+the framework demonstrates its capability to identify control-
+plane attack-speciﬁc features. For the PFCP Session Deletion
+attack, ‘PFCPHeartbeatRequest_counter’ is the
+most influential feature. Low values of ‘PFCPHeartbeat
+Request_counter’ are indicative of malicious samples,
+highlighting the role of this feature in identifying abnor-
+malities in PFCP Heartbeat requests. Similarly, for the PFCP
+SessionEstablishment attack, ‘PFCPSessionEstablish
+mentRequest_counter’ emerges as the most crucial
+feature, with low values strongly linked to predictions of
+malicious trafﬁc. These results show the importance of
+control-plane-speciﬁc features in detecting such threats.
+To complement the results of the SHAP Global Expla-
+nation, we utilize the ANOVA feature selection method,
+which identiﬁes statistically signiﬁcant features by analyz-
+ing the variance between classes. ANOVA, or Analysis of
+Variance, evaluates the degree to which individual features
+Fig. 4 SHAP global explanation results for PFCP attacks
+123
+
+
+
+===== PAGE 13 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1107
+contribute to class separation by comparing the variance
+within classes (e.g., benign or malicious trafﬁc) to the vari-
+ance between classes. Features with a higher between-class
+variance than within-class variance are considered statis-
+tically signiﬁcant, making them crucial for distinguishing
+between malicious and benign trafﬁc. ANOVA is particularly
+advantageous due to its simplicity, efﬁciency, and ability to
+handle large datasets. Unlike more complex feature selection
+techniques, such as Recursive Feature Elimination (RFE),
+Mutual Information (MI), or Wrapper Methods, ANOVA
+does not rely on model-speciﬁc parameters and offers a
+purely statistical perspective, making it a robust complement
+to model-based interpretability tools like SHAP. By combin-
+ing the outcomes of SHAP Global Explanation and ANOVA,
+we achieve a more comprehensive selection of features,
+integrating SHAP’s interpretability with ANOVA’s statisti-
+cal precision. The Feature Reduction process merges these
+results, assigning a 60% weight to SHAP Global Explanation
+and 40% to ANOVA, prioritizing SHAP’s ability to capture
+feature importance in the context of model predictions while
+incorporating the statistical insights from ANOVA. Table 5
+presents the top 30 features for the CICIoT2023 and CIC-
+DDoS2019 datasets, and Table 6 lists the 9 features for the
+5G PFCP datasets. These identiﬁed features align well with
+the nature of each attack. For instance, in volumetric attacks,
+which rely on generating a high rate of trafﬁc to overwhelm
+the target, trafﬁc volume-related features such as ‘Number’
+are among the most important. On the other hand, for the
+Slowloris attack, ‘HTTP’ is a key feature, surpassed only by
+the ‘Number’ feature, as this attack relies on slowly send-
+ing incomplete HTTP requests to keep connections open.
+These tables represent the ﬁnal results of the ﬁrst stage and
+serve as the input for further analysis and evaluation in the
+second stage of our framework.
+Table 5 Most important
+features as identiﬁed in the ﬁrst
+stage
+Portmap
+SYN Flood
+HTTP Flood
+Slowloris
+Fwd Packet Length Min
+syn_ﬂag_number
+Number
+Number
+Min Packet Length
+Number
+HTTP
+HTTP
+Inbound
+rst_count
+urg_count
+syn_count
+Avg Fwd Segment Size
+IAT
+HTTPS
+IAT
+Fwd Packet Length Mean
+Weight
+rst_count
+rst_count
+URG Flag Count
+Magnitude
+Duration
+Tot sum
+Average Packet Size
+Header_Length
+syn_count
+Header_Length
+Fwd Packets/s
+Variance
+ack_count
+Variance
+Fwd Header Length
+Min
+ﬁn_count
+Duration
+Fwd IAT Total
+ack_ﬂag_number
+Header_Length
+HTTPS
+Packet Length Mean
+ﬁn_count
+Magnitude
+ﬁn_count
+Packet Length Std
+urg_count
+Rate
+rst_ﬂag_number
+Fwd IAT Std
+Tot sum
+AVG
+Tot size
+Down/Up Ratio
+ack_count
+Tot size
+psh_ﬂag_number
+Bwd IAT Mean
+HTTPS
+Std
+AVG
+Init_Win_bytes_forward
+Duration
+Radius
+urg_count
+Fwd IAT Min
+syn_count
+Max
+Magnitude
+Total Length of Fwd Packets
+Std
+Tot sum
+ack_count
+Total Length of Bwd Packets
+Radius
+Variance
+Rate
+Init_Win_bytes_backward
+Covariance
+Min
+Max
+Bwd Packet Length Min
+AVG
+syn_ﬂag_number
+Std
+Bwd IAT Min
+Tot size
+IAT
+Min
+CWE Flag Count
+Max
+TCP
+Radius
+ACK Flag Count
+rst_ﬂag_number
+Covariance
+Srate
+Bwd Packet Length Mean
+UDP
+rst_ﬂag_number
+ﬁn_ﬂag_number
+Avg Bwd Segment Size
+TCP
+UDP
+Covariance
+Bwd IAT Total
+HTTP
+Weight
+TCP
+Bwd IAT Std
+psh_ﬂag_number
+psh_ﬂag_number
+ack_ﬂag_number
+Bwd Packet Length Max
+Rate
+Srate
+UDP
+Fwd PSH Flags
+DNS
+ﬁn_ﬂag_number
+DNS
+123
+
+
+
+===== PAGE 14 =====
+
+1108
+Annals of Telecommunications (2025) 80:1095–1120
+Table 6 Most important features as identiﬁed in the ﬁrst stage (continued)
+PFCP Session Deletion
+PFCP Session Establishment
+fwd_packets
+PFCPSessionEstablishmentRequest_counter
+PFCPSessionModiﬁcationRequest_counter
+PFCPSessionEstablishmentResponse_counter
+PFCPSessionModiﬁcationResponse_counter
+PFCPHeartbeatRequest_counter
+PFCPHeartbeatRequest_counter
+PFCPHeartbeatResponse_counter
+bwd_packets
+fwd_packets
+PFCPSessionDeletionResponse_counter
+bwd_packets
+PFCPHeartbeatResponse_counter
+PFCPSessionModiﬁcationRequest_counter
+PFCPSessionEstablishmentRequest_counter
+PFCPSessionModiﬁcationResponse_counter
+PFCPSessionEstablishmentResponse_counter
+PFCPSessionDeletionResponse_counter
+Table 7 Performance metric
+comparison for Portmap
+Accuracy
+Precision
+Speciﬁcity
+Recall
+F1 Score
+All Features
+99.813%
+99.874%
+99.876%
+99.749%
+99.811%
+Top 5
+81.063%
+77.666%
+75.249%
+86.935%
+82.039%
+Top 10
+98.125%
+97.875%
+97.886%
+98.367%
+98.120%
+Top 20
+98.500%
+98.371%
+98.383%
+98.618%
+98.494%
+Top 30
+98.875%
+98.869%
+98.881%
+98.869%
+98.869%
+Table 8 Performance metric
+comparison for SYN Flood
+Accuracy
+Precision
+Speciﬁcity
+Recall
+F1 Score
+All Features
+99.988%
+100.000%
+100.000%
+99.975%
+99.988%
+Top 5
+96.438%
+96.207%
+96.114%
+96.755%
+96.480%
+Top 10
+99.250%
+99.135%
+99.117%
+99.381%
+99.258%
+Top 20
+99.788%
+99.777%
+99.773%
+99.802%
+99.789%
+Top 30
+99.950%
+99.950%
+99.950%
+99.950%
+99.950%
+Table 9 Performance metric
+comparison for HTTP Flood
+Accuracy
+Precision
+Speciﬁcity
+Recall
+F1 Score
+All Features
+100.000%
+100.000%
+100.000%
+100.000%
+100.000%
+Top 5
+96.281%
+96.258%
+96.035%
+96.514%
+96.386%
+Top 10
+99.513%
+99.633%
+99.616%
+99.413%
+99.523%
+Top 20
+99.688%
+99.731%
+99.719%
+99.658%
+99.694%
+Top 30
+99.888%
+99.878%
+99.872%
+99.902%
+99.890%
+Table 10 Performance metric
+comparison for Slowloris
+Accuracy
+Precision
+Speciﬁcity
+Recall
+F1 Score
+All Features
+99.988%
+100.000%
+100.000%
+99.975%
+99.987%
+Top 5
+97.013%
+98.077%
+98.130%
+95.890%
+96.971%
+Top 10
+99.013%
+99.121%
+99.127%
+98.897%
+99.009%
+Top 20
+99.725%
+99.724%
+99.726%
+99.724%
+99.724%
+Top 30
+99.925%
+99.925%
+99.925%
+99.925%
+99.925%
+123
+
+
+
+===== PAGE 15 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1109
+4.2.2 Performance metrics comparison: Before vs after
+feature reduction
+Tables 7, 8, 9, and 10 give a detailed comparison of the per-
+formance metrics of the XGBoost model in the ﬁrst stage
+(all features) and the second stage (after feature reduction)
+for the CIC-DDoS2019 and CICIoT2023 datasets, thereby
+quantifying the impact of feature reduction on detection qual-
+ity. Figure5 complements these tables by visualizing how
+AccuracyandF1evolvewith K ∈{5, 10, 20, 30, all}:perfor-
+mance remains ﬂat from “All Features” down to the Top-10
+set and degrades noticeably only at Top-5, conﬁrming that
+ten features constitute a robust operating point. Across the
+ten stratiﬁed cross-validation folds, the average absolute gap
+between validation and test accuracies is below 0.10 percent-
+age points for every attack class (Portmap: 0.09 pp, SYN
+Flood: 0.02 pp, HTTP Flood: 0.01 pp, Slowloris: 0.03 pp;
+standard deviations range from 0.01 pp to 0.13 pp). The aver-
+age absolute gap between validation and test accuracies is
+deﬁned as the mean of
+Accval,i −Acctest,i
+ × 100% over
+all ten folds, i.e. the percentage-point difference between the
+accuracy measured on the inner validation subset and that
+on the corresponding held-out test subset, so smaller gaps
+Table
+11 Confusion matrix - Portmap (Top-10 features, CIC-
+DDoS2019)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+787 (TN)
+17 (FP)
+Actual Pos.
+13 (FN)
+783 (TP)
+indicate closer agreement and stronger generalization. These
+results conﬁrm that the model generalizes extremely well and
+that the metrics reported in the tables are reliable.
+For the Portmap attack, retaining the top 10 features sus-
+tains a high accuracy of 98.125% and precision of 97.875%;
+a further reduction to 5 features causes a marked decline
+(81.063% accuracy, 77.666% precision), indicating loss of
+critical information.
+For SYN Flood, performance remains strong with 10
+features(99.250%accuracy,99.381%recall),whereasreduc-
+ing to 5 features lowers accuracy to 96.438% and recall to
+96.755%. A similar trend is observed for HTTP Flood: accu-
+racy stays above 99.513% with 10 features but recall and F1
+Score fall to 96.514% and 96.386% with 5 features.
+Fig. 5 Performance trends across feature sets
+123
+
+
+
+===== PAGE 16 =====
+
+1110
+Annals of Telecommunications (2025) 80:1095–1120
+Slowloris detection remains excellent with 20 features;
+trimming to 10 features causes a slight dip (99.013% accu-
+racy, 99.121% precision), and to 5 features lowers recall
+and F1 Score to 95.890% and 96.971%, respectively, reﬂect-
+ing the subtler trafﬁc signatures of slow-rate attacks. The
+confusion-matrix tables (Tables 11, 12, 13, and 14) show the
+detection performance of the best Top-10 feature conﬁgura-
+tions.
+Table 15 complements the XGBoost results in Table9 with
+two classical baselines. Random Forest attains virtually per-
+fect metrics under both feature settings (only a 0.0001 loss
+in F1 Score when the dimensionality is reduced), which is
+expected because bootstrap aggregation and per-split feature
+subsamplingalreadymitigatetheimpactofredundantpredic-
+tors. Linear SVM, on the other hand, scores markedly lower
+when trained on all features (F1 Score to be around 79%) but
+risesto94%aftertheTop-10reduction;eliminatingirrelevant
+or weakly informative dimensions increases the margin sepa-
+rabilityoftheclassesandtherebyimprovesitsgeneralization.
+The combined evidence indicates that the ANOVA+SHAP
+ﬁlter retains the discriminative power needed for high detec-
+tion accuracy while simplifying the input space—beneﬁting
+margin-based learners such as SVM—whereas our two-stage
+XGBoost pipeline preserves Random Forest-level perfor-
+mance and, as shown in Sect.4.2.4, yields the fastest and
+most reliable local explanations.
+The feature reduction process is crucial for balancing
+performance and efﬁciency, ensuring that the proposed
+framework remains scalable while preserving its detection
+capabilities. In the subsequent sections, we explore how this
+reduction affects explanation generation time, investigating
+its role in enhancing the practical applicability of the frame-
+work.
+4.2.3 SHAP and LIME local explanations
+The results of the SHAP Local Explanations are visualized in
+the force plots, which illustrate how individual features con-
+tribute to the XGBoost model’s speciﬁc prediction. As shown
+in Figs.6, 7, and 8, the plots begin at a base value that repre-
+sents the average prediction result across all samples of the
+respective dataset, denoted by a gray vertical line. Features
+that push the prediction higher (indicating malicious trafﬁc)
+are marked in red, while those that push it lower (indicating
+benign trafﬁc) are marked in blue. The bar lengths corre-
+Table 12 Confusion matrix - SYN Flood (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,928 (TN)
+35 (FP)
+Actual Pos.
+25 (FN)
+4,012 (TP)
+Table 13 Confusion matrix - HTTP Flood (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,894 (TN)
+15 (FP)
+Actual Pos.
+24 (FN)
+4,067 (TP)
+spond to the magnitude of each feature’s impact. The ﬁnal
+prediction is computed by adding these contributions to the
+base value.
+As an example, ﬁrst we examine the SHAP force plots
+for SYN Flood and Slowloris attack samples, depicted in
+Figs.6 to 7. In the SYN Flood plot, the base value starts at
+3.36, reﬂecting the model’s initial prediction before incor-
+porating feature contributions. The ﬁnal output value of
+15.64 is achieved primarily due to the substantial contri-
+butions of features such as ‘syn_flag_number’ and
+‘Number’, which strongly push the prediction toward
+the malicious class. Similarly, in the Slowloris plot, the
+base value starts at −0.06675, indicating a baseline heav-
+ily leaning towards a benign outcome. The ﬁnal output
+value increases sharply to 9.94, primarily driven by the
+‘Number’ and ‘fin_count’ features, which have sig-
+niﬁcant positive contributions towards the malicious class.
+This pattern underscores the model’s capability to identify
+slow DDoS attacks like Slowloris that rely on speciﬁc trafﬁc
+patterns. Although less prominent in the plot, features such
+as ‘syn_count’ and ‘IAT’ also exhibit small positive
+SHAP values, contributing to the overall prediction.
+Second,weobservetheSHAPforceplotsforthe5GPFCP
+attack samples, depicted in Fig.8. For the PFCP Session
+Deletion attack, the base value starts at 0.1034 and rises to
+7.87,primarilydrivenbythefeatures‘fwd_packets’and
+‘PFCPHeartbeatRequest_counter’. Similarly, for
+the PFCP Session Establishment attack, the base value
+starts at −0.0606 and increases to 2.38, with signiﬁcant
+contributions from the ‘PFCPSessionEstablishment
+Request_counter’ feature.
+Next, we consider the LIME feature importance plots
+shown in Figs.9, 10, and 11, which illustrate how individual
+features inﬂuence speciﬁc predictions made by the XGBoost
+model. The prediction probabilities for the negative (benign)
+and positive (malicious) classes are displayed at the top left
+of each plot, providing insight into the model’s conﬁdence in
+its prediction. The features are listed alongside their values,
+and their contributions are visually represented in orange or
+Table 14 Confusion matrix - Slowloris (Top-10 features)
+Pred. Neg.
+Pred. Pos.
+Actual Neg.
+3,975 (TN)
+35 (FP)
+Actual Pos.
+44 (FN)
+3,946 (TP)
+123
+
+
+
+===== PAGE 17 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1111
+Table 15 Classical-ML baselines on HTTP Flood trafﬁc: full feature
+set vs. Top-10 ANOVA+SHAP features
+Model
+Feature set
+Accuracy
+Recall
+F1
+Random Forest
+All Features
+0.9999
+0.9998
+0.9999
+Random Forest
+Top 10
+0.9998
+0.9995
+0.9998
+[2pt] Linear SVM
+All Features
+0.7833
+0.7952
+0.7896
+Linear SVM
+Top 10
+0.9329
+0.9768
+0.9370
+blue bars. Orange indicates features pushing the prediction
+towards the malicious class, while blue represents features
+driving the prediction towards the benign class. The length
+of each bar corresponds to the magnitude of the feature’s
+contribution, with longer bars indicating a larger impact on
+the prediction outcome.
+For the SYN Flood attack, the LIME plot identiﬁes the
+feature ‘Number’ with a value of 9.50 as the primary
+contributor to the malicious prediction, accounting for a
+signiﬁcant portion of the probability (0.95). Additional fea-
+tures such as ‘psh_flag_number’ and ‘ack_count’
+also contribute to the malicious classiﬁcation, reinforcing
+the prediction. In contrast, features such as ‘DNS’ and
+‘urg_count’ push the prediction towards the benign class
+but have a smaller overall inﬂuence.
+For the Slowloris attack, the feature ‘Number’ again
+turns out to be most signiﬁcant, followed by the fea-
+tures ‘fin_count’, ‘DNS’, and ‘syn_count’. These
+features contribute predominantly to the malicious class,
+emphasizing the model’s reliance on trafﬁc volume and ﬂag-
+related features to detect Slowloris behavior effectively. Fea-
+tures such as ‘IAT’ and ‘ack_flag_number’ exhibit
+smaller contributions, which aligns with the subtle nature of
+Slowloris trafﬁc patterns.
+For the 5G PFCP attacks, the LIME plots provide valuable
+insights into the control-plane trafﬁc features that inﬂuence
+the predictions. For the PFCP Session Deletion attack, fea-
+tures such as ‘fwd_packets’ and ‘PFCPHeartbeat
+Request_counter’ are signiﬁcant contributors to the
+malicious classiﬁcation. The feature ‘fwd_packets’
+with a high value (506) pushes strongly towards the mali-
+cious class, while the feature ‘PFCPHeartbeatRequest
+_counter’ also plays an important role in the decision-
+makingprocess. Similarly, for thePFCPSessionEstablishment
+attack, the features ‘PFCPSessionEstablishment
+Request_counter’ and ‘fwd_packets’ dominate
+the prediction. In particular, the feature ‘PFCPSession
+EstablishmentRequest_counter’ with a low value
+(0.00) strongly pushes the prediction towards the malicious
+class.
+Our framework includes an explanation consistency check
+process to ensure the alignment of insights gained from
+SHAP and LIME local explanations, which enhances the
+reliability and trustworthiness of the model’s interpretations.
+By comparing the explanations generated by both methods
+on the same sample, we can identify consistencies and dis-
+crepancies in feature importance, which helps to validate
+the model’s decisions. This cross-veriﬁcation is particularly
+valuable in scenarios where interpretability and accountabil-
+ity are critical, such as in detecting complex attack patterns.
+For example, in the case of a sample of a SYN Flood
+attack, both SHAP and LIME consistently identiﬁed the
+‘Number’ feature as the most inﬂuential factor driving
+the prediction toward the malicious class. This consistency
+underscores the robustness of the framework’s ability to
+detect SYN Flood attacks with high conﬁdence. However,
+discrepancies are also observed: For example, SHAP identi-
+ﬁedthefeatures‘IAT’and ‘Header_Length’ascrucial
+in pushing the prediction towards the malicious outcome,
+whereas these features are less emphasized by LIME. Con-
+versely, LIME, contrary to SHAP, emphasizes the feature
+‘psh_flag_number’ as an important contributor. These
+differences likely arise due to the inherent methodological
+variations in how SHAP and LIME generate explanations.
+SHAP considers all possible feature interactions in its game-
+theoretic approach, while LIME relies on perturbations and
+surrogate models to approximate feature inﬂuence locally.
+Understanding these methodological differences can help to
+reﬁne the feature selection process and to improve the model
+interpretability further.
+For a sample of a Slowloris attack, both SHAP and
+LIME consistently identiﬁed the features ‘Number’ and
+‘fin_count’ as signiﬁcant contributors to the positive
+classiﬁcation, conﬁrming their importance. This consistency
+indicates that both methods effectively capture the crucial
+Fig. 6 SHAP local explanation results for Portmap and SYN Flood attacks
+123
+
+
+
+===== PAGE 18 =====
+
+1112
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 7 SHAP local explanation results for HTTP Flood and Slowloris attacks
+Fig. 8 SHAP local explanation results for PFCP Session Deletion and Session Establisment attacks
+Fig. 9 LIME local explanation results for Portmap and SYN Flood attacks
+123
+
+
+
+===== PAGE 19 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1113
+Fig. 10 LIME local explanation results for HTTP Flood and Slowloris attacks
+features needed to detect slow DDoS attacks. Nonetheless,
+minor discrepancies were observed in the ranking and mag-
+nitude of other features, e.g., ‘syn_count’ and ‘DNS’,
+which appeared more prominently in LIME compared to
+SHAP. These variations might reﬂect differences in how
+each method prioritizes subtle feature contributions in low-
+intensity attack trafﬁc scenarios like Slowloris attacks.
+These differences indicate areas where further analysis or
+a feature reassessment might be required to enhance the inter-
+pretability and ensure the robustness of the detection model.
+This might involve analyzing the feature impact for differ-
+ent samples, exploring feature engineering techniques, and
+adjusting the model hyperparameters. For instance, features
+that show a consistent importance for attack detection in both
+methodscouldbefurthervalidatedbyusingdifferentsamples
+that are classiﬁed as malicious (by XGBoost) to assess their
+generalizability. Similarly, discrepancies between SHAP and
+LIME could indicate opportunities to improve feature selec-
+tion or to reﬁne the hyperparameters in the training process.
+With this iterative process, it is ensured that the most
+signiﬁcant features are retained, enhancing the overall IDS
+detection performance and interpretability. Furthermore,
+incorporating additional consistency checks for different
+attack types and networking environments, such as IoT or
+5G, could further solidify the framework’s reliability. This
+approach not only strengthens trust in the IDS’s decision-
+making but also supports its adaptability to evolving cyber
+threats.
+4.2.4 Efﬁciency of the local explanations
+In this subsection, we evaluate the efﬁciency of SHAP and
+LIME local explanations by comparing their execution times
+for two scenarios: using all features and using the reduced
+feature set obtained through the ﬁrst stage of our frame-
+work. All experiments were conducted on a workstation
+with an AMD Ryzen 7 3800X 8-core CPU, 32 GB RAM,
+and an NVIDIA RTX 3060 GPU (12 GB VRAM). For
+LIME, we used a single CPU core with 5000 perturba-
+tions per instance to provide consistent timing comparisons.
+While the reported measurements reﬂect this speciﬁc hard-
+wareconﬁguration,theframework’sdesign—particularlythe
+dimensionality reduction stage and the use of a lightweight
+XGBoost model—ensures that detection accuracy is pre-
+served even on lower-speciﬁcation systems. The primary
+difference in such environments would be in explanation gen-
+eration time, especially for LIME, which is more sensitive to
+CPU performance than SHAP’s TreeExplainer.
+123
+
+
+
+===== PAGE 20 =====
+
+1114
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 11 LIME local explanation
+results for PFCP Session
+Deletion and Session
+Establishment attacks
+The results are illustrated in Fig. 12.
+As observed, SHAP Local Explanation demonstrates con-
+sistently high efﬁciency across all datasets, with execution
+times remaining low, ranging between 0.02 and 0.08s, irre-
+spective of the number of features. This efﬁciency makes
+SHAP particularly suitable for real-time IDS applications
+where rapid insights are important.
+In contrast, LIME Local Explanation shows a signiﬁcant
+dependency on the number of features—the execution times
+dramatically decrease when the feature set is reduced. For
+instance, in the case of the SYN Flood, the execution time
+drops from 36.38s when using all features to 9.48s with 10
+features, representing a 74% time reduction. Further reduc-
+ing the feature set to 5 features decreases the execution time
+to 4.85s, achieving an 87% speed-up compared to using all
+features. A similar behavior is observed for other attack traf-
+ﬁc datasets, showing the substantial improvement in LIME’s
+efﬁciency brought about by feature reduction. However, as
+demonstrated in Sect.4.2.2, a reduction to only 5 features
+leads to a signiﬁcant reduction in detection performance. The
+10-feature set turns out to be the optimal choice as it strikes
+a balance between speed and accuracy, which is essential for
+real-time IDS applications where both computational efﬁ-
+ciency and prediction quality are crucial.
+For the next evaluation, we combined our proposed two-
+stagemethodwiththeattentionweights-basedapproachfrom
+Santhiappan et al. [33], originally designed for text data using
+the CAML architecture to enhance LIME’s efﬁciency by
+emphasizing relevant features. We adapted their method to
+tabular datasets (CIC-DDoS2019 and CICIoT2023) by uti-
+lizing the TabNet architecture [45], a deep learning model
+speciﬁcally designed for tabular data instead of the CAML
+architecture. TabNet incorporates a sparse attention mech-
+anism that dynamically selects the most relevant features
+for each instance, mimicking decision tree-like interpretabil-
+ity while leveraging the ﬂexibility and power of neural
+123
+
+
+
+===== PAGE 21 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1115
+Fig. 12 Execution time for the
+SHAP and LIME local
+explanations with XGBoost
+model
+networks. Its Feature Transformer processes input features
+to capture complex relationships, while the iterative deci-
+sion steps reﬁne the predictions by progressively building
+hierarchical feature representations. We ﬁne-tuned the hyper-
+parameters of the TabNet architecture using GridSearchCV.
+Theresultingconﬁgurationisasfollows:themodeluseseight
+decisiondimensions(n_d=8)andeightattentiondimensions
+(n_a=8), with three decision steps (n_steps=3) to itera-
+tively reﬁne feature importance and predictions. The learning
+rate (lr=0.02) ensures steady optimization, and batch pro-
+cessing is optimized with a batch size of 512 and a virtual
+batch size of 128 to balance memory efﬁciency and training
+speed. These parameters, combined with the sparse attention
+mechanism, allow TabNet to dynamically focus on signiﬁ-
+cant features in the datasets.
+Furthermore, we exchanged the XGBoost model in our
+framework by the method proposed by Santhiappan et al.
+[33], which employs the Convolutional Attention for Multi-
+Label classiﬁcation (CAML) model, an attention weight-
+based model designed for text data. Their method enhances
+LIME’s efﬁciency by using attention weights derived from
+CAML to focus on the most relevant features. This approach
+reduces the number of features that LIME needs to examine,
+thereby accelerating the explanation generation time. Since
+123
+
+
+
+===== PAGE 22 =====
+
+1116
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 13 Execution time for
+LIME local explanations with
+TabNet model
+CAML is unsuitable for tabular datasets and XGBoost is
+not an attention weights-based model, we replaced CAML
+with TabNet [45], which is a deep learning model speciﬁ-
+cally designed for tabular data and is also equipped with an
+attention mechanism. TabNet uses a sparse attention mech-
+anism that dynamically selects the most relevant features
+for each sample during training. The attention-based Feature
+Transformer focuses on important features and learns their
+signiﬁcance. Through an iterative process, TabNet reﬁnes its
+predictionsstepbystep,witheachstepbuildingontheknowl-
+edgegainedfromearlierstepstoimproveitsunderstandingof
+the data. We ﬁne-tuned the hyperparameters of the TabNet
+architecture using GridSearchCV. The resulting conﬁgura-
+tion is as follows: the model uses eight decision dimensions
+(n_d=8)andeightattentiondimensions(n_a=8),withthree
+decision steps (n_steps=3) to iteratively reﬁne feature
+importance and predictions. The learning rate (lr=0.02)
+ensures steady optimization, and batch processing is opti-
+mized with a batch size of 512 and a virtual batch size of
+128 to balance memory efﬁciency and training speed. These
+parameters, combined with the sparse attention mechanism,
+allow TabNet to dynamically focus on signiﬁcant features in
+the datasets.
+We conducted experiments on CIC-DDoS2019 and
+CICIoT2023 datasets, and analyzed the explanation gener-
+ation time, focusing on the impact of feature reduction. As
+shown in Fig.13, the explanation generation time decreases
+signiﬁcantly when fewer features are used. For instance, in
+the SYN Flood dataset, the time dropped from 48.13 to
+15.43s when using 10 features, and for Portmap, it decreased
+from 15.77 to 6.14s. These results conﬁrm that the Feature
+Reduction process introduced in our framework improves
+the efﬁciency of LIME’s explanation generation when paired
+with attention-weight-based models like TabNet. In addition,
+we observe that using XGBoost achieves faster explanation
+generation times, as TabNet’s attention mechanism intro-
+duces additional computational complexity. The codes and
+datasets utilized in this study are publicly available online1
+to facilitate full reproducibility.
+4.2.5 Ablation study
+Table 16 shows the ablation results for Portmap trafﬁc, where
+both SHAP-only and ANOVA+SHAP fusion maintain per-
+fect alignment with the full-feature baseline (F1 = 0.9994).
+ANOVA-only selection, however, causes a noticeable decline
+(F1 = 0.9981), indicating that purely statistical ﬁltering may
+miss interaction effects critical to Portmap classiﬁcation.
+Fromanefﬁciencyperspective,SHAP-onlyachievesthelow-
+estLIMEtime(1.85s),whilethecombinedvariantretainsthe
+same detection quality with only a marginal increase (2.29
+s), suggesting that fusion preserves interpretability without
+introducing overhead.
+For SYN Flood (Table 17), all models achieve near-
+identical performance to the full-feature baseline (F1 =
+0.9999), conﬁrming the separability of this attack class.
+ANOVA-only again exhibits a minor drop (F1 = 0.9990), but
+it reduces LIME explanation time to 1.90 s, while SHAP-
+only requires 2.18 s. The ANOVA+SHAP fusion offers a
+balanced compromise (2.29 s), maintaining perfect accuracy
+while trimming redundant features.
+The HTTP Flood subset (Table 18) further illustrates these
+trends. Both SHAP-only and ANOVA+SHAP achieve per-
+fect scores, while ANOVA-only shows a small reduction (F1
+1 https://github.com/DLTeamTUC/XAI-IDS
+123
+
+
+
+===== PAGE 23 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1117
+Table 16 Ablation study on
+Portmap trafﬁc. Top-10 variants
+are obtained with (i) ANOVA
+only, (ii) SHAP only, and (iii)
+the proposed ANOVA+SHAP
+fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+0.9994
+0.9987
+0.9994
+–
+[2pt] XGBoost + ANOVA Top-10
+0.9981
+0.9962
+0.9981
+2.32
+XGBoost + SHAP Top-10
+0.9994
+0.9987
+0.9994
+1.85
+XGBoost + ANOVA+SHAP Top-10
+0.9994
+0.9987
+0.9994
+2.29
+Table 17 Ablation study on
+SYN Flood trafﬁc. Top-10
+variants are obtained with (i)
+ANOVA only, (ii) SHAP only,
+and (iii) the proposed
+ANOVA+SHAP fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+0.9999
+0.9998
+0.9999
+–
+[2pt] XGBoost + ANOVA Top-10
+0.9990
+0.9980
+0.9990
+1.90
+XGBoost + SHAP Top-10
+0.9999
+0.9998
+0.9999
+2.18
+XGBoost + ANOVA+SHAP Top-10
+0.9999
+0.9998
+0.9999
+2.29
+Table 18 Ablation study on
+HTTP Flood trafﬁc. Top-10
+variants are obtained with (i)
+ANOVA only, (ii) SHAP only,
+and (iii) the proposed
+ANOVA+SHAP fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+1.0000
+1.0000
+1.0000
+–
+[2pt] XGBoost + ANOVA Top-10
+0.9969
+0.9952
+0.9969
+2.33
+XGBoost + SHAP Top-10
+1.0000
+1.0000
+1.0000
+2.30
+XGBoost + ANOVA+SHAP Top-10
+1.0000
+1.0000
+1.0000
+2.16
+Table 19 Ablation study on
+Slowloris trafﬁc. Top-10
+variants are obtained with (i)
+ANOVA only, (ii) SHAP only,
+and (iii) the proposed
+ANOVA+SHAP fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+0.9998
+0.9995
+0.9997
+–
+[2pt] XGBoost + ANOVA Top-10
+0.9839
+0.9778
+0.9838
+2.40
+XGBoost + SHAP Top-10
+0.9999
+0.9997
+0.9999
+2.57
+XGBoost + ANOVA+SHAP Top-10
+0.9998
+0.9995
+0.9997
+2.44
+Table 20 Ablation study on
+PFCP Session Deletion trafﬁc.
+Top-10 variants are obtained
+with (i) ANOVA only, (ii) SHAP
+only, and (iii) the proposed
+ANOVA+SHAP fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+0.8760
+0.7492
+0.8566
+–
+[2pt] XGBoost + ANOVA Top-10
+0.8631
+0.7262
+0.8414
+1.55
+XGBoost + SHAP Top-10
+0.8760
+0.7492
+0.8566
+1.46
+XGBoost + ANOVA+SHAP Top-10
+0.8760
+0.7492
+0.8566
+1.45
+Table 21 Ablation study on
+PFCP Session Establishment
+trafﬁc. Top-10 variants are
+obtained with (i) ANOVA only,
+(ii) SHAP only, and (iii) the
+proposed ANOVA+SHAP
+fusion
+Variant
+Accuracy
+Recall
+F1
+LIME time (s)
+XGBoost (All features)
+0.9911
+1.0000
+0.9911
+–
+[2pt] XGBoost + ANOVA Top-10
+0.9952
+1.0000
+0.9952
+1.83
+XGBoost + SHAP Top-10
+0.9911
+1.0000
+0.9911
+1.76
+XGBoost + ANOVA+SHAP Top-10
+0.9911
+1.0000
+0.9911
+1.80
+123
+
+
+
+===== PAGE 24 =====
+
+1118
+Annals of Telecommunications (2025) 80:1095–1120
+= 0.9969). Here, the fusion variant provides slightly faster
+explanations (2.16 s vs. 2.30–2.33 s), highlighting that com-
+bining statistical ﬁltering with model-driven importance can
+yield efﬁciency gains without impairing quality.
+Slowloris(Table19)presentsthemostchallengingcase,as
+ANOVA-only reduces performance more substantially (F1 =
+0.9838). By contrast, SHAP-only and ANOVA+SHAP both
+sustain nearly perfect detection (F1 = 0.9999 and 0.9997,
+respectively). The fusion variant shortens LIME explana-
+tion time (2.44 s) compared to SHAP-only (2.57 s), again
+demonstrating that combining ANOVA with SHAP helps
+remove redundant features, stabilizing interpretability efﬁ-
+ciency while preserving accuracy.
+Turningto5Gtraffic,theSessionDeletionattack(Table20)
+proves especially difﬁcult to classify, as the overall base-
+line accuracy is lower (F1 = 0.8566). Here, SHAP-only
+and ANOVA+SHAP fusion replicate the full-feature perfor-
+mance, while ANOVA-only reduces F1 to 0.8414. Efﬁciency
+gains are also observed, as explanation times drop from
+1.76 s (baseline equivalent) to 1.45–1.55 s. In contrast, Ses-
+sion Establishment (Table 21) achieves consistently strong
+performance, with ANOVA-only slightly boosting the F1
+Score (0.9952) compared to the baseline (0.9911), while
+SHAP-only and ANOVA+SHAP fusion maintain parity.
+Explanation times remain efﬁcient (1.76–1.83 s), conﬁrm-
+ing that the fusion approach does not introduce overhead and
+is effective even under 5G control-plane trafﬁc.
+In summary, across all six attack types, ANOVA-only
+consistently risks measurable accuracy losses, particularly
+in more complex trafﬁc such as Slowloris and PFCP Ses-
+sion Deletion. By contrast, SHAP-only and the proposed
+ANOVA+SHAP fusion consistently match or exceed the
+baseline detection quality, with the fusion variant providing
+modest but consistent gains in explanation efﬁciency. These
+ﬁndings conﬁrm that combining statistical ﬁltering with
+model-driven importance yields the best balance between
+accuracy and interpretability efﬁciency across diverse net-
+working environments.
+5 Conclusion
+This paper introduces an efﬁcient and explainable XAI-based
+IDS framework that mitigates the “black-box” limitations of
+conventional AI-IDS by integrating statistical feature selec-
+tion (ANOVA) with SHAP and LIME, thereby enhancing
+interpretability while preserving high detection performance
+and computational efﬁciency. The two-stage method not
+only reduces the feature space by ≈70% but also enforces
+consistency between SHAP and LIME local explanations,
+validating the reliability of the interpretations. A comprehen-
+sive evaluation on the CIC-DDoS2019, CICIoT2023, and 5G
+PFCP datasets demonstrates robust attack-detection capa-
+bility across diverse networking environments and attack
+scenarios: the framework maintains an F1 Score ≥99% and
+accelerates LIME explanation generation by up to 87 % with
+the reduced feature set. Although a full head-to-head bench-
+mark with the latest deep learning IDSs (e.g., DeepIDS and
+SAIDD) is left for future work, their published detection
+performance results are already matched or exceeded by our
+lightweight XGBoost pipeline.
+In future work, we will strengthen resilience to noisy
+data by integrating noise-robust preprocessing (e.g., Isola-
+tion Forest for outlier removal, Hampel and median ﬁltering
+for bursty artefacts, and RobustScaler to temper heavy-tailed
+feature distributions) and by injecting controlled Gaussian
+and burst noise during training for data-level augmenta-
+tion. To counter adversarial manipulation, we will extend
+the training loop with Fast Gradient Sign Method (FGSM)
+and Projected Gradient Descent (PGD) adversarial examples,
+followed by adversarial re-training and a lightweight detector
+based on Mahalanobis distance to ﬂag perturbed ﬂows at run-
+time. We also plan to develop a real-time online version and
+explore federated deployment for privacy-preserving scala-
+bility, while adding a packet-level module that leverages 1-D
+CNN embeddings so that raw packet traces can be processed
+alongside ﬂow features.
+Author contributions BN organized the paper’s structure, formulated
+the state-of-the-art, deﬁned the goals, and designed the experiments. BN
+and AVJ collaborated on formulating the framework, with TB review-
+ing and ﬁnalizing it. AVJ conducted the initial experiments using the
+CIC-DDoS2019 dataset, which were later expanded by BN to include
+the CICIoT 2023 and 5G PFCP datasets. All authors reviewed the
+manuscript.
+Funding Open Access funding enabled and organized by Projekt
+DEAL. This work has been performed in the framework of the
+RADARS project, funded by the German BSI (ID: 01MO24004B)
+and the SUSTAINET-Advance project, funded by the German BMFTR
+(ID:16KIS2280).
+Data availability No datasets were generated or analysed during the
+current study.
+Declarations
+Competing interests The authors declare no competing interests.
+Open Access This article is licensed under a Creative Commons
+Attribution 4.0 International License, which permits use, sharing, adap-
+tation, distribution and reproduction in any medium or format, as
+long as you give appropriate credit to the original author(s) and the
+source, provide a link to the Creative Commons licence, and indi-
+cate if changes were made. The images or other third party material
+in this article are included in the article’s Creative Commons licence,
+unless indicated otherwise in a credit line to the material. If material
+is not included in the article’s Creative Commons licence and your
+intended use is not permitted by statutory regulation or exceeds the
+permitteduse,youwillneedtoobtainpermissiondirectlyfromthecopy-
+123
+
+
+
+===== PAGE 25 =====
+
+Annals of Telecommunications (2025) 80:1095–1120
+1119
+right holder. To view a copy of this licence, visit http://creativecomm
+ons.org/licenses/by/4.0/.
+References
+1. Arrieta AB et al (2020) Explainable artiﬁcial intelligence (XAI):
+concepts, taxonomies, opportunities and challenges toward respon-
+sible AI. Information Fusion 58:82–115
+2. Castelvecchi D (2016) Can we open the black box of AI? Nature
+538(7623):20
+3. Lundberg SM, Lee S-I (2017) A uniﬁed approach to interpret-
+ing model predictions. In: Proceedings of the Advances in Neural
+Information Processing Systems (NeurIPS), pp. 4768–4777
+4. Ribeiro MT, Singh S, Guestrin C (2016) ’Why should I trust you?’:
+explaining the predictions of any classiﬁer. In: Proceedings of the
+22nd ACM SIGKDD International Conference on Knowledge Dis-
+covery and Data Mining, pp. 1135–1144
+5. Neupane S et al (2022) Explainable intrusion detection systems
+(x-ids): a survey of current methods, challenges, and opportu-
+nities. IEEE Access 10:112392–112415. https://doi.org/10.1109/
+ACCESS.2022.3216617
+6. Chuang Y-N, Wang G, Yang F, Liu Z, Cai X, Du M, Hu X (2023)
+Efﬁcient XAI techniques: a taxonomic survey. arXiv preprint.
+arXiv:2302.03225
+7. Sthle L, Wold S (1989) Analysis of variance (ANOVA).
+Chemom Intell Lab Syst 6(4):259–272. https://doi.org/10.1016/
+0169-7439(89)80095-4
+8. Nugraha B, Jnanashree AV, Bauschert T (2024) An efﬁcient
+explainable artiﬁcial intelligence (XAI)-based framework for a
+robust and explainable IDS. In: 2024 8th Cyber Security in Net-
+working Conference (CSNet), pp. 173–181. https://doi.org/10.
+1109/CSNet64211.2024.10851760
+9. Ferreira P, Martins E, Silva J, Teixeira P (2025) Feature selec-
+tion and XGBoost for enhanced intrusion detection: a comparative
+study across benchmark datasets. In: 2025 13th International Sym-
+posium on Digital Forensics and Security (ISDFS), pp. 1–6. https://
+doi.org/10.1109/ISDFS65363.2025.11012060
+10. Khani P et al (2024) Explainable artiﬁcial intelligence for fea-
+ture selection in network trafﬁc classiﬁcation: a comparative
+study. Transactions on Emerging Telecommunications Technolo-
+gies. 35(4). https://doi.org/10.1002/ett.4970 . Early access or ﬁnal
+version, depending on publication status
+11. Shaker BN, Al-Musawi B, Hassan MF (2025) A lightweight IDS
+for early APT detection using a novel feature selection method.
+https://arxiv.org/abs/2506.12108
+12. Anagha AS, Thomas C, Balakrishnan N (2025) Optimized intru-
+sion predictions through feature selection methods. Computers &
+Security 157:104541. https://doi.org/10.1016/j.cose.2025.104541
+13. Rjoub G et al (2023) A survey on explainable artiﬁcial intelligence
+for cybersecurity. IEEE Trans Netw Serv Manage 20(4):5115–
+5140. https://doi.org/10.1109/TNSM.2023.3282740
+14. Zhang Z, Hamadi HA, Damiani E, Yeun CY, Taher F (2022)
+Explainable artiﬁcial intelligence applications in cyber security:
+state-of-the-art in research. IEEE Access 10:93104–93139. https://
+doi.org/10.1109/ACCESS.2022.3204051
+15. Khan N, Ahmad K, Tamimi AA, Alani MM, Bermak A, Khalil I
+(2024) Explainable AI-based intrusion detection system for Indus-
+try 5.0: an overview of the literature, associated challenges, the
+existing solutions, and potential research directions. https://arxiv.
+org/abs/2408.03335
+16. Mane S, Rao D (2021) Explaining network intrusion detec-
+tion system using explainable AI framework. arXiv preprint.
+arXiv:2103.07110
+17. Mahbooba B, Timilsina M, Sahal R, Serrano M (2021) Explain-
+able artiﬁcial intelligence (XAI) to enhance trust management in
+intrusion detection systems using decision tree model. Complexity
+2021:1–11
+18. Wang Y, Xu L, Liu W, Li R, Gu J (2023) Network intru-
+sion detection based on explainable artiﬁcial intelligence. Wire-
+less Pers Commun 131(2):1115–1130. https://doi.org/10.1007/
+s11277-023-10472-7
+19. Houda ZAE, Brik B, Khoukhi L (2022) “Why should I trust your
+ids?”: an explainable deep learning framework for intrusion detec-
+tion systems in internet of things networks. IEEE Open Journal
+of the Communications Society 3:1164–1170. https://doi.org/10.
+1109/OJCOMS.2022.3188750
+20. Barnard P, Marchetti N, Silva LAD (2022) Robust network intru-
+sion detection through explainable artiﬁcial intelligence (XAI).
+IEEE Networking Letters. https://doi.org/10.1109/LNET.2022.
+3186589
+21. Kaur, N., Gupta, L.: Enhancing IoT security in 6G environ-
+ment with transparent AI: leveraging XGBoost, SHAP and LIME.
+In: 2024 IEEE 10th International Conference on Network Soft-
+warization (NetSoft), pp. 180–184 (2024). https://doi.org/10.1109/
+NetSoft60951.2024.10588922
+22. Marcílio WE, Eler DM (2020) From explanations to feature
+selection: assessing SHAP values as feature selection mecha-
+nism. In: 2020 33rd SIBGRAPI Conference on Graphics, Patterns
+and Images (SIBGRAPI), pp. 340–347. https://doi.org/10.1109/
+SIBGRAPI51738.2020.00053
+23. Khan IA, Moustafa N, Razzak I, Tanveer M, Pi D, Pan Y, Ali
+BS (2022) XSRU-IoMT: explainable simple recurrent units for
+threat detection in internet of medical things networks. Futur Gener
+Comput Syst 127:181–190. https://doi.org/10.1016/j.future.2021.
+09.010
+24. Khan IA, Moustafa N, Pi D, Sallam KM, Zomaya AY, Li B
+(2022) A new explainable deep learning framework for cyber
+threat discovery in industrial IoT networks. IEEE Internet Things J
+9(13):11604–11613. https://doi.org/10.1109/JIOT.2021.3130156
+25. Khan IA, Razzak I, Pi D, Zia U, Kamal S, Hussain Y (2024) A novel
+collaborative SRU network with dynamic behaviour aggregation,
+reduced communication overhead and explainable features. IEEE J
+Biomed Health Inform 28(6):3228–3235. https://doi.org/10.1109/
+JBHI.2024.3352013
+26. Burkart N, Franz M, Huber MF (2021) Explanation framework for
+intrusion detection. In: Beyerer, J., Maier, A., Niggemann, O. (eds.)
+Machine learning for cyber physical systems. Technologien für die
+intelligente Automation, vol. 13. Springer, ???. https://doi.org/10.
+1007/978-3-662-62746-4_9
+27. Cumi-Guzman BA, Espinosa-Chim AD, Orozco-Del-Castillo MG,
+Recio-García JA (2024) Counterfactual explanation of a classiﬁ-
+cation model for detecting SQL injection attacks. In: Proceedings
+of the Workshops at the 32nd International Conference on Case-
+Based Reasoning (ICCBR 2024). CEUR Workshop Proceedings,
+vol. 3708, pp. 49–64. CEUR-WS.org, ???
+28. Ables J, Childers N, Anderson W, Mittal S, Rahimi S, Banicescu I,
+Seale M (2024) Eclectic rule extraction for explainability of deep
+neural network based intrusion detection systems. https://arxiv.org/
+abs/2401.10207
+29. Ouhssini M, Afdel K, Akouhar M, Agherrabi E, Abarda A (2024)
+Interpretable deep learning for DDoS defense: a SHAP-based
+approach in cloud computing. In: 2024 International Conference
+on Circuit, Systems and Communication (ICCSC), pp. 1–8. https://
+doi.org/10.1109/ICCSC62074.2024.10616654
+30. Mutlu G, Rihani N (2025) Intrusion detection system with explain-
+able AI and federated learning. To be updated with publication
+details
+31. Yang J (2021) Fast treeshap: Accelerating SHAP value computa-
+tion for trees. arXiv preprint. arXiv:2109.09847
+123
+
+
+
+===== PAGE 26 =====
+
+1120
+Annals of Telecommunications (2025) 80:1095–1120
+32. Lemaire V, Clérot F, Boullé M (2023) An efﬁcient Shapley
+value computation for the Naive Bayes classiﬁer. arXiv preprint.
+arXiv:2307.16718. [Online]. Available: https://arxiv.org/abs/2307.
+16718
+33. Santhiappan S, Reghu MK, Saminathan M, Veerappan A (2024)
+Speeding up lime using attention weights. In: Proceedings of the
+7th Joint International Conference on Data Science & Management
+of Data (11th ACM IKDD CODS and 29th COMAD), pp. 444–448.
+Association for Computing Machinery, ??? . [Online]. Available:
+https://doi.org/10.1145/3632410.3632450
+34. Muschalik M, Fumagalli F, Hammer B, Hüllermeier E (2024)
+Beyond treeshap: efﬁcient computation of any-order Shapley inter-
+actions for tree ensembles. Proceedings of the AAAI Conference
+on Artiﬁcial Intelligence 38(13):14388–14396
+35. Hassan F, Yu J, Syed ZS, Magsi AH, Ahmed N (2023) Devel-
+oping transparent IDS for VANETs using LIME and SHAP: an
+empirical study. Computers, Materials and Continua 77(3):3185–
+3208. https://doi.org/10.32604/cmc.2023.044650
+36. Hassan F, Yu J, Syed ZS, Ahmed N, Reshan MSA, Shaikh A (2023)
+Achieving model explainability for intrusion detection in VANETs
+with LIME. PeerJ Computer Science 9:1440. https://doi.org/10.
+7717/peerj-cs.1440
+37. Senevirathna T, La VH, Marchal S, Siniarski B, Liyanage M, Wang
+S (2024) A survey on XAI for 5g and beyond security: technical
+aspects, challenges and research directions. IEEE Communica-
+tions Surveys & Tutorials. https://doi.org/10.1109/COMST.2024.
+3437248
+38. Simonyan K, Vedaldi A, Zisserman A (2013) Deep inside con-
+volutional networks: visualising image classiﬁcation models and
+saliency maps. CoRR. abs/1312.6034. [Online]. Available: https://
+api.semanticscholar.org/CorpusID:1450294
+39. Sundararajan M, Taly A, Yan Q (2017) Axiomatic attribution for
+deep networks. CoRR. abs/1703.01365. [Online]. Available: http://
+arxiv.org/abs/1703.01365
+40. Shrikumar A, Greenside P, Kundaje A (2017) Learning important
+features through propagating activation differences. In: Proceed-
+ings of the International Conference on Machine Learning (ICML).
+PMLR, ???
+41. Sharafaldin I, Lashkari AH, Hakak S, Ghorbani AA (2019) Devel-
+oping realistic distributed denial of service (DDoS) attack dataset
+and taxonomy. In: 2019 International Carnahan Conference on
+Security Technology (ICCST), pp. 1–8. IEEE, ???
+42. Neto ECP, Dadkhah S, Ferreira R, Zohourian A, Lu R, Ghorbani
+AA (2023) CICIoT 2023: a real-time dataset and benchmark for
+large-scale attacks in IoT environment. Sensors 23(13):5941
+43. Amponis G et al (2023) 5G core PFCP intrusion detection dataset.
+In: 2023 12th International Conference on Modern Circuits and
+Systems Technologies (MOCAST), pp. 1–4. https://doi.org/10.
+1109/MOCAST57943.2023.10176693
+44. Chen T, Guestrin C (2016) XGBoost: a scalable tree boosting sys-
+tem. In: Proceedings of the 22nd ACM SIGKDD International
+Conference on Knowledge Discovery and Data Mining, pp. 785–
+794
+45. Arik SÖ, Pﬁster T (2019) Tabnet: attentive interpretable tabular
+learning. CoRR. abs/1908.07442. arXiv:1908.07442
+Publisher’s Note Springer Nature remains neutral with regard to juris-
+dictional claims in published maps and institutional afﬁliations.
+123

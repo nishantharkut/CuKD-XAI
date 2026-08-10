@@ -1,0 +1,96 @@
+SMOTE
+Dataset
+Under
+50
+100
+200
+300
+400
+500
+SMOTE
+SMOTE
+SMOTE
+SMOTE
+SMOTE
+SMOTE
+Pima
+7242
+7307
+Phoneme
+8622
+8644
+8661
+Satimage
+8900
+8957
+8979
+8963
+8975
+8960
+Forest Cover
+9807
+9832
+9834
+9849
+9841
+9842
+Oil
+8524
+8523
+8368
+8161
+8339
+8537
+Mammography
+9260
+9250
+9265
+9311
+9330
+9304
+E-state
+6811
+6792
+6828
+6784
+6788
+6779
+Can
+9535
+9560
+9505
+9505
+9494
+9472
+9470
+Table 3: AUC’s [C4.5 as the base classiﬁer] with the best highlighted in bold.
+curves overlap in the ROC space. For all the other datasets, SMOTE-classiﬁer has more
+potentially optimal classiﬁers than any other approach.
+5.4 Additional comparison to changing the decision thresholds
+Provost (2000) suggested that simply changing the decision threshold should always be
+considered as an alternative to more sophisticated approaches. In the case of C4.5, this
+would mean changing the decision threshold at the leaves of the decision trees. For example,
+a leaf could classify examples as the minority class even if more than 50% of the training
+examples at the leaf represent the majority class. We experimented by setting the decision
+thresholds at the leaves for the C4.5 decision tree learner at 0.5, 0.45, 0.42, 0.4, 0.35, 0.32,
+0.3, 0.27, 0.25, 0.22, 0.2, 0.17, 0.15, 0.12, 0.1, 0.05, 0.0. We experimented on the Phoneme
+dataset. Figure 24 shows the comparison of the SMOTE and under-sampling combination
+against C4.5 learning by tuning the bias towards the minority class. The graph shows that
+the SMOTE and under-sampling combination ROC curve is dominating over the entire
+range of values.
+5.5 Additional comparison to one-sided selection and SHRINK
+For the oil dataset, we also followed a slightly diﬀerent line of experiments to obtain results
+comparable to (Kubat et al., 1998). To alleviate the problem of imbalanced datasets the
+authors have proposed (a) one-sided selection for under-sampling the majority class (Kubat
+& Matwin, 1997) and (b) the SHRINK system (Kubat et al., 1998). Table 5.5 contains the
+results from (Kubat et al., 1998). Acc+ is the accuracy on positive (minority) examples and
+Acc−is the accuracy on the negative (majority) examples. Figure 25 shows the trend for
+Acc+ and Acc−for one combination of the SMOTE strategy and varying degrees of under-
+sampling of the majority class. The Y-axis represents the accuracy and the X-axis represents
+the percentage majority class under-sampled.
+The graphs indicate that in the band of
+under-sampling between 50% and 125% the results are comparable to those achieved by
+SHRINK and better than SHRINK in some cases. Table 5.5 summarizes the results for the
+SMOTE at 500% and under-sampling combination. We also tried combinations of SMOTE
+at 100-400% and varying degrees of under-sampling and achieved comparable results. The
+345

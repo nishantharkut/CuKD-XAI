@@ -1,0 +1,184 @@
+15
+  
+  
+  
+  
+  
+  
+  
+  
+  
+Global Buffer 
+W0 
+W1 
+W2 
+W3 
+W4 
+W5 
+W6 
+W7 
+  
+  
+  
+  
+     Psum 
+Act 
+PE 
+Weight 
+(a) Weight Stationary
+  
+  
+  
+  
+  
+  
+  
+  
+  
+Global Buffer 
+P0 
+P1 
+P2 
+P3 
+P4 
+P5 
+P6 
+P7 
+  
+  
+  
+  
+      Act 
+Weight 
+PE 
+Psum 
+(b) Output Stationary
+PE 
+  
+  
+  
+  
+Act 
+Psum 
+Global Buffer 
+Weight 
+(c) No Local Reuse
+Fig. 25. Dataﬂows for DNNs [80].
+input fmap activations are broadcast to all MAC units and the
+partial sums are accumulated across the MAC units. In order to
+accumulate the partial sums correctly, additional delay storage
+elements are required, which are counted into the required size
+of local storage. Other weight stationary examples are found
+in [82–84, 86, 87].
+2) Output stationary (OS): The output stationary dataﬂow is
+designed to minimize the energy consumption of reading and
+writing the partial sums (Fig. 25(b)). It keeps the accumulation
+of partial sums for the same output activation value local in the
+RF. In order to keep the accumulation of partial sums stationary
+in the RF, one common implementation is to stream the input
+activations across the PE array and broadcast the weight to all
+PEs in the array.
+One example that implements the output stationary dataﬂow
+is ShiDianNao [89], where each PE handles the processing for
+each output activation value by fetching the corresponding input
+activations from neighboring PEs. The PE array implements
+dedicated networks to pass data horizontally and vertically.
+Each PE also has data delay registers to keep data around for
+the required amount of cycles. At the system level, the global
+buffer streams the input activations and broadcasts the weights
+into the PE array. The partial sums are accumulated inside
+each PE and then get streamed out back to the global buffer.
+Other examples of output stationary are found in [88, 90].
+There are multiple possible variants of output stationary as
+shown in Fig. 26 since the output activations that get processed
+at the same time can come from different dimensions. For
+example, the variant OSA targets the processing of CONV
+layers, and therefore focuses on the processing of output
+activations from the same channel at a time in order to
+maximize data reuse opportunities. The variant OSC targets
+the processing of FC layers, and focuses on generating output
+activations from all different channels, since each channel only
+has one output activation. The variant OSB is something in
+between OSA and OSC. Example of variants OSA, OSB, and
+# Output Channels 
+# Output Activations 
+E 
+E 
+… 
+… 
+… 
+M 
+OSB 
+Multiple 
+Multiple 
+Notes 
+E 
+E 
+… 
+… 
+… 
+M 
+OSA 
+Single 
+Multiple 
+Targeting 
+CONV layers 
+E 
+E 
+… 
+… 
+… 
+M 
+OSC 
+Multiple 
+Single 
+Targeting 
+FC layers 
+Parallel  
+Output Region 
+Fig. 26.
+Variations of output stationary [80].
+OSC are [89], [88], and [90], respectively.
+3) No local reuse (NLR): While small register ﬁles are
+efﬁcient in terms of energy (pJ/bit), they are inefﬁcient in terms
+of area (µm2/bit). In order to maximize the storage capacity,
+and minimize the off-chip memory bandwidth, no local storage
+is allocated to the PE and instead all that area is allocated
+to the global buffer to increase its capacity (Fig. 25(c)). The
+no local reuse dataﬂow differs from the previous dataﬂows in
+that nothing stays stationary inside the PE array. As a result,
+there will be increased trafﬁc on the spatial array and to the
+global buffer for all data types. Speciﬁcally, it has to multicast
+the activations, single-cast the ﬁlter weights, and then spatially
+accumulate the partial sums across the PE array.
+In an example of the no local reuse dataﬂow from
+UCLA [91], the ﬁlter weights and input activations are read
+from the global buffer, processed by the MAC units with custom
+adder trees that can complete the accumulation in a single cycle,
+and the resulting partial sums or output activations are then put
+back to the global buffer. Another example is DianNao [92],
+which also reads input activations and ﬁlter weights from
+the buffer, and processes them through the MAC units with
+custom adder trees. However, DianNao implements specialized
+registers to keep the partial sums in the PE array, which helps
+to further reduce the energy consumption of accessing partial
+sums. Another example of no local reuse dataﬂow is found
+in [93].
+4) Row stationary (RS): A row stationary dataﬂow is
+proposed in [80], which aims to maximize the reuse and
+accumulation at the RF level for all types of data (weights,
+pixels, partial sums) for the overall energy efﬁciency. This
+differs from WS or OS dataﬂows, which optimize for only
+weights and partial sums, respectively.
+The row stationary dataﬂow assigns the processing of a
+1-D row convolution into each PE for processing as shown
+in Fig. 27. It keeps the row of ﬁlter weights stationary inside
+the RF of the PE and then streams the input activations into
+the PE. The PE does the MACs for each sliding window at a
+time, which uses just one memory space for the accumulation
+of partial sums. Since there are overlaps of input activations
+between different sliding windows, the input activations can
+then be kept in the RF and get reused. By going through all the
+sliding windows in the row, it completes the 1-D convolution
+and maximize the data reuse and local accumulation of data
+in this row.

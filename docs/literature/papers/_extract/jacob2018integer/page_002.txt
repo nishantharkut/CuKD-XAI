@@ -1,0 +1,104 @@
+conv
+weights
+uint8
+input
++
+biases
+uint32
+ReLU6
+output
+uint8
+uint32
+uint8
+uint8
+(a) Integer-arithmetic-only inference
+conv
+wt quant
+weights
+input
++
+biases
+ReLU6
+act quant
+output
+(b) Training with simulated quantization
+10
+20
+40
+80
+160
+320
+40
+50
+60
+70
+Latency (ms)
+Top 1 Accuracy
+Float
+8-bit
+(c) ImageNet latency-vs-accuracy tradeoff
+Figure 1.1: Integer-arithmetic-only quantization. a) Integer-arithmetic-only inference of a convolution layer. The input and output
+are represented as 8-bit integers according to equation 1. The convolution involves 8-bit integer operands and a 32-bit integer accumulator.
+The bias addition involves only 32-bit integers (section 2.4). The ReLU6 nonlinearity only involves 8-bit integer arithmetic. b) Training
+with simulated quantization of the convolution layer. All variables and computations are carried out using 32-bit ﬂoating-point arithmetic.
+Weight quantization (“wt quant”) and activation quantization (“act quant”) nodes are injected into the computation graph to simulate the
+effects of quantization of the variables (section 3). The resultant graph approximates the integer-arithmetic-only computation graph in panel
+a), while being trainable using conventional optimization algorithms for ﬂoating point models. c) Our quantization scheme beneﬁts from
+the fast integer-arithmetic circuits in common CPUs to deliver an improved latency-vs-accuracy tradeoff (section 4). The ﬁgure compares
+integer quantized MobileNets [10] against ﬂoating point baselines on ImageNet [3] using Qualcomm Snapdragon 835 LITTLE cores.
+tions [14, 27, 34]. With these approaches, both multiplica-
+tions and additions can be implemented by efﬁcient bit-shift
+and bit-count operations, which are showcased in custom
+GPU kernels (BNN [14]). However, 1 bit quantization of-
+ten leads to substantial performance degradation, and may
+be overly stringent on model representation.
+In this paper we address the above issues by improving
+the latency-vs-accuracy tradeoffs of MobileNets on com-
+mon mobile hardware. Our speciﬁc contributions are:
+• We provide a quantization scheme (section 2.1) that
+quantizesh both weights and activations as 8-bit integers,
+and just a few parameters (bias vectors) as 32-bit integers.
+• We provide a quantized inference framework that is ef-
+ﬁciently implementable on integer-arithmetic-only hard-
+ware such as the Qualcomm Hexagon (sections 2.2, 2.3),
+and we describe an efﬁcient, accurate implementation on
+ARM NEON (Appendix B).
+• We provide a quantized training framework (section 3)
+co-designed with our quantized inference to minimize the
+loss of accuracy from quantization on real models.
+• We apply our frameworks to efﬁcient classiﬁcation and
+detection systems based on MobileNets and provide
+benchmark results on popular ARM CPUs (section 4)
+that show signiﬁcant improvements in the latency-vs-
+accuracy tradeoffs for state-of-the-art MobileNet archi-
+tectures, demonstrated in ImageNet classiﬁcation [3],
+COCO object detection [23], and other tasks.
+Our work draws inspiration from [7], which leverages
+low-precision ﬁxed-point arithmetic to accelerate the train-
+ing speed of CNNs, and from [31], which uses 8-bit ﬁxed-
+point arithmetic to speed up inference on x86 CPUs. Our
+quantization scheme focuses instead on improving the in-
+ference speed vs accuracy tradeoff on mobile CPUs.
+2. Quantized Inference
+2.1. Quantization scheme
+In this section, we describe our general quantization
+scheme1 2, that is, the correspondence between the bit-
+representation of values (denoted q below, for “quantized
+value”) and their interpretation as mathematical real num-
+bers (denoted r below, for “real value”). Our quantization
+scheme is implemented using integer-only arithmetic dur-
+ing inference and ﬂoating-point arithmetic during training,
+with both implementations maintaining a high degree of
+correspondence with each other. We achieve this by ﬁrst
+providing a mathematically rigorous deﬁnition of our quan-
+tization scheme, and separately adopting this scheme for
+both integer-arithmetic inference and ﬂoating-point train-
+ing.
+1The quantization scheme described here is the one adopted in Tensor-
+Flow Lite [5] and we will refer to speciﬁc parts of its code to illustrate
+aspects discussed below.
+2We had earlier described this quantization scheme in the documen-
+tation of gemmlowp [18]. That page may still be useful as an alternate
+treatment of some of the topics developed in this section, and for its self-
+contained example code.
+2705

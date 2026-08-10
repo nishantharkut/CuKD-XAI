@@ -1,0 +1,39 @@
+increases attention divergence, enabling teachers to offer a broader perspec-
+tive to the student. Consequently, the student surpasses the knowledge of a
+single teacher, becoming more independent, and the observed low-fidelity is
+a demonstration of this phenomenon rather than a pathology.
+6.3. Effects of Logits Matching Optimization on KD
+Although (Stanton et al, 2021) has shown the phenomenon of low-fidelity,
+they attributed the challenges in optimization as the key factor for the stu-
+dent’s inability to match the teacher. Recent studies, such as (Sun et al,
+2024), continue to focus on optimizing the student-teacher logits matching
+process. Yet in Section 3 the 3rd hypothesis, we suggested that the optimiza-
+tion towards increasing student-teacher mimicry behavior in fact benefits
+generalization performance rather than the fidelity.
+To illustrate, here we compared the aforementioned vanilla KD with a
+logits-matching optimization method in KD (Sun et al, 2024) under differ-
+ent data augmentation strengths, for dataset CIFAR100, CIFAR100-imb100,
+and ImageNet-LT. Specifically, we experiment with a z-score standardization
+method applied on logits before the softmax. This mitigates the logits mag-
+nitudes and variance gap between teacher and student, which facilitates the
+student-teacher emulation procedure.
+Theoretically, denote the logits of teacher model and student model as
+zt and zs respectively, and the softmax function as σ(·). Then for a finally
+well-distilled student with predicted probability density perfectly matching
+the teacher, i.e., σ(zs) = σ(zt), we have the following two properties proved
+in (Sun et al, 2024):
+Logit shift: zs = zt + ∆
+(10)
+Variance match: Var(zs)
+Var(zt) = τs
+τt
+(11)
+Where ∆can be considered constant for each sample image, and τs, τt
+are temperatures for the student and teacher respectively during training.
+That is, even for the student with highest fidelity to its teacher such that
+σc(zs) = σc(zt) for any class c in the dataset, still we have zs = pτs
+τt · zt + ∆
+which means the student logits cannot match the teacher logtis. A z-score
+normalization applied on both the student and teacher logits during KD
+training can soothe this mismatch by making their logtis distribution equal
+16

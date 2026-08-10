@@ -1,0 +1,43 @@
+1114
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 11 LIME local explanation
+results for PFCP Session
+Deletion and Session
+Establishment attacks
+The results are illustrated in Fig. 12.
+As observed, SHAP Local Explanation demonstrates con-
+sistently high efﬁciency across all datasets, with execution
+times remaining low, ranging between 0.02 and 0.08s, irre-
+spective of the number of features. This efﬁciency makes
+SHAP particularly suitable for real-time IDS applications
+where rapid insights are important.
+In contrast, LIME Local Explanation shows a signiﬁcant
+dependency on the number of features—the execution times
+dramatically decrease when the feature set is reduced. For
+instance, in the case of the SYN Flood, the execution time
+drops from 36.38s when using all features to 9.48s with 10
+features, representing a 74% time reduction. Further reduc-
+ing the feature set to 5 features decreases the execution time
+to 4.85s, achieving an 87% speed-up compared to using all
+features. A similar behavior is observed for other attack traf-
+ﬁc datasets, showing the substantial improvement in LIME’s
+efﬁciency brought about by feature reduction. However, as
+demonstrated in Sect.4.2.2, a reduction to only 5 features
+leads to a signiﬁcant reduction in detection performance. The
+10-feature set turns out to be the optimal choice as it strikes
+a balance between speed and accuracy, which is essential for
+real-time IDS applications where both computational efﬁ-
+ciency and prediction quality are crucial.
+For the next evaluation, we combined our proposed two-
+stagemethodwiththeattentionweights-basedapproachfrom
+Santhiappan et al. [33], originally designed for text data using
+the CAML architecture to enhance LIME’s efﬁciency by
+emphasizing relevant features. We adapted their method to
+tabular datasets (CIC-DDoS2019 and CICIoT2023) by uti-
+lizing the TabNet architecture [45], a deep learning model
+speciﬁcally designed for tabular data instead of the CAML
+architecture. TabNet incorporates a sparse attention mech-
+anism that dynamically selects the most relevant features
+for each instance, mimicking decision tree-like interpretabil-
+ity while leveraging the ﬂexibility and power of neural
+123

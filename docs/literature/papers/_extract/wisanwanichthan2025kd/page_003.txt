@@ -1,0 +1,48 @@
+Computers 2025, 14, 291
+3 of 25
+The paper is structured as follows: Section 2 reviews related works on anomaly-based
+IDS using neural networks and KD. Section 3 explains the methodology, including datasets,
+data preprocessing, and the KD algorithm. Section 4 presents and analyzes the results
+across five datasets: NSL-KDD, UNSW-NB15, CIC-IDS2017, IoTID20, and UAV IDS. Finally,
+the conclusion is provided in Section 5.
+2. Related Work
+Recent advancements in intrusion detection have produced a wide variety of tech-
+niques aimed at balancing detection accuracy with computational efficiency, particularly
+for resource-constrained environments like IoT and UAV systems. This section organizes
+existing work into five categories based on the main techniques employed, i.e., knowledge
+distillation (KD), federated learning with KD, hybrid and GAN-based methods, cyber-
+physical feature fusion, and architecture-specific or optimization-driven distillation. This
+categorization highlights the strengths, limitations, and trends across current approaches.
+All references in each category are sorted by year (earliest first).
+2.1. Knowledge Distillation-Based IDS
+A growing number of studies apply knowledge distillation to compress deep models
+while maintaining competitive detection performance. A KD-based lightweight IDS model
+was designed by Zhao et al. [17] by using a separation convolution technique for reducing
+model size and computation cost by 99% and has achieved state-of-the-art accuracy of 94.3%
+on the UNSWNB15 and 91.46% on KDDCUP99 dataset. Wang et al. [14] proposed a KD-
+based triplet convolutional neural network for industrial CPS, which can reduce the model
+size by 86% with only 0.4% loss of accuracy and showed better performance than state-of-
+the-art methods on the NSL-KDD and CIC IDS2017 datasets. Chen et al. [18] proposed a
+semi-supervised KD framework in campus networks. The work realized efficient intrusion
+detection based on the distributed deployment at the aggregation layer and leveraged
+labeled and unlabeled data in training. The framework resulted in 98.49% parameter
+reduction and 98.52% decrease in FLOPs for the student models compared to the teacher
+models while only slightly decreasing in accuracy of around 1–2%. Zhu et al. [19] proposed
+LKD-STNN, a lightweight KD-based model for malicious traffic detection, which was able
+to obtain accuracy above 98% on the ToN-IoT and IoT-23 datasets while reducing the model
+parameters to less than 1% from the teacher model, thus proving ideal for deployment at
+the edge devices. Ren et al. [20] propose a KD-based framework to detect GPS spoofing
+attacks in small UAVs using a compact neural network suitable for resource-constrained
+platforms. A long short-term memory (LSTM) model is first trained on telemetry data
+(GPS, IMU, RSSI) and then distilled into a lightweight neural network (student) using KD.
+Experimental results on the UAV IDS dataset from IEEE DataPort show that the student
+model trained with LSTM achieves 95.74% reduction in model size (from 72.7 KB to 3.0 KB)
+and 31.63% reduction in memory overhead. Wang et al. [16] proposed a CNN-based model
+with two-dimensional Fourier transform and KD, which has less computational cost while
+maintaining competitive accuracy in several public datasets. The teacher model consisted
+of an eight-layer CNN compared to a one-layer CNN in the student model. The student
+model can reduce the number of parameters from around 1.7 million to only one thousand,
+while maintaining overall accuracy in every tested dataset. Abbasi et al. [21] demonstrated
+the effectiveness of KD in IoT traffic classification, where student models trained using
+KD achieved similar accuracy to larger teacher models from 93.57% to 92.45% but with
+significant savings in computational cost and storage requirements.

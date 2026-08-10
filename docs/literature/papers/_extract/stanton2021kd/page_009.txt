@@ -1,0 +1,137 @@
+300 1k
+5k
+1k
+5k
+Number of Epochs
+78
+80
+82
+84
+Train Agreement
+Adam
+SGD
+0.00
+0.25
+0.50
+0.75
+1.00
+λ
+52
+53
+Train Loss
+80
+85
+90
+95
+100
+Train Agreement
+0
+25
+50
+75
+λ
+−25
+0
+25
+50
+75
+100
+125
+Teacher
+Student
+Init
+λ = 0.0
+0
+20
+40
+60
+λ
+−20
+0
+20
+40
+60
+80
+100
+Teacher
+Student
+Init
+λ = 0.25
+0
+20
+40
+60
+λ
+−2
+0
+2
+4
+6
+8
+10
+Teacher
+Student
+Init
+λ = 0.375
+48
+50
+56
+64
+68
+72
+74
+76
+80
+85
+Train Loss
+(a) Optimizer effect
+(b) Initialization effect
+(c) Loss Visualization
+Figure 6: Optimization and distillation: self-distillation with ResNet-20s with LayerNorm on
+CIFAR-100. (a): Final train agreement for SGD and Adam optimizers. Training longer improves
+agreement, but it remains below 85% even after 5k epochs. (b): Final train loss and agreement when
+the initialization is a convex combination of teacher and random weights, θs = λθt + (1 −λ)θr. (c):
+Projections of the distillation loss surface on the plane intersecting θt, the initial student weights,
+and the ﬁnal student weights for different λ. When λ is small, the student converges to a suboptimal
+solution with low agreement. The uncertainty regions correspond to µ ± σ, estimated over 3 trials.
+6.2
+Why is train agreement so low?
+A simpliﬁed distillation experiment. To simplify our exploration, we focus on self-distillation of
+a ResNet-20 on CIFAR-100. We use the Baseline data augmentation strategy, as we found that a
+ResNet-20 student is unable to match the teacher on train even with basic augmentation. We also
+replace the BatchNorm layers [23] in ResNet-20 with LayerNorm [3], because we found that with
+BatchNorm layers even when the teacher and the student have identical weights, they can make
+different predictions due to differences in the activation statistics accumulated by the BatchNorm
+layers. Layer normalization does not collect any activation statistics, so the student will match the
+teacher as long as the weights coincide.
+Can we solve the optimization problem better? We verify that the distillation ﬁdelity cannot be
+signiﬁcantly improved by training longer or with a different optimizer. By default, in our experiments
+we use stochastic gradient descent (SGD) with momentum, train the student for 300 epochs, and use a
+weight decay value of 10−4. In Figure 6 we report the results for the SGD and Adam [25] optimizers
+run for 1k and 5k epochs without weight decay. Switching from SGD to Adam only reduced ﬁdelity.
+For both optimizers, training for more epochs does slightly improve train agreement. In particular,
+with SGD we achieve 83.3% agreement when training for 5k epochs compared to 78.95% when
+training for 300 epochs. It is possible, though unlikely, that if we train for even more epochs the train
+agreement could reach 100%. However, training for 5k epochs is signiﬁcantly longer than what is
+typically done in practice (100 to 500 epochs). Furthermore, the improvement from 1k to 5k epochs
+is only about 2%, suggesting that we would need to train for tens of thousands of epochs, even in the
+optimistic case that agreement improves linearly, in order to get close to 100% train agreement.
+The distillation loss surface hypothesis: If we cannot perfectly distill a ResNet-20 on CIFAR-100
+with any of the interventions we have discussed so far, we now ask if there is any modiﬁcation of the
+problem that can produce a high-ﬁdelity student.
+In the self-distillation setting, we do know of at least one set of weights that is optimal w.r.t. the
+distillation loss — the teacher’s own weights θt. Letting θr be a random weight initialization, in
+Figure 6 (a) we examine the effect of choosing the student initialization to be a convex combination
+of the teacher and random weights, θs = λθt + (1 −λ)θr. After being initialized in this way, the
+student was trained as before. In other words λ = 0 corresponds to a random initialization and λ = 1
+corresponds to initializing the student weights at the ﬁnal teacher weights.
+We ﬁnd that if the student is initialized far from the teacher (λ ≤0.25), the optimizer converges to a
+sub-optimal value of the distillation loss, producing a student that signiﬁcantly disagrees with the
+teacher. However at λ = 0.375 there is a sudden change. The ﬁnal train loss drops to the optimal
+value and the agreement drastically increases, and the behavior continues for λ > 0.375. To further
+investigate, in Figure 6 (c) we visualize the distillation loss surface for λ ∈{0, 0.25, 0.375} projected
+on the 2D subspace intersecting θt, the initial student weights, and the ﬁnal student weights. If the
+student is initialized far from the teacher (λ ∈{0, 0.25}), it converges to a distinct, sub-optimal basin
+of the loss surface. On the other hand, when initialized close to the teacher (λ = 0.375), the student
+converges to the same basin as the teacher, achieving nearly 100% agreement.
+9

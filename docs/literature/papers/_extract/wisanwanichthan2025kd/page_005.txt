@@ -1,0 +1,57 @@
+Computers 2025, 14, 291
+5 of 25
+2.5. Self-Knowledge Distillation and Optimization-Based Distillation
+Several works emphasize self-distillation and architectural optimization.
+Yang
+et al. [30] proposed a lightweight self-knowledge distillation model, LNet-SKD, that accom-
+plished high accuracy while reducing computation overhead. Li and Yao [15] designed a
+two-stage lightweight intrusion detection model using self-supervised contrastive learning
+and self-knowledge distillation in IoT networks, which has higher accuracy in intrusion
+detection and attains better generalization among various public datasets such as KDD
+CUP99, NSL-KDD, UNSW-NB15, CIC IDS2017, and BoT-IoT. Their methodology could
+achieve up to 99.95% in accuracy in binary classification on KDD CUP99. Wang el al. [31]
+proposed the TBCLNN model, which uses self-knowledge distillation to build a lightweight
+intrusion detection system for IoT networks. The method utilizes the binary Harris hawk
+optimization algorithm for feature selection and employs tied block convolution to design
+efficient neural network blocks. An improved self-knowledge distillation loss function is
+introduced to mitigate sample imbalance issues. The model achieves multiclassification
+accuracies above 99% on three public IoT datasets while being computationally efficient.
+These studies underline the growing role of KD in balancing performance and efficiency in
+IDS, particularly for deployment in IoT and edge computing environments.
+Despite significant progress in intrusion detection research, existing IDS models face
+several key limitations. Traditional machine learning models often rely on manual feature
+engineering and fail to generalize well to complex threats. Deep learning-based IDSs
+can be offering high accuracy but typically computationally expensive and unsuitable for
+deployment in resource-constrained environments such as IoT devices or UAV systems.
+Ensemble and hybrid models tend to improve detection performance but increase model
+size and inference time, limiting their real-time applicability. To address these challenges,
+we conducted a study on a KD-based IDS framework that compresses high-capacity teacher
+models into lightweight student models while preserving strong detection performance.
+We further demonstrate the framework’s practicality by evaluating it across multiple
+benchmark intrusion detection datasets.
+Our study differs from existing work by focusing on the implementation of our pre-
+defined deep neural network architecture integrated with KD and evaluating it across
+multiple well-known and domain-specific intrusion detection datasets, including NSL-
+KDD, UNSW-NB15, CIC-IDS2017, IoTID20, and the UAV IDS dataset. Unlike prior studies
+that typically explore accuracy improvements or use KD with other techniques, our study
+demonstrates that a standard deep learning (fully-connected neural networks) structure can
+consistently work with the KD technique to achieve strong detection performance, faster
+inference speed, and significant parameter reduction. A comparison table of key KD-based
+IDS studies and our work is shown in Table 1. Also, we are the first to systematically apply
+a vanilla KD framework across five diverse IDS datasets (traditional networks, IoT, and
+UAV), all under the same architecture and hyperparameters to demonstrate cross-domain
+generality without overparameterization.
+Table 1. Comparison of key KD-based IDS studies and this work.
+Study
+Datasets Used
+Methods
+Key Contributions
+Wang et al. (2022) [14]
+NSL-KDD, CIC-IDS2017
+Triplet-CNN teacher to
+small CNN student via KD
+Reduced model size by
+86% with only 0.4%
+accuracy loss;
+outperformed SOTA on
+both benchmarks.

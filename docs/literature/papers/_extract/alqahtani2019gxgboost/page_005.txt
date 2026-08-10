@@ -1,0 +1,84 @@
+Sensors 2019, 19, 4383
+5 of 20
+Algorithm 1. The GA pseudocode.
+1.
+Input: GA parameters
+2.
+Begin
+3.
+P←Generate-Initial-Population ();
+4.
+Best-Solution ←Evaluate-Fitness(P)
+5.
+while stopping_criterion is not reached do
+6.
+Begin
+7.
+Parents←Selection(P)
+8.
+Children←Crossover (Parents)
+9.
+Children←Mutation (Children)
+10.
+Best-Solution←Evaluate-Fitness (Children)
+11.
+P←P ∪Children
+12.
+End while
+13.
+End
+14.
+Output: Best-Solution
+Assuming that the objective of a supervised classiﬁcation problem is to ﬁnd an approximation
+function, ˆO(x) to ﬁt the O(x). Therefore, the approximation function based on a loss function, L(y, O(x))
+is deﬁned as:
+ˆO(x) = argmin
+O(x)L(y, O(x))
+(1)
+where O represents the weak learners (Ci(x)) with weights (wi) in a linear combination; and ˆO tries to
+minimize the loss function of the input vector. Thus, the GB sets a constant function, O0(x) as:
+(x) = argmin
+w
+n
+X
+i=1
+L(yi, w)
+(2)
+The pseudocode of GB is shown in Algorithm 2.
+Algorithm 2. The GB pseudocode.
+1
+Input: D = (x1 , y1), (x2 , y2) , . . . , (xN , yN)}, L(y, O(x))
+2
+Begin
+3
+Initialize: O0(x) = argmin
+w
+Pn
+i=1 L
+
+yi, w
+
+4
+for m = 1 : M
+5
+rim = −
+∂L(yi,O(xi))
+∂O(xi)
+6
+Train weak learner Cm(x) on training data.
+7
+Calculate w : wm = argmin
+w
+NP
+i=1
+L(yi, Om−1(xi) + wCm(xi))
+8
+Update: Om(x) = Om−1(x) + wmCm(x)
+9
+End for
+10
+End
+11
+Output: Om(x)
+In case decision tree is chosen to be an estimator, gradient boosting will be selected as the
+appropriate algorithm, which is a better classiﬁer that can be utilized for solving many problems in

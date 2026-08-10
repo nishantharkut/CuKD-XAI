@@ -1,0 +1,83 @@
+Curriculum Learning
+In principle one could argue that diﬃcult examples
+can be more informative than easy examples.
+Here
+the diﬃcult examples are probably not useful because
+they confuse the learner rather than help it establish
+the right location of the decision surface. This exper-
+iment does not involve a curriculum strategy yet, but
+it may help to understand why easier examples could
+be useful, by avoiding to confuse the learner.
+4.2. Introducing Gradually More Diﬃcult
+Examples Speeds-up Online Training
+We train a Perceptron from artiﬁcially generated data
+where the target is y = sign(w′xrelevant) and w is sam-
+pled from a Normal(0,1). The training pairs are (x, y)
+with x = (xrelevant, xirrelevant), i.e., some of the inputs
+are irrelevant, not predictive of the target class. Rel-
+evant inputs are sampled from a Uniform(0,1) distri-
+bution. Irrelevant inputs can either be set to 0 or to
+a Uniform(0,1). The number of irrelevant inputs that
+is set to 0 varies randomly (uniformly) from example
+to example, and can be used to sort examples from
+the easiest (with all irrelevant inputs zeroed out) to
+the most diﬃcult (with none of the irrelevant inputs
+zeroed out). Another way to sort examples is by the
+margin yw′x, with easiest examples corresponding to
+larger values. The learning rate is 1 (it does not matter
+since there is no margin and the classiﬁer output does
+not depend on the magnitude of w′x but only on its
+sign). Initial weights are sampled from a Normal(0,1).
+We train the Perceptron with 200 examples (i.e., 200
+Perceptron updates) and measure generalization error
+at the end.
+Figure 1 shows average estimated gen-
+eralization error measured at the end of training and
+averaged across 500 repetitions from diﬀerent initial
+conditions and diﬀerent random sampling of training
+examples. We compare a no curriculum setting (ran-
+dom ordering), with a curriculum setting in which
+examples are ordered by easiness, starting with the
+easiest examples, and two easiness criteria (number of
+noisy irrelevant inputs, margin yw′x). All error rate
+diﬀerences between the curriculum strategy and the
+no-curriculum are statistically signiﬁcant (diﬀerences
+of more than .01 were all statistically signiﬁcant at 5%
+under a t-test).
+5. Experiments on shape recognition
+The task of interest here is to classify geometri-
+cal shapes into 3 classes (rectangle, ellipse, trian-
+gle), where the input is a 32×32 grey-scale image.
+As shown in Figure 2, two diﬀerent datasets were
+generated:
+whereas GeomShapes data consist in im-
+ages of rectangles, ellipses and triangles, BasicShapes
+data only include special cases of the above: squares,
+Figure 1. Average error rate of Perceptron, with or with-
+out the curriculum. Top: the number of nonzero irrelevant
+inputs determines easiness. Bottom: the margin yw′x de-
+termines easiness.
+circles and equilateral triangles.
+The diﬀerence be-
+tween BasicShapes data and GeomShapes data is that
+BasicShapes images exhibit less variability in shape.
+Other degrees of variability which are present in both
+sets are the following: object position, size, orienta-
+tion, and also the grey levels of the foreground and
+background. Besides, some geometrical constraints are
+also added so as to ensure that any shape object ﬁts
+entirely within the image, and a minimum size and
+minimum contrast (diﬀerence in grey levels) between
+foreground and background is imposed.
+Note that the above “easy distribution” occupying a
+very small volume in input space compared to the tar-
+get distribution does not contradict condition 4. In-
+deed, the non-zero weights (on easy examples) can ini-
+tially be very small, so that their ﬁnal weight in the
+target distribution can be very small.
+Figure 2. Sample inputs from BasicShapes (top) and
+GeomShapes (bottom).
+Images are shown here with a
+higher resolution than the actual dataset (32x32 pixels).
+The experiments were carried out on a multi-layer neu-
+ral network with 3 hidden layers, trained by stochas-

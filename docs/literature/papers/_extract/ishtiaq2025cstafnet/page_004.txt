@@ -1,0 +1,138 @@
+columns x(j) ∈R, missing entries are imputed Using the median 
+value: x(j)
+i
+←Median
+(
+x(j))
+. In addition to categorical columns, we 
+set of categories as x(k) ∈C. where missing data elements are 
+replaced with the mode: x(k)
+i
+←Mode
+(
+x(k))
+.
+ii. Non-predictive or redundant features (e.g., Attack_label) are 
+required to prevent bias or information leakage during training.
+iii. At this stage, we normalize the data using StandardScaler, 
+ensuring zero mean and unit variance: x(j)
+i
+←
+x(j)
+i −μj
+σj
+, where, μj and 
+σj denote the mean and standard deviation of feature j 
+respectively.
+iv. Finally, we convert the categorical fields into integer values using 
+Label Encoding, and mapping each unique string to a unique 
+integer: Encode : C→Z
+3.2. CST-AFNet architecture
+The proposed CST-AFNet has designed to efficiently extract spatial, 
+sequential, and attention-based representations from IoT/IIoT network 
+traffic data.
+The network consists of four main modules: Multi-Scale Convolu­
+tional Feature Extractor, Bidirectional GRU Temporal Modeler, Dual 
+Attention Mechanism (Temporal and Channel Attention), Global Pool­
+ing and Final Classifier. The description of each component is given 
+below.
+3.2.1. Input layer
+Each input instance x ∈Rd (Where, d = No. of features after pre­
+processing) is reshaped into a 2D tensor for 1D convolution processing: 
+x ∈Rd×1.
+This transformation is identical for both binary and multiclass clas­
+sification tasks, with the only variation occurring in the output label 
+space, i.e., y ∈{0, 1} for binary and y ∈{0, 1, …, C −1} for multiclass, 
+where C is the number of classes.
+In this proposed system, we have extract 60 different features from 
+our dataset, those features help to the detection of both frequent and 
+rare cyberattacks.
+3.2.2. Multi-scale convolutional block
+To capture features at different spatial resolutions, the CST-AFNet 
+model has three parallel 1D Convolutional Neural Networks (CNNs). 
+We are applied those layers with different sizes kernel k = {3,5,7}. Each 
+convolution operation for a given kernel size k is defined as: 
+hk = ReLU (Conv1Dk(x))
+Where, Conv1Dk is a 1D convolution with filter size k. ReLU is the 
+activation function. For each layer, the output have 64 features map.
+Then the model performs a concatenated operation with the output 
+of three convolutions layers. The function for the concatenation is given 
+bellow: 
+hconcat = Concat (h3, h5, h7)
+Batch Normalization layer and Dropout (rate = 0.3) are then applied 
+to hconcat. After that, it is stabilized for the training and prevent 
+overfitting.
+3.2.3. Bidirectional GRU Temporal Modeler
+The output hconcat is fed into a Bidirectional Gated Recurrent Unit 
+(BiGRU) to model sequential dependencies from both forward and 
+backward directions: hrnn = BiGRU(hconcat).
+Where, each GRU unit processes the sequence as: 
+zt = σ(Wz ⋅[ht−1, xt]), rt = σ(Wr ⋅[ht−1, xt]),̃
+ht = tanh (Wz ⋅[rt ⊙ht−1, xt]), ht = (1 −zt ⊙ht−1 + zt ⊙̃ ht)
+Where, zt is the update gate, rt is the reset gate, ht is the hidden state at 
+time t, ⊙denotes element-wise multiplication, σ denotes the sigmoid 
+activation.
+3.2.4. Dual attention mechanism
+After temporal modeling, dual attention mechanisms are applied to 
+focus on the most relevant features and time steps. 
+(a) Temporal Attention
+Temporal attention is added to our proposed CST-AFNet model to 
+enhance the model’s ability that can focus on the most relevant time 
+steps in a sequential input. At first the model permutes the input 
+sequence to switch the time and the feature dimension, then it allows a 
+dense layer with a softmax activation function to learn weights across 
+the temporal axis. When the attention scores are computed, the tensor is 
+permuted back to its original shape. Finally, the original input and the 
+attention weights are element-wise multiplied with each other’s. This 
+result is effectively highlighting the significant temporal features while 
+suppressing less relevant ones. This mechanism allows the model to 
+dynamically prioritize important temporal patterns, which is especially 
+useful in time-series or sequential data analysis.
+Focuses on important time steps in the sequential output hrnn. 
+Formally: 
+AT = softmax(WT ⋅hrnn), htemp = hrnn ⊙AT 
+Where, AT is the attention score matrix for time steps, htemp is the 
+attended temporal representation. 
+(b) Channel Attention
+In this research, we used a channel attention feature channel to 
+emphasize the most relevant feature maps and suppresses less relevant 
+ones. It begins with global average pooling across a Lambd layer, which 
+can compress the input to create a summary of each feature channel. 
+This function creates through to pass two fully connected (Dense) layers: 
+the first reduces dimensionality (using a reduction_ratio) and applies a 
+ReLU activation to capture non-linear interactions, while the second 
+restores the original channel dimension and uses a sigmoid activation to 
+generate channel-wise attention weights between 0 and 1. Finally, these 
+weights are required to multiple element-wise with original input. Fo­
+cuses on important channels/features in htemp. It involves: 
+1. Global Average Pooling along the temporal axis: s = 1
+T
+∑T
+t=1 htemp(t)
+2. Passing through two dense layers (bottleneck reduction by ratio (r): 
+sʹ = σ(W2 ⋅ReLU(W1 ⋅s))
+3. Rescaling: hchan = htemp ⊙sʹ
+Where, W1 and W2 are trainable parameters, σ is the sigmoid activation 
+function, T is the number of time steps.
+3.2.5. Global Pooling and Final Classification
+The final attended feature map hchan is passed through a Global­
+MaxPooling1D layer to obtain a fixed-size feature vector: hpool =
+GlobalMaxPool(hchan). This pooled representation is then processed 
+through a Dense layer with 128 neurons and ReLU activation, followed 
+by a Dropout layer with a rate of 0.4 to prevent overfitting. Finally, an 
+output layer is applied to produce the class probabilities or decision 
+score. For binary classification, the output layer uses a single neuron 
+with a sigmoid activation: ̂y = σ
+(
+Wout ⋅hpool + bout
+)
+.
+For multiclass classification (e.g., 15 classes in Edge-IIoTset), the 
+output layer contains C neurons (where C is the number of classes) with 
+a softmax activation: ̂yj =
+e(Wout,j ⋅hpool+ bout,j)
+∑C
+k=1 e(Wout,k ⋅hpool+ bout,k), j = 1,…,C.
+W. Ishtiaq et al.                                                                                                                                                                                                                                 
+Array 27 (2025) 100501 
+4 

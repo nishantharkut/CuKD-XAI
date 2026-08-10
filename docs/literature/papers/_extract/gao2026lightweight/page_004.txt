@@ -1,0 +1,51 @@
+Electronics 2026, 15, 938
+4 of 20
+calculating the mutual information between features and category labels, it incurs high
+computational complexity when the sample size is large.
+2.2. IoT Intrusion Detection Method Based on Deep Learning
+In recent years, with the development of artificial intelligence, NIDS based on deep
+learning has gradually become a research hotspot. Deep learning constructs multilayer
+neural networks to realize layer-by-layer feature representation. This approach can au-
+tomatically extract key features from the original network traffic and capture complex
+temporal and spatial patterns, thereby achieving effective differentiation between normal
+and abnormal traffic [16,17].
+Ullah et al. [18], introduced an RNN-based method for intrusion detection in IoT
+networks. A multilayer RNN architecture was designed to exploit the capability of RNNs
+in modeling temporal sequences, enabling effective capture of time-dependent patterns
+and anomalous behaviors in network traffic. Reference [19] investigated six deep learning-
+based models for network attack detection, including multilayer perceptron (MLP), one-
+dimensional convolutional neural network (1D-CNN), LSTM, gated recurrent unit (GRU),
+RNN, and a hybrid CNN–GRU model. The six models are systematically evaluated to
+compare their performance in classifying network traffic into normal or attack. In [20], an
+intrusion detection scheme was proposed for IoT devices. The authors encoded sensor
+data through convolution operations to capture patterns within time series, integrating two
+classical CNN architectures, ResNet and EfficientNet, and evaluated their detection perfor-
+mance. Although these models can capture time-series dependencies in network traffic,
+they generally suffer from problems such as high detection latency, high computational
+complexity, and insufficient parallel processing capabilities.
+To overcome the limitations of traditional recurrent neural networks in training effi-
+ciency and long-distance dependency capture, TCN has been proposed as a new sequence
+modeling architecture. Compared with traditional deep learning models, TCN uses causal
+convolution and dilated convolution, combined with residual connections, which enables
+the network to efficiently capture long sequence dependencies, achieve gradient stable
+training, and support parallel computing. Inspired by the successful application of tem-
+poral convolutional networks in other fields, Lopes et al. [21], designed and implemented
+four network intrusion detection models based on temporal convolution and conducted a
+systematic study on their classification performance. Ref. [22] proposed a network intru-
+sion detection method based on TCN. Their experimental results showed that TCN could
+effectively capture the temporal dependencies of complex network traffic and exhibited
+efficient and accurate detection performance. Ref. [23] innovatively combined causal and
+non-causal TCN to construct a hybrid intrusion detection system for the real-time and
+global prediction needs of IoT networks. The results showed that hybrid TCN improved
+accuracy by 1.5% and recall by 4% on NSL-KDD, with only a marginal increase of 0.1 ms in
+detection time. However, most existing studies have focused on limited attack types, and
+the datasets used do not comprehensively reflect the variety of IoT attacks.
+In summary, although existing feature extraction techniques and intrusion detection
+models have achieved some progress, they still suffer from high computational overhead,
+suboptimal detection efficiency, and the incomplete coverage of attack types in commonly
+used datasets. To address these issues, this paper first introduces a hybrid feature selection
+algorithm to select optimal feature subsets. Subsequently, a lightweight intrusion detection
+model based on TCN is constructed, and its effectiveness is validated on the latest Edge-
+IIoTset dataset. This provides a feasible solution for deploying IoT intrusion detection
+systems on edge servers.
+https://doi.org/10.3390/electronics15050938

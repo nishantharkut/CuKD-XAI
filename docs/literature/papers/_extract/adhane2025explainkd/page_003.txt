@@ -1,0 +1,158 @@
+unique features of each model and quantify their relevance,
+enhancing the transparency of the KD process.
+3. Methodology
+Given a Student model trained using KD and a Base
+model trained solely on data, our objective is to explain
+and quantify the amount of knowledge distilled during KD.
+Our approach leverages gradient-based explainability tech-
+niques to compute gradients with respect to input features,
+along with distance correlation (dCor) [39] and partial dis-
+tance correlation (pdCor) [39, 45]. dCor measures the de-
+pendence between two random vectors that capture their
+multidimensional associations.
+Similarly, pdCor extends
+dCor to measure the association between two random vec-
+tors after adjusting for the influence of a third vector. It is
+computed by projecting the distance matrices onto a Hilbert
+space and taking the inner product between the U-centered
+matrices. Zhen et al. [45] used pdCor to condition multiple
+models and identify their unique features1, which means re-
+moving the common features and assessing the remaining
+ones. This enables us to introduce a novel visual explana-
+tion and metrics to assess the knowledge the student learned
+(distilled features) and that it may have overlooked (residual
+features).
+3.1. UniCAM: Unique Class Activation Mapping
+Our goal is to generate saliency maps that highlight the
+distilled and residual features of the Student model, empha-
+sising their importance and revealing their attention patterns
+to enable a deeper understanding of KD. Existing gradient-
+based visual explanations [2,7,35] generates saliency maps
+based on the gradients of the target class, effectively re-
+vealing the relevance of features for the target prediction.
+However, these techniques are not suited for KD, as they
+do not identify the distilled or residual features compared
+to the Base model. To overcome this limitation, we intro-
+duce UniCAM, a novel gradient-based explainability tech-
+nique tailored for KD. UniCAM leverages pdCor to adjust
+feature representations and remove the shared features be-
+tween the Student and the Base model. This process isolates
+the distilled and residual features, which correspond to the
+knowledge the Student has acquired or overlooked, provid-
+ing insights into the relevance of these features for the target
+task.
+Let xs and xb represent the features extracted from a spe-
+cific convolutional layer of the Student and the Base model,
+respectively. The UniCAM method follows the following
+key steps: (1) First, we compute the pairwise distance ma-
+trices for both xs and xb, which capture the relationships be-
+tween different feature vectors within the Student and Base
+1Unique features are the features specific either to the Base model
+(residual features) or to the Student (distilled features).
+models. (2) Next, we normalise these distance matrices to
+create adjusted distance matrices, denoted as P s and P b,
+which ensure the distance information is centred and stan-
+dardised. (3) We then calculate the mutual influence be-
+tween the Student and Base models’ features and remove
+the shared components, effectively isolating the unique fea-
+tures that each model has learned. (4) Finally, we generate
+heatmaps of these unique features, which localise the im-
+portance and relevance of the distilled features compared to
+the Base model.
+Following the approach explained in [39], we first com-
+pute the pairwise distance matrix D(s) = (D(s)
+i,j ) for the
+Student’s feature set. The pairwise distance matrix captures
+the relationship between every pair of feature vectors within
+the Student model:
+  D^
+{(s )
+}
+_{i , j} = \sqrt {(x_i - x_j)^2 + \epsilon }, 
+(1)
+where ϵ is a small positive number added for numerical sta-
+bility. This matrix helps us quantify how closely related the
+feature vectors are, which forms the basis for identifying
+unique and shared features.
+Next, we normalise the distance matrix using Eq. 2 to ob-
+tain the adjusted distance matrix P (s). This normalisation is
+a U-centred projection, which centres the matrix around the
+mean and adjusts it for the overall distribution of distances.
+  P^
+{(s )
+}
+_
+{
+i
+,
+j
+}
+ 
+=
+ 
+\
+l
+e
+f
+t
+ 
+\
+{\be
+gin 
+{
+a l i
+g
+n
+ed}
+ D^{
+(s) }
+_
+{ i ,
+j
+}
+ &-
+ \fr
+ac 
+{
+1
+}{ n -2} \ su
+m
+ 
+_{l
+=
+1
+}^n
+ D^{
+(s)}
+_ {i , 
+l}
+ - \frac {1}{n-2} \sum _{k=1}^n D^{(s)}_{k,j} &\\ &+ \frac {1}{(n-1)(n-2)} \sum _{k=1}^n \sum _{l=1}^n D^{(s)}_{k,l}, & i \neq j; \\ 0,& & i = j. \end {aligned}\right . \label {eq:u-center} 
+(2)
+This step ensures that the distance information is prop-
+erly centred and scaled, making it easier to compare features
+across models. To isolate the unique features learned by the
+Student model, we adjust for the mutual influence between
+the Student and Base models. This step subtracts the shared
+features between the Student and Base model:
+  x_{s|un i q ue} = P^{( s )} -
+ \ frac {\la n g le P^{(s)}, P^{(b)} \rangle }{\langle P^{(b)}, P^{(b)} \rangle } \cdot P^{(b)}. 
+(3)
+Here, we compute the inner product between the ad-
+justed distance matrices of the Student and Base models,
+⟨P (s), P (t)⟩, which captures their shared information as:
+  \lan g le P ^
+{
+(s) } ,
+ 
+P^{(
+b
+) } \
+ran g l e =
+ \f
+r
+ac {1}{n(n-3)} \sum _{i \neq j}\left ( P^{(s)}_{i,j} \cdot P^{(b)} _{i,j} \right ). 
+(4)
+We subtract the common features to isolate the unique ones
+in each model (distilled and residual features) and reflect
+what it has learned beyond the Base model.
+3469

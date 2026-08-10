@@ -1,0 +1,70 @@
+Sensors 2024, 24, 3339
+8 of 26
+Encircling prey technique: The whales begin by encircling their target as a strategic
+move. Subsequently, they designated a search agent, making their choice dependent on the
+distance between each whale and the prey. Once the search agent was identified, all the
+whales within the collective adjusted their positions following the chosen leader. From a
+mathematical perspective, this process is expressed as follows:⃗
+Dt =
+h⃗
+Ct ·⃗Xt
+∗−⃗Xti
+.
+(5)⃗
+Xt+1 =⃗Xt
+∗−⃗At ·⃗Dt.
+(6)
+Here,⃗Xt∗is the position vector of the best whale (a locally optimal solution), while⃗
+Xt is the position vector of the normal whale at the current iteration.⃗Xt+1 is the updated
+position vector of the same whale with⃗Xt. The distance between each whale and the search
+agent is expressed as⃗Dt.
+Searching for prey technique: The WOA enhances the exploration capability across
+the whale population using the search-for-prey method. Exploration involves expanding
+the search space and identifying potential alternative solutions. In this method, a whale
+opts to advance toward a randomly chosen search agent position for global exploration,
+deviating from the conventional approach of moving toward the best-solution whale in
+the current iteration. Equations (7) and (8) are then employed to compute the random
+position of the search agent for updating, where⃗Xt
+rand is the position vector of the randomly
+chosen whale.⃗
+Dt =
+h⃗
+Ct ·⃗Xt
+rand −⃗Xti
+.
+(7)⃗
+Xt+1 =⃗Xt
+rand −⃗At ·⃗Dt.
+(8)
+Bubble-net attack technique: The whale enhances its exploitation ability by modifying
+the shrink position within the helix-shaped movement toward the prey, as governed by
+Equation (9). Here, the parameter b represents a constant indicative of the logarithmic
+spiral’s shape, and l constitutes a random number within the specified range of [−1, 1].
+The computation of the distance between the search agent (without multiplying with
+coefficient⃗Ct) and each whale D
+′t is determined by Equation (10)⃗
+Xt+1 =⃗D
+′t · ebl · cos(2πl) +⃗Xt
+∗.
+(9)⃗
+D
+′t =
+⃗Xt
+∗−⃗Xt.
+(10)
+Despite being a well-known optimization technique, the WOA has some drawbacks,
+including poor population diversity, early convergence, and an imbalance across search
+strategies. Consequently, several WOA variations have been proposed since its debut to
+address its shortcomings. This study aims to address these shortcomings by appropriately
+integrating a GA and the WOA.
+4.1.2. Genetic Algorithm
+A GA is a heuristic technique used to improve results in a variety of applications.
+A previous study [41] shows how populations are represented as inputs in a chromosomal
+format and how they refine the parent population in each subsequent generation using
+three basic operations: selection, crossover, and mutation. The crossover process makes
+it easier for genetic features from the two parent organisms to combine. This is achieved
+by identifying a crossover spot on the parent chromosome structure. Following this,
+the last segment of one parent’s chromosome past the specified point is exchanged with
+the matching segment of the second parent’s chromosome and vice versa, creating a new
+population. The entire crossover process is illustrated in Figure 2 with the green arrows
+shows the process of exchanging the genes of two individuals. The offspring that are

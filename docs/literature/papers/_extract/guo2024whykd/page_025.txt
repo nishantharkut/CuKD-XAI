@@ -1,0 +1,123 @@
+Table H.6: ECE and Affinity of models with various data augmentation strengths.
+Dataset
+Metric
+Model
+T1wT2wSw
+T1wT2wSs
+T1sT2wSw
+T1sT2wSs
+T1wT2sSw
+T1wT2sSs
+T1sT2sSw
+T1sT2sSs
+Cifar100
+ECE
+0.0776
+0.0124
+0.1076
+0.0537
+0.0994
+0.0568
+0.1397
+0.0745
+Affinity
+0.9807
+0.8611
+0.9805
+0.9083
+0.9858
+0.9143
+0.9729
+0.9310
+Cifar100
+imb100
+ECE
+0.0979
+0.0103
+0.1114
+0.0465
+0.0711
+0.0482
+0.1303
+0.0651
+Affinity
+0.9763
+0.8132
+0.9810
+0.8637
+0.9751
+0.8635
+0.9723
+0.8955
+ImageNet
+ECE
+0.0275
+0.0095
+0.0233
+0.0118
+0.0126
+0.0107
+0.0122
+0.0193
+Affinity
+0.9901
+0.8767
+0.9930
+0.8988
+0.9845
+0.9131
+0.9871
+0.9122
+ImageNet
+long-tail
+ECE
+0.0322
+0.0226
+0.0357
+0.0224
+0.0494
+0.0307
+0.0499
+0.0178
+Affinity
+0.9850
+0.8311
+0.9755
+0.8704
+0.9782
+0.8751
+0.9903
+0.8971
+H(x) = −
+C
+X
+c=1
+ˆp(yc|x) log ˆp(yc|x)
+(H.1)
+For ECE calculation, we first group all the validation samples into M
+interval bins, which are defined based on the prediction confidence of the
+model for each sample. The ECE thus can be formulated as follows:
+ECE =
+M
+X
+m=1
+|Bm|
+N
+|Acc(Bm) −Conf(Bm)|
+(H.2)
+where Bm denotes the set of samples in the m-th bin. The function Acc(Bm)
+calculates the accuracy within bin Bm, while conf(Bm) computes the average
+predicted confidence of samples in the same bin.
+In Figure H.9 Top, a notable inverse relationship was observed between
+the entropy of the student model’s predictions and overfitting. While stronger
+data augmentation leading to increased entropy (indicative of lower con-
+fidence), there was a concurrent decrease in the tendency of the student
+model to overfit the training data, as evidenced by the reduction in the train-
+validation accuracy gap. Figure H.9 Bottom further compares the model cal-
+ibration reliability diagrams for KD with varied teacher numbers (from 1 to
+3) and data augmentation strengths. It can be observed that as the number
+of teachers increased or the augmentation strength increased (indicated by
+decreased Affinity), the student models exhibited better calibration.
+Table H.6 further provides the Expected Calibration Error (ECE) with
+corresponding Affinity values for all the trials with 2-teacher ensemble KD.
+25

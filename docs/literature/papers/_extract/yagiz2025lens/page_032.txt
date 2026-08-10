@@ -1,0 +1,71 @@
+Table 10: Comparison of model complexity and inference time per batch for multi-class
+classification scenarios.
+Dataset
+Student Model
+Teacher Model
+Parameters
+Inference Time (ms)
+Parameters
+Inference Time (ms)
+UKM20
+4,489
+11.92
+13,065
+13.41
+Edge-IIoTset
+9,167
+29.77
+22,415
+34.22
+NSL-KDD
+8,197
+28.00
+24,325
+31.00
+parameters. For Edge-IIoTset, the parameter count is 4,225 for the
+Student model and 12,545 for the Teacher model.
+• Inference Time: The Student model achieves superior inference times
+in binary classification tasks. For example, the inference time per batch
+for CTU-13 is 5 ms for the Student model, compared to 7 ms for the
+Teacher model. For Edge-IIoTset, the Student model achieves an in-
+ference time of 26.77 ms, whereas the Teacher model records 30.25 ms.
+Table 11: Comparison of model complexity and inference time per batch for binary clas-
+sification scenarios.
+Dataset
+Student Model
+Teacher Model
+Parameters
+Inference Time (ms)
+Parameters
+Inference Time (ms)
+CTU-13
+4,258
+5.00
+12,610
+7.00
+UKM20
+4,258
+5.00
+12,610
+9.00
+Edge-IIoTset
+4,225
+26.77
+12,545
+30.25
+NSL-KDD
+4,225
+8.44
+12,545
+9.31
+These results highlight the computational efficiency of the Student model,
+making it a suitable choice for resource-constrained environments without a
+substantial sacrifice in performance.
+4.5. Variable Attribution-Based Explainability Analysis
+To uncover the inner workings of the LENS-XAI model and ensure trans-
+parency, we implemented a variable attribution-based explainability approach,
+detailed in Algorithm 1. This method dissects model predictions by quanti-
+fying the contributions of individual features and latent variables, guarantee-
+ing local accuracy. By applying this approach to datasets such as CTU-13,
+UKM20, NSL-KDD, and Edge-IIoTset, we gained critical insights into the
+32

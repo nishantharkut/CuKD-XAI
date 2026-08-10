@@ -1,0 +1,87 @@
+	
+MCC =
+TP · TN −FP · FN
+√
+(TP + FP)(TP + FN)(TN + FP)(TN + FN)
+(23)
+•	 ROC-AUC: 
+	
+AUC =
+∫1
+0
+TPR(FPR) dFPR
+(24)
+•	
+•	 TruePositiveRate(TPR) =
+T P
+T P +F N
+•	 FalsePositiveRate(FPR) =
+F P
+F P +T N
+•	 Mean Absolute Error—MAE: 
+	
+MAE =
+n
+∑
+i=1
+predicted(i) −actual(i)
+n
+
+(25)
+•	 Mean Squared Error—MSE : 
+	
+MSE =
+n
+∑
+i=1
+(predicted(i) −actual(i))2
+n
+
+(26)
+•	 Root Mean Squared Error—RMSE: 
+	
+RMSE =
+
+
+
+
+n
+
+i=1
+(predicted(i) −actual(i))2
+n
+
+(27)
+ Here, n represents the total number of values.
+Performance analysis
+In our experiments, various data balancing techniques, including SMOTE TomekLink (STL), Generative 
+Adversarial Networks (GAN), and K-Means Sampling (KMS) and Principal Component Analysis (PCA) for 
+efficiently reducing the high-dimensional feature space while retaining the most significant information. Metrics 
+such as accuracy, precision, sensitivity, specificity, F1 score, kappa, MCC, ROC-AUC, MAE, MSE, and RMSE 
+were used to evaluate six models: Decision Tree Classifier (DTC), Random Forest Classifier (RFC), CatBoost 
+Classifier (CBC), XGBoost Classifier (XGBC), LightGBM Classifier (LGBC), and HistGradientBoosting 
+Classifier (HGBC). Among these combinations, the KMS+PCA+RFC model demonstrated the best performance, 
+achieving superior accuracy in detecting attacks effectively. This highlights the importance of selecting the 
+appropriate data balancing technique while retaining the most significant information and model for improving 
+the accuracy and reliability of IDS systems.
+Table 6 shows the performance of various ML models on the WSN dataset across three experimental setups: 
+STL, GAN, and KMS. Among these, the KMS+PCA+RFC combination consistently outperforms others, 
+achieving the highest metrics across all categories, including accuracy (99.94%), precision (99.94%), sensitivity 
+(99.94%), specificity (99.99%), f1-score (99.94%), Kappa (99.93%), MCC (99.93%), and ROC-AUC (99.99%). 
+Furthermore, KMS+PCA+RFC exhibits the lowest error rates, with minimal MAE (0.16), MSE (0.53), and 
+RMSE (7.30). These results highlight the effectiveness and robustness of the proposed KMS+PCA+RFC model 
+compared to other techniques such as DTC, CBC, XGBC, LGBC, and HGBC across different data balancing 
+methods.
+Table 7 illustrates the performance analysis of various hybrid machine learning models applied to the TON-
+IoT dataset under three data balancing techniques: STL, GAN and KMN. RFC consistently achieved the highest 
+performance across all setups, with near-perfect accuracy, specificity, and ROC-AUC scores, followed by XGBC, 
+which also exhibited strong results, especially under the KMS technique. Models like CBC and HGBC showed 
+reliable performance, with slight improvements using GAN balancing, while LGBC had the lowest metrics, 
+including higher error rates. The analysis highlights RFC and XGBC as the most effective models for the TON-
+IoT dataset, demonstrating their robustness and scalability across different data balancing techniques. The KMS 
+combined with the RFC achieved exceptional performance on the TON-IoT dataset, showcasing an accuracy of 
+99.97%, precision of 99.97%, sensitivity of 99.97%, specificity of 100.0%, F1 score of 99.97%, kappa of 99.97%, 
+Scientific Reports |         (2025) 15:4617 
+12
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

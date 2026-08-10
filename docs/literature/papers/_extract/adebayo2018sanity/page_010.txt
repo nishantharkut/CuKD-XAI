@@ -1,0 +1,53 @@
+saliency mask — regions in the image corresponding to an “edge” will have a distinct activation
+pattern from surrounding pixels. In contrast, pixel regions of the image which are more uniform will
+all have the same activation pattern, and thus the same value of
+∂
+∂xij l(x). Perhaps a similar principle
+applies for stacked convolutional layers.
+5.4
+The case of edge detectors.
+An edge detector, roughly speaking, is a classical tool to highlight sharp transitions in an image.
+Notably, edge detectors are typically untrained and do not depend on any predictive model. They are
+solely a function of the given input image. As some of the saliency methods we saw, edge detection
+is invariant under model and data transformations.
+In Figure 1 we saw that edge detectors produce images that are strikingly similar to the outputs of
+some saliency methods. In fact, edge detectors can also produce pictures that highlight features which
+coincide with what appears to be relevant to a model’s class prediction. However, here the human
+observer is at risk of conﬁrmation bias when interpreting the highlighted edges as an explanation of
+the class prediction. In Figure 37 (Appendix), we show a qualitative comparison of saliency maps of
+an input image with the same input image multiplied element-wise by the output of an edge detector.
+The result indeed looks strikingly similar, illustrating that saliency methods mostly use the edges of
+the image.
+While edge detection is a fundamental and useful image processing technique, it is typically not
+thought of as an explanation method, simply because it involves no model or training data. In light of
+our ﬁndings, it is not unreasonable to interpret some saliency methods as implicitly implementing
+unsupervised image processing techniques, akin to edge detection, segmentation, or denoising. To
+differentiate such methods from model-sensitive explanations, visual inspection is insufﬁcient.
+6
+Conclusion and future work
+The goal of our experimental method is to give researchers guidance in assessing the scope of model
+explanation methods. We envision these methods to serve as sanity checks in the design of new model
+explanations. Our results show that visual inspection of explanations alone can favor methods that
+may provide compelling pictures, but lack sensitivity to the model and the data generating process.
+Invariances in explanation methods give a concrete way to rule out the adequacy of the method for
+certain tasks. We primarily focused on invariance under model randomization, and label random-
+ization. Many other transformations are worth investigating and can shed light on various methods
+we did and did not evaluate. Along these lines, we hope that our paper is a stepping stone towards a
+more rigorous evaluation of new explanation methods, rather than a verdict on existing methods.
+Acknowledgments
+We thank the Google PAIR team for open source implementation of the methods used in this work.
+We thank Martin Wattenberg and other members of the Google Brain team for critical feedback
+and helpful discussions that helped improved the work. Lastly, we thank anonymous reviewers for
+feedback that helped improve the manuscript. We are also grateful to Leon Sixt for pointing out a
+bug in our Guided Backprop experiments in an earlier version of this work.
+References
+[1] Alfredo Vellido, José David Martín-Guerrero, and Paulo JG Lisboa. Making machine learning models
+interpretable. In ESANN, volume 12, pages 163–172. Citeseer, 2012.
+[2] Finale Doshi-Velez, Mason Kortz, Ryan Budish, Chris Bavitz, Sam Gershman, David O’Brien, Stuart
+Schieber, James Waldo, David Weinberger, and Alexandra Wood. Accountability of ai under the law: The
+role of explanation. arXiv preprint arXiv:1711.01134, 2017.
+[3] Bryce Goodman and Seth Flaxman. European union regulations on algorithmic decision-making and a"
+right to explanation". arXiv preprint arXiv:1606.08813, 2016.
+[4] Jorge Casillas, Oscar Cordón, Francisco Herrera Triguero, and Luis Magdalena. Interpretability issues in
+fuzzy modeling, volume 128. Springer, 2013.
+10

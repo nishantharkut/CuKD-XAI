@@ -1,0 +1,115 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+on with a more focused understanding by concentrating on
+these last retrieved aspects, which will help with subsequent
+modeling or decision-making procedures.
+E. TIGAN: GENERATIVE QUALITY & STATISTICAL
+VALIDATION
+The reliability of the samples generated from the TIGAN is
+assured through performing both qualitative and quantitative
+evaluations on the samples created from this generator. Most
+previous Work related to the generation of Synthetic Data
+for use in Tabular ID systems has relied upon Classification
+Accuracy determined after training as an indirect method for
+assessing quality, however this method does not typically
+identify mode collapse or low diversity of generated data.
+The authors believe that this is the first effort which has
+involved utilizing industry standard computer vision metrics
+to confer reliability upon the quality of synthetic Tabular to
+Image IoT Traffic Data, and therefore sets a new standard for
+the evaluation of the Cleanliness of Synthetic Data generated
+for use in Intrusion Detection Systems.
+1) VISUAL FIDELITY
+In the analysis we conducted of TIGAN’s output with
+9 randomly selected sample images as shown in Fig. 2.,
+we performed a side-by-side comparison against 9 synthetic
+images generated through TIGAN. The results of our
+visual inspection demonstrate that TIGAN can replicate the
+complex textural patterns and color distributions seen in
+actual network traffic imagery. Additionally, the synthesized
+network traffic imagery show similar spatial correlations to
+those of the actual minority class samples. This indicates that
+TIGAN has learned to model the underlying feature manifold
+of the minority class, instead of simply memorizing data
+points from that class.
+2) QUANTITATIVE METRICS (FID & IS)
+We used the Fréchet Inception Distance (FID) and Inception
+Score (IS) to measure this fidelity objectively. While IS
+assesses the diversity and clarity of the generated samples
+(higher is better), FID measures the difference between the
+feature distributions of real and synthetic images (lower is
+better). According to our evaluation results, TIGAN’s FID
+score of 11.24 was considerably lower than that of typical
+GAN implementations, which typically range between 20 and
+40 on complex datasets. Additionally, the model obtained a
+Inception Score (IS) of 4.15, indicating that TIGAN does not
+produce generic noise but rather a variety of attack patterns
+that are sufficiently different for the classifier to discriminate.
+This statistical validation demonstrates that high-quality,
+statistically representative synthetic data are responsible for
+the performance improvements seen in TICNN.
+F. LIMITATIONS OF IMAGE-BASED IDS
+An image created from a table-based dataset results in greater
+efficiency, though processing effort is required to achieve
+this benefit. For instance, packet size represents a field in a
+table and has a specific interpretation based on the network
+attribute it represents while the image does not maintain that
+same reference. Therefore, referring to the image, a neural
+network will still identify patterns, but tracking a predicted
+output back to the network packet field that resulted in that
+prediction is much more complex through a convolutional
+neural network than it is when using a decision tree model.
+Additionally, regarding the practical deployment of
+TIGAN, there is a trade-off between the ‘offline’ training cost
+and ‘online’ detection benefits. While training TIGAN for
+minority subclasses requires approximately 360–800 seconds
+per class, this is a one-time computational investment.
+The resulting balanced TICNN model provides ultra-low
+latency packet detection (1.5–2.9 ms), which is critical
+for real-time IoT security. However, several limitations
+remain. First, the current approach relies on feature-rich
+network headers; its effectiveness may decrease when dealing
+with heavily encrypted traffic where payload inspection is
+impossible. Second, the model is currently designed for static
+training cycles. In online learning scenarios, where new
+IoT threats evolve dynamically, the system would require
+periodic retraining or a more adaptive incremental learning
+architecture to maintain its edge.
+V. CONCLUSION
+In summary, this research illustrates how converting large,
+multidimensional IoT datasets into two-dimensional images
+can help alleviate memory limitations by enabling four
+times more effective data compression, thereby allowing
+more rapid data processing. Furthermore, the use of the
+TIGAN-generated hybrid sampling method combined with
+a lightweight TICNN provides nearly perfect (over 99%)
+macro-level classification across more than 33 attack types.
+Therefore, this framework delivers a scalable real-time IDS
+(Intrusion Detection System) with the capability to accurately
+identify infrequent attacks while minimizing the impact on
+IoT (Internet of Things) edge device resource constraints.
+REFERENCES
+[1] L. Yang and A. Shami, ‘‘A transfer learning and optimized CNN based
+intrusion detection system for Internet of Vehicles,’’ in Proc. IEEE Int.
+Conf. Commun., May 2022, pp. 2774–2779.
+[2] Y. B. Sanap and P. G. Aher, ‘‘Deep learning method for detecting and
+mitigating distributed denial of service attacks with imbalanced data,’’ in
+Proc. Int. Conf. Integr. Circuits Commun. Syst. (ICICACS), Feb. 2024,
+pp. 1–8.
+[3] H. Benaddi, M. Jouhari, K. Ibrahimi, A. Benslimane, and E. M. Amhoud,
+‘‘Adversarial attacks against IoT networks using conditional GAN
+based learning,’’ in Proc. IEEE Global Commun. Conf., Dec. 2022,
+pp. 2788–2793.
+[4] C. Park, J. Lee, Y. Kim, J.-G. Park, H. Kim, and D. Hong, ‘‘An enhanced
+AI-based network intrusion detection system using generative adversarial
+networks,’’ IEEE Internet Things J., vol. 10, no. 3, pp. 2330–2345,
+Feb. 2023.
+[5] H. Ding, Y. Sun, N. Huang, Z. Shen, and X. Cui, ‘‘TMG-GAN: Generative
+adversarial networks-based imbalanced learning for network intrusion
+detection,’’ IEEE Trans. Inf. Forensics Security, vol. 19, pp. 1156–1167,
+2024.
+[6] H. Alfares and O. Banimelhem, ‘‘Comparative analysis of machine
+learning techniques for handling imbalance in IoT-23 dataset for intrusion
+detection systems,’’ in Proc. 11th Int. Conf. Internet Things: Syst., Manage.
+Secur. (IOTSMS), Sep. 2024, pp. 112–119.
+23426
+VOLUME 14, 2026

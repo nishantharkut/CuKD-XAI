@@ -1,0 +1,98 @@
+20
+earlier, lower precision is required for analog computation due
+to circuit non-idealities.
+In [111], the matrix multiplication is integrated into the
+ADC, where the most signiﬁcant bits of the multiplications
+are performed using switched capacitors in an 8-bit successive
+approximation format. This is extended in [112] to not only
+perform the multiplications, but also the accumulations in the
+analog domain. In this work, it is assumed that 3-bits and
+6-bits are sufﬁcient to represent the weights and activations,
+respectively. This reduces the number of ADC conversions in
+the sensor by 21×. RedEye [113] takes this approach even
+further by performing the entire convolution layer (including
+convolution, max pooling and quantization) in the analog
+domain at the sensor. It should be noted that [111] and [112]
+report measured results from fabricated test chips, while results
+in [113] are from simulations.
+It is also feasible to embed the computation not just before
+the ADC, but into the sensor itself. For instance, in [114] an
+Angle Sensitive Pixels sensor is used to compute the gradient
+of the input, which along with compression, reduces the data
+movement from the sensor by 10×. In addition, since the
+ﬁrst layer of the DNN often outputs a gradient-like feature
+map, it maybe possible to skip the computations in the ﬁrst
+layer, which further reduces energy consumption as discussed
+in [115, 116].
+VII. CO-DESIGN OF DNN MODELS AND HARDWARE
+In earlier work, the DNN models were designed to maximize
+accuracy without much consideration of the implementation
+complexity. However, this can lead to designs that are chal-
+lenging to implement and deploy. To address this, recent
+work has shown that DNN models and hardware can be co-
+designed to jointly maximize accuracy and throughput, while
+minimizing energy and cost, which increases the likelihood of
+adoption. In this section, we will highlight various efforts that
+have been made towards the co-design of DNN models and
+hardware. Note that unlike Section V, the techniques discussed
+in this section can affect the accuracy; thus, the goal is to
+not only substantially reduce energy consumption and increase
+throughput, but also to minimize any degradation in accuracy.
+The co-design approaches can be loosely grouped into the
+following categories:
+• Reduce precision of operations and operands. This in-
+cludes going from ﬂoating point to ﬁxed point, reducing
+the bitwidth, non-linear quantization and weight sharing.
+• Reduce number of operations and model size. This
+includes techniques such as compression, pruning and
+compact network architectures.
+A. Reduce Precision
+Quantization involves mapping data to a smaller set of
+quantization levels. The ultimate goal is to minimize the error
+between the reconstructed data from the quantization levels and
+the original data. The number of quantization levels reﬂects the
+precision and ultimately the number of bits required to represent
+the data (usually log2 of the number of levels); thus, reduced
+precision refers to reducing the number of levels, and thus
+(a) Linear Quantization
+(b) Log Quantization
+(c) Non-Linear Quantization
+Fig. 37. Various methods of quantization (Figures from [117, 118]).
+the number of bits. The beneﬁts of reduced precision include
+reduced storage cost and/or reduced computation requirements.
+There are several ways to map the data to quantization levels.
+The simplest method is a linear mapping with uniform distance
+between each quantization level (Fig. 37(a)). Another approach
+is to use a simple mapping function such as a log function
+(Fig. 37(b)) where the distance between the levels varies; this
+mapping can often be implemented with simple logic such as a
+shift. Alternatively, a more complex mapping function can be
+used where the quantization levels are determined or learned
+from the data (Fig. 37(c)), e.g., using k-means clustering; for
+this approach, the mapping is usually implemented with a look
+up table.
+Finally, the quantization can be ﬁxed (i.e., the same method
+of quantization is used for all data types and layers, ﬁlters, and
+channels in the network); or it can be variable (i.e., different
+methods of quantization can be used for weights and activations,
+and different layers, ﬁlters, and channels in the network).
+Reduced precision research initially focused on reducing
+the precision of the weights rather than the activations, since
+weights directly increase the storage capacity requirement,
+while the impact of activations on storage capacity depends on
+the network architecture and dataﬂow. However, more recent
+works have also started to look at the impact of quantization
+on activations. Most reduced precision research also focuses
+on reducing the precision for inference rather than training
+(with some exceptions [88, 119, 120]) due to the sensitivity of
+the gradients to quantization.
+The key techniques used in recent work to reduce precision
+are summarized in Table III; both linear and non-linear
+quantization applied to weights and activations are explored.
+The impact on accuracy is reported relative to a baseline
+precision of 32-bit ﬂoating point, which is the default precision
+used on platforms such as GPUs and CPUs.
+1) Linear quantization: The ﬁrst step of reducing precision
+is usually to convert values and operations from ﬂoating point
+to ﬁxed point. A 32-bit ﬂoating point number, as shown in
+Fig. 38(a), is represented by (−1)s × m × 2(e−127), where s

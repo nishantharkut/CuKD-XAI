@@ -1,0 +1,91 @@
+Benchmarking TinyML Systems
+Table 3. TinyMLPerf Benchmarking Suite
+USE CASE
+DATASETS
+MODEL
+AUDIO WAKE WORDS
+SPEECH COMMANDS (WARDEN, 2018A)
+DS-CNN (ZHANG ET AL., 2017)
+VISUAL WAKE
+WORDS
+VISUAL WAKE WORDS DATASET
+(CHOWDHERY ET AL., 2019)
+DS-CNN (TFLM-PERSON-DETECTION)
+IMAGE
+CLASSIFICATION
+CIFAR10(KRIZHEVSKY ET AL., 2009A)
+RESNET 8 (HE ET AL., 2016)
+ANOMALY
+DETECTION
+TOYADMOS (TOY CAR)(KOIZUMI ET AL.,
+2019)
+DEEP AUTOENCODER (KOIZUMI ET AL.,
+2020)
+more, the datasets can be used to train a new or modiﬁed
+model in the open division. We have selected datasets that
+are open, well known, and relevant to industry use cases.
+6.4
+Model Selection
+The group has selected four reference models. These ref-
+erence models are the benchmark workloads in the closed
+division and act as a baseline for the open division. The DS-
+CNN described in (Zhang et al., 2017) have been selected
+for audio wake words. The MobilenetV1(Howard et al.,
+2017) used in the TensorFlow Lite for Microcontrollers
+person detection example (TFLM-Person-Detection) has
+been selected for visual wake words. An eight layer ResNet
+model (He et al., 2016) has been selected for image clas-
+siﬁcation. The baseline deep autoencoder from Task 2 of
+DCASE2020 competetition has been selected for anomaly
+detection. (Koizumi et al., 2020). The models were se-
+lected, based on industry input, to be representative of their
+respective use cases.
+6.5
+Metrics
+The benchmarking suite will primarily measure inference
+latency with the option to measure energy consumption. The
+scope of the the the measurements is determined by each
+benchmark. In the open division the accuracy of the model
+must remain within a set threshold of the closed division
+model.
+6.6
+Future work
+Perfection is often the enemy of good, therefore, to ﬁll
+the community’s need for comparability, our priority is to
+quickly establish a set of minimum viable benchmarks and
+iteratively address deﬁciencies. The benchmarking suite
+will continue to evolve to meet the needs of the community.
+We plan to accept result submissions in March of 2021.
+7
+CONCLUSION
+In conclusion, TinyML is an important and rapidly evolving
+ﬁeld that requires comparability amongst hardware inno-
+vations to enable continued progress and stability. In this
+paper, we reviewed the current landscape of TinyML, in-
+cluding highlighting the need for a hardware benchmark.
+Additionally, we analyzed challenges associated with devel-
+oping said benchmark and discussed a path forward. Finally,
+we have selected use cases, datasets, and models for our
+four benchmarks.
+If you would like to contribute to the effort, join the work-
+ing group here: https://groups.google.com/u/
+4/a/mlcommons.org/g/tiny
+The benchmark suite is available here:
+https://
+github.com/mlcommons/tiny
+REFERENCES
+Helium: Enhancing the capabilities of the smallest de-
+vices.
+URL https://www.arm.com/why-arm/
+technologies/helium.
+Altun, K., Barshan, B., and Tunc¸el, O. Comparative study
+on classifying human activities with miniature inertial and
+magnetic sensors. Pattern Recognition, 43:3605–3620,
+10 2010. doi: 10.1016/j.patcog.2010.04.019.
+Amir, A., Taba, B., Berg, D., Melano, T., McKinstry, J.,
+Nolfo, C. D., Nayak, T., Andreopoulos, A., Garreau,
+G., Mendoza, M., Kusnitz, J., Debole, M., Esser, S.,
+Delbruck, T., Flickner, M., and Modha, D.
+A low
+power, fully event-based gesture recognition system. In
+2017 IEEE Conference on Computer Vision and Pattern

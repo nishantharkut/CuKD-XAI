@@ -1,0 +1,175 @@
+27
+Metrics
+AlexNet
+GoogLeNet v1
+dense
+sparse
+dense
+sparse
+Top-5 error
+19.6
+20.4
+11.7
+12.7
+Number of CONV Layers
+5
+5
+57
+57
+Depth in
+(Number of CONV Layers)
+5
+5
+21
+21
+Filter Sizes
+3,5,11
+1,3,5,7
+Number of Channels
+3-256
+3-832
+Number of Filters
+96-384
+16-384
+Stride
+1,4
+1,2
+NZ Weights
+2.3M
+351k
+6.0M
+1.5M
+NZ MACs
+395M
+56.4M
+806M
+220M
+FC Layers
+3
+3
+1
+1
+Filter Sizes
+1,6
+1
+Number of Channels
+256-4096
+1024
+Number of Filters
+1000-4096
+1000
+NZ Weights
+58.6M
+5.4M
+1M
+870k
+NZ MACs
+14.5M
+1.9M
+635k
+663k
+Total NZ Weights
+61M
+5.7M
+7M
+2.4M
+Total NZ MACs
+410M
+58.3M
+806M
+221M
+TABLE IV
+METRICS FOR POPULAR DNN MODELS. SPARSITY IS ACCOUNT FOR BY
+REPORTING NON-ZERO (NZ) WEIGHTS AND MACS.
+consistent.13 Note that accounting for the number of non-zero
+(NZ) operations signiﬁcantly reduces the number of MACs
+and weights. Since the number of NZ MACs depends on the
+input data, we propose using the publicly available 50,000
+validation images from ImageNet for the computation. Finally,
+there are various methods to reduce the weights in a DNN
+(e.g., network pruning in Section VII-B2). Table IV shows
+another example of these DNN model metrics, by comparing
+sparse DNNs pruned using [142] to dense DNNs.
+B. Metrics for DNN Hardware
+To measure the efﬁciency of the DNN hardware, we should
+consider the following additional metrics:
+• The power and energy consumption of the design should
+be reported for various DNN models; the DNN model
+speciﬁcations should be provided including which layers
+and bit precision are supported by the hardware during
+measurement. In addition, the amount of off-chip accesses
+(e.g., DRAM accesses) should be included since it
+accounts for a signiﬁcant portion of the system power; it
+can be reported in terms of the total amount of data that
+is read and written off-chip per inference.
+• The latency and throughput should be reported in terms
+of the batch size and the actual run time for various
+DNN models, which accounts for mapping and memory
+bandwidth effects. This provides a more useful and
+informative metric than peak throughput.
+• The cost of the chip depends on the area efﬁciency, which
+accounts for the size and type of memory (e.g., registers
+or SRAM) and the amount of control logic. It should be
+13Data augmentation is often used to increase accuracy. This includes using
+multiple crops of an image to account for misalignment; in addition, an
+ensemble of multiple models can be used where each model has different
+weights due to different training settings, such as using different initializations
+or datasets, or even different network architectures. If multiple crops and
+models are used, then the number of MACs and weights required would
+increase.
+reported in terms of the core area in squared millimeters
+per multiplier along with process technology.
+In terms of cost, different platforms will have different
+implementation-speciﬁc metrics. For instance, for an FPGA,
+the speciﬁc device should be reported, along with the utilization
+of resources such as DSP, BRAM, LUT and FF; performance
+density such as GOPs/slice can also be reported.
+Each processor should report various speciﬁcations for each
+metric as shown in Table V, using the Eyeriss chip as an
+example. It is important that all metrics and speciﬁcations are
+accounted for in order fairly evaluate all the design trade-offs.
+For instance, without the accuracy given for a speciﬁc dataset
+and task, one could run a simple DNN and easily claim low
+power, high throughput, and low cost – however, the processor
+might not be usable for a meaningful task; alternatively, without
+reporting the off-chip bandwidth, one could build a processor
+with only multipliers and easily claim low cost, high throughput,
+high accuracy, and low chip power – however, when evaluating
+system power, the off-chip memory access would be substantial.
+Finally, the test setup should also be reported, including whether
+the results are measured or obtained from simulation14 and
+how many images were tested.
+In summary, the evaluation process for whether a DNN
+system is a viable solution for a given application might go as
+follows: (1) the accuracy determines if it can perform the given
+task; (2) the latency and throughput determine if it can run fast
+enough and in real-time; (3) the energy and power consumption
+will primarily dictate the form factor of the device where the
+processing can operate; (4) the cost, which is primarily dictated
+by the chip area, determines how much one would pay for this
+solution.
+IX. SUMMARY
+The use of deep neural networks (DNNs) has seen explosive
+growth in the past few years. They are currently widely used
+for many artiﬁcial intelligence (AI) applications including
+computer vision, speech recognition and robotics and are often
+delivering better than human accuracy. However, while DNNs
+can deliver this outstanding accuracy, it comes at the cost
+of high computational complexity. Consequently, techniques
+that enable efﬁcient processing of deep neural network to
+improve energy-efﬁciency and throughput without sacriﬁcing
+accuracy with cost-effective hardware are critical to expanding
+the deployment of DNNs in both existing and new domains.
+Creating a system for efﬁcient DNN processing should
+begin with understanding the current and future applications
+and the speciﬁc computations required both now and the
+potential evolution of those computations. This article surveys a
+number of the current applications, focusing on computer vision
+applications, the associated algorithms, and the data being used
+to drive the algorithms. These applications, algorithms and
+input data are experiencing rapid change. So extrapolating
+these trends to determine the degree of ﬂexibility desired to
+handle next generation computations, becomes an important
+ingredient of any design project.
+14If obtained from simulation, it should be clariﬁed whether it is from
+synthesis or post place-and-route and what library corner was used.

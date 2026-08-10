@@ -1,0 +1,24 @@
+are computed for ImageNet explanation masks. We do this because these metrics are suited to natural images,
+and to avoid the somewhat artiﬁcial structure of Fashion MNIST and MNIST images. We conduct two kinds
+of calibration exercises. First we measure, for each metric, the similarity between an explanation mask and a
+randomly sampled (Uniform or Gaussian) mask. Second, we measure, for each metric, the similarity between
+two randomly sampled explanation masks (Uniform or Gaussian). Together, these two tasks allow us to see if
+high values for a particular metric indeed correspond to meaningfully high values.
+We use the skimage HOG function with a (16, 16) pixels per cell. Note that the input to the HOG func-
+tion is 299 by 229 with the values normalized to [-1, +1]. We also used the skimage SSIM function with
+a window size of 5. We obtained the gradient saliency maps for 50 images in the ImageNet validation set.
+We then compare these under the two settings described above; we report the average across these 50 im-
+ages as the following tuple: (Rank correlation with no absolute value, Rank correlation with absolute value,
+HOGs Metric, SSIM). The average similarity between the gradient mask and random Gaussian mask is:
+(−0.00049, 0.00032, −0.0016, 0.00027). We repeat this experiment for Integrated gradient and gradient⊙input
+and obtained: (0.00084, 0.00059, 0.0048, 0.00018), and (0.00081, 0.00099, −0.0024, 0.00023). We now re-
+port results for the above metrics for similarity between two random masks. For uniform distribution [-1, 1],
+we obtain the following similarity: (0.00016, −0.0015, 0.078, 0.00076). For Gaussian masks with mean zero
+and unit variance that has been normalized to lie in the range [-1, 1], we obtain the following similarity metric:
+(0.00018, 0.00043, −0.0013, 0.00023).
+C
+Additional Figures
+We now present additional ﬁgures referenced in the main text.
+Cascading Randomization Guided BackProp InceptionV3
+Figure 8: Cascading Randomization for several examples for Guided Backpropagation.
+15

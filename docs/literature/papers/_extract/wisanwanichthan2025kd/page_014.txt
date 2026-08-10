@@ -1,0 +1,69 @@
+Computers 2025, 14, 291
+14 of 25
+It is worth noting that the inference time (second) is calculated as the average of ten
+runs under the same environment and settings, measured per one data entry (row), and
+multiplied with (10−5). Changes in the number of parameters and inference speed are
+compared against the teacher model, while metrics such as accuracy, precision, recall, and
+F1 score are compared against the student model without KD to assess improvements on
+the knowledge transfer.
+Hardware/software: All experiments ran on a workstation (Windows 10, Intel Core i9
+9900 3.10 GHz, 32 GB of RAM, and Nvidia RTX 2070 Super).
+4.1. NSL-KDD
+The results from the NSL-KDD dataset (Table 8) demonstrate the trade-off between
+model complexity and performance, as well as the effectiveness of KD in enhancing
+lightweight models. The teacher model, a deep neural network with 224,657 parameters,
+achieves the highest overall performance, including an accuracy of 77.22%, precision of
+82.16%, and F1 score of 73.05%. However, its large size results in a slower inference speed
+of 2.935 × 10−5 s per instance, which limits its practicality in real-time applications. The
+student model without KD, significantly smaller with only 13,649 parameters (a 93.93%
+reduction), achieves a slightly lower accuracy of 75.96% and a modest drop in F1 score to
+70.97%, despite maintaining a comparable precision of 82.06%. Its inference speed improves
+to 2.630 × 10−5 s, making it better suited for deployment, but the reduced F1 score indicates
+diminished recall, especially for minority classes.
+After applying KD, the student model shows consistent improvements across all
+metrics while maintaining a compact architecture and fast inference. Accuracy increases
+to 76.73% and F1 score to 71.83%. Inference speed further improves to 2.599 × 10−5 s, a
+reduction of 11.45% compared to the teacher. Analysis of the confusion matrices and ROC
+curves (Figures 2 and 3) provides additional insight. The teacher model achieves strong
+class separation, with AUC values of 0.96 for DoS and U2R, 0.93 for probe, and 0.91 for
+normal. The KD-enhanced student closely follows, reaching AUC values of 0.98 for U2R
+and 0.91 for DoS, while reducing misclassifications such as Probe incorrectly labeled as
+DoS (185 vs. 253 without KD). In contrast, the non-distilled student performs worse on rare
+classes like R2L and Probe, where AUC drops to 0.70 and 0.89, respectively. These findings
+highlight KD’s role in transferring generalization capability from the teacher, improving
+the student’s performance even under class imbalance. However, this dataset suffers from
+severe class imbalance in training; as such, the models rarely predict R2L and U2R correctly
+without leveraging other techniques.
+Table 8. Comparison of teacher and student models on the NSL-KDD dataset.
+Model’s Architecture
+No. of Parameters
+Accuracy (%)
+Precision (%)
+F1 Score (%)
+Inference Time
+Deep Neural Network
+(Teacher)
+224,657
+77.22
+82.16
+73.05
+2.935
+Shallow Neural Network
+(Student without KD)
+13,649
+75.96
+82.06
+70.97
+2.630
+Shallow Neural Network
+(Student with KD)
+13,649
+(93.93%)
+76.73
+(+0.77%)
+82.62
+(+0.56%)
+71.83
+(+0.86%)
+2.599
+(−11.45%)

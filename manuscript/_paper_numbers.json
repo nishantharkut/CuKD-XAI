@@ -1,0 +1,636 @@
+{
+  "freeze_claims": {
+    "C1_compression": "Under train-only scaler random-row 10-seed evaluation, RF-KD students retain macro-F1 0.9203\u00b10.0065 (A, 1189 params) and 0.9392\u00b10.0129 (B, 3397 params).",
+    "C2_kd_sensitive_to_split": "Student A RF-KD minus scratch macro-F1 is +0.0094 paired under train-only random-row (t p\u22480.048) but +0.0002 under feature-group disjoint 5-seed (t p\u22480.95). KD benefit is split-construction sensitive.",
+    "C3_minority_tradeoff": "Macro-F1 can hide minority-class costs: under FG, Student B RF-KD loses ~0.023 Blackhole and ~0.016 Grayhole F1 vs scratch while gaining Flooding/TDMA.",
+    "C4_deployment_fidelity": "For the deployment-clean seed-42 RF-KD unit, MCU predictions match fixed-point references on all 56200 vectors (agree=1.0) on ESP32-C3 and Arduino R4; float-to-fixed macro-F1 drop is ~0.024 (A) and ~0.027 (B).",
+    "C5_host_conversion": "ONNX FP32 and OpenVINO FP32 agree with PyTorch at 1.0 for deployment RF-KD graphs; dynamic INT8 reduces size but costs substantial macro-F1.",
+    "C6_xai_deployment": "On the deployment-clean seed-42 RF-KD students, global SHAP rank agreement with an RF teacher is low and non-significant (A rho=0.238, p=0.358; B rho=0.225, p=0.384; bootstrap mean rho A=0.178+/-0.086, B=0.162+/-0.055). This extends the archived curriculum-KD misalignment finding to the actual deployment RF-KD units.",
+    "C7_codistill_train_only": "Under train-only 10-seed co-distillation, J macro-F1 is A 0.9158+/-0.0026 and B 0.9323+/-0.0141. J underperforms RF-KD (A d~-0.0046, B d~-0.0069) and must not be claimed superior without deltas.",
+    "C8_clext_instability": "Curriculum-ext under the multi-config train-only pipeline collapses at seed 5678 (macro-F1~0.41, Blackhole/Grayhole F1=0). Isolated set_seed(5678) re-runs recover healthy macro-F1~0.9145 (5/5 trials). Report original collapse with disclosure; attribute to multi-config RNG path contingency, not inherent seed failure under clean seeding.",
+    "C9_per_route_seed": "Per-route set_seed RF-KD (A) mean macro-F1 0.9138 vs multi-config pipeline 0.9203 (\u0394=-0.0066, paired t p=0.03718338057066324). Dual identity (pipeline vs deployment-clean) is measured, not assumed equal.",
+    "C10_edge_group_aware": "Literature-comparable Edge-IIoTset group-aware splits remove pre-encode cross-partition groups (~17% test exposure under random-row). Student A RF-KD macro-F1 mean 0.7676+/-0.0079 (n=5) with KD-scratch +0.0340; absolute scores are lower than random-row literature protocol (A RF-KD ~0.812)."
+  },
+  "forbidden": [
+    "X1: RF-KD is the strongest ultra-small route (unqualified).",
+    "X2: Deployment seed-42 F1 0.9485 is the multi-seed table's seed-42 cell.",
+    "X3: Fixed-point conversion meets a 0.01 macro-F1 drop gate for these deploy weights.",
+    "X4: Unqualified co-distillation superiority under train-only scaler.",
+    "X5: Deployment RF-KD preserves RF teacher global SHAP ranking (rho > 0.7)."
+  ],
+  "A_configs": [
+    {
+      "Config": "A_RF_500",
+      "MacroF1_mean": 0.9788502941560824,
+      "MacroF1_std": 0.0002670496364152,
+      "Accuracy_mean": 0.9965907473309608,
+      "params": NaN,
+      "size_kb": 85185.99609375
+    },
+    {
+      "Config": "B_Full_MLP",
+      "MacroF1_mean": 0.9226887762531352,
+      "MacroF1_std": 0.0020062386205199,
+      "Accuracy_mean": 0.9872633451957296,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C2_CL_MLP_domain",
+      "MacroF1_mean": 0.9131371118601588,
+      "MacroF1_std": 0.0045405767015448,
+      "Accuracy_mean": 0.9856548042704628,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss",
+      "MacroF1_mean": 0.9135861700874944,
+      "MacroF1_std": 0.0038551845773975,
+      "Accuracy_mean": 0.9857259786476869,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss_ext",
+      "MacroF1_mean": 0.8674204900984448,
+      "MacroF1_std": 0.1616812906197555,
+      "Accuracy_mean": 0.9785907473309609,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss_fair",
+      "MacroF1_mean": 0.9135861700874944,
+      "MacroF1_std": 0.0038551845773975,
+      "Accuracy_mean": 0.9857259786476869,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "D_Small_MLP",
+      "MacroF1_mean": 0.910902993186332,
+      "MacroF1_std": 0.0068434659889499,
+      "Accuracy_mean": 0.984364768683274,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "E2_KD_from_MLP",
+      "MacroF1_mean": 0.9120394941841938,
+      "MacroF1_std": 0.0023354268049633,
+      "Accuracy_mean": 0.9853914590747332,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "E_KD_from_RF",
+      "MacroF1_mean": 0.9203444861873752,
+      "MacroF1_std": 0.006513084530571,
+      "Accuracy_mean": 0.9869430604982206,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP",
+      "MacroF1_mean": 0.9104895552870976,
+      "MacroF1_std": 0.00310359067994,
+      "Accuracy_mean": 0.9850658362989324,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP_ext",
+      "MacroF1_mean": 0.8936578199261115,
+      "MacroF1_std": 0.0554210593453872,
+      "Accuracy_mean": 0.9811743772241992,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP_fair",
+      "MacroF1_mean": 0.9104895552870976,
+      "MacroF1_std": 0.00310359067994,
+      "Accuracy_mean": 0.9850658362989324,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "G_KD_random_pacing",
+      "MacroF1_mean": 0.910808556743555,
+      "MacroF1_std": 0.0037540644559261,
+      "Accuracy_mean": 0.9851814946619216,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    },
+    {
+      "Config": "I_KD_from_SMOTE_MLP",
+      "MacroF1_mean": 0.9084987350325012,
+      "MacroF1_std": 0.0049628134318509,
+      "Accuracy_mean": 0.9847081850533808,
+      "params": 1189.0,
+      "size_kb": 4.64453125
+    }
+  ],
+  "B_configs": [
+    {
+      "Config": "A_RF_500",
+      "MacroF1_mean": 0.9788502941560824,
+      "MacroF1_std": 0.0002670496364152,
+      "Accuracy_mean": 0.9965907473309608,
+      "params": NaN,
+      "size_kb": 85185.99609375
+    },
+    {
+      "Config": "B_Full_MLP",
+      "MacroF1_mean": 0.9226887762531352,
+      "MacroF1_std": 0.0020062386205199,
+      "Accuracy_mean": 0.9872633451957296,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C2_CL_MLP_domain",
+      "MacroF1_mean": 0.9131371118601588,
+      "MacroF1_std": 0.0045405767015448,
+      "Accuracy_mean": 0.9856548042704628,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss",
+      "MacroF1_mean": 0.9135861700874944,
+      "MacroF1_std": 0.0038551845773975,
+      "Accuracy_mean": 0.9857259786476869,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss_ext",
+      "MacroF1_mean": 0.8674204900984448,
+      "MacroF1_std": 0.1616812906197555,
+      "Accuracy_mean": 0.9785907473309609,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "C_CL_MLP_loss_fair",
+      "MacroF1_mean": 0.9135861700874944,
+      "MacroF1_std": 0.0038551845773975,
+      "Accuracy_mean": 0.9857259786476869,
+      "params": 69893.0,
+      "size_kb": 273.01953125
+    },
+    {
+      "Config": "D_Small_MLP",
+      "MacroF1_mean": 0.9313411490547344,
+      "MacroF1_std": 0.0065751066818356,
+      "Accuracy_mean": 0.988729537366548,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "E2_KD_from_MLP",
+      "MacroF1_mean": 0.9177373468634772,
+      "MacroF1_std": 0.0045751764188045,
+      "Accuracy_mean": 0.986432384341637,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "E_KD_from_RF",
+      "MacroF1_mean": 0.939173439381416,
+      "MacroF1_std": 0.0129146695416726,
+      "Accuracy_mean": 0.9901886120996444,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP",
+      "MacroF1_mean": 0.9165800629470008,
+      "MacroF1_std": 0.0050700085644064,
+      "Accuracy_mean": 0.9862099644128112,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP_ext",
+      "MacroF1_mean": 0.9045384603426354,
+      "MacroF1_std": 0.0420776047449128,
+      "Accuracy_mean": 0.9830925266903916,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "F_KD_from_CL_MLP_fair",
+      "MacroF1_mean": 0.9165800629470008,
+      "MacroF1_std": 0.0050700085644064,
+      "Accuracy_mean": 0.9862099644128112,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "G_KD_random_pacing",
+      "MacroF1_mean": 0.9166090054476952,
+      "MacroF1_std": 0.0048973413737985,
+      "Accuracy_mean": 0.9861387900355872,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    },
+    {
+      "Config": "I_KD_from_SMOTE_MLP",
+      "MacroF1_mean": 0.9175610787186456,
+      "MacroF1_std": 0.008771972331587,
+      "Accuracy_mean": 0.9863540925266904,
+      "params": 3397.0,
+      "size_kb": 13.26953125
+    }
+  ],
+  "ladder_A": [
+    {
+      "student": "A",
+      "protocol": "archived_presplit_scaler_random_row_10seed",
+      "rf_kd_macro_f1_mean": 0.9199713533197722,
+      "rf_kd_macro_f1_std": 0.0031241763505348,
+      "scratch_macro_f1_mean": 0.9123026008546002,
+      "scratch_macro_f1_std": 0.0062229610520569,
+      "kd_minus_scratch_mean_of_means": 0.007668752465171957,
+      "paired_t_p": null,
+      "paired_wilcoxon_p": null,
+      "n_seeds": 10,
+      "pairing_note": "archived package stores aggregates only; delta is mean-of-means not seed-paired"
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_scaler_random_row_10seed",
+      "rf_kd_macro_f1_mean": 0.9203444861873752,
+      "rf_kd_macro_f1_std": 0.00651308453057103,
+      "scratch_macro_f1_mean": 0.910902993186332,
+      "scratch_macro_f1_std": 0.006843465988949987,
+      "kd_minus_scratch_mean_paired": 0.009441493001043211,
+      "kd_minus_scratch_std_paired": 0.013049524450539111,
+      "paired_t_stat": 2.2879471592239975,
+      "paired_t_p": 0.04793535258814285,
+      "paired_wilcoxon_p": 0.048828125,
+      "n_seeds": 10,
+      "pairing_note": "seed-paired from checkpoints"
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_scaler_feature_group_disjoint_5seed",
+      "rf_kd_macro_f1_mean": 0.9141123712209677,
+      "rf_kd_macro_f1_std": 0.006865452782879801,
+      "scratch_macro_f1_mean": 0.9138782328643348,
+      "scratch_macro_f1_std": 0.004570325234869203,
+      "kd_minus_scratch_mean_paired": 0.0002341383566328181,
+      "kd_minus_scratch_std_paired": 0.0072405324297175905,
+      "paired_t_stat": 0.07230811914083099,
+      "paired_t_p": 0.9458279016214112,
+      "paired_wilcoxon_p": 1.0,
+      "n_seeds": 5,
+      "n_test_rows": 56301,
+      "fg_per_seed_rf_kd": [
+        0.9160761302322431,
+        0.9210575900826801,
+        0.9101979257019259,
+        0.9042445625698784,
+        0.918985647518111
+      ],
+      "fg_per_seed_scratch": [
+        0.9105228181079894,
+        0.9122100616291939,
+        0.9110647225766497,
+        0.9138671494455132,
+        0.9217264125623281
+      ],
+      "pairing_note": "seed-paired; mean matches aggregate_results.json"
+    }
+  ],
+  "ladder_B": [
+    {
+      "student": "B",
+      "protocol": "archived_presplit_scaler_random_row_10seed",
+      "rf_kd_macro_f1_mean": 0.9328081908495188,
+      "rf_kd_macro_f1_std": 0.0075896541033712,
+      "scratch_macro_f1_mean": 0.9321689869057276,
+      "scratch_macro_f1_std": 0.0037504644019022,
+      "kd_minus_scratch_mean_of_means": 0.0006392039437912445,
+      "paired_t_p": null,
+      "paired_wilcoxon_p": null,
+      "n_seeds": 10,
+      "pairing_note": "archived package stores aggregates only; delta is mean-of-means not seed-paired"
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_scaler_random_row_10seed",
+      "rf_kd_macro_f1_mean": 0.939173439381416,
+      "rf_kd_macro_f1_std": 0.012914669541672667,
+      "scratch_macro_f1_mean": 0.9313411490547345,
+      "scratch_macro_f1_std": 0.006575106681835642,
+      "kd_minus_scratch_mean_paired": 0.007832290326681457,
+      "kd_minus_scratch_std_paired": 0.01336656049939388,
+      "paired_t_stat": 1.8529730762929468,
+      "paired_t_p": 0.0968914374617558,
+      "paired_wilcoxon_p": 0.193359375,
+      "n_seeds": 10,
+      "pairing_note": "seed-paired from checkpoints"
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_scaler_feature_group_disjoint_5seed",
+      "rf_kd_macro_f1_mean": 0.9281445120907325,
+      "rf_kd_macro_f1_std": 0.007413563994772633,
+      "scratch_macro_f1_mean": 0.9297947685192381,
+      "scratch_macro_f1_std": 0.005499829033431612,
+      "kd_minus_scratch_mean_paired": -0.001650256428505714,
+      "kd_minus_scratch_std_paired": 0.010156916086706849,
+      "paired_t_stat": -0.3633076736032409,
+      "paired_t_p": 0.7347612930434297,
+      "paired_wilcoxon_p": 0.8125,
+      "n_seeds": 5,
+      "n_test_rows": 56301,
+      "fg_per_seed_rf_kd": [
+        0.9223807931422797,
+        0.9343098023532473,
+        0.9228321712991224,
+        0.9232400846320541,
+        0.9379597090269585
+      ],
+      "fg_per_seed_scratch": [
+        0.925108820154686,
+        0.9238999192107356,
+        0.9375211566279967,
+        0.9307149146483843,
+        0.931729031954388
+      ],
+      "pairing_note": "seed-paired; mean matches aggregate_results.json"
+    }
+  ],
+  "pc_fg": [
+    {
+      "student": "A",
+      "protocol": "feature_group_5seed",
+      "class": "Blackhole",
+      "rf_kd_mean": 0.8263638640864872,
+      "scratch_mean": 0.8625512028876401,
+      "delta_kd_minus_scratch": -0.0361873388011528,
+      "n_seeds": 5
+    },
+    {
+      "student": "A",
+      "protocol": "feature_group_5seed",
+      "class": "Flooding",
+      "rf_kd_mean": 0.9415359554111628,
+      "scratch_mean": 0.930524570549099,
+      "delta_kd_minus_scratch": 0.0110113848620638,
+      "n_seeds": 5
+    },
+    {
+      "student": "A",
+      "protocol": "feature_group_5seed",
+      "class": "Grayhole",
+      "rf_kd_mean": 0.8437122639409995,
+      "scratch_mean": 0.8396734132465618,
+      "delta_kd_minus_scratch": 0.0040388506944377,
+      "n_seeds": 5
+    },
+    {
+      "student": "A",
+      "protocol": "feature_group_5seed",
+      "class": "Normal",
+      "rf_kd_mean": 0.9979759314882376,
+      "scratch_mean": 0.9959295114118476,
+      "delta_kd_minus_scratch": 0.0020464200763901,
+      "n_seeds": 5
+    },
+    {
+      "student": "A",
+      "protocol": "feature_group_5seed",
+      "class": "TDMA",
+      "rf_kd_mean": 0.9609738411779508,
+      "scratch_mean": 0.9407124662265264,
+      "delta_kd_minus_scratch": 0.0202613749514244,
+      "n_seeds": 5
+    },
+    {
+      "student": "B",
+      "protocol": "feature_group_5seed",
+      "class": "Blackhole",
+      "rf_kd_mean": 0.8644012752357538,
+      "scratch_mean": 0.8875825720685444,
+      "delta_kd_minus_scratch": -0.0231812968327905,
+      "n_seeds": 5
+    },
+    {
+      "student": "B",
+      "protocol": "feature_group_5seed",
+      "class": "Flooding",
+      "rf_kd_mean": 0.9415585788548888,
+      "scratch_mean": 0.931609046187204,
+      "delta_kd_minus_scratch": 0.0099495326676848,
+      "n_seeds": 5
+    },
+    {
+      "student": "B",
+      "protocol": "feature_group_5seed",
+      "class": "Grayhole",
+      "rf_kd_mean": 0.8738294966997351,
+      "scratch_mean": 0.8896126650150279,
+      "delta_kd_minus_scratch": -0.0157831683152928,
+      "n_seeds": 5
+    },
+    {
+      "student": "B",
+      "protocol": "feature_group_5seed",
+      "class": "Normal",
+      "rf_kd_mean": 0.9980721654693692,
+      "scratch_mean": 0.9973762322684384,
+      "delta_kd_minus_scratch": 0.0006959332009308,
+      "n_seeds": 5
+    },
+    {
+      "student": "B",
+      "protocol": "feature_group_5seed",
+      "class": "TDMA",
+      "rf_kd_mean": 0.9628610441939148,
+      "scratch_mean": 0.9427933270569762,
+      "delta_kd_minus_scratch": 0.0200677171369386,
+      "n_seeds": 5
+    }
+  ],
+  "pc_to": [
+    {
+      "student": "A",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Blackhole",
+      "rf_kd_mean": 0.8370072850696519,
+      "scratch_mean": 0.8471666944766769,
+      "delta_kd_minus_scratch": -0.0101594094070249,
+      "n_seeds": 10
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Flooding",
+      "rf_kd_mean": 0.9545673368561076,
+      "scratch_mean": 0.9355546372749216,
+      "delta_kd_minus_scratch": 0.0190126995811862,
+      "n_seeds": 10
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Grayhole",
+      "rf_kd_mean": 0.8603681451342478,
+      "scratch_mean": 0.844835528550109,
+      "delta_kd_minus_scratch": 0.0155326165841387,
+      "n_seeds": 10
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Normal",
+      "rf_kd_mean": 0.997891823767702,
+      "scratch_mean": 0.9962484405622648,
+      "delta_kd_minus_scratch": 0.0016433832054371,
+      "n_seeds": 10
+    },
+    {
+      "student": "A",
+      "protocol": "train_only_random_row_10seed",
+      "class": "TDMA",
+      "rf_kd_mean": 0.9518878401091668,
+      "scratch_mean": 0.9307096650676884,
+      "delta_kd_minus_scratch": 0.0211781750414786,
+      "n_seeds": 10
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Blackhole",
+      "rf_kd_mean": 0.8865939549965673,
+      "scratch_mean": 0.8871714288930086,
+      "delta_kd_minus_scratch": -0.0005774738964412,
+      "n_seeds": 10
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Flooding",
+      "rf_kd_mean": 0.9533771353583076,
+      "scratch_mean": 0.9415619407061746,
+      "delta_kd_minus_scratch": 0.011815194652133,
+      "n_seeds": 10
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Grayhole",
+      "rf_kd_mean": 0.902533672220508,
+      "scratch_mean": 0.8966085626320854,
+      "delta_kd_minus_scratch": 0.0059251095884226,
+      "n_seeds": 10
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_random_row_10seed",
+      "class": "Normal",
+      "rf_kd_mean": 0.9980989785677956,
+      "scratch_mean": 0.9973314408469528,
+      "delta_kd_minus_scratch": 0.0007675377208428,
+      "n_seeds": 10
+    },
+    {
+      "student": "B",
+      "protocol": "train_only_random_row_10seed",
+      "class": "TDMA",
+      "rf_kd_mean": 0.9552634557639008,
+      "scratch_mean": 0.9340323721954508,
+      "delta_kd_minus_scratch": 0.0212310835684499,
+      "n_seeds": 10
+    }
+  ],
+  "udc": {
+    "A": {
+      "pt_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42\\seed_42\\student_A_KD_from_RF_fp32.pt",
+      "pt_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "accuracy": 0.991423487544484,
+      "macro_f1": 0.9485087159320515
+    },
+    "B": {
+      "pt_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42\\seed_42\\student_B_KD_from_RF_fp32.pt",
+      "pt_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+      "accuracy": 0.9911209964412812,
+      "macro_f1": 0.9449299339062804
+    }
+  },
+  "n_test": 56200,
+  "onnx_rows_brief": [
+    {
+      "model_name": "E_student_A_KD_from_RF_train_only",
+      "variant": "onnx_fp32",
+      "accuracy": 0.991423487544484,
+      "macro_f1": 0.9485087159320515,
+      "serialized_size_kb": 5.4423828125,
+      "latency_p50_ms_b1": 0.027049999516748358,
+      "prediction_agreement_vs_pytorch_fp32": 1.0
+    },
+    {
+      "model_name": "E_student_A_KD_from_RF_train_only",
+      "variant": "onnx_dynamic_int8",
+      "accuracy": 0.9822064056939501,
+      "macro_f1": 0.893789697354604,
+      "serialized_size_kb": 5.0693359375,
+      "latency_p50_ms_b1": 0.036899999031447805,
+      "prediction_agreement_vs_pytorch_fp32": 0.9861032028469751
+    },
+    {
+      "model_name": "E_student_B_KD_from_RF_train_only",
+      "variant": "onnx_fp32",
+      "accuracy": 0.9911209964412812,
+      "macro_f1": 0.9449299339062804,
+      "serialized_size_kb": 14.0693359375,
+      "latency_p50_ms_b1": 0.021400001060101204,
+      "prediction_agreement_vs_pytorch_fp32": 1.0
+    },
+    {
+      "model_name": "E_student_B_KD_from_RF_train_only",
+      "variant": "onnx_dynamic_int8",
+      "accuracy": 0.9845551601423488,
+      "macro_f1": 0.906592462083893,
+      "serialized_size_kb": 7.3701171875,
+      "latency_p50_ms_b1": 0.0380000001314329,
+      "prediction_agreement_vs_pytorch_fp32": 0.9897508896797153
+    }
+  ],
+  "edge": {
+    "A_rfkd": {
+      "macro_f1_mean": 0.7675631954398007,
+      "macro_f1_std": 0.007909693646512698,
+      "accuracy_mean": 0.9465452685298132,
+      "n_seeds": 5
+    },
+    "A_scratch": {
+      "macro_f1_mean": 0.7335259754878691,
+      "macro_f1_std": 0.020998513248976294,
+      "accuracy_mean": 0.9053748338998646,
+      "n_seeds": 5
+    },
+    "A_delta": {
+      "mean": 0.03403721995193156,
+      "std": 0.013354437477422132,
+      "values": [
+        0.04448090448000064,
+        0.05118866454806581,
+        0.023582540188131773,
+        0.030659469248339177,
+        0.020274521295120418
+      ]
+    },
+    "leak_pct": 17.016591514685427,
+    "lit_A_rfkd": {
+      "macro_f1_mean": 0.8118372656444471,
+      "macro_f1_std": 0.003168186530889
+    }
+  }
+}

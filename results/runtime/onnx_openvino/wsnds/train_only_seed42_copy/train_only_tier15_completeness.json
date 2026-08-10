@@ -1,0 +1,110 @@
+{
+  "protocol": "train_only_seed42_tier15_completeness_v1",
+  "scope": {
+    "students": [
+      "A",
+      "B"
+    ],
+    "boards": [
+      "arduino_r4",
+      "esp32c3"
+    ],
+    "seed": 42,
+    "scaler": "train_only",
+    "split": "archived_random_state_42"
+  },
+  "software_runtime": {
+    "status": "complete",
+    "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\train_only_runtime_results.json",
+    "onnx_fp32_and_dynamic_int8": true,
+    "openvino": true,
+    "openvino_note": "OpenVINO CPU eval completed for train-only FP32 ONNX graphs."
+  },
+  "qat_probe": {
+    "status": "complete_probe_not_selected_for_hil",
+    "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\deployment_seed_42_qat\\qat_refinement_report.json",
+    "selected_for_mcu_export": false,
+    "reason": "QAT reduced absolute Student A F1; PTQ of train-only FP32 used for HIL."
+  },
+  "fixed_point_export": {
+    "status": "complete",
+    "paths": {
+      "A": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_train_only_student_A_seed42_copy",
+      "B": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_train_only_student_B_seed42_copy"
+    }
+  },
+  "compile_footprints": {
+    "status": "complete",
+    "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\hardware_hil\\train_only_scaler_copy\\compile_evidence\\compile_footprint_summary.json",
+    "frontend": "arduino-cli 1.5.1",
+    "smoke_reconfirm_all_ok": true
+  },
+  "hardware_hil_four_pair": {
+    "status": "complete",
+    "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\hardware_hil\\train_only_scaler_copy\\four_pair_summary.json",
+    "matrix_complete": true,
+    "all_pairs_agree_1_0": true,
+    "pairs": [
+      {
+        "board": "arduino_r4",
+        "student": "A",
+        "agree": 1.0,
+        "macro_f1": 0.9244157867972325,
+        "latency_us_mean": 301.4711209964413,
+        "n": 56200
+      },
+      {
+        "board": "arduino_r4",
+        "student": "B",
+        "agree": 1.0,
+        "macro_f1": 0.9179877463612371,
+        "latency_us_mean": 791.4001423487545,
+        "n": 56200
+      },
+      {
+        "board": "esp32c3",
+        "student": "A",
+        "agree": 1.0,
+        "macro_f1": 0.9244157867972325,
+        "latency_us_mean": 116.51985765124554,
+        "n": 56200
+      },
+      {
+        "board": "esp32c3",
+        "student": "B",
+        "agree": 1.0,
+        "macro_f1": 0.9179877463612371,
+        "latency_us_mean": 320.27793594306047,
+        "n": 56200
+      }
+    ]
+  },
+  "claim_boundary": {
+    "archived_10seed_tables": "still primary multi-seed predictive evidence (pre-split scaler lineage)",
+    "train_only_seed42": "deployment confirmation + conversion + four-board HIL under train-fitted scaler; single seed, not a replacement ten-seed distribution"
+  },
+  "feature_group_5seed": {
+    "status": "complete",
+    "path": "results/wsnds/confirmation_runs_v2/remote_winterfell_feature_group_5seed_20260805/feature_group_5seed/aggregate_results.json",
+    "summary_path": "results/wsnds/confirmation_runs_v2/feature_group_5seed_summary_copy.json"
+  },
+  "openvino": {
+    "status": "complete",
+    "path": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_openvino_results.json"
+  },
+  "master_report": "results/hardware_hil/train_only_scaler_copy/TIER15_MASTER_REPORT.json",
+  "host_c_self_test": {
+    "A": {
+      "exe_present": true,
+      "exe_sha256": "00965c159e554678604e0a7d98fa37f4ff5929dadb37baba3e354b66cfd235fd",
+      "host_run_exit_code": 0,
+      "note": "Executable present; exit code 0 observed on Windows host re-run 2026-08-06"
+    },
+    "B": {
+      "exe_present": true,
+      "exe_sha256": "952a315f6184e18b0d913ffe128c83910ab96c5ce2adda7a80bce165cd972f99",
+      "host_run_exit_code": 0,
+      "note": "Executable present; exit code 0 observed on Windows host re-run 2026-08-06"
+    }
+  }
+}

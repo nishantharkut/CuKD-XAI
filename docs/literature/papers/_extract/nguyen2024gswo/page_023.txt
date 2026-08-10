@@ -1,0 +1,125 @@
+Sensors 2024, 24, 3339
+23 of 26
+system surpasses other existing methods in the WSN field in terms of accuracy, precision,
+recall, F1-score, and inference time. This approach leverages a GSWO-based technique for
+FS in sensor-node traffic data, effectively mitigating the dimensionality of traffic features.
+Subsequently, a CatBoost algorithm coupled with GSWO-based hyperparameter optimiza-
+tion was employed to enhance the accuracy of the model, uphold a commendable detection
+rate, and reduce computational time overhead. This method addresses the prevalent short-
+comings of existing FS and classification algorithms in WSN IDSs, notably the issues of
+suboptimal detection performance and limited real-time responsiveness. The proposed
+model demonstrated robust detection capabilities and superior real-time performance.
+Table 9. Validation of the proposed method with the 10-fold cross-validation technique.
+Dataset
+Detection Rate (%)
+WSN-DS
+99.62 ± 00.04
+WSNBFSF
+99.99 ± 00.00
+NSL-KDD
+99.82 ± 00.03
+CICIDS2017
+99.76 ± 00.01
+Table 10. Comparison of performance metrics of existing ML techniques.
+Datasets
+Method
+Acc
+Prec
+Rec
+F1
+Infer Time
+WSN-DS
+CNN [26]
+98.75
+95.03
+92.45
+93.60
+5.62 s
+DNN [23]
+96.40
+97.00
+96.40
+96.60
+2.90 s
+Our method
+99.65
+97.27
+97.78
+97.47
+16 ms
+WSNBFSF
+LSTM-CNN [22]
+95.75
+95.39
+95.75
+95.52
+6.56 s
+GRU [22]
+99.01
+99.00
+99.01
+98.99
+5.91 s
+Our method
+99.99
+99.99
+99.99
+99.99
+13 ms
+NSL-KDD
+DNN [23]
+94.14
+88.76
+88.67
+88.48
+1.87 s
+AE [56]
+89.82
+91.81
+90.16
+90.98
+3.51 s
+Our method
+99.76
+96.17
+95.14
+95.63
+37 ms
+CICIDS2017
+DNN [23]
+95.60
+96.20
+92.60
+94.70
+5.76 s
+CNN [26]
+98.62
+93.20
+78.34
+81.62
+25.36 s
+Our method
+99.74
+97.39
+93.68
+95.32
+73 ms
+6. Conclusions
+In conclusion, this research marks a significant advancement in the intrusion detection
+domain of WSNs. The proposed GSWO combines GA and WOA, modified by applying a
+three-population division strategy with conditional inherited choice (CIC). This approach
+addresses the critical demand for effective feature selection (FS) in WSN security, over-
+coming the limitations of conventional methods, such as premature convergence. GSWO,
+which ingeniously combines a genetic algorithm (GA) and the modified whale optimization
+algorithm (WOA) with a conditional inherited choice (CIC), not only achieves a balance
+between exploration and exploitation but also enhances global search abilities. In addi-
+tion, by leveraging the advanced capabilities of the CatBoost model as a classifier and
+introducing a new technique based on GSWO and the quantization for fine-tuning Cat-
+Boost’s hyperparameters, our system demonstrated efficiency in WSN intrusion detection.
+The comprehensive evaluations across diverse datasets, including both benchmarks and
+specialized WSN datasets, demonstrate the accuracy and real-time applicability of our
+method. Specifically, our method outperformed existing methods with impressive accuracy
+rates of 99.65% for WSN-DS, 99.99% for WSNBFSF, 99.76% for NSL-KDD, and 99.74% for
+CICIDS2017. These results underscore the effectiveness of our approach in enhancing
+the accuracy of intrusion detection systems in WSNs. Furthermore, our GSWO-CatBoost
+method significantly reduces the inference time, making it nearly 100 times faster than deep

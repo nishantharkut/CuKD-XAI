@@ -1,0 +1,107 @@
+Energy-Eﬃcient Hybrid Learning for Secure Wireless Sensor Networks
+695
+By discarding roughly 95 % of benign packets lo-
+cally, the scheme shifts virtually all heavy computa-
+tion oﬀthe energy-starved nodes while still exploiting
+deep learning’s ability to generalize to novel patterns.
+Gateway compute is absorbed by its larger battery (or
+mains supply), whereas node radio usage the domi-
+nant energy term is drastically reduced. This archi-
+tectural balance between lightweight on-node ﬁltering
+and gateway-based deep learning forms the foundation
+of our pro-posed hybrid IDS.
+Fig.1:
+Two-stage Hybrid IDS architecture.
+2. LITERATURE REVIEW
+This section reviews the eighteen works that form
+the foundation of our proposed hybrid IDS. Each ref-
+erence is summarized with its contributions, method-
+ologies, and relevance to energy-eﬃcient DoS detec-
+tion in resource-constrained WSNs.
+2.1 Comprehensive Security Surveys
+Saleh et al. [1] Provide a broad survey of security
+threats (e.g., DoS, eavesdropping, spooﬁng) in WSNs
+and IoMT contexts, categorizing ML- and DL-based
+countermeasures. They emphasize that resource con-
+straints (battery, CPU, memory) necessitate novel de-
+signs that trade oﬀdetection accuracy and energy
+overhead. Their analysis frames our hybrid IDS’s re-
+quirement to minimize on-node computation and en-
+ergy consumption while maintaining robust DoS de-
+tection.
+2.2 Federated
+Learning
+and
+Model-Driven
+Quantization
+Chen et al. [15] Introduces an energy-aware fed-
+erated learning (FL) framework for IoT sensor net-
+works. Solar-powered ﬁeld sensors send updates to
+Raspberry Pi clients via BLE, which then forward
+compressed gradients over LoRa to a central server.
+A knapsack-based client-selection mechanism ensures
+only nodes with suﬃcient energy and high-quality
+data participate in training. SusFL’s energy-utility
+trade-oﬀand hierarchical FL design inform our ap-
+proach to federated updates among edge gateways,
+ensuring that model adaptation respects energy bud-
+gets.
+W. Guo et al. [13] Proposed a model-driven DL
+framework that jointly trains a binary quantizer and
+a fusion-center detector by optimizing a Chernoﬀin-
+formation–based loss. They show that binary quanti-
+zation reduces transmission and inference energy by
+roughly 75 % while achieving near-optimal detection.
+This work guides our edge DL model’s use of post-
+training quantization and an energy-penalty loss to
+minimize inference overhead.
+2.3 Intermittent Power and Battery Manage-
+ment
+Mishra et al.
+[4] Enabling DNN inference on
+intermittently powered microcontrollers (e.g., ARM
+Cortex-M0) with energy harvesting.
+They propose
+checkpoint–resume mechanisms to preserve DNN
+state across power outages and demonstrate feasi-
+bility of on-device inference under strict energy con-
+straints. NExUME’s techniques motivate our inclu-
+sion of ultra-compact, distilled models that can run
+locally when gateways or nodes face energy scarcity.
+Jeong et al. [5] Model WSN battery degradation
+and schedule group battery replacements via Deep
+Reinforcement Learning (DRL). Their DRL agent op-
+timizes replacement timing to balance network life-
+time and maintenance costs. While focusing on bat-
+tery lifecycle rather than intrusion detection, their
+RL-based battery model informs our adaptive thresh-
+old mechanism, which adjusts anomaly sensitivity
+based on residual energy.
+2.4 Shallow Machine Learning–Based IDSs
+Alruhaily et al. [2] Proposed a two-layer IDS for
+clustered WSNs. Cluster heads run a Na¨ıve Bayes
+(NB) ﬁlter to identify suspicious packets; these are
+then for-warded to a central server running a Random
+Forest (RF) for multi-class DoS classiﬁcation (Black-
+hole, Grayhole, Flooding, Scheduling). They achieve
+∼96 % accuracy on the WSN-DS dataset while reduc-
+ing cluster-head computation by ∼30 %. Our work
+extends this layered concept by replacing centralized
+RF with a quantized DL model at edge gateways,
+thereby reducing latency and central dependencies.
+Regin et al. [22] Employ deep learning to detect
+sensor and network faults (e.g., node failure, DoS-
+induced disruptions) in WSNs. They compare CNN
+and LSTM models on a custom dataset, showing that
+LSTM achieves >95 % detection accuracy for packet-
+loss anomalies.
+Although focusing on general fault
+detection rather than explicitly on DoS, their com-
+parison of CNN vs. RNN architectures informs our
+choice of hybrid CNN-LSTM or Autoencoder-GRU
+for the edge DL classiﬁer.
+Ifzarne et al.
+[7] Proposed ID-GOPA, an on-
+line anomaly detector using Information Gain Ratio
+(IGR) to select the top three features from the WSN-
+DS dataset (e.g., node ID, cluster status, packet tim-

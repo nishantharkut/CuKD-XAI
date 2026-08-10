@@ -1,0 +1,53 @@
+Computers 2025, 14, 291
+16 of 25
+Table 9. Comparison of teacher and student models on the UNSW-NB15 dataset.
+Model’s Architecture
+No. of Parameters
+Accuracy (%)
+Precision (%)
+F1 Score (%)
+Inference Time
+Deep Neural Network
+(Teacher)
+280,448
+75.45
+81.12
+76.40
+2.722
+Shallow Neural Network
+(Student without KD)
+20,816
+69.66
+78.12
+71.10
+2.502
+Shallow Neural Network
+(Student with KD)
+20,816
+(−92.57%)
+75.78
+(+6.12%)
+80.98
+(+2.86%)
+76.10
+(+5.00%)
+2.451
+(−9.96%)
+Figure 4. Confusion matrix of teacher (left), student without KD (middle), and student with KD
+(right) models on UNSW-NB15.
+Figure 5. ROC curve of teacher (left), student without KD (middle), and student with KD (right)
+models on UNSW-NB15.
+4.3. CIC-IDS2017
+The CIC-IDS2017 results (Table 10) further confirm the pattern observed in the previous
+datasets that the teacher model achieves the highest accuracy (98.22%) and F1 score (98.20%)
+due to its large capacity and deeper architecture. However, this comes at the cost of
+computational efficiency, with a slower inference speed of 2.602 × 10−5 s. The student
+model without KD, while significantly smaller with 9,527 parameters, delivers slightly
+lower performance at 97.88% accuracy and 97.85% F1 score—but improves inference speed
+to 2.398 × 10−5 s. The minimal drop in performance alongside faster execution highlights
+the efficiency of the smaller model in handling large data.
+After applying KD, the student model shows a marginal yet consistent improvement
+in all key metrics: accuracy increases to 97.88% and F1 score to 97.85%. Inference speed
+improves slightly to 2.398 × 10−5 s. These results suggest that KD still provides a benefit,
+even when the baseline student model already performs strongly. The confusion matrices
+(Figure 6) indicate that KD helps further reduce misclassifications in certain classes, though

@@ -1,0 +1,49 @@
+5. Experimental Setup
+In our ensemble Knowledge Distillation (KD), experiments are conducted
+with two or three teachers.
+Each teacher model is a ResNet50 classifier
+pretrained on ImageNet (Deng et al, 2009) and then fine-tuned on their
+respective target datasets.
+The student model is ResNet18 trained from
+scratch using vanilla KD (Hinton et al, 2015). Take the ensemble KD with
+two teachers as an example, the loss function is defined as:
+LNLL(zs, ys) = −
+C
+X
+c=1
+yc log σc(zs)
+(6)
+LKD1,2(zs, zt1.2) = −τ 2
+C
+X
+c=1
+σc(zt1,2
+τ
+) log σc(zs
+τ )
+(7)
+L = LNLL + 1
+2(LKD1 + LKD2)
+(8)
+where LNLL is the usual supervised cross-entropy between the student logits
+zs and the one-hot labels ys. LKD1,2 is the added knowledge distillation term
+that encourages the student to match the teacher ensembles.
+In this paper, we are focusing on ensemble KD with 2 teachers T1 and
+T2. Results with 3 teachers are discussed in Appendix F. We also provide
+experiments with Vision Transformers (ViTs) (Dosovitskiy et al, 2021) where
+the attention map can be obtained directly with the built-in attention module
+in Appendix E.
+Experiments are conducted on well-recognized long-tailed datasets ImageNet-
+LT (Liu et al, 2019), CIFAR100 (Krizhevsky, 2009) with an imbalanced factor
+of 100, and their balanced counterparts. Hyperparameters remain consistent
+across experiments for each dataset. More detailed settings, including learn-
+ing rates and temperatures, are provided in Appendix A.
+In this paper, we distinguish between two types of data augmentation:
+(1) Weak data augmentation, encompassing conventional methods such as
+random resized crop, random horizontal flip, and color jitters. (2) Strong
+data augmentation, which includes RandAugment (RA) (Cubuk et al, 2020)
+applied on the ImageNet-LT dataset and AutoAugment (AA) (Cubuk et al,
+2019) applied on all other datasets. For denotation purposes, we use Ts, Ss to
+represent teacher or student models trained with strong augmentation, while
+Tw, Sw denote those trained with weak augmentation.
+11

@@ -1,0 +1,40 @@
+Sensors 2024, 24, 3339
+9 of 26
+produced possess the traits of both parents. Compared to the parents’ chromosomes,
+the child’s unique combination may provide better or worse outcomes.
+Figure 2. Crossover operator.
+The purpose of the mutation operation is to avoid the problem of being trapped in
+local optima [42]. This process facilitated the generation of new individuals by modifying
+their random characteristics. Binary values are randomly reversed to convert 1s into 0s
+and vice versa in order to carry it out. For example, as graphically shown in Figure 3,
+the introduction of a mutation point at the individual’s third, sixth, and eighth positions
+cause the chromosome to mutate. The bold shows selected genes for mutation and the red
+color illustrates the new value of genes after mutation.
+Figure 3. Mutation operator.
+4.2. Proposed Genetic Sacrificial Whale Optimization
+The GSWO proposed in this study was used to address global optimization and
+engineering design challenges. Based on fitness value, the whale population was divided
+into three subpopulations, each with a different number of individuals based on fitness
+values, as shown in Equations (11) and (12).
+v = Fitmax −Fitmin,
+(11)
+where Fitmax is the highest fitness value, while Fitmin is the lowest fitness value in the
+population at a specific iteration. v is the distance between the best individual and the
+poorest individual.
+
+
+
+
+
+Fit > Fitmax −1
+3 ∗v : Explore.
+Fit < Fitmin + 1
+3 ∗v : Exploit.
+The remaining is hesitant subpopulation.
+(12)
+A corresponding calculation formula exists for the fitness value depending on the
+application. In this study, the fitness value is the false prediction rate of the model classifi-
+cation, so the smallest fitness value is the best.
+The exploratory subpopulation includes whales with higher fitness values that are far
+from the current optimal solution. They are expected to strengthen the global exploration
+capabilities of the algorithm, allowing a systematic examination of more search spaces.

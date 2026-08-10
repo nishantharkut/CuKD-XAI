@@ -1,0 +1,170 @@
+Baseline
+Rotation
+VertFlip
+ColorJit
+CombAug
+MixUp
+0.72
+0.74
+0.76
+Accuracy
+Baseline
+Rotation
+VertFlip
+ColorJit
+CombAug
+MixUp
+1.0
+1.5
+NLL
+Baseline
+Rotation
+VertFlip
+ColorJit
+CombAug
+MixUp
+0.800
+0.825
+0.850
+Agreement
+Figure 13: Test accuracy, negative log-likelihood and teacher-student agreement when distilling
+a 5-component VGG-16 teacher ensemble into a VGG-16 student on CIFAR-100 with varying
+augmentation policies. The best performing policy is shown in green, results averaged over 3 runs
+and error bars indicate ±σ. The results are generally analogous to the results for the ResNet-56
+architecture reported in Section 5.1. MixUp and ColorJit provide the best student accuracy, while
+CombAug provides the best NLL. CombAug and MixUp provide the best teacher-student agreement.
+This result again highlights that the best augmentation policies for generalization do not necessarily
+provide the best distillation ﬁdelity. Finally, regardless of the augmentation strategy, the agreement
+on test does not exceed 85%.
+C.3
+Dataset: does increasing the scale of the dataset increase ﬁdelity?
+We provide the results for distilling ensembles of 1, 3 and 5 ResNet-50 teachers into a single ResNet-
+50 model in Table 2. For each setting, we report the results averaged over 3 independent runs. The
+results further validate our CIFAR-100 experiments. In particular, top-1 agreement is again in the
+80 −90% range, adding more ensemble components to the teacher improves student accuracy and
+ﬁdelity, and both the accuracy and ﬁdelity gap between teacher and student can be observed.
+Dataset
+Teach. Size
+Teach. Acc. (↑)
+Stud. Acc. (↑)
+Agree. (↑)
+KL (↓)
+IMDB
+1
+79.361 (0.132)
+80.353 (0.198)
+86.488 (0.521)
+0.124 (0.012)
+3
+81.807 (0.129)
+81.129 (0.057)
+89.832 (0.349)
+0.064 (0.003)
+5
+82.216 (0.207)
+81.167 (0.196)
+90.793 (0.180)
+0.052 (0.001)
+ImageNet
+1
+0.748 (0.001)
+0.753 (0.001)
+0.855 (0.001)
+0.217 (0.002)
+3
+0.764 (0.001)
+0.755 (0.001)
+0.878 (0.001)
+0.157 (0.001)
+5
+0.767 (0.001)
+0.756 (0.001)
+0.884 (0.001)
+0.142 (0.001)
+Table 2: Distillation results when the dataset is varied. All metrics are computed on the test set. We
+used bidirectional LSTM networks for IMDB and ResNet-56 networks for CIFAR-100 and ImageNet.
+Across all datasets we see the following consistent behavior: 1) larger teacher ensembles are more
+accurate and easier to distill, and 2) teacher-student disagree on at least 10% of test points.
+0 0.1
+0.3
+0.5
+0.7
+α
+71.00
+71.25
+71.50
+71.75
+72.00
+Test Accuracy
+ResNet-56
+0 0.1
+0.3
+0.5
+0.7
+α
+72.4
+72.5
+72.6
+72.7
+Test Agreement
+ResNet-56
+(a) 1 Teacher
+0 0.1
+0.3
+0.5
+0.7
+α
+72
+73
+74
+75
+Test Accuracy
+3×ResNet-56
+0 0.1
+0.3
+0.5
+0.7
+α
+76.4
+76.6
+76.8
+77.0
+77.2
+Test Agreement
+3×ResNet-56
+(b) 3 Teachers
+0 0.1
+0.3
+0.5
+0.7
+α
+72
+73
+74
+75
+76
+Test Accuracy
+5×ResNet-56
+0 0.1
+0.3
+0.5
+0.7
+α
+77.50
+77.75
+78.00
+78.25
+78.50
+Test Agreement
+5×ResNet-56
+(c) 5 Teachers
+Figure 14: Results ablating α (τ = 1). Taking α > 0 can improve student accuracy in the self-
+distillation regime, but does not consistently improve teacher-student agreement. When k > 0 there
+is a slight beneﬁt at α = 0.1, after which the effect is negative for both accuracy and agreement.
+C.4
+Data domain: is low ﬁdelity speciﬁc to image classiﬁcation?
+To expand out results beyond the image domain, we also demonstrate the knowledge distillation
+results when distilling LSTM text classiﬁers on IMDB sentiment analysis data in Table 2. We distill
+ensembles of 2-layer bidirectional LSTM teachers into a single bidirectional LSTM of the same
+architecture. Note that like in our other results, the teacher accuracy is strictly improving, whereas
+20

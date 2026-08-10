@@ -1,0 +1,129 @@
+1
+3
+5
+Teacher size
+0.64
+0.66
+0.68
+Test Accuracy
+1
+3
+5
+Teacher size
+1.4
+1.6
+1.8
+2.0
+2.2
+Test NLL
+1
+3
+5
+Teacher size
+0.05
+0.10
+0.15
+0.20
+Test ECE
+1
+3
+5
+Teacher size
+0.725
+0.750
+0.775
+0.800
+Test Agreement
+1
+3
+5
+Teacher size
+0.6
+0.8
+1.0
+Test KL(T||S)
+1
+4
+8
+16
+Temperature
+0.64
+0.66
+0.68
+Test Accuracy
+1
+4
+8
+16
+Temperature
+1.4
+1.6
+1.8
+Test NLL
+1
+4
+8
+16
+Temperature
+0.05
+0.10
+0.15
+0.20
+Test ECE
+1
+4
+8
+16
+Temperature
+0.75
+0.80
+Test Agreement
+1
+4
+8
+16
+Temperature
+0.4
+0.6
+0.8
+1.0
+Test KL(T||S)
+D0
+D1
+D0 ∪D1
+Teacher
+Figure 4: Data recycling and distillation: results on subsampled CIFAR-100. Top: We ﬁx the
+temperature (τ = 4) and vary the number of ensemble components (m), comparing students distilled
+on the same dataset as the teacher (D0/D0), a reserved dataset (D0/D1), or both (D0/D0 ∪D1).
+Distilling on both produces the best result, while distilling on D0 increases accuracy and decreases
+ﬁdelity, relative to D1. Bottom: We repeat the experiment, but ﬁx m = 3 and vary τ. The shaded
+region corresponds to µ ± σ, estimated over 3 trials.
+Student capacity – We observe low ﬁdelity even in the self-distillation setting, so we can rule out
+student capacity as a primary cause, but we also conﬁrm in Figure 12 in Appendix C.1 that increasing
+the student capacity has very little effect on ﬁdelity in the ensemble-distillation setting.
+Network architecture – Low ﬁdelity could be speciﬁc to ResNet-like architectures, an explanation
+we rule out by showing similar results with VGG networks [42] in Figure 13 in Appendix C.2.
+Dataset scale and complexity – we provide similar results in Section C.3 for ImageNet, showing
+that our ﬁndings apply to datasets of larger scale and complexity.
+Data domain – Similarly in Section C.4 we observe low distillation ﬁdelity in the context of text
+classiﬁcation (sentiment analysis on the IMDB dataset), showing our results are relevant beyond
+image classiﬁcation.
+Identiﬁability (Section 5) – the distillation data is insufﬁcient to distinguish high-ﬁdelity and low-
+ﬁdelity students. In other words, matching the teacher predictions on the distillation dataset does not
+lead to matching predictions on the test data.
+Optimization (Section 6) – we are unable to solve the distillation optimization problem sufﬁciently
+well. The student does not agree with the teacher on test because it does not even agree on train.
+5
+Identiﬁability: Are We Using the Right Distillation Dataset?
+We investigate whether it is possible to attain the level of ﬁdelity observed with LeNet-5s on MNIST
+with ResNets on CIFAR-100 by addressing the identiﬁability problem — have we shown the student
+enough of the right input-teacher label pairs to deﬁne the solution we want?
+5.1
+Should we do more data augmentation?
+Data augmentation is a simple and practical method to increase the support of the distillation data
+distribution. If identiﬁability is a primary cause of poor distillation ﬁdelity, using a more extensive
+data augmentation strategy during distillation should improve ﬁdelity.
+To test this hypothesis, we evaluated the effect of several augmentation strategies on student ﬁdelity
+and generalization. In Figure 3, the teacher is a 5-component ensemble of ResNet-56 networks
+trained on CIFAR-100 with the Baseline augmentation strategy: horizontal ﬂips and random crops.
+6

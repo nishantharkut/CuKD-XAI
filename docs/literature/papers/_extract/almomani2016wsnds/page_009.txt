@@ -1,0 +1,58 @@
+Journal of Sensors
+9
+N →Network Size
+SN →Sensor Node
+MN →Malicious Node
+CH →Cluster Head
+BS →Base Station
+CM →Cluster Member
+NC →Cluster Heads list
+x →Integer value between 0 and 𝑁−1
+∀SN𝑖, 0 < 𝑖≤𝑁, compute 𝑇(SN𝑖) and random 𝑟SN𝑖
+IF (𝑟SN𝑖< 𝑇(SN𝑖)) THEN
+SN𝑖= CH
+ELSE
+SN𝑖= CM
+ENDIF
+∀CH𝑗, 𝑗∈NC
+{
+IF CH𝑗= MN THEN
+CH𝑗broadcasts a lot of advertisement messages (ADV CH) with
+high transmitting power.
+ELSE
+CH𝑗broadcasts normal advertisement message (ADV CH)
+ENDIF
+x CMs will join CH𝑗
+CH𝑗creates TDMA schedule
+x CMs send data to CH𝑗in the corresponding TDMA time slot
+}
+Algorithm 3: Model of Flooding attack.
+N →Network Size
+SN →Sensor Node
+MN →Malicious Node
+CH →Cluster Head
+BS →Base Station
+CM →Cluster Member
+NC →Cluster Heads list
+x →Integer value between 0 and 𝑁−1
+∀SN𝑖, 0 < 𝑖≤𝑁, compute 𝑇(SN𝑖) and random 𝑟SN𝑖
+IF (𝑟SN𝑖< 𝑇(SN𝑖)) THEN
+SN𝑖= CH
+ELSE
+SN𝑖= CM
+ENDIF
+∀CH𝑗, 𝑗∈NC
+{
+CH𝑗broadcasts the advertisement message (ADV CH)
+x CMs will join CH𝑗
+IF CH𝑗= MN THEN
+CH𝑗performs the attack by creating the TDMA schedule and give all nodes
+same time slot to send data
+ELSE
+CH𝑗creates normal TDMA schedule
+ENDIF
+x CMs send data to CH𝑗in the corresponding TDMA time slot
+CH𝑗sends aggregated data to BS
+}
+Algorithm 4: Model of Scheduling attack.
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

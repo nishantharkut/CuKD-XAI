@@ -1,0 +1,103 @@
+MLSTL-WSN: machine learning-based intrusion detection using SMOTETomek in WSNs
+2145
+3.2 Data preprocessing
+Data preprocessing plays a crucial role in the success of
+any intrusion detection system in Wireless Sensor Networks
+(WSN). It involves several steps to ensure that the data is in a
+suitable format for machine learning models. In this section,
+we describe the key data preprocessing steps we have applied
+to our dataset.
+3.2.1 Standardization
+Standardization is the process of transforming data such that
+it has a mean of 0 and a standard deviation of 1. This step is
+essential when dealing with features that have different scales
+or units. In WSN intrusion detection, sensor data may have
+varying measurement units and scales. Standardization helps
+in bringing all features to a common scale, which is important
+for machine learning algorithms that rely on distance metrics
+or gradient-based optimization.
+The formula for standardization is as follows:
+Xstandardized = X −μ
+σ
+Where:
+• Xstandardized is the standardized value of feature X.
+• X is the original feature value.
+• μ is the mean of the feature X.
+• σ is the standard deviation of the feature X.
+By standardizing the data, we ensure that each feature
+contributes equally to the learning process, preventing some
+features from dominating others.
+3.2.2 Label encoding
+Intrusion detection datasets often contain categorical vari-
+ables, such as attack types or sensor identiﬁers, that need
+to be converted into numerical values for machine learning
+models. Label encoding is a technique used to transform cat-
+egorical data into numerical labels.
+• Binary Classiﬁcation
+For binary classiﬁcation, where we have two classes,
+“Normal” and “Attack,” we perform label encoding as
+shown in Table 1.
+• Multiclass Classiﬁcation
+In the case of multiclass classiﬁcation, where we have
+multiple classes, such as “Normal,” “Grayhole,” “Black-
+hole,” “TDMA,” and “Flooding,” we perform label
+encoding as shown in Table 2.
+Table 1
+Label encoding for
+binary classiﬁcation
+Class
+Label encoding
+Normal
+0
+Attack
+1
+Table 2 Label encoding for
+multiclass classiﬁcation
+Class
+Label Encoding
+Normal
+0
+Grayhole
+1
+Blackhole
+2
+TDMA
+3
+Flooding
+4
+After label encoding, the categorical features are repre-
+sented as numerical values, making them suitable for use
+in machine learning algorithms.
+Label encodingprovides astraightforwardwaytoconvert
+categorical classes into a format that can be used as input
+for machine learning models.
+In summary, data preprocessing is a critical step in prepar-
+ing data for intrusion detection in WSNs. Standardization
+ensures that all features have a consistent scale, while label
+encoding converts categorical data into a numerical format,
+enabling the application of various machine learning algo-
+rithms to build an effective intrusion detection model.
+3.3 Data balancing using SMOTE-TomekLink
+Data balancing refers to the process of adjusting the class
+distribution within a dataset to ensure that each class or cat-
+egory has a similar number of samples or observations. This
+is particularly important when dealing with classiﬁcation
+tasks where the classes are imbalanced, meaning that one
+or more classes have signiﬁcantly more or fewer instances
+than others. In the context of data balancing for Wire-
+less Sensor Networks (WSN), the WSN-DS dataset exhibits
+a signiﬁcant class imbalance issue, impacting classiﬁca-
+tion performance, especially in the minority classes, which
+negatively affects detection rates. Traditional imbalance mit-
+igation methods, such as undersampling, signiﬁcantly reduce
+the usable normal network trafﬁc data, while oversampling
+techniques alone lead to excessive data size inﬂation and
+noise. To address this imbalance, we employed the SMOTE-
+TomekLink (Synthetic Minority Over-sampling Technique
+combined with Tomek links) method to balance our dataset.
+This approach combines SMOTE and Tomek-Links over-
+sampling and undersampling methods.
+SMOTE is an oversampling technique that generates syn-
+thetic data for the minority class by interpolating between
+existing samples and their neighbors, effectively increasing
+123

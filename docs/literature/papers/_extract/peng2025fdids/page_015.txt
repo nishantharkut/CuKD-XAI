@@ -1,0 +1,82 @@
+Sensors 2025, 25, 4309
+15 of 31
+FPR =
+FP
+FP + TN ,
+(12)
+FNR =
+FN
+FN + TP.
+(13)
+4.3. Experimental Results and Analysis
+4.3.1. FD-IDS Performance Evaluation
+FD-IDS was first assessed on the Edge-IIoT dataset across varying degrees of Non-
+IID conditions. Table 5 summarizes the outcomes of the experiments. In the low-Non-
+IID scenario, after the first communication round, the classification accuracy of the best-
+performing client reached 91.94%, while the worst-performing client achieved 88.75%. The
+global model accuracy was 85.27%. Despite the relatively low degree of data heterogeneity,
+performance discrepancies among clients were still observed. This indicates that, even
+in low-Non-IID conditions, the data distribution across clients is not entirely IID and a
+certain degree of imbalance persists. In contrast, the high-Non-IID scenario exhibited
+more pronounced performance disparities. After the first communication round, the best-
+performing client achieved an accuracy of 86.08%, whereas the worst-performing client
+had an accuracy of only 7.32%. The global model accuracy in this scenario was 77.12%.
+Nonetheless, with a rise in communication rounds, the performance of both the clients
+and the global model improved progressively. During 40 communication rounds in the
+low-Non-IID scenario, the best-performing client’s accuracy increased to 94.65% and the
+worst-performing client’s accuracy reached 92.50%. The global model accuracy further
+improved to 94.82%. Similarly, in the high-Non-IID scenario, the best-performing client’s
+accuracy improved to 93.50%, the worst-performing client’s accuracy reached 88.25%, and
+the global model accuracy increased to 93.86%. In both scenarios, the performance gap
+between clients was significantly reduced and the consistency of the model across clients
+was enhanced. Furthermore, the global model’s performance improved.
+Table 5. Performance evaluation of FD-IDS in different Non-IID scenarios.
+Concentration
+Parameter
+1st Round
+40th Round
+B
+W
+G
+B
+W
+G
+Edge-IIoT
+θ = 1
+91.94
+88.75
+85.27
+94.65
+92.50
+94.82
+θ = 0.1
+86.08
+7.32
+77.12
+93.50
+88.25
+93.86
+N-BaIoT
+θ = 1
+72.87
+55.10
+53.21
+87.69
+86.38
+87.70
+θ = 0.1
+55.85
+10.38
+38.58
+83.25
+78.45
+83.81
+B: Best client accuracy; W: Worst client accuracy; and G: Global model accuracy.
+To further evaluate the adaptability of FD-IDS under varying Non-IID data distri-
+butions, we conducted additional experiments using the N-BaIoT dataset. As shown in
+Table 5, the results on this dataset exhibit a degree of consistency with those obtained
+on the Edge-IIoT dataset. In the low-Non-IID scenario, after the first communication
+round, the classification accuracy of the best-performing client reached 72.87% while the
+worst-performing client achieved 55.10%, and the global model attained an accuracy of
+53.21%. Under high-Non-IID conditions, performance further deteriorated, with the best
+client achieving 55.85% accuracy, the worst client achieving only 10.38%, and the global

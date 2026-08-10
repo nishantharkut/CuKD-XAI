@@ -1,0 +1,183 @@
+DM
+Type
+mAP
+LITTLE (ms)
+big (ms)
+100%
+ﬂoats
+22.1
+778
+370
+8 bits
+21.7
+687
+272
+50%
+ﬂoats
+16.7
+270
+121
+8 bits
+16.6
+146
+61
+Table 4.4: Object detection speed and accuracy on COCO dataset
+of ﬂoating point and integer-only quantized models. Latency (ms)
+is measured on Qualcomm Snapdragon 835.
+DM
+Type
+Precision
+Recall
+LITTLE
+big
+(ms)
+(ms)
+100%
+ﬂoats
+68%
+76%
+711
+337
+8 bits
+66%
+75%
+372
+154
+50%
+ﬂoats
+65%
+70%
+233
+106
+8 bits
+62%
+70%
+134
+56
+25%
+ﬂoats
+56%
+64%
+100
+44
+8 bits
+54%
+63%
+67
+28
+Table 4.5: Face detection accuracy of ﬂoating point and integer-
+only quantized models. The reported precision / recall is aver-
+aged over different precision / recall values where an IOU of x
+between the groundtruth and predicted windows is considered a
+correct detection, for x in {0.5, 0.55, . . . , 0.95}. Latency (ms) of
+ﬂoating point and quantized models are reported on Qualcomm
+Snapdragon 835 using a single LITTLE and big core, respectively.
+classiﬁcation dataset (a Flickr-based dataset used in [10]).
+We contacted the authors of [10] to evaluate our quantized
+MobileNets on detection and face attributes following the
+same protocols (detailed in Appendix D.4).
+Face detection: As indicated by tables 4.5 and Ap-
+pendix D.1, quantization provides close to a 2× latency
+reduction with a Qualcomm Snapdragon 835 big or LIT-
+TLE core at the cost of a ∼2% drop in the average pre-
+cision. Notably, quantization allows the 25% face detector
+to run in real-time (1K/28 ≈36 fps) on a single big core,
+whereas the ﬂoating-point model remains slower than real-
+time (1K/44 ≈23 fps).
+We additionally examine the effect of multi-threading on
+the latency of quantized models. Table Appendix D.1 shows
+a 1.5 to 2.2×) speedup when using 4 cores. The speedup ra-
+tios are comparable between the two cores, and are higher
+for larger models where the overhead of multi-threading oc-
+cupies a smaller fraction of the total computation.
+Face attributes:
+Figure 4.3 shows the latency-vs-
+accuracy tradeoff of face attribute classiﬁcation on the
+Qualcomm Snapdragon 821. Since quantized training re-
+sults in little accuracy degradation, we see an improved
+tradeoff even though the Qualcomm Snapdragon 821 is
+highly optimized for ﬂoating point arithmetic (see Fig-
+wt.
+act.
+8
+7
+6
+5
+4
+8
+-0.9%
+-0.3%
+-0.4%
+-1.3%
+-3.5%
+7
+-1.3%
+-0.5%
+-1.2%
+-1.0%
+-2.6%
+6
+-1.1%
+-1.2%
+-1.6%
+-1.6%
+-3.1%
+5
+-3.1%
+-3.7%
+-3.4%
+-3.4%
+-4.8%
+4
+-11.4%
+-13.6%
+-10.8%
+-13.1%
+-14.0%
+Table 4.6: Face attributes: relative average category precision of
+integer-quantized MobileNets (varying weight and activation bit
+depths) compared with ﬂoating point.
+ure 4.2 for comparison).
+1
+2
+4
+8
+16
+0.82
+0.84
+0.86
+0.88
+Latency (ms)
+Average precision
+Float
+8-bit
+Figure 4.3: Latency-vs-accuracy tradeoff of ﬂoat vs. integer-only
+MobileNets for face attribute classiﬁcation on Snapdragon 821.
+Ablation study To understand performance sensitivity
+to the quantization scheme, we further evaluate quantized
+training with varying weight and activation quantization bit
+depths. The degradation in average precision for binary at-
+tributes and age precision relative to the ﬂoating-point base-
+line are shown in Tables 4.6 and Appendix D.2, respec-
+tively. The tables suggest that 1) weights are more sensi-
+tive to reduced quantization bit depth than activations, 2)
+8 and 7-bit quantized models perform similarly to ﬂoating
+point models, and 3) when the total bit-depths are equal, it
+is better to keep weight and activation bit depths the same.
+5. Discussion
+We propose a quantization scheme that relies only on
+integer arithmetic to approximate the ﬂoating-point com-
+putations in a neural network. Training that simulates the
+effect of quantization helps to restore model accuracy to
+near-identical levels as the original. In addition to the 4×
+reduction of model size, inference efﬁciency is improved
+via ARM NEON-based implementations.
+The improve-
+ment advances the state-of-the-art tradeoff between latency
+on common ARM CPUs and the accuracy of popular com-
+puter vision models. The synergy between our quantiza-
+tion scheme and efﬁcient architecture design suggests that
+integer-arithmetic-only inference could be a key enabler
+that propels visual recognition technologies into the real-
+time and low-end phone market.
+2711

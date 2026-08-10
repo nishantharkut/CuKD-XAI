@@ -1,0 +1,187 @@
+422
+Page 20 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Table 8 Comparison of the
+proposed approach with diverse
+existing approaches
+Model with reference
+Dataset
+Training
+approach
+Accuracy
+(%)
+Precision
+(%)
+Recall
+(%)
+DNN [31]
+a
+Centralized
+97.21
+91.41
+87.31
+A3E [32]
+a, b
+Centralized
+98.00
+99.00
+–
+SGDC [33]
+a
+Centralized
+98.43
+–
+98.42
+IHHO-NN [34]
+a
+Centralized
+98.07
+97.04
+98.73
+ER-VEC [35]
+a
+Centralized
+95.64
+–
+–
+WCC [38]
+a
+Centralized
+96.70
+94.90
+94.70
+GWO [39]
+a
+Centralized
+98.97
+–
+–
+LGBA-NN [40]
+a
+Centralized
+90.00
+85.23
+90.00
+CNN-LSTM [36]
+a
+Centralized
+–
+94.00
+89.00
+RNN [41]
+a
+Centralized
+89.75
+–
+–
+FDL [25]
+a
+FL
+98.37
+83.31
+86.32
+RF with Chi-Squared
+[42]
+b
+Centralized
+95.30
+95.00
+98.00
+RF [43]
+b
+Centralized
+96.17
+96.92
+92.17
+DT [44]
+b
+Centralized
+95.16
+95.84
+95.16
+PSO-RF [15]
+b
+Centralized
+96.20
+99.00
+93.27
+One-class KNN [45]
+b
+Centralized
+98.00
+–
+98.00
+AU-ANN [46]
+b
+Centralized
+99.72
+99.82
+99.83
+DT [47]
+b
+Centralized
+99.41
+99.36
+99.38
+KNN [48]
+c
+Centralized
+95.91
+95.07
+80.00
+B-CAT [49]
+c
+Centralized
+99.87
+–
+97.38
+Bi-LSTM [37]
+c
+Centralized
+99.93
+–
+–
+Proposed
+99.99
+99.99
+99.99
+– : not mentioned; a: N-BaIoT, b: MedBIoT, c: NCC2
+Comparison with existing approaches
+Table 8 provides a comparative analysis of our proposed
+decentralized approach with various existing centralized and
+federated learning models for IoT botnet intrusion detection.
+Key dimensions considered include the ability to handle data
+heterogeneity, dimensionality reduction, non-IID data han-
+dling, explainability, and model performance metrics like
+accuracy, precision, and recall.
+Unlike traditional centralized methods like DNN, SGC,
+and CNN-LSTM, which lack the capability to handle het-
+erogeneous data and non-IID distributions effectively, our
+proposed approach leverages a decentralized FL setup. This
+setup enables clients to locally process diverse data dis-
+tributions while safeguarding privacy, thus addressing the
+limitations of centralized models that rely on uniform data
+processing. Furthermore, unlike most centralized models that
+ignore dimensionality reduction, our approach incorporates
+SHAP-based feature selection, which enhances interpretabil-
+ity and reduces computational complexity.
+Comparing with existing FL approaches, such as FDL,
+our model exhibits superior performance in terms of accu-
+racy, precision, and recall, reaching nearly 99.99% across
+these metrics. This result highlights the robustness of our
+model in accurately detecting botnet attacks while address-
+ing both data heterogeneity and non-IID issues, which are
+often neglected in other approaches. Moreover, our use of
+SHAP-based explainability sets us apart by providing model
+interpretability, which is generally absent in the existing
+methods.
+Conclusion
+In this research, we proposed a novel privacy-preserving fed-
+erated learning framework for IoT botnet detection, employ-
+ing SHAP-based knowledge distillation and decentralized
+feature aggregation to address the inherent challenges of data
+heterogeneity and non-IID data distributions. Our approach
+enables each client to independently train on its localized,
+diverse dataset, generating interpretable SHAP values for
+feature importance and sharing distilled insights with a
+123

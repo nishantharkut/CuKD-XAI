@@ -1,0 +1,95 @@
+Future Internet 2025, 17, 230
+11 of 21
+F1 Score: It serves as a suitable criterion for assessing detector performance, as it
+integrates both precision and recall. Equation (7) outlines the expression for F1 score
+calculation.
+F1 Score = 2 ∗Precision ∗Recall
+Precision + Recall
+(7)
+4. Results and Discussion
+This section presents the results from the tests conducted using the proposed method.
+The implementation of the method described in this article was carried out on the Tensor-
+Flow platform, utilizing the Keras high-level library and the Python 3.12 programming
+language. We compare the results from the proposed model with those from existing works
+in the field to evaluate its effectiveness and performance.
+To assess the effectiveness and feasibility of the proposed method, the experimental
+results were compared with those obtained from decision trees, random forests, support
+vector machines, and K-nearest neighbors. The number of samples chosen for the training
+and testing subsets after data cleaning and partitioning is presented in Table 5.
+Table 5. Number of samples selected for training and test subsets.
+Class
+Total
+Train
+Test
+Normal
+1,363,998
+1,091,198
+272,800
+DDoS_UDP-based attack
+121,567
+97,254
+24,313
+DDoS_ICMP-based attack
+67,939
+54,351
+13,588
+DDoS_TCP-based attack
+50,062
+40,050
+10,012
+DDoS_HTTP-based attack
+48,544
+38,835
+9709
+SQL_injection-based attack
+50,826
+40,661
+10,165
+Password-based attack
+49,933
+39,946
+9987
+Vulnerability_scanner-based attack
+50,026
+40,021
+10,005
+Uploading-based attack
+36,807
+29,446
+7361
+Backdoor-based attack
+24,026
+19,221
+4805
+Port_Scanning-based attack
+19,977
+15,982
+3995
+XSS-based attack
+15,066
+12,053
+3013
+Ransomware-based attack
+9689
+7751
+1938
+MITM-based attack
+358
+286
+72
+Fingerprinting-based attack
+853
+682
+171
+The experimental evaluation of the CNN-based intrusion detection system was con-
+ducted using Google Colab’s cloud infrastructure for model training and validation, fol-
+lowed by emulated edge deployment testing. Training leveraged Colab’s GPU runtime
+(Tesla T4 or K80 GPU) with TensorFlow 2.8 and PyTorch 1.12 frameworks. The CNN
+model was trained using the Adam optimizer (learning rate = 0.001) over 10 epochs (batch
+size = 32). For edge compatibility, the model was optimized via pruning (30% of weight
+reduction) and INT8 quantization using TensorFlow Lite, reducing its memory footprint to
+120 MB.
+Classical performance metrics (accuracy, precision, recall, and F1 score) were evaluated
+for both binary and multiclass classification tasks, with detailed results reported for 6-class
+and 15-class scenarios. Reproducibility was ensured through publicly shared Google Colab
+notebooks, GitHub-hosted code, and the DNN-EdgeIIoT dataset, which are accessible for

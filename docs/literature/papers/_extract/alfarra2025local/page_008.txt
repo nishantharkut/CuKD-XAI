@@ -1,0 +1,101 @@
+700
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+macro-F1 of 0.93 conﬁrms that high accuracy is not
+driven solely by the majority “Normal” class, validat-
+ing the eﬀectiveness of class-weighted training and the
+two-stage architecture.
+To address potential misclassiﬁcations, we ana-
+lyzed the behavior of false negatives, where benign
+packets are mistakenly ﬂagged as malicious by the
+rule ﬁlter. In our hybrid design, this risk is mitigated
+in two ways. First, the rule ﬁlter employs a 1% ran-
+dom sampling mechanism that forwards a small por-
+tion of traﬃc originally deemed benign to the deep
+learning stage (§3.2). This ensures that any system-
+atic bias in the ﬁlter is detected over time. Second,
+the class-weighted training of the CNN-LSTM at the
+gateway helps recover packets that were incorrectly
+ﬂagged, as the model reexamines these ﬂows with
+higher contextual awareness. Empirically, this two-
+layer safeguard limited false negatives to fewer than
+14 per million packets in the mixed-attack scenario,
+which is negligible relative to the overall traﬃc vol-
+ume. These results demonstrate that occasional false
+alarms introduced by the rule ﬁlter are eﬀectively con-
+trolled and do not degrade the IDS’s ability to main-
+tain high recall across all attack classes.
+Table 7:
+Detection Metrics on the Test Set.
+Metric
+Value
+Overall accuracy
+98.0 %
+Macro-F1
+0.93
+Minority recalls
+Blackhole 0.95Grayhole 0.90
+Flooding 0.84
+Fig.3:
+Confusion Matrix-Hybrid IDS.
+Two factors explain the strong minority perfor-
+mance:
+1.
+Despite the extreme imbalance in the test
+split (≈1:185 between Flooding and Normal),
+the hybrid IDS delivers near-perfect accuracy
+while maintaining robust performance across
+minority classes.
+2.
+The CNN + LSTM backbone captures both
+header-level anomalies (e.g., unusual RSSI)
+and temporal patterns (e.g., sustained packet
+loss indicative of Grayhole).
+The tiny TDMA class (only two windows after
+window-ing) is eﬀectively ignored this is acceptable
+because TDMA spooﬁng is treated as an open set
+event in the threat model (§2.3).
+5.2 Energy-Eﬃciency Analysis (Figure 4)
+Figure 4. compares the network lifetime T50 time
+until half of the 50 nodes exhaust their 2 500 mAh
+bat-teries (Section 4.2) for three baselines.
+(Table
+8). show deploying full deep learning on every sen-
+sor (Node-DL) yields the shortest lifetime because
+nodes expend energy on both compute and constant
+radio traﬃc. Oﬀ-loading computation but forward-
+ing all packets (Signature IDS) improves lifetime by
+13 days, yet still suﬀers from high radio use.
+The
+proposed hybrid design combines an ultra-light rule
+ﬁlter (drastically cutting transmissions) with an INT8
+CNN-LSTM at the gateway, extending T50 to 69 days
+an 82 % gain over on-node DL and a 35 % gain over
+the signature baseline.
+This demonstrates that in-
+telligent workload partitioning, not deeper on-node
+models, delivers the largest energy dividends in low-
+power WSNs.
+Table 8:
+Network-Lifetime (T50) Comparison.
+Scheme
+T50
+∆vs. Hybrid
+Node-DL (on-node
+38 days
+82 %
+GRU)
+Signature IDS
+51 days
+35 %
+Hybrid (ours)
+69 days
+Fig.4:
+Network Lifetime vs. Baselines.
+Why Hybrid wins
+• Stage-1 rule ﬁlter discards ∼95 % of benign
+packets, cutting average radio TX from 74 kB
+(Node-DL) to 19 kB per node.
+• INT8 pruned CNN-LSTM costs 28 mJ per 32-
+window batch at the gateway; sensors spend ≤
+0.05 mJ per rule check negligible compared with
+LoRa TX energy (≈5 mJ per packet).

@@ -1,0 +1,33 @@
+Published in Transactions on Machine Learning Research (06/2024)
+correlation and pairwise correlation agreement metrics in Figure 15 for 4 datasets: COMPAS (7 features),
+German Credit (20 features), Forest Cover (45 features) and Gas Concentration (128 features) between the 6
+explanation methods for neural networks models. We did not observe a drastic change in the disagreement
+between explanations when the features in the tabular data increased from 7 to 128; however, we did notice
+a substantially lower rank correlation between LIME and KernelSHAP with other methods for the Gas
+Concentration dataset which has the largest number of features among the 4 datasets.
+E
+Omitted Details from Section 5
+E.1
+Screenshots of UI
+In Figures 16 and 17, we present screenshots of the UI that participants are presented with before beginning
+the study. The purpose of this introduction page is to familiarize the participants with the COMPAS
+prediction setting, the six explainability methods we use, and the explainability plots we show in each of the
+prompts.
+Figure 16: This is a screenshot of the first half of the introductory page, describing our COMPAS risk
+score prediction setting and briefly summarizing the six explainability algorithms used (with links to their
+corresponding papers for the interested participant).
+E.2
+Prompts Used
+In this section, we share the 15 prompts that we showed users. Each prompt highlights a pair of different
+explainability algorithms on a COMPAS data point. For each pair, we chose the data point from the entire
+COMPAS set that maximized the rank correlation between the explanations.
+E.3
+User Study Questions
+In each of the five prompts, we asked participants the following questions, which we refer to as Set 1. Questions
+3-4 were only shown if the user selected Mostly agree, Mostly disagree, or Completely disagree to Question (1).
+1. To what extent do you think the two explanations shown above agree or disagree with each other?
+(choice between Completely agree, Mostly agree, Mostly disagree, Completely disagree)
+2. Please explain why you chose the above answer.
+3. Since you believe that the above explanations disagree (to some extent), which explanation would
+you rely on? (choice between Algorithm 1 explanation, Algorithm 2 explanation, It depends)
+28

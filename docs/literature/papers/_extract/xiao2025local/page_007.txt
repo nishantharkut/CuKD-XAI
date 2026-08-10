@@ -1,0 +1,105 @@
+Signal, Image and Video Processing (2025) 19 :1335
+Page 7 of 15
+1335
+Recall or True Positive Rate (TPR), as well as Sensitivity,
+deﬁnesthefractionofthosepositivecasesthatwereidentiﬁed
+correctly:
+Recall =
+TP
+TP + FN
+(3)
+F1 Score is one of the measures that combines the fea-
+tures of Precision and Recall, offering a balanced measure
+that reﬂects the errors that are both false positives and false
+negatives:
+F1 −score = 2 × Recall × Precision
+Recall + Precision
+(4)
+When classiﬁcation performance is evaluated using var-
+ious metrics, it provides evaluators with a comprehensive
+evaluation that considers true correctness, positive detec-
+tion, and prediction reliability, particularly for imbalanced
+datasets where a single metric can lead to incorrect interpre-
+tation.
+3.7 Model training and reproducibility
+To ensure reproducibility and transparency, all models were
+trained with explicit hyperparameter settings, data split strat-
+egy, and preprocessing steps. The dataset was split into 80%
+training and 20% testing, with stratiﬁcation applied to main-
+tain the class distribution across splits. Table 4 shows the
+hyperparameters and architectural details for reproducibil-
+ity.
+The DNN architecture consists of a single hidden layer
+with 128 neurons, using ReLU activation for hidden lay-
+ers and Sigmoid for output. Training was conducted with a
+learning rate of 0.1, a batch size of 32, and 100 epochs. The
+CATBoost classiﬁer was conﬁgured with a depth of 6, learn-
+ing rate of 0.15, L2 regularization of 3, and the RMSE loss
+function. The metaheuristic optimizers, QIO and OOA, were
+set with a population size of 30, search bounds deﬁned per
+hyperparameter, and an iteration limit of 200. The stopping
+criterion was either convergence of the objective function or
+reaching the maximum number of iterations.
+4 Result and discussion
+This section presents the results from the ensemble-based
+intrusion detection framework, the proposal, and compares
+its performance with that of baseline models. The presenta-
+tion of results ﬁrst focuses on the convergence behavior of the
+optimization-enhanced ensembles, and a subsequent stage
+is the evaluation of their predictive performance by utiliz-
+ing several classiﬁcation metrics. Besides the overall model
+accuracy, the class-wise detection counts are also taken into
+account, thus providing a deeper understanding of the inter-
+actions between precision, recall, and F1-score for different
+attack scenarios. The aspects of the model, such as stability,
+behavior,andsensitivitytofeaturesthatresultinperformance
+patterns being linked to the latent optimization strategies, are
+revealed by convergence plots, heatmaps, ROC curves, and
+sensitivity analyses.
+Figure 2 depicts a radial convergence plot that provides a
+visual comparison of the iterative performance trajectories of
+DCQI and DCOA, two hybrid ensemble conﬁgurations, over
+the entire process of optimization. The iteration progression
+and accuracy convergence are evident in the radial layout,
+which does not require detailed analysis, as each concentric
+arc represents incremental increases in classiﬁcation accu-
+racy. Right from the ﬁrst iterations, DCQI (in yellow) goes
+to higher levels of accuracy faster, exceeding the value of
+0.94 within the ﬁrst few cycles of the optimization process,
+and also continuing with its upward trend until it reaches a
+level above 0.955, where it stabilizes. This means that the
+Quadratic Interpolation Optimization method is very effec-
+tive in speeding up the convergence process by cutting off
+the decision boundaries in a more targeted and exploitation-
+drivenway.Conversely,DCOA(inlightred)tracesadifferent
+pattern with a slower than DCQI convergence curve, where it
+is only after a long number of iterations that it becomes com-
+petitive at accuracy levels. Its ﬁnal performance is marginally
+lower than that of DCQI, but the less steep slope signiﬁes that
+OOA is more likely to employ the explorative search strategy,
+which can be one of the reasons why it is less prone to prema-
+ture convergence in more complex optimization landscapes.
+The decrease of the performance gains in both models for the
+last iterations is very gradual, which is a strong indication of
+the saturation phase of the metaheuristic search, where the
+near-optimal solutions have been reached and the marginal
+improvements become smaller. The image as a whole high-
+lights DCQI’s advantages, including fast convergence and
+ﬁnal accuracy, while also showing DCOA as strong in the
+exploration phase.
+The computational efﬁciency of the proposed framework
+was carefully evaluated considering the resource constraints
+typical of WSNs. Experiments were conducted on a system
+with an Intel 11th Gen Core i7-1165G7 CPU @ 2.80 GHz
+and 16 GB RAM, using Python with a batch size of 512
+for the DNN. The baseline DNN + CATBoost (DNCA)
+ensemble required approximately 35–36 min for training
+across 200 iterations, with soft-voting overhead being neg-
+ligible. Its storage footprint was estimated at 93 MB. When
+metaheuristic optimization was incorporated, the training
+time increased due to multiple hyperparameter evaluations:
+the QIO-enhanced ensemble (DCQI) completed training in
+around 175 min (~ 2 h 55 min) with an estimated storage
+size of ~ 125 MB, beneﬁting from faster convergence via
+its exploitation-oriented search, whereas the OOA-boosted
+123

@@ -1,0 +1,61 @@
+Future Internet 2025, 17, 230
+5 of 21
+tion, malware, and scanning-based attacks, with further sub-types such as DDoS_UDP,
+SQL_injection, and ransomware.
+(1)
+Dataset Structure and Features: Each sample corresponds to a unique traffic flow
+characterized by 63 features extracted using Zeek 4.0.1 and TShark 3.4.4 protocol
+analyzers. These features include the following:
+•
+Protocol-specific attributes: Packet rates, connection duration, protocol type (e.g.,
+MQTT, HTTP, DNS), payload size, and flow state flags.
+•
+Statistical metrics: Mean/standard deviation of packet intervals, bytes transmitted,
+and system resource usage (CPU, memory).
+•
+Behavioral indicators: Alerts triggered during communication (e.g., suspicious
+port access, malformed packets).
+(2)
+Labels and Classification Tasks: The dataset includes the following two labels:
+•
+Attack label: Binary classification (0 = normal, 1 = attack).
+•
+Attack type: Multiclass classification, specifying the exact attack type (e.g.,
+DDoS_ICMP, XSS). This allows the problem to be approached as binary (2-class),
+grouped (6-class), or fine-grained (15-class) classification, with distributions
+detailed in Tables 1–3.
+(3)
+Data Splitting and Attack Identification: To ensure balanced evaluation, the dataset was
+partitioned using stratified random sampling, as follows:
+•
+Training set: A total of 1,775,361 samples (80%—1,615,643 normal, 603,558 at-
+tacks).
+•
+Test set: A total of 443,840 samples (20%—272,800 normal, 109,134 attacks).
+Each traffic flow is self-contained, enabling real-time intrusion detection without
+requiring sequential analysis. For instance, DDoS attacks are identifiable through abrupt
+packet rate spikes, while SQL injections are flagged via anomalous payload patterns.
+This dataset’s realism, protocol diversity, and granular feature engineering make it
+uniquely suited for evaluating spatial and temporal attack behaviors in IoT/IIoT networks.
+Table 1. Distribution of 2-class samples.
+Classes
+Samples
+Normal
+1,615,643
+Attack
+603,558
+Table 2. Distribution of 6-class samples.
+Classes
+Samples
+Normal
+1,615,643
+DDoS-based attack
+337,977
+Injection-based attack
+51,203
+MITM-based attack
+1214
+Malware-based attack
+10,925
+Scanning-based attack
+22,564

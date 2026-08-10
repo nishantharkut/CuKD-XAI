@@ -1,0 +1,100 @@
+422
+Page 2 of 23
+Complex & Intelligent Systems (2025) 11 :422
+Traditional centralized intrusion detection systems struggle
+with the diversity and distributed nature of IoT networks,
+which are often constrained by limited bandwidth and pri-
+vacy concerns [7–9]. This necessitates the exploration of
+distributed solutions like Federated Learning (FL) that pre-
+serve data privacy by enabling decentralized model training
+onindividualdevices[10,11].Furthermore,integratinginter-
+pretability methods such as SHAP into FL frameworks is
+crucial to ensure the robustness and trustworthiness of intru-
+sion detection systems. By advancing privacy-preserving and
+interpretable detection frameworks capable of handling IoT’s
+data heterogeneity and decentralized structure, we contribute
+to creating a robust, scalable security approach that can be
+adopted widely across industries.
+Problem statement and research questions
+Solving the problem of botnet detection in IoT environ-
+ments is challenging due to several key factors. First, IoT
+networks consist of highly diverse devices with varying pro-
+cessing capabilities, operating systems, and communication
+protocols, resulting in heterogeneous data that complicates
+pattern recognition [12]. Second, the non-IID nature of IoT
+data means that each device generates unique data distri-
+butions, making it difﬁcult for traditional machine learning
+models to generalize across the network. Additionally, cen-
+tralized intrusion detection approaches are impractical for
+IoT due to privacy concerns and bandwidth limitations, as
+transferring massive amounts of data from devices to a cen-
+tral server increases vulnerability to attacks and violates user
+privacy. Finally, botnets evolve rapidly, adapting their attack
+methods to avoid detection, which requires a ﬂexible, adap-
+tive detection model capable of continuous learning without
+compromising security [13, 14]. Together, these factors make
+developing an effective, privacy-preserving, and adaptable
+detection framework a complex yet critical task for IoT secu-
+rity.
+Based on the limitations identiﬁed in existing approaches,
+the following research questions are posed to guide this study
+and address critical gaps in IoT security frameworks.
+• RQ1: How can federated learning be effectively utilized to
+address the heterogeneity and non-IID nature of IoT data
+while preserving privacy in botnet intrusion detection?
+• RQ2: How does the integration of SHAP-based knowl-
+edge distillation enhance model interpretability and ensure
+alignment with globally relevant features in federated set-
+tings?
+• RQ3: What role does decentralized feature aggregation
+play in improving the scalability and adaptability of botnet
+detection frameworks across diverse IoT devices?
+• RQ4: How does the proposed framework address the chal-
+lenges posed by evolving botnet architectures and resource
+constraints in IoT environments?
+Contributions in this research
+To address the unique challenges of IoT botnet detection, we
+propose a novel privacy-preserving federated learning frame-
+work that leverages SHAP-based knowledge distillation and
+decentralized feature aggregation. In our approach, each IoT
+device (client) independently trains a local model and com-
+putes SHAP values to determine the importance of individual
+features related to botnet activity, such as patterns indicative
+of Mirai, Bashlite, or Torii infections. Instead of sharing raw
+data, clients only transmit these SHAP-based feature impor-
+tance scores, enabling the central server to aggregate feature
+insights from a wide range of devices without compromising
+data privacy. This aggregation forms a global feature proﬁle,
+which identiﬁes and prioritizes the most relevant features for
+intrusion detection across heterogeneous, non-IID IoT data.
+The global model is then ﬁne-tuned with this distilled knowl-
+edge, enabling it to adapt to diverse IoT environments and
+detect botnet activities effectively. Our approach not only
+preserves data privacy but also addresses data heterogeneity
+and allows for a scalable solution that can continuously learn
+from diverse, decentralized IoT networks.
+Major contribution of this research is listed below:
+• We propose a novel privacy-preserving federated learning
+framework for IoT botnet intrusion detection, integrating
+SHAP-based knowledge distillation to eliminate raw data
+sharing and enhance model interpretability.
+• The framework addresses IoT data heterogeneity and non-
+IID challenges by aggregating feature importance scores
+across decentralized clients, enabling robust and adaptable
+botnet detection.
+• Our approach improves global model accuracy and per-
+formance while maintaining high detection effectiveness
+across diverse IoT devices, leveraging decentralized fea-
+ture aggregation to detect botnet-speciﬁc patterns while
+preserving privacy.
+• We propose a dynamic and adaptive learning mechanism
+that allows the system to continuously incorporate new
+feature insights from evolving IoT environments, ensuring
+long-term robustness and adaptability to emerging bot-
+net attack patterns without requiring full retraining of the
+global model.
+Our approach offers several distinct advantages over tra-
+ditional and contemporary botnet detection methods in IoT
+environments. First, by using federated learning with SHAP-
+based knowledge distillation, we preserve data privacy as
+123

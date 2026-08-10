@@ -1,0 +1,62 @@
+A
+Implementation details
+Here we brieﬂy describe key implementation details to reproduce our experiments. Data augmentation
+details are given in A.1, followed by architecture details in A.2, and ﬁnally training details are provided
+in A.3. The reader is encouraged to consult the included code for closer inspection.
+A.1
+Data augmentation procedures
+Some of the data augmentation procedures we consider attempt to generate data that is close to the
+train data distribution (standard augmentations, GAN, mixup). Others (random noise, out-of-domain
+data) produce data for distillation that the teacher would never encounter during normal supervised
+training. In particular, we compare the following augmentation procedures:
+Baseline augmentations
+As a baseline, we use the same data augmentation strategy that was used
+to train the teachers during distillation: we apply random horizontal ﬂips (p = 0.5) and random shifts
+via pad and random-crop with a 4 pixel pad width. In all of the conﬁgurations we consider in this
+section we use this set of augmentations along with other strategies, unless stated otherwise.
+Conventional image transformations
+Standard data augmentations used in computer vision [32]:
+random rotations by up to 20 degrees, random vertical ﬂips, color jitter and all possible combinations.
+Mixup
+Mixup is an effective regularization technique originally proposed to increase generalization
+and robustness of deep networks [50, 44]. Instead of training on original dataset, the network is
+trained on convex combination of images with targets mixed in the same way. We adapt mixup to
+knowledge distillation as follows: on each iteration we construct random pairs of inputs x, x′ from
+the training set and mix them as λ · x + (1 −λ) · x′, where the coefﬁcient λ is sampled uniformly on
+[0, 1]5.
+Synthetic GAN-generated images
+We use a Spectral Normalization GAN (SN-GAN) trained on
+CIFAR-100 [35] to generate synthetic data for distillation. We used the same pretrained SN-GAN
+(FID = 74.2617, IS = 6.6023) for all experiments. Our synthetic augmentation procedure was the
+following: for each minibatch of real training data, we concatenated synthetic images sampled from a
+pretrained SN-GAN at a ratio of 1 synthetic image to 4 real images.
+Random noise
+To observe the effect of unnatural images in the distillation dataset we augment
+with images sampled pixel-wise from uniform [0, 1]d. During distillation each image in a minibatch
+is randomly resampled with probability p = 0.2.
+Out-of-domain data
+Finally, we consider using images from the SVHN dataset [37] which is
+semantically unrelated to the target CIFAR-100 dataset.
+We use the torchvision.transoforms package [39] to implement the augmentations from the
+Baseline Augmentations and Conventional Image Transformations categories:
+• Horizontal ﬂips: torchvision.transforms.RandomHorizontalFlip()
+• Random
+shifts:
+torchvision.transforms.RandomCrop(size=<input_size>,
+padding=4)
+• Vertical ﬂips: torchvision.transforms.RandomVerticalFlip()
+• Color
+jitter:
+torchvision.transforms.ColorJitter(brightness=0.2,
+contrast=0.2, saturation=0.2, hue=0.2)
+• Random rotations: torchvision.transforms.RandomRotation(degrees=20)
+A.2
+Network architectures
+Image classiﬁers
+For experiments on CIFAR-100 we used preactivation ResNets with batchnorm,
+skip connections [18], and the standard three-stage macro-structure, varying the number of layers
+in each stage (i.e. the depth of the network). For all choices of depth we used the same number
+of ﬁlters in each stage (16, 32, and 64, respectively). In Section C.2 we use a VGG-16 network
+5Note that unlike in the original mixup procedure we are only mixing the inputs and we use the predictions
+of the teacher on the mixed inputs as the target for the student.
+14

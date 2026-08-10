@@ -1,0 +1,42 @@
+{
+  "id": "lundberg2017shap",
+  "n_pages": 10,
+  "title": "A Uni\ufb01ed Approach to Interpreting Model Scott M. Lundberg Paul G. Allen School of Computer Science",
+  "abstract": "Understanding why a model makes a certain prediction can be as crucial as the prediction\u2019s accuracy in many applications. However, the highest accuracy for large modern datasets is often achieved by complex models that even experts struggle to interpret, such as ensemble or deep learning models, creating a tension between accuracy and interpretability. In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a uni\ufb01ed framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. Its novel components include: (1) the identi\ufb01cation of a new class of additive feature importance measures, and (2) theoretical results showing there is a unique solution in this class with a set of desirable properties. The new class uni\ufb01es six existing methods, notable because several recent methods in the class lack the proposed desirable properties. Based on insights from this uni\ufb01cation, we present new methods that show improved computational performance and/or better consistency with human intuition than previous approaches.",
+  "table_headers": [],
+  "metric_lines": [
+    "1https://github.com/slundberg/shap",
+    "additive feature attribution methods (Section 3) and propose SHAP values as a uni\ufb01ed measure of",
+    "3. We propose new SHAP value estimation methods and demonstrate that they are better aligned",
+    "of model predictions: Shapley regression values [4], Shapley sampling values [9], and Quantitative",
+    "For Shapley regression values, hx maps 1 or 0 to the original input space, where 1 indicates the input",
+    "Shapley regression values match Equation 1 and are hence an additive feature attribution method.",
+    "Shapley sampling values are meant to explain any model by: (1) applying sampling approximations",
+    "than 2|F | differences to be computed. Since the explanation model form of Shapley sampling values",
+    "Property 1 (Local accuracy)",
+    "as Shapley values [6]. Young (1985) demonstrated that Shapley values are the only set of values",
+    "redundant in this setting (see Supplementary Material). Property 2 is required to adapt the Shapley",
+    "values violate local accuracy and/or consistency (methods in Section 2 already respect missingness).",
+    "Figure 1: SHAP (SHapley Additive exPlanation) values attribute to each feature the change in the",
+    "Based on Sections 2 and 3, SHAP values provide the unique additive feature importance measure that",
+    "in [9, 5, 7, 3], then SHAP values can be estimated directly using the Shapley sampling values method",
+    "approximation of a permutation version of the classic Shapley value equations (Equation 8). Separate",
+    "original model to obtain similar approximation accuracy (Section 5).",
+    "very different from the classical Shapley value formulation of Equation 8. However, since linear",
+    "solution to Equation 2 that satis\ufb01es Properties 1-3 \u2013 local accuracy, missingness and consistency. A",
+    "choices for these parameters are made heuristically; using these choices, Equation 2 does not recover",
+    "Below we show how to avoid heuristically choosing the parameters in Equation 2 and how to \ufb01nd the",
+    "Theorem 2 (Shapley kernel) Under De\ufb01nition 1, the speci\ufb01c forms of \u03c0x\u2032, L, and \u2126that make",
+    "that is equivalent to the approximation of the SHAP mapping given in Equation 12, this enables",
+    "The intuitive connection between linear regression and Shapley values is that Equation 8 is a difference",
+    "For linear models, if we assume input feature independence (Equation 11), SHAP values can be",
+    "Corollary 1 (Linear SHAP) Given a linear model f(x) = PM",
+    "minimization formulation of Shapley values proposed in econometrics [2].",
+    "Figure 2: (A) The Shapley kernel weighting is symmetric when all possible z\u2032 vectors are ordered",
+    "lets us compute the Shapley values of a max function with M inputs in O(M 2) time instead of",
+    "connection between Shapley values and DeepLIFT [8]. If we interpret the reference value in Equation"
+  ],
+  "tags": [
+    "XAI"
+  ]
+}

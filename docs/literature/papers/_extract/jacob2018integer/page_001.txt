@@ -1,0 +1,88 @@
+Quantization and Training of Neural Networks for Efﬁcient
+Integer-Arithmetic-Only Inference
+Benoit Jacob
+Skirmantas Kligys
+Bo Chen
+Menglong Zhu
+Matthew Tang
+Andrew Howard
+Hartwig Adam
+Dmitry Kalenichenko
+{benoitjacob,skligys,bochen,menglong,
+mttang,howarda,hadam,dkalenichenko}@google.com
+Google Inc.
+Abstract
+The rising popularity of intelligent mobile devices and
+the daunting computational cost of deep learning-based
+models call for efﬁcient and accurate on-device inference
+schemes. We propose a quantization scheme that allows
+inference to be carried out using integer-only arithmetic,
+which can be implemented more efﬁciently than ﬂoating
+point inference on commonly available integer-only hard-
+ware. We also co-design a training procedure to preserve
+end-to-end model accuracy post quantization. As a result,
+the proposed quantization scheme improves the tradeoff be-
+tween accuracy and on-device latency. The improvements
+are signiﬁcant even on MobileNets, a model family known
+for run-time efﬁciency, and are demonstrated in ImageNet
+classiﬁcation and COCO detection on popular CPUs.
+1. Introduction
+Current state-of-the-art Convolutional Neural Networks
+(CNNs) are not well suited for use on mobile devices. Since
+the advent of AlexNet [20], modern CNNs have primarily
+been appraised according to classiﬁcation / detection accu-
+racy. Thus network architectures have evolved without re-
+gard to model complexity and computational efﬁciency. On
+the other hand, successful deployment of CNNs on mobile
+platforms such as smartphones, AR/VR devices (HoloLens,
+Daydream), and drones require small model sizes to accom-
+modate limited on-device memory, and low latency to main-
+tain user engagement. This has led to a burgeoning ﬁeld of
+research that focuses on reducing the model size and infer-
+ence time of CNNs with minimal accuracy losses.
+Approaches in this ﬁeld roughly fall into two cate-
+gories. The ﬁrst category, exempliﬁed by MobileNet [10],
+SqueezeNet [16], ShufﬂeNet [32], and DenseNet [11], de-
+signs novel network architectures that exploit computation
+/ memory efﬁcient operations. The second category quan-
+tizes the weights and / or activations of a CNN from 32
+bit ﬂoating point into lower bit-depth representations. This
+methodology, embraced by approaches such as Ternary
+weight networks (TWN [22]), Binary Neural Networks
+(BNN [14]), XNOR-net [27], and more [8, 21, 26, 33, 34,
+35], is the focus of our investigation. Despite their abun-
+dance, current quantization approaches are lacking in two
+respects when it comes to trading off latency with accuracy.
+First, prior approaches have not been evaluated on a
+reasonable baseline architecture. The most common base-
+line architectures, AlexNet [20], VGG [28] and GoogleNet
+[29], are all over-parameterized by design in order to extract
+marginal accuracy improvements. Therefore, it is easy to
+obtain sizable compression of these architectures, reducing
+quantization experiments on these architectures to proof-
+of-concepts at best. Instead, a more meaningful challenge
+would be to quantize model architectures that are already ef-
+ﬁcient at trading off latency with accuracy, e.g. MobileNets.
+Second, many quantization approaches do not deliver
+veriﬁable efﬁciency improvements on real hardware. Ap-
+proaches that quantize only the weights ([2, 4, 8, 33]) are
+primarily concerned with on-device storage and less with
+computational efﬁciency.
+Notable exceptions are binary,
+ternary and bit-shift networks [14, 22, 27].
+These latter
+approaches employ weights that are either 0 or powers of
+2, which allow multiplication to be implemented by bit
+shifts. However, while bit-shifts can be efﬁcient in cus-
+tom hardware, they provide little beneﬁt on existing hard-
+ware with multiply-add instructions that, when properly
+used (i.e.
+pipelined), are not more expensive than addi-
+tions alone. Moreover, multiplications are only expensive
+if the operands are wide, and the need to avoid multiplica-
+tions diminishes with bit depth once both weights and acti-
+vations are quantized. Notably, these approaches rarely pro-
+vide on-device measurements to verify the promised timing
+improvements. More runtime-friendly approaches quantize
+both the weights and the activations into 1 bit representa-
+12704

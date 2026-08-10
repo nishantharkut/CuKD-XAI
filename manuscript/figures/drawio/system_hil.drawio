@@ -1,0 +1,95 @@
+<mxfile host="app.diagrams.net" agent="CuKD-XAI" version="22.0.0">
+  <diagram id="system-hil" name="System HIL">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="t1" value="CuKD HIL evaluation architecture (conceptual)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=14;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="520" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Section A -->
+        <mxCell id="sa" value="(a) Conceptual WSN (ideal)" style="swimlane;startSize=28;horizontal=1;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#000000;fillColor=#f5f5f5;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1000" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="a1" value="WSN mote&#xa;(ideal on-node IDS)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;dashed=1;" vertex="1" parent="sa">
+          <mxGeometry x="40" y="50" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" value="Low-power radio" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;dashed=1;" vertex="1" parent="sa">
+          <mxGeometry x="260" y="50" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" value="Gateway / sink" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;dashed=1;" vertex="1" parent="sa">
+          <mxGeometry x="460" y="50" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" value="Optional cloud" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;dashed=1;" vertex="1" parent="sa">
+          <mxGeometry x="660" y="50" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sa" source="a1" target="a2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e_a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sa" source="a2" target="a3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e_a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sa" source="a3" target="a4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="anote" value="Dashed = ideal field deployment (motes not available in this study)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#333333;" vertex="1" parent="sa">
+          <mxGeometry x="40" y="110" width="420" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Section B -->
+        <mxCell id="sb" value="(b) Offline model development (host PC)" style="swimlane;startSize=28;horizontal=1;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#000000;fillColor=#f5f5f5;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="1000" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="b1" value="WSN-DS CSV&#xa;17 features" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="sb">
+          <mxGeometry x="40" y="50" width="140" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="b2" value="Train-only scaler&#xa;+ fixed split" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="sb">
+          <mxGeometry x="230" y="50" width="150" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="b3" value="RF teacher →&#xa;tiny MLP students" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="sb">
+          <mxGeometry x="430" y="50" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="b4" value="FP32 export&#xa;fixed-point C" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="sb">
+          <mxGeometry x="640" y="50" width="140" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_b1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sb" source="b1" target="b2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e_b2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sb" source="b2" target="b3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e_b3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sb" source="b3" target="b4"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Section C -->
+        <mxCell id="sc" value="(c) Hardware-in-the-loop fidelity (this work)" style="swimlane;startSize=28;horizontal=1;fontStyle=1;fontSize=12;fontFamily=Helvetica;strokeColor=#000000;fillColor=#eeeeee;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="1000" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="c1" value="Raspberry Pi&#xa;HIL host&#xa;(orchestrator only)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#e8e8e8;fontStyle=1;" vertex="1" parent="sc">
+          <mxGeometry x="40" y="55" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="c2" value="ESP32-C3&#xa;DUT" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#d9d9d9;fontStyle=1;" vertex="1" parent="sc">
+          <mxGeometry x="300" y="40" width="120" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c3" value="Arduino UNO R4 WiFi&#xa;DUT" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#d9d9d9;fontStyle=1;" vertex="1" parent="sc">
+          <mxGeometry x="300" y="110" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="c4" value="Fixed-point reference&#xa;predictions&#xa;(N = 56200 test rows)" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="sc">
+          <mxGeometry x="580" y="65" width="180" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_c1" value="USB serial vectors" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontFamily=Helvetica;" edge="1" parent="sc" source="c1" target="c2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_c2" value="USB serial" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontFamily=Helvetica;" edge="1" parent="sc" source="c1" target="c3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_c3" value="class IDs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontFamily=Helvetica;" edge="1" parent="sc" source="c2" target="c4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_c4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;" edge="1" parent="sc" source="c3" target="c4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cnote" value="Pi does not run the student classifier for reported MCU–reference agreement. HIL measures model-core integer fidelity, not live radio." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#333333;" vertex="1" parent="sc">
+          <mxGeometry x="40" y="165" width="900" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- Number note -->
+        <mxCell id="foot" value="N=56200 from results/runtime/.../train_only_runtime_results.json (n_test). Do not add accuracy numbers to this figure without a provenance path." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontFamily=Helvetica;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="980" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

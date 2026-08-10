@@ -1,0 +1,119 @@
+Curriculum Learning
+of the problem reveals the global picture. One deﬁnes
+a single-parameter family of cost functions Cλ(θ) such
+that C0 can be optimized easily (maybe convex in θ),
+while C1 is the criterion that we actually wish to mini-
+mize. One ﬁrst minimizes C0(θ) and then gradually in-
+creases λ while keeping θ at a local minimum of Cλ(θ).
+Typically C0 is a highly smoothed version of C1, so
+that θ gradually moves into the basin of attraction of
+a dominant (if not global) minimum of C1. Applying
+a continuation method to the problem of minimizing
+a training criterion involves a sequence of training cri-
+teria, starting from one that is easier to optimize, and
+ending with the training criterion of interest.
+At an abstract level, a curriculum can also be seen
+as a sequence of training criteria. Each training crite-
+rion in the sequence is associated with a diﬀerent set of
+weights on the training examples, or more generally, on
+a reweighting of the training distribution. Initially, the
+weights favor “easier” examples, or examples illustrat-
+ing the simplest concepts, that can be learned most
+easily.
+The next training criterion involves a slight
+change in the weighting of examples that increases the
+probability of sampling slightly more diﬃcult exam-
+ples. At the end of the sequence, the reweighting of
+the examples is uniform and we train on the target
+training set or the target training distribution.
+One way to formalize this idea is the following. Let z
+be a random variable representing an example for the
+learner (possibly an (x, y) pair for supervised learn-
+ing). Let P(z) be the target training distribution from
+which the learner should ultimately learn a function of
+interest. Let 0 ≤Wλ(z) ≤1 be the weight applied to
+example z at step λ in the curriculum sequence, with
+0 ≤λ ≤1, and W1(z) = 1. The corresponding train-
+ing distribution at step λ is
+Qλ(z) ∝Wλ(z)P(z)
+∀z
+(1)
+such that
+R
+Qλ(z)dz = 1. Then we have
+Q1(z) = P(z)
+∀z.
+(2)
+Consider a monotonically increasing sequence of λ val-
+ues, starting from λ = 0 and ending at λ = 1.
+Deﬁnition We call the corresponding sequence of dis-
+tributions Qλ (following eqns 1 and 2) a curriculum
+if the entropy of these distributions increases
+H(Qλ) < H(Qλ+ϵ)
+∀ϵ > 0
+(3)
+and Wλ(z) is monotonically increasing in λ, i.e.,
+Wλ+ϵ(z) ≥Wλ(z)
+∀z, ∀ϵ > 0.
+(4)
+To illustrate this deﬁnition, consider the simple set-
+ting where Qλ is concentrated on a ﬁnite set of ex-
+amples, and increasing λ means adding new examples
+to that set: the support of Qλ increases with λ, and
+the sequence of training distributions corresponds to
+a sequence of embedded training sets, starting with a
+small set of easy examples and ending with the target
+training set. We want the entropy to increase so as
+to increase the diversity of training examples, and we
+want the weights of particular examples to increase as
+they get “added” into the training set.
+In the experiments below the sequence of training sets
+is always discrete.
+In fact the curriculum strategy
+worked in some of our experiments with a sequence
+of just two steps: ﬁrst a set of easy examples, and
+then the target training set.
+At the other extreme,
+if training proceeds in a stochastic manner by sam-
+pling training examples from a distribution, then one
+could imagine a continuous sequence of sampling dis-
+tributions which gradually gives more weight Wλ(z) to
+the more diﬃcult examples, until all examples have an
+equal weight of 1.
+Up to now we have not deﬁned what “easy examples”
+meant, or equivalently, how to sort examples into a
+sequence that illustrates the simpler concepts ﬁrst. In
+the following experiments we explore a few simple ways
+to deﬁne a curriculum, but clearly a lot more work is
+needed to explore diﬀerent curriculum strategies, some
+of which may be very speciﬁc to particular tasks.
+4. Toy Experiments with a Convex
+Criterion
+4.1. Cleaner Examples May Yield Better
+Generalization Faster
+One simple way in which easy examples could help is
+by being less “noisy”, as shown theoretically (Der´enyi
+et al., 1994) in the case of a Teacher-Learner pair
+of Perceptrons.
+In the supervised classiﬁcation set-
+ting, an example is considered noisy if it falls on the
+incorrect side of the decision surface of the Bayes
+classiﬁer.
+Noisy examples can slow down conver-
+gence, as illustrated with the following toy experiment.
+Two-dimensional inputs are generated from a diﬀer-
+ent Gaussian for each one of the two classes. We de-
+ﬁne class targets y = 1 and y = −1 respectively. The
+Gaussian mean for class y is at (y/
+√
+2, y/
+√
+2) and both
+Gaussians have standard deviation 1. Starting from
+random initial parameters (50 times), we train a linear
+SVM with 50 training examples. Let w be the weight
+vector of the Bayes classiﬁer. We ﬁnd that training
+only with “easy” examples (for which yw′x > 0) gives
+rise to lower generalization error: 16.3% error vs 17.1%
+error (average over 50 runs), and the diﬀerence is sta-
+tistically signiﬁcant.

@@ -1,0 +1,173 @@
+17
+…
+…
+…
+…
+…
+…
+RLC
+Decoder
+Ifmap
+Ofmap
+Filter
+Filter
+Ifmap
+Psum
+Psum
+Global
+Buffer
+108KB
+64 
+bits
+Link Clock 
+Core Clock 
+Accelerator
+RLC
+Enc.
+Top-Level Control
+Config Scan Chain
+Configuration Bits
+MAC
+Spad
+Control
+12✕14
+PE Array
+Processing
+Element
+Off-Chip 
+DRAM
+ReLU
+Fig. 31.
+Eyeriss DNN accelerator [94].
+Replication 
+Folding 
+.. 
+.. 
+.. 
+.. 
+.. 
+.. 
+3 
+13 
+AlexNet 
+Layer 3-5 
+12 
+14 
+Physical PE Array 
+3 
+3 
+3 
+3 
+13 
+13 
+13 
+13 
+.. 
+.. 
+.. 
+.. 
+.. 
+.. 
+5 
+27 
+AlexNet 
+Layer 2 
+Physical PE Array 
+12 
+14 
+5 
+14 
+13 
+5 
+Unused PEs 
+are 
+Clock Gated 
+Fig. 32.
+Mapping uses replication and folding to maximized utilization of
+PE array [94].
+pass data in different patterns?
+Two mapping strategies can be used to solve the ﬁrst problem
+as shown in Fig. 32. First, replication can be used to map shapes
+that do not use up the entire PE array. For example, in the
+third to ﬁfth layers of AlexNet, each 2-D convolution only uses
+a 13×3 PE array. This structure is then replicated four times,
+and runs different channels and ﬁlters in each replication. The
+second strategy is called folding. For example, in the second
+layer of AlexNet, it requires a 27×5 PE array to complete the
+2-D convolution. In order to ﬁt it into the 14×12 physical PE
+array, it is folded into two parts, 14×5 and 13×5, and each
+are vertically mapped into the physical PE array. Since not all
+PEs are used by the mapping, the unused PEs can be clock
+gated to save energy consumption.
+A custom multicast network is used to solve the second
+problem about ﬂexible data delivery. The simplest way to pass
+data to multiple destinations is to broadcast the data to all PEs
+and let each PE decide if it has to process the data or not.
+However, it is not very energy efﬁcient especially when the
+size of PE array is large. Instead, a multicast network is used
+to send data to only the places where it is needed.
+5) Energy comparison of different dataﬂows: To evaluate
+and compare different dataﬂows, the same total hardware area
+and number of PEs (256) are used in the simulation of a spatial
+architecture for all dataﬂows. The local memory (register ﬁle) at
+each processing element (PE) is on the order of 0.5 – 1.0kB and
+a shared memory (global buffer) is on the order of 100 – 500kB.
+The sizes of these memories are selected to be comparable to
+a typical accelerator for multimedia processing, such as video
+coding [95]. The memory sizes are further adjusted for the
+needs of each dataﬂow under the same area constraint. For
+example, since the no local reuse dataﬂow does not require any
+RF in PE, it is allocated with a much larger global buffer. The
+simulation uses the layer conﬁgurations from AlexNet with a
+batch size of 16. The simulation also takes into account the
+fact that accessing different levels of the memory hierarchy
+requires different energy cost.
+Fig. 33 compares the chip and DRAM energy consumption
+of each dataﬂow for the CONV layers of AlexNet with a
+batch size of 16. The WS and OS dataﬂows have the lowest
+energy consumption for accessing weights and partial sums,
+respectively. However, the RS dataﬂow has the lowest total
+energy consumption since it optimizes for the overall energy
+efﬁciency instead of only for a certain data type.
+Fig. 33(a) shows the same results with breakdown in terms of
+memory hierarchy. The RS dataﬂow consumes the most energy
+in the RF, since by design most of the accesses have been
+moved to the lowest level of the memory hierarchy. This helps
+to achieve the lowest total energy consumption since RF has
+the lowest energy per access. The NLR dataﬂow has the lowest
+energy consumption at the DRAM level, since it has a much
+larger global buffer and thus higher on-chip storage capacity
+compared to others. However, most of the data accesses in
+the NLR dataﬂow is from the global buffer, which still has a
+relatively large energy consumption per access compared to
+accessing data from RF or inside the PE array. As a result, the
+overall energy consumption of the NLR dataﬂow is still fairly
+high. Overall, RS dataﬂow uses 1.4× to 2.5× lower energy
+than other dataﬂows.
+Fig. 34 shows the energy efﬁciency between different
+dataﬂows in the FC layers of AlexNet with a batch size of 16.
+Since there is not as much data reuse in the FC layers as in
+the CONV layers, all dataﬂows spend a signiﬁcant amount of
+energy on reading weights. However, RS dataﬂow still has the
+lowest energy consumption because it optimizes for the energy
+of accessing input activations and partial sums. For the OS
+dataﬂows, OSC now consumes lower energy than OSA since
+it is designed for the FC layers. Overall, RS still consumes
+1.3× lower energy compared to other dataﬂows at the batch
+size of 16.
+Fig. 35 shows the RS dataﬂow design with energy breakdown
+in terms of different layers of AlexNet. In the CONV layers, the
+energy is mostly consumed by the RF, while in the FC layers,
+the energy is mostly consumed by DRAM. However, most
+of the energy is consumed by the CONV layers, which takes
+around 80% of the energy. As recent DNN models go deeper
+with more CONV layers, the ratio between number of CONV
+and FC layers only gets larger. Therefore, moving forward,
+signiﬁcant effort should be placed on energy optimizations for
+CONV layers.
+Finally, up until now, we have been looking at architec-
+tures with relatively limited storage on the order of a few
+hundred kilobytes. With much larger storage on the order of
+a few megabytes, additional dataﬂows can be considered. For
+example, Fused-Layer looks at dataﬂow optimizations across
+layers [96].

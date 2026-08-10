@@ -1,0 +1,94 @@
+Electronics 2026, 15, 938
+16 of 20
+SQL_injection, and XSS, the model’s detection performance drops significantly. From the
+confusion matrix shown in Figure 10, Port_Scanning is almost entirely misclassified as
+DDoS_TCP, and XSS is mostly misclassified as DDoS_HTTP. Table 5 also shows that the
+number of samples for the aforementioned attack types with poor detection performance is
+relatively small, exhibiting a significant sample imbalance problem. It is noteworthy that
+although the MITM attack also has a limited sample size, its detection rate is relatively
+high. This is because among the 18 selected features, three features mqtt.conack.flags-
+0.0, mqtt.protoname-0.0, and mqtt.topic-0.0 are highly correlated with the MITM attack.
+These results indicate that the proposed method has limitations in detecting minority
+class samples.
+Table 5. Detailed classification report.
+Precision
+Recall
+F1 Score
+Support
+Backdoor
+0.95
+0.98
+0.96
+7193
+DDoS_HTTP
+0.71
+0.98
+0.82
+14,540
+DDoS_ICMP
+0.99
+0.99
+0.99
+20,217
+DDoS_TCP
+0.71
+0.99
+0.83
+15,035
+DDoS_UDP
+0.99
+1.00
+0.99
+36,523
+Fingerprinting
+0.80
+0.39
+0.52
+250
+MITM
+1.00
+1.00
+1.00
+101
+Normal
+1.00
+1.00
+1.00
+409,327
+Password
+0.41
+0.77
+0.55
+15,050
+Port_Scanning
+0.00
+0.00
+0.00
+5987
+Ransomware
+0.99
+0.87
+0.93
+2892
+SQL_injection
+0.46
+0.20
+0.28
+15,141
+Uploading
+0.59
+0.34
+0.43
+11,033
+Vulnerability_scanner
+0.93
+0.84
+0.88
+15,040
+XSS
+0.86
+0.01
+0.02
+4535
+Figure 10. Confusion matrix of classification on the Edge-IIoTset dataset.
+https://doi.org/10.3390/electronics15050938

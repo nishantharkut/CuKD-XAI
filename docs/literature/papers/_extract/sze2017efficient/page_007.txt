@@ -1,0 +1,209 @@
+7
+R 
+filter (weights) 
+S 
+E 
+F 
+Partial Sum (psum) 
+Accumulation 
+input fmap 
+output fmap 
+Element-wise 
+Multiplication 
+H 
+W 
+an output  
+activation 
+(a) 2-D convolution in traditional image processing
+Input fmaps
+Filters
+Output fmaps
+R
+S
+C
+…
+H
+W
+C
+…
+E
+F
+M
+E
+F
+M
+…
+R
+S
+C
+H
+W
+C
+1
+N
+1
+M
+1
+N
+(b) High dimensional convolutions in CNNs
+Fig. 9. Dimensionality of convolutions.
+Modern Deep CNN: 5 – 1000 Layers 
+Class 
+Scores 
+FC 
+Layer 
+CONV 
+Layer 
+Low-Level 
+Features 
+CONV 
+Layer 
+High-Level 
+Features 
+… 
+1 – 3 Layers 
+Convolu'on 
+Non-linearity 
+× 
+Normaliza'on 
+Pooling 
+Optional 
+Fully 
+Connected 
+× 
+Non-linearity 
+CONV 
+Layer 
+Mid-Level 
+Features 
+Fig. 10.
+Convolutional Neural Networks.
+the same input to create additional output channels. Finally,
+multiple input feature maps may be processed together as a
+batch to potentially improve reuse of the ﬁlter weights.
+Given the shape parameters in Table I, the computation of
+a CONV layer is deﬁned as
+O[z][u][x][y] = B[u] +
+C−1
+X
+k=0
+S−1
+X
+i=0
+R−1
+X
+j=0
+I[z][k][Ux + i][Uy + j] × W[u][k][i][j],
+0 ≤z < N, 0 ≤u < M, 0 ≤x < F, 0 ≤y < E,
+E = (H −R + U)/U, F = (W −S + U)/U.
+(1)
+O, I, W and B are the matrices of the ofmaps, ifmaps, ﬁlters
+and biases, respectively. U is a given stride size. Fig. 9(b)
+shows a visualization of this computation (ignoring biases).
+To align the terminology of CNNs with the generic DNN,
+• ﬁlters are composed of weights (i.e., synapses)
+• input and output feature maps (ifmaps, ofmaps) are
+composed of activations (i.e., input and output neurons)
+Shape Parameter
+Description
+N
+batch size of 3-D fmaps
+M
+# of 3-D ﬁlters / # of ofmap channels
+C
+# of ifmap/ﬁlter channels
+H/W
+ifmap plane height/width
+R/S
+ﬁlter plane height/width (= H or W in FC)
+E/F
+ofmap plane height/width (= 1 in FC)
+TABLE I
+SHAPE PARAMETERS OF A CONV/FC LAYER.
+Sigmoid 
+1 
+-1 
+0 
+0 
+1 
+-1 
+y=1/(1+e-x) 
+Hyperbolic Tangent 
+1 
+-1 
+0 
+0 
+1 
+-1 
+y=(ex-e-x)/(ex+e-x) 
+Rectified Linear Unit  
+(ReLU) 
+1 
+-1 
+0 
+0 
+1 
+-1 
+y=max(0,x) 
+Leaky ReLU 
+1 
+-1 
+0 
+0 
+1 
+-1 
+y=max(αx,x) 
+Exponential LU 
+1 
+-1 
+0 
+0 
+1 
+-1 
+    x,       
+    α(ex-1), 
+x≥0 
+x<0 
+y= 
+α = small const. (e.g. 0.1) 
+Traditional 
+Non-Linear 
+Activation 
+Functions 
+Modern 
+Non-Linear 
+Activation 
+Functions 
+Fig. 11.
+Various forms of non-linear activation functions (Figure adopted
+from Caffe Tutorial [46]).
+From ﬁve [3] to more than a thousand [15] CONV layers
+are commonly used in recent CNN models. A small number,
+e.g., 1 to 3, of fully-connected (FC) layers are typically applied
+after the CONV layers for classiﬁcation purposes. A FC layer
+also applies ﬁlters on the ifmaps as in the CONV layers, but
+the ﬁlters are of the same size as the ifmaps. Therefore, it
+does not have the weight sharing property of CONV layers.
+Eq. (1) still holds for the computation of FC layers with a
+few additional constraints on the shape parameters: H = R,
+F = S, E = F = 1, and U = 1.
+In addition to CONV and FC layers, various optional layers
+can be found in a DNN such as the non-linearity, pooling,
+and normalization. The function and computations for each of
+these layers are discussed next.
+1) Non-Linearity: A non-linear activation function is typi-
+cally applied after each CONV or FC layer. Various non-linear
+functions are used to introduce non-linearity into the DNN as
+shown in Fig. 11. These include historically conventional non-
+linear functions such as sigmoid or hyperbolic tangent as well
+as rectiﬁed linear unit (ReLU) [40], which has become popular
+in recent years due to its simplicity and its ability to enable
+fast training. Variations of ReLU, such as leaky ReLU [41],
+parametric ReLU [42], and exponential LU [43] have also been
+explored for improved accuracy. Finally, a non-linearity called
+maxout, which takes the max value of two intersecting linear
+functions, has shown to be effective in speech recognition
+tasks [44, 45].
+2) Pooling: A variety of computations that reduce the
+dimensionality of a feature map are referred to as pooling.
+Pooling, which is applied to each channel separately, enables

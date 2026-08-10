@@ -1,0 +1,21 @@
+Figure 4: Bar plots comparing between vanilla KD and z-score standardization KD. Top:
+Generalization performance in terms of train-validation accuracy gap. bottom: Student-
+teacher fidelity.
+The z-score standardization, aimed at facilitating the student-teacher
+logits matching procedure, does improve student generalization performance (indicated by
+a lower accuracy gap) in most cases. However, it also leads to a decrease in student-teacher
+fidelity during training, suggesting that the benefit lies more in student generalization than
+in fidelity improvement.
+mean and variance, and thus improve generalization performance.
+How-
+ever, from the fidelity definition in Equation 3, since the softmax function
+is monotonic, what we are looking for is the agreed index c of maximum
+logits between the teacher and student arg maxc(zt) = arg maxc(zs), which
+unfortunately cannot be directly affected by such optimization method.
+In conclusion, though an optimization towards student-teacher logits match-
+ing can relieve the logit shift and variance match problem, in reality its ben-
+efit lies in the student generalization rather than the fidelity improvement.
+As shown in Figure 4, the z-score standardization does improve the student
+train-validation accuracy gap in most cases, but a decrease in the student-
+teacher fidelity is still witnessed.
+17

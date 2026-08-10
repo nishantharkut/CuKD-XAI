@@ -1,0 +1,123 @@
+Curriculum Learning
+tic gradient descent on the negative conditional log-
+likelihood, i.e., a task which is known to involve a dif-
+ﬁcult non-convex optimization problem (Erhan et al.,
+2009). An epoch is a stochastic gradient descent pass
+through a training set of 10 000 examples. The cur-
+riculum consists in a 2-step schedule:
+1. Perform gradient descent on the BasicShapes
+training set, until “switch epoch” is reached.
+2. Then perform gradient descent on the GeomShapes
+training set.
+Generalization
+error
+is
+always
+evaluted
+on
+the
+GeomShapes test set.
+The baseline corresponds to
+training the network only on the GeomShapes train-
+ing set (for the same number of training epochs),
+and corresponds to “switch epoch”=0.
+In our ex-
+periments, there is a total of 10 000 examples in
+both training sets, and 5 000 examples for valida-
+tion, 5 000 for testing.
+All datasets are available at
+www.iro.umontreal.ca/∼lisa/ptwiki/BabyAIShapesDatasets
+The hyper-parameters are the following: learning rate
+of stochastic gradient descent and number of hidden
+units.
+The selection of hyper-parameters is simpli-
+ﬁed using the following heuristic: all hyper-parameters
+were chosen so as to have the best baseline perfor-
+mance on the GeomShapes validation set without cur-
+riculum. These hyper-parameter values are then used
+for the curriculum experiments.
+Figure (3) shows the distribution of test errors over
+20 diﬀerent random seeds, for diﬀerent values of the
+“switch epoch”: 0 (the baseline with no curriculum)
+and the powers of 2 until 128. After switching to the
+target training distribution, training continues either
+until 256 epochs or until validation set error reaches
+a minimum (early stopping).
+The ﬁgure shows the
+distribution of test error (after early stopping) as a
+function of the “switch epoch”. Clearly, the best gen-
+eralization is obtained by doing a 2-stage curriculum
+where the ﬁrst half of the total allowed training time
+(of 256 epochs) is spent on the easier examples rather
+than on the target examples.
+One potential issue with this experiment is that the
+curriculum-trained model overall saw more examples
+than the no-curriculum examples, although in the sec-
+ond part of training (with the target distribution) both
+types of models converge (in the sense of early stop-
+ping) to a local minimum with respect to the error on
+the target training distribution, suggesting that diﬀer-
+ent local minima are obtained. Note also that the easy
+examples have less variability than the hard examples
+(only a subset of the shape variations are shown, e.g.
+only squares instead of all kinds of rectangles).
+To
+|
+0
+2
+4
+8
+16
+32
+64
+128
+0.15
+0.16
+0.17
+0.18
+0.19
+0.20
+0.21
+switch epoch
+Figure 3. Box plot of test classiﬁcation error distribution
+as a function of the “switch epoch”, with a 3-hidden-
+layers neural network trained by stochastic gradient de-
+scent. Each box corresponds to 20 seeds for initializing the
+parameters. The horizontal line inside the box represents
+the median (50th percentile), the borders of the box the
+25th and the 75th percentile and the ends of the bars the
+5th and 95th percentiles.
+eliminate the explanation that better results are ob-
+tained with the curriculum because of seeing more ex-
+amples, we trained a no-curriculum model with the
+union of the BasicShapes and GeomShapes training sets,
+with a ﬁnal test error still signiﬁcantly worse than
+with the curriculum (with errors similar to “switch
+epoch”=16). We also veriﬁed that training only with
+BasicShapes yielded poor results.
+6. Experiments on language modeling
+We are interested here in training a language model,
+predicting the best word which can follow a given con-
+text of words in a correct English sentence. Follow-
+ing Collobert and Weston (2008) we only try to com-
+pute a score for the next word that will have a large
+rank compared to the scores of other words, and we
+compute the score with the architecture of Figure 4.
+Whereas other language models prior to Collobert and
+Weston (2008) optimized the log-likelihood of the next
+word, the ranking approach does not require com-
+puting the score over all the vocabulary words dur-
+ing training, as shown below. Instead it is enough to
+sample a negative example. In Collobert and Weston
+(2008), the main objective is to learn an embedding
+for the words as a side-eﬀect of learning to compute
+this score. The authors showed how to use these em-
+beddings in several language modeling tasks, in a form
+of multi-task learning, yielding improved results.
+Given any ﬁxed size window of text s, we consider a
+language model f(s) which produces a score for these
+windows of text. We want the score of a correct win-
+dow of text s to be larger, with a margin of 1, than any
+other word sequence sw where the last word has been
+replaced by another word w of the vocabulary. This
+corresponds to minimizing the expected value of the

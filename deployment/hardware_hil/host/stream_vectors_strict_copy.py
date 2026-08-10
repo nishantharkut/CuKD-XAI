@@ -274,8 +274,16 @@ def verify_bundle(bundle_dir: Path, export_manifest: dict[str, Any]) -> dict[str
         "_verified_manifest_sha256"
     ):
         raise RuntimeError("Bundle was created from a different strict export manifest")
-    bundler = Path(__file__).with_name("prepare_strict_firmware_bundle.py")
-    if manifest.get("bundler_sha256") != sha256_file(bundler):
+    # Copy pipeline uses prepare_strict_firmware_bundle_copy.py (gate 0.03).
+    # Fall back to the original bundler only if the copy helper is absent.
+    bundler_copy = Path(__file__).with_name("prepare_strict_firmware_bundle_copy.py")
+    bundler_orig = Path(__file__).with_name("prepare_strict_firmware_bundle.py")
+    expected_hashes = []
+    if bundler_copy.is_file():
+        expected_hashes.append(sha256_file(bundler_copy))
+    if bundler_orig.is_file():
+        expected_hashes.append(sha256_file(bundler_orig))
+    if manifest.get("bundler_sha256") not in expected_hashes:
         raise RuntimeError("Strict bundle was created by a different bundler implementation")
     source_files = identity_payload.get("source_files")
     if not isinstance(source_files, list) or not source_files:

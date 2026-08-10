@@ -1,0 +1,31 @@
+and different numerical scales. To ensure consistency and integrity, we per-
+form three key preprocessing steps: handling missing values, encoding cate-
+gorical variables, and normalizing continuous features.
+3.2.1. Missing Value Handling
+We adopt a hybrid strategy to address missing entries:
+1. Imputation: For minor gaps, we replace missing values with the mean
+or median, preserving overall statistical distributions.
+2. Exclusion: For records with extensive missingness, we remove them
+to minimize noise and bias.
+This approach retains the majority of the data while limiting the distortion
+introduced by imputation.
+3.2.2. Feature Encoding and Transformation
+Categorical and non-numerical features must be translated into numerical
+forms for downstream ML models:
+• One-hot encoding: Converts nominal categories into binary indicator
+variables.
+• Ordinal encoding: Maps ordered categories to integer values when a
+natural order is relevant.
+We choose the encoding method on a feature-by-feature basis, prioritizing
+minimal information loss.
+3.2.3. Standardization
+To standardize the range of numerical attributes, we employ Z-score stan-
+dardization. Each feature x is scaled to x′ via
+x′ = x −µ
+σ
+(1)
+where µ and σ are the mean and standard deviation of the feature, respec-
+tively. This standardization ensures that the features have a mean of 0 and a
+standard deviation of 1, facilitating balanced gradient updates during model
+training.
+9

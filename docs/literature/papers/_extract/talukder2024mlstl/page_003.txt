@@ -1,0 +1,106 @@
+MLSTL-WSN: machine learning-based intrusion detection using SMOTETomek in WSNs
+2141
+research methodology, including an extensive description of
+the dataset employed. The experimental setup and the ensu-
+ing performance evaluation are elaborated upon in Sect.4.
+Subsequently, Sect.4.6 is dedicated to an exhaustive analy-
+sis and discussion of our proposed research. Finally, Sect.5
+encapsulates the concluding remarks and underscores poten-
+tial avenues for future research.
+2 Related works
+Intrusion detection in wireless sensor networks (WSNs) has
+received signiﬁcant attention in recent years due to the
+increasing number of attacks on WSNs. Various machine
+learning (ML)-based intrusion detection models had been
+proposed in the literature to address the limitations of tradi-
+tional intrusion detection methods in WSNs.
+Tan et al. [13] introduced an approach that employs the
+Synthetic Minority Oversampling Technique (SMOTE) to
+address dataset imbalance, followed by training a classiﬁer
+for intrusion detection using the Random Forest algorithm.
+Simulations were performed on a standard intrusion dataset,
+demonstrating that the Random Forest algorithm achieved
+an accuracy of 92.39%, surpassing other algorithms in com-
+parison. Furthermore, by applying SMOTE to oversample
+the minority samples, the accuracy of the Random Forest
+classiﬁer improved to 92.57%. This indicates that the pro-
+posed method effectively addresses class imbalance issues
+and enhances intrusion detection performance.
+Rezvietal.[22]presentedadataminingapproachtodetect
+various types of DoS attacks, where they applied several clas-
+siﬁcation algorithms, including KNN, Naöve Bayes, Logistic
+Regression, Support Vector Machine (SVM), and Artiﬁcial
+Neural Network (ANN), to the dataset and assessed their per-
+formance in identifying these attacks. The analysis revealed
+that ANN achieved the highest accuracy at 98.56%, followed
+closely by KNN at 98.4%. These results suggest that ANN
+and KNN are strong candidates for intrusion detection, mak-
+ing them suitable recommendations for network specialists
+and analysts due to their effectiveness in detecting and pre-
+dicting such attacks compared to the other algorithms tested.
+Meng et al. [23] presented a LightGBM-based intru-
+sion detection method for resource-constrained WSNs. It
+employed the SMOTE-Tomek technique for dataset bal-
+ancing and feature selection using an iterative LightGBM
+tree model, SHAP analysis, and Recursive Feature Elimi-
+nation. Model parameters were optimized with the Optuna
+algorithm. Compared to standard methods, this approach
+achieved exceptional performance, with detection rates
+exceeding 99% for all attack types and a 46% reduction in
+modeling time due to feature dimension reduction.
+Singh et al. [16] developed a fuzzy rule-based system for
+intrusion prevention in WSNs, involving three phases: fea-
+ture extraction, membership value computation, and fuzzy
+rule application. Nodes were categorized as “red” (mali-
+cious, blocked), “orange” (potentially malicious, marked
+suspicious), and “green” (non-malicious, allowed). The sys-
+tem considered parameters like packet transmission, energy
+usage, signal strength, received packets, and Packet Delivery
+Ratio (PDR). Evaluation yielded a 98.29% accuracy, surpass-
+ing other fuzzy rule-based systems. The key advantage was
+its ability to block malicious nodes and prevent intrusions.
+Alruhaily et al. [15] proposed a multi-tier intrusion detec-
+tion framework for WSNs, implementing a defense-in-depth
+security approach with two detection layers. In the ini-
+tial layer, situated at the distributed network edge sensors,
+real-time decision-making for inspected packets was accom-
+plished using a Naive Bayes classiﬁer. The second layer,
+positioned in the cloud, employed a Random Forest multi-
+class classiﬁer for thorough packet analysis. The outcomes
+demonstrated that their multi-layer detection model achieved
+impressive performance scores, including a 100% precision
+rate for Normal attacks, 90.4% for Flooding attacks, 99.5%
+for Scheduling attacks, 97% for Grayhole attacks, and 99.9%
+for Blackhole attacks.
+To offer intrusion prevention methods employing deep
+packet inspection based on deep learning techniques. Chan-
+dre et al. [17] introduced a deep learning model that utilized a
+convolutional neural network. This model encompassed two
+essential phases: detecting intrusions and preventing them. It
+acquired meaningful feature representations from a sizable
+labeled dataset and performed accurate classiﬁcations. They
+harnessed the power of the convolutional neural network
+to prevent intrusions in WSNs. They employed the WSN-
+DS to assess the system’s effectiveness. The test outcomes
+indicated that the proposed system achieved a remarkable
+accuracy rate of 97%, surpassing existing solutions. Their
+work could serve as a reference point for future research in
+deep learning and intrusion prevention.
+Dener et al. [24] developed STLGBM-DDS, an ensemble
+intrusion detection system on the Apache Spark platform in
+Google Colab. It combined LightGBM with data balancing
+(using SMOTE and Tomek-Links, STL) and feature selection
+(Information Gain Ratio). The study evaluated the impact of
+these stages on system performance using various parame-
+ters. The proposed method achieved an outstanding overall
+accuracy of 99.95%. Speciﬁcally, it achieved impressive
+accuracy rates: 99.99% for Normal, 99.96% for Grayhole,
+99.98% for Blackhole, 99.92% for TDMA, and 99.87% for
+Flooding classes. These results demonstrated the system’s
+exceptional success in detecting Denial of Service (DoS)
+attacks in WSNs compared to existing methods.
+Ifzarne et al. [14] developed an intrusion detection model
+tailoredtoWSNs characteristics, usinginformationgainratio
+(IGR) and the online Passive Aggressive (PA) classiﬁer.
+Experiments on a WSN-DS dataset resulted in the proposed
+123

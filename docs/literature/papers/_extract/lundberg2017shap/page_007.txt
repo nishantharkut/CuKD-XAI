@@ -1,0 +1,60 @@
+f3
+f2
+f1
+f3
+f2
+f1
+hapley
+(A)
+(B)
+Figure 2: (A) The Shapley kernel weighting is symmetric when all possible z′ vectors are ordered
+by cardinality there are 215 vectors in this example. This is distinctly different from previous
+heuristically chosen kernels. (B) Compositional models such as deep neural networks are comprised
+of many simple components. Given analytic solutions for the Shapley values of the components, fast
+approximations for the full model can be made using DeepLIFT’s style of back-propagation.
+Max SHAP
+Using a permutation formulation of Shapley values, we can calculate the probability that each input
+will increase the maximum value over every other input. Doing this on a sorted order of input values
+lets us compute the Shapley values of a max function with M inputs in O(M 2) time instead of
+O(M2M). See Supplementary Material for the full algorithm.
+Deep SHAP (DeepLIFT + Shapley values)
+While Kernel SHAP can be used on any model, including deep models, it is natural to ask whether
+there is a way to leverage extra knowledge about the compositional nature of deep networks to improve
+computational performance. We ﬁnd an answer to this question through a previously unappreciated
+connection between Shapley values and DeepLIFT [8]. If we interpret the reference value in Equation
+3 as representing E[x] in Equation 12, then DeepLIFT approximates SHAP values assuming that
+the input features are independent of one another and the deep model is linear. DeepLIFT uses a
+linear composition rule, which is equivalent to linearizing the non-linear components of a neural
+network. Its back-propagation rules deﬁning how each component is linearized are intuitive but were
+heuristically chosen. Since DeepLIFT is an additive feature attribution method that satisﬁes local
+accuracy and missingness, we know that Shapley values represent the only attribution values that
+satisfy consistency. This motivates our adapting DeepLIFT to become a compositional approximation
+of SHAP values, leading to Deep SHAP.
+Deep SHAP combines SHAP values computed for smaller components of the network into SHAP
+values for the whole network. It does so by recursively passing DeepLIFT’s multipliers, now deﬁned
+in terms of SHAP values, backwards through the network as in Figure 2B:
+mxjf3 =
+φi(f3, x)
+xj −E[xj]
+(13)
+∀j∈{1,2}
+myifj = φi(fj, y)
+yi −E[yi]
+(14)
+myif3 =
+2
+X
+j=1
+myifjmxjf3
+chain rule
+(15)
+φi(f3, y) ≈myif3(yi −E[yi])
+linear approximation
+(16)
+Since the SHAP values for the simple network components can be efﬁciently solved analytically
+if they are linear, max pooling, or an activation function with just one input, this composition
+rule enables a fast approximation of values for the whole model. Deep SHAP avoids the need to
+heuristically choose ways to linearize components. Instead, it derives an effective linearization from
+the SHAP values computed for each component. The max function offers one example where this
+leads to improved attributions (see Section 5).
+7

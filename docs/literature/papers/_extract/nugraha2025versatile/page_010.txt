@@ -1,0 +1,111 @@
+1104
+Annals of Telecommunications (2025) 80:1095–1120
+PFCP dataset samples have 9 features. All features are nor-
+malizedusingtheMinMaxScaler toensureuniformity. While
+the CIC-DDoS2019 and CICIoT2023 datasets are used for
+evaluating the XGBoost model’s performance before and
+after feature reduction, the 5G PFCP dataset is excluded from
+thisstepduetoitssmallinitialfeaturesetsize.Instead,the5G
+PFCP dataset is primarily used to evaluate our framework’s
+ability to explain 5G control-plane attacks.
+The XGBoost model [44] is chosen for the AI-based IDS
+due to its efﬁciency, scalability, and ability to handle imbal-
+anced training datasets, along with its reduced computation
+resource requirements compared to deep learning models.
+XGBoost’s advanced regularization minimizes overﬁtting,
+and its gradient boosting framework handles large train-
+ing datasets effectively. Compared to traditional machine
+learning models such as Random Forests or Support Vec-
+tor Machines (SVM), XGBoost requires lower training time
+and provides better control through hyperparameter tuning.
+While deep learning models like neural networks can achieve
+high accuracy, they often require large amounts of training
+data and computational resources. XGBoost offers a balance
+by providing good detection performance with lower com-
+putational overhead. For datasets like CIC-DDoS2019 and
+CICIoT2023, this balance is crucial for achieving high per-
+formance without excessive computational costs.
+To optimize model performance and reduce the risk of
+overﬁtting, we employed a hyperparameter tuning proce-
+dure using GridSearchCV combined with 10-fold cross-
+validation. This technique systematically evaluates all possi-
+ble combinations from a predeﬁned parameter grid, selecting
+the conﬁguration that yields the best cross-validation perfor-
+mance on the training folds. The full set of candidate values
+for each parameter is summarized in Table 4, with the ﬁnal
+selected settings highlighted in bold. We tuned seven key
+hyperparameters of the XGBoost classiﬁer. The number of
+estimators (n_estimators) controls the total number of boost-
+ing rounds, where a larger number can improve performance
+but may lead to overﬁtting if not counterbalanced by regular-
+ization. The learning_rate governs the contribution of each
+tree; smaller values require more trees but tend to improve
+Table 4 Parameter grid used for XGBoost hyperparameter tuning with
+GridSearchCV
+Parameter
+Values
+n_estimators
+{100, 200, 300, 400}
+learning_rate
+{0.05, 0.10, 0.20}
+max_depth
+{3, 4, 5, 6}
+gamma
+{0, 0.5, 1}
+reg_lambda
+{0.5, 1, 1.5}
+subsample
+{0.6, 0.8, 1.0}
+colsample_bytree
+{0.6, 0.8, 1.0}
+generalization. The max_depth deﬁnes the maximum depth
+of each tree, impacting the model’s capacity to capture com-
+plex patterns, i.e., higher values increase complexity but
+may reduce interpretability. The gamma parameter imposes
+a minimum loss reduction required to make a further split,
+thereby acting as a pruning mechanism. Reg_lambda is the
+L2 regularization term on leaf weights, which penalizes large
+coefﬁcients to improve model robustness. Subsample con-
+trols the proportion of training instances randomly sampled
+for each boosting round, reducing variance and helping avoid
+overﬁtting. Similarly, Colsample_bytree sets the fraction of
+features used when building each tree, promoting diver-
+sity among trees and lowering the chance of ﬁtting noise.
+The bolded values in Table 4 indicate the optimal conﬁg-
+uration selected by the grid search. These values reﬂect a
+balancedtrade-offbetweendetectionperformanceandmodel
+complexity, conﬁrmed by strong validation results across
+all datasets. The use of 10-fold stratiﬁed cross-validation
+ensured that the tuning process remained robust to class
+imbalance and provided reliable estimates of generalization.
+To compare the XGBoost model performance before and
+after feature reduction, we use ﬁve metrics: Accuracy, Preci-
+sion, Speciﬁcity, Recall, and F1 Score. These metrics allow
+for a comprehensive evaluation of our approach’s effective-
+ness beyond mere accuracy. For instance, Precision measures
+the model’s ability to correctly identify malicious samples,
+while Recall evaluates its capability to detect all malicious
+samples. Speciﬁcity shows the model’s ability to avoid false
+positives, and F1 Score provides a balance between Precision
+and Recall.
+4.2 Evaluation scenarios, results, and analysis
+We evaluate our XAI-based IDS framework using one dataset
+from CIC-DDoS2019 and three datasets from CICIoT2023,
+each containing benign trafﬁc samples as well as malicious
+trafﬁc samples of one of the following speciﬁc DDoS attack
+types: Portmap, SYN Flood, HTTP Flood, and Slowloris.
+These attacks are highly effective and represent both volu-
+metric (e.g., Portmap, SYN Flood, HTTP Flood) and slow
+(e.g., Slowloris) attack types, which pose signiﬁcant chal-
+lenges for an IDS due to their differing trafﬁc patterns.
+Additionally, we use the 5G PFCP dataset, which represents
+control-plane attacks in 5G networks. It focuses on two spe-
+ciﬁc attack types: PFCP Session Deletion and PFCP Session
+Establishment. These attacks rely on signaling protocols and
+packet-level manipulations rather than volumetric trafﬁc pat-
+terns seen in data plane attacks. This results in a smaller
+feature set, often limited to protocol-speciﬁc attributes like
+session counters or message types, which can make it difﬁ-
+cult to distinguish malicious activity from normal operations
+[43].
+123

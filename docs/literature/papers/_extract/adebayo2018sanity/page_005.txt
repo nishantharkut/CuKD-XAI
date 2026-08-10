@@ -1,0 +1,63 @@
+Gradient
+SmoothGrad
+Gradient   Input
+Guided 
+Back-propagation
+GradCAM
+Integrated Gradients
+Integrated Gradients-SG
+logits
+conv2d_1a_3x3
+mixed_7c
+mixed_7b
+conv2d_2a_3x3
+conv2d_2b_3x3
+conv2d_4a_3x3
+mixed_7a
+mixed_6e
+mixed_6d
+mixed_6c
+mixed_6b
+mixed_6a
+mixed_5d
+mixed_5c
+mixed_5b
+conv2d_3b_1x1
+Original Explanation
+Guided GradCAM
+Cascading randomization 
+from top to bottom layers
+Original Image
+Figure 2: Cascading randomization on Inception v3 (ImageNet). Figure shows the original ex-
+planations (ﬁrst column) for the Junco bird as well as the label for each explanation type. Progression
+from left to right indicates complete randomization of network weights (and other trainable variables)
+up to that ‘block’ inclusive. We show images for 17 blocks of randomization. Coordinate (Gradient,
+mixed_7b) shows the gradient explanation for the network in which the top layers starting from Logits
+up to mixed_7b have been reinitialized. The last column corresponds to a network with completely
+reinitialized weights. See Appendix for more examples.
+Masks derived from Guided Backprop remain visually and quantitatively similar to masks of a trained
+model until lower layer weights (those closest to the input) are randomized.5
+The danger of the visual assessment. On visual inspection, we ﬁnd that gradient⊙input and
+integrated gradients show visual similarity to the original mask. In fact, from Figure 2, it is still
+possible to make out the structure of the bird even after multiple blocks of randomization. This visual
+similarity is reﬂected in the SSIM comparison (Figure 5), and the rank correlation with absolute value
+(Figure 4-Top). However, re-initialization disrupts the sign of the map, so that the spearman rank
+correlation without absolute values goes to zero (Figure 4-Bottom) almost as soon as the top layers
+are randomized. The observed visual perception versus ranking dichotomy indicates that naive visual
+inspection of the masks, in this setting, does not distinguish networks of similar structure but widely
+differing parameters. We explain the source of this phenomenon in our discussion section.
+3.2
+Independent Randomization
+Overview. As a different form of the model parameter randomization test, we now conduct an inde-
+pendent layer-by-layer randomization with the goal of isolating the dependence of the explanations
+by layer. This approach allows us to exhaustively assess the dependence of saliency masks on lower
+versus higher layer weights. More concretely, for each layer, we ﬁx the weights of other layers to
+their original values, and randomize one layer at a time.
+Results. Figure 3 shows the evolution of different masks as each layer of Inception v3 is independently
+randomized. We observe a correspondence between the results from the cascading and independent
+layer randomization experiments: Guided Backprop (along with Guided GradCAM) show invariance
+to higher layer weights. However, once the lower layer convolutional weights are randomized, the
+Guided Backprop masks changes, although the resulting mask is still dominated by the input structure.
+5A previous version of this work noted that Guided Backprop was entirely invariant; however, this is not this
+case.
+5

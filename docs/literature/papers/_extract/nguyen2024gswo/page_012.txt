@@ -1,0 +1,56 @@
+Sensors 2024, 24, 3339
+12 of 26
+Algorithm 1 Pseudo-code for the GSWO
+Initialize randomly the population of GSWO
+Initialize the parameters a,⃗A,⃗C
+Calculate the fitness values of all individuals
+Determine the presently optimal solution X∗
+while t ≤M do
+Compute v using Equation (11)
+Determine the Exploitative, Exploratory, and Hesitant subpopulation using Equation (12)
+Duplicate Exploitative and Exploratory subpopulation
+for each member in exploitative sub-population do
+The position is updated using Equation (13)
+end
+for each member in exploratory sub-population do
+The position is updated using Equation (8)
+end
+for each member in hesitant sub-population do
+The position is updated using Equation (1)
+end
+Determine the number of crossovers G
+Select G parents 1st from the exploitative subpopulation
+Select G parents 2nd from the exploratory subpopulation
+Calculate the changing genes k using Equation (14)
+for from 0 to G do
+Implement a crossover operator with k
+Implement mutation
+end
+Examine the boundaries and compute the fitness values for all individuals.
+Then, X∗is updated by sorting all individuals
+Implementation of the conditional choice scheme
+t = t + 1
+end
+return the X∗
+4.3. CatBoost Classification Model
+This study employed CatBoost as a WSN data classifier and attack detector. Based on
+decision-tree techniques, CatBoost is a fast, high-performance gradient-boosting system.
+CatBoost creates balanced trees with a symmetric structure, which sets it apart from other
+gradient-boosting algorithms such as XGBoost and LightGBM. This implies that all the
+nodes in a level are subjected to the same feature-split pair that yields the lowest loss
+in each phase. Among the many benefits of this balanced design is its ability to build
+CPUs efficiently, shorten prediction times, apply models quickly, and function as a type of
+regularization to avoid overfitting.
+CatBoost accommodates diverse data types, including numeric, categorical, and tex-
+tual data. Categorical attributes, which are inherently noncomparable and pose a challenge
+to the direct utilization of binary trees. In contrast to prevalent gradient boosting-based
+methodologies such as one-hot encoding (OHE), gradient statistics (GS), target statistics
+(TS), greedy TS, holdout TS, and leave-one-out TS, CatBoost employs an advanced or-
+dered TS approach. This strategy mitigates the issues related to target leakage, diminishes
+overfitting, and enables using a complete dataset for training purposes [39,45].
+In CatBoost, the initial definition of hyperparameters is imperative for optimizing
+predictive accuracy. Specifically, determining parameters such as the number of trees is sig-
+nificant because it directly affects the potential for encountering overfitting or underfitting
+challenges. The parameter d (maximum depth) reflects the learning capacity inherent in the
+base tree; a higher value augments the learning process of the individual base tree, whereas
+a lower value diminishes it. The learning rate parameter governs the velocity at which

@@ -1,0 +1,117 @@
+704
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+fort. Finally, over-ﬁtting to WSN-DS artefacts was
+addressed by blending 15 000 ns-3-generated ﬂows
+per attack class and re-evaluating; high accuracy per-
+sisted, indicating limited over-ﬁtting.
+7.3 External validity
+External validity concerns generalizability beyond
+the study conditions. First, our hardware measure-
+ments use a LoPy4 (ESP32) sensor and a Raspberry
+Pi Zero W gateway; results may diﬀer on Nordic nRF
+or STM32WL platforms. Because the on-node rule
+ﬁlter is dominated by integer operations, its energy
+cost scales almost linearly with MIPS; Section 5 ex-
+trapolates to three MCU families, but real deploy-
+ments should conﬁrm the ﬁgures. Second, we sim-
+ulated 50 nodes in a 100 m disc. Industrial WSNs
+may surpass 500 nodes; however, radio-energy sav-
+ings scale linearly with node count, whereas gateway
+compute scales only with ﬂagged traﬃc. A 200-node
+extrapolation (Appendix B) still kept gateway CPU
+utilization below 55 %, suggesting the approach re-
+mains viable at larger scales. Third, only four DoS
+variants were modelled. Attacks such as wormhole
+or Sybil could behave diﬀerently. Because the hybrid
+architecture is modular, new rule predicates and re-
+trained DL layers can be inserted without ﬁrmware
+changes, yet validation on those attack types is future
+work.
+7.4 Conclusion validity
+Conclusion validity addresses statistical sound-
+ness.
+With more than 300 000 windows and ten
+paired seeds, statistical power is high; eﬀect sizes such
+as an 18-day lifetime gain exceed the 99 % conﬁdence
+interval (± 1.2 days). Multiple comparisons (three
+baselines and four ablations) raise the risk of Type I
+error we therefore applied a Bonferroni-adjusted α =
+0.0125, under which all reported diﬀerences remain
+signiﬁcant (p < 0.001). Together, these practices re-
+duce the likelihood that our conclusions are artefacts
+of random ﬂuctuation.
+8. CONCLUSION AND FUTURE WORK
+This work presented a two-stage, energy-aware
+intrusion-detection architecture for wireless sensor
+net-works in which an ultra-light, integer-only rule
+ﬁlter runs on every sensor node while a pruned and 8-
+bit-quantised CNN-LSTM operates at the edge gate-
+way. Evaluations on a ﬁfty-node ns-3 deployment, re-
+inforced by real power measurements on LoPy4 and
+Raspberry Pi Zero W hardware, demonstrate that
+the hybrid design maintains 98 % overall accuracy,
+a macro-F1 of 0.93 and strong minority-class recalls
+(0.84–0.95), yet still extends network lifetime to 69
+days an 82 % gain over on-node GRU inference and
+**35 % over a gateway-only signature IDS **while
+meeting a 42 ms latency budget.
+Ablation studies
+conﬁrm that the rule ﬁlter delivers the lion’s share of
+energy savings, with quantization and pruning pro-
+viding additive reductions at the gateway.
+These
+ﬁndings show that intelligent workload partitioning,
+rather than ever-smaller on-node neural networks, of-
+fers the most practical path to combining high de-
+tection ﬁdelity with long operational life-times in
+resource-constrained WSNs.
+Several avenues remain open and form the immedi-
+ate next steps for this research. First, the attack cor-
+pus will be expanded to include topology-disruptive
+threats such as wormhole and Sybil, in order to stress-
+test both rule heuristics and the CNN-LSTM’s gen-
+eralization. Second, integrating physical-layer ﬁnger-
+prints (e.g., carrier-frequency oﬀset, IQ variance) and
+adding a cross-layer attention block may expose jam-
+ming or replay attacks that manifest below the net-
+work layer. Third, we plan to enable periodic, energy-
+aware federat-ed updates among multiple gateways
+so the classiﬁer can adapt to device ageing and ad-
+versarial drift without violating communication bud-
+gets. Fourth, heterogene-ous-hardware validation on
+Nordic nRF52 and Cortex-M33 platforms will ver-
+ify energy and latency claims under diﬀerent ISAs
+and Trust Zone contexts. Fifth, a forthcoming two-
+hundred-node orchard deployment powered by solar-
+assisted moisture sensors will provide real-world in-
+sight into channel fading and weather-induced power
+variability that simulation can only approximate. Fi-
+nally, incorporating adversarial-training techniques
+for tabular traﬃc data should harden the deep model
+against carefully crafted evasion attempts.
+Pursu-
+ing these directions will move the hybrid IDS from a
+promising prototype toward a production-ready de-
+fense capable of scaling across diverse sensor plat-
+forms, deployment densities and evolving threat land-
+scapes.
+AUTHOR CONTRIBUTIONS
+Conceptualization, A. Alfarra and A. AbuSamra;
+methodology, A. Alfarra; software, A. Alfarra; valida-
+tion, A. Alfarra and A. AbuSamra; formal analysis,
+A. Alfarra; investigation, A. AbuSamra; data cura-
+tion, A. Alfarra; writing original draft preparation, A.
+Alfarra; writing review and editing, A. Alfarra and A.
+AbuSamra; visualization, A. AbuSamra; supervision,
+A. Alfarra; funding acquisition, A. Alfarra.
+All authors have read and agreed to the published
+version of the manuscript.
+References
+[1]
+H. M. Saleh, H. Marouane and A. Fakhfakh “A
+Comprehensive Analysis of Security Challenges
+and Countermeasures in Wireless Sensor Net-
+works Enhanced by Machine Learning and Deep
+Learning Technologies,” International Journal of
+Safety and Security Engineering, vol. 14, no. 2,
+pp. 373-386, 2024.

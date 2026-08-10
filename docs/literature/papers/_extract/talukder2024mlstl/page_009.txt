@@ -1,0 +1,114 @@
+MLSTL-WSN: machine learning-based intrusion detection using SMOTETomek in WSNs
+2147
+rithm for classiﬁcation and regression tasks. It operates
+on the principle of proximity, classifying data points
+based on the majority class among their nearest neigh-
+bors. KNN’s ﬂexibility allows it to adapt to various data
+distributions, making it a valuable choice for both simple
+and complex datasets [45].
+• Extreme Gradient Boosting (XGB): Extreme Gradient
+Boosting, often referred to as XGBoost, is a powerful
+ensemble learning algorithm known for its exceptional
+predictive performance. XGB combines the strengths of
+decision trees and gradient boosting, employing an efﬁ-
+cient optimization strategy. It excels in handling large
+datasets, reducing overﬁtting, and achieving state-of-the-
+art results in various machine learning competitions [9].
+• Light Gradient Boosting (LGB): Light Gradient Boost-
+ing, or LGB, is a high-performance gradient-boosting
+framework designed for speed and efﬁciency. LGB
+employs a histogram-based algorithm, allowing it to pro-
+cess data rapidly while maintaining competitive predic-
+tive accuracy. Its lightweight nature makes it a preferred
+choice for real-time and resource-constrained applica-
+tions, including web services and mobile applications
+[46].
+4 Results and discussion
+4.1 Experiment setup
+The experiments are carried out on a machine running
+Microsoft Windows 11 Pro, with a The experiments were
+conducted
+on
+a
+computational
+environment
+running
+Microsoft Windows 11 Pro. This system was equipped
+with an Intel(R) Core(TM) i7-8665U CPU operating at
+1.90GHz, featuring 2 cores and 4 logical processors, com-
+plemented by a 500GB SSD and 16GB of RAM. The
+experimentation was performed within the Anaconda Nav-
+igator environment using a Jupyter notebook. The imple-
+mentation of the proposed model was realized using the
+Python programming language, making use of a selection
+of commonly utilized libraries, including Pandas, NumPy,
+Matplotlib, Seaborn, TensorFlow, Keras, Scikit-learn, and
+others.
+4.2 Performance evaluation metrics
+Theevaluationofourproposedmodelinvolvedtheutilization
+of multiple performance metrics to assess its effectiveness.
+These metrics are deﬁned as follows:
+• Confusion Matrix: Table 5 shows the confusion matrix
+where TP represents True Positive, TN represents True
+Negative, FP stands for False Positive, and FN denotes
+False Negative.
+Table 5
+Confusion matrix
+Actual Positive
+Actual Negative
+Predicted Positive
+TP
+FP
+Predicted Negative
+FN
+TN
+• Accuracy:
+Accuracy =
+T P + T N
+T P + F P + F N + T N
+(1)
+• Precision:
+Precision =
+T P
+T P + F P
+(2)
+• Recall:
+Recall =
+T P
+T P + F N
+(3)
+• F1-Score:
+F1-score = 2 · Precision · Recall
+Precision + Recall
+(4)
+• MAE (Mean Absolute Error):
+M AE =
+n
+i=1 |predicted(i) −actual(i)|
+n
+(5)
+• MSE (Mean Squared Error):
+MSE =
+n
+i=1(predicted(i) −actual(i))2
+n
+(6)
+• RMSE (Root Mean Squared Error):
+RMSE =
+n
+i=1(predicted(i) −actual(i))2
+n
+(7)
+Here, n represents the total number of values.
+• ROC Curves are two-dimensional plots commonly
+employed for evaluating classiﬁer effectiveness. An AUC
+(Area Under the Curve) value approaching 1 indicates
+strong class separability, while an AUC value approach-
+ing 0 indicates suboptimal performance.
+4.3 Results analysis
+In our experiments, we have conducted both binary and
+multilabel intrusion detection in WSNs where we achieved
+signiﬁcant performance in detecting intrusion in WSNs
+efﬁciently. Besides, we conducted two separate experi-
+ments With SMOTETomek-Link (WiSTL) and Without
+123

@@ -1,0 +1,128 @@
+precision, recall, and F1-score for several critical classes such as 
+DDoS_HTTP, DDoS_TCP, DDoS_UDP, MITM, Normal, and Port_Scanning, 
+suggesting that the model accurately identifies these threats without any 
+misclassifications.
+Here, fingerprinting showed relatively lower F1-scores compared to 
+others, it indicates that subtle and stealthy attacks may still pose a 
+challenge.
+Moreover, we address a great model complexity and computational 
+overhead, due to attention mechanisms and deep layers might limit its 
+deployment in resource-constrained edge devices typical in IIoT 
+settings.
+Backdoor, DDoS_ICMP, SQL_injection, Password, Vulnerability_­
+scanner, and Ransomware are also performed an accurate performance 
+with very high metric values, and those attack reflect the model’s 
+robustness in recognizing their impact. However, a relatively lower 
+performance is observed in the Fingerprinting class, where precision 
+(0.9337), recall (0.9150), and F1-score (0.9242) are slightly reduced, 
+indicating some misclassifications. The classification performance of the 
+proposed CST-AFNet model on multiclass intrusion detection. The 
+model achieves an exceptional overall accuracy of 99.97 %, with macro- 
+averaged precision, recall, and F1-score all above 99.3 %. The macro and 
+weighted average values are presented in Fig. 7. It effectively detects all 
+attack types, including rare ones like MITM and Fingerprinting, con­
+firming its robustness and precision across diverse and imbalanced IIoT 
+traffic scenarios.
+Fig. 6 illustrates the confusion matrix for multiclass classification 
+using the proposed CST-AFNet model. The results show near-perfect 
+classification across all classes, including highly imbalanced ones like 
+MITM, Fingerprinting, and XSS, demonstrating the model’s strong 
+generalization and precise discrimination of complex attack patterns in 
+IIoT environments.
+Fig. 8 shows, the training and validation accuracy of the CST-AFNet 
+model shows using a plot against over 10 epochs. This model demon­
+strates a rapid increase in both training and validation accuracy within 
+the first few epochs, stabilizing above 99 % accuracy. This indicates that 
+the model is learning effectively and generalizing well.
+At the early stage, the validation accuracy remains closely aligned 
+with training accuracy, we see a minor fluctuation but it does not mean 
+an overfitting issue. The loss plot (right) shows a steep decline in both 
+training and validation loss within the first two epochs, followed by a 
+gradual convergence to near-zero values. A small spike in validation loss 
+is noticed around epochs 6–7, but the loss quickly recovers and con­
+tinues to decrease. Finally, the CST-AFNet model achieves fast conver­
+gence and maintains strong generalization performance throughout the 
+training process.
+Fig. 3. Recall for each class in the multi-class classification.
+Fig. 4. Precision for each class in the multi-class intrusion detection.
+Fig. 5. F1-score for each class in the multi-class intrusion detection.
+Table 3 
+Classification report for multiclass classification.
+Class/Metric
+Precision
+Recall
+F1-Score
+Backdoor
+0.9986
+1.0000
+0.9993
+DDoS_HTTP
+1.0000
+1.0000
+1.0000
+DDoS_ICMP
+0.9993
+0.9994
+0.9994
+DDoS_TCP
+1.0000
+1.0000
+1.0000
+DDoS_UDP
+1.0000
+1.0000
+1.0000
+Fingerprinting
+0.9337
+0.9150
+0.9242
+MITM
+1.0000
+1.0000
+1.0000
+Normal
+1.0000
+1.0000
+1.0000
+Password
+0.9977
+0.9976
+0.9977
+Port_Scanning
+1.0000
+1.0000
+1.0000
+Ransomware
+0.9923
+1.0000
+0.9961
+SQL_injection
+0.9997
+0.9994
+0.9996
+Uploading
+1.0000
+0.9831
+0.9914
+Vulnerability_scanner
+0.9986
+0.9971
+0.9979
+XSS
+0.9906
+0.9934
+0.9920
+Accuracy
+0.9997
+Macro Average
+0.9940
+0.9933
+0.9937
+Weighted Average
+0.9997
+0.9997
+0.9997
+Fig. 6. Confusion matrix for multiclass classification.
+W. Ishtiaq et al.                                                                                                                                                                                                                                 
+Array 27 (2025) 100501 
+6 

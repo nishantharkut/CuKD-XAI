@@ -1,0 +1,139 @@
+8
+9 
+3 
+5 
+3 
+10 
+32 
+2 
+2 
+1 
+3 
+21 
+9 
+2 
+6 
+11 
+7 
+2x2 pooling, stride 2 
+32 
+5 
+6 
+21 
+Max pooling 
+Average pooling 
+18 
+3 
+3 
+12 
+Fig. 12.
+Various forms of pooling (Figure adopted from Caffe Tutorial [46]).
+the network to be robust and invariant to small shifts and
+distortions. Pooling combines, or pools, a set of values in
+its receptive ﬁeld into a smaller number of values. It can be
+conﬁgured based on the size of its receptive ﬁeld (e.g., 2×2)
+and pooling operation (e.g., max or average), as shown in
+Fig. 12. Typically pooling occurs on non-overlapping blocks
+(i.e., the stride is equal to the size of the pooling). Usually a
+stride of greater than one is used such that there is a reduction
+in the dimension of the representation (i.e., feature map).
+3) Normalization: Controlling the input distribution across
+layers can help to signiﬁcantly speed up training and improve
+accuracy. Accordingly, the distribution of the layer input
+activations (σ, µ) are normalized such that it has a zero mean
+and a unit standard deviation. In batch normalization (BN),
+the normalized value is further scaled and shifted, as shown
+in Eq. (2), where the parameters (γ, β) are learned from
+training [47]. ϵ is a small constant to avoid numerical problems.
+Prior to this, local response normalization (LRN) [3] was
+used, which was inspired by lateral inhibition in neurobiology
+where excited neurons (i.e., high value activations) should
+subdue its neighbors (i.e., cause low value activations); however,
+BN is now considered standard practice in the design of
+CNNs while LRN is mostly deprecated. Note that while LRN
+usually is performed after the non-linear function, BN is mostly
+performed between the CONV or FC layer and the non-linear
+function.
+y =
+x −µ
+√
+σ2 + ϵ
+γ + β
+(2)
+B. Popular DNN Models
+Many DNN models have been developed over the past
+two decades. Each of these models has a different ‘network
+architecture’ in terms of number of layers, layer types, layer
+shapes (i.e., ﬁlter size, number of channels and ﬁlters), and
+connections between layers. Understanding these variations
+and trends is important for incorporating the right ﬂexibility
+in any efﬁcient DNN engine.
+In this section, we will give an overview of various popular
+DNNs such as LeNet [48] as well as those that competed in
+and/or won the ImageNet Challenge [14] as shown in Fig. 7,
+most of whose models with pre-trained weights are publicly
+available for download; the DNN models are summarized in
+Table II. Two results for top-5 error results are reported. In the
+ﬁrst row, the accuracy is boosted by using multiple crops from
+the image and an ensemble of multiple trained models (i.e.,
+the DNN needs to be run several times); these results were
+used to compete in the ImageNet Challenge. The second row
+reports the accuracy if only a single crop was used (i.e., the
+DNN is run only once), which is more consistent with what
+would likely be deployed in real-time and/or energy-constrained
+applications.
+LeNet [11] was one of the ﬁrst CNN approaches introduced
+in 1989. It was designed for the task of digit classiﬁcation in
+grayscale images of size 28×28. The most well known version,
+LeNet-5, contains two CONV layers and two FC layers [48].
+Each CONV layer uses ﬁlters of size 5×5 (1 channel per ﬁlter)
+with 6 ﬁlters in the ﬁrst layer and 16 ﬁlters in the second layer.
+Average pooling of 2×2 is used after each convolution and a
+sigmoid is used for the non-linearity. In total, LeNet requires
+60k weights and 341k multiply-and-accumulates (MACs) per
+image. LeNet led to CNNs’ ﬁrst commercial success, as it was
+deployed in ATMs to recognize digits for check deposits.
+AlexNet [3] was the ﬁrst CNN to win the ImageNet Challenge
+in 2012. It consists of ﬁve CONV layers and three FC layers.
+Within each CONV layer, there are 96 to 384 ﬁlters and the
+ﬁlter size ranges from 3×3 to 11×11, with 3 to 256 channels
+each. In the ﬁrst layer, the 3 channels of the ﬁlter correspond
+to the red, green and blue components of the input image.
+A ReLU non-linearity is used in each layer. Max pooling of
+3×3 is applied to the outputs of layers 1, 2 and 5. To reduce
+computation, a stride of 4 is used at the ﬁrst layer of the
+network. AlexNet introduced the use of LRN in layers 1 and
+2 before the max pooling, though LRN is no longer popular
+in later CNN models. One important factor that differentiates
+AlexNet from LeNet is that the number of weights is much
+larger and the shapes vary from layer to layer. To reduce the
+amount of weights and computation in the second CONV layer,
+the 96 output channels of the ﬁrst layer are split into two groups
+of 48 input channels for the second layer, such that the ﬁlters in
+the second layer only have 48 channels. Similarly, the weights
+in fourth and ﬁfth layer are also split into two groups. In total,
+AlexNet requires 61M weights and 724M MACs to process
+one 227×227 input image.
+Overfeat [49] has a very similar architecture to AlexNet with
+ﬁve CONV layers and three FC layers. The main differences
+are that the number of ﬁlters is increased for layers 3 (384
+to 512), 4 (384 to 1024), and 5 (256 to 1024), layer 2 is not
+split into two groups, the ﬁrst fully connected layer only has
+3072 channels rather than 4096, and the input size is 231×231
+rather than 227×227. As a result, the number of weights grows
+to 146M and the number of MACs grows to 2.8G per image.
+Overfeat has two different models: fast (described here) and
+accurate. The accurate model used in the ImageNet Challenge
+gives a 0.65% lower top-5 error rate than the fast model at the
+cost of 1.9× more MACs
+VGG-16 [50] goes deeper to 16 layers consisting of 13
+CONV layers and 3 FC layers. In order to balance out the
+cost of going deeper, larger ﬁlters (e.g., 5×5) are built from
+multiple smaller ﬁlters (e.g., 3×3), which have fewer weights,
+to achieve the same receptive ﬁelds as shown in Fig. 13(a).
+As a result, all CONV layers have the same ﬁlter size of 3×3.
+In total, VGG-16 requires 138M weights and 15.5G MACs
+to process one 224×224 input image. VGG has two different
+models: VGG-16 (described here) and VGG-19. VGG-19 gives
+a 0.1% lower top-5 error rate than VGG-16 at the cost of
+1.27× more MACs.

@@ -1,0 +1,38 @@
+Algorithm 1 Variable Attribution-Based Explainability Computation
+Require: f: Predictive model, xtest: Test sample, p: Number of features
+Ensure: Feature contributions {v(i, xtest)}p
+i=1
+1: Initialize:
+Baseline prediction v0 ←E[f(x)]
+2: for i = 1 to p do
+3:
+Compute conditional expectation for fixed features:
+E[f(x) | x1, . . . , xi]
+4:
+Compute conditional expectation for the previous subset:
+E[f(x) | x1, . . . , xi−1]
+5:
+Compute feature contribution:
+v(i, xtest) ←E[f(x) | x1, . . . , xi] −E[f(x) | x1, . . . , xi−1]
+6: Verify local accuracy:
+f(xtest) = v0 +
+p
+X
+i=1
+v(i, xtest)
+7: Optional: Apply heuristic ordering of features based on marginal impor-
+tance |∆j|∅(xtest)| to handle order sensitivity.
+8: return {v(i, xtest)}p
+i=1
+3.7. Framework Contributions
+Algorithm 2 outlines the complete pipeline of the proposed framework,
+integrating the components described above. The framework offers the fol-
+lowing key contributions:
+• Unified Preprocessing for Heterogeneous Datasets: Ensures
+consistency and scalability by standardizing input features across di-
+verse datasets.
+• Latent Representation Learning with VAEs:
+Introduces dy-
+namically calibrated VAEs to capture robust latent representations,
+enhancing anomaly detection.
+14

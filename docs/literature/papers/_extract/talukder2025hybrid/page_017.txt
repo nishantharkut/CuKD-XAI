@@ -1,0 +1,43 @@
+Potential impact of PCA on performance
+The high dimensionality and heterogeneity of the WSN-DS dataset indeed necessitate the use of dimensionality 
+reduction techniques to optimize model performance and interpretability. Principal Component Analysis 
+(PCA), applied alongside the Kaiser Criterion, plays a pivotal role in this context. PCA reduces the dataset’s 
+dimensionality by transforming it into a set of orthogonal components that maximize variance. This approach 
+eliminates redundancy, minimizes noise, and mitigates the curse of dimensionality, which can hinder efficient 
+training of IDS. In our study, PCA was applied to WSN-DS, retaining components with eigenvalues greater 
+than 1, as per the Kaiser Criterion. This ensured that only the most significant features were used for training, 
+reducing computational overhead while preserving over 95% of the data’s variance. By streamlining the feature 
+space, PCA enabled faster training and inference without sacrificing model accuracy (99.94%), which achieved a 
+remarkable ROC-AUC of 99.99% in combination with the Hybrid (KMS+PCA+RFC) framework (Tables 6 and 
+15). Additionally, PCA improved the model’s generalization capability by focusing on key variations, reducing 
+overfitting risks. The interpretability of results was further enhanced as PCA allowed us to identify the most 
+impactful features in intrusion detection scenarios (Figs. 2, 3). By demonstrating the benefits of PCA and the 
+Kaiser Criterion, we highlight how dimensionality reduction not only boosts IDS performance but also ensures 
+scalability and reliability, which are critical for resource-constrained wireless sensor network environments.
+Discussion
+Our proposed model, which integrates KMeansSMOTE (KMS) with Principal Component Analysis (PCA) and 
+Random Forest Classifier (RFC), achieves outstanding performance for Intrusion Detection Systems (IDS) in 
+Wireless Sensor Networks (WSNs), particularly on the WSN-DS dataset. A comparative analysis with existing 
+works is presented in Table 13, highlighting the significant improvements offered by our approach. Talukder 
+et al.23 achieved a remarkable accuracy, precision, recall, and f1-score of 99.92% using STL with an RFC-based 
+model. Similarly, Karthikeyan et al.20 reported an accuracy of 99.34% with their FA-ML approach, though their 
+f1-score was slightly lower at 96.67%. Abinayaa et al.24 employed LOA techniques with their LOA-Cb-C model, 
+achieving 99.66% accuracy and 99.00% for precision, recall, and f1-score. In contrast, hybrid and neural models 
+such as CNN+RNN by Salmi et al.25 and Dontu et al.26 demonstrated lower performance, with an accuracy of 
+96.86% and an f1-score of 82.29%. Vaishnavi et al.27 used PCA with XGB, reaching an accuracy of 99.70% but 
+did not report precision, recall, or f1-scores. Our proposed model outperforms these existing works across all 
+evaluation metrics, with an unparalleled accuracy, precision, recall, and f1-score of 99.94%. This improvement 
+underscores the efficacy of combining KMS with PCA for dimensionality reduction and RFC for classification, 
+making it a robust and reliable solution for IDS in WSNs.
+For the TON-IoT Network dataset, our proposed model, integrating KMS with PCA and RFC, demonstrates 
+exceptional performance. As shown in Table 14, our approach achieves the highest accuracy, precision, recall, 
+and f1-score, setting a new benchmark for IDS in IoT networks. Cao et al.28 employed STL and RFC, achieving 
+an accuracy of 98.87% with precision, recall, and f1-scores of 99.36%, 99.18%, and 99.18%, respectively. Similarly, 
+Uddin et al.21 reported comparable accuracy and an f1-score of 99.37% using their usfAD model, although they 
+did not report recall. Hajla et al.29 utilized STL and a Voting-based model, achieving a lower accuracy of 96.32% 
+Fig. 2.  Kaiser criterion for PCA on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+17
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

@@ -1,0 +1,92 @@
+{
+  "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "dataset_path_recorded": "/home/covid/cukd-group-run/data/wsnds/WSN-DS.csv",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "dataset_shape": [
+    374661,
+    17
+  ],
+  "target_column": "Attack type",
+  "feature_names": [
+    "Time",
+    "Is_CH",
+    "who CH",
+    "Dist_To_CH",
+    "ADV_S",
+    "ADV_R",
+    "JOIN_S",
+    "JOIN_R",
+    "SCH_S",
+    "SCH_R",
+    "Rank",
+    "DATA_S",
+    "DATA_R",
+    "Data_Sent_To_BS",
+    "dist_CH_To_BS",
+    "send_code",
+    "Expaned Energy"
+  ],
+  "class_names": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "split_policy": "seed42_stratified_feature_group_split",
+  "split_sizes": {
+    "train": 262197,
+    "validation": 56163,
+    "test": 56301
+  },
+  "split_class_counts": {
+    "train": [
+      6940,
+      2329,
+      10251,
+      238037,
+      4640
+    ],
+    "validation": [
+      1519,
+      488,
+      2196,
+      50959,
+      1001
+    ],
+    "test": [
+      1590,
+      495,
+      2149,
+      51070,
+      997
+    ]
+  },
+  "split_hashes": {
+    "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+    "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+    "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+  },
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "split_indices_file": "split_indices.npz",
+  "split_indices_file_sha256": "7e3d293163ed704302cb6882eb0be9f0ff5254c77849d2571dad04859c0cecd0",
+  "scaler_fit_partition": "train only",
+  "scaler_fit_row_count": 262197,
+  "scaler_fit_indices_sha256": "c2701e7d52cd807041583969033aa68d69d7aea07346f24fad497f67b2a4b5cc",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "scaler_parameters_file": "scaler_parameters.npz",
+  "scaler_parameters_file_sha256": "f06e29132bf8ddbbe59988ace013314d1c3ecb7aa636ba33741edb881c07d889",
+  "transformed_split_hashes": {
+    "train": "16976a825a38f962d03ce204dff919dd04c3af965dbe339a7abec4fe79cefddd",
+    "validation": "d50d168518c042743a847eb5b7d3e663370a5c04c3a46faf566ea5a032ac18a1",
+    "test": "f2465bbd93dcc99b30b08947bcf7c524fd1e04a07455d7f6328be83ded49008a"
+  },
+  "feature_overlap_audit": {
+    "train_validation_feature_overlap": 0,
+    "train_test_feature_overlap": 0,
+    "validation_test_feature_overlap": 0,
+    "num_feature_groups": 361156,
+    "conflicting_label_feature_groups": 3,
+    "group_stratification_label": "majority label; smallest class index breaks ties"
+  }
+}

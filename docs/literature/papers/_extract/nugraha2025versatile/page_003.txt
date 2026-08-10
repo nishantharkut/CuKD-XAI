@@ -1,0 +1,106 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1097
+reliance on a single explainer limited robustness. Finally,
+Anagha et al. [12] combined oversampling of NSL-KDD
+with SHAP/CBFS/IGBFS-driven ranking and RF-wrapper
+evaluation, yielding a DNN with marginal F1 gains but only
+moderate compile-time savings. Collectively, these works
+highlight the importance of dimensionality reduction and the
+growing use of XAI in feature selection, yet most approaches
+either focus narrowly on accuracy or employ a single expla-
+nation technique, motivating our dual-stage ANOVA–SHAP
+reduction with SHAP–LIME cross-validation to ensure both
+efﬁciency and trustworthy, near–real-time interpretability.
+2.2 Application of XAI in intrusion detection systems
+The advancements in AI, particularly in ML and DL, have
+signiﬁcantly improved IDS capabilities for detecting Dis-
+tributed Denial of Service (DDoS) attacks by analyzing
+large-scale data to identify anomalies [13]. However, the
+inherent complexity of these models makes them less inter-
+pretable, raising concerns about accountability, reliability,
+and compliance with regulatory frameworks like the EU’s
+GDPR, which mandates transparency in AI-driven decisions
+[14]. XAI has emerged as a viable solution, making AI deci-
+sions in cybersecurity more transparent and comprehensible,
+therebyenhancingtrustandreducingfalsepositivesandoper-
+ational costs [13].
+Several studies have explored the role of XAI in address-
+ing the opaque nature of AI decisions in IDS. A recent survey
+by Khan et al. [15] provides a broad overview of XAI-based
+IDS in Industry 5.0, it provides taxonomies of ante-/post-
+hoc XAI, discusses challenges and adversarial XIDS, and
+synthesizes prior studies. Mane and Rao [16] applied SHAP
+and LIME to deep neural networks (DNNs), for enhancing
+interpretability but encounter challenges related to generaliz-
+ability and accuracy. Mahbooba et al. [17] employed decision
+trees to simplify interpretability but faced issues with overﬁt-
+ting and the increasing sophistication of cyber-attacks. Wang
+et al. [18] integrated CNN and LSTM with SHAP and LIME
+for trafﬁc analysis but struggled with the computational
+demands of real-time detection. Abou El Houda et al. [19]
+observed that many studies lack detailed analyses correlating
+features with speciﬁc attack types, which limits their prac-
+tical applicability. Barnard et al. [20] proposed a two-stage
+IDS combining XGBoost with SHAP for enhanced explain-
+ability but experienced detection performance limitations.
+Kaur and Gupta [21] enhanced the detection performance by
+using SHAP and LIME to eliminate less important features,
+but ignored the computational effort required for generating
+explanations. Marcilio-Jr and Eler [22] utilized SHAP for
+feature selection to improve interpretability and model per-
+formance, but their approach focused on general ML models
+rather than network security datasets, raising concerns about
+potential biases from overreliance on a single XAI method.
+More recent work has broadened the scope of explain-
+able IDS beyond conventional IP networks. Khan et al.
+proposed XSRU-IoMT for threat detection in Internet-of-
+Medical-Things environments; while SHAP explanations are
+provided, the study does not employ any feature reduction
+strategy and reports only model training cost, not the time
+required to generate explanations [23]. A companion paper
+by the same group introduced a CNN–LSTM autoencoder for
+IndustrialIoTcyber-threatdiscoverywithSHAPexplainabil-
+ity; again, no feature reduction is applied, and explanation
+latency is not analyzed [24]. Most recently, a collabora-
+tive SRU network with federated learning was presented
+for smart-healthcare systems [25]; it visualizes features via
+LIME, yet omits a dual-method consistency check, performs
+no systematic feature reduction, and, like the earlier works,
+does not measure explanation generation time.
+Some other recent work has also explored alternative
+explanation paradigms. Burkart and Huber proposed an
+Explanation Framework for Intrusion Detection based on
+counterfactual examples [26]; although it yields human-
+readable “what-if” scenarios, the study is conﬁned to NSL-
+KDD, applies no feature reduction step, and does not report
+explanation generation latency. Cumi´c et al. generated coun-
+terfactualexplanationsforarandom-forestmodelthatdetects
+SQL-Injection attacks [27]; again, no dimensionality reduc-
+tion or timing analysis is provided, and the method is
+evaluated on a single SQL dataset rather than 5G/6G trafﬁc.
+Ables et al. extracted eclectic rule sets from a deep neural-
+network IDS to create a surrogate decision tree [28]; while
+the rules improve interpretability, the paper does not address
+real-time efﬁciency, nor does it employ feature selection or
+consider emerging 5G control-plane datasets.
+Complementary XAI directions have also been investi-
+gated. Burkart and Huber proposed a counterfactual-based
+Explanation Framework for Intrusion Detection, but it is
+evaluated only on KDD-based datasets, applies no feature
+reduction step, and does not report explanation latency or
+consider 5G trafﬁc [26]. Cumi-Guzman et al. generated
+counterfactual explanations for a random-forest model that
+detects SQL-injection attacks; the work is limited to an
+SQL dataset, omits feature reduction, and provides no tim-
+ing analysis of explanation generation [27]. Ables et al.
+extracted eclectic rule sets from a DNN-based IDS and dis-
+cuss rule-extraction speed, yet the study does not measure
+per-instance explanation time, performs no feature reduc-
+tion, and is conﬁned to UNSW-NB15 and CIC-IDS-2017
+datasets without any 5G/6G scenarios [28]. Ouhssini et al.
+[29] developed a CNN–LSTM model for DDoS defense
+in cloud environments, integrating SHAP to identify the
+ten most inﬂuential features across CIC datasets. Unlike
+their SHAP-only approach, our framework combines dual-
+stage ANOVA–SHAP selection with SHAP–LIME cross-
+123

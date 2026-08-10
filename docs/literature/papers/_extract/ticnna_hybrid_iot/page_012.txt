@@ -1,0 +1,61 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+TABLE 8. Combined performance metrics across image sizes for CICIDS2017 and CICIoT2023.
+TABLE 9. Comparison of SMOTE, ADASYN, and TIGAN sampling methods
+on CICIoT2023 and CICIDS2017.
+To validatively compare our proposed TIGAN framework
+with traditional balancing techniques, we attempted to
+apply SMOTE and ADASYN directly to the raw tabular
+(CSV) data. However, as highlighted in our computational
+resource analysis, performing oversampling on the massive
+CICIoT2023 dataset (over 42 million records) in its tabular
+format led to complete memory exhaustion (Out of Memory
+errors) on standard high-performance workstations. The
+tabular expansion required to balance 33 classes resulted in
+an exponential increase in RAM usage, rendering standard
+SMOTE and ADASYN computationally infeasible for the
+full dataset.
+In contrast, our proposed methodology converts these
+high-dimensional tabular vectors into compact 2D RGB
+images before generation. This transformation, combined
+with TIGAN’s batch-wise generative process, reduced
+RAM utilization by approximately 8 times compared
+to the estimated requirements of tabular oversampling.
+Consequently, TIGAN not only provides superior synthetic
+data fidelity but is also the only computationally viable
+solution for balancing extremely large-scale IoT datasets
+without specialized industrial-grade hardware. Table 11
+summarizes this feasibility and resource comparison.
+3) K-FOLD CROSS VALIDATION ANALYSIS ON DATASET
+USING TICNN MODEL
+K-Fold Cross-Validation, which splits the dataset into ‘‘K’’
+equal-sized pieces, or folds, is a widely used technique
+for evaluating the efficacy and generalizability of machine
+learning models. In each iteration, K-1 folds are used to train
+the model, while the remaining fold is used for validation.
+Throughout the K iterations of this procedure, each fold
+serves as the validation set once. The final performance
+metric is then averaged over all K iterations to provide a more
+precise evaluation of the model’s anticipated performance on
+unknown data. K-Fold Cross-Validation offers the significant
+advantage of reducing bias and variation because each data
+point is used for both training and testing, ensuring a more
+thorough evaluation of the model’s performance.
+FIGURE 11. Stratified cross validation on CICIDS2017 with 5 folds.
+Our research of the Tabular-Image Convolution Neural
+Network (TICNN) model employed stratified K-Fold Cross-
+Validation to ensure a balanced representation of each class in
+each fold, which is particularly important when dealing with
+imbalanced datasets. The stratified K-fold ensures that each
+fold has a balanced distribution of classes to avoid any class
+being overrepresented or underrepresented during training
+and validation. This is especially crucial when there may
+be more classes than others, as this could skew the model’s
+results. For our investigation, we divided the dataset into five
+equal-sized portions and performed the process five times.
+The TICNN model was trained using four folds each time,
+with the remaining fold being used for validation. Each fold
+underwent this process.By averaging the results from all five
+iterations, a more accurate and dependable estimate of the
+TICNN model’s performance was generated. This enhanced
+23424
+VOLUME 14, 2026

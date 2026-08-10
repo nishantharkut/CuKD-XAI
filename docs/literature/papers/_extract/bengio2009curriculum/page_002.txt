@@ -1,0 +1,110 @@
+Curriculum Learning
+“starting small” strategy can beneﬁt machine learning
+algorithms. We contribute to this question by show-
+ing several cases - involving vision and language tasks -
+in which very simple multi-stage curriculum strategies
+give rise to improved generalization and faster con-
+vergence. We also contribute to this question with the
+introduction of a hypothesis which may help to explain
+some of the advantages of a curriculum strategy. This
+hypothesis is essentially that a well chosen curriculum
+strategy can act as a continuation method (Allgower &
+Georg, 1980), i.e., can help to ﬁnd better local minima
+of a non-convex training criterion. In addition, the ex-
+periments reported here suggest that (like other strate-
+gies recently proposed to train deep deterministic or
+stochastic neural networks) the curriculum strategies
+appear on the surface to operate like a regularizer, i.e.,
+their beneﬁcial eﬀect is most pronounced on the test
+set. Furthermore, experiments on convex criteria also
+show that a curriculum strategy can speed the conver-
+gence of training towards the global minimum.
+2. On the diﬃcult optimization
+problem of training deep neural
+networks
+To test the hypothesis that a curriculum strategy could
+help to ﬁnd better local minima of a highly non-convex
+criterion, we turn our attention to training of deep ar-
+chitectures, which have been shown to involve good
+solutions in local minima that are almost impossible
+to ﬁnd by random initialization (Erhan et al., 2009).
+Deep learning methods attempt to learn feature hi-
+erarchies.
+Features at higher levels are formed by
+the composition of lower level features.
+Automati-
+cally learning multiple levels of abstraction may al-
+low a system to induce complex functions mapping
+the input to the output directly from data, without
+depending heavily on human-crafted features. A the-
+oretical motivation for deep architectures comes from
+complexity theory: some functions can be represented
+compactly with an architecture of depth k, but re-
+quire an exponential size architecture when the depth
+is restricted to be less than k (H˚astad & Goldmann,
+1991; Bengio, 2009).
+However, training deep archi-
+tectures involves a potentially intractable non-convex
+optimization problem (Bengio, 2009), which compli-
+cates their analysis. There were no good algorithms
+for training fully-connected deep architectures before
+2006, when Hinton et al. (2006) introduced a learn-
+ing algorithm that greedily trains one layer at a time.
+It exploits an unsupervised generative learning algo-
+rithm for each layer: a Restricted Boltzmann Machine
+(RBM) (Freund & Haussler, 1994). It is conceivable
+that by training each layer one after the other, one
+ﬁrst learns the simpler concepts (represented in the
+ﬁrst layer), then slightly more abstract concepts (rep-
+resented in the second layer), etc. Shortly after, strate-
+gies for building deep architectures from related vari-
+ants were proposed (Ranzato et al., 2007; Bengio et al.,
+2007). These works showed the advantage of deep ar-
+chitectures over shallow ones and of the unsupervised
+pre-training strategy in a variety of settings. Deep ar-
+chitectures have been applied with success not only in
+classiﬁcation tasks (Ranzato et al., 2007; Bengio et al.,
+2007; Larochelle et al., 2007; Ranzato et al., 2008; Vin-
+cent et al., 2008), but also in regression (Salakhutdi-
+nov & Hinton, 2008), dimensionality reduction (Hin-
+ton & Salakhutdinov, 2006; Salakhutdinov & Hinton,
+2007), natural language processing (Collobert & We-
+ston, 2008; Weston et al., 2008), and collaborative ﬁl-
+tering (Salakhutdinov et al., 2007).
+Nonetheless, training deep architectures is a diﬃcult
+problem.
+Erhan et al.
+(2009) and Larochelle et al.
+(2007) studied this question experimentally to clarify
+why deeper networks can sometimes generalize much
+better and why some strategies such as unsupervised
+pre-training can make this possible.
+Erhan et al.
+(2009) found that unsupervised pre-training makes it
+possible to start the supervised optimization in a re-
+gion of parameter space corresponding to solutions
+that were not much better in terms of ﬁnal training er-
+ror but substantially better in terms of test error. This
+suggested a dual eﬀect of unsupervised pre-training,
+both in terms of helping optimization (starting in bet-
+ter basins of attraction of the descent procedure in
+parameter space) and as a kind of regularizer.
+The experiments presented here suggest that pre-
+training with a curriculum strategy might act similarly
+to unsupervised pre-training, acting both as a way to
+ﬁnd better local minima and as a regularizer. They
+also suggest that they help to reach faster convergence
+to a minimum of the training criterion.
+3. A curriculum as a continuation
+method
+Continuation methods (Allgower & Georg, 1980) are
+optimization strategies for dealing with minimizing
+non-convex criteria. Although these global optimiza-
+tion methods provide no guarantee that the global
+optimum will be obtained, they have been particu-
+larly useful in computational chemistry to ﬁnd approx-
+imate solutions of diﬃcult optimization problems in-
+volving the conﬁgurations of molecules (Coleman &
+Wu, 1994; Wu, 1997). The basic idea is to ﬁrst opti-
+mize a smoothed objective and gradually consider less
+smoothing, with the intuition that a smooth version

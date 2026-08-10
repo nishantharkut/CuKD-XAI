@@ -1,0 +1,110 @@
+Electronics 2026, 15, 938
+14 of 20
+To verify the detection performance of the proposed TCN model, it was compared
+with various deep learning models, including classic baseline models such as RNN,
+LSTM, and CNN-LSTM, as well as the latest intrusion detection models mentioned in
+references [30–33]. Meanwhile, considering the hardware resource limitations of edge
+servers and the real-time requirements of IoT intrusion detection, the classification perfor-
+mance metrics of each model were compared, including accuracy (Acc.), precision (Pr.),
+recall (Rc.), and F1 score, as well as the number of model parameters, memory usage, and
+inference time per sample. All models used the 18 features selected in this paper, and the
+detection results of the models are shown in Table 4.
+Table 4. Comparison of performance of different methods.
+Methods
+Acc. (%)
+Pr (%)
+Rc (%)
+F1 (%)
+Model
+Parameters
+(KB)
+Memory
+Usage
+(MB)
+Inference
+Time
+(s/inst)
+RNN
+92.80
+91.31
+92.80
+91.80
+24.56
+72.77
+0.001216
+LSTM
+91.40
+89.39
+91.40
+89.68
+27.43
+73.37
+0.001390
+CNN-GRU [30]
+93.04
+92.28
+93.04
+92.20
+22.37
+40.30
+0.001699
+CNN-LSTM [31]
+92.71
+91.13
+92.71
+91.57
+29
+103.18
+0.001413
+CNN-LSTM-ResNet-SA [32]
+92.68
+91.93
+92.68
+91.57
+25.06
+107.87
+0.001568
+BiGRU-MHA-LSTM [33]
+93.09
+92.19
+93.09
+92.86
+39.93
+78.22
+0.005740
+TCN
+93.79
+93.33
+93.79
+93.13
+16.25
+39.48
+0.000852
+In terms of classification performance metrics, the proposed TCN model achieved the
+highest metrics: 93.79% accuracy, 93.33% precision, 93.79% recall, and a 93.13% F1 score,
+surpassing the other detection models. These results demonstrate that the TCN effectively
+captures the long-range temporal dependencies of network traffic through dilated causal
+convolution, exhibiting stronger classification accuracy in multiple intrusion detection
+tasks. In terms of resource consumption and real-time performance, the TCN exhibits
+significant advantages. The model size is only 16.25 KB, which is substantially smaller than
+that of BiGRU-MHA-LSTM’s 39.93 KB. Its memory usage is also relatively low at 39.48 MB,
+which is significantly lower than CNN-LSTM-ResNet-SA’s 107.87 MB and CNN-LSTM’s
+103.18 MB. Regarding inference efficiency, the inference time per instance is only 0.000852 s
+(approximately 0.85 ms), making it the fastest among all models. This characteristic is par-
+ticularly important for resource-constrained IoT intrusion detection scenarios. In summary,
+the proposed TCN model achieves superior classification performance while maintaining
+extremely low model size, memory consumption, and inference latency, demonstrating
+strong potential for deployment in edge servers.
+Figure 8 shows the accuracy of each model on the validation set as a function of epochs.
+The TCN model converges rapidly within 3 to 5 epochs. In contrast, the CNN-GRU and
+CNN-LSTM-ResNet-SA models also show a relatively rapid upward trend in the early
+stages, but their final detection accuracy is slightly lower than that of the TCN model.
+Traditional RNN and LSTM models have lower accuracy in the early stages of training,
+especially the LSTM model, whose convergence speed is significantly slower than that of
+other models. As shown in Figure 9, the TCN model exhibits a low validation loss value
+in the early stages of training, which decreases rapidly in the first few epochs and then
+stabilizes. The loss of the CNN-GRU and CNN-LSTM-ResNet-SA models decreases faster,
+but their final loss values are still slightly higher than that of TCN. The loss curve of the
+GRU_BiLSTM_Attention model is relatively stable, but the overall value is higher than
+that of TCN. The loss of traditional RNN and LSTM models decreases significantly more
+https://doi.org/10.3390/electronics15050938

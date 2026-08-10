@@ -1,0 +1,406 @@
+{
+  "item_types": [
+    [
+      "function_call",
+      6253
+    ],
+    [
+      "function_call_output",
+      6242
+    ],
+    [
+      "reasoning",
+      5385
+    ],
+    [
+      "message",
+      4077
+    ],
+    [
+      "custom_tool_call",
+      1737
+    ],
+    [
+      "custom_tool_call_output",
+      1737
+    ],
+    [
+      "web_search_call",
+      265
+    ],
+    [
+      "tool_search_call",
+      5
+    ],
+    [
+      "tool_search_output",
+      5
+    ]
+  ],
+  "event_types": [
+    [
+      "token_count",
+      6039
+    ],
+    [
+      "agent_message",
+      3145
+    ],
+    [
+      "user_message",
+      714
+    ],
+    [
+      "task_started",
+      684
+    ],
+    [
+      "task_complete",
+      622
+    ],
+    [
+      "patch_apply_end",
+      393
+    ],
+    [
+      "web_search_end",
+      319
+    ],
+    [
+      "thread_settings_applied",
+      92
+    ],
+    [
+      "context_compacted",
+      83
+    ],
+    [
+      "turn_aborted",
+      49
+    ],
+    [
+      "mcp_tool_call_end",
+      6
+    ]
+  ],
+  "samples": {
+    "response_item": [
+      {
+        "line": 3,
+        "payload_type": "message",
+        "keys": [
+          "type",
+          "role",
+          "content"
+        ],
+        "role": "developer",
+        "content_type": "list",
+        "content0_keys": [
+          "type",
+          "text"
+        ],
+        "content0_type": "input_text",
+        "content0_text_preview": "<permissions instructions>\nFilesystem sandboxing defines which files can be read or written. `sandbox_mode` is `workspace-write`: The sandbox permits reading files, and editing files in `cwd` and `wri"
+      },
+      {
+        "line": 4,
+        "payload_type": "message",
+        "keys": [
+          "type",
+          "role",
+          "content"
+        ],
+        "role": "user",
+        "content_type": "list",
+        "content0_keys": [
+          "type",
+          "text"
+        ],
+        "content0_type": "input_text",
+        "content0_text_preview": "<environment_context>\n  <cwd>/home/ubuntu/nishn_workspce/oig-exclusion-testing</cwd>\n  <shell>bash</shell>\n  <current_date>2026-05-27</current_date>\n  <timezone>Etc/UTC</timezone>\n</environment_contex"
+      },
+      {
+        "line": 6,
+        "payload_type": "message",
+        "keys": [
+          "type",
+          "role",
+          "content"
+        ],
+        "role": "user",
+        "content_type": "list",
+        "content0_keys": [
+          "type",
+          "text"
+        ],
+        "content0_type": "input_text",
+        "content0_text_preview": "you are research agent which does very deep research deep into the internent. currently your task i am givving isnt researching papers, i am going to give you one drtive link and github link, please d"
+      },
+      {
+        "line": 8,
+        "payload_type": "reasoning",
+        "keys": [
+          "type",
+          "summary",
+          "content",
+          "encrypted_content"
+        ],
+        "role": null,
+        "content_type": "NoneType"
+      },
+      {
+        "line": 10,
+        "payload_type": "message",
+        "keys": [
+          "type",
+          "role",
+          "content",
+          "phase"
+        ],
+        "role": "assistant",
+        "content_type": "list",
+        "content0_keys": [
+          "type",
+          "text"
+        ],
+        "content0_type": "output_text",
+        "content0_text_preview": "I\u2019ll gather the repo context and use the Google Drive workflow for the Drive folder, then create a hidden, local-only folder under the current workspace for the downloaded materials."
+      },
+      {
+        "line": 11,
+        "payload_type": "function_call",
+        "keys": [
+          "type",
+          "name",
+          "arguments",
+          "call_id"
+        ],
+        "role": null,
+        "content_type": "NoneType"
+      },
+      {
+        "line": 12,
+        "payload_type": "function_call",
+        "keys": [
+          "type",
+          "name",
+          "arguments",
+          "call_id"
+        ],
+        "role": null,
+        "content_type": "NoneType"
+      },
+      {
+        "line": 13,
+        "payload_type": "function_call_output",
+        "keys": [
+          "type",
+          "call_id",
+          "output"
+        ],
+        "role": null,
+        "content_type": "NoneType"
+      }
+    ],
+    "event_msg": [
+      {
+        "line": 2,
+        "etype": "task_started",
+        "keys": [
+          "type",
+          "turn_id",
+          "started_at",
+          "model_context_window",
+          "collaboration_mode_kind"
+        ]
+      },
+      {
+        "line": 7,
+        "etype": "user_message",
+        "keys": [
+          "type",
+          "message",
+          "images",
+          "local_images",
+          "text_elements"
+        ]
+      },
+      {
+        "line": 9,
+        "etype": "agent_message",
+        "keys": [
+          "type",
+          "message",
+          "phase",
+          "memory_citation"
+        ]
+      },
+      {
+        "line": 15,
+        "etype": "token_count",
+        "keys": [
+          "type",
+          "info",
+          "rate_limits"
+        ]
+      },
+      {
+        "line": 17,
+        "etype": "agent_message",
+        "keys": [
+          "type",
+          "message",
+          "phase",
+          "memory_citation"
+        ]
+      },
+      {
+        "line": 27,
+        "etype": "token_count",
+        "keys": [
+          "type",
+          "info",
+          "rate_limits"
+        ]
+      }
+    ],
+    "turn_context": [
+      {
+        "line": 5,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T05:32:48.631Z",
+          "type": "turn_context",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 40,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T05:34:00.115Z",
+          "type": "turn_context",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 66,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T05:34:56.223Z",
+          "type": "turn_context",
+          "payload": "dict"
+        }
+      }
+    ],
+    "compacted": [
+      {
+        "line": 430,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T05:49:09.315Z",
+          "type": "compacted",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 1158,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T07:50:21.899Z",
+          "type": "compacted",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 1907,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T09:18:46.033Z",
+          "type": "compacted",
+          "payload": "dict"
+        }
+      }
+    ],
+    "world_state": [
+      {
+        "line": 27288,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-07-11T17:14:04.019Z",
+          "type": "world_state",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 27671,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-07-11T17:48:01.074Z",
+          "type": "world_state",
+          "payload": "dict"
+        }
+      },
+      {
+        "line": 28009,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-07-11T18:01:31.960Z",
+          "type": "world_state",
+          "payload": "dict"
+        }
+      }
+    ],
+    "session_meta": [
+      {
+        "line": 1,
+        "keys": [
+          "timestamp",
+          "type",
+          "payload"
+        ],
+        "preview": {
+          "timestamp": "2026-05-27T05:32:48.510Z",
+          "type": "session_meta",
+          "payload": "dict"
+        }
+      }
+    ]
+  }
+}

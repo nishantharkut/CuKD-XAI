@@ -1,0 +1,136 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+TABLE 1. Dataset details.
+RM×N is the original dataset with real-valued entries and
+ZM×N is the scaled dataset with integer entries representing
+RGB pixel values after normalization [26]. To normalize the
+feature values to the range suitable for RGB pixel values (0 to
+255), we apply min-max scaling. The normalization function
+S : R →[0, 255] is defined as Eq. No. 1, where Dj is the
+j-th column (feature) of D. After applying this transformation,
+we obtain a scaled dataset ˜D ∈ZM×N.
+S(di,j) =
+di,j −min(Dj)
+max(Dj) −min(Dj) × 255
+(1)
+Unlike prior image-based IDS approaches that merely
+map binary feature states or use grayscale representations,
+our approach transforms continuous tabular features into a
+dense 3D RGB latent space. This is fundamentally distinct
+because it preserves the scalar magnitude of attack features
+through channel-wise depth (R, G, B), allowing the CNN
+to learn inter-feature correlations as spatial textures rather
+than isolated values. Furthermore, by quantizing 32-bit
+floating-point tabular data into 8-bit integers (0-255 pixel
+values), we achieve a theoretical 4× memory compression.
+This explains the significant reduction in RAM usage
+observed in Figure 8, as the model processes compact tensor
+representations rather than sparse, high-dimensional tabular
+vectors.
+To produce an RGB image, it is necessary to reshape the
+transformed data ˜D where R represents the total number
+of rows in the image and C signifies the total number of
+columns across the Red, Green and Blue color channels,
+respectively. This transformation produces a structure output
+based on Algorithm 1, resulting in an image dataset termed as
+IR×C×3. Table 1 represents the dataset details generated using
+Algorithm 1.
+Algorithm 1 Image Generation Algorithm
+Input: V = {v1, v2, . . . , vn} — Sequence of pixel vectors.
+P ∈Z+ — Required number of pixels.
+Z ∈Z+ — Number of padding pixels.
+Output: I ∈IR×C×3 — Generated image tensor.
+1: N ←|V|
+// Number of available pixel vectors
+2: if N ≥P then
+3:
+I ←reshape(V, (R, C, 3))
+4: else
+5:
+Z ←P −N
+6:
+Vzero ←0Z
+// Zero-padding vector
+7:
+V ←V ∪Vzero
+8:
+I ←reshape(V, (R, C, 3))
+9: end if
+10: return I
+B. PROPOSED TIGAN AND HYBRID-SAMPLING
+FRAMEWORK THAT RESOLVED RQ2
+Various dataset-balancing techniques and algorithms are used
+to generate synthetic data. Two primary approaches for
+handling class imbalance in tabular data are oversampling
+and undersampling. However, these methods come with
+significant limitations in highly imbalanced scenarios. In the
+case of oversampling, especially when the minority-to-
+majority class ratio is extremely low, the IDS (Intrusion
+Detection System) model tends to become synthetic-biased—
+favoring the artificially generated samples over real ones,
+which compromises generalization and detection accuracy.
+On the other hand, undersampling in such cases can result
+in up to 99% data loss, discarding valuable information
+from the majority class and degrading model performance.
+To address this issue, we proposed a hybrid sampling
+algorithm that finds a threshold value and generates new
+images or removes excess image samples by defining a
+threshold value. To determine a suitable threshold T for
+class balancing in our dataset, we calculate several key
+statistical measures across the class distributions. Let C =
+{c1, c2, . . . , cn} represent the set of classes, each with an
+image count N(ci) for class ci.
+First, we calculate the median m of the image counts,
+which serves as a central measure of our class distribution.
+The median m is formulated as:
+m =
+
+
+
+N
+
+c n
+2
+
+if n is odd
+N
+
+c n
+2 −1
+
++ N
+
+c n
+2
+
+2
+if n is even
+(2)
+In addition, we compute the 25th percentile Q1 and the 75th
+percentile Q3 of the image counts vector N
+=
+[N(c1),
+N(c2), . . . , N(cn)]T , which describe the lower and upper
+quartiles, respectively. These are essential for calculating the
+interquartile range (IQR) [27], which is given by:
+IQR = Q3 −Q1
+(3)
+The upper bound for outliers is then defined as Q3 + 1.5 ·
+IQR, allowing us to set an alternative threshold that considers
+high outlier values. Specifically, the threshold T can be set
+based on the distribution characteristics, as follows:
+T =
+(
+m
+(using Median Count)
+Q3 + 1.5 · IQR
+(to capture High Outliers)
+(4)
+Working Example of IQR Thresholding: To illustrate
+the application of Equation 4, consider an IoT dataset
+where the sample counts for five attack classes are
+{10, 20, 50, 100, 500}. Here, the quartiles are Q1 = 20 and
+Q3
+=
+100, resulting in an IQR of 80. Applying the
+23416
+VOLUME 14, 2026

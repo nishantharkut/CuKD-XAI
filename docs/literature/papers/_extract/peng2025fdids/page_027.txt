@@ -1,0 +1,135 @@
+Sensors 2025, 25, 4309
+27 of 31
+Table 16. Performance comparison of FD-IDS and existing methods under the same experimental
+setup (Edge-IIoT).
+Ref
+Algorithm
+Accuracy
+Precision
+Recall
+F1
+Low Non-IID (θ = 1)
+[11]
+FedAvg-only
+94.65
+96.02
+94.65
+94.13
+[34]
+FedProx-only
+94.74
+95.98
+94.74
+94.17
+[29]
+SIM-FED
+94.68
+96.69
+94.68
+94.03
+Our method
+FD-IDS
+94.82
+96.20
+94.82
+94.35
+High Non-IID (θ = 0.1)
+[11]
+FedAvg-only
+90.92
+95.29
+90.92
+88.93
+[34]
+FedProx-only
+91.89
+94.60
+91.89
+90.88
+[29]
+SIM-FED
+91.21
+89.48
+91.21
+89.78
+Our method
+FD-IDS
+93.86
+96.45
+93.86
+92.70
+Table 17. Performance comparison of FD-IDS and existing methods under the same experimental
+setup (N-BaIoT).
+Ref
+Algorithm
+Accuracy
+Precision
+Recall
+F1
+Low Non-IID (θ = 1)
+[11]
+FedAvg-only
+86.50
+85.48
+86.50
+82.18
+[34]
+FedProx-only
+87.56
+82.30
+87.56
+83.38
+[29]
+SIM-FED
+87.46
+86.73
+87.46
+83.29
+Our method
+FD-IDS
+87.70
+82.23
+87.70
+83.52
+High Non-IID (θ = 0.1)
+[11]
+FedAvg-only
+80.43
+77.31
+80.43
+76.68
+[34]
+FedProx-only
+81.51
+76.93
+81.51
+77.17
+[29]
+SIM-FED
+74.63
+74.80
+74.63
+69.48
+Our method
+FD-IDS
+83.81
+78.39
+83.81
+78.24
+4.4. Discussion
+Through the experiments and analyses presented in the preceding sections, this study
+comprehensively evaluated the effectiveness of FD-IDS in IoT settings and validated the
+effectiveness of the proposed method across multiple aspects. To address the model drift
+caused by Non-IID data distributions in FL, this study integrated a proximal term and
+KD to collaboratively optimize the model at both global and local levels. This enables
+the model to maintain superior detection performance, even under scenarios with high
+data heterogeneity. Furthermore, by employing MI-based feature selection, the proposed
+method preserves critical features while reducing feature dimensionality, thereby decreas-
+ing computational overhead and further enhancing system training efficiency and detection
+capability. In addition, the analysis of computational and communication overhead reveals
+that FD-IDS exhibits lightweight characteristics, making it suitable for deployment on
+commonly used edge devices, such as the Raspberry Pi. Its communication demands also
+remain well within the bandwidth constraints of mainstream wireless standards. Finally,
+experimental results demonstrate that the performance of FD-IDS under FL closely approx-
+imates its performance under CL, which substantiates the efficiency and practicality of FL
+approaches while simultaneously preserving data privacy.

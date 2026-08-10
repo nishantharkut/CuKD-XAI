@@ -1,0 +1,40 @@
+Signal, Image and Video Processing (2025) 19 :1335
+Page 5 of 15
+1335
+Fig. 1 Correlation plot for the
+relation between the variables
+CH”, “who CH”, and “Dist CH To BS”, maintained mod-
+erate VIF values, meaning they provide independent and
+valuable information for the model. This reﬁned feature vec-
+tor serves as a more robust input set, minimizing redundant
+relationships and improving both interpretability and predic-
+tive performance in subsequent analyses.
+3 Methods
+3.1 Voting meta ensemble
+The proposed Voting Meta-Ensemble combines the predic-
+tive capabilities of multiple base learners to improve clas-
+siﬁcation performance. Each independently trained model
+produces a probability distribution over the target classes.
+These outputs are then fused using soft voting, which aver-
+ages the predicted class probabilities and selects the class
+with the highest average. This approach allows models with
+higher conﬁdence to exert greater inﬂuence on the ﬁnal deci-
+sion, improving generalization compared to single models.
+In this framework, DNNs extract complex nonlinear features,
+while CATBoost efﬁciently handles tabular and categorical
+data. The combination, optimized by metaheuristic algo-
+rithms, mitigates both bias and variance, common limitations
+of individual learners, resulting in robust and accurate intru-
+sion detection [20, 21].
+3.2 Deep neural networks
+DNNs are employed for their ability to model complex non-
+linear relationships in high-dimensional data. Each network
+consists of an input layer, several hidden layers, and an
+output layer. Hidden layers perform afﬁne transformations
+followed by nonlinear activations, enabling hierarchical fea-
+ture learning. A variable selection process ensures that only
+informative features are used, reducing overﬁtting and com-
+putational load. The DNN outputs class probabilities for
+intrusion detection, trained via gradient-based optimization
+and backpropagation [22, 23].
+123

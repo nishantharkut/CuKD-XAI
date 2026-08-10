@@ -1,0 +1,57 @@
+Subsequently, the Intersection over Union (IoU) (Rezatofighi et al, 2019) is
+computed between the attention maps of different teachers to measure their
+diversities. Take the 2-teacher ensemble KD as an example, for an image
+sample S, to compute the IoU between the teacher models, two attention
+maps At1, At2 ⊆S are obtained associated with each teacher model, with
+the final metric value computed as in Equation 1:
+IoU = |At1 ∩At2|
+|At1 ∪At2|
+(1)
+4.2. Model Dependency in KD
+We use fidelity metrics, namely the averaged predictive Kullback-Leibler
+(KL) divergence and top-1 agreement (Stanton et al, 2021), along with mu-
+tual information calculated between models’ logits. This enables us to show-
+case the mimicry behavior and dependency between teachers and the student.
+Given a classification task with input space X = {xi}N
+i=1 and label space
+Y = {yc}C
+c=1. Let f : X →RC be a classifier whose outputs define a cat-
+egorical predictive distribution over Y, ˆp(yc|xi) = σc(zi), where σc(·) is the
+softmax function and zi := f(xi) denotes the model logits when xi is feed
+into f. The formal definition of KL divergence, top-1 agreement (Top-1 A),
+and mutual information (MI) are formulated as follows:
+KL(Pt||Ps) =
+C
+X
+c=1
+ˆpt(yc|x) log ˆpt(yc|x)
+ˆps(yc|x)
+(2)
+Top-1 A = 1
+N
+N
+X
+i=1
+1{arg max
+c
+σc(zt) = arg max
+c
+σc(zs)}
+(3)
+MI(Yt; Ys) =
+X
+yt∈Yt
+X
+ys∈Ys
+P(yt, ys) log
+P(yt, ys)
+P(yt)P(ys)
+(4)
+where P(yt, ys) is the joint probability distribution of the teacher and stu-
+dent. P(yt) and P(ys) represent the marginal probability distributions of
+the teacher and student. For metrics calculated between teach ensemble and
+student, the logits or outputs of different teachers are first averaged and
+then computed with the student. This paper uses Top-1 A for fidelity mea-
+surement in the main text, and results with KL divergence can be found in
+Appendix B.
+9

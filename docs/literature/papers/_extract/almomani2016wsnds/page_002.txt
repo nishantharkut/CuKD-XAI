@@ -1,0 +1,112 @@
+2
+Journal of Sensors
+and its main objective is to interrupt or suspend the services
+provided by WSNs [6, 7].
+Because the process of avoiding or preventing security
+threats cannot be always successful, an Intrusion Detection
+System (IDS) is needed to detect known and unknown attacks
+and alert sensor nodes about them [3, 4]. IDS allows detecting
+suspicious or abnormal activities and triggers an alarm when
+an intrusion occurs. The implementation of IDSs for WSNs
+are more difficult than other systems because sensor nodes
+are usually designed to be tiny and cheap, and they do not
+have enough hardware resources. Additionally, there is no
+specialized dataset that contains normal profiles and attacks
+in WSN that can be used to detect an attacker signature
+[3]. Considering the above challenges, there are mainly two
+conditions while designing IDS for WSNs: The IDS must be of
+high degree of accuracy in detecting an intruder that includes
+unknown attacks, and it also must be lightweight to ensure
+minimum overhead on the infrastructure of WSNs [8].
+In this paper a specialized WSN dataset is constructed
+to characterize four types of DoS attacks in addition to the
+normal behavior when no attacks exist. WSNs’ characteristics
+and challenges were considered when Low Energy Aware
+Cluster Hierarchy (LEACH) [9] routing protocol was used
+in this study. This choice was made since LEACH is one
+of the most popular hierarchical routing protocols in WSNs
+that consumes limited energy and is characterized by its
+simplicity. The constructed dataset is called WSN-DS.
+The rest of paper is organized as follows. Section 2
+provides an overview of LEACH protocol, IDSs, and reviews
+related work. Section 3 analyzes LEACH protocol math-
+ematically; Section 4 describes the extracted features of
+the constructed dataset. Section 5 models different attacks.
+Section 6 presents the experimental results obtained from
+IDS and discusses the importance of the achieved results.
+Conclusions and avenues for future work are presented in
+Section 7.
+2. Background and Related Works
+This section presents an overview of LEACH protocol,
+LEACH-based protocols, DoS, and IDS in WSNs.
+2.1. LEACH Protocol Overview. LEACH is a hierarchical
+routing protocol used in WSNs to increase the network’s
+lifetime [9–11]. LEACH is a clustering, adaptive, and self-
+organizing protocol. LEACH assumes that BS is fixed and
+located far from sensor nodes. Additionally, all sensor nodes
+are homogeneous and have limited energy and memory.
+Sensors can communicate among each other and they can
+communicate directly with the BS. The main idea of LEACH
+protocol is to organize nodes into clusters to distribute the
+energy among all nodes in the network. Also, in each cluster
+there is a node called Cluster Head (CH) which aggregates
+the data received from sensors within its cluster and forward
+them to the BS. Figure 1 shows the structure of nodes in
+LEACH routing protocol. Each round in LEACH protocol
+consists mainly of two phases: setup phase and steady-state
+phase. In the setup phase, clusters are formed, whereas in the
+Cluster head 
+Member node
+Cluster 1
+Cluster 2
+Cluster 3
+Sink
+Figure 1: Nodes structure in LEACH routing protocol.
+steady-state phase, sensed data will be transferred to the sink
+node [12].
+At the beginning of the setup phase, every node generates
+a random number between 0 and 1, and it then computes
+a threshold formula 𝑇(𝑛), as shown in (1). If the selected
+random number is less than the threshold value, the node
+becomes a CH:
+𝑇(𝑛) =
+{
+{
+{
+0
+1 −𝑝× (𝑟mod 𝑝−1),
+∀𝑛∈𝑁
+0,
+otherwise,
+(1)
+where 𝑝is the CH probability (usually in LEACH a node
+becomes CH with a probability of 0.05), 𝑁: is the set of nodes
+that have not been a CH, in the last 1/𝑝rounds, and 𝑟is the
+current round.
+CH in the first round cannot be CH again in the next
+1/𝑝rounds. After 1/𝑝−1 rounds, the threshold value
+becomes 1 for any sensor node that has not been CH
+yet, and after 1/𝑝rounds, all nodes are eligible again to
+become CHs. Once CHs are assigned for all clusters, each
+CH will broadcast an advertisement message (ADV CH) to
+the rest of nodes using Carrier Sense Multiple Access-Media
+Access Control (CSMA-MAC) protocol [9]. After receiving
+ADV CH message, each node decides to which cluster it
+belongs by selecting a CH based on the Received Signal
+Strength Indication (RSSI) of the advertisement message, the
+node then sends a (JOIN REQ) message to the selected CH
+with the highest RSSI. Each node uses CSMA-MAC protocol
+to transmit its selection [9, 10]. During the setup phase,
+all CHs keep their receivers ON. After clusters formation,
+each CH creates a Time Division Multiple Access (TDMA)
+schedule according to the number of nodes in its cluster called
+Cluster Members (CM) and broadcasts it to them.
+During steady-state phase, each sensor node collects data
+and transmits them to its CH during its allocated time slot
+according to the TDMA schedule. CHs receive all the data
+and aggregate them before sending them to the BS. After
+a predetermined time, the network starts another round by
+going back to the setup and steady-state phases again [9].
+2.2. LEACH-Based Protocols. LEACH was and still is studied
+in enormous number of research articles. The authors in [13]
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

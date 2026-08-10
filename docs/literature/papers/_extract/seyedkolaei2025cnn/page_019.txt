@@ -1,0 +1,50 @@
+Future Internet 2025, 17, 230
+19 of 21
+spatio-temporal feature fusion combines CNN-Transformer architectures to capture spatial
+patterns (e.g., packet anomalies) and temporal dependencies (e.g., attack sequences), while
+dynamic attention prioritizes critical features like protocol flags. Self-supervised learning
+addresses unlabeled data challenges, using pretext tasks and contrastive learning to general-
+ize normal/abnormal behavior and improve zero-day threat detection. Adaptive detection
+is achieved via incremental learning, which fine-tunes the CNN with new attack data
+(e.g., ransomware) while retaining prior knowledge through elastic weight consolidation.
+Federated learning enables collaborative, privacy-preserving training across distributed
+devices, with adaptive aggregation prioritizing nodes encountering novel attacks.
+Scalability is ensured through lightweight architectures like depth-wise separable
+convolutions and Neural Architecture Search (NAS), optimizing CNNs for resource-
+constrained edge devices. Hierarchical inference offloads complex classification to the
+cloud while enabling real-time detection on edge nodes. Protocol-agnostic detection lever-
+ages autoencoders and GNNs to unify feature spaces and detect cross-device attacks, while
+explainability tools (Grad-CAM, rule extraction) enhance transparency. Integration with
+SDN and blockchain enables real-time mitigation (e.g., isolating compromised nodes) and
+secure threat intelligence sharing. Together, these methods balance accuracy, efficiency, and
+adaptability, addressing evolving threats in heterogeneous IoT/IIoT networks.
+5. Conclusions
+This paper examines the development of intrusion detection systems IoT and IIoT
+networks, with a focus on mitigating attacks. This study explores deep learning, particularly
+convolutional neural networks (CNNs), as a promising approach for intrusion detection
+and compares the CNN method’s performance with traditional techniques, including
+decision trees, random forests, support vector machines, and K-nearest neighbors. Utilizing
+a comprehensive dataset, the research categorizes attacks into three classifications: 2-class,
+6-class, and 15-class scenarios. The results indicate that the proposed CNN method achieves
+superior detection performance for most attacks compared to the other methods based on
+the selected evaluation criteria.
+The CNN-based approach demonstrates distinct advantages over traditional machine
+learning models by autonomously extracting spatial–temporal patterns from raw network
+traffic, eliminating the need for manual feature engineering. This capability enables pre-
+cise distinction between complex attack types (e.g., DDoS_HTTP vs. DDoS_UDP), where
+traditional methods like SVM and random forest struggle due to their reliance on hand-
+crafted features. While the CNN achieves superior accuracy in multiclass classification
+(15-class), its true strength lies in detecting subtle, protocol-specific anomalies (e.g., MQTT
+spoofing, Modbus tampering) through localized correlations in traffic behavior. Challenges
+such as class imbalance, observed in underrepresented attacks (e.g., XSS), highlight op-
+portunities for future refinements like synthetic oversampling. Nevertheless, the CNN
+maintains robustness across heterogeneous protocols and edge deployments, underscoring
+its adaptability to dynamic IoT/IIoT environments. These results underscore its superi-
+ority in balancing accuracy, speed, and adaptability, addressing critical gaps in existing
+rule-based and traditional ML-based IDS solutions. Future research could explore com-
+bining CNNs with other techniques to enhance speed without compromising accuracy
+and further improve classification accuracy by addressing misclassifications among similar
+attack types.
+Future work will focus on cross-dataset benchmarking to validate generalizability and
+hybrid architectures (e.g., CNN + random forest) to balance accuracy with computational
+efficiency. Additionally, real-time deployment on edge devices will be explored to assess

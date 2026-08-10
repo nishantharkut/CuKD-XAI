@@ -1,0 +1,87 @@
+8
+Journal of Sensors
+N →Network Size
+SN →Sensor Node
+MN →Malicious Node
+CH →Cluster Head
+BS →Base Station
+CM →Cluster Member
+NC →Cluster Heads list
+x →Integer value between 0 and 𝑁−1
+∀SN𝑖, 0 < 𝑖≤𝑁, compute 𝑇(SN𝑖) and random 𝑟SN𝑖
+IF (𝑟SN𝑖< 𝑇(SN𝑖)) THEN
+SN𝑖= CH
+ELSE
+SN𝑖= CM
+ENDIF
+∀CH𝑗, 𝑗∈NC
+{
+CH𝑗broadcasts the advertisement message (ADV CH)
+x CMs will join CH𝑗
+CH𝑗creates TDMA schedule
+x CMs send data to CH𝑗in the corresponding TDMA time slot
+}
+IF CH = MN THEN
+Performs the attack by dropping some packets (randomly or selectively)
+ELSE
+Sends aggregated data to BS
+ENDIF
+Algorithm 2: Model of Grayhole attack.
+this will consume sensors’ energy and waste more time to
+determine which CH to join. Moreover, the attacker attempts
+to cheat victims to choose it as a CH, especially those nodes
+that are located on a far distance from it in order to consume
+their energy [40, 43]. Algorithm 3 shows the algorithm of
+Flooding attack.
+Flooding attack has been implemented in several ways
+in the simulation environment. In some experiments 10
+ADV CH messages were sent by the attacker; other scenarios
+consider 50 ADV CH messages to be sent or a random
+number between 10 and 50. The idea is when more ADV CH
+messages are sent, more messages will be received and
+more energy will be consumed. We have already studied in
+[44] the impact of Flooding attack on WSN lifetime. The
+energy consumption was shown in each round using several
+attackers’ ratios.
+5.4. Scheduling Attack. Scheduling attack was introduced in a
+previous study of the authors [44]. Scheduling attack occurs
+during the setup phase of LEACH protocol, when CHs set
+up TDMA schedules for the data transmission time slots. The
+attacker which acts as a CH will assign all nodes the same time
+slot to send data. This is done by changing the behavior from
+broadcast to unicast TDMA schedule. Such change will cause
+packets collision which leads to data loss. Algorithm 4 shows
+the algorithm of Scheduling attack.
+The implementation of Scheduling attack is performed
+by setting the same time for all Cluster Members to send
+their data packets. Other scenarios assign every two nodes
+the same time or every five nodes the same time.
+In [44] it has been shown that the risk of DoS attackers on
+LEACH protocol services could be significant. The attackers
+can influence the network in more than one way, through
+wasting the nodes’ energy or dropping their data packets.
+This badly affects the services provided by WSN. Therefore,
+a methodology to detect such attacks and protect different
+services provided by WSN is urgently required.
+Section 6 illustrates the importance of studying normal
+and anomaly (under attack) behaviors of WSN protocols
+and presenting them through a specialized dataset (WSN-
+DS). WSN-DS allows several intelligent and data mining
+approaches to be applied for the aim of better detection
+and classification of DoS attacks. As a result, sensor nodes
+will be more experienced with the normal behaviors and
+attackers’ signatures and will be able to make proper decisions
+at the right time. In this research ANN is applied to test the
+constructed dataset and measure its accuracy in detecting and
+classifying four types of DoS attacks.
+6. Experiments and Results
+In this paper, WSN-DS, a specialized dataset for WSN to
+detect DoS attacks, was constructed. LEACH protocol was
+used to collect the dataset because it is one of the most
+common and widely used routing protocols in WSNs. WSN-
+DS contains 374661 records that represent four types of
+DoS attacks: Blackhole, Grayhole, Flooding, and Schedul-
+ing attack, in addition to the normal behavior (no-attack)
+records. Table 4 shows sample from WSN-DS dataset to help
+in detecting and classifying DoS attacks.
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

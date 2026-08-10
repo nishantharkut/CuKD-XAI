@@ -1,0 +1,89 @@
+On Explaining Knowledge Distillation: Measuring and Visualising the
+Knowledge Transfer Process
+Gereziher Adhane
+Universitat Oberta de Catalunya
+gradhane@uoc.edu
+Mohammad Mahdi Dehshibi
+Universidad Carlos III de Madrid
+mohammad.dehshibi@yahoo.com
+Dennis Vetter
+Goethe University Frankfurt
+vetter@em.uni-frankfurt.de
+David Masip
+Universitat Oberta de Catalunya
+dmasipr@uoc.edu
+Gemma Roig
+Goethe University Frankfurt
+roig@cs.uni-frankfurt.de
+Abstract
+Knowledge distillation (KD) remains challenging due to
+the opaque nature of the knowledge transfer process from a
+Teacher to a Student, making it difficult to address certain
+issues related to KD. To address this, we proposed UniCAM,
+a novel gradient-based visual explanation method, which
+effectively interprets the knowledge learned during KD. Our
+experimental results demonstrate that with the guidance of
+the Teacher’s knowledge, the Student model becomes more
+efficient, learning more relevant features while discarding
+those that are not relevant. We refer to the features learned
+with the Teacher’s guidance as distilled features and the
+features irrelevant to the task and ignored by the Student
+as residual features. Distilled features focus on key aspects
+of the input, such as textures and parts of objects. In con-
+trast, residual features demonstrate more diffused attention,
+often targeting irrelevant areas, including the backgrounds
+of the target objects. In addition, we proposed two novel
+metrics: the feature similarity score (FSS) and the rele-
+vance score (RS), which quantify the relevance of the dis-
+tilled knowledge. Experiments on the CIFAR10, ASIRRA,
+and Plant Disease datasets demonstrate that UniCAM and
+the two metrics offer valuable insights to explain the KD
+process.
+1. Introduction
+Knowledge Distillation (KD) has emerged as a crucial
+technique in deep learning, especially in computer vision.
+It aims to develop efficient models without compromising
+performance [4, 5, 19, 31, 44]. By transferring knowledge
+from typically a complex Teacher model to a simpler Stu-
+dent model, KD can potentially address the increasing de-
+mand for deploying robust yet lightweight models in prac-
+tical scenarios [43]. Nevertheless, despite its widespread
+adoption, the underlying mechanisms of KD remain some-
+what opaque, thus impeding its broader application and the-
+oretical comprehension.
+The current research in knowledge distillation (KD) is
+confronted with four main challenges, including (1) un-
+derstanding the specific knowledge that is transferred from
+Teacher to Student [3]; (2) evaluating whether KD improves
+the Student’s focus on task-relevant features compared to
+independent training [5, 40]; (3) measuring the importance
+of features adopted or ignored by the Student for the tar-
+get task; (4) addressing and resolving KD failures, mainly
+when there are significant architectural differences between
+Teacher and Student models [29,37,38].
+Existing visual explainability methods for Convolutional
+Neural Networks (CNNs), like Grad-CAM [35], are not
+equipped to tackle these KD-specific challenges. While ef-
+fective for single-model predictions, these methods cannot
+capture the nuance of knowledge transfer between models
+or quantify the relevance of distilled knowledge. Specif-
+ically, Grad-CAM focuses on the importance of class-
+specific features within a single model. However, it does not
+distinguish between knowledge inherited from the Teacher
+and knowledge independently learned by the Student.
+To address these issues, we introduce a new framework
+for improving the explainability of KD. We will first define
+the key terms used in this paper to ensure clarity. Distilled
+features are unique to the Student and are acquired through
+KD-based training, which the Student considers relevant to
+the task. Residual features are present in the Teacher (Base
+model) but are not adopted by the Student, as the Student
+finds them irrelevant to the task during KD-based training.
+We used Unique features to collectively refer to the dis-
+tilled and residual features, as they are unique to the Student
+and the Base model, respectively. Throughout this text, we
+will use the term Base model to refer to the model which
+This WACV paper is the Open Access version, provided by the Computer Vision Foundation.
+Except for this watermark, it is identical to the accepted version;
+the final published version of the proceedings is available on IEEE Xplore.
+3467

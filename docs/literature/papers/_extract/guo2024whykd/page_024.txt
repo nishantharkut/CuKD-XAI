@@ -1,0 +1,56 @@
+Table G.5: Validation accuracies for our method, LFME, and DMAE on four data sets.
+Method
+Cifar100 ImageNet Cifar100
+imb100
+ImageNet
+long-tail
+LFME
+-
+-
+0.4380
+0.3880
+DMAE
+0.8820
+0.8198
+0.3725
+0.4395
+Ours(1T)
+0.8133
+-
+0.5152
+-
+Ours(2T)
+0.8195
+0.6917
+0.5220
+0.4968
+Ours(3T)
+0.8204
+-
+0.5302
+-
+balanced and imbalanced datasets with methods featuring intricate designs
+on architectures, optimization, or distillation procedures.
+Appendix H. Model Calibration and Overfitting Effects in our Ex-
+periments
+As a supplementary study, in this section we further investigate the model
+calibration effects in ensemble KD. Empirically, the student model can be
+better calibrated by simply enhancing data augmentation strength. And, as
+the augmentation strength (measured by Affinity) and/or teacher numbers
+increased, the calibration effects become more pronounced.
+While Guo et al (2017) has revealed the calibration effects of tempera-
+ture scaling, a common technique in KD that does not influence the student’s
+accuracy, the impact of data augmentation on the student’s prediction con-
+fidence and model calibration in KD remains unexplored. This impact is
+typically gauged by entropy and Expected Calibration Error (ECE) in pre-
+dictions and is crucial in understanding how they relate to the student’s
+ability to generalize and perform on unseen data, as measured by overfitting
+tendencies. Our hypothesis is that, beyond the inherent calibration effects
+of KD, the student model can be effectively calibrated by elevating data
+augmentation strengths as well.
+In this study, we leverage logits entropy and Expected Calibration Error
+(ECE), along with calibration reliability diagrams Guo et al (2017) for visu-
+alization, to assess the calibration properties for teachers and student under
+varied data augmentation strengths. Specifically, the model logits entropy is
+computed as:
+24

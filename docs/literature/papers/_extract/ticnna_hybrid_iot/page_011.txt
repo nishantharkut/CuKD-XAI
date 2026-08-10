@@ -1,0 +1,116 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+CICIot2023 and added 70 × 70 × 3 for CICIDS2017. The
+results, including macro-averaged performance, overfitting
+potential, data loss percentage, and preprocessing time for
+each image size, are presented in TABLE 8.
+From the results, the following trends were observed:
+• Macro Avg Performance: Performance variations are
+minimal at a macro level; however, detailed analysis
+at the subclass level reveals significant disparities. The
+quantity of images used in deep learning is crucial, as a
+sufficient dataset size is essential. As image dimensions
+increase, the number of viable samples correspondingly
+decreases, which can impact model training and gener-
+alization. The proposed image generation algorithm is
+robust to image size in terms of model architecture but
+creating images based on feature size will lead to no data
+loss and will always give better results.
+• Prone to Overfitting: The number of samples required
+varies depending on the specific model. Our analysis
+indicates that insufficient samples can lead to overfit-
+ting. Additionally, larger image sizes result in reduced
+effective data, further increasing the risk of overfitting.
+• Data Loss: Data loss increases as the image size
+increases, with the lowest data loss observed for feature
+size-based images.
+• Preprocessing Time: The image generation algorithm
+demonstrates resilience to varying preprocessing dura-
+tions, regardless of whether the input is sourced from
+CSV data or directly from images. This robustness stems
+from the necessity to accommodate different neural
+network architectures, each requiring images of specific
+dimensions. Rescaling images often results in signifi-
+cant data loss, making it crucial to generate images that
+meet the required size specifications from the outset.
+Our approach minimizes data loss to negligible levels
+and ensures that preprocessing times remain consistent,
+irrespective of the target image size.
+This study concludes the critical role of selecting an
+optimal image size in relation to feature dimensions and
+the specific requirements of the model. It is established
+that image sizes tailored to feature size consistently yield
+superior performance. Nonetheless, certain CNN architec-
+tures demand larger image sizes, making feature-size-based
+dimensions unsuitable in those contexts. In such scenarios,
+a generalized image size approach is warranted. The research
+was able to develop a robust algorithm capable of delivering
+equivalent results across varying image sizes, thus ensuring
+consistency and reliability irrespective of the chosen input
+dimensions.
+2) HYBRID SAMPLING TECHNIQUE AND TIGAN ANALYSIS
+Oversampling and undersampling are established methodolo-
+gies for mitigating class imbalance in datasets. Oversampling
+techniques, such as Random Oversampling, SMOTE (Syn-
+thetic Minority Oversampling Technique), and ADASYN,
+aim to augment the instances of the minority class to achieve a
+more balanced dataset. Although oversampling can enhance
+model performance in scenarios of imbalance, it carries the
+risk of overfitting, particularly with random oversampling,
+as it merely replicates existing minority instances, poten-
+tially leading the model to be overly attuned to specific
+samples. Conversely, undersampling involves the reduction
+of majority class instances through approaches like Random
+Undersampling, Tomek Links, and NearMiss. This method
+can streamline the dataset and expedite training times but
+may inadvertently discard vital information concerning the
+majority class, which could detrimentally impact the model’s
+ability to generalize. Hybrid sampling strategies, which
+integrate both oversampling and undersampling techniques,
+offer a compelling alternative by capitalizing on the strengths
+of both approaches while mitigating their respective weak-
+nesses. By generating synthetic samples for the minority class
+while concurrently minimizing redundancy in the majority
+class, hybrid methods preserve the dataset’s diversity. This
+balance aids in reducing both overfitting and underfitting
+risks, ultimately making hybrid sampling more potent for
+enhancing model performance on imbalanced datasets while
+safeguarding data integrity and generalization capabilities.
+Analysis: SMOTE is simpler to use but more prone
+to overfit in sparse regions; both ADASYN and SMOTE
+perform well with tabular data. Although ADASYN has
+severe imbalances, it adapts to sample density. In every
+scenario, including photographs, TIGAN works remarkably
+effectively by combining over- and under-sampling. Its
+hybrid design allows it to handle different data distributions
+while minimizing overfitting and preserving the majority
+class’s diversity. TIGAN is a dependable solution for
+unbalanced datasets since it can generate an arbitrary amount
+of synthetic images, even though it requires more processing
+power but utilizes less memory as compare to ADASYN and
+SMOTE.
+The results presented in Table 10 indicate that under-
+sampling as a strategy does not yield effective performance
+in the context of the datasets evaluated (CICIoT2023 and
+CICIDS2017). For both datasets, the accuracy obtained
+through undersampling is extremely low, with values of
+0.02% for CICIoT2023 and 0.00% for CICIDS2017. This
+is in stark contrast to the higher accuracy obtained with
+oversampling and hybrid sampling strategies, which pro-
+duced 96.5% and 98.0% accuracy for the CICIoT2023 and
+CICIDS2017 datasets, respectively.Undersampling reduces
+the amount of data available for training by eliminating
+minority class samples, which can lead to a significant loss of
+crucial information and account for its subpar performance.
+When there is a large class imbalance, undersampling
+exacerbates the imbalance problem and reduces the model’s
+capacity to generalize. This is shown by the noticeably lower
+accuracy rates for undersampling in both datasets.However,
+oversampling and hybrid sampling techniques help to bal-
+ance the class distribution and improve performance while
+maintaining the model’s ability to learn from both majority
+and minority classes. Despite being slightly more precise
+than oversampling, hybrid sampling requires less processing
+power and in this case it performs well because imbalanced
+ratio is high.
+VOLUME 14, 2026
+23423

@@ -1,0 +1,45 @@
+Sensors 2026, 26, 356
+14 of 22
+3.
+Fifteen-class scenario: Performs fine-grained classification across all 14 attack types
+plus normal traffic.
+The first two scenarios (binary and six-category) are intended for execution at the IoT
+level, leveraging the compact neural network, while the fifteen-class scenario is handled by
+the large edge-based model due to its higher computational requirements.
+Figure 4 illustrates the hierarchical mapping of attack techniques included in the
+dataset to broader threat categories and finally to anomaly classifications. The visualization
+demonstrates how individual attacks are grouped into intermediate categories, which are
+then aggregated into the final classification outputs.
+Figure 4. EdgeIIoTset Network Attacks Taxonomy.
+The sive-category scenario is particularly relevant at the IoT level because it captures
+the most critical IoT threats while remaining computationally efficient for edge devices.
+This approach balances fine-grained detection with the limited memory and processing
+capabilities of IoT hardware, providing comprehensive coverage of major IoT threat vectors
+without overwhelming resource-constrained devices.
+Table 3 summarizes the configurations of our SEED models. The EdgeBERT model
+consists of 4 encoder layers with 256 hidden units, 512 intermediate units, 4 attention heads,
+and 2 fully connected layers, resulting in over 10 million parameters [23]. The IoT-level
+classifiers are compact, consisting of two fully connected layers with batch normalization
+and dropout; the binary and five-category models contain only 33k and 34k parameters,
+respectively, making them suitable for deployment on resource-constrained IoT devices.
+Table 3. SEED Model Configurations, Parameters, and Memory Sizes.
+Model
+Architecture
+Parameters
+Memory Size
+EdgeBERT
+4 encoder layers, hidden 256,
+intermediate 512, 4 heads, 2 FC layers
+(256 × 128, 128 × 15)
+10,154,767
+40.6 MB
+IoT Binary Classifier
+2 FC layers (256 × 128, 128 × 1),
+1 batch norm (128)
+33,281
+137 KB
+IoT 5-Category Classifier
+Same as binary classifier, output 5
+33,926
+137 KB
+https://doi.org/10.3390/s26020356

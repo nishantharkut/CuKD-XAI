@@ -1,0 +1,61 @@
+Electronics 2026, 15, 938
+10 of 20
+4.1. Experimental Environment
+The experiments were conducted on a workstation equipped with an AMD Ryzen
+9 5900X 12-Core Processor CPU and 32 GB RAM. The software environment included
+Windows 11, Python 3.9.13, and key libraries, such as Tensorflow and Keras version 2.15.0.
+4.2. Hyperparameters for the Model’s Training
+In the training process of deep learning models, hyperparameter settings play a
+decisive role in the model’s convergence speed, performance, and generalization ability. To
+obtain the best detection results on the dataset used, the experimental parameter settings
+were set as shown in Table 1.
+Table 1. Model hyperparameter configuration.
+Parameters
+Value
+Learning rate
+0.001
+Optimizer
+Adam
+Activation function
+PReLU
+Epochs
+50
+Batch_size
+128
+Dilation factor
+8
+Loss function
+Categorical_crossentropy
+4.3. Performance Evaluation Metrics
+To evaluate the effectiveness of the created model, this paper used accuracy, precision,
+recall, and F1 score as evaluation metrics for the model training results. The specific
+calculation formulas are as follows:
+Accuracy =
+TP + TN
+TP + TN + FP + FN
+(9)
+Precision =
+TP
+TP + FP
+(10)
+Recall =
+TP
+TP + FN
+(11)
+F1 = 2 × Precision × Recall
+Precision + Recall
+(12)
+where TP denotes the number of correctly classified normal instances, TN represents the
+number of correctly classified attack instances, FP indicates the number of misclassified
+attack instances, and FN refers to the number of misclassified normal instances.
+4.4. Hybrid Feature Selection Algorithm Experiment
+In the first step of the hybrid feature selection algorithm, we used the median of
+the feature variances as the threshold value T1. The calculation method was as follows.
+The variance of each feature in the dataset was calculated, after which these values were
+sorted in ascending order to identify the median as the threshold T1. Features with vari-
+ances below this value were removed. After this processing, the number of features was
+reduced from 94 to 47. This step effectively reduced the feature dimensionality and alle-
+viated the computational burden for subsequent feature selection. However, as shown
+in Figure 5, relatively strong correlations still existed among different features in the re-
+tained feature subset.
+https://doi.org/10.3390/electronics15050938

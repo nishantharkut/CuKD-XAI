@@ -1,0 +1,57 @@
+Sensors 2025, 25, 4309
+13 of 31
+4. Experiments and Evaluation
+4.1. Experimental Setup
+To assess the model’s performance, each dataset was divided into training and testing
+sets with an 80/20 ratio, and the experiments were conducted within a FL framework.
+The FL environment consisted of nine clients. In this study, a total of nine clients was
+selected to simulate the FL environment based on the following considerations: First, a
+number of existing studies have also adopted a limited number of clients for federated
+learning experiments [31–33]. Second, this scale effectively emulates typical small-scale IoT
+deployment scenarios—such as industrial control systems and factory edge node networks.
+Third, FL experiments generally involve independent training of multiple local models
+and frequent communication rounds, resulting in substantial computational and memory
+overhead. Given the current hardware constraints, this client configuration helps ensure
+the stability of the experiments. To further evaluate the scalability of the proposed method
+in larger distributed environments, future work will expand the number of participating
+clients and conduct more comprehensive experimental studies.
+To simulate the Non-IID nature of data, this study employed the Dirichlet distribution
+to partition the training dataset. This approach is widely adopted in FL research for
+modeling data heterogeneity across clients [44,45].
+Let C be the total number of classes. Then, for the k-th client, the label distribution
+vector is defined as follows:
+p(k) = (pk
+1, . . . , pk
+C) ∼Dir(θ),
+(7)
+where θ > 0 denotes the concentration parameter, which controls the degree of similarity
+among client distributions. Specifically, the following applies:
+•
+When θ →∞, the class distributions across clients become nearly identical, approxi-
+mating an IID scenario;
+•
+When θ = 1, the distributions exhibit moderate variability around a uniform distribu-
+tion, representing low Non-IID;
+•
+When θ ≪1 (e.g., 0.1), the distributions become highly sparse, with each client
+predominantly containing only a few classes, indicating high Non-IID.
+In this study, we designed two data heterogeneity settings to reflect real-world IoT
+environments:
+(1)
+A low-Non-IID scenario, where the Dirichlet concentration parameter is set to
+θ = 1;
+(2)
+A high-Non-IID scenario, where θ = 0.1.
+This design effectively simulates the class imbalance and label sparsity com-
+monly encountered in FL, providing a representative environment for subsequent
+performance evaluation.
+During the FL process, a synchronous communication mechanism was adopted to
+ensure that the global model was updated only after all clients had completed their local
+training. Each client conducted two epochs of local model training prior to synchronizing
+with the central server to upload their updates. The global model was optimized through
+40 rounds of communication. We employed a grid search approach to determine the
+optimal combination of model hyperparameters. During this process, we referred to
+existing studies [18,27,29,34] and established a reasonable set of hyperparameter candidates
+based on commonly used empirical ranges. The complete set of candidate hyperparameters
+is presented in Table 2. After hyperparameter optimization, the final configuration adopted
+in this study was achieved, as detailed in Table 3.

@@ -1,0 +1,5 @@
+#ifndef CUKD_EXPORT_IDENTITY_H
+#define CUKD_EXPORT_IDENTITY_H
+#define CUKD_EXPORT_ID "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8"
+#define CUKD_STUDENT_ID "student_A"
+#endif

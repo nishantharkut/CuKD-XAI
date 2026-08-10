@@ -1,0 +1,134 @@
+Sensors 2024, 24, 7320
+11 of 15
+Table 7. Cont.
+ML Models (Hyperparameters)
+No. of
+Features
+Classification
+Accuracy
+Inference
+Time µs
+(Average)
+Program
+Storage
+CatBoost (Trees = 140, Depth = 7, 12_Reg_Leaf = 1, LR = 0.3)
+9
+Binary
+98.47%
+260
+73.59%
+CatBoost (Trees = 70, Depth = 8, 12_Reg_Leaf=1, LR = 0.3)
+10
+Binary
+98.47%
+253
+71.76%
+XGBoost (Trees = 100, Depth = 8) [19]
+17
+Binary
+97.66%
+3515
+84.01%
+CatBoost (Trees = 90, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Multi-Classification
+97.51%
+267
+73.25%
+CatBoost (Trees = 90, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3)
+10
+Multi-Classification
+97.51%
+273
+73.25%
+CatBoost (Trees = 40, Depth = 7, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Multi-Classification
+96.86%
+160
+72.86%
+CatBoost (Trees = 40, Depth = 7, 12_Reg_Leaf=3, LR = 0.3)
+10
+Multi-Classification
+96.86%
+158
+72.51%
+CatBoost (Trees = 25, Depth = 8, 12_Reg_Leaf = 3, LR = 0.3)
+17
+Multi-Classification
+96.86%
+140
+71.38%
+CatBoost (Trees = 25, Depth = 8, 12_Reg_Leaf = 3, LR = 0.3)
+10
+Multi-Classification
+96.86%
+137
+71.27%
+XGBoost (Trees = 100, Depth = 6, LR = 0.3)
+17
+Multi-Classification
+96.14%
+4075
+85.68%
+XGBoost (Trees = 100, Depth = 6, LR = 0.3)
+10
+Multi-Classification
+96.14%
+4073
+85.68%
+XGBoost (Trees = 50, Depth = 7, LR = 0.3)
+17
+Multi-Classification
+96.30%
+2011
+80.38%
+XGBoost (Trees = 50, Depth = 7, LR = 0.3)
+7
+Multi-Classification
+96.54%
+2037
+81.12%
+XGBoost (Trees = 50, Depth = 8, LR = 0.3)
+17
+Multi-Classification
+96.54%
+3472
+83.65%
+XGBoost (Trees = 50, Depth = 7, LR = 0.3)
+7
+Multi-Classification
+96.70%
+2111
+82.60%
+4.7. Discussion
+In this study, we developed an IDS for IoT devices in smart homes where gateways
+are not available for the deployment of IDS. The IDS was embedded in a smart thermostat
+for real-time intrusion detection without relying on gateways.
+We evaluated the feasibility of implementing the IDS for binary and multi-class
+classification. The CatBoost model (Trees = 200, Depth = 10) achieved the highest accuracy
+of 99.03% for binary classification both with and without FS. However, due to the limited
+program storage and RAM available on the ESP32, embedding a CatBoost model with a
+depth greater than eight was not possible. The IDS performance comparison of XGBoost
+and CatBoost for binary and multi-classification on smart thermostat is shown in Figure 4.
+The highest number of trees allowed for Depth = 7 was 140, and for Depth = 8, the maximum
+number of trees was 70. Therefore, the maximum accuracy achieved by the CatBoost-based
+IDS on the smart thermostat was 98.71% using a depth of six and 200 trees. The CatBoost-
+based IDS outperformed the IDS implemented with XGBoost in our previous work [19] in
+terms of accuracy, inference time, and program storage. The CatBoost-based IDS improved
+accuracy by 1.06%, decreased inference time by 92.14%, and reduced program storage
+by 14.09%.
+Similarly, for multi-class classification, the highest accuracy was 98.15% with the
+CatBoost (Depth = 7, Trees = 200)-based IDS. On the smart thermostat, the highest accuracy
+of the CatBoost-based IDS was 97.51%. The CatBoost model outperformed the XGBoost-
+based IDS in terms of accuracy, inference time, and program storage. The CatBoost-based
+IDS improved accuracy by 0.83%, reduced inference time by 87.35%, and reduced program
+storage by 11.32%.
+The increase in the number of trees improves accuracy by capturing complex patterns,
+but this increase also raises the computational burden; as a result, inference time and
+memory consumption increase. A deeper CatBoost/XGBoost model captures complex
+patterns and increases accuracy. However, deeper trees consume more memory and
+increase inference time. As shown in Table 3, increasing tree depth generally improves
+accuracy. However, in memory-limited devices such as ESP32 microcontrollers, Table 7
+demonstrates that as depth increases, fewer trees can be used before memory overflow
+occurs. For example, at a depth of six, the maximum number of trees is 200 for binary

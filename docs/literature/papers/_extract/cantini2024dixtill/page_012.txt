@@ -1,0 +1,32 @@
+Page 12 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+of 1.20× . Furthermore, this method exhibits the most substantial decline in overall 
+classification performance compared to the other compression techniques.
+In contrast, DiXtill allows for distilling knowledge from a large BERT-like model to a 
+very lightweight Bi-LSTM network, with a size of only 3.45 MB, achieving a remarkable 
+compression ratio of 127× . Our method also reduces inference time by an order of mag-
+nitude with a speedup of 8.7× , proving effective in alleviating computational burdens 
+during inference compared to the teacher model and other compression methods.
+It is worth pointing out that to achieve higher compression ratios for the pruned 
+model, more attention heads can be removed. However, this approach results in a 
+marked degradation of classification performance, as illustrated in Fig. 3a. This figure 
+depicts the evolution of the macro F1 score as the number of pruned heads increases 
+from 0 (i.e., no pruning is performed) to 11 (i.e., only the most important head within 
+each layer is retained from the original model), in comparison to the performance of the 
+teacher and other compressed models. Notably, performance drop becomes unaccep-
+table when pruning more than 6 attention heads, with a significant decrease observed, 
+reaching a macro F1 score of 0.4 when employing only 1 head. In line with the results 
+of [24], in some cases removing an attention head may result in increased performance 
+(e.g., pruning 1, 2, or 3 heads within each layer in our experiments). Furthermore, a 
+cross-domain analysis of classification performance and speedup, shown in Fig.  3b, 
+reveals that DiXtill consistently outperforms other methods in terms of reduced model 
+size, classification performance, and speedup.
+Evaluating agreement between teacher and student explanations
+In this section, we evaluate the consistency of the self-computed explanations of DiXtill 
+and those related to the other distillation methods outlined in "Comparison with knowl-
+edge distillation methods" section, computed through IG. Specifically, given F as the set 
+of features (i.e., words) of the sample x to be explained, we measured the pairwise agree-
+ment between the explanations obtained for the teacher T (i.e., ET(x) ) and the different 
+distilled students S (i.e., ES(x) ). We used the following metrics [40]:
+Fig. 3  Comparison of DiXtill, PTQ, and AHP models at varying numbers of heads pruned, in terms of macro 
+F1, compression ratio, and speedup

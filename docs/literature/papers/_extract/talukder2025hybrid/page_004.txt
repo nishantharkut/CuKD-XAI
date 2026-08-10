@@ -1,0 +1,69 @@
+Methodology
+This study introduces a comprehensive methodology designed to enhance the intrusion detection performance 
+of ML models on the WSN and TON-IoT Network datasets. The methodology integrates advanced data 
+preprocessing, dimensionality reduction, and ML approaches, ensuring optimal accuracy and computational 
+efficiency. The steps involved are as follows:
+•	 Data Collection: The study utilizes two benchmark datasets, WSN-DS and TON-IoT Network, to evaluate 
+the proposed hybrid machine learning model for intrusion detection. These datasets contain diverse traffic 
+patterns and attack scenarios, providing a comprehensive foundation for training and testing the model’s 
+performance across different network conditions.
+•	 Data Preprocessing: Data preprocessing is a crucial step in preparing the dataset for ML models. Standard­
+Scaler was used to standardize the numerical feature values by removing the mean and scaling to unit vari­
+ance, which helps in achieving faster convergence during training. Label Encoding was applied to transform 
+categorical variables into numerical representations, enabling ML algorithms to process them effectively. 
+These preprocessing techniques ensure uniformity, reduce bias, and enhance the overall performance of the 
+models.
+•	 Data Balancing: The dataset was imbalanced, with certain classes being overrepresented. To address this 
+issue, SMOTE TomekLInk (STL), Generative Adversarial Network (GAN) and KMeans-SMOTE (KMS) were 
+utilized to balance the dataset by generating synthetic samples for minority classes. KMS leverages k-means 
+clustering before applying SMOTE, ensuring better synthetic data generation by capturing intrinsic patterns 
+in the data distribution.
+•	 Dimensionality Reduction: Principal component analysis (PCA) was employed as the dimensionality re­
+duction technique. PCA reduces the feature space by projecting the data into a lower-dimensional subspace, 
+retaining the most significant variance. This step minimizes redundancy and computational cost while pre­
+serving the critical information needed for intrusion detection.
+•	 Classification Models: Random Forest Classifier (RFC) was chosen as the primary classification model due 
+to its robustness, ability to handle high-dimensional data, and resistance to overfitting. The RFC model oper­
+ates by constructing multiple decision trees during training and combining their outputs to improve predic­
+tion accuracy. For comparison, other models, including Decision Tree Classifier (DTC), Gradient Boosting 
+models (CBC, XGBC, LGBC, HGBC), were also evaluated.
+•	 Performance Metrics: The intrusion detection performance of the models was evaluated using standard met­
+rics such as Accuracy, Precision, Recall, f1-score, Kappa, MCC, ROC-AUC. MAE, MSE, RMSE, Confusion 
+Matrix and Classification Report. Additionally, computational complexity was assessed by recording training 
+and prediction times for each model.
+•	 Experimental Validation: The proposed methodology, integrating KMS, PCA, and RFC, was compared 
+against existing works utilizing different data balancing processing and dimension reduction techniques with 
+K-fold (K=5) cross validation. The results demonstrated that the proposed approach significantly outper­
+forms others in terms of performance metrics and computational efficiency, validating its effectiveness for IoT 
+network anomaly detection tasks.This end-to-end methodology ensures balanced data, reduced dimension­
+ality, and high intrusion detection accuracy, making it well-suited for real-world applications in IoT network 
+security.
+Figure 1 illustrates the architecture of the proposed hybrid ML model for IDS in WSNs. The model integrates 
+advanced preprocessing, dimensionality reduction, and robust intrusion detection techniques to enhance 
+detection accuracy and computational efficiency. It highlights the end-to-end workflow, from raw data processing 
+to intrusion detection and performance evaluation of attacks in WSN.
+Dataset description
+The WSN-DS (Wireless Sensor Network Dataset) is a specialized benchmark for evaluating IDS in WSN 
+environments31. It simulates realistic WSN traffic, including both normal and malicious activities, such 
+as blackhole attacks, grayhole attacks, and flooding. The dataset is designed to reflect the constraints and 
+characteristics of WSNs, such as limited bandwidth, energy consumption, and dynamic topology. WSN-DS 
+provides a balanced representation of normal and attack behaviors, facilitating the development and testing of 
+ML-based IDS models. Its features include packet-level data and communication patterns, enabling detailed 
+analysis for intrusion detection. The dataset is critical for designing IDS tailored to the unique challenges of 
+WSNs, ensuring security while maintaining network efficiency and resource optimization.
+The TON-IoT Network dataset is a prominent benchmark designed to evaluate Intrusion Detection Systems 
+(IDS) in modern IoT networks32. It is derived from realistic IoT network scenarios, incorporating telemetry 
+data from IoT devices, network traffic, and logs from operating systems. The dataset includes a variety of attack 
+types, such as Distributed Denial of Service (DDoS), data exfiltration, backdoor, and password attacks, alongside 
+normal traffic, making it highly diverse and comprehensive. The dataset is notable for its high dimensionality 
+and heterogeneity, reflecting the dynamic and complex nature of IoT networks. It offers an extensive range of 
+features, enabling the evaluation of ML models for intrusion detection. TON-IoT Network dataset is a critical 
+resource for researchers aiming to enhance the scalability, robustness, and accuracy of IDS models in addressing 
+the security challenges of large-scale IoT ecosystems.
+Data preprocessing
+Data preprocessing is a critical step in the ML pipeline, involving the preparation and transformation of raw 
+data into a suitable format for analysis and modeling. This process encompasses a series of techniques aimed at 
+Scientific Reports |         (2025) 15:4617 
+4
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

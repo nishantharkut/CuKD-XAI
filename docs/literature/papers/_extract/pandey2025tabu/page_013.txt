@@ -1,0 +1,42 @@
+(Blackhole attacks) had the correct number of 2,035, with only eight misclassified as class 2 (Grayhole attacks); 
+class 1 (Flooding attacks)was nearly perfect classification with 630 correct predictions and just one being 
+misclassified as class 3(Normal).Class 2 had 2,794 correct classifications, but it showed some confusion, with 
+57 instances misclassified as class 0 and 134 as class 3.Class 3 had the maximum correct classification,67,818, 
+though 74 cases were misclassified as class 2, and 71 were classified as class 1.Lastly, class 4 (TDMA attacks) 
+was correctly classified 1,222 times, with minor misclassifications into other classes. The ROC curves in Fig. 6 
+indicate that the model has excellent, near-perfect performance in the classification of Class 0, Class 1, Class 
+2, and Class 3 with an AUC of 1.00 each, which indicates powerful classification ability between them and 
+the classes. The AUC for Class 4 showed a slightly lower value at 0.99,reflecting high but lesser classification 
+accuracy. Since all the ROC curves lie considerably above the diagonal representing random guessing with an 
+AUC of 0.5, much better-than-chance performance is shown, and all classes are classified with high precision.
+Confusion matrix and ROC curve analysis of optimized RF model
+The confusion matrix in Fig. 7 and the ROC AUC curve in Fig. 8 together explain the performance of the 
+optimized RF model in attack type classification using the WSN-DS, CICIDS 2017, and CIC-IoT 2023datasets: 
+Classes are Blackhole (0), Flooding (1), Grayhole (2), Normal (3), and TDMA (4).The model is excellent at 
+identifying Normal traffic, making 67,875 correct predictions with minimal misclassifications, and also does well 
+in classifying Blackhole attacks with 2,036 correct classifications, although seven are misclassified as Grayhole. 
+Flooding attacks are mostly correctly identified, with 624 correct classifications and 7 misclassifications into 
+TDMA. In comparison, 2,927 correct classifications were made for Grayhole, though 24 fell into the wrong 
+classification of Blackhole, and 34 into the Normal category. TDMA is powerfully and accurately classified 
+(1,221), except for 84 that are misleadingly classified as Normal. Considering this, the ROC AUC curve shows 
+almost perfect classification, which returns an AUC score of 1.00 in classes Blackhole (0), Flooding (1), Grayhole 
+(2), and Normal (3), and with almost no false positives but a high true positive rate. Class TDMA has an AUC of 
+0.99, which still indicates an excellent classification performance. All classes are well differentiated between the 
+models of type attacks and regular traffic with minimal errors.
+Figures 9, 10, 11, 12 illustrate the RF model performance assessment for the CICIDS 2017 dataset with and 
+without optimization. Figure 9 illustrates the original model’s confusion matrix and the accuracy and number 
+of false positives and false negatives. Figure 10 shows the ROC curve AUC metric along with the confusion 
+matrix, showing the ability of the model to truly classify the classes, with 1 indicating perfect performance as 
+described in previous sections. After tuning, Fig. 11 shows the confusion matrix of the optimized model. This 
+likely represents better predictive accuracy and fewer overall errors. Figure 12 shows the corresponding ROC 
+AUC, which shows increases in discrimination after tuning. Figures 9, 10, 11, 12 show a visual snapshot of the 
+RF model performance, before and after tuning.
+Figures  13, 14, 15, 16 showcase the evaluation performance of a RF model developed for the CIC-IoT 
+2023 dataset, comparing performance before optimizations to performance after optimizations. Figure  13 
+displays the confusion matrix for the RF classifier of the pre-optimization model, showing the number of true 
+Fig. 7.  Confusion matrix of optimized RF model over WSN-DS.
+ 
+Scientific Reports |        (2025) 15:18634 
+13
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

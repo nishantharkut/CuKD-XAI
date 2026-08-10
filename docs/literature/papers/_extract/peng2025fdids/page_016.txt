@@ -1,0 +1,34 @@
+Sensors 2025, 25, 4309
+16 of 31
+model reaching 38.58%. By Round 40, the accuracies of the best and worst clients in the
+low-Non-IID scenario rose to 87.69% and 86.38%, respectively, while the global model
+achieved 87.70%. In the high-Non-IID scenario, the accuracies increased to 83.25%, 78.45%,
+and 83.81%, respectively. These experimental results demonstrate that FD-IDS, through
+multiple communication rounds and iterative model updates, can effectively enhance the
+performance of client models while narrowing the performance gap among clients.
+4.3.2. Performance Comparison of Different Distillation Hyperparameter Settings and
+KD Intervals
+In FD-IDS, the setting of distillation-related hyperparameters, particularly the distilla-
+tion weight (λ) and temperature (T), plays a critical role in determining the final model
+performance. To further optimize the distillation process, we conducted a systematic analy-
+sis of various candidate combinations of λ and T, as listed in Table 2. Experiments were
+performed on the Edge-IIoT and N-BaIoT datasets to evaluate how different hyperparame-
+ter settings influence model accuracy. The results, as illustrated in Figures 6 and 7, highlight
+the accuracy variations under different settings.
+As shown in Figure 6, on Edge-IIoT, the combination of λ = 0.5 and T = 3 yielded
+the highest accuracy (94.82%) in the low-Non-IID scenario, outperforming all other tested
+configurations. As T increased beyond this value, a slight degradation in accuracy was
+observed, suggesting that excessively high temperatures may lead to less stable knowledge
+transfer during the distillation process, thereby impacting the model’s overall performance.
+A similar trend was evident in the high-Non-IID scenario, where the same configuration
+(λ = 0.5, T = 3) again achieved the highest accuracy of 93.86%. As shown in Figure 7, on
+N-BaIoT, when θ = 1, the combination of λ = 0.5 and T = 3 achieved the highest accuracy,
+reaching 87.70%. This configuration stood out among all tested hyperparameter settings,
+indicating its excellent performance in this scenario. When θ = 0.1, the same combination
+also demonstrated the best performance, achieving an accuracy of 83.81%, which was
+slightly higher than that of the other configurations.
+Overall, the comparison results across both datasets exhibited similar trends, with
+the combination of λ = 0.5 and T = 3 achieving the best accuracy in the different Non-IID
+scenarios. This further validated the effectiveness of this hyperparameter configuration
+across different datasets.
+Figure 6. Accuracy under different distillation hyperparameter settings (Edge-IIoT).

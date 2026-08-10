@@ -1,0 +1,472 @@
+{
+ "javed2024thermostat": {
+  "n": 15,
+  "hits": [
+   [
+    1,
+    4,
+    "Citation: Javed, A.; Awais, M.N.; | Qureshi, A.-u.-H.; Jawad, M.; Arshad, | J.; Larijani, H. Embedding Tree-Based | Intrusion Detection System in Smart | Thermostats for Enhanced IoT | Security. Sensors 2024, 24, 7320. | https://doi.org/10.3390/s24227320 | Academic Editor: Gianluigi Ferrari | Received: 15 October 2024 | Revised: 6 November 2024 | Accepted: 15 November 2024 | Published: 16 November 2024 | Copyright: \u00a9 2024 by the authors. | Licensee MDPI, Basel, Switzerland. | This article is an open access article | distributed under the terms and | conditions of the Creative Commons | Attribution (CC BY) license (https:// | creativecommons.org/licenses/by/ | 4.0/). | sensors | Article | Embedding Tree-Based Intrusion Detection System in Smart | Thermostats for Enhanced IoT Security | Abbas Javed 1 | , Muhammad Naeem Awais 1, Ayyaz-ul-Haq"
+   ],
+   [
+    2,
+    3,
+    "Sensors 2024, 24, 7320 | 2 of 15 | DoS attack, the smart device is overwhelmed with traffic by the adversary, and as a result, | the device stops working. In an MITM attack, the attacker secretly intercepts the communi- | cation between the sender and the receiver without either party being aware [6]. MITM | attacks can lead to repudiation and information disclosure attacks. | A smart home is a residence where appliances can be remotely controlled via the | internet. The smart home market is projected to grow to USD 633.20 billion by 2032 [7]. This | growth is largely driven by the adoption of IoT platforms. Key stakeholders are increasingly | focusing on developing smart home appliances that utilize IoT and machine learning. | Wifi-based smart thermostats are used in smart homes to control heating and coolin"
+   ],
+   [
+    3,
+    5,
+    "Sensors 2024, 24, 7320 | 3 of 15 | microcontrollers, so we quantized the trained CatBoost model to implement it in resource- | constrained microcontrollers. | The main contributions of this work are as follows: | \u2022 | A novel, computationally efficient, decentralized multi-class IDS using the CatBoost | algorithm is proposed for deployment directly on IoT devices, without relying on | gateways (such as Raspberry Pi or computers) or cloud computing. The decentralized | multi-class IDS significantly improves detection accuracy by effectively handling | categorical data and missing values. The system demonstrates reduced inference time | on resource-constrained microcontrollers due to the fast prediction capability of the | algorithm, ensuring that potential attacks are detected and mitigated with minimal | latency. Th"
+   ],
+   [
+    4,
+    6,
+    "Sensors 2024, 24, 7320 | 4 of 15 | traffic and DDoS attacks, which was used to train SVM, Logistic Regression (LR), and DT. | The results showed that DT outperformed other techniques with an accuracy of 99%. | The authors in [30] improved the precision of IDS using the Shapley (SHAP) value- | based FS technique. The accuracy of the convolution neural network (CNN) and random | forest (RF) using the FS technique for the CICIDS 2017 and NSL-KDD datasets was 98% with | 10 features. In [31], the authors proposed a self-evolving host-based intrusion detection | system (SEHIDS) that allows IoT devices to build their customized ANN model based on | the traffic characteristics. The proposed technique used a multi-layer perceptron model | for signature-based classification and a replicator neural network (ReNN) for an"
+   ],
+   [
+    6,
+    3,
+    "Sensors 2024, 24, 7320 | 6 of 15 | 3.2. Training Dataset for IDS | Most of the well-known datasets like TON_IoT [37] and EdgeIIoT [38] used packet | capture tools for dataset collection. These datasets required gateways to be part of the | IoT architecture. The IDS proposed using such datasets is intended to be implemented | on the gateway (Raspberry Pi). However, most IoT devices are connected to WiFi access | points, and single-board computer (Raspberry Pi) gateways are not always available. We | developed an IDSH dataset [23] that was captured on the ESP32 without using packet | capture tools like Wireshark or tcpdump. We used the IDSH dataset to implement IDS on a | smart thermostat for detecting DoS and MITM attacks. The dataset consists of sensor data, | HVAC control signals, and network traffic features "
+   ],
+   [
+    7,
+    8,
+    "Sensors 2024, 24, 7320 | 7 of 15 | Table 2. Selected features. | No. of Features | Selected Features | 7 | source_port, Duration, missed_bytes, dst_ip_bytes, Temperature, | Humidity, Status | 8 | source_port, Duration, destination_bytes, missed_bytes, dst_ip_bytes, | Temperature, Humidity, Status | 9 | source_port, Duration, destination_bytes, conn_state, missed_bytes, | dst_ip_bytes, Temperature, Humidity, Status | 10 | source_port, protocol, Duration, destination_bytes, conn_state, | missed_bytes, dst_ip_bytes, Temperature, Humidity, Status | 11 | source_port, protocol, Duration, source_bytes, destination_bytes, | conn_state, missed_bytes, dst_ip_bytes, Temperature, Humidity, Status | 3.3. Deployment of a Machine Learning-Based Intrusion Detection System on a Smart Thermostat | In this study, XGBoost and CatBoost models are depl"
+   ],
+   [
+    8,
+    5,
+    "Sensors 2024, 24, 7320 | 8 of 15 | achieved at a depth of 10 with a false negative rate (FNR) of 1.30% and false positive rate | (FPR) of 0.25%. | Table 3. Performance of CatBoost for binary classification. | Hyperparameters | Accuracy | Precision | Recall | F1-Score | FPR | FNR | Trees = 200, Depth = 6, 12_Reg_Leaf = 1, LR = 0.1 | 98.63% | 0.98 | 0.98 | 0.98 | 1.41% | 1.25% | Trees = 200, Depth = 7, 12_Reg_Leaf = 3, LR = 0.3 | 98.79% | 0.98 | 0.99 | 0.99 | 1.30% | 1.00% | Trees = 200, Depth = 8, 12_Reg_Leaf = 3, LR = 0.3 | 98.79% | 0.98 | 0.98 | 0.98 | 1.41% | 0.75% | Trees = 200, Depth = 9, 12_Reg_Leaf = 3, LR = 0.3 | 98.63% | 0.98 | 0.98 | 0.98 | 1.30% | 1.50% | Trees = 200, Depth = 10, 12_Reg_Leaf = 3, LR = 0.3 | 99.03% | 0.99 | 0.99 | 0.99 | 1.30% | 0.25% | 4.2. CatBoost-Based IDS Implementation on IoT Device with Feature Selection for | Binary Classification | The chi-square [39]"
+   ],
+   [
+    9,
+    7,
+    "Sensors 2024, 24, 7320 | 9 of 15 | Table 5. Cont. | Hyperparameters | Accuracy | Precision | Recall | F1-Score | Trees = 150, Depth = 9, 12_Reg_Leaf = 3, | LR = 0.3 | 97.90% | 0.96 | 0.96 | 0.96 | Trees = 250, Depth = 10, 12_Reg_Leaf = 3, | LR = 0.3 | 97.66% | 0.96 | 0.96 | 0.96 | 4.4. Catboost-Based IDS for Multi-Classification with Feature Selection | The CatBoost model was also trained for multi-classification by using the FS tech- | nique. We evaluated the performance of CatBoost with seven to sixteen features. Below | seven features, the accuracy of IDS dropped below 90%. The performance of CatBoost was | evaluated for depths from six to ten and the best performance at each depth with FS is | shown in Table 6. The results show that CatBoost with depth=7 and with 10 features gave | highest accuracy of 98.15%. | Table 6. Performance of Cat"
+   ],
+   [
+    10,
+    5,
+    "Sensors 2024, 24, 7320 | 10 of 15 | machine. Therefore, we can conclude that applying quantization for limited memory-based | ESP32 did not compromise the accuracy of the detection. | Figure 3. Comparison of IDS implemented with quantization and without quantization. | 4.6. IDS Implementation on Smart Thermostat for Real-Time Intrusion Detection | The implementation of IDS on a smart thermostat is challenging due to its limited | memory and processing power. In our previous work, we implemented an XGBoost-based | IDS for binary classification without using an FS technique. In this section, we evaluate | the implementation of a CatBoost-based IDS on a smart thermostat for both binary and | multi-class classification. Additionally, we compare the performance of the CatBoost-based | IDS with the XGBoost-based IDS "
+   ],
+   [
+    11,
+    6,
+    "Sensors 2024, 24, 7320 | 11 of 15 | Table 7. Cont. | ML Models (Hyperparameters) | No. of | Features | Classification | Accuracy | Inference | Time \u00b5s | (Average) | Program | Storage | CatBoost (Trees = 140, Depth = 7, 12_Reg_Leaf = 1, LR = 0.3) | 9 | Binary | 98.47% | 260 | 73.59% | CatBoost (Trees = 70, Depth = 8, 12_Reg_Leaf=1, LR = 0.3) | 10 | Binary | 98.47% | 253 | 71.76% | XGBoost (Trees = 100, Depth = 8) [19] | 17 | Binary | 97.66% | 3515 | 84.01% | CatBoost (Trees = 90, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3) | 17 | Multi-Classification | 97.51% | 267 | 73.25% | CatBoost (Trees = 90, Depth = 6, 12_Reg_Leaf = 3, LR = 0.3) | 10 | Multi-Classification | 97.51% | 273 | 73.25% | CatBoost (Trees = 40, Depth = 7, 12_Reg_Leaf = 3, LR = 0.3) | 17 | Multi-Classification | 96.86% | 160 | 72.86% | CatBoost (Trees = 40, Depth = 7, 12_Reg_Leaf=3, LR = 0.3) | 10 | Multi-Classification | 96.86% | 158 | 7"
+   ],
+   [
+    12,
+    5,
+    "Sensors 2024, 24, 7320 | 12 of 15 | classification and 90 for multi-classification. When depth is increased to eight, the maximum | number of trees drops to 70 for binary classification and 25 for multi-classification. | Figure 4. Comparison of IDS implemented with CatBoost and XGBoost on the smart thermostat. | The FS method improved the accuracy for binary classification by using a reduced | number of features. Table 4 shows that with a reduced number of features, the accuracy | improves. However, on the microcontroller, the FS technique did not reduce inference time | or program storage. The inference time depends on the number of trees and the depth of | the trees. Since the number of trees was either the same or greater, the inference time was | not significantly improved. | CatBoost and XGBoost are both b"
+   ],
+   [
+    13,
+    6,
+    "Sensors 2024, 24, 7320 | 13 of 15 | 5. Conclusions and Future Work | In this study, we proposed a CatBoost-based IDS for IoT devices in smart homes. | The system is designed to work with IoT devices that communicate with the cloud, elim- | inating the need for resource-intensive gateways like Raspberry Pi or computers. Our | embedded machine learning-based IDS effectively protects these devices from DoS and | MITM attacks without relying on gateways or cloud processing. The results showed that | the CatBoost-based IDS achieved 99.03% accuracy for binary classification and 98.15% | accuracy for multi-class classification. Due to the limited processing power and memory of | the ESP32-based smart thermostat, the highest achieved accuracy was 98.71% for binary | classification and 97.51% for multi-class classificat"
+   ]
+  ]
+ },
+ "wisanwanichthan2025kd": {
+  "n": 25,
+  "hits": [
+   [
+    1,
+    8,
+    "Academic Editor: Paolo Bellavista | Received: 15 June 2025 | Revised: 15 July 2025 | Accepted: 15 July 2025 | Published: 19 July 2025 | Citation: Wisanwanichthan, T.; | Thammawichai, M. A Lightweight | Intrusion Detection System for IoT and | UAV Using Deep Neural Networks | with Knowledge Distillation. | Computers 2025, 14, 291. https:// | doi.org/10.3390/computers14070291 | Copyright: \u00a9 2025 by the authors. | Licensee MDPI, Basel, Switzerland. | This article is an open access article | distributed under the terms and | conditions of the Creative Commons | Attribution (CC BY) license | (https://creativecommons.org/ | licenses/by/4.0/). | Article | A Lightweight Intrusion Detection System for IoT and UAV | Using Deep Neural Networks with Knowledge Distillation | Treepop Wisanwanichthan | and Mason Thammawichai * | Electrical Engineering D"
+   ],
+   [
+    2,
+    7,
+    "Computers 2025, 14, 291 | 2 of 25 | recurrent neural networks (RNNs) have reached remarkable results in image analysis, | and text processing besides spotting anomalies [7]. Moreover, deep learning is highly | suitable for anomaly-based IDS since it can learn complex patterns of normal and abnormal | behaviors from high-dimensional data. Unlike traditional approaches, which rely on | predefined rules or signatures, deep learning can adapt to unseen threats by identifying | deviations from learned patterns. This makes it highly effective in detecting potential | zero-day attacks and other novel threats based on the probability output from supervised | neural network models [8]. Though there are certain challenges like high computational | cost and the risk of overfitting, the advantages of deep learning in ach"
+   ],
+   [
+    3,
+    7,
+    "Computers 2025, 14, 291 | 3 of 25 | The paper is structured as follows: Section 2 reviews related works on anomaly-based | IDS using neural networks and KD. Section 3 explains the methodology, including datasets, | data preprocessing, and the KD algorithm. Section 4 presents and analyzes the results | across five datasets: NSL-KDD, UNSW-NB15, CIC-IDS2017, IoTID20, and UAV IDS. Finally, | the conclusion is provided in Section 5. | 2. Related Work | Recent advancements in intrusion detection have produced a wide variety of tech- | niques aimed at balancing detection accuracy with computational efficiency, particularly | for resource-constrained environments like IoT and UAV systems. This section organizes | existing work into five categories based on the main techniques employed, i.e., knowledge | distillation (KD)"
+   ],
+   [
+    4,
+    6,
+    "Computers 2025, 14, 291 | 4 of 25 | 2.2. Federated Learning with Knowledge Distillation | To support decentralized and privacy-aware deployment, federated learning (FL) has | been combined with KD. Zhao et al. [22] proposed a semi-supervised federated learning | (SSFL) scheme with KD. This achieved a precision of 91.73% on IoT traffic datasets com- | pared to that of traditional methods in federated learning such as MLP with only 87.57%. | Shen et al. [23] proposed an ensemble KD-based federated learning framework called | FLEKD, which achieved 99.8% accuracy in CIC-IDS2019 and further improved the detec- | tion of the most difficult attacks, i.e., UDPLag by 80.86% while ensuring challenges such | as data heterogeneity in IoT networks. Quyen et al. [24] developed the robust federated | learning framework of Fed"
+   ],
+   [
+    5,
+    6,
+    "Computers 2025, 14, 291 | 5 of 25 | 2.5. Self-Knowledge Distillation and Optimization-Based Distillation | Several works emphasize self-distillation and architectural optimization. | Yang | et al. [30] proposed a lightweight self-knowledge distillation model, LNet-SKD, that accom- | plished high accuracy while reducing computation overhead. Li and Yao [15] designed a | two-stage lightweight intrusion detection model using self-supervised contrastive learning | and self-knowledge distillation in IoT networks, which has higher accuracy in intrusion | detection and attains better generalization among various public datasets such as KDD | CUP99, NSL-KDD, UNSW-NB15, CIC IDS2017, and BoT-IoT. Their methodology could | achieve up to 99.95% in accuracy in binary classification on KDD CUP99. Wang el al. [31] | proposed th"
+   ],
+   [
+    6,
+    4,
+    "Computers 2025, 14, 291 | 6 of 25 | Table 1. Cont. | Study | Datasets Used | Methods | Key Contributions | Chen et al. (2023) [18] | Campus network traffic | Semi-supervised KD with | labeled and unlabeled data | Realized 98.49% parameter | reduction and 98.52% | FLOPs decrease for student | models, with only 1\u20132% | drop in accuracy. | Li & Yao (2024) [15] | KDD CUP99, NSL-KDD, | UNSW-NB15, BoT-IoT, | CIC-IDS2017 | CL-SKD two-stage | detection: contrastive | self-supervision, self-KD, | and depth-wise separable | convolution | Achieved up to 99.95% in | binary and 99.93% in | multi-class accuracy on | KDD CUP99 ,and strong | generalization across | multiple IDS datasets. | Ali et al. (2024) [26] | NSL-KDD, CIC-IDS2017, | IoT-23 | Generative adversarial | networks with KD | Demonstrated >95% | accuracy in NSL-KDD and | CIC-IDS2017 datasets and | 89% in IoT-23, but | pe"
+   ],
+   [
+    11,
+    3,
+    "Computers 2025, 14, 291 | 11 of 25 | where L is the number of layers in the network. | In anomaly detection, the model learns to minimize a loss function L(\u03b8), such as the | cross-entropy loss: | L(\u03b8) = \u2212 | m | \u2211 | i=1 | h | yi log( \u02c6yi) + (1 \u2212yi) log | \u00001 \u2212\u02c6yi | \u0001i | , | (4) | where | \u2022 | m is the number of samples, | \u2022 | yi is the true label (0 for normal, 1 for anomaly), | \u2022 | \u02c6yi is the predicted probability of an anomaly. | The optimization of \u03b8 = {W, b} is performed using Adam. | DNNs are especially promising for anomaly-based IDS due to their ability to handle | high-dimensional and complex network traffic data through their hierarchical structure, | DNNs learn meaningful features automatically from the training data. This eliminates | the need for manual feature engineering [46]. Furthermore, DNNs employ non-linear | activation functi"
+   ],
+   [
+    12,
+    5,
+    "Computers 2025, 14, 291 | 12 of 25 | where exp(zi/T) represents the scaled exponent of the logit for class i (pre-softmax output), | the denominator \u2211j exp(zj/T) sums over the exponentials of all class logits to normalize | the outputs into a probability distribution, and T is the temperature parameter controlling | the softness of the output distribution. | The distillation loss Ldistill measures the difference between the soft probabilities of | the teacher and student models using Kullback\u2013Leibler (KL) divergence: | Ldistill = T2 \u2211 | i | pi log | \u0010 qi | pi | \u0011 | . | (6) | The overall objective for training the student model combines the distillation loss and | the standard cross-entropy loss LCE (computed using the true class labels y): | Ltotal = \u03b1 Ldistill + (1 \u2212\u03b1) LCE, | (7) | where: | \u2022 | \u03b1 is a hyperparameter balancing the t"
+   ],
+   [
+    13,
+    5,
+    "Computers 2025, 14, 291 | 13 of 25 | 0.45 for all their experiments. Likewise, Yang et al. [30] propose an intrusion detection | model (LNet-SKD) and report that the best performance occurs with temperature, T = 3. In | both cases, these values are chosen as fixed defaults, not per-dataset tuning. | Figure 1. Knowledge distillation from DNN dense (256, 128, 64, 32) to (32, 16) structure. | 4. Result | To evaluate the performance of models in a multi-class classification setting, we use | seven metrics, accuracy, precision, recall, F1 score, ROC, AUC, and inference speed, as shown | in Table 7. In the case of multi-class classification, these metrics are calculated for each class | individually and then averaged across all classes to provide a comprehensive assessment. | Table 7. Evaluation Metrics used in this "
+   ],
+   [
+    14,
+    8,
+    "Computers 2025, 14, 291 | 14 of 25 | It is worth noting that the inference time (second) is calculated as the average of ten | runs under the same environment and settings, measured per one data entry (row), and | multiplied with (10\u22125). Changes in the number of parameters and inference speed are | compared against the teacher model, while metrics such as accuracy, precision, recall, and | F1 score are compared against the student model without KD to assess improvements on | the knowledge transfer. | Hardware/software: All experiments ran on a workstation (Windows 10, Intel Core i9 | 9900 3.10 GHz, 32 GB of RAM, and Nvidia RTX 2070 Super). | 4.1. NSL-KDD | The results from the NSL-KDD dataset (Table 8) demonstrate the trade-off between | model complexity and performance, as well as the effectiveness of KD in enha"
+   ],
+   [
+    15,
+    7,
+    "Computers 2025, 14, 291 | 15 of 25 | Figure 2. Confusion matrix of teacher (left), student without KD (middle), and student with KD | (right) models on NSL-KDD. | Figure 3. ROC curve of teacher (left), student without KD (middle), and student with KD (right) | models on NSL-KDD. | 4.2. UNSW-NB15 | The UNSW-NB15 results (Table 9) show a similar pattern to NSL-KDD, where the | teacher model delivers the best overall performance at the cost of computational efficiency. | With 280,448 parameters, the teacher model achieves 75.45% accuracy, 81.12% precision, | and an F1 score of 76.40%, reflecting its capacity to capture complex patterns in the data. | However, this comes with a slower inference speed of 2.722 \u00d7 10\u22125 s. The student model | without KD, while significantly more efficient with only 20,816 parameters, see"
+   ],
+   [
+    16,
+    6,
+    "Computers 2025, 14, 291 | 16 of 25 | Table 9. Comparison of teacher and student models on the UNSW-NB15 dataset. | Model\u2019s Architecture | No. of Parameters | Accuracy (%) | Precision (%) | F1 Score (%) | Inference Time | Deep Neural Network | (Teacher) | 280,448 | 75.45 | 81.12 | 76.40 | 2.722 | Shallow Neural Network | (Student without KD) | 20,816 | 69.66 | 78.12 | 71.10 | 2.502 | Shallow Neural Network | (Student with KD) | 20,816 | (\u221292.57%) | 75.78 | (+6.12%) | 80.98 | (+2.86%) | 76.10 | (+5.00%) | 2.451 | (\u22129.96%) | Figure 4. Confusion matrix of teacher (left), student without KD (middle), and student with KD | (right) models on UNSW-NB15. | Figure 5. ROC curve of teacher (left), student without KD (middle), and student with KD (right) | models on UNSW-NB15. | 4.3. CIC-IDS2017 | The CIC-IDS2017 results (Table 10) further confirm the pattern observed in the previ"
+   ]
+  ]
+ },
+ "peng2025fdids": {
+  "n": 31,
+  "hits": [
+   [
+    1,
+    3,
+    "Academic Editor: Alessandra Rizzardi | Received: 7 May 2025 | Revised: 22 June 2025 | Accepted: 7 July 2025 | Published: 10 July 2025 | Citation: Peng, H.; Wu, C.; Xiao, Y. | FD-IDS: Federated Learning with | Knowledge Distillation for Intrusion | Detection in Non-IID IoT | Environments. Sensors 2025, 25, 4309. | https://doi.org/10.3390/s25144309 | Copyright: \u00a9 2025 by the authors. | Licensee MDPI, Basel, Switzerland. | This article is an open access article | distributed under the terms and | conditions of the Creative Commons | Attribution (CC BY) license | (https://creativecommons.org/ | licenses/by/4.0/). | Article | FD-IDS: Federated Learning with Knowledge Distillation for | Intrusion Detection in Non-IID IoT Environments | Haonan Peng 1 | , Chunming Wu 1,* and Yanfeng Xiao 2 | 1 | College of Computer Science and Technology, Zhejian"
+   ],
+   [
+    2,
+    4,
+    "Sensors 2025, 25, 4309 | 2 of 31 | limited. CL generally depends on aggregating the vast data produced by IoT devices onto | a centralized server to facilitate model training. This data-centralized processing poses | significant threats to privacy-sensitive scenarios [8]. For instance, in intelligent health- | care systems, hospitals generate and store large volumes of highly sensitive patient data, | including diagnostic images and treatment histories (particularly for critical conditions | such as cancer [9]). Uploading such data to a centralized server for model training raises | substantial privacy concerns\u2014especially in the event of cyber-attacks that could lead to | large-scale patient data breaches. Moreover, the transmission of high-resolution medical | images and textual records imposes considerable "
+   ],
+   [
+    3,
+    5,
+    "Sensors 2025, 25, 4309 | 3 of 31 | not only enhances the generalization ability of client models under Non-IID conditions, | but it also improves the efficiency of information sharing among models. Furthermore, | FD-IDS incorporates both the proximal term from the FedProx and the distillation loss | function, establishing a dual regularization framework. Comprehensive experiments on | both the Edge-IIoT and N-BaIoT datasets validated the effectiveness of FD-IDS. The primary | contributions of this study are outlined as follows: | \u2022 | This work presents an IDS utilizing FL, referred to as FD-IDS, which achieves intrusion | detection in IoT environments while preserving data privacy. | \u2022 | MI is employed for feature selection, enhancing feature quality, reducing re- | dundancy in high-dimensional data, and improving "
+   ],
+   [
+    4,
+    5,
+    "Sensors 2025, 25, 4309 | 4 of 31 | mance evaluation of CL and FL models. The dataset is designed to support both IID | and Non-IID data scenarios, enabling assessments in binary, six-class, and fifteen-class | classification tasks. The experimental findings reveal that, in IID scenarios, the performance | of the global model in FL is nearly identical to that of CL models. In Non-IID scenarios, | FL enhances the overall performance of clients by efficiently aggregating their local mod- | els. Rashid et al. [27] introduced an IIoT IDS based on FL, leveraging the Edge-IIoTset | dataset. Their study evaluated two DL classifiers\u2014CNNs and recurrent neural networks | (RNNs)\u2014in CL and FL scenarios. The comparative analysis revealed that the RNN model | achieved superior global detection accuracy under FL settings, pa"
+   ],
+   [
+    5,
+    4,
+    "Sensors 2025, 25, 4309 | 5 of 31 | into a lightweight student model, thereby addressing the challenges posed by limited | computational resources. | The aforementioned related works have made significant contributions to the research | on IDSs and have inspired this study. However, existing approaches that integrate FL with | KD primarily focus on model compression and communication efficiency optimization. | These methods typically adopt offline distillation or exhibit weak coupling with the feder- | ated optimization process, making it difficult to achieve synchronized convergence between | global and local models during training. As a result, the issue of model drift under Non-IID | conditions remains inadequately addressed. This paper proposes FD-IDS, an IDS tailored | for Non-IID IoT environments. The prop"
+   ],
+   [
+    8,
+    3,
+    "Sensors 2025, 25, 4309 | 8 of 31 | to models overly relying on specific network attributes, resulting in poor generalization | performance in practical scenarios [37]. Next, we removed samples containing missing or | infinite values. We also applied one-hot encoding to convert nominal categorical features | into numerical representations. Since IoT devices generate data with diverse feature types | and ranges across different sensors, we standardized the feature values using Z-score | normalization to ensure consistent scaling. | After the aforementioned data preprocessing, the feature dimensions of the Edge-IIoT | and N-BaIoT datasets expanded to 95 and 115, respectively. Although high-dimensional | features facilitate the representation of detailed information and complex patterns in data, | they also pose ch"
+   ],
+   [
+    9,
+    3,
+    "Sensors 2025, 25, 4309 | 9 of 31 | 3.5. Federated Learning Process with Knowledge Distillation | FL is an emerging distributed machine learning framework aimed at enabling collab- | orative model training while ensuring data privacy and security [11]. Unlike traditional | CL methods, FL eliminates the need for participants to send their data to a central server. | Each participant retains data locally and sends locally generated model updates to a central | server for aggregation, thereby constructing a global model. Based on the characteristics of | data distribution, FL can be categorized into horizontal FL (HFL), vertical FL (VFL), and | federated transfer learning (FTL) [34,39]. HFL is applicable in scenarios where participants | share a common feature space but have distinct data instances, which makes i"
+   ],
+   [
+    10,
+    4,
+    "Sensors 2025, 25, 4309 | 10 of 31 | 3.5.1. Federated Learning Framework and Aggregation Strategies | In FD-IDS, the system architecture primarily consists of a central server and multiple | client devices. The central server initializes the parameters W0 | G of the global model, which | are subsequently sent to the participating clients. Each client trains locally on its dataset | Dk = {(xi, yi)}nk | i=1, where nk denotes the sample size of client k, xi refers to the features of | the i-th sample, and yi indicates the associated label. Data privacy is preserved using local | computation, ensuring that clients do not transmit raw data to the central server or to other | clients, thereby reducing the risk of data breaches [12]. Clients independently optimize | their local objective functions to generate updated mod"
+   ],
+   [
+    11,
+    5,
+    "Sensors 2025, 25, 4309 | 11 of 31 | attacks. If local models are aggregated without appropriate constraints, the resulting global | model may fail to detect certain attack types effectively. While the FedProx algorithm | reduces the divergence between client models and the global model by adding a proximal | term, its performance may still deteriorate or undergo drift in situations with extreme data | distributions. To overcome these challenges, this paper introduces an innovative approach | that incorporates KD into the FL framework. This method leverages continuous guidance | from the global model to the client models, mitigating the model drift in Non-IID scenarios | and, thereby, improving the detection accuracy of diverse IoT attacks while enhancing the | overall security performance of the system. | KD, o"
+   ],
+   [
+    13,
+    4,
+    "Sensors 2025, 25, 4309 | 13 of 31 | 4. Experiments and Evaluation | 4.1. Experimental Setup | To assess the model\u2019s performance, each dataset was divided into training and testing | sets with an 80/20 ratio, and the experiments were conducted within a FL framework. | The FL environment consisted of nine clients. In this study, a total of nine clients was | selected to simulate the FL environment based on the following considerations: First, a | number of existing studies have also adopted a limited number of clients for federated | learning experiments [31\u201333]. Second, this scale effectively emulates typical small-scale IoT | deployment scenarios\u2014such as industrial control systems and factory edge node networks. | Third, FL experiments generally involve independent training of multiple local models | and frequent"
+   ],
+   [
+    14,
+    5,
+    "Sensors 2025, 25, 4309 | 14 of 31 | Table 2. Hyperparameter search space. | Hyperparameter | Candidate Values | Batch Size | [64, 128, 256] | Learning Rate | [0.001, 0.01, 0.1] | Regularization (\u00b5) | [0.001, 0.01, 0.1] | Distillation Weight (\u03bb) | [0.3, 0.5, 0.7] | Proximal Term Weight (\u03b2) | [0.05, 0.1, 0.2] | Temperature (T) | [1, 3, 5] | Table 3. Hyperparameter settings. | Hyperparameter | Settings | Batch Size | 128 | Optimizer | Adam | Learning Rate | 0.001 | DNN Activation Function | Relu | Loss Function | Cross-Entropy Loss | Regularization (\u00b5) | 0.01 | Distillation Weight (\u03bb) | 0.5 | Proximal Term Weight (\u03b2) | 0.1 | Temperature | 3 | Local Epoch | 2 | Communication Round | 40 | 4.2. Evaluation Metrics | To comprehensively and scientifically evaluate the performance of FD-IDS, selecting | appropriate evaluation metrics is particularly crucial. Well-chosen metrics not onl"
+   ],
+   [
+    15,
+    5,
+    "Sensors 2025, 25, 4309 | 15 of 31 | FPR = | FP | FP + TN , | (12) | FNR = | FN | FN + TP. | (13) | 4.3. Experimental Results and Analysis | 4.3.1. FD-IDS Performance Evaluation | FD-IDS was first assessed on the Edge-IIoT dataset across varying degrees of Non- | IID conditions. Table 5 summarizes the outcomes of the experiments. In the low-Non- | IID scenario, after the first communication round, the classification accuracy of the best- | performing client reached 91.94%, while the worst-performing client achieved 88.75%. The | global model accuracy was 85.27%. Despite the relatively low degree of data heterogeneity, | performance discrepancies among clients were still observed. This indicates that, even | in low-Non-IID conditions, the data distribution across clients is not entirely IID and a | certain degree of imbalance pe"
+   ]
+  ]
+ },
+ "almomani2016wsnds": {
+  "n": 16,
+  "hits": [
+   [
+    1,
+    3,
+    "Research Article | WSN-DS: A Dataset for Intrusion Detection Systems in | Wireless Sensor Networks | Iman Almomani,1,2 Bassam Al-Kasasbeh,2 and Mousa AL-Akhras2,3 | 1Computer Science Department, College of Computer and Information Sciences, Prince Sultan University, Riyadh, Saudi Arabia | 2Computer Science Department/Computer Information Systems Department, King Abdullah II School for | Information Technology (KASIT), The University of Jordan, Amman, Jordan | 3Computer Science Department, College of Computation and Informatics, Saudi Electronic University, Riyadh, Saudi Arabia | Correspondence should be addressed to Iman Almomani; imomani@psu.edu.sa | Received 25 March 2016; Accepted 28 August 2016 | Academic Editor: Hana Vaisocherova | Copyright \u00a9 2016 Iman Almomani et al. This is an open access article distri"
+   ],
+   [
+    2,
+    3,
+    "2 | Journal of Sensors | and its main objective is to interrupt or suspend the services | provided by WSNs [6, 7]. | Because the process of avoiding or preventing security | threats cannot be always successful, an Intrusion Detection | System (IDS) is needed to detect known and unknown attacks | and alert sensor nodes about them [3, 4]. IDS allows detecting | suspicious or abnormal activities and triggers an alarm when | an intrusion occurs. The implementation of IDSs for WSNs | are more difficult than other systems because sensor nodes | are usually designed to be tiny and cheap, and they do not | have enough hardware resources. Additionally, there is no | specialized dataset that contains normal profiles and attacks | in WSN that can be used to detect an attacker signature | [3]. Considering the above challenges, the"
+   ],
+   [
+    5,
+    3,
+    "Journal of Sensors | 5 | Table 1: Comparison between the mathematical model and simulation results. | Round | Number of clusters | ADV-CH-Sent | ADV-CH-Rcvd | Join-Req-Sent | Join-Req-Rcvd | BS receives | Math | Sim. | Math | Sim. | Math | Sim. | Math | Sim. | Math | Sim. | 1 | 4 | 4 | 4 | 396 | 396 | 96 | 96 | 96 | 96 | 238 | 238 | 2 | 2 | 2 | 2 | 198 | 198 | 98 | 98 | 98 | 98 | 53 | 53 | 3 | 3 | 3 | 3 | 297 | 297 | 97 | 97 | 97 | 97 | 126 | 126 | 4 | 2 | 2 | 2 | 198 | 198 | 98 | 98 | 98 | 98 | 59 | 59 | 5 | 7 | 7 | 7 | 693 | 693 | 93 | 93 | 93 | 93 | 563 | 563 | 6 | 6 | 6 | 6 | 594 | 594 | 94 | 94 | 94 | 94 | 516 | 516 | 7 | 4 | 4 | 4 | 396 | 396 | 96 | 96 | 96 | 96 | 268 | 268 | 8 | 4 | 4 | 4 | 396 | 396 | 96 | 96 | 96 | 96 | 291 | 291 | 9 | 5 | 5 | 5 | 495 | 495 | 95 | 95 | 95 | 95 | 447 | 447 | 10 | 7 | 7 | 7 | 693 | 693 | 93 | 93 | 93 | 93 | 695 | 695 | 11 | 6 | 6 | 6 | 594 | 594 | 94 | 94 | 94 | 94 | 456 | 456 | 12 | 6 | 6 | 6 | 594 | 594 | 94 | 94 | 94 | 94 | 363 | 363 | 13 | 1 | 1 | 1 | 99 | 99 | 99 | 99 | 99 | 99 | 13 | 13 | 14 | 7 | 7 | 7 | 693 | 693 | 93 | 93 | 93 | 93 | 629 | 629 | Table 2: Applying Theorem 3 equation to round 1 of simulation ro"
+   ],
+   [
+    8,
+    3,
+    "8 | Journal of Sensors | N \u2192Network Size | SN \u2192Sensor Node | MN \u2192Malicious Node | CH \u2192Cluster Head | BS \u2192Base Station | CM \u2192Cluster Member | NC \u2192Cluster Heads list | x \u2192Integer value between 0 and \ud835\udc41\u22121 | \u2200SN\ud835\udc56, 0 < \ud835\udc56\u2264\ud835\udc41, compute \ud835\udc47(SN\ud835\udc56) and random \ud835\udc5fSN\ud835\udc56 | IF (\ud835\udc5fSN\ud835\udc56< \ud835\udc47(SN\ud835\udc56)) THEN | SN\ud835\udc56= CH | ELSE | SN\ud835\udc56= CM | ENDIF | \u2200CH\ud835\udc57, \ud835\udc57\u2208NC | { | CH\ud835\udc57broadcasts the advertisement message (ADV CH) | x CMs will join CH\ud835\udc57 | CH\ud835\udc57creates TDMA schedule | x CMs send data to CH\ud835\udc57in the corresponding TDMA time slot | } | IF CH = MN THEN | Performs the attack by dropping some packets (randomly or selectively) | ELSE | Sends aggregated data to BS | ENDIF | Algorithm 2: Model of Grayhole attack. | this will consume sensors\u2019 energy and waste more time to | determine which CH to join. Moreover, the attacker attempts | to cheat victims to choose it as a CH, especially those nodes | that are l"
+   ],
+   [
+    11,
+    4,
+    "Journal of Sensors | 11 | Table 5: Ns-2 simulation parameters. | Parameter | Value | Number of nodes | 100 nodes | Number of clusters | 5 | Network area | 100 m \u00d7 100 m | Base station location | (50, 175) | Size of data packet | 500 bytes | Size of packet header | 25 bytes | Maximum transmission range | 200 m | Routing protocol | LEACH | MAC protocol | CSMA/TDMA | Simulation time | 3600 s | Initial energy (in joule) | 5, 50 | Attackers\u2019 intensities | 10%, 30%, 50% | In order to gather the required data, NS-2 was used [45]. | Simulation parameters are summarized in Table 5. | This section shows the results obtained from the dataset | collected as described in Section 4. Waikato Environment | for Knowledge Analysis (WEKA) Toolbox was used in the | simulation experiments to evaluate the proposed dataset. | WEKA is an open source data mining software suite built"
+   ],
+   [
+    12,
+    5,
+    "12 | Journal of Sensors | Table 7: Parameters for MLP neural network classifier. | Parameter Explanation | Used value | L | Learning rate: used for weight adjustment | on each iteration. (The value should be | between 0 and 1.) | 0.3 | M | Momentum: used for weight adjustment | during backpropagation, in order to | speed up convergence and avoid local | minima. (The value should be between 0 | and 1.) | 0.2 | N | The number of epochs or passes through | training data. | 500 | V | The percentage of the validation set from | the training data. | 20% | S | Seed for random number generator. | Random numbers are used for setting | initial weights for the connections | between nodes. (The value should be \u22650.) | 0 | E | Threshold for consecutive errors allowed | during validation testing before the | neural network terminates. (The value | should be >0.) | 20 | H | Numbe"
+   ],
+   [
+    13,
+    3,
+    "Journal of Sensors | 13 | Table 8: Confusion matrix of holdout method with one hidden layer. | Normal | Flooding | Scheduling | Grayhole | Blackhole | Normal | 135483 | 350 | 32 | 152 | 10 | Flooding | 0 | 1325 | 0 | 0 | 0 | Scheduling | 23 | 0 | 2620 | 3 | 10 | Grayhole | 29 | 0 | 9 | 5379 | 421 | Blackhole | 0 | 0 | 3 | 2640 | 1377 | Table 9: Summary results of holdout method with one hidden layer. | TPR | FPR | FNR | TNR | P | Normal | 0.996 | 0.004 | 0.004 | 0.996 | 1.000 | Flooding | 1.000 | 0.002 | 0 | 0.998 | 0.791 | Scheduling | 0.986 | 0.000 | 0.014 | 1 | 0.983 | Grayhole | 0.921 | 0.003 | 0.079 | 0.997 | 0.658 | Blackhole | 0.343 | 0.004 | 0.657 | 0.996 | 0.757 | Avg. | 0.975 | 0.021 | 0.025 | 0.979 | 0.978 | Table 10: Summary results of holdout method with two hidden | layers. | TPR | FPR | FNR | TNR | \ud835\udc43 | Normal | 0.996 | 0.008 | 0.004 | 0.992 | 0.999 | Flooding | 1 | 0.003 | 0 | 0.997 | 0.753 | Scheduling | 0.984 | 0 | 0.016 | 1 | 0.991 | Grayhole | 0.714 | 0.006 | 0.286 | 0.994 | 0.838 | Black"
+   ]
+  ]
+ },
+ "yagiz2025lens": {
+  "n": 52,
+  "hits": [
+   [
+    1,
+    3,
+    "LENS-XAI: Redefining Lightweight and Explainable | Network Security through Knowledge Distillation and | Variational Autoencoders for Scalable Intrusion | Detection in Cybersecurity | Muhammet Anil Yagiza, Polat Goktasb,\u2217 | aDepartment of Computer Engineering, K\u0131r\u0131kkale University, K\u0131r\u0131kkale, 71450, Turkey | bSchool of Computer Science & CeADAR, University College Dublin, Dublin, D04 | V2N9, Ireland | Abstract | The rapid proliferation of Industrial Internet of Things (IIoT) systems ne- | cessitates advanced, interpretable, and scalable intrusion detection systems | (IDS) to combat emerging cyber threats. Traditional IDS face challenges | such as high computational demands, limited explainability, and inflexi- | bility against evolving attack patterns. To address these limitations, this | study introduces the Lightwe"
+   ],
+   [
+    2,
+    4,
+    "module enhances trust and transparency, critical for practical deployment in | dynamic and sensitive applications. This research contributes significantly to | advancing IDS by addressing computational efficiency, feature interpretabil- | ity, and real-world applicability. Future work could focus on extending the | framework to ensemble AI systems for distributed environments, further en- | hancing its robustness and adaptability. | Keywords: | Artificial intelligence, Cybersecurity, Industrial Internet of | Things, Knowledge distillation, Machine learning, Network security, XAI | 1. Introduction | In the ever-expanding digital landscape, the rapid proliferation of in- | terconnected devices has led to a corresponding rise in sophisticated cyber | threats, challenging the efficacy of traditional network security "
+   ],
+   [
+    3,
+    4,
+    "frameworks in addressing security challenges in complex environments. These | advancements underline the necessity of pairing state-of-the-art ML/DL tech- | niques with XAI to foster adoption and trust in IDS solutions. | The contemporary cybersecurity ecosystem also demands lightweight mod- | els that can operate efficiently in resource-constrained settings such as IoT | and edge computing environments. For example, the Zero-Trust Marine Cy- | berdefense framework [3] exemplifies the integration of lightweight architec- | tures with explainable mechanisms, showcasing their effectiveness in spe- | cialized domains. This approach aligns with industry trends that prioritize | the dual objectives of computational efficiency and interpretability. Among | the cutting-edge methodologies in IDS development, knowledg"
+   ],
+   [
+    4,
+    3,
+    "network infrastructures. The primary contributions of this study include: | \u2022 Innovative Integration of Knowledge Distillation and VAEs: | The framework employs knowledge distillation for enhanced computa- | tional efficiency and VAEs to model complex data distributions, im- | proving detection capabilities. | \u2022 Enhanced Explainability: LENS-XAI incorporates variable attribu- | tion-based XAI mechanisms mechanisms to provide detailed insights, | fostering greater trust and clarity in its operations. | \u2022 Optimized for Resource-Constrained Environments: Its scal- | able and lightweight architecture is designed to adapt seamlessly to | IoT and edge computing scenarios without sacrificing detection perfor- | mance. | \u2022 Robust Validation: Extensive experiments on benchmark datasets, | including NSL-KDD, CTU-13, UKM20 an"
+   ],
+   [
+    5,
+    3,
+    "Bi-LSTM-based framework integrated with explainable mechanisms, includ- | ing enhanced krill herd optimization, which provides valuable insights into | its decision-making process. This framework has proven effective in indus- | trial cyber-physical systems, emphasizing the need for models that balance | interpretability with high performance. Similarly, Nalini et al. [9] introduced | DeepRoughNetID, a model designed to enhance anomaly detection capabil- | ities by combining robust feature engineering with interpretable algorithms. | While achieving high detection rates, DeepRoughNetID highlights the impor- | tance of evaluating its effectiveness in resource-constrained environments, a | domain where its applicability remains underexplored. Al-Essa et al. [13] | extended this line of research by developing PA"
+   ],
+   [
+    6,
+    5,
+    "hancing classification accuracy. Their framework balanced privacy and util- | ity, but required optimization for heterogeneous IoT architectures. | Simi- | larly, Kumar et al. [5] developed a blockchain-enabled IDS integrated with | XAI for enhanced decision-making transparency in industrial systems. While | promising, their approach demands further evaluation in dynamic industrial | contexts. In parallel, Fatema et al. [4] introduced a federated learning frame- | work combined with XAI techniques to enhance the security and efficiency of | IDS in IoT ecosystems. Their work highlights the growing need for collabo- | rative and distributed approaches that ensure scalability and trustworthiness | in real-world applications. | 2.3. Advanced Anomaly Detection Techniques | Modern anomaly detection methods emphasize th"
+   ],
+   [
+    7,
+    5,
+    "explainability in industrial applications. Similarly, Moustafa et al. [22] in- | tegrated VAEs with federated learning and XAI frameworks to develop a | robust intrusion detection solution for IoT networks. Javeed et al. [6] fur- | ther demonstrated the utility of these approaches in specialized domains, | designing an interpretable IDS tailored for unmanned aerial vehicles. | Building on prior advancements, our earlier study by Yagiz et al. [23] in- | troduced the KD-XVAE system, integrating a Knowledge Distillation frame- | work with VAEs. This model achieved exceptional performance, with perfect | recall, precision, and F1 scores, while maintaining a lightweight computa- | tional design. By employing XAI techniques such as SHAP, the KD-XVAE | system enabled interpretability by highlighting key latent featu"
+   ],
+   [
+    11,
+    4,
+    "3.4. Knowledge Distillation for Model Optimization | VAEs combined with high-capacity classification models can be compu- | tationally demanding. To alleviate inference costs without sacrificing perfor- | mance, we employ Knowledge Distillation [32], transferring the \u201cknowledge\u201d | from a powerful teacher model to a more compact student model. | 3.4.1. Distillation Setup | 1. Teacher Model: Trained on the full dataset (or its latent representa- | tions) to achieve high accuracy. | 2. Student Model: A lighter network optimized to reproduce the output | distribution of the teacher. | 3.4.2. Distillation Loss | To guide the student network, the teacher provides \u201csoft targets,\u201d which | we combine with hard labels to form the distillation loss: | Ldistill(\u03b8s) = (1 \u2212\u03b1) LCE(y, \u02c6ys) | | | {z | } | hard label | + \u03b1T 2 DKL | \u0000\u03c3T(\u02c6yt), \u03c3T"
+   ],
+   [
+    15,
+    4,
+    "\u2022 Optimized Computational Efficiency: Leverages Knowledge Dis- | tillation to reduce model complexity, enabling deployment in resource- | constrained environments. | \u2022 Explainability with Variable Attribution: Employs a variable | attribution-based approach for transparent decision-making, enhancing | trust and usability for security analysts. | \u2022 Rigorous Validation Across Scenarios: Implements a compre- | hensive evaluation strategy, showcasing robustness and adaptability | under diverse operational constraints. | The integration of these elements positions the framework as a scalable | and interpretable solution for intrusion detection, addressing challenges in | modern IoT and edge computing environments. | 4. Performance evaluation | We begin by assessing the intrusion detection performance of the proposed | LEN"
+   ],
+   [
+    17,
+    5,
+    "Table 1: Software and hardware configurations for experimentation. | Specification | Details | Operating System | Windows 11 | Python Environment | Anaconda Navigator, Python 3.11 | Libraries | TensorFlow, PyTorch, Dalex | Processor | Intel Core i7-14700K @ 3.4 GHz | RAM | 32 GB DDR5 | Storage | 2 TB SSD | GPU | NVIDIA GeForce RTX 4080 Super (16 GB VRAM) | \u2022 Performance Metrics: The model\u2019s detection performance was eval- | uated using metrics such as accuracy, precision, recall, and F1-score. | These metrics provided a comprehensive understanding of the model\u2019s | ability to detect various types of cyberattacks and minimize errors. | \u2022 Number of Parameters: The total number of learnable parameters | in the model was calculated as: | Number of Parameters = | L | X | i=1 | Parameters(i), | (9) | where L is the number of layers in the model, and Par"
+   ],
+   [
+    21,
+    4,
+    "Figure 3: Class distribution of NSL-KDD dataset. | Multi-class Classification Results. | \u2022 Accuracy: The LENS-XAI Teacher model achieved the highest accu- | racy of 95.34%, slightly outperforming the Student model at 95.31%, | as well as other models such as NIDS-BAI (94.7%) and BGA (94.2%) | [38]. These results highlight the robustness of the framework in han- | dling complex IoT-specific attack scenarios. | \u2022 Precision and Recall: The Teacher model demonstrated superior | precision (96.75%) and recall (95.34%) compared to NIDS-BAI (94.7% | precision, 94.8% recall) [38]. Similarly, the Student model main- | tained competitive precision (95.74%) and recall (95.31%), showcas- | ing effective knowledge transfer and computational efficiency. | \u2022 F1-Measure: Both models achieved balanced performance, with the | Teacher"
+   ],
+   [
+    22,
+    5,
+    "Table 3: Performance metrics comparison for multi-class classification on the Edge-IIoTset | dataset. | Model | Accuracy (%) | Precision (%) | Recall (%) | F1-Score (%) | BGA [38] | 94.20 | 94.20 | 94.40 | 94.30 | ICNN [38] | 91.80 | 91.80 | 94.20 | 91.60 | NIDS-BAI [38] | 94.70 | 94.70 | 94.80 | 94.60 | LENS-XAI Teacher | 95.34 | 96.75 | 95.34 | 95.09 | LENS-XAI Student | 95.31 | 95.74 | 95.31 | 95.36 | accuracy (99.64%\u2013100.00%). For Backdoor, the models perform strongly | (97.89%\u201398.49%), while in rare attacks like SQL Injection, the Teacher | outperforms the Student (34.21% vs. 19.13%). Both models achieve perfect | detection (100.00%) for Normal traffic, showcasing reliability. The Teacher | demonstrates better handling of rare scenarios, solidifying its robustness for | IoT intrusion detection. | Confusion Matrix Analysis. Figure 4 illustrates the confusion m"
+   ]
+  ]
+ },
+ "diab2025hardware": {
+  "n": 6,
+  "hits": [
+   [
+    1,
+    8,
+    "Intrusion Detection on Resource-Constrained IoT | Devices with Hardware-Aware ML and DL | A. Diab1, A. Chehade2, E. Ragusa2, P. Gastaldo2, R. Zunino2, A. Baghdadi3, M. Rizk1,4 | 1 Faculty of Sciences, Lebanese University, Hadath, Lebanon | 2 DITEN, University of Genova, Genova, Italy | 3IMT Atlantique, Lab-STICC UMR CNRS 6285, Brest, France | 4 School of Arts and Sciences, Lebanese American University, Beirut, Lebanon | Abstract\u2014This paper proposes a hardware-aware intrusion | detection system (IDS) for Internet of Things (IoT) and Industrial | IoT (IIoT) networks; it targets scenarios where classification | is essential for fast, privacy-preserving, and resource-efficient | threat detection. The goal is to optimize both tree-based machine | learning (ML) models and compact deep neural networks (DNNs) | within stri"
+   ],
+   [
+    2,
+    7,
+    "where feature extraction completes in under 1 ms, tree- | based models deliver sub-30 ms inference, and CNNs | remain viable when accuracy is prioritized over latency. | The rest of the paper is organized as follows. Section II re- | views related work. Section III describes the adopted method- | ology. Section V presents the results and discussions. Sec- | tion VI presents the hardware implementation and deployment | results. Finally, Section VII concludes the paper and outlines | future work. | II. RELATED WORK | A. ML and DL Approaches | Extensive research has explored intrusion detection us- | ing traditional ML methods such as decision trees (DT) | and random forests (RF), as well as DL architectures like | convolutional neural networks (CNNs) and recurrent neural | networks (RNNs). These approaches have demonstra"
+   ],
+   [
+    3,
+    4,
+    "total number of split comparisons implied by the ensemble\u2019s | structure. Flash usage is the estimated memory required to | store all decision nodes, and peak RAM usage is computed | from the maximum tree depth combined with the memory | needed for traversal state and temporary buffers. Each con- | figuration is evaluated for validation accuracy and profiled | against these measures; configurations violating any constraint | are discarded, and the retained baselines are those achieving | the highest validation performance within all budgets. | B. Hardware-Aware Neural Architecture Search (HW-NAS) | For DL, we use HW-NAS to automatically design compact | 1D-CNN architectures optimized for the same hardware bud- | gets. 1D-CNNs are chosen as the backbone since prior work | [3], [10], [14] shows their strong performanc"
+   ],
+   [
+    4,
+    9,
+    "and are conducted on a workstation powered by an Nvidia | RTX 3070 Ti GPU. | Given the modest resources of the target device (Rasp- | berry Pi 3 B+) and the need for stable, low-latency operation | alongside other gateway tasks, we set conservative deployment | budgets of \u2264300 KB flash, \u226450 KB RAM, and \u22641.5\u00d7106 | operations (Ops for ML, FLOPs for DL). These limits apply | uniformly to both ML and DL models and are intentionally | well below both the device\u2019s nominal capacity and the resource | footprints in related work on tabular traffic data, with the | latter\u2019s hardware measures either computed from architectural | details or taken directly from reported metrics. This ensures | our approach remains robust under varying network loads, | avoids resource contention, and leaves ample headroom for | other on-device pro"
+   ],
+   [
+    5,
+    8,
+    "TABLE II: Search spaces for the ML grid search and HW-NAS for DL | Tree-based ML models (unified meta-parameters) | Param | ntrees | max depth | min child size | colsample | subsample | num leaves | Range | {2,10,20,50,100,150} | {5,10,15,20,25,30} | {5,10,20,30,40} | {0.6,0.8,1.0} | {0.7,0.8,1.0} | {8,16,32,64} | Deep Learning (HW-NAS, 1D CNN) | Param | Filters | Kernel size | Stride | Dropout rate | Pooling | Padding | Range | 16\u2013256 | 2\u201310 | 1\u201310 | 0.1\u20130.5 | max/avg, 2\u20133 | same/valid | TABLE III: Comparison with tree-based ML models | Methods | Acc. | (%) | F1 | (%) | Flash | (KB) | RAM | (KB) | Ops | (K) | LightGBM | 95.25 | \u00b10.13 | 94.74 | \u00b10.00 | 74.93 | 1.13 | 1.20 | XGBoost | 95.11 | \u00b10.12 | 94.42 | \u00b10.00 | 266.59 | 0.51 | 4.27 | RF | 94.12 | \u00b10.14 | 93.21 | \u00b10.00 | 211.22 | 4.61 | 3.38 | DT [1] | RF [1] | SVM [1] | KNN [1] | 67.11 | 80.83 | 77.61 | 79.18 | \u2014 | \u2014 | \u2014 | \u2014 | TABLE IV: Comparison with DL state-of-the-art methods | Methods | Ac"
+   ],
+   [
+    6,
+    6,
+    "without quantization or compression. The CNN operates in | float32 precision, while the tree-based ML models run using | their default inference formats. | Power and latency measurements were collected using a | USB power meter placed between the Raspberry Pi and its | power supply. The device records current draw at high reso- | lution during each prediction; we compute the instantaneous | power as P = I \u00d7V, and derive the energy per inference as the | product of average power and measured latency. | B. On-Device Inference Efficiency | All reported values correspond to the additional consump- | tion during inference, measured above the idle baseline of | 500 mA (2.5 W). Feature extraction, executed on-device im- | mediately before each prediction, averaged 0.93 ms across all | models and is excluded from the reporte"
+   ]
+  ]
+ },
+ "benaddi2025arxiv": {
+  "n": 6,
+  "hits": [
+   [
+    1,
+    11,
+    "Lightweight Intrusion Detection in IoT via | SHAP-Guided Feature Pruning and | Knowledge-Distilled Kronecker Networks | Hafsa BENADDI\u2217, Mohammed JOUHARI\u00a7, Nouha LAAMECH\u00b6, Anas MOTII\u00b6, Khalil IBRAHIMI\u00a7 | \u2217LSIA Laboratory, Moroccan School of Engineering Sciences (EMSI), Tanger, Morocco | \u00a7 Laboratory of Research in Informatics (LaRI), Faculty of Sciences, Ibn Tofail University, Kenitra, Morocco | \u00b6 College of Computing, University Mohammed VI Polytechnic, Benguerir, Morocco | Emails: h.benaddi@emsi.ma, {mohammed.jouhari1, khalil.ibrahimi}@uit.ac.ma, {nouha.laamech, anas.motii}@um6p.ma | Abstract\u2014The widespread deployment of Internet of Things | (IoT) devices requires intrusion detection systems (IDS) with high | accuracy while operating under strict resource constraints. Con- | ventional deep learning IDS are oft"
+   ],
+   [
+    2,
+    9,
+    "drastic compression and low-latency inference while pre- | serving high detection accuracy. | \u2022 An open-source implementation and benchmark dataset | splits to facilitate reproducibility and future comparative | studies1. | The remainder of the paper is organized as follows. Sec- | tion II reviews prior work on lightweight IDS, explainable | pruning, knowledge distillation, and Kronecker factorization. | Section III introduces the proposed framework, Section IV | presents the experimental setup and results, Section V dis- | cusses implications and research directions, and Section VI | concludes the paper. | II. RELATED WORK | Research on intrusion detection for the IoT has progressed | across several complementary directions, including lightweight | model design, explainable feature selection, knowledge distil- | lation,"
+   ],
+   [
+    3,
+    10,
+    "class probabilities p = softmax(z). The training minimizes | weighted cross-entropy: | LCE = \u2212 | C | X | c=1 | wc 1[y = c] log pc, | (1) | where wc denotes the inverse class frequency. The teacher | is optimized with AdamW (learning rate 10\u22123, weight decay | 10\u22123), cosine annealing scheduling, and early stopping with | patience of eight epochs. Although focal loss was considered, | weighted cross-entropy consistently produced the best results. | B. Feature Ranking and Pruning | The \u201cSHAP Feature Ranking & Pruning\u201d module in Fig. 1 | corresponds to lines 3\u20134 in Algorithm 1. SHAP values provide | attribution scores per feature, averaged across samples to form | a global importance vector s \u2208Rp. Features are ranked ac- | cordingly, and the top-K subset \u03c01:K is retained. An ablation | analysis with K \u2208{32, 64, 96, 128} showed that"
+   ],
+   [
+    4,
+    8,
+    "TABLE I | HYPERPARAMETERS USED IN TRAINING TEACHER AND STUDENT | MODELS. | Parameter | Value | Batch size | 1024 | Learning rate | 0.001 | Weight decay | 0.001 | Epochs | 50 | Patience | 8 | Dropout | 0.3 | Scheduler | Cosine | Step size | 10 | Gamma | 0.5 | and robustness under imbalanced traffic distributions. We | first describe the training setup and dataset profiling before | reporting experimental results. | A. Model Training Setup | All experiments were conducted in a Google Colab en- | vironment with GPU acceleration and a PyTorch runtime. | The TON IOT dataset was preprocessed using the same | ColumnTransformer pipeline described in Section IV-B, where | numerical features were standardized and categorical attributes | one-hot encoded. To avoid source leakage, a source-aware | split was applied whenever device or subnet identifiers were | availabl"
+   ],
+   [
+    5,
+    11,
+    "TABLE II | COMPARISON OF TEACHER AND STUDENT MODELS IN TERMS OF ACCURACY, MACRO-F1, LATENCY, AND COMPRESSION. | Model | Accuracy | Macro-F1 | Params | Size (KB) | Mean Lat. (ms) | p95 Lat. (ms) | Speedup | Compression | Teacher (fp32) | 0.9989 | 0.9955 | 769,922 | 3021.53 | \u2013 | \u2013 | \u2013 | \u2013 | Student (fp32) | 0.9968 | 0.9863 | 3,042 | 22.29 | 1.29 | 1.62 | 1.00 | 1.00 | Student (int8) | 0.9969 | 0.9867 | 3,042 | 22.44 | 1.45 | 2.25 | 0.89 | 0.99 | src_bytes | dst_bytes | missed_bytes | http_respons | e_body_len | dst_ip_bytes | src_ip_bytes | src_port | dst_port | dns_qclass | duration | dst_pkts | src_pkts | dns_qtype | http_request | _body_len | http_status_ | code | dns_rcode | src_bytes | dst_bytes | missed_bytes | http_response_body_l | en | dst_ip_bytes | src_ip_bytes | src_port | dst_port | dns_qclass | duration | dst_pkts | src_pkts | dns_qtype | http_request_body_le | n | http_status_code | dns_rcode | 0.2 | 0.0 | 0.2 | 0.4 | 0.6 | 0.8 | 1.0 | "
+   ],
+   [
+    6,
+    10,
+    "Teacher | Student | 0 | 50000 | 100000 | 150000 | 200000 | 250000 | Throughput (samples/sec) | 36810 | 238656 | (a) Throughput over the validation set, in samples/s. | Teacher mean | Teacher p95 | Student mean | Student p95 | 0 | 500 | 1000 | 1500 | 2000 | 2500 | Latency per full pass (ms) | 1963 | 2605 | 303 | 310 | (b) Latency per validation pass with batch size 1024, | showing mean and p95. | Fig. 7. Runtime comparison between teacher and student models. Panel (a) | highlights throughput gains, while panel (b) details latency reductions. | accuracy and fail to capture the variability of real traffic. | As highlighted in prior work, evolving attack morphologies | and non-IID flows typically reduce detection performance | in practice [11], [12]. Evaluations on idealized corpora may | therefore obscure vulnerabilities that emerge in operational IoT | scenarios"
+   ]
+  ]
+ },
+ "stanton2021kd": {
+  "n": 21,
+  "hits": [
+   [
+    1,
+    4,
+    "Does Knowledge Distillation Really Work? | Samuel Stanton | NYU | Pavel Izmailov | NYU | Polina Kirichenko | NYU | Alexander A. Alemi | Google Research | Andrew Gordon Wilson | NYU | Abstract | Knowledge distillation is a popular technique for training a small student network | to emulate a larger teacher model, such as an ensemble of networks. We show | that while knowledge distillation can improve student generalization, it does not | typically work as it is commonly understood: there often remains a surprisingly | large discrepancy between the predictive distributions of the teacher and the student, | even in cases when the student has the capacity to perfectly match the teacher. | We identify dif\ufb01culties in optimization as a key reason for why the student is | unable to match the teacher. We also show how the details of th"
+   ],
+   [
+    2,
+    5,
+    "CIFAR-100 | +12.5k GAN | +25k GAN | +37.5k GAN | +50k GAN | 70 | 71 | 72 | 73 | 74 | 75 | Test Agreement | 70 | 71 | 72 | 73 | 74 | 75 | Test Accuracy | CIFAR-100 | +12.5k GAN | +25k GAN | +37.5k GAN | +50k GAN | 70 | 72 | 74 | 76 | 78 | 80 | Test Agreement | 70 | 72 | 74 | 76 | 78 | 80 | Test Accuracy | Teacher-Student Agreement | Student Accuracy | Teacher Accuracy | (a) Self-distillation | (b) Ensemble distillation | Figure 1: Evaluating the \ufb01delity of knowledge distillation. The effect of enlarging the CIFAR-100 | distillation dataset with GAN-generated samples. (a): The student and teacher are both single | ResNet-56 networks. Student \ufb01delity increases as the dataset grows, but test accuracy decreases. | (b): The student is a single ResNet-56 network and the teacher is a 3-component ensemble. Student | \ufb01delity again increases as the dataset grows, but test accuracy now slightl"
+   ],
+   [
+    3,
+    6,
+    "teacher is an m-component ensemble, the component logits (z1, . . . , zm), where zi = fi(x, \u03b8i), are | combined to form the teacher logits: zt = log (Pm | i=1 \u03c3(zi)/m). These combined logits correspond | to the predictive distribution of the ensemble model average. The experiments in the main text | consider m \u2208{1, 3, 5}, and we include results up to m = 12 in Appendix B.2.1 | 3.1 | Knowledge Distillation | Hinton et al. [20] proposed a simple approach to knowledge distillation. The student minimizes a | weighted combination of two objectives, Ls := \u03b1LNLL+(1\u2212\u03b1)LKD, where \u03b1 \u2208[0, 1). Speci\ufb01cally, | LNLL(zs, y) := \u2212 | c | X | j=1 | yj log \u03c3j(zs), | LKD(zs, zt) := \u2212\u03c4 2 | c | X | j=1 | \u03c3j | \u0010zt | \u03c4 | \u0011 | log \u03c3j | \u0010zs | \u03c4 | \u0011 | . | (1) | LNLL is the usual supervised cross-entropy between the student logits zs and the one-hot labels y. | Recalling that "
+   ],
+   [
+    4,
+    4,
+    "By comparing the \ufb01delity of (t, s) and (t, s\u2032) we can distinguish between a generic improvement in | generalization and an improvement speci\ufb01cally to \ufb01delity. If s and s\u2032 have comparable \ufb01delity, then | the students agree with the teacher at many points because they generalize well, and not the reverse. | 4 | Knowledge Distillation Transfers Knowledge Poorly | In this section, we present evidence that we are not able to distill large networks such as a ResNet-56 | with high \ufb01delity, and discuss why high \ufb01delity is an important objective. | 4.1 | When is knowledge transfer successful? | We \ufb01rst consider the easy task of distilling a LeNet-5 teacher into an identical student network as | a motivating example. We train the teacher on a random subset of 200 examples from the MNIST | training set for 100 epochs, res"
+   ],
+   [
+    5,
+    7,
+    "Baseline | Baseline(\u03c4 = 4) | Rotation | Vertical Flip | ColorJitter | CombAug | MixUp | MixUp(\u03c4 = 4) GAN(\u03c4 = 4) | OOD | Noise | 0.72 | 0.74 | 0.76 | Accuracy | Baseline | Baseline(\u03c4 = 4) | Rotation | Vertical Flip | ColorJitter | CombAug | MixUp | MixUp(\u03c4 = 4) GAN(\u03c4 = 4) | OOD | Noise | 0.75 | 0.80 | 0.85 | Agreement | Figure 3: Data augmentation and distillation: Test accuracy and teacher-student agreement when | distilling a 5-component ResNet-56 teacher ensemble into a ResNet-56 student on CIFAR-100 with | varying augmentation policies. The best performing policy is shown in green, results averaged over 3 | runs. Additional metrics are reported in Figure 11 in Appendix C. Mixup and GAN augmentation | provide the best generalization, and Mixup(\u03c4 = 4) provides the best \ufb01delity. The baseline policy | (crops and \ufb02ips) with \u03c4 = 4 is a surprisingly strong b"
+   ],
+   [
+    6,
+    4,
+    "1 | 3 | 5 | Teacher size | 0.64 | 0.66 | 0.68 | Test Accuracy | 1 | 3 | 5 | Teacher size | 1.4 | 1.6 | 1.8 | 2.0 | 2.2 | Test NLL | 1 | 3 | 5 | Teacher size | 0.05 | 0.10 | 0.15 | 0.20 | Test ECE | 1 | 3 | 5 | Teacher size | 0.725 | 0.750 | 0.775 | 0.800 | Test Agreement | 1 | 3 | 5 | Teacher size | 0.6 | 0.8 | 1.0 | Test KL(T||S) | 1 | 4 | 8 | 16 | Temperature | 0.64 | 0.66 | 0.68 | Test Accuracy | 1 | 4 | 8 | 16 | Temperature | 1.4 | 1.6 | 1.8 | Test NLL | 1 | 4 | 8 | 16 | Temperature | 0.05 | 0.10 | 0.15 | 0.20 | Test ECE | 1 | 4 | 8 | 16 | Temperature | 0.75 | 0.80 | Test Agreement | 1 | 4 | 8 | 16 | Temperature | 0.4 | 0.6 | 0.8 | 1.0 | Test KL(T||S) | D0 | D1 | D0 \u222aD1 | Teacher | Figure 4: Data recycling and distillation: results on subsampled CIFAR-100. Top: We \ufb01x the | temperature (\u03c4 = 4) and vary the number of ensemble components (m), comparing students distilled | on the same dataset as the teacher (D0/D0), a reserved dataset (D0/D1), or both (D0/D0 \u222aD1). | Distilling o"
+   ],
+   [
+    7,
+    4,
+    "We report the student accuracy and teacher-student agreement for each augmentation strategy, and | also include results for Baseline with \u03c4 = 1 and \u03c4 = 4 to demonstrate the effect of logit tempering. | We \ufb01rst observe that the best augmentation policies for generalization, MixUp, and GAN4, are not | the best policies for \ufb01delity. Furthermore, although many augmentation strategies enable slightly | higher distillation \ufb01delity compared to Baseline (\u03c4 = 1), even the best augmentation policy, Mixup | (\u03c4 = 4), only achieves a modest 86% test agreement. In fact the Baseline (\u03c4 = 4) policy is quite | competitive, achieving 84.5% test agreement. Many of the augmentation strategies also slightly | improve teacher-student KL relative to Baseline (\u03c4 = 4) (see Figure 11). | In Figure 11 in Appendix B.3 we report all "
+   ],
+   [
+    8,
+    3,
+    "CIFAR-100 | +12.5k GAN | +25k GAN | +37.5k GAN | +50k GAN | 90 | 95 | 100 | Train Agreement | GAN-Generated Data | D0 | D0 \u222aD1 | D1 | 80 | 90 | 100 | Train Agreement | Held-Out Data | Baseline | Rotation | Vertical Flip | ColorJitter Combined Augs | 60 | 80 | 100 | Train Agreement | Data Augmentation | 1 Teacher | 3 Teachers | 5 Teachers | Figure 5: The train agreement for teacher ensembles (m \u2208{1, 3, 5}) and student on the distillation | data for a ResNet-56 on CIFAR-100 under different augmentation policies. In all panels, increasing | the softness of the teacher labels by adding examples not in the teacher train data makes distillation | more dif\ufb01cult. Left: agreement for the synthetic GAN-augmentation policy from Figure 1. Middle: | agreement from subsampled CIFAR-100 experiment in Figure 4. Right: agreement for some of the | augmentation policies in Fig"
+   ],
+   [
+    10,
+    6,
+    "CKA (\u2191) | Init. | Agree. (\u2191) | KL (\u2193) | Stage 1 | Stage 2 | Stage 3 | Rand. | 77.174 (0.352) | 0.836 (0.016) | 0.939 (0.017) | 0.925 (0.027) | 0.885 (0.011) | Teach. | 77.098 (0.238) | 0.838 (0.020) | 0.951 (0.017) | 0.937 (0.020) | 0.890 (0.015) | Table 1: We examine whether \ufb01delity can be improved in the context of ResNet-20 self-distillation on | CIFAR-100 if the teacher and student share the same weight initialization. All metrics are computed | on the test set. A shared initialization does make the student slightly more similar to the teacher in | activation space (measured by CKA), but in function space the results are indistinguishable from | randomly initialized students. We report the mean and standard deviation, estimated from 10 trials. | The average teacher accuracy was 70.522 (0.412). | Is using the initial teacher weights en"
+   ],
+   [
+    16,
+    3,
+    "We used random horizontal \ufb02ips (p = 0.5) as data augmentation for the discriminator. To evaluate | FID and IS scores, we used 5K samples from the generator and the pretrained PyTorch Inception-v3 | networks6. For the discriminator and generator architectures the reader is referred to Appendix A.2. | Text classi\ufb01ers: | For text classi\ufb01cation on IMDB dataset, we train LSTM networks for 100 epochs | with learning rate 10\u22122, weight decay 10\u22123 and batch size 100 sequences. For the data loader, we | use 100 as maximum sequence length and \ufb01lter out tokens in the vocabulary that are present less than | 10 times. | ImageNet experiments: | we trained the teachers with weight decay 10\u22124 and did not use weight | decay for training the students. We trained both the teachers and the students for 90 epochs using the | SGD opt"
+   ],
+   [
+    17,
+    3,
+    "4, bottom). If \u03c4 is chosen too small (e.g. \u03c4 = 1), then the student distilled from a 3-component | ResNet56 ensemble is no better than a student distilled from a single network. The improvements in | student performance and \ufb01delity taper off fairly quickly as ensemble components are added. | 1 | 4 | 8 | 16 | Temperature | 1 | 3 | 5 | 59.38 | 59.65 | 60.25 | 61.33 | 62.78 | 63.21 | 59.87 | 62.12 | 62.18 | 59.16 | 61.38 | 61.45 | Test Accuracy | 1 | 4 | 8 | 16 | Temperature | 1 | 3 | 5 | 58.04 | 63.91 | 67.16 | 65.31 | 72.77 | 74.77 | 65.24 | 72.38 | 75.32 | 65.27 | 71.56 | 74.92 | Test Agreement | Figure 9: Subsampled CIFAR-100 experiment performed with ResNet20 networks. ResNet20 | networks are much less con\ufb01dent on train than ResNet56 networks. As a result increasing the | ensemble size will improve the student even with a small temperature setting \u03c4 = 1. | The correct choice of \u03c4 d"
+   ],
+   [
+    18,
+    3,
+    "1 | 3 | 5 | Teacher size | 0.72 | 0.74 | 0.76 | Test Accuracy | Baseline | 1 | 3 | 5 | Teacher size | 1.0 | 1.2 | 1.4 | Test NLL | Baseline | 1 | 3 | 5 | Teacher size | 0.05 | 0.10 | 0.15 | Test ECE | Baseline | 1 | 3 | 5 | Teacher size | 0.74 | 0.76 | 0.78 | Test Agreement | Baseline | 1 | 3 | 5 | Teacher size | 0.7 | 0.8 | 0.9 | 1.0 | Test KL(T||S) | Baseline | 1 | 3 | 5 | Teacher size | 0.72 | 0.74 | 0.76 | Test Accuracy | Baseline(T = 4) | 1 | 3 | 5 | Teacher size | 1.0 | 1.2 | 1.4 | 1.6 | Test NLL | Baseline(T = 4) | 1 | 3 | 5 | Teacher size | 0.05 | 0.10 | 0.15 | Test ECE | Baseline(T = 4) | 1 | 3 | 5 | Teacher size | 0.750 | 0.775 | 0.800 | 0.825 | Test Agreement | Baseline(T = 4) | 1 | 3 | 5 | Teacher size | 0.6 | 0.8 | 1.0 | Test KL(T||S) | Baseline(T = 4) | 1 | 3 | 5 | Teacher size | 0.72 | 0.74 | 0.76 | Test Accuracy | Rotation | 1 | 3 | 5 | Teacher size | 1.0 | 1.2 | 1.4 | Test NLL | Rotation | 1 | 3 | 5 | Teacher size | 0.05 | 0.10 | 0.15 | Test ECE | Rotation | 1 | 3 | 5 | Teacher size | 0.74 | 0.76 | 0.78 | 0.80 | 0.82 | Test A"
+   ]
+  ]
+ },
+ "yang2023selfkd": {
+  "n": 6,
+  "hits": [
+   [
+    1,
+    7,
+    "A Lightweight Approach for Network Intrusion | Detection based on Self-Knowledge Distillation | Shuo Yang\u2217\u2020, Xinran Zheng\u2217\u2020, Zhengzhuo Xu\u2217, and Xingjun Wang\u2217\u2021 | \u2217Tsinghua Shenzhen International Graduate School, Tsinghua University, Shenzhen, China | Abstract\u2014Network Intrusion Detection (NID) works as a ker- | nel technology for the security network environment, obtaining | extensive research and application. Despite enormous efforts by | researchers, NID still faces challenges in deploying on resource- | constrained devices. To improve detection accuracy while reduc- | ing computational costs and model storage simultaneously, we | propose a lightweight intrusion detection approach based on | self-knowledge distillation, namely LNet-SKD, which achieves | the trade-off between accuracy and efficiency. Specifically,"
+   ],
+   [
+    2,
+    6,
+    "the training phase and improve the performance of lightweight | models succinctly and effectively without heavy networks. | Based on the above analysis, we propose LNet-SKD for | NID, which is a lightweight approach composed of LNet | and SKD. LNet is a succinct but effective model stacked | by several lightweight DeepMax blocks for the feature pro- | cess. Furthermore, batch-wise SKD is employed to provide | the regularization of training consistency, which improves | the detection capability significantly. Compared with existing | methods, LNet-SKD achieves superior performance with the | trade-off between efficiency and accuracy (See Fig. 1). Our | contributions are summarized as follows: | 1) We propose the DeepMax with a meticulous design | which is composed of MFM and DSConv, to reduce | the model complexity wh"
+   ],
+   [
+    3,
+    3,
+    "LNet\u05ba\u05ba | \u22122 | Iteration t-2 | DSConv | Depthwise Convolution | Pointwise Convolution | Decision Boundary | LNet | z | DSConv | MFM | Pooling | max | LNet-SKD | DeepMax | \uff08a\uff09The framework of LNet-SKD    | \uff08b\uff09Deep Separable Convolution    | \uff08c\uff09DeepMax block    | \u2112\ud446\u01b5\u01ae | \u2112\ud446\u01b5\u01ae | Iteration t-1 | \u2112\u01ad\u01ac | Logits | LNet | Iteration t | Input data | Fig. 2. The overview of proposed LNet-SKD for network intrusion detection. (a) The soft prediction in the last iteration will guide current iteration training. | (b) Each filter kernel only calculates with the corresponding feature map. (c) Channels and feature sizes will be half with the DeepMax block. | into depth-wise convolution and point-wise convolution. The | depth-wise convolution operation extracts each channel\u2019s fea- | ture with separate kernels, which reduces the computation | drastically. Then, point-wise"
+   ],
+   [
+    4,
+    7,
+    "TABLE I | NSL-KDD DATASET DESCRIPTION. | Category | Normal | Dos | Probe | R2L | U2R | Total | Samples | 77054 | 53385 | 14077 | 3749 | 252 | 148517 | TABLE II | CICIDS2017 DATASET DESCRIPTION. | Category | Benign | DoS/DDoS | P.S. | B.F. | W.A. | Botnet | Total | Samples | 2035505 | 320469 | 57305 | 8551 | 2118 | 1943 | 2425891 | entropy loss function to improve the attention to tail-category | samples, which is written as follows: | LCB(z, y) = \u22121 \u2212\u03b2 | 1 \u2212\u03b2ny log |   | exp (zy/\u03c4) | PM | j=1 exp (zj/\u03c4) | ! | . | (4) | Batch-wise distillation transfers the knowledge by optimiz- | ing the Kullback-Leibler (KL) divergence between the two | batches\u2019 consecutive iterations and the loss of self-knowledge | distillation as follows: | LSKD = 1 | n | n | X | i=1 | \u03c4 2 \u00b7 DKL | \u0010 | p\u03c4,t\u22121 | i | \u2225p\u03c4,t | i | \u0011 | = 1 | n | n | X | i=1 | \u03c4 2p\u03c4,t\u22121 | i | log(p\u03c4,t\u22121 | i | ) \u2212p\u03c4,t\u22121 | i | log(p\u03c4,t | i ), | (5) | where p\u03c4,t\u22121 | i | is the soften labels gener"
+   ],
+   [
+    5,
+    7,
+    "TABLE III | ABLATION WITH REGARD TO LNET-SKD. | Dataset | Model | Acc.(%) | \u2206(%) | Prec.(%) | \u2206(%) | Recall(%) | \u2206(%) | F1(%) | \u2206(%) | Para.(K) | FLOPs(K) | NSL-KDD | CNN | 98.45 | - | 90.21 | - | 82.74 | - | 85.51 | - | 13.12 | 527.3 | LNet\u2212 | 93.34 | -5.11 | 72.83 | -17.38 | 59.60 | -23.14 | 61.79 | -23.72 | 2.76 | 205.66 | LNet | 96.55 | -1.90 | 78.89 | -11.32 | 66.77 | -15.97 | 70.21 | -15.30 | 4.94 | 194.58 | LNet-SKD | 98.66 | +0.21 | 95.22 | +5.01 | 85.68 | +2.94 | 89.03 | +3.52 | 4.94 | 194.58 | CICIDS2017 | CNN | 99.87 | - | 97.03 | - | 92.44 | - | 94.32 | - | 13.19 | 632.66 | LNet\u2212 | 97.93 | -1.94 | 82.52 | -14.51 | 62.60 | -29.84 | 68.40 | -25.92 | 2.83 | 245.78 | LNet | 98.30 | -1.57 | 96.16 | -0.87 | 70.21 | -22.23 | 73.79 | -20.53 | 5.00 | 233.42 | LNet-SKD | 99.89 | +0.02 | 96.60 | -0.43 | 96.89 | +4.45 | 96.74 | +2.42 | 5.00 | 233.42 | Dos | Probe | R2L | U2R | Normal | Dos | Probe | R2L | U2R | Normal | 10654 | 99.73% | 16 | 0.15% | 1 | 0.01% | 0 | 0.00% | 12 | 0.11% | 18 | 0.63% | 2727 | 95.55% | 6 | 0.21% | 0 | 0.00% | 103 | 3.61% | "
+   ],
+   [
+    6,
+    6,
+    "TABLE IV | COMPARISON OF PERFORMANCE AGAIN OTHER METHODS. | Dataset | Model | Acc.(%) | \u2206(%) | Prec.(%) | \u2206(%) | Recall(%) | \u2206(%) | F1(%) | \u2206(%) | Para.(K) | FLOPs(K) | NSL-KDD | DNN | 94.23 | - | 77.05 | - | 62.19 | - | 66.09 | - | 7.17 | 14.08 | RNN | 95.75 | +1.52 | 72.81 | -4.24 | 66.36 | +3.17 | 68.20 | +2.11 | 23.81 | 48.0 | DBN [6] | 95.88 | +1.65 | 72.37 | -4.68 | 70.39 | +8.20 | 71.25 | +5.16 | 30.77 | 46.8 | KD-TCNN [14] | 98.20 | +3.97 | 82.75 | +5.70 | 93.73 | +31.54 | 86.63 | +20.54 | 4.62 | 358.5 | LNet-SKD | 98.66 | +4.43 | 95.22 | +18.17 | 85.68 | +23.49 | 89.03 | +22.94 | 4.94 | 194.58 | CICIDS2017 | DNN | 98.10 | - | 82.82 | - | 66.90 | - | 71.74 | - | 7.75 | 15.23 | RNN | 98.11 | +0.01 | 82.82 | +0.00 | 68.24 | +1.34 | 73.17 | +1.43 | 24.39 | 24.58 | DBN [6] | 99.84 | +1.74 | 88.75 | +5.93 | 99.49 | +32.59 | 92.75 | +21.01 | 31.8 | 48.0 | KD-TCNN [14] | 99.64 | +1.54 | 97.43 | +14.61 | 94.71 | +27.81 | 96.02 | +24.28 | 4.69 | 428.46 | LNet-SKD | 99.90 | +1.80 | 96.60 | +13.78 | 96.89 | +29.99 | 96.74 | +25.00 | 5."
+   ]
+  ]
+ }
+}

@@ -1,0 +1,112 @@
+3.1
+Dataset
+The Edge-IIoTset dataset, comprising 2.2 million
+records from a seven-layer, ten-device setup, in-
+cludes 1.6 million normal traffic instances and
+over 600,000 across 14 attack types, highlighting
+significant imbalance. Similarly, the MQTTset,
+with 541,000 records from eight sensors, also
+skews heavily toward normal traffic.
+Edge-
+IIoTset, featuring 61 novel detection-enhancing
+features, realistically represents imbalanced IIoT
+traffic, making it vital for developing robust intru-
+sion detection systems.
+Table 1: Dataset Distribution of Edge-IIoTset
+Traffic Class
+Records
+Normal
+Normal
+1,380,858 (71.65%)
+Attack
+DDoS UDP
+121,567 (6.31%)
+DDoS ICMP
+67,939 (3.53%)
+SQL injection
+50,826 (2.64%)
+DDoS TCP
+50,062 (2.60%)
+Vulnerability
+50,026 (2.60%)
+Password
+49,933 (2.59%)
+DDoS HTTP
+49,203 (2.55%)
+Uploading
+36,915 (1.92%)
+Backdoor
+24,026 (1.25%)
+Port Scanning
+19,983 (1.04%)
+XSS
+15,066 (0.78%)
+Ransomware
+9,689 (0.50%)
+Fingerprinting
+853 (0.04%)
+MITM
+358 (0.02%)
+Total
+1,927,304 (100%)
+Table 1 shows the distribution of attack types
+in our dataset. Below is a brief summary of these
+attacks:
+• Normal (71.65%): Legitimate network traffic
+without malicious activity.
+• DDoS UDP (6.31%), DDoS ICMP (3.53%),
+DDoS TCP (2.60%), DDoS HTTP (2.55%):
+DDoS attacks using UDP, ICMP, TCP, or
+HTTP packets to overwhelm network re-
+sources.
+• SQL Injection (2.64%): Inserting malicious
+SQL code to manipulate databases.
+• Vulnerability Scanner (2.60%):
+Probing
+systems for security weaknesses.
+• Password (2.59%): Attempting to crack or
+guess passwords.
+• Uploading (1.92%): Unauthorized file up-
+loads to compromise security.
+• Backdoor (1.25%):
+Bypassing authentica-
+tion for unauthorized access.
+• Port Scanning (1.04%):
+Identifying open
+ports and services as a precursor to attacks.
+• XSS (0.78%): Injecting malicious scripts into
+webpages (Cross-Site Scripting).
+• Ransomware (0.50%): Encrypting data and
+demanding payment for decryption.
+• Fingerprinting (0.04%): Gathering device
+information for targeted attacks.
+• MITM (0.02%):
+Intercepting and altering
+communication between two parties (Man-in-
+the-Middle).
+Algorithm 1: Training a Deep Autoen-
+coder on Edge-IIoTset Dataset
+Data : Training and validation data in
+DataFrames
+Result: Trained autoencoder model
+1 Load training and validation samples into
+DataFrames;
+2 Initialize and compile the model with
+Adam optimizer and MSE loss;
+3 Define ModelCheckpoint for saving the
+best model and EarlyStopping to prevent
+overfitting;
+4 Fit the model on the training set and
+validate on the validation set;
+5 Save the best model;
+3.2
+Data Preprocessing
+3.2.1
+Feature Selection
+Irrelevant columns were removed as they pro-
+vided
+no
+predictive
+value,
+while
+columns

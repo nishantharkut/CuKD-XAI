@@ -1,0 +1,60 @@
+Future Internet 2025, 17, 230
+10 of 21
+Table 4. Key parameter values for the proposed CNN model.
+Parameters
+Value
+Activation
+ReLU in all layers, softmax in the last layer
+Loss
+Sparse_categorical_crossentropy
+Optimizer
+Adam
+Metrics
+Accuracy
+Epochs
+10
+Batch_Size
+32
+3.3. Performance Evaluation
+The proposed CNN-based model is designed for practical deployment in IoT/IIoT
+environments, operating on edge devices (e.g., Raspberry Pi, NVIDIA Jetson) or central
+gateways that aggregate sensor traffic. This architecture enables real-time processing, with
+an inference time of approximately 9 milliseconds per sample, allowing attack detection in
+dynamic environments with moderate traffic volumes (100–1000 flows per second).
+The hardware requirements include ARM-based processors (e.g., Cortex-A72) or
+lightweight GPUs (e.g., Jetson Nano) with a minimum of 2 GB RAM and 500 MB storage
+(for model weights and temporary data). To optimize resource usage, techniques such
+as model pruning (reducing parameters by 30–40% without accuracy loss) and quantiza-
+tion are applied, enabling deployment on resource-constrained devices. Practical tests
+on Raspberry Pi 4 have demonstrated processing of 85 flows per second with 98.7% ac-
+curacy, validating the method’s efficacy in real-world settings. For large-scale networks
+(e.g., smart factories), distributed frameworks (e.g., AWS Greengrass) can distribute com-
+putational load across edge and fog nodes. This approach balances accuracy, speed, and
+resource efficiency, offering a practical pathway for deploying intrusion detection systems
+in IoT/IIoT environments.
+To evaluate the proposed method, several criteria are considered, including accuracy,
+precision, and recall (also known as sensitivity). Each of these criteria is defined as follows:
+Accuracy: It measures the model’s ability to correctly predict the output. It offers a gen-
+eral assessment of the model’s performance and its capacity to make accurate predictions
+across all classes. The calculation of accuracy is shown in Equation (4).
+Accuracy =
+TPAttack + TNNormal
+TPAttack + TNNormal + FPNormal + FNAttack
+(4)
+Recall or Sensitivity: It measures the model’s ability to correctly identify positive
+instances among all actual positive instances in the dataset. Recall is affected by the number
+of false negatives, where the model fails to predict positive instances. The calculation of
+recall is shown in Equation (5).
+Recall =
+TPAttack
+TPAttack + FNAttack
+(5)
+Precision: It represents the ratio of true positives to all examples classified as positive,
+also known as the positive predictive value. It quantifies the proportion of actual attacks
+among all flows classified as attacks. When the detector makes more false positive predic-
+tions than correct (true positive) predictions, the precision value decreases. Precision is
+calculated using Equation (6).
+Precision =
+TPAttack
+TPAttack + FPNormal
+(6)

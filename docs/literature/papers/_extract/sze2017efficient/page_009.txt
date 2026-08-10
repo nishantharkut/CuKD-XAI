@@ -1,0 +1,124 @@
+9
+5x5 filter 
+Two 3x3 filters 
+decompose 
+Apply sequentially 
+(a) Constructing a 5×5 support from 3×3 ﬁlters. Used in VGG-16.
+decompose 
+5x5 filter 
+5x1 filter 
+1x5 filter 
+Apply sequentially 
+(b) Constructing a 5×5 support from 1×5 and 5×1 ﬁlter. Used in
+GoogleNet/Inception v3 and v4.
+Fig. 13. Decomposing larger ﬁlters into smaller ﬁlters.
+GoogLeNet [51] goes even deeper with 22 layers. It in-
+troduced an inception module, shown in Fig. 14, which is
+composed of parallel connections, whereas previously there
+was only a single serial connection. Different sized ﬁlters (i.e.,
+1×1, 3×3, 5×5), along with 3×3 max-pooling, are used for
+each parallel connection and their outputs are concatenated
+for the module output. Using multiple ﬁlter sizes has the
+effect of processing the input at multiple scales. For improved
+training speed, GoogLeNet is designed such that the weights
+and the activations, which are stored for backpropagation during
+training, could all ﬁt into the GPU memory. In order to reduce
+the number of weights, 1×1 ﬁlters are applied as a ‘bottleneck’
+to reduce the number of channels for each ﬁlter [52]. The 22
+layers consist of three CONV layers, followed by 9 inceptions
+layers (each of which are two CONV layers deep), and one FC
+layer. Since its introduction in 2014, GoogleNet (also referred
+to as Inception) has multiple versions: v1 (described here), v3 7
+and v4. Inception-v3 decomposes the convolutions by using
+smaller 1-D ﬁlters as shown in Fig. 13(b) to reduce number
+of MACs and weights in order to go deeper to 42 layers.
+In conjunction with batch normalization [47], v3 achieves
+over 3% lower top-5 error than v1 with 2.5× increase in
+computation [53]. Inception-v4 uses residual connections [54],
+described in the next section, for a 0.4% reduction in error.
+ResNet [15], also known as Residual Net, uses residual
+connections to go even deeper (34 layers or more). It was
+the ﬁrst entry DNN in ImageNet Challenge that exceeded
+human-level accuracy with a top-5 error rate below 5%. One
+of the challenges with deep networks is the vanishing gradient
+during training: as the error backpropagates through the network
+the gradient shrinks, which affects the ability to update the
+weights in the earlier layers for very deep networks. Residual
+net introduces a ‘shortcut’ module which contains an identity
+connection such that the weight layers (i.e., CONV layers)
+can be skipped as shown in Fig. 15. Rather than learning the
+function for the weight layers F(x), the shortcut module learns
+the residual mapping (F(x) = H(x) −x). Initially, F(x) is
+zero and the identity connection is taken; then gradually during
+training, the actual forward connection through the weight layer
+7v2 is very similar to v3.
+1x1 CONV 
+3x3 CONV 
+5x5 CONV 
+1x1 CONV 
+1x1 CONV 
+1x1 CONV 
+3x3 MAX POOL 
+Input 
+feature 
+map 
+Output 
+feature 
+map 
+C=64 
+C=192 
+C=32 
+C=32 
+C=128 
+C=64 
+C=192 
+C=64 
+C=256 
+Fig. 14.
+Inception module from GoogleNet [51] with example channel lengths.
+Note that each CONV layer is followed by a ReLU (not drawn).
+3x3 CONV 
+ReLU 
+ReLU 
+3x3 CONV 
++ 
+x 
+F(x) 
+H(x) = F(x) + x 
+Iden%ty 
+x 
+(a) Without bottleneck
+3x3 CONV 
+ReLU 
+ReLU 
+1x1 CONV 
++ 
+x 
+F(x) 
+H(x) = F(x) + x 
+1x1 CONV 
+ReLU 
+Iden%ty 
+x 
+(b) With bottleneck
+Fig. 15. Shortcut module from ResNet [15]. Note that ReLU following last
+CONV layer in short cut is after the addition.
+is used. This is similar to the LSTM networks that are used for
+sequential data. ResNet also uses the ‘bottleneck’ approach of
+using 1×1 ﬁlters to reduce the number of weight parameters.
+As a result, the two layers in the shortcut module are replaced
+by three layers (1×1, 3×3, 1×1) where the 1×1 reduces and
+then increases (restores) the number of weights. ResNet-50
+consists of one CONV layer, followed by 16 shortcut layers
+(each of which are three CONV layers deep), and one FC
+layer; it requires 25.5M weights and 3.9G MACs per image.
+There are various versions of ResNet with multiple depths
+(e.g., without bottleneck: 18, 34; with bottleneck: 50, 101, 152).
+The ResNet with 152 layers was the winner of the ImageNet
+Challenge requiring 11.3G MACs and 60M weights. Compared
+to ResNet-50, it reduces the top-5 error by around 1% at the
+cost of 2.9× more MACs and 2.5× more weights.
+Several trends can be observed in the popular DNNs shown
+in Table II. Increasing the depth of the network tends to provide
+higher accuracy. Controlling for number of weights, a deeper
+network can support a wider range of non-linear functions

@@ -1,0 +1,59 @@
+Page 3 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+The remainder of the paper is organized as follows. "Related work" section discusses state 
+of the art about knowledge distillation, deployment of LLM on resource-constrained 
+devices, and XAI techniques. "Proposed method" section  describes the proposed DiX-
+till method. "Experimental evaluation" section  presents the experimental evaluation and 
+the obtained results. Finally, "Conclusion" section concludes the paper.
+Related work
+Knowledge distillation
+The literature on knowledge distillation encompasses a wide range of techniques, which 
+can be broadly categorized into three classes [8, 11, 12]: (i) offline, where a pre-trained 
+teacher model guides the student model training; (ii) online, where both models are 
+updated simultaneously in a single end-to-end training process; and (iii) self-distillation, 
+where either the same model serves as both the teacher and student [13], transferring 
+knowledge from deeper to shallower layers, or the student is a separate model sharing 
+the same architecture as the teacher.
+The knowledge is transferred from the teacher model to the student by minimizing a 
+loss function that encourages the student network to mimic the teacher network’s label 
+predictions. The commonly used loss function for knowledge distillation is a linear com-
+bination of the cross-entropy and the Kullback–Leibler (KL) divergence loss between 
+the softened probability distributions of the teacher and student models. Specifically, 
+a temperature scaling factor τ is generally used to smooth the probability distributions 
+and reveal inter-class relationships learned by the teacher [8]. Hence, the loss function is 
+mathematically expressed as follows:
+where S is the student, T is the teacher, α is a hyperparameter for the convex combi-
+nation, and pF (τ) is the probability distribution scaled with temperature τ , obtained 
+as pF (τ) = softmax(z/τ) , where z = F(x) are the output logits computed by a 
+given model F . Recent research has also explored the impact of the KL loss func-
+tion on logit matching and of such softening on generalization. Notably, as an alter-
+native to the KL divergence, the Mean Squared Error (MSE) has been used in the 
+literature [14, 15] to promote the matching between teacher and student logits z, for-
+mally: LMSE(zT, zS) = ||zT −zS||2
+2.
+Deployment of LLMs on low‑resource devices
+To enable the deployment of LLMs on devices with limited computational resources, 
+several techniques such as distillation, quantization, and pruning have been leveraged in 
+the literature [16]. Knowledge distillation has been explored to reduce the size of LLMs 
+and allow them to operate under constrained computational scenarios. One notable 
+example is DistilBERT [17], which is a lightweight Transformer model obtained by dis-
+tilling BERT base with 40% fewer parameters than the original BERT. Other attempts 
+have been made to distill knowledge from large models to lightweight neural archi-
+tectures, using a cross-architecture knowledge distillation process  [18]. For example, 
+(1)
+L = −(1 −α)
+ 
+j
+log pS
+j (1)
+
++ α
+ 
+i
+pT
+i (τ) log pT
+i (τ)
+pS
+i (τ) · τ 2
+

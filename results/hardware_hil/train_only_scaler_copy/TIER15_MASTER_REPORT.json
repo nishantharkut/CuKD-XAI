@@ -1,0 +1,324 @@
+{
+  "protocol": "train_only_seed42_tier15_master_v1",
+  "status": "complete",
+  "pi_host": "192.168.137.234",
+  "layers": {
+    "deployment_seed42_train_only": {
+      "status": "complete",
+      "student_A_macro_f1": 0.9485087159320515,
+      "student_B_macro_f1": 0.9449299339062804,
+      "path": "results/wsnds/confirmation_runs_v2/deployment_seed_42/aggregate_results.json"
+    },
+    "feature_group_5seed_sensitivity": {
+      "status": "complete",
+      "summary": {
+        "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+        "status": "complete",
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          1001
+        ],
+        "student_A_rf_kd_macro_f1_mean": 0.9141123712209677,
+        "student_A_rf_kd_macro_f1_std": 0.006865452782879801,
+        "student_B_rf_kd_macro_f1_mean": 0.9281445120907325,
+        "student_B_rf_kd_macro_f1_std": 0.007413563994772633,
+        "student_A_scratch_macro_f1_mean": 0.9138782328643348,
+        "student_B_scratch_macro_f1_mean": 0.9297947685192381,
+        "paired_A_rf_kd_minus_scratch_macro_f1_mean": 0.0002341383566328181,
+        "paired_B_rf_kd_minus_scratch_macro_f1_mean": -0.001650256428505714,
+        "inference_boundary": "Five-seed exact-feature-group sensitivity summaries are descriptive; they are not a matched causal ablation against the archived random-row route and make no statistical-significance claim."
+      },
+      "path": "results/wsnds/confirmation_runs_v2/remote_winterfell_feature_group_5seed_20260805/feature_group_5seed/aggregate_results.json"
+    },
+    "qat_probe": {
+      "status": "complete_not_selected_for_hil",
+      "student_A_baseline_drop": 0.026423775144021056,
+      "student_A_after_qat_fp32": 0.8784164162561424,
+      "path": "results/wsnds/confirmation_runs_v2/deployment_seed_42_qat/qat_refinement_report.json"
+    },
+    "onnx_runtime": {
+      "status": "complete",
+      "rows": [
+        {
+          "model_name": "E_student_A_KD_from_RF_train_only",
+          "runtime": "onnxruntime",
+          "variant": "onnx_fp32",
+          "status": "ok",
+          "skip_reason": "",
+          "accuracy": 0.991423487544484,
+          "macro_f1": 0.9485087159320515,
+          "serialized_size_kb": 5.4423828125,
+          "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_A_KD_from_RF_train_only.onnx",
+          "artifact_sha256": "7d52727791fd55b6e52459fc15042b57940da27b7f9d038b75254c5c399b5200",
+          "latency_mean_ms_b1": 0.028226000003996887,
+          "latency_std_ms_b1": 0.0037593915146034414,
+          "latency_p50_ms_b1": 0.027049999516748358,
+          "latency_p95_ms_b1": 0.03531999964252463,
+          "latency_p99_ms_b1": 0.04221700117341241,
+          "throughput_samples_per_s_b1": 35428.32848644501,
+          "prediction_agreement_vs_pytorch_fp32": 1.0,
+          "macro_f1_delta_vs_pytorch_fp32": 0.0
+        },
+        {
+          "model_name": "E_student_A_KD_from_RF_train_only",
+          "runtime": "onnxruntime",
+          "variant": "onnx_dynamic_int8",
+          "status": "ok",
+          "skip_reason": "",
+          "accuracy": 0.9822064056939501,
+          "macro_f1": 0.893789697354604,
+          "serialized_size_kb": 5.0693359375,
+          "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_A_KD_from_RF_train_only_dynamic_int8.onnx",
+          "artifact_sha256": "05602f21ed754d968cb5308eafcdca7e27964aeade46b9e1ebf82dd3848507af",
+          "latency_mean_ms_b1": 0.03848299995297566,
+          "latency_std_ms_b1": 0.004401308019805736,
+          "latency_p50_ms_b1": 0.036899999031447805,
+          "latency_p95_ms_b1": 0.04933500067636486,
+          "latency_p99_ms_b1": 0.0575060012670292,
+          "throughput_samples_per_s_b1": 25985.50012270226,
+          "prediction_agreement_vs_pytorch_fp32": 0.9861032028469751,
+          "macro_f1_delta_vs_pytorch_fp32": -0.05471901857744754
+        },
+        {
+          "model_name": "E_student_B_KD_from_RF_train_only",
+          "runtime": "onnxruntime",
+          "variant": "onnx_fp32",
+          "status": "ok",
+          "skip_reason": "",
+          "accuracy": 0.9911209964412812,
+          "macro_f1": 0.9449299339062804,
+          "serialized_size_kb": 14.0693359375,
+          "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_B_KD_from_RF_train_only.onnx",
+          "artifact_sha256": "e4f99aad9a7c5634c390153464dbac690cc29c48370d7ac53307c78a063c6c51",
+          "latency_mean_ms_b1": 0.02561099996455596,
+          "latency_std_ms_b1": 0.008656822671093327,
+          "latency_p50_ms_b1": 0.021400001060101204,
+          "latency_p95_ms_b1": 0.04219999946144526,
+          "latency_p99_ms_b1": 0.055169001170725034,
+          "throughput_samples_per_s_b1": 39045.72259513249,
+          "prediction_agreement_vs_pytorch_fp32": 1.0,
+          "macro_f1_delta_vs_pytorch_fp32": 0.0
+        },
+        {
+          "model_name": "E_student_B_KD_from_RF_train_only",
+          "runtime": "onnxruntime",
+          "variant": "onnx_dynamic_int8",
+          "status": "ok",
+          "skip_reason": "",
+          "accuracy": 0.9845551601423488,
+          "macro_f1": 0.906592462083893,
+          "serialized_size_kb": 7.3701171875,
+          "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_B_KD_from_RF_train_only_dynamic_int8.onnx",
+          "artifact_sha256": "dd7c860751d4eadbbff0da5e78e2d1502b7e318be95cf18564a478c2e9bb15c1",
+          "latency_mean_ms_b1": 0.0390345000414527,
+          "latency_std_ms_b1": 0.00353088653316946,
+          "latency_p50_ms_b1": 0.0380000001314329,
+          "latency_p95_ms_b1": 0.04770500117956544,
+          "latency_p99_ms_b1": 0.05280700004732352,
+          "throughput_samples_per_s_b1": 25618.363215566987,
+          "prediction_agreement_vs_pytorch_fp32": 0.9897508896797153,
+          "macro_f1_delta_vs_pytorch_fp32": -0.03833747182238745
+        }
+      ],
+      "path": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_runtime_results.json"
+    },
+    "openvino": {
+      "status": "complete",
+      "payload": {
+        "protocol": "train_only_seed42_openvino_copy_v1",
+        "openvino_version": "2026.3.0-22451-8a17657b995-releases/2026/3",
+        "rows": [
+          {
+            "model_name": "E_student_A_KD_from_RF_train_only",
+            "runtime": "openvino",
+            "variant": "openvino_fp32_from_onnx",
+            "status": "ok",
+            "accuracy": 0.991423487544484,
+            "macro_f1": 0.9485087159320515,
+            "prediction_agreement_vs_pytorch_fp32": 1.0,
+            "prediction_agreement_vs_onnx_runtime": 1.0,
+            "serialized_size_kb": 5.4423828125,
+            "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_A_KD_from_RF_train_only.onnx",
+            "latency_mean_ms_b1": 0.11919566666013755,
+            "latency_p50_ms_b1": 0.1098000002457411,
+            "latency_p95_ms_b1": 0.17191500101034762,
+            "latency_p99_ms_b1": 0.23141899941037988
+          },
+          {
+            "model_name": "E_student_B_KD_from_RF_train_only",
+            "runtime": "openvino",
+            "variant": "openvino_fp32_from_onnx",
+            "status": "ok",
+            "accuracy": 0.9911209964412812,
+            "macro_f1": 0.9449299339062804,
+            "prediction_agreement_vs_pytorch_fp32": 1.0,
+            "prediction_agreement_vs_onnx_runtime": 1.0,
+            "serialized_size_kb": 14.0693359375,
+            "artifact_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\runtime\\onnx_openvino\\wsnds\\train_only_seed42_copy\\deployable_runtime_artifacts\\E_student_B_KD_from_RF_train_only.onnx",
+            "latency_mean_ms_b1": 0.12569933341486225,
+            "latency_p50_ms_b1": 0.11375000030966476,
+            "latency_p95_ms_b1": 0.16570999932810082,
+            "latency_p99_ms_b1": 0.2281559989751257
+          }
+        ],
+        "note": "OpenVINO CPU plugin from train-only FP32 ONNX graphs; not a multi-seed table."
+      },
+      "path": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_openvino_results.json"
+    },
+    "host_c_self_test": {
+      "A": {
+        "exe_present": true,
+        "exe_sha256": "00965c159e554678604e0a7d98fa37f4ff5929dadb37baba3e354b66cfd235fd",
+        "host_run_exit_code": 0,
+        "note": "Executable present; exit code 0 observed on Windows host re-run 2026-08-06"
+      },
+      "B": {
+        "exe_present": true,
+        "exe_sha256": "952a315f6184e18b0d913ffe128c83910ab96c5ce2adda7a80bce165cd972f99",
+        "host_run_exit_code": 0,
+        "note": "Executable present; exit code 0 observed on Windows host re-run 2026-08-06"
+      }
+    },
+    "fixed_point_export": {
+      "status": "complete",
+      "A_fixed_vs_fp32_agreement": 0.9919395017793594,
+      "B_fixed_vs_fp32_agreement": 0.9904626334519573
+    },
+    "hardware_hil_full": {
+      "status": "complete",
+      "pairs": [
+        {
+          "board": "arduino_r4",
+          "student": "A",
+          "n": 56200,
+          "all_status_ok": true,
+          "mcu_vs_fixed_reference_agreement": 1.0,
+          "mcu_vs_fp32_agreement": 0.9919395017793594,
+          "accuracy": 0.9874911032028469,
+          "macro_f1": 0.9244157867972325,
+          "latency_us_mean": 301.4711209964413,
+          "latency_us_p50": 301.0
+        },
+        {
+          "board": "arduino_r4",
+          "student": "B",
+          "n": 56200,
+          "all_status_ok": true,
+          "mcu_vs_fixed_reference_agreement": 1.0,
+          "mcu_vs_fp32_agreement": 0.9904626334519573,
+          "accuracy": 0.9872775800711744,
+          "macro_f1": 0.9179877463612371,
+          "latency_us_mean": 791.4001423487545,
+          "latency_us_p50": 792.0
+        },
+        {
+          "board": "esp32c3",
+          "student": "A",
+          "n": 56200,
+          "all_status_ok": true,
+          "mcu_vs_fixed_reference_agreement": 1.0,
+          "mcu_vs_fp32_agreement": 0.9919395017793594,
+          "accuracy": 0.9874911032028469,
+          "macro_f1": 0.9244157867972325,
+          "latency_us_mean": 116.51985765124554,
+          "latency_us_p50": 116.0
+        },
+        {
+          "board": "esp32c3",
+          "student": "B",
+          "n": 56200,
+          "all_status_ok": true,
+          "mcu_vs_fixed_reference_agreement": 1.0,
+          "mcu_vs_fp32_agreement": 0.9904626334519573,
+          "accuracy": 0.9872775800711744,
+          "macro_f1": 0.9179877463612371,
+          "latency_us_mean": 320.27793594306047,
+          "latency_us_p50": 320.0
+        }
+      ],
+      "all_mcu_vs_fixed_1_0": true,
+      "all_status_ok": true
+    },
+    "compile_footprints": {
+      "status": "complete",
+      "pairs": [
+        {
+          "board": "esp32c3",
+          "student": "student_A",
+          "flash_used": 281776,
+          "flash_max": 1310720,
+          "ram_used": 13592,
+          "ram_max": 327680
+        },
+        {
+          "board": "esp32c3",
+          "student": "student_B",
+          "flash_used": 284132,
+          "flash_max": 1310720,
+          "ram_used": 13592,
+          "ram_max": 327680
+        },
+        {
+          "board": "arduino_r4",
+          "student": "student_A",
+          "flash_used": 56384,
+          "flash_max": 262144,
+          "ram_used": 7128,
+          "ram_max": 32768
+        },
+        {
+          "board": "arduino_r4",
+          "student": "student_B",
+          "flash_used": 58736,
+          "flash_max": 262144,
+          "ram_used": 7128,
+          "ram_max": 32768
+        }
+      ]
+    },
+    "smoke_reconfirm": {
+      "status": "complete",
+      "all_10_ok": true,
+      "smokes": {
+        "smoke_esp32c3_student_A": {
+          "completed": 10,
+          "status_counts": {
+            "OK": 10
+          }
+        },
+        "smoke_esp32c3_student_B": {
+          "completed": 10,
+          "status_counts": {
+            "OK": 10
+          }
+        },
+        "smoke_arduino_r4_student_A": {
+          "completed": 10,
+          "status_counts": {
+            "OK": 10
+          }
+        },
+        "smoke_arduino_r4_student_B": {
+          "completed": 10,
+          "status_counts": {
+            "OK": 10
+          }
+        }
+      }
+    }
+  },
+  "claim_boundary": {
+    "archived_10seed_tables": "primary multi-seed predictive evidence; pre-split scaler lineage",
+    "train_only_seed42_chain": "deployment + conversion + four-pair HIL under train-fitted scaler",
+    "feature_group_5seed": "descriptive sensitivity under group-disjoint split; not a significance claim vs archived route",
+    "not_claimed": [
+      "ten-seed train-only random-row distribution",
+      "live radio / energy / packet-to-feature pipeline",
+      "physical MSP430 board execution"
+    ]
+  },
+  "four_pair_summary_ref": "results/hardware_hil/train_only_scaler_copy/four_pair_summary.json"
+}

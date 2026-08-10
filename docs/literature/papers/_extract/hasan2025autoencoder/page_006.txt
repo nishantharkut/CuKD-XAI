@@ -1,0 +1,176 @@
+0
+10
+20
+30
+40
+Epoch
+0.0
+0.2
+0.4
+0.6
+Loss
+Initial Loss: 0.5936
+Final Loss: 0.0002
+Training Loss
+Validation Loss
+(a) Tabnet/Binary Loss curve
+0
+20
+40
+60
+80
+100
+120
+140
+Epoch
+1
+2
+3
+Loss
+Initial Loss: 3.0410
+Final Loss: 0.4415
+Training Loss
+Validation Loss
+(b) Tabnet/Multi Loss curve
+0
+5
+10
+15
+20
+25
+Epoch
+0.0
+0.2
+0.4
+Loss
+Initial Loss: 0.4702
+Final Loss: 0.0118
+Training Loss
+Validation Loss
+(c) BiLSTM/Binary Loss curve
+0
+20
+40
+60
+80
+100
+Epoch
+1
+2
+Loss
+Initial Loss: 2.3031
+Final Loss: 0.4638
+Training Loss
+Validation Loss
+(d) BiLSTM/Multi Loss curve
+Figure 4: Training and Validation Loss for Tabnet and BiLSTM for Binary and Multiclass Classification
+Table 2: Confusion Matrix for Various Models (Abso-
+lute and Normalized Percentage Values)
+Model
+Pred.
+Normal
+(TP)
+Pred.
+Attack
+(FP)
+Pred.
+Normal
+(FN)
+Pred.
+Attack
+(TN)
+XGB
+4818
+(15.83%)
+2 (0.01%)
+1 (0.00%)
+25619
+(84.16%)
+LGBM
+4820
+(15.83%)
+0 (0.00%)
+0 (0.00%)
+25620
+(84.17%)
+LDA
+1771
+(5.82%)
+3049
+(10.02%)
+744
+(2.44%)
+24876
+(81.72%)
+DT
+4817
+(15.82%)
+3 (0.01%)
+2 (0.01%)
+25618
+(84.16%)
+TabNet
+4816
+(15.86%)
+3 (0.01%)
+0 (0.00%)
+25545
+(84.13%)
+BiLSTM
+4812
+(15.81%)
+8 (0.03%)
+0 (0.00%)
+25620
+(84.17%)
+training times. In contrast, LDA shows signif-
+icantly lower accuracy at 0.8754, indicating its
+inadequacy for this task. Although TabNet and
+Bi-LSTM deliver near-perfect scores, their high
+training times (1735.4461 seconds and 982.2894
+seconds, respectively) suggest a trade-off between
+accuracy and computational efficiency.
+4.5
+Results of Multi Class
+Classification
+Table 4 summarizes our multi-class classification
+results using DT, XGB, LGBM, LDA, TabNet,
+and LSTM models, achieving 99.94% accuracy
+and F1 score, demonstrating strong anomaly de-
+tection capabilities.
+The Decision Tree model
+excels with near-perfect metrics and the fastest
+test time (0.0124 seconds), while LDA shows
+the lowest performance (0.4663 accuracy). XGB
+and LGBM achieve moderate accuracy but have
+longer training times.
+Although TabNet and
+LSTM perform well, their lengthy training times,
+particularly TabNet’s 4436.6573 seconds, high-
+light the trade-offs.
+4.6
+Edge Inference Results
+To demonstrate the lightweight nature of our
+model,
+we conducted inference tests using
+our best-performing models, Decision Tree and
+LGBM, on a Jetson Nano. For binary classifica-
+tion, the total inference time was 5.62 seconds,
+with an average time per instance of 0.184 ms.
+For multiclass classification, the total inference
+time was 5.70 seconds, with an average time per
+instance of 0.187 ms.
+4.7
+Comparison with Other Works
+We compared the performance of our model
+against four recent intrusion detection techniques:
+[Alshehri et al., 2024], [Douiba et al., 2023],
+[Ferrag et al., 2022], and [Ullah et al., 2023].
+While these methods exhibit promising results,
+they also face significant limitations, particularly
+in handling imbalanced datasets and multiclass
+classification scenarios, which are prevalent in
+IIoT environments. For instance, approaches such
+as [Alshehri et al., 2024] and [Douiba et al.,
+2023] struggle with class imbalance, often prior-
+itizing majority classes while neglecting minor-

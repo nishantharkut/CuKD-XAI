@@ -1,0 +1,66 @@
+1100
+Annals of Telecommunications (2025) 80:1095–1120
+Fig. 1 Framework of the proposed XAI-based IDS
+framework is divided into an ofﬂine stage and an online
+stage. In the ofﬂine stage, the dual-stage feature selection
+process identiﬁes a compact, high-utility feature subset from
+the full dataset, reducing computational overhead for later
+inference. In the online stage, the trained model operates in
+real time to classify trafﬁc instances and simultaneously pro-
+duce SHAP and LIME explanations, with the consistency
+check ﬂag γ indicating whether the two explanation modal-
+ities align for the top-ℓranked features. In the following
+paragraphs, we describe both stages in more detail.
+The ﬁrst stage of the ofﬂine pipeline handles all compu-
+tationally demanding tasks. Data preprocessing is applied
+once to the historical dataset. First, identiﬁer columns with
+no predictive value (e.g., Flow ID, Src IP, Dst Port in CIC-
+DDoS2019 or ﬂow_duration, Protocol Type in CICIoT2023)
+are removed. Second, inﬁnite values are replaced with NaN,
+and any row with remaining NaN values is discarded. Third,
+features with only one unique value are dropped to prevent
+bias in the ANOVA ranking. Finally, labels are encoded as
+integers (0 for benign, 1 for attack). Since XGBoost is scale-
+invariant, normalization is not needed, which reduces the
+runtime of the online phase. The cleaned dataset is then used
+in a stratiﬁed 10-fold cross-validation, training the model
+on 80% of the data, validating on 10%, and testing on the
+remaining 10%, providing reliable performance estimates
+for the next stage of the framework. Concurrently, a statisti-
+cal feature selection process identiﬁes signiﬁcant features by
+analyzing the variance within the data. For example, ANOVA
+can be utilized for feature selection in a labeled dataset,
+while the K-Means clustering method can be used for an
+unlabeled dataset. The SHAP Global Explanation module
+analyzes the AI-based IDS output to identify impactful fea-
+tures. The selected features are compared and combined to
+obtain a robust feature set (feature reduction step). In the
+second stage, data with reduced features are fed into the AI-
+based IDS. Later, we compare the performance metrics of the
+AI-based IDS obtained from both stages to assess the impact
+of the feature reduction. SHAP Local Explanation and LIME
+LocalExplanationclarifythesigniﬁcanceoffeaturesforclas-
+sifying data samples as malicious or benign. An explanation
+consistency check ensures reliability by cross-verifying the
+SHAP and LIME explanations. The results, in turn, guide the
+reassessment of features in the feature reduction step.
+In the online part, only the second stage is performed,
+ensuring real-time capability, as the computationally inten-
+sive tasks have already been completed in the ofﬂine part.
+Real-time data is collected and pre-processed, and the fea-
+tures from the ofﬂine feature reduction process are used as
+input for the AI-based IDS. These features are then utilized
+for classiﬁcation and SHAP and LIME local explanations.
+The pre-processed data, along with the reduced feature set,
+can be used in the second stage of the ofﬂine process for fur-
+ther feature reassessment (which in turn might be applied in
+the online part).
+Algorithm 1 outlines the four stages of the proposed
+framework and their computational behavior, with each stage
+serving a distinct role in ensuring both efﬁciency and inter-
+pretability.
+Stage 1 performs dataset pre-processing by scanning the
+input once to remove identiﬁer columns, handle NaN or
+±∞values, prune constant features, and encode class labels
+before splitting into training and testing sets. This step is
+123

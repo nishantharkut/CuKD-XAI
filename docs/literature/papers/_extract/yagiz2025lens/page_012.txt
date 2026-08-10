@@ -1,0 +1,48 @@
+expected model prediction conditioned on subsets of features. The process
+guarantees that the sum of all contributions aligns with the model’s out-
+put, providing a transparent and interpretable breakdown of the prediction
+[35, 36].
+3.5.1. Variable Attribution Computation
+Given an instance x∗= {x∗
+1, x∗
+2, . . . , x∗
+p}, the model prediction f(x∗) is
+expressed as [35, 36]:
+f(x∗) = v0 +
+p
+X
+j=1
+v(j, x∗),
+(4)
+where:
+• v0 denotes the mean model prediction across all instances (baseline
+prediction),
+• v(j, x∗) represents the contribution of the j-th variable to the prediction
+f(x∗).
+This decomposition ensures the property of local accuracy, such that:
+p
+X
+j=0
+v(j, x∗) = f(x∗).
+(5)
+To compute the contribution v(j, x∗), we leverage conditional expecta-
+tions:
+v(j, x∗) = E
+
+f(x) | x1 = x∗
+1, . . . , xj = x∗
+j
+
+−E
+
+f(x) | x1 = x∗
+1, . . . , xj−1 = x∗
+j−1
+
+,
+(6)
+where:
+• E[f(x) | x1, . . . , xj] is the expected value of the model’s prediction when
+the first j features are fixed to their observed values,
+• The difference isolates the marginal contribution of the j-th variable.
+12

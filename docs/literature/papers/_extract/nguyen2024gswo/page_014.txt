@@ -1,0 +1,55 @@
+Sensors 2024, 24, 3339
+14 of 26
+feature subset, represented by the second whale, consists of features of order [0, 5, 6, 8, 9,
+13, 14, 15, 17].
+Figure 6. An example of a result of GSWO for FS.
+4.5. Applying GSWO for Hyperparameter Optimization
+This study developed an ensemble-learning approach based on CatBoost to identify
+intrusive behaviors in WSNs. The optimization of CatBoost hyperparameters poses a
+challenge, promoting the proposal of GSWO and quantization [47] are introduced as
+solutions. The hyperparameters considered in this study include learning rate (α), depth (d),
+iteration (iter), L2 regularization term (l2), bagging_temperature (b), and random_strength
+(r). The roles of these parameters in CatBoost’s performance are as follows:
+CatBoost typically employs 1000 trees by default. Consequently, a higher number of
+iterations leads to increased training and inference times, while excessively few iterations
+may yield subpar results. Striking an optimal balance in the number of iterations is crucial
+for maintaining speed and accuracy. Simultaneously, adjusting the learning rate became
+necessary as the number of iterations decreased, emphasizing the importance of selecting
+an appropriate learning rate for optimal model performance. Although CatBoost’s default
+learning rate is often close to optimal, it can be finetuned to achieve the best-suited values.
+Similarly, hyperparameters such as depth, random strength, bagging temperature, and L2
+regularization terms require optimization to identify the tradeoff that maximizes accuracy.
+To apply GSWO for hyperparameter optimization, the form of each whale in the input
+population must be a binary array. However, the types of these hyperparameters, integer or
+float, are unsuitable for the input of our proposed method GSWO and do not optimize the
+computing resources regarding speed and accuracy. Therefore, we proposed quantization
+to convert these hyperparameters into a binary array before feed-forwarding to GSWO.
+The quantization included three steps:
+Step 1: Calculate the range of values within the specified range using Equation (17).
+value_range = max_value −min_value.
+(17)
+Step 2: Calculate the step size for each bit using Equation (18), where num_bits is the
+total number of bits used for representation.
+step_size = value_range
+2num_bits
+.
+(18)
+Step 3: Quantize the number using Equation (19) and convert it to a binary array.
+quantized_value = round
+number −min_value
+step_size
+
+,
+(19)
+where the number is the value to be quantized.
+Each hyperparameter is represented by the number of bits appropriate to its allowable
+value range. In this study, through extensive experiments, the specific range of each
+hyperparameter and the number of bits is set as follows:
+•
+α ∈range[0.001, 0.5] is illustrated by 14 bits.
+•
+d ∈range[2, 9] is illustrated by 3 bits.
+•
+iter ∈range[50, 690] is illustrated by 6 bits.
+•
+l2 ∈range[2, 9] is illustrated by 3 bits.

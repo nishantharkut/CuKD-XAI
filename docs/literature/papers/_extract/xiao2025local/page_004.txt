@@ -1,0 +1,130 @@
+1335
+Page 4 of 15
+Signal, Image and Video Processing (2025) 19 :1335
+model (DCOA), achieving superior detection accuracy,
+stability, and generalization.
+In summary, this study introduces a resource-aware
+and explainable intrusion detection framework for WSNs,
+achieving high detection accuracy while maintaining com-
+putational efﬁciency. The proposed system is robust against
+diverse attack types and tailored for the constrained environ-
+ments typical of WSN deployments.
+2 Data collection
+To generate the dataset and gather the necessary data from the
+transmitted and received packets within the WSN, a low-cost
+monitoring service is required. On the other hand, all rele-
+vant network data should be captured to aid in the detection,
+classiﬁcation, and prevention of various potential assaults. In
+this study, to disperse the load across sensor nodes, each sen-
+sor participates in the monitoring process and must be able
+to monitor a collection of its neighbors. The task was deter-
+mining the optimal number of nodes to observe by a sensor
+node in order to monitor all network sensors. The dataset was
+gathered from a published study, which included an exper-
+imental process for monitoring, with 374,661 samples, and
+23 attributes were extracted to identify each node’s status in
+the network [19]. The dataset is listed in Table 2.
+Figure 1 illustrates the correlation matrix among the vari-
+ables. Regarding the relationship between the Attack Type
+and the input features, the variable “Is CH” exhibits a strong
+positive correlation with the output, whereas “JOIN S” shows
+a strong negative correlation. Additionally, several other
+variables display varying degrees of positive and negative
+correlations, which had a key role in guiding the process of
+feature selection and prioritization for subsequent analysis.
+Table 3 presents the description of features alongside their
+Variance Inﬂation Factor (VIF) scores for both the initial
+and reduced feature vectors. VIF analysis was conducted to
+detect multicollinearity among predictors, with higher VIF
+values indicating stronger correlation with other variables.
+In the initial feature vector, most variables had acceptable
+VIF values (typically below the critical threshold of 10),
+except for “JOIN S” (VIF = 37.1710) and “SCH R” (VIF
+= 27.8604), which showed extremely high multicollinearity.
+These two features were therefore removed in the reduced
+feature vector to improve model stability and avoid redun-
+dancy in prediction. After removal, the VIF scores of the
+remaining features generally decreased, indicating reduced
+multicollinearity. For example, “Dist To CH” decreased from
+3.5336 to 2.3373, and “DATA S” dropped from 4.3942 to
+2.7054. The reductions suggest that the elimination of highly
+collinear variables had a positive effect on the overall qual-
+ity of the feature set. The retained variables, such as “Is
+Table 2 Description of used attributes
+Attribute
+Description
+Node ID
+A unique identiﬁer to distinguish the
+sensor node in any round and stage.
+Example: node number 25 in the
+third round and ﬁrst stage →001
+003 025
+Time
+The current simulation time of the
+node
+Is CH?
+A ﬂag indicating whether the node is a
+Cluster Head (CH) — 1 if CH, 0 if
+normal
+Who CH?
+The ID of the CH in the current round
+RSSI
+Received Signal Strength Indication
+between the node and its CH in the
+current round
+Distance to CH
+The distance between the node and its
+CH in the current round
+Max distance to CH
+The maximum distance between the
+CH and any node within the cluster
+Average distance to CH
+The average distance between nodes
+in the cluster and their CH
+Current energy
+The current energy level of the node in
+the current round
+Energy consumption
+The amount of energy consumed in
+the previous round
+ADV CH send
+Number of advertised CH broadcast
+messages sent to the nodes
+ADV CH receives
+Number of advertised CH messages
+received from CHs
+Join REQ send
+Number of join request messages sent
+by nodes to the CH
+Join REQ receive
+Number of join request messages
+received by the CH from the nodes
+ADV SCH send
+Number of advertised TDMA
+schedule broadcast messages sent to
+the nodes
+ADV SCH receives
+Number of TDMA schedule messages
+received from CHs
+Rank
+The position/order of this node within
+the TDMA schedule
+Data sent
+Number of data packets sent from a
+sensor node to its CH
+Data received
+Number of data packets received from
+the CH
+Data sent to BS
+Number of data packets sent to the
+Base Station (BS)
+Distance CH to BS
+The distance between the CH and the
+BS
+Send code
+The cluster sending code
+Attack type
+Type of the node, one of: Blackhole,
+Grayhole, Flooding, Scheduling, or
+Normal (if not an attacker)
+123

@@ -1,0 +1,327 @@
+TABLE II: Search spaces for the ML grid search and HW-NAS for DL
+Tree-based ML models (unified meta-parameters)
+Param
+ntrees
+max depth
+min child size
+colsample
+subsample
+num leaves
+Range
+{2,10,20,50,100,150}
+{5,10,15,20,25,30}
+{5,10,20,30,40}
+{0.6,0.8,1.0}
+{0.7,0.8,1.0}
+{8,16,32,64}
+Deep Learning (HW-NAS, 1D CNN)
+Param
+Filters
+Kernel size
+Stride
+Dropout rate
+Pooling
+Padding
+Range
+16–256
+2–10
+1–10
+0.1–0.5
+max/avg, 2–3
+same/valid
+TABLE III: Comparison with tree-based ML models
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+Ops
+(K)
+LightGBM
+95.25
+±0.13
+94.74
+±0.00
+74.93
+1.13
+1.20
+XGBoost
+95.11
+±0.12
+94.42
+±0.00
+266.59
+0.51
+4.27
+RF
+94.12
+±0.14
+93.21
+±0.00
+211.22
+4.61
+3.38
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+67.11
+80.83
+77.61
+79.18
+—
+—
+—
+—
+TABLE IV: Comparison with DL state-of-the-art methods
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+FLOPs
+(K)
+Prop.
+96.73
+±0.08
+97.24
+±0.07
+190.34
+6.89
+838.89
+[12]
+97.14
+74.62
+491.52
+3.60
+52.03
+[19]
+99.96
+99.00
+1310.72
+32.24
+5651.93
+[6]
+99.95
+99.60
+1105.92
+13.84
+2971.13
+[21]
+98.20
+–
+12245.44
+43.36
+8839.18
+[1]
+94.67
+–
+–
+–
+–
+[20]
+84.00
+83.00
+–
+–
+–
+works are shown for comparison, though hardware metrics are
+not reported due to lack of implementation details.
+All models maintain satisfactory performance across both
+tasks, with accuracy above 94% in the 6-class case and over
+99.9% in the binary setting. LightGBM offers the best trade-
+off, achieving 99.96% F1 in the binary task with just 5.02 KB
+of flash and 0.08 K ops. XGBoost remains efficient, while
+RF incurs slightly higher RAM and operation counts; unlike
+CNNs with fixed inference cost, ML resource usage scales
+with the number of output classes. In contrast, baseline models
+from [1], [7] show lower accuracy (77.90–94.10%), and omit
+hardware metrics, limiting their deployability comparison.
+Table VI reports the performance of DL models on the 6-
+class and 2-class tasks. The columns include accuracy (Acc.),
+F1-score (F1), flash and RAM usage (in KB), and FLOPs (K);
+our results are in bold and use 5-fold cross-validation.
+The proposed model (Prop.) achieves 96.83% accuracy on
+6-class and 99.74% on the binary task, with modest memory
+(190.34 KB flash, 6.89 KB RAM) and compute cost (838.89 K
+FLOPs). [12] is lighter (52.03 K FLOPs) but less accurate
+(97.85%). [20] performs well on binary but generalizes weakly
+to 6-class. [1] reports high binary accuracy (99.99%) but lower
+6-class score (96.01%) and omits F1 and hardware metrics,
+limiting comparison. Overall, our model balances performance
+and efficiency for practical deployment.
+TABLE V: ML models on 6- and 2-class tasks.
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+Ops
+(K)
+6-Class Classification
+LightGBM
+95.72
+±0.12
+96.04
+±0.00
+30.02
+1.13
+0.48
+XGBoost
+95.48
+±0.13
+95.94
+±0.00
+110.35
+0.51
+1.77
+RF
+94.53
+±0.15
+94.98
+±0.02
+189.96
+4.61
+3.03
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+77.90
+82.90
+85.62
+83.39
+—
+—
+—
+—
+KNN [7]
+DT [7]
+LR [7]
+SVM [7]
+RF [7]
+90.30
+92.50
+81.50
+84.30
+94.10
+90.30
+97.50
+81.50
+84.30
+94.00
+—
+—
+—
+2-Class (Binary) Classification
+LightGBM
+99.93
+±0.00
+99.96
+±0.00
+5.02
+1.13
+0.08
+XGBoost
+99.91
+±0.01
+99.95
+±0.01
+18.22
+0.51
+0.29
+RF
+99.92
+±0.03
+99.94
+±0.00
+6.25
+1.84
+0.1
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+99.98
+99.99
+99.99
+99.99
+—
+—
+—
+—
+TABLE VI: DL models on 6-class and 2-class tasks
+Methods
+6-Class
+2-Class
+Flash
+(KB)
+RAM
+(KB)
+FLOPs
+(K)
+Acc.
+(%)
+F1
+(%)
+Acc.
+(%)
+F1
+(%)
+Prop.
+96.83
+±0.06
+96.88
+±0.05
+99.74
+±0.02
+99.74
+±0.02 190.34
+6.89
+838.89
+[1]
+96.01
+–
+99.99
+–
+–
+–
+–
+[12]
+–
+–
+97.85
+97.81
+491.52
+3.60
+52.03
+[20]
+84.00
+83.00 100.00 100.00
+–
+–
+–
+VI. EDGE DEPLOYMENT AND EVALUATION
+A. Deployment Setup
+We evaluate the on-device deployment performance of the
+trained classifiers on a Raspberry Pi 3 B+, configured as
+a local edge gateway for IoT/IIoT traffic classification. In
+this setup, the gateway captures network traffic in real time,
+performs packet-level sniffing, and aggregates packets into
+unidirectional flows between two endpoints based on five
+identifiers: source and destination IP addresses, source and
+destination ports, and transport-layer protocol. From each flow,
+the 47 structured features used in this study are extracted
+directly on the device; inference is then performed locally

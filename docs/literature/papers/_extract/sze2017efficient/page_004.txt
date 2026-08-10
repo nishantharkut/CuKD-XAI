@@ -1,0 +1,112 @@
+4
+inference can sometimes be useful for performing training.
+It is, however, important to note a couple of points. First,
+backpropagation requires intermediate outputs of the network
+to be preserved for the backwards computation, thus training
+has increased storage requirements. Second, due to the gradients
+use for hill-climbing, the precision requirement for training
+is generally higher than inference. Thus many of the reduced
+precision techniques discussed in Section VII are limited to
+inference only.
+A variety of techniques are used to improve the efﬁciency
+and robustness of training. For example, often the loss from
+multiple sets of input data, i.e., a batch, are collected before a
+single pass of weight update is performed; this helps to speed
+up and stabilize the training process.
+There are multiple ways to train the weights. The most
+common approach, as described above, is called supervised
+learning, where all the training samples are labeled (e.g., with
+the correct class). Unsupervised learning is another approach
+where all the training samples are not labeled and essentially
+the goal is to ﬁnd the structure or clusters in the data. Semi-
+supervised learning falls in between the two approaches where
+only a small subset of the training data is labeled (e.g., use
+unlabeled data to deﬁne the cluster boundaries, and use the
+small amount of labeled data to label the clusters). Finally,
+reinforcement learning can be used to the train weights such
+that given the state of the current environment, the DNN can
+output what action the agent should take next to maximize
+expected rewards; however, the rewards might not be available
+immediately after an action, but instead only after a series of
+actions.
+Another commonly used approach to determine weights is
+ﬁne-tuning, where previously-trained weights are available and
+are used as a starting point and then those weights are adjusted
+for a new dataset (e.g., transfer learning) or for a new constraint
+(e.g., reduced precision). This results in faster training than
+starting from a random starting point, and can sometimes result
+in better accuracy.
+This article will focus on the efﬁcient processing of DNN
+inference rather than training, since DNN inference is often
+performed on embedded devices (rather than the cloud) where
+resources are limited as discussed in more details later.
+D. Development History
+Although neural nets were proposed in the 1940s, the ﬁrst
+practical application employing multiple digital neurons didn’t
+appear until the late 1980s with the LeNet network for hand-
+written digit recognition [11]3. Such systems are widely used
+by ATMs for digit recognition on checks. However, the early
+2010s have seen a blossoming of DNN-based applications with
+highlights such as Microsoft’s speech recognition system in
+2011 [2] and the AlexNet system for image recognition in
+2012 [3]. A brief chronology of deep learning is shown in
+Fig. 5.
+The deep learning successes of the early 2010s are believed
+to be a conﬂuence of three factors. The ﬁrst factor is the
+3In the early 1960s, single analog neuron systems were used for adaptive
+ﬁltering [12, 13].
+DNN Timeline
+• 1940s - Neural networks were proposed
+• 1960s - Deep neural networks were proposed
+• 1989 - Neural networks for recognizing digits (LeNet)
+• 1990s - Hardware for shallow neural nets (Intel ETANN)
+• 2011 - Breakthrough DNN-based speech recognition
+(Microsoft)
+• 2012 - DNNs for vision start supplanting hand-crafted
+approaches (AlexNet)
+• 2014+ - Rise of DNN accelerator research (Neuﬂow,
+DianNao...)
+Fig. 5. A concise history of neural networks. ’Deep’ refers to the number of
+layers in the network.
+amount of available information to train the networks. To learn
+a powerful representation (rather than using a hand-crafted
+approach) requires a large amount of training data. For example,
+Facebook receives over 350 millions images per day, Walmart
+creates 2.5 Petabytes of customer data hourly and YouTube
+has 300 hours of video uploaded every minute. As a result,
+the cloud providers and many businesses have a huge amount
+of data to train their algorithms.
+The second factor is the amount of compute capacity
+available. Semiconductor device and computer architecture
+advances have continued to provide increased computing
+capability, and we appear to have crossed a threshold where the
+large amount of weighted sum computation in DNNs, which
+is required for both inference and training, can be performed
+in a reasonable amount of time.
+The successes of these early DNN applications opened the
+ﬂoodgates of algorithmic development. It has also inspired the
+development of several (largely open source) frameworks that
+make it even easier for researchers and practitioners to explore
+and use DNNs. Combining these efforts contributes to the third
+factor, which is the evolution of the algorithmic techniques that
+have improved application accuracy signiﬁcantly and broadened
+the domains to which DNNs are being applied.
+An excellent example of the successes in deep learning can
+be illustrated with the ImageNet Challenge [14]. This challenge
+is a contest involving several different components. One of the
+components is an image classiﬁcation task where algorithms
+are given an image and they must identify what is in the image,
+as shown in Fig. 6. The training set consists of 1.2 million
+images, each of which is labeled with one of 1000 object
+categories that the image contains. For the evaluation phase,
+the algorithm must accurately identify objects in a test set of
+images, which it hasn’t previously seen.
+Fig. 7 shows the performance of the best entrants in the
+ImageNet contest over a number of years. One sees that
+the accuracy of the algorithms initially had an error rate
+of 25% or more. In 2012, a group from the University of
+Toronto used graphics processing units (GPUs) for their high
+compute capability and a deep neural network approach, named
+AlexNet, and dropped the error rate by approximately 10% [3].
+Their accomplishment inspired an outpouring of deep learning
+style algorithms that have resulted in a steady stream of

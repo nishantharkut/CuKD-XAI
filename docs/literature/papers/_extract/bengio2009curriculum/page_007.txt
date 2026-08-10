@@ -1,0 +1,110 @@
+Curriculum Learning
+distribution with the curriculum strategy crosses the
+error of the no-curriculum strategy after about 1 bil-
+lion updates, shortly after switching to the target vo-
+cabulary size of 20,000 words, and the diﬀerence keeps
+increasing afterwards. The ﬁnal test set average log-
+ranks are 2.78 and 2.83 respectively, and the diﬀerence
+is statistically signiﬁcant.
+7. Discussion and Future Work
+We started with the following question left from previ-
+ous cognitive science research (Elman, 1993; Rohde &
+Plaut, 1999): can machine learning algorithms ben-
+eﬁt from a curriculum strategy?
+Our experimental
+results in many diﬀerent settings bring evidence to-
+wards a positive answer to that question. It is plausi-
+ble that some curriculum strategies work better than
+others, that some are actually useless for some tasks
+(as in Rohde and Plaut (1999)), and that better re-
+sults could be obtained on our data sets with more
+appropriate curriculum strategies. After all, the art of
+teaching is diﬃcult and humans do not agree among
+themselves about the order in which concepts should
+be introduced to pupils.
+From the machine learning point of view, once the
+success of some curriculum strategies has been estab-
+lished, the important questions are: why? and how?
+This is important to help us devise better curriculum
+strategies and automate that process to some extent.
+We proposed a number of hypotheses to explain the
+potential advantages of a curriculum strategy:
+• faster training in the online setting (i.e.
+faster
+both from an optimization and statistical point of
+view) because the learner wastes less time with
+noisy or harder to predict examples (when it is
+not ready to incorporate them),
+• guiding training towards better regions in param-
+eter space, i.e.
+into basins of attraction (local
+minima) of the descent procedure associated with
+better generalization: a curriculum can be seen as
+a particular continuation method.
+Faster convergence with a curriculum was already ob-
+served in (Krueger & Dayan, 2009). However, unlike
+in our experiments where capacity is ﬁxed throughout
+the curriculum, they found that compared to using
+no curriculum, worse results were obtained with ﬁxed
+neural resources. The reasons for these diﬀerences re-
+main to be clariﬁed. In both cases, though, an appro-
+priate curriculum strategy acts to help the training
+process (faster convergence to better solutions), and
+we even ﬁnd that it regularizes, giving rise to lower
+generalization error for the same training error. This
+is like in the case of unsupervised pre-training (Erhan
+et al., 2009), and again it remains to be clariﬁed why
+one would expect improved generalization, for both
+curriculum and unsupervised pre-training procedures.
+The way we have deﬁned curriculum strategies leaves
+a lot to be deﬁned by the teacher. It would be nice
+to understand general principles that make some cur-
+riculum strategies work better than others, and this
+clearly should be the subject of future work on curricu-
+lum learning. In particular, to reap the advantages of
+a curriculum strategy while minimizing the amount of
+human (teacher) eﬀort involved, it is natural to con-
+sider a form of active selection of examples similar to
+what humans (and in particular children) do. At any
+point during the “education” of a learner, some exam-
+ples can be considered “too easy” (not helping much
+to improve the current model), while some examples
+can be considered “too diﬃcult” (no small change in
+the model would allow to capture these examples). It
+would be advantageous for a learner to focus on “in-
+teresting” examples, which would be standing near the
+frontier of the learner’s knowledge and abilities, nei-
+ther too easy nor too hard. Such an approach could be
+used to at least automate the pace at which a learner
+would move along a predeﬁned curriculum. In the ex-
+periments we performed, that pace was ﬁxed arbitrar-
+ily. This kind of strategy is clearly connected to active
+learning (Cohn et al., 1995), but with a view that is
+diﬀerent from the standard one: instead of focusing on
+the examples near the decision surface to quickly infer
+its location, we think of the set of examples that the
+learner succeeds to capture and gradually expand that
+set by preferentially adding examples near its border.
+Curriculum learning is related to boosting algorithms,
+in that diﬃcult examples are gradually emphasized.
+However, a curriculum starts with a focus on the eas-
+ier examples, rather than a uniform distribution over
+the training set. Furthermore, from the point of view
+of the boosted weighted sum of weak learners, there is
+no change in the training criterion: the change is only
+from the point of view of the next weak learner. As
+far as the boosted sum is concerned, we are following a
+functional gradient on the same training criterion (the
+sum of exponentiated margins). Curriculum strategies
+are also connected to transfer (or multi-task) learning
+and lifelong learning (Thrun, 1996). Curriculum learn-
+ing strategies can be seen as a special form of trans-
+fer learning where the initial tasks are used to guide
+the learner so that it will perform better on the ﬁnal
+task.
+Whereas the traditional motivation for multi-
+task learning is to improve generalization by sharing
+across tasks, curriculum learning adds the notion of
+guiding the optimization process, either to converge
+faster, or more importantly, to guide the learner to-
+wards better local minima.

@@ -1,0 +1,79 @@
+where T is a temperature that is normally set to 1. Using a higher value for T produces a softer
+probability distribution over classes.
+In the simplest form of distillation, knowledge is transferred to the distilled model by training it on
+a transfer set and using a soft target distribution for each case in the transfer set that is produced by
+using the cumbersome model with a high temperature in its softmax. The same high temperature is
+used when training the distilled model, but after it has been trained it uses a temperature of 1.
+When the correct labels are known for all or some of the transfer set, this method can be signiﬁcantly
+improved by also training the distilled model to produce the correct labels. One way to do this is
+to use the correct labels to modify the soft targets, but we found that a better way is to simply use
+a weighted average of two different objective functions. The ﬁrst objective function is the cross
+entropy with the soft targets and this cross entropy is computed using the same high temperature in
+the softmax of the distilled model as was used for generating the soft targets from the cumbersome
+model. The second objective function is the cross entropy with the correct labels. This is computed
+using exactly the same logits in softmax of the distilled model but at a temperature of 1. We found
+that the best results were generally obtained by using a condiderably lower weight on the second
+objective function. Since the magnitudes of the gradients produced by the soft targets scale as 1/T 2
+it is important to multiply them by T 2 when using both hard and soft targets. This ensures that the
+relative contributions of the hard and soft targets remain roughly unchanged if the temperature used
+for distillation is changed while experimenting with meta-parameters.
+2.1
+Matching logits is a special case of distillation
+Each case in the transfer set contributes a cross-entropy gradient, dC/dzi, with respect to each
+logit, zi of the distilled model. If the cumbersome model has logits vi which produce soft target
+probabilities pi and the transfer training is done at a temperature of T , this gradient is given by:
+∂C
+∂zi
+= 1
+T (qi −pi) = 1
+T
+ 
+ezi/T
+P
+j ezj/T −
+evi/T
+P
+j evj/T
+!
+(2)
+If the temperature is high compared with the magnitude of the logits, we can approximate:
+∂C
+∂zi
+≈1
+T
+ 
+1 + zi/T
+N + P
+j zj/T −
+1 + vi/T
+N + P
+j vj/T
+!
+(3)
+If we now assume that the logits have been zero-meaned separately for each transfer case so that
+P
+j zj = P
+j vj = 0 Eq. 3 simpliﬁes to:
+∂C
+∂zi
+≈
+1
+NT 2 (zi −vi)
+(4)
+So in the high temperature limit, distillation is equivalent to minimizing 1/2(zi −vi)2, provided the
+logits are zero-meaned separately for each transfer case. At lower temperatures, distillation pays
+much less attention to matching logits that are much more negative than the average. This is poten-
+tially advantageous because these logits are almost completely unconstrained by the cost function
+used for training the cumbersome model so they could be very noisy. On the other hand, the very
+negative logits may convey useful information about the knowledge acquired by the cumbersome
+model. Which of these effects dominates is an empirical question. We show that when the distilled
+model is much too small to capture all of the knowledege in the cumbersome model, intermedi-
+ate temperatures work best which strongly suggests that ignoring the large negative logits can be
+helpful.
+3
+Preliminary experiments on MNIST
+To see how well distillation works, we trained a single large neural net with two hidden layers
+of 1200 rectiﬁed linear hidden units on all 60,000 training cases. The net was strongly regularized
+using dropout and weight-constraints as described in [5]. Dropout can be viewed as a way of training
+an exponentially large ensemble of models that share weights. In addition, the input images were
+3

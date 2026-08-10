@@ -1,0 +1,123 @@
+scores to determine if samples are out-of-distribution.
+Bayesian neural networks (Denker & Lecun, 1990;
+MacKay, 1992) return a probability distribution over out-
+puts as an alternative way to represent model uncertainty.
+Gal & Ghahramani (2016) draw a connection between
+Dropout (Srivastava et al., 2014) and model uncertainty,
+claiming that sampling models with dropped nodes is a
+way to estimate the probability distribution over all pos-
+sible models for a given sample. Kendall & Gal (2017)
+combine this approach with a model that outputs a predic-
+tive mean and variance for each data point. This notion of
+uncertainty is not restricted to classiﬁcation problems. Ad-
+ditionally, neural networks can be used in conjunction with
+Bayesian models that output complete distributions. For
+example, deep kernel learning (Wilson et al., 2016a;b; Al-
+Shedivat et al., 2016) combines deep neural networks with
+Gaussian processes on classiﬁcation and regression prob-
+lems. In contrast, our framework, which does not augment
+the neural network model, returns a conﬁdence score rather
+than returning a distribution of possible outputs.
+5. Results
+We apply the calibration methods in Section 4 to image
+classiﬁcation and document classiﬁcation neural networks.
+For image classiﬁcation we use 6 datasets:
+1. Caltech-UCSD
+Birds
+(Welinder
+et
+al.,
+2010):
+200 bird species.
+5994/2897/2897 images for
+train/validation/test sets.
+2. Stanford Cars (Krause et al., 2013): 196 classes of
+cars by make, model, and year. 8041/4020/4020 im-
+ages for train/validation/test.
+3. ImageNet 2012 (Deng et al., 2009): Natural scene im-
+ages from 1000 classes.
+1.3 million/25,000/25,000
+images for train/validation/test.
+4. CIFAR-10/CIFAR-100 (Krizhevsky & Hinton, 2009):
+Color images (32 × 32) from 10/100 classes.
+45,000/5,000/10,000 images for train/validation/test.
+5. Street View House Numbers (SVHN) (Netzer et al.,
+2011):
+32 × 32
+colored
+images
+of
+cropped
+out
+house
+numbers
+from
+Google
+Street
+View.
+598,388/6,000/26,032 images for train/validation/test.
+We train state-of-the-art convolutional networks: ResNets
+(He et al., 2016), ResNets with stochastic depth (SD)
+(Huang et al., 2016), Wide ResNets (Zagoruyko & Ko-
+modakis, 2016), and DenseNets (Huang et al., 2017). We
+use the data preprocessing, training procedures, and hyper-
+parameters as described in each paper. For Birds and Cars,
+we ﬁne-tune networks pretrained on ImageNet.
+For document classiﬁcation we experiment with 4 datasets:
+1. 20 News: News articles, partitioned into 20 cate-
+gories by content.
+9034/2259/7528 documents for
+train/validation/test.
+2. Reuters:
+News articles, partitioned into 8 cate-
+gories by topic.
+4388/1097/2189 documents for
+train/validation/test.
+3. Stanford Sentiment Treebank (SST) (Socher et al.,
+2013): Movie reviews, represented as sentence parse
+trees that are annotated by sentiment. Each sample in-
+cludes a coarse binary label and a ﬁne grained 5-class
+label. As described in (Tai et al., 2015), the train-
+ing/validation/test sets contain 6920/872/1821 docu-
+ments for binary, and 544/1101/2210 for ﬁne-grained.
+On 20 News and Reuters, we train Deep Averaging Net-
+works (DANs) (Iyyer et al., 2015) with 3 feed-forward
+layers and Batch Normalization.
+On SST, we train
+TreeLSTMs (Long Short Term Memory) (Tai et al., 2015).
+For both models we use the default hyperparmaeters sug-
+gested by the authors.
+Calibration Results.
+Table 1 displays model calibration,
+as measured by ECE (with M = 15 bins), before and af-
+ter applying the various methods (see Section S3 for MCE,
+NLL, and error tables). It is worth noting that most datasets
+and models experience some degree of miscalibration, with
+ECE typically between 4 to 10%. This is not architecture
+speciﬁc: we observe miscalibration on convolutional net-
+works (with and without skip connections), recurrent net-
+works, and deep averaging networks. The two notable ex-
+ceptions are SVHN and Reuters, both of which experience
+ECE values below 1%. Both of these datasets have very
+low error (1.98% and 2.97%, respectively); and therefore
+the ratio of ECE to error is comparable to other datasets.
+Our most important discovery is the surprising effective-
+ness of temperature scaling despite its remarkable simplic-
+ity. Temperature scaling outperforms all other methods on
+the vision tasks, and performs comparably to other methods
+on the NLP datasets. What is perhaps even more surpris-
+ing is that temperature scaling outperforms the vector and
+matrix Platt scaling variants, which are strictly more gen-
+eral methods. In fact, vector scaling recovers essentially
+the same solution as temperature scaling – the learned vec-
+tor has nearly constant entries, and therefore is no different
+than a scalar transformation. In other words, network mis-
+calibration is intrinsically low dimensional.
+The only dataset that temperature scaling does not calibrate
+is the Reuters dataset. In this instance, only one of the
+above methods is able to improve calibration. Because this
+dataset is well-calibrated to begin with (ECE ≤1%), there
+is not much room for improvement with any method, and
+post-processing may not even be necessary to begin with.
+It is also possible that our measurements are affected by
+dataset split or by the particular binning scheme.

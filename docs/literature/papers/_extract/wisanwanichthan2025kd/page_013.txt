@@ -1,0 +1,49 @@
+Computers 2025, 14, 291
+13 of 25
+0.45 for all their experiments. Likewise, Yang et al. [30] propose an intrusion detection
+model (LNet-SKD) and report that the best performance occurs with temperature, T = 3. In
+both cases, these values are chosen as fixed defaults, not per-dataset tuning.
+Figure 1. Knowledge distillation from DNN dense (256, 128, 64, 32) to (32, 16) structure.
+4. Result
+To evaluate the performance of models in a multi-class classification setting, we use
+seven metrics, accuracy, precision, recall, F1 score, ROC, AUC, and inference speed, as shown
+in Table 7. In the case of multi-class classification, these metrics are calculated for each class
+individually and then averaged across all classes to provide a comprehensive assessment.
+Table 7. Evaluation Metrics used in this Study.
+Metric
+Formula
+Description
+Accuracy
+Total Correct Predictions
+Total Predictions
+Measures how often the model predicts correctly for all classes.
+Precision (weighted averaged)
+∑TP
+∑(TP + FP)
+Number of positive predictions that are actually correct.
+Recall (weighted averaged)
+∑TP
+∑(TP + FN)
+Number of actual positives that the model truly identifies.
+F1 Score (Weighted-Averaged)
+2 × Precision × Recall
+Precision + Recall
+Balances precision and recall; prioritizes classes with more true
+instances.
+True positive rate (TPR)
+TP
+TP + FN
+Fraction of positives correctly identified.
+False positive rate (FPR)
+FP
+FP + TN
+Fraction of negatives incorrectly identified as positives.
+AUC (Area Under Curve)
+–
+Measures the area under the ROC curve; higher AUC means better
+performance.
+Inference Speed
+Total Inference Time
+Number of Instances
+Measures how fast the model processes each instance.
+Notation: TP: true positives, TN: true negatives, FP: false positives, FN: false negatives.

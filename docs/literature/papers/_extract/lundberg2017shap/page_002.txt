@@ -1,0 +1,56 @@
+2. We then show that game theory results guaranteeing a unique solution apply to the entire class of
+additive feature attribution methods (Section 3) and propose SHAP values as a uniﬁed measure of
+feature importance that various methods approximate (Section 4).
+3. We propose new SHAP value estimation methods and demonstrate that they are better aligned
+with human intuition as measured by user studies and more effectually discriminate among model
+output classes than several existing methods (Section 5).
+2
+Additive Feature Attribution Methods
+The best explanation of a simple model is the model itself; it perfectly represents itself and is easy to
+understand. For complex models, such as ensemble methods or deep networks, we cannot use the
+original model as its own best explanation because it is not easy to understand. Instead, we must use a
+simpler explanation model, which we deﬁne as any interpretable approximation of the original model.
+We show below that six current explanation methods from the literature all use the same explanation
+model. This previously unappreciated unity has interesting implications, which we describe in later
+sections.
+Let f be the original prediction model to be explained and g the explanation model. Here, we focus
+on local methods designed to explain a prediction f(x) based on a single input x, as proposed in
+LIME [5]. Explanation models often use simpliﬁed inputs x′ that map to the original inputs through a
+mapping function x = hx(x′). Local methods try to ensure g(z′) ≈f(hx(z′)) whenever z′ ≈x′.
+(Note that hx(x′) = x even though x′ may contain less information than x because hx is speciﬁc to
+the current input x.)
+Deﬁnition 1 Additive feature attribution methods have an explanation model that is a linear
+function of binary variables:
+g(z′) = φ0 +
+M
+X
+i=1
+φiz′
+i,
+(1)
+where z′ ∈{0, 1}M, M is the number of simpliﬁed input features, and φi ∈R.
+Methods with explanation models matching Deﬁnition 1 attribute an effect φi to each feature, and
+summing the effects of all feature attributions approximates the output f(x) of the original model.
+Many current methods match Deﬁnition 1, several of which are discussed below.
+2.1
+LIME
+The LIME method interprets individual model predictions based on locally approximating the model
+around a given prediction [5]. The local linear explanation model that LIME uses adheres to Equation
+1 exactly and is thus an additive feature attribution method. LIME refers to simpliﬁed inputs x′ as
+“interpretable inputs,” and the mapping x = hx(x′) converts a binary vector of interpretable inputs
+into the original input space. Different types of hx mappings are used for different input spaces. For
+bag of words text features, hx converts a vector of 1’s or 0’s (present or not) into the original word
+count if the simpliﬁed input is one, or zero if the simpliﬁed input is zero. For images, hx treats the
+image as a set of super pixels; it then maps 1 to leaving the super pixel as its original value and 0
+to replacing the super pixel with an average of neighboring pixels (this is meant to represent being
+missing).
+To ﬁnd φ, LIME minimizes the following objective function:
+ξ = arg min
+g∈G
+L(f, g, πx′) + Ω(g).
+(2)
+Faithfulness of the explanation model g(z′) to the original model f(hx(z′)) is enforced through
+the loss L over a set of samples in the simpliﬁed input space weighted by the local kernel πx′. Ω
+penalizes the complexity of g. Since in LIME g follows Equation 1 and L is a squared loss, Equation
+2 can be solved using penalized linear regression.
+2

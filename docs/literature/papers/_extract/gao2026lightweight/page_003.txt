@@ -1,0 +1,53 @@
+Electronics 2026, 15, 938
+3 of 20
+to train and converge. Compared with deep learning models, this method has a
+smaller parameter scale, faster convergence, and the ability to comprehensively extract
+sequence features, achieving good detection performance. It can be deployed on
+resource-constrained edge devices.
+3.
+Validation on the latest dataset: Experimental results on the Edge-IIoTset dataset show
+that the proposed hybrid feature selection method can significantly reduce feature
+dimensionality while still maintaining good detection performance. At the same time,
+compared with other models, TCN has an advantage in classification and detection
+performance, which verifies the effectiveness of the model.
+The rest of this paper is organized as follows. Section 2 introduces the related works
+about feature selection and IoT intrusion detection method. Section 3 introduces the
+proposed methodologies, including the feature selection strategies and the TCN model
+structure design. Section 4 presents the experimental setup and performance evaluation
+and compares the experimental results with different models. Section 5 discusses the
+limitations of the model, and Section 6 concludes the paper.
+2. Related Works
+2.1. Feature Selection Methods for IoT Intrusion Detection
+Given that IoT traffic data contains a large amount of redundant and irrelevant fea-
+tures, directly feeding the data into a model for training not only increases the model’s
+computational complexity but also places high demands on the hardware of the deploy-
+ment environment. To address this issue, many researchers have adopted feature selection
+methods to achieve data dimensionality reduction.
+Traditional feature selection methods are primarily categorized into: filter methods,
+wrapper methods, and embedded methods [11]. During the feature selection process, the
+chosen feature subset should have strong classification ability while minimizing redun-
+dancy between features. Individual feature selection methods may perform well under
+specific conditions, but their evaluation methods are too simplistic. Omuya et al. [12]
+proposed a feature dimensionality reduction method based on principal component anal-
+ysis. This method requires constructing a covariance matrix of the data and performing
+eigenvalue decomposition, which has a large computational cost and struggles to meet the
+real-time processing requirements of large-scale, high-dimensional IoT network traffic data.
+To reduce computational complexity, some studies have adopted feature selection methods
+based on statistical properties. Alhassan et al. [13] introduced a novel intrusion detection
+method based on correlation feature subset selection by calculating the correlation between
+features and labels. Its detection accuracy is better than that of traditional intrusion detec-
+tion systems that do not perform feature selection. However, this method only considers
+the linear correlation between features and categories and fails to consider the nonlinear
+correlations that exist in network data. Devaraju et al. investigated a feature selection
+algorithm based on information entropy [14]. This method measures the nonlinear rela-
+tionship between features and labels by calculating the mutual information value between
+them. However, in scenarios with small samples or imbalanced class distributions, the
+stability of mutual information estimation is poor, and the feature selection performance is
+easily affected.
+The Minimum Redundancy Maximum Relevance (mRMR) method, by jointly con-
+sidering the maximum correlation and minimum redundancy, shows that the inspection
+performance of the selected feature subset is significantly better than the methods that
+only use correlation or mutual information [15]. However, this method only evaluates
+the correlation between features in the subset of candidate features, without considering
+the correlation between features and categories. Furthermore, since this method requires
+https://doi.org/10.3390/electronics15050938

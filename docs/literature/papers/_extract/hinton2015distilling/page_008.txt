@@ -1,0 +1,61 @@
+System & training set
+Train Frame Accuracy
+Test Frame Accuracy
+Baseline (100% of training set)
+63.4%
+58.9%
+Baseline (3% of training set)
+67.3%
+44.5%
+Soft Targets (3% of training set)
+65.4%
+57.0%
+Table 5: Soft targets allow a new model to generalize well from only 3% of the training set. The soft
+targets are obtained by training on the full training set.
+6.1
+Using soft targets to prevent specialists from overﬁtting
+The specialists that we used in our experiments on the JFT dataset collapsed all of their non-specialist
+classes into a single dustbin class. If we allow specialists to have a full softmax over all classes,
+there may be a much better way to prevent them overﬁtting than using early stopping. A specialist
+is trained on data that is highly enriched in its special classes. This means that the effective size of
+its training set is much smaller and it has a strong tendency to overﬁt on its special classes. This
+problem cannot be solved by making the specialist a lot smaller because then we lose the very helpful
+transfer effects we get from modeling all of the non-specialist classes.
+Our experiment using 3% of the speech data strongly suggests that if a specialist is initialized with
+the weights of the generalist, we can make it retain nearly all of its knowledge about the non-special
+classes by training it with soft targets for the non-special classes in addition to training it with hard
+targets. The soft targets can be provided by the generalist. We are currently exploring this approach.
+7
+Relationship to Mixtures of Experts
+The use of specialists that are trained on subsets of the data has some resemblance to mixtures of
+experts [6] which use a gating network to compute the probability of assigning each example to each
+expert. At the same time as the experts are learning to deal with the examples assigned to them, the
+gating network is learning to choose which experts to assign each example to based on the relative
+discriminative performance of the experts for that example. Using the discriminative performance
+of the experts to determine the learned assignments is much better than simply clustering the input
+vectors and assigning an expert to each cluster, but it makes the training hard to parallelize: First,
+the weighted training set for each expert keeps changing in a way that depends on all the other
+experts and second, the gating network needs to compare the performance of different experts on
+the same example to know how to revise its assignment probabilities. These difﬁculties have meant
+that mixtures of experts are rarely used in the regime where they might be most beneﬁcial: tasks
+with huge datasets that contain distinctly different subsets.
+It is much easier to parallelize the training of multiple specialists. We ﬁrst train a generalist model
+and then use the confusion matrix to deﬁne the subsets that the specialists are trained on. Once these
+subsets have been deﬁned the specialists can be trained entirely independently. At test time we can
+use the predictions from the generalist model to decide which specialists are relevant and only these
+specialists need to be run.
+8
+Discussion
+We have shown that distilling works very well for transferring knowledge from an ensemble or
+from a large highly regularized model into a smaller, distilled model. On MNIST distillation works
+remarkably well even when the transfer set that is used to train the distilled model lacks any examples
+of one or more of the classes. For a deep acoustic model that is version of the one used by Android
+voice search, we have shown that nearly all of the improvement that is achieved by training an
+ensemble of deep neural nets can be distilled into a single neural net of the same size which is far
+easier to deploy.
+For really big neural networks, it can be infeasible even to train a full ensemble, but we have shown
+that the performance of a single really big net that has been trained for a very long time can be signif-
+icantly improved by learning a large number of specialist nets, each of which learns to discriminate
+between the classes in a highly confusable cluster. We have not yet shown that we can distill the
+knowledge in the specialists back into the single large net.
+8

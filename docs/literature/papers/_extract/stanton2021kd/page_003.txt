@@ -1,0 +1,85 @@
+teacher is an m-component ensemble, the component logits (z1, . . . , zm), where zi = fi(x, θi), are
+combined to form the teacher logits: zt = log (Pm
+i=1 σ(zi)/m). These combined logits correspond
+to the predictive distribution of the ensemble model average. The experiments in the main text
+consider m ∈{1, 3, 5}, and we include results up to m = 12 in Appendix B.2.1
+3.1
+Knowledge Distillation
+Hinton et al. [20] proposed a simple approach to knowledge distillation. The student minimizes a
+weighted combination of two objectives, Ls := αLNLL+(1−α)LKD, where α ∈[0, 1). Speciﬁcally,
+LNLL(zs, y) := −
+c
+X
+j=1
+yj log σj(zs),
+LKD(zs, zt) := −τ 2
+c
+X
+j=1
+σj
+zt
+τ
+
+log σj
+zs
+τ
+
+.
+(1)
+LNLL is the usual supervised cross-entropy between the student logits zs and the one-hot labels y.
+Recalling that KL(p||q) = P
+j pj(log qj −log pj), we see that LNLL is equivalent (up to a constant)
+to the KL from the empirical data distribution to the student predictive distribution (ˆps). LKD is
+the added knowledge distillation term that encourages the student to match the teacher. It is the
+cross-entropy between the teacher and student predictive distributions ˆpt = σ(zt) and ˆps = σ(zs),
+both scaled by a temperature hyperparameter τ > 0. If τ = 1 then LKD is similarly equivalent to the
+KL from the teacher to the student, KL(ˆpt||ˆps). Since we focus on distillation ﬁdelity, we choose
+α = 0 for all experiments in the main text to avoid any confounding from true labels, but we also
+include a limited ablation of α in Figure 14 in Appendix C.5 for the curious reader.
+As τ →+∞, ∇zsLKD(zs, zt) ≈zt −zs, and thus in the limit ∇zsLKD is approximately equivalent
+to ∇zs||zt −zs||2
+2/2, assigning equal signiﬁcance to every class logit, regardless of its contribution
+to the predictive distribution. In other words τ determines the “softness” of the teacher labels, which
+in turn determines the allocation of student capacity. If the student is much smaller than the teacher,
+the student capacity can be focused on matching the teacher’s top-k predictions, rather than matching
+the full teacher distribution by choosing a moderate value (e.g. τ = 4). In Appendix B.1 we include
+further discussion on the interplay of teacher ensemble size, teacher network capacity, and distillation
+temperature on the student labels.
+The teacher and student often share at least some training data. It is also common to enlarge the
+student training data in some way (e.g. incorporating unlabeled examples as in Ba and Caruana [2]).
+When there is a possibility of confusion, we will refer to the student’s training data as the distillation
+data to distinguish it from the teacher’s training data.
+3.2
+Metrics and Evaluation
+To measure generalization, we report top-1 accuracy, negative log-likelihood (NLL) and expected
+calibration error (ECE) [15]. To measure ﬁdelity, we report the following:
+Average Top-1 Agreement := 1
+n
+n
+X
+i=1
+1{argmax
+j
+σj(zt,i) = argmax
+j
+σj(zs,i)},
+(2)
+Average Predictive KL := 1
+n
+n
+X
+i=1
+KL (ˆpt(y|xi) || ˆps(y|xi)) ,
+(3)
+Eqn. (2) is the average agreement between the student and teacher’s top-1 label. Eqn. (3) is the
+average KL divergence from the predictive distribution of the teacher to that of the student, a measure
+of ﬁdelity sensitive to all of the labels.
+While improvements in generalization metrics are relatively easy to understand, interpreting ﬁdelity
+metrics requires some care. For example, suppose we have three independent models: f1, f2, and f3
+that respectively achieve 55%, 75%, and 95% test accuracy. f1 and f3 can agree on at most 60% of
+points, whereas f2 and f3 agree on at least 70%, but it would obviously be incorrect to make any
+claim about f2 being a better distillation of f3 since each model was trained completely independently.
+To account for such confounding when evaluating the distillation of a student s from a teacher t, we
+also evaluate another student s′ distilled through an identical procedure from an independent teacher.
+1Code for all experiments can be found at https://github.com/samuelstanton/gnosis.
+3

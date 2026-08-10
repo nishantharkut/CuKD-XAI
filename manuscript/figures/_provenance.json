@@ -1,0 +1,422 @@
+{
+  "figures": {
+    "fig_lab_setup": {
+      "type": "photograph",
+      "sources": [
+        "manuscript/figures/hardware/lab/overview.jpeg"
+      ],
+      "note": "Phone photo of lab setup; replaceable with professional shot later."
+    },
+    "fig_pareto_train_only": {
+      "type": "quantitative",
+      "source": "results/wsnds/leakage_free_rerun/main_10seed_full_aggregate_copy/wsnds_results_student_{A,B}_10seed.csv",
+      "protocol": "train_only multi-seed aggregate (U-MS)",
+      "points": [
+        {
+          "label": "Full MLP",
+          "config": "B_Full_MLP",
+          "size_kb": 273.01953125,
+          "macro_f1_mean": 0.9226887762531352,
+          "macro_f1_std": 0.0020062386205199,
+          "n_seeds": 10,
+          "params": 69893
+        },
+        {
+          "label": "A scratch",
+          "config": "D_Small_MLP",
+          "size_kb": 4.64453125,
+          "macro_f1_mean": 0.910902993186332,
+          "macro_f1_std": 0.0068434659889499,
+          "n_seeds": 10,
+          "params": 1189
+        },
+        {
+          "label": "A RF-KD",
+          "config": "E_KD_from_RF",
+          "size_kb": 4.64453125,
+          "macro_f1_mean": 0.9203444861873752,
+          "macro_f1_std": 0.006513084530571,
+          "n_seeds": 10,
+          "params": 1189
+        },
+        {
+          "label": "B scratch",
+          "config": "D_Small_MLP",
+          "size_kb": 13.26953125,
+          "macro_f1_mean": 0.9313411490547344,
+          "macro_f1_std": 0.0065751066818356,
+          "n_seeds": 10,
+          "params": 3397
+        },
+        {
+          "label": "B RF-KD",
+          "config": "E_KD_from_RF",
+          "size_kb": 13.26953125,
+          "macro_f1_mean": 0.939173439381416,
+          "macro_f1_std": 0.0129146695416726,
+          "n_seeds": 10,
+          "params": 3397
+        }
+      ],
+      "note": "RF teacher omitted: size_kb is serialized pickle, not FP32 param payload."
+    },
+    "fig_perclass_delta": {
+      "type": "quantitative",
+      "source": "results/paper_strength_e2e/03_per_class_kd_minus_scratch.csv",
+      "rows": [
+        {
+          "student": "A",
+          "class": "Blackhole",
+          "delta_kd_minus_scratch": -0.0361873388011528,
+          "rf_kd_mean": 0.8263638640864872,
+          "scratch_mean": 0.8625512028876401,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "A",
+          "class": "Grayhole",
+          "delta_kd_minus_scratch": 0.0040388506944377,
+          "rf_kd_mean": 0.8437122639409995,
+          "scratch_mean": 0.8396734132465618,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "A",
+          "class": "Flooding",
+          "delta_kd_minus_scratch": 0.0110113848620638,
+          "rf_kd_mean": 0.9415359554111628,
+          "scratch_mean": 0.930524570549099,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "A",
+          "class": "TDMA",
+          "delta_kd_minus_scratch": 0.0202613749514244,
+          "rf_kd_mean": 0.9609738411779508,
+          "scratch_mean": 0.9407124662265264,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "A",
+          "class": "Normal",
+          "delta_kd_minus_scratch": 0.0020464200763901,
+          "rf_kd_mean": 0.9979759314882376,
+          "scratch_mean": 0.9959295114118476,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "B",
+          "class": "Blackhole",
+          "delta_kd_minus_scratch": -0.0231812968327905,
+          "rf_kd_mean": 0.8644012752357538,
+          "scratch_mean": 0.8875825720685444,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "B",
+          "class": "Grayhole",
+          "delta_kd_minus_scratch": -0.0157831683152928,
+          "rf_kd_mean": 0.8738294966997351,
+          "scratch_mean": 0.8896126650150279,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "B",
+          "class": "Flooding",
+          "delta_kd_minus_scratch": 0.0099495326676848,
+          "rf_kd_mean": 0.9415585788548888,
+          "scratch_mean": 0.931609046187204,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "B",
+          "class": "TDMA",
+          "delta_kd_minus_scratch": 0.0200677171369386,
+          "rf_kd_mean": 0.9628610441939148,
+          "scratch_mean": 0.9427933270569762,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        },
+        {
+          "student": "B",
+          "class": "Normal",
+          "delta_kd_minus_scratch": 0.0006959332009308,
+          "rf_kd_mean": 0.9980721654693692,
+          "scratch_mean": 0.9973762322684384,
+          "n_seeds": 5,
+          "protocol": "feature_group_5seed"
+        }
+      ]
+    },
+    "fig_route_bars": {
+      "type": "quantitative",
+      "source_agg": "results/wsnds/leakage_free_rerun/main_10seed_full_aggregate_copy",
+      "source_j": "results/leftover_e2e_closure/01_j_codistill/j_summary.json",
+      "data": {
+        "A": [
+          {
+            "route": "scratch",
+            "config": "D_Small_MLP",
+            "macro_f1_mean": 0.910902993186332,
+            "macro_f1_std": 0.0068434659889499
+          },
+          {
+            "route": "MLP-KD",
+            "config": "E2_KD_from_MLP",
+            "macro_f1_mean": 0.9120394941841938,
+            "macro_f1_std": 0.0023354268049633
+          },
+          {
+            "route": "RF-KD",
+            "config": "E_KD_from_RF",
+            "macro_f1_mean": 0.9203444861873752,
+            "macro_f1_std": 0.006513084530571
+          },
+          {
+            "route": "co-distill (J)",
+            "config": "J_CoDistill",
+            "macro_f1_mean": 0.915768632956038,
+            "macro_f1_std": 0.002588647840919,
+            "source": "results/leftover_e2e_closure/01_j_codistill/j_summary.json"
+          }
+        ],
+        "B": [
+          {
+            "route": "scratch",
+            "config": "D_Small_MLP",
+            "macro_f1_mean": 0.9313411490547344,
+            "macro_f1_std": 0.0065751066818356
+          },
+          {
+            "route": "MLP-KD",
+            "config": "E2_KD_from_MLP",
+            "macro_f1_mean": 0.9177373468634772,
+            "macro_f1_std": 0.0045751764188045
+          },
+          {
+            "route": "RF-KD",
+            "config": "E_KD_from_RF",
+            "macro_f1_mean": 0.939173439381416,
+            "macro_f1_std": 0.0129146695416726
+          },
+          {
+            "route": "co-distill (J)",
+            "config": "J_CoDistill",
+            "macro_f1_mean": 0.932250601903616,
+            "macro_f1_std": 0.0140540878777537,
+            "source": "results/leftover_e2e_closure/01_j_codistill/j_summary.json"
+          }
+        ]
+      }
+    },
+    "fig_protocol_delta_bars": {
+      "type": "quantitative",
+      "source": "results/paper_strength_e2e/02_protocol_ladder.json",
+      "deltas": [
+        {
+          "label": "A / RR",
+          "delta": 0.009441493001043211,
+          "p": 0.04793535258814285,
+          "n": 10
+        },
+        {
+          "label": "A / FG",
+          "delta": 0.0002341383566328181,
+          "p": 0.9458279016214112,
+          "n": 5
+        },
+        {
+          "label": "B / RR",
+          "delta": 0.007832290326681457,
+          "p": 0.0968914374617558,
+          "n": 10
+        },
+        {
+          "label": "B / FG",
+          "delta": -0.001650256428505714,
+          "p": 0.7347612930434297,
+          "n": 5
+        }
+      ]
+    },
+    "fig_hil_latency": {
+      "type": "quantitative",
+      "source": "results/hardware_hil/train_only_scaler_copy/four_pair_summary.json",
+      "rows": [
+        {
+          "board": "ESP32-C3",
+          "student": "A",
+          "latency_us": 116.51985765124554,
+          "macro_f1": 0.9244157867972325,
+          "agree": 1.0,
+          "n": 56200
+        },
+        {
+          "board": "ESP32-C3",
+          "student": "B",
+          "latency_us": 320.27793594306047,
+          "macro_f1": 0.9179877463612371,
+          "agree": 1.0,
+          "n": 56200
+        },
+        {
+          "board": "Arduino R4",
+          "student": "A",
+          "latency_us": 301.4711209964413,
+          "macro_f1": 0.9244157867972325,
+          "agree": 1.0,
+          "n": 56200
+        },
+        {
+          "board": "Arduino R4",
+          "student": "B",
+          "latency_us": 791.4001423487545,
+          "macro_f1": 0.9179877463612371,
+          "agree": 1.0,
+          "n": 56200
+        }
+      ],
+      "n_test": 56200
+    },
+    "fig_shap_rho": {
+      "type": "quantitative",
+      "source": "results/paper_strength_e2e/shap_train_only_deployment/shap_results.json",
+      "point_rho": {
+        "A": 0.2377450980392157,
+        "B": 0.22549019607843138
+      },
+      "point_p": {
+        "A": 0.35817139991630287,
+        "B": 0.3841966507618189
+      },
+      "bootstrap_mean": {
+        "A": 0.1784313725490196,
+        "B": 0.16225490196078432
+      },
+      "bootstrap_std": {
+        "A": 0.08596619374349178,
+        "B": 0.054843938177219005
+      }
+    },
+    "fig_dual_unit_bars": {
+      "type": "quantitative",
+      "U-MS": {
+        "A": {
+          "mean": 0.9203444861873752,
+          "std": 0.00651308453057103
+        },
+        "B": {
+          "mean": 0.939173439381416,
+          "std": 0.012914669541672667
+        },
+        "source": "results/paper_strength_e2e/02_protocol_ladder.json"
+      },
+      "U-DC": {
+        "A": 0.9485087159320515,
+        "B": 0.9449299339062804,
+        "source": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_runtime_results.json"
+      }
+    },
+    "fig_host_conversion": {
+      "type": "quantitative",
+      "source": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_runtime_results.json",
+      "labels": [
+        "A FP32",
+        "A INT8",
+        "B FP32",
+        "B INT8"
+      ],
+      "macro_f1": [
+        0.9485087159320515,
+        0.893789697354604,
+        0.9449299339062804,
+        0.906592462083893
+      ],
+      "agreement": [
+        1.0,
+        0.9861032028469751,
+        1.0,
+        0.9897508896797153
+      ]
+    },
+    "fig_edge_bars": {
+      "type": "quantitative",
+      "source": "results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_summary.json",
+      "means": {
+        "Group-aware\nscratch": 0.7335259754878691,
+        "Group-aware\nRF-KD": 0.7675631954398007,
+        "Random-row\nRF-KD (ref)": 0.8118372656444471
+      },
+      "stds": {
+        "Group-aware\nscratch": 0.020998513248976294,
+        "Group-aware\nRF-KD": 0.007909693646512698,
+        "Random-row\nRF-KD (ref)": 0.003168186530889
+      },
+      "leak_pct_pre_split": 17.016591514685427
+    },
+    "fig_system_hil_dot": {
+      "type": "architecture",
+      "quantitative_fields": {
+        "n_test": 56200,
+        "source": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_runtime_results.json \u2192 n_test"
+      },
+      "outputs": [
+        "fig_system_hil_dot.dot",
+        "fig_system_hil_dot.pdf",
+        "fig_system_hil_dot.png",
+        "fig_system_hil_dot.svg"
+      ],
+      "layout": "LR compact for IEEEtran height"
+    },
+    "fig_dual_identity_dot": {
+      "type": "architecture+metrics",
+      "U-MS_StudentA_RFKD": {
+        "macro_f1_mean": 0.9203444861873752,
+        "macro_f1_std": 0.00651308453057103,
+        "n_seeds": 10,
+        "source": "results/paper_strength_e2e/02_protocol_ladder.json"
+      },
+      "U-DC_StudentA_RFKD": {
+        "macro_f1": 0.9485087159320515,
+        "source": "results/runtime/onnx_openvino/wsnds/train_only_seed42_copy/train_only_runtime_results.json"
+      },
+      "outputs": [
+        "fig_dual_identity_dot.dot",
+        "fig_dual_identity_dot.pdf",
+        "fig_dual_identity_dot.png",
+        "fig_dual_identity_dot.svg"
+      ]
+    },
+    "fig_protocol_ladder_dot": {
+      "type": "quantitative",
+      "source": "results/paper_strength_e2e/02_protocol_ladder.json",
+      "edge_source": "results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_summary.json",
+      "student_A_random_row": {
+        "delta": 0.009441493001043211,
+        "p": 0.04793535258814285,
+        "n": 10
+      },
+      "student_A_feature_group": {
+        "delta": 0.0002341383566328181,
+        "p": 0.9458279016214112,
+        "n": 5
+      },
+      "edge_A_rfkd_mean": 0.7675631954398007,
+      "outputs": [
+        "fig_protocol_ladder_dot.dot",
+        "fig_protocol_ladder_dot.pdf",
+        "fig_protocol_ladder_dot.png",
+        "fig_protocol_ladder_dot.svg"
+      ]
+    }
+  },
+  "policy": "All quantitative figure labels loaded from result JSON/CSV at build time; no hand-typed scientific numbers in build_all_figures.py."
+}

@@ -1,0 +1,122 @@
+694
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+ered nodes, broadcast links, unat-tended deployment
+also expose them to network-layer Denial-of-Service
+(DoS) attacks [7–9]. A blackhole adversary advertises
+the “best” path toward the sink then discards every
+packet it receives, eﬀective-ly partitioning the topol-
+ogy [7, 8]. A grayhole acts more subtly by forwarding
+only a fraction of packets, thereby delaying detec-
+tion [7]. Flooding overwhelms the medium with fab-
+ricated route requests or garbage data, drain-ing le-
+gitimate batteries rapidly [6, 10], whereas scheduling
+attacks manipulate TDMA slot allocations, trigger-
+ing packet collisions, desynchronization, and wasted
+airtime [9, 11].
+In practical deployments these be-
+haviors can halve the packet-delivery ratio and drain
+entire node clusters in minutes.
+To counter such
+threats, researchers have engineered a spectrum of In-
+trusion Detection Systems (IDSs) tailored for WSNs.
+Signature-based detectors excel at spotting attacks
+already catalogued, yet cannot recognize zero-day
+patterns [9, 12]. Shallow machine-learning (ML) ap-
+proaches, including Na¨ıve Bayes, Support Vector Ma-
+chines (SVM), Decision Trees, and Random Forests,
+raise adaptability by learning from statistical features
+(e.g., interarrival time, hop count) and can surpass 96
+% overall accuracy [2, 7, 9]. Never-theless, their false-
+positive rates still hover above 15 % against stealthy
+grayhole or scheduling traﬃc, and each inference ex-
+ecuted on a cluster head may cost tens of millijoules
+non-trivial for a coin-cell-driven MCU [4, 6, 9, 11].
+At the other end of the spectrum, deep-learning (DL)
+IDSs based on CNNs, RNNs, or Autoencoders deliver
+state-of-the-art detection reporting more than 98 %
+accuracy on the WSN-DS benchmark [3, 9, 12]. The
+drawback is their appetite for resources: models of-
+ten occupy several megabytes and require billions of
+ﬂoat-ing-point operations per inference, far exceeding
+the capacity of sub-50 MHz micro-controllers, while
+even gateway-class devices may draw hundreds of mil-
+lijoules per classiﬁcation [4, 9, 13, 14]. Recent work
+has there-fore shifted toward energy-aware adapta-
+tions. Examples include checkpoint-based DNN ex-
+ecution on intermittently powered MCUs [4], duty-
+cycle optimization using Proximal Policy Optimiza-
+tion (PPO) to extend lifetime by up to 30 % [5],
+federated-learning schemes that schedule client par-
+ticipation by residual energy [15], aggressive binary
+quantization that trims inference energy by ∼40 %
+[13], and adaptive thresholds that reduce false alarms
+by ∼420 % [11]. Although each study addresses part
+of the problem, a uniﬁed framework that simultane-
+ously (1) runs an ultra-light, rule-based ﬁlter on every
+sensor, (2) pushes a quantized, pruned DL model to
+the gateway, and (3) adapts to evolving DoS patterns
+through federated updates while respecting the ex-
+treme power budget of WSN nodes, has yet to emerge.
+In response, this paper proposes an energy-eﬃcient
+hybrid IDS. The design integrates a tiny, integer-
+only rule ﬁlter on each node with an 8-bit quantized,
+pruned CNN-LSTM executing at the edge gateway.
+Our goal is to maintain high detection ﬁdelity with-
+out sacriﬁcing the longevity of the network.
+Four
+research questions guide the evaluation:
+RQ 1. Which hybrid deep-learning backbone CNN-
+LSTM or Autoencoder-GRU delivers the greatest ac-
+curacy per joule for speciﬁc DoS scenarios [3, 11, 14]?
+RQ 2. How should on-node rule thresholds be tuned
+to suppress false positives yet preserve recall [5, 7,
+17]?
+RQ 3. What incremental CPU load, RAM usage, and
+battery drain does the hybrid IDS impose relative to
+classic shallow ML and standalone DL models [3–6]?
+RQ 4. Against SVM, Random Forest, and monolithic
+DL, how does the hybrid scheme fare in accuracy, ro-
+bustness to stealthy DoS traﬃc, and overall energy
+eﬃciency [1, 8, 10, 12, 13]?
+By systematically addressing these questions, we
+demonstrate that intelligent task partitioning rather
+than merely shrinking model size is the most prac-
+tical route to building secure and sustainable WSN
+deployments.
+Hybrid Deep Learning–Based Intrusion Detection
+Model
+The proposed intrusion-detection architecture is
+deliberately
+partitioned
+across
+two
+tiers
+of
+the
+wireless-sensor network to balance accuracy with en-
+ergy thrift (Figure 1).
+Each sensor node carries
+an ultralight rule ﬁlter that inspects every outgoing
+packet in real time. The ﬁlter computes three integer-
+only heuristics destination-address entropy, short-
+term inter-arrival variance and a residual-battery
+guard and ﬂags a packet whenever any heuristic indi-
+cates abnormal behavior. Because the logic performs
+fewer than sixty integer operations per packet, the
+additional cost is ≤0.05 mJ, negligible beside the ≈
+5 mJ already spent on a LoRa transmission.
+Only ﬂagged traﬃc is forwarded to an edge gate-
+way endowed with ample energy and compute head-
+room.
+There, a compact deep-learning classiﬁer
+three shallow convolutional layers followed by two 64-
+unit LSTM layers performs ﬁne-grained categoriza-
+tion into Normal, Blackhole, Grayhole, Flooding and
+TDMA-spoof classes. The network is pruned by 50 %
+and post-trained with 8-bit symmetric quantization,
+so a batch inference on thirty-two ﬁve-packet windows
+consumes about 28 mJ and ﬁnishes in ≈42 ms on a
+Raspberry Pi Zero W. A batching policy ﬁres when
+either sixteen windows accumulate or a two-second
+timeout elapses, keeping latency well below the 250
+ms QoS bound for environmental-monitoring WSNs.

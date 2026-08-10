@@ -1,0 +1,72 @@
+Sensors 2025, 25, 4309
+10 of 31
+3.5.1. Federated Learning Framework and Aggregation Strategies
+In FD-IDS, the system architecture primarily consists of a central server and multiple
+client devices. The central server initializes the parameters W0
+G of the global model, which
+are subsequently sent to the participating clients. Each client trains locally on its dataset
+Dk = {(xi, yi)}nk
+i=1, where nk denotes the sample size of client k, xi refers to the features of
+the i-th sample, and yi indicates the associated label. Data privacy is preserved using local
+computation, ensuring that clients do not transmit raw data to the central server or to other
+clients, thereby reducing the risk of data breaches [12]. Clients independently optimize
+their local objective functions to generate updated model parameters wi+1
+k
+. These updates
+are subsequently sent to the central server, where they are aggregated using a aggregation
+algorithm to generate the global model parameters wi+1
+G .
+A widely adopted aggregation algorithm is FedAvg [11]. The core idea of FedAvg is to
+compute a weighted average of the model updates uploaded by the clients based on their
+respective sample sizes, ensuring that the global model reflects the diversity of distributed
+data effectively. The equation for FedAvg is given as follows:
+wt+1
+G
+=
+K
+∑
+k=1
+nk
+n wt+1
+k
+,
+(2)
+where K represents the total count of clients involved in the present training round, nk is
+the sample size of client k, and n = ∑K
+k=1 nk refers to the aggregate number of samples from
+all clients. This weighting mechanism accounts for the contribution of each client to the
+global model.
+Nevertheless, in practical settings, the data distribution across clients is often Non-
+IID, which poses significant challenges to FedAvg, such as biased model aggregation and
+accumulated drift during training, ultimately degrading the performance of the global
+model [16,40]. To address these challenges, this study adopted the FedProx algorithm
+as an optimization strategy [34]. FedProx incorporates a proximal term Lproximal into the
+local objective function, which limits the deviation of local models from the global model
+to reduce the optimization drift caused by Non-IID data. The proximal term is defined
+as follows:
+Lproximal = µ
+2
+wk −wt
+G
+2,
+(3)
+where
+wk −wt
+G
+2 represents the squared Euclidean distance between the parameters of the
+local model wk and the current global model wt
+G, which quantifies the degree of deviation
+of the local model from the global model. The parameter µ serves as a regularization
+parameter to control the impact of the proximal term on the optimization process. A larger
+µ imposes stricter constraints on local model updates, reducing the drift caused by Non-IID
+data, while a smaller µ allows greater flexibility in local model updates. In this study, µ
+was set to 0.01.
+Compared to the FedAvg algorithm, FedProx achieves more balanced aggregation
+across heterogeneous client data. Particularly in practical IoT deployments, where attack
+behavior patterns captured by different sensors can vary significantly, FedProx enhances
+overall system consistency by introducing a proximal term that constrains local model
+divergence. This mechanism effectively mitigates the negative impact of extreme updates
+from specific types of devices on the performance of the global model.
+3.5.2. Federated Learning Optimization Based on Knowledge Distillation
+The issue of Non-IID data remains one of the core challenges limiting model perfor-
+mance in FL. In IoT environments, heterogeneous devices are exposed to varying types of

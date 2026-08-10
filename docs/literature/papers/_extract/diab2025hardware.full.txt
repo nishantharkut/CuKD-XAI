@@ -1,0 +1,941 @@
+
+
+===== PAGE 1 =====
+
+Intrusion Detection on Resource-Constrained IoT
+Devices with Hardware-Aware ML and DL
+A. Diab1, A. Chehade2, E. Ragusa2, P. Gastaldo2, R. Zunino2, A. Baghdadi3, M. Rizk1,4
+1 Faculty of Sciences, Lebanese University, Hadath, Lebanon
+2 DITEN, University of Genova, Genova, Italy
+3IMT Atlantique, Lab-STICC UMR CNRS 6285, Brest, France
+4 School of Arts and Sciences, Lebanese American University, Beirut, Lebanon
+Abstract—This paper proposes a hardware-aware intrusion
+detection system (IDS) for Internet of Things (IoT) and Industrial
+IoT (IIoT) networks; it targets scenarios where classification
+is essential for fast, privacy-preserving, and resource-efficient
+threat detection. The goal is to optimize both tree-based machine
+learning (ML) models and compact deep neural networks (DNNs)
+within strict edge-device constraints. This allows for a fair
+comparison and reveals trade-offs between model families. We
+apply constrained grid search for tree-based classifiers and
+hardware-aware neural architecture search (HW-NAS) for 1D
+convolutional neural networks (1D-CNNs). Evaluation on the
+Edge-IIoTset benchmark shows that selected models meet tight
+flash, RAM, and compute limits: LightGBM achieves 95.3%
+accuracy using 75 KB flash and 1.2 K operations, while the HW-
+NAS–optimized CNN reaches 97.2% with 190 KB flash and 840 K
+floating-point operations (FLOPs). We deploy the full pipeline on
+a Raspberry Pi 3 B+, confirming that tree-based models operate
+within 30 ms and that CNNs remain suitable when accuracy
+outweighs latency. These results highlight the practicality of
+hardware-constrained model design for real-time IDS at the edge.
+Index Terms—Intrusion detection, Edge AI, Hardware-aware
+NAS, Traffic classification, Lightweight deep learning, TinyML.
+I. INTRODUCTION
+The widespread deployment of Internet of Things (IoT)
+systems has expanded the attack surface of modern networks,
+which now include critical infrastructure and operational en-
+vironments vulnerable to advanced cyber threats [1], [2].
+In such contexts, intrusion detection systems (IDS) must
+deliver high detection performance while operating within
+tight hardware constraints. Cloud-based IDS often add latency,
+rely on constant connectivity, and raise privacy issues due
+to traffic offloading to remote servers [3]. These limitations
+have motivated a shift toward local inference, where detection
+is performed directly at the edge. This work addresses the
+design of IDS models that operate under constrained memory,
+compute, and energy budgets, while ensuring timely and
+accurate predictions in resource-limited environments.
+Several recent studies have applied machine learning (ML)
+and deep learning (DL) to traffic-based intrusion detection,
+reporting satisfactory accuracy on public benchmarks [4]–
+[7]; however, most ignore edge constraints such as memory,
+computation, and latency, causing many models that perform
+well offline to exceed hardware budgets when deployed.
+This work focuses on tabular traffic data, where each flow
+is represented by handcrafted features from packet headers
+and metadata, capturing protocol and transport-level behavior.
+These features must be extractable in real time without delay
+or heavy overhead. Tree-based ML models, such as decision
+tree ensembles, are generally efficient but still require tuning to
+meet memory and latency constraints. Their performance can
+vary with hyperparameter configurations [8]. Deep models,
+such as convolutional and recurrent neural networks, often
+demand structural adaptation to operate within the compute
+and memory limits of embedded platforms [3]. Supporting
+both families calls for model design strategies that balance
+detection performance with hardware feasibility.
+Hardware-aware neural architecture search (HW-NAS) has
+recently been employed across domains to design efficient
+DL models [9], [10]. In this work, we frame model selection
+as a constrained optimization problem, aiming to maximize
+accuracy under strict memory and compute limits. For DL,
+we adopt HW-NAS to generate compact 1D convolutional
+neural networks (1D-CNNs) tailored to tabular traffic data,
+with memory and computation constraints embedded into the
+search. For tree-based ML models, we apply a constrained grid
+search under the same hardware considerations. We character-
+ize these constraints in terms of available flash, RAM, and
+compute load; the latter is measured using operation counts
+(Ops) for ML models, which rely on integer comparisons and
+logical branching, and floating-point operations (FLOPs) for
+CNNs, which perform dense arithmetic. This dual-track strat-
+egy enables a fair, hardware-constrained comparison between
+ML and DL approaches for edge-based IDS.
+The main contributions of this study are as follows:
+• We formulate IDS for IoT as a constrained optimization
+problem and address it using two strategies: grid search
+for tree-based ML and HW-NAS for CNNs.
+• We present a systematic comparison of the models de-
+rived from both strategies, all designed under shared
+hardware constraints, and tailored for deployment on IoT
+gateway platforms.
+• Our hardware-aware search produces highly efficient yet
+accurate models: LightGBM achieves 95.3% accuracy
+using just 75 KB of flash and 1.2 K operations, while the
+optimized CNN reaches 97.2% accuracy within 190 KB
+and 840 K FLOPs. The latter is up to 10× more efficient
+than recent DL baselines while preserving accuracy.
+• We demonstrate full deployment on a Raspberry Pi 3 B+,
+arXiv:2512.02272v1  [cs.NI]  1 Dec 2025
+
+
+
+===== PAGE 2 =====
+
+where feature extraction completes in under 1 ms, tree-
+based models deliver sub-30 ms inference, and CNNs
+remain viable when accuracy is prioritized over latency.
+The rest of the paper is organized as follows. Section II re-
+views related work. Section III describes the adopted method-
+ology. Section V presents the results and discussions. Sec-
+tion VI presents the hardware implementation and deployment
+results. Finally, Section VII concludes the paper and outlines
+future work.
+II. RELATED WORK
+A. ML and DL Approaches
+Extensive research has explored intrusion detection us-
+ing traditional ML methods such as decision trees (DT)
+and random forests (RF), as well as DL architectures like
+convolutional neural networks (CNNs) and recurrent neural
+networks (RNNs). These approaches have demonstrated strong
+performance across various datasets.
+The study in [1] reported that RF achieved the highest
+performance with an accuracy of 80.83%, while [7] evaluated
+several ML models for malware detection and found RF to be
+the top performer with 94.1% on the Edge-IIoTset dataset [1].
+Several DL-based IDS models have also been proposed.
+The work in [5] has developed a Long Short-Term Memory
+(LSTM) network with three hidden layers, achieving 86.6%
+accuracy. In [11], the authors have evaluated several tree-
+based models on a real-world traffic dataset, where XGBoost
+achieved the best performance with 89.09% accuracy using
+feature selection. While DL models show strong accuracy,
+many require optimization to meet the memory and compute
+constraints of edge deployment.
+Other works have explored hybrid and ensemble ap-
+proaches. The study in [12] has proposed a hybrid CNN-LSTM
+model for privacy-aware intrusion detection, achieving 97.14%
+accuracy. In [6], the authors have proposed an attention-based
+hybrid model (AB-HDL) combining CNN and autoencoder
+with an attention mechanism, achieving 99.95% accuracy.
+These approaches improve detection accuracy but often
+overlook hardware constraints such as memory, latency,
+and energy, which are critical for practical deployment on
+resource-constrained devices.
+B. Hardware-Aware Optimization for ML and DNN
+Model optimization is essential for meeting performance
+and deployment goals, especially on resource-constrained de-
+vices. A popular approach for optimizing deep models is
+neural architecture search (NAS) [9], [13], which automates
+the design of deep neural networks (DNNs) to maximize
+accuracy. To support real-world deployment, HW-NAS extends
+this idea by including constraints on memory, compute, and
+energy in the search process.
+Despite this progress, many NAS and optimization ap-
+proaches still focus mainly on accuracy [8], [9], overlooking
+practical deployment constraints. Traditional hyperparameter
+tuning and heuristics also rarely account for strict resource
+budgets, which limits their use on embedded platforms [8].
+Recent HW-NAS methods address this by generating models
+for limited devices [3], [14]–[16], and have shown success in
+domains where performance and efficiency must be balanced.
+This work explores hardware-aware optimization for IDS,
+as prior efforts often focus only on accuracy. We aim to find
+models that stay accurate while fitting the resource limits of
+edge devices. To achieve this, we apply optimization to both
+DNN and traditional ML models to design efficient solutions
+and expose their tradeoffs under constrained settings.
+III. METHODOLOGY
+Deploying ML and DNN models on constrained platforms
+requires optimizing predictive performance under strict hard-
+ware budgets. Our proposal addresses this challenge using
+two strategies: tree-based ML models selected via grid search,
+and compact DNNs designed through HW-NAS. We formalize
+model selection as an optimization problem, where m denotes
+a candidate model and M the set of all candidate models
+under consideration:
+max
+m ∈M
+Accuracyval(m)
+s.t.
+Flash(m) ≤Fmax,
+RAM(m) ≤Tmax,
+Compute(m) ≤Cmax
+(1)
+Here, Flash(m) denotes the non-volatile memory to store the
+model (e.g., all decision nodes for tree ensembles or weights
+for DNNs), RAM(m) is the peak intermediate memory usage
+during inference, and Compute(m) quantifies the per-inference
+computational cost. For DNNs, Compute(m) is expressed in
+floating-point operations (FLOPs), while for tree-based ML
+models it is expressed in decision operations (Ops). The
+thresholds (Fmax,Tmax,Cmax) follow target device specifica-
+tions and, as in prior work [3], [14]–[16], ensure the resulting
+models fit within the memory, compute, and latency budgets
+of the intended hardware. FLOPs and Ops act as proxies for
+inference latency and energy consumption [17], while Flash
+and RAM bounds control the model’s memory footprint.
+A. Hardware-Constrained ML Models via Grid Search
+The ML search space includes three tree-based ensemble
+methods: Light Gradient Boosting Machine (LightGBM), Ex-
+treme Gradient Boosting (XGBoost), and Random Forest (RF).
+These models are chosen for their strong performance on
+structured traffic features, as reported in prior work [11], [18],
+and because, unlike k-NN or SVM whose inference cost scales
+with the reference set or kernel evaluations, their per-inference
+cost can be expressed in split comparisons (Ops), which
+integrates naturally with our hardware-constraint checks.
+Hyperparameters are tuned via grid search over the
+Cartesian
+product
+of
+predefined
+ranges,
+using
+identical
+train/validation splits and preprocessing across models to
+ensure a fair and reproducible comparison.
+For each configuration explored, hardware measures are
+analytically estimated from the trained model structure prior
+to deployment. Ops are derived as an upper-bound from the
+
+
+
+===== PAGE 3 =====
+
+total number of split comparisons implied by the ensemble’s
+structure. Flash usage is the estimated memory required to
+store all decision nodes, and peak RAM usage is computed
+from the maximum tree depth combined with the memory
+needed for traversal state and temporary buffers. Each con-
+figuration is evaluated for validation accuracy and profiled
+against these measures; configurations violating any constraint
+are discarded, and the retained baselines are those achieving
+the highest validation performance within all budgets.
+B. Hardware-Aware Neural Architecture Search (HW-NAS)
+For DL, we use HW-NAS to automatically design compact
+1D-CNN architectures optimized for the same hardware bud-
+gets. 1D-CNNs are chosen as the backbone since prior work
+[3], [10], [14] shows their strong performance on network
+traffic with lower memory and compute needs than RNNs or
+Transformers. Although based on handcrafted traffic features
+derived from packet headers and flow metadata, 1D-CNNs
+effectively capture local correlations that reveal attack patterns
+while remaining efficient under tight device constraints.
+The HW-NAS search space is defined as block-wise 1D-
+CNN architectures, where each block can vary in number of
+filters, kernel size, stride, padding type, and dropout rate, and
+may include optional max or average pooling. Each block
+also contains batch normalization and activation layers, and
+the network is formed by stacking these blocks sequentially.
+The search process, implemented via an evolutionary al-
+gorithm [3], [14], [15], runs for a predefined number of
+generations, with a fixed number of children generated per
+generation. Starting from an initial population of random
+architectures, new candidates are created by mutating the
+best-performing valid parent from the previous generation.
+Mutations may add, remove, or modify a CNN block. Each
+candidate undergoes hardware profiling before training; archi-
+tectures that exceed any constraint are discarded immediately,
+while valid ones are retained until the target number of
+children for that generation is reached. The best-performing
+valid child in each generation becomes the parent for the
+next. At the end of the process, the model with the highest
+validation accuracy across all generations is selected as the
+final architecture, enabling efficient on-device inference.
+IV. EXPERIMENTAL SETUP
+A. Dataset
+This study employs the Edge-IIoTset dataset [1], a recent
+benchmark tailored for intrusion detection in IoT and industrial
+IoT environments. It captures labeled network flows repre-
+senting both benign activity and 14 distinct attack types, such
+as DDoS over TCP, SQL injection, man-in-the-middle, and
+backdoor access. These events span multiple protocol layers,
+including network, transport, and application.
+The dataset is available in two curated formats: a DL
+subset with 2,218,386 samples and an ML subset with 157,800
+samples. Each entry is represented by 63 numerical features
+extracted from flow-level and protocol-level headers.
+We consider three classification schemes, each reflecting a
+progressively finer level of semantic granularity. The binary
+setting separates benign traffic from all forms of attack,
+using a general attack label. The 6-class configuration maps
+the 14 attack types into five broader categories: denial of
+service, injection, malware, reconnaissance, and man-in-the-
+middle. The most detailed setup, the 15-class configuration,
+preserves all individual attack types as originally labeled. This
+fine-grained mode serves as the principal classification target
+throughout our evaluation.
+B. Data Preprocessing
+Real-time inference on low-power edge devices requires
+selecting features that are both informative and efficient to
+extract. We retain 47 features from the original set of 63, ex-
+cluding those that are unsuitable for real-time extraction, such
+as payload fields, string-based application-layer attributes,
+and high-cardinality identifiers. These are removed due to
+their incompatibility with streaming environments and limited
+relevance for lightweight deployment.
+The retained features are all readily derivable from flow and
+protocol headers without deep packet inspection. They include
+indicators such as tcp.flags, udp.port, icmp.seq le, and basic
+flow counters, covering key aspects of the network, transport,
+and flow layers.
+We first remove duplicate entries and rows with missing
+values. All features are normalized to the [0, 1] range using
+min–max scaling for numerical stability. The same preprocess-
+ing is used consistently across the three classification modes
+and both ML and DL pipelines, with one-hot encoding of class
+labels applied during training in the DL case. The complete
+list of selected features is available in our project repository1.
+C. Target Gateway Platform
+Our deployment target is the Raspberry Pi3 Model B+, a
+compact, Linux-based single-board computer intended for use
+as a gateway in a local network. In this role, it may process
+local traffic and support additional services such as logging,
+monitoring, or lightweight control functions.
+Table I lists the key hardware specifications, covering com-
+pute capability, memory, storage, connectivity, and power re-
+quirements. These features make the Pi suitable for continuous
+operation in network edge environments where resources must
+be shared among multiple tasks.
+TABLE I: Key specs of the Raspberry Pi 3 Model B+.
+Component
+Specification
+CPU
+Quad-core 1.4 GHz Cortex-A53
+RAM
+1 GB LPDDR2
+Storage
+microSD (OS and data)
+Connectivity
+Gigabit Ethernet, 802.11ac Wi-Fi, Bluetooth 4.2
+OS
+Raspbian Lite (Linux)
+Power
+5 V, up to 2.5 A
+D. Model Search and Implementation
+Experiments use preprocessed tabular features from the 15-
+class classification scenario, the primary task of the dataset,
+1https://github.com/AliiDiabb/Efficient-AI-based-Intrusion-Detection-Sys
+tem-for-IOT-Networks
+
+
+
+===== PAGE 4 =====
+
+and are conducted on a workstation powered by an Nvidia
+RTX 3070 Ti GPU.
+Given the modest resources of the target device (Rasp-
+berry Pi 3 B+) and the need for stable, low-latency operation
+alongside other gateway tasks, we set conservative deployment
+budgets of ≤300 KB flash, ≤50 KB RAM, and ≤1.5×106
+operations (Ops for ML, FLOPs for DL). These limits apply
+uniformly to both ML and DL models and are intentionally
+well below both the device’s nominal capacity and the resource
+footprints in related work on tabular traffic data, with the
+latter’s hardware measures either computed from architectural
+details or taken directly from reported metrics. This ensures
+our approach remains robust under varying network loads,
+avoids resource contention, and leaves ample headroom for
+other on-device processes.
+Table II summarizes the hyperparameter ranges explored
+for both the ML grid search and the HW-NAS process in
+DL. The upper block lists the unified meta-parameters used
+across the three ensemble classifiers (RF, LightGBM, XG-
+Boost), where each column corresponds to a tunable param-
+eter (e.g., number of trees, maximum depth, feature subsam-
+pling ratio) and the second row specifies the discrete values
+tested; here, min_child_size is a generic label mapped
+to min_samples_leaf in RF, min_child_samples
+in LightGBM, and min_child_weight in XGBoost (in-
+terpreted as the minimum sum of instance weights). The
+num_leaves parameter applies only to LightGBM and con-
+trols the maximum number of leaves per tree. The lower block
+shows the HW-NAS search space for 1D CNN architectures,
+with each column giving one architectural attribute (e.g., filter
+count, kernel size, stride, dropout rate, pooling configuration,
+padding type) and the row beneath indicating the allowed
+range or options. This layout enables a quick comparison of
+the tuning scope across tree-based ML models and DL.
+For ML, the grid search exhaustively evaluates all param-
+eter combinations in the defined space, retaining those that
+meet the hardware budgets. For CNN-1D, HW-NAS runs for
+100 generations, producing 15 valid children per generation
+after hardware check. A holdout validation set comprising 20%
+of the training data guides architecture selection. Training is
+performed for up to 100 epochs using the Adam optimizer
+(initial learning rate 0.008, batch size 2048) and categorical
+cross-entropy loss, with adaptive learning rate decay when val-
+idation loss stagnates, and early stopping to prevent overfitting.
+Models achieving the highest validation accuracy while
+satisfying all constraints are retrained and assessed across the
+dataset’s experiments using stratified 5-fold cross-validation.
+The supporting code is available in our public repository.1
+V. RESULTS AND DISCUSSION
+A. Multiclass Classification (15-Class Scenario)
+We assess model performance on the primary multiclass
+task, involving 15 attack types, which serves as the target sce-
+nario for our grid search and HW-NAS optimization processes.
+Results are summarized separately for tree-based ML models
+and DL-based approaches.
+Table III reports the performance of tree-based ML models
+on the 15-class task using feature-based inputs. The columns
+show the average accuracy (Acc.) and F1-score (F1) in %,
+flash and RAM usage in KB, and the estimated number of
+operations (Ops) per inference in thousands. Results for our
+trained models, shown in bold, are obtained using 5-fold cross-
+validation with standard deviation; hardware metrics for [1] are
+not reported due to missing architectural details.
+LightGBM achieves the highest accuracy (95.25%) and F1-
+score (94.74%) with the smallest flash (74.93 KB) and RAM
+(1.13 KB) footprint among the tree-based models. XGBoost
+delivers comparable accuracy (95.11%) but incurs a flash size
+of 266.59 KB and 4.27 K operations per inference. Random
+Forest (RF) shows slightly lower accuracy (94.12%) and F1
+(93.21%), with notably higher RAM usage (4.61 KB) due
+to deeper tree traversal. All proposed models significantly
+outperform the baselines from [1], which exhibit accuracies
+between 67.11% and 80.83%; this shows our models are
+effective even in low-compute or resource-constrained tasks.
+Table IV presents a comparative evaluation between our
+proposed model (Prop.) and recent DL-based methods. The
+columns report accuracy (Acc.) and F1-score (F1) (in %),
+as well as flash size, peak RAM usage (both in KB), and
+computational complexity in terms of FLOPs (thousands). All
+models operate on feature-based inputs. Our results, shown in
+bold, are obtained using 5-fold cross-validation, with standard
+deviation shown below each score.
+The proposed model achieves 96.73% accuracy and 97.24%
+F1-score with minimal variation, indicating strong perfor-
+mance. While some methods report higher accuracy, such as
+99.96% in [19], they require significantly more memory and
+computation, with flash sizes exceeding 1 MB and FLOPs
+above 5000 K. In contrast, our model requires only 190 KB
+of flash, 6.89 KB of RAM, and 838.89 K FLOPs.
+The method proposed in [12] is lightweight in computation
+with only 52.03 K FLOPs but suffers from a low F1-score of
+74.62%, suggesting weak class-wise generalization. The ap-
+plied method in [1] reports 94.67% accuracy, and the proposed
+method in [20] reports 84.00% accuracy with 83.00% F1; both
+are lower than ours and do not provide architectural details.
+In contrast, the presented method in [21] achieves 98.20%
+accuracy but requires over 12 MB of flash and 8839.18 K
+FLOPs, limiting its practicality. Overall, the model proposed
+in this work offers a favorable balance between performance
+and efficiency, making it suitable for constrained environments
+where both accuracy and resource usage matter.
+B. Extended Evaluation Scenarios
+Table V presents the performance of tree-based ML models
+on two additional scenarios: a 6-class attack classification task
+and a 2-class (benign vs malicious) binary task. Each block
+reports the average accuracy (Acc.), F1-score (F1), flash and
+RAM usage (in KB), and number of operations (Ops) per
+inference in thousands. Results for our models are shown
+in bold and are obtained using 5-fold cross-validation; other
+
+
+
+===== PAGE 5 =====
+
+TABLE II: Search spaces for the ML grid search and HW-NAS for DL
+Tree-based ML models (unified meta-parameters)
+Param
+ntrees
+max depth
+min child size
+colsample
+subsample
+num leaves
+Range
+{2,10,20,50,100,150}
+{5,10,15,20,25,30}
+{5,10,20,30,40}
+{0.6,0.8,1.0}
+{0.7,0.8,1.0}
+{8,16,32,64}
+Deep Learning (HW-NAS, 1D CNN)
+Param
+Filters
+Kernel size
+Stride
+Dropout rate
+Pooling
+Padding
+Range
+16–256
+2–10
+1–10
+0.1–0.5
+max/avg, 2–3
+same/valid
+TABLE III: Comparison with tree-based ML models
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+Ops
+(K)
+LightGBM
+95.25
+±0.13
+94.74
+±0.00
+74.93
+1.13
+1.20
+XGBoost
+95.11
+±0.12
+94.42
+±0.00
+266.59
+0.51
+4.27
+RF
+94.12
+±0.14
+93.21
+±0.00
+211.22
+4.61
+3.38
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+67.11
+80.83
+77.61
+79.18
+—
+—
+—
+—
+TABLE IV: Comparison with DL state-of-the-art methods
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+FLOPs
+(K)
+Prop.
+96.73
+±0.08
+97.24
+±0.07
+190.34
+6.89
+838.89
+[12]
+97.14
+74.62
+491.52
+3.60
+52.03
+[19]
+99.96
+99.00
+1310.72
+32.24
+5651.93
+[6]
+99.95
+99.60
+1105.92
+13.84
+2971.13
+[21]
+98.20
+–
+12245.44
+43.36
+8839.18
+[1]
+94.67
+–
+–
+–
+–
+[20]
+84.00
+83.00
+–
+–
+–
+works are shown for comparison, though hardware metrics are
+not reported due to lack of implementation details.
+All models maintain satisfactory performance across both
+tasks, with accuracy above 94% in the 6-class case and over
+99.9% in the binary setting. LightGBM offers the best trade-
+off, achieving 99.96% F1 in the binary task with just 5.02 KB
+of flash and 0.08 K ops. XGBoost remains efficient, while
+RF incurs slightly higher RAM and operation counts; unlike
+CNNs with fixed inference cost, ML resource usage scales
+with the number of output classes. In contrast, baseline models
+from [1], [7] show lower accuracy (77.90–94.10%), and omit
+hardware metrics, limiting their deployability comparison.
+Table VI reports the performance of DL models on the 6-
+class and 2-class tasks. The columns include accuracy (Acc.),
+F1-score (F1), flash and RAM usage (in KB), and FLOPs (K);
+our results are in bold and use 5-fold cross-validation.
+The proposed model (Prop.) achieves 96.83% accuracy on
+6-class and 99.74% on the binary task, with modest memory
+(190.34 KB flash, 6.89 KB RAM) and compute cost (838.89 K
+FLOPs). [12] is lighter (52.03 K FLOPs) but less accurate
+(97.85%). [20] performs well on binary but generalizes weakly
+to 6-class. [1] reports high binary accuracy (99.99%) but lower
+6-class score (96.01%) and omits F1 and hardware metrics,
+limiting comparison. Overall, our model balances performance
+and efficiency for practical deployment.
+TABLE V: ML models on 6- and 2-class tasks.
+Methods
+Acc.
+(%)
+F1
+(%)
+Flash
+(KB)
+RAM
+(KB)
+Ops
+(K)
+6-Class Classification
+LightGBM
+95.72
+±0.12
+96.04
+±0.00
+30.02
+1.13
+0.48
+XGBoost
+95.48
+±0.13
+95.94
+±0.00
+110.35
+0.51
+1.77
+RF
+94.53
+±0.15
+94.98
+±0.02
+189.96
+4.61
+3.03
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+77.90
+82.90
+85.62
+83.39
+—
+—
+—
+—
+KNN [7]
+DT [7]
+LR [7]
+SVM [7]
+RF [7]
+90.30
+92.50
+81.50
+84.30
+94.10
+90.30
+97.50
+81.50
+84.30
+94.00
+—
+—
+—
+2-Class (Binary) Classification
+LightGBM
+99.93
+±0.00
+99.96
+±0.00
+5.02
+1.13
+0.08
+XGBoost
+99.91
+±0.01
+99.95
+±0.01
+18.22
+0.51
+0.29
+RF
+99.92
+±0.03
+99.94
+±0.00
+6.25
+1.84
+0.1
+DT [1]
+RF [1]
+SVM [1]
+KNN [1]
+99.98
+99.99
+99.99
+99.99
+—
+—
+—
+—
+TABLE VI: DL models on 6-class and 2-class tasks
+Methods
+6-Class
+2-Class
+Flash
+(KB)
+RAM
+(KB)
+FLOPs
+(K)
+Acc.
+(%)
+F1
+(%)
+Acc.
+(%)
+F1
+(%)
+Prop.
+96.83
+±0.06
+96.88
+±0.05
+99.74
+±0.02
+99.74
+±0.02 190.34
+6.89
+838.89
+[1]
+96.01
+–
+99.99
+–
+–
+–
+–
+[12]
+–
+–
+97.85
+97.81
+491.52
+3.60
+52.03
+[20]
+84.00
+83.00 100.00 100.00
+–
+–
+–
+VI. EDGE DEPLOYMENT AND EVALUATION
+A. Deployment Setup
+We evaluate the on-device deployment performance of the
+trained classifiers on a Raspberry Pi 3 B+, configured as
+a local edge gateway for IoT/IIoT traffic classification. In
+this setup, the gateway captures network traffic in real time,
+performs packet-level sniffing, and aggregates packets into
+unidirectional flows between two endpoints based on five
+identifiers: source and destination IP addresses, source and
+destination ports, and transport-layer protocol. From each flow,
+the 47 structured features used in this study are extracted
+directly on the device; inference is then performed locally
+
+
+
+===== PAGE 6 =====
+
+without quantization or compression. The CNN operates in
+float32 precision, while the tree-based ML models run using
+their default inference formats.
+Power and latency measurements were collected using a
+USB power meter placed between the Raspberry Pi and its
+power supply. The device records current draw at high reso-
+lution during each prediction; we compute the instantaneous
+power as P = I ×V, and derive the energy per inference as the
+product of average power and measured latency.
+B. On-Device Inference Efficiency
+All reported values correspond to the additional consump-
+tion during inference, measured above the idle baseline of
+500 mA (2.5 W). Feature extraction, executed on-device im-
+mediately before each prediction, averaged 0.93 ms across all
+models and is excluded from the reported latency below.
+Table VII reports the average inference latency, current
+draw, power consumption, and energy per prediction for each
+model on the Raspberry Pi 3 B+; values are averaged over
+repeated runs and expressed respectively in milliseconds (ms),
+milliamperes (mA), milliwatts (mW), and millijoules (mJ).
+TABLE VII: On-device performance of classifiers.
+Model
+Latency
+(ms)
+Current
+(mA)
+Power
+(mW)
+Energy
+(mJ)
+Random Forest
+70
+65
+325
+22.75
+LightGBM
+27
+50
+250
+6.75
+XGBoost
+22
+50
+250
+5.50
+CNN
+300
+55
+275
+82.50
+LightGBM and XGBoost yield the lowest energy footprints,
+under 7 mJ per prediction, while maintaining sub-30 ms la-
+tency; this makes them suitable for deployments with tight
+energy and response-time constraints. The CNN model, while
+more accurate, incurs over 82 mJ per prediction due to its
+longer runtime and floating-point operations, which makes it
+better suited for scenarios where higher accuracy is desired and
+latency can be moderately tolerated. Random Forest exhibits
+slightly higher energy than the boosting models despite a lower
+operation count, likely due to less efficient memory access
+patterns during tree traversal.
+VII. CONCLUSION
+This work shows that accurate intrusion detection can be
+achieved without compromising hardware feasibility; it aligns
+model design with platform constraints while exposing key
+accuracy–efficiency trade-offs. Tree-based ensembles, partic-
+ularly LightGBM, offer strong performance with minimal
+resource usage, making them ideal for deployment on con-
+strained edge devices. HW-NAS optimized 1D-CNNs further
+improve accuracy with moderate cost and remain practical for
+edge inference without overloading the system. Both models
+minimize overhead and suit a wide range of embedded or
+gateway-class devices, as they occupy only a small fraction
+of memory and compute resources. Empirical results confirm
+that the selected models meet deployment constraints across
+tasks, while outperforming recent deep baselines in efficiency
+and remaining competitive in accuracy. Future directions in-
+clude compressing trained models (e.g., quantization, pruning),
+incorporating explainability techniques, and evaluating robust-
+ness under adversarial or noisy traffic.
+REFERENCES
+[1] M. A. Ferrag et al., “Edge-IIoTset: A new comprehensive realistic
+cyber security dataset of IoT and IIoT applications for centralized and
+federated learning,” IEEE Access, vol. 10, pp. 40 281–40 306, 2022.
+[2] S. A. Abdulkareem et al., “A lightweight SEL for attack detection in
+IoT/IIoT networks,” Journal of Network and Computer Applications,
+vol. 230, p. 103980, 2024.
+[3] A. Chehade et al., “Energy-efficient deep learning for traffic classifica-
+tion on microcontrollers,” arXiv preprint arXiv:2506.10851, 2025.
+[4] H. H. Pajouh et al., “A two-layer dimension reduction and two-tier clas-
+sification model for anomaly-based intrusion detection in IoT backbone
+networks,” IEEE Transactions on Emerging Topics in Computing, vol. 7,
+no. 2, pp. 314–323, 2016.
+[5] M. Keshk et al., “An explainable deep learning-enabled intrusion de-
+tection framework in IoT networks,” Information Sciences, vol. 639, p.
+119000, 2023.
+[6] S. Ullah et al., “Attention-based hybrid deep learning model for intrusion
+detection in IIoT networks,” Procedia Computer Science, vol. 246, pp.
+3323–3332, 2024.
+[7] N. Hamza et al., “Malware detection of IoT networks using machine
+learning: An experimental study with edge IIoT dataset,” in Proc. 30th
+Annu. Tech. Conf., IET Sri Lanka Network, Colombo, Sri Lanka, 2023.
+[8] S. Dhar et al., “A survey of on-device machine learning: An algorithms
+and learning theory perspective,” ACM Transactions on Internet of
+Things, vol. 2, no. 3, pp. 1–49, 2021.
+[9] H. Benmeziane et al., “A comprehensive survey on hardware-aware
+neural architecture search.” arXiv preprint arXiv:2101.09336, 2021.
+[10] A. Chehade et al., “Efficient traffic classification using HW-NAS:
+Advanced analysis and optimization for cybersecurity on resource-
+constrained devices,” arXiv preprint arXiv:2506.11319, 2025.
+[11] O. Aouedi, K. Piamrat, and B. Parrein, “Performance evaluation of
+feature selection and tree-based algorithms for traffic classification,”
+in IEEE International Conference on Communications Workshops (ICC
+Workshops).
+IEEE, 2021, pp. 1–6.
+[12] E. M. de Elias et al., “A hybrid CNN-LSTM model for IIoT edge
+privacy-aware intrusion detection,” in IEEE Latin-American Conference
+on Communications (LATINCOM).
+IEEE, 2022, pp. 1–6.
+[13] H. Liu, K. Simonyan, and Y. Yang, “Darts: Differentiable architecture
+search,” in Proc. Int. Conf. Learn. Represent. (ICLR), 2019.
+[14] A. Chehade et al., “Tiny neural networks for session-level traffic clas-
+sification,” in International Conference on Applications in Electronics
+Pervading Industry, Environment and Society.
+Springer, 2024.
+[15] E. Ragusa et al., “Compression–accuracy co-optimization through
+hardware-aware neural architecture search for vibration damage detec-
+tion,” IEEE Internet Things J., vol. 11, no. 19, pp. 31 745–31 757, 2024.
+[16] E. Ragusa et al., “Combining compressed sensing and neural architecture
+search for sensor-near vibration diagnostics,” IEEE Transactions on
+Industrial Informatics, vol. 20, no. 8, pp. 10 488–10 498, 2024.
+[17] A. M. Garavagno et al., “An affordable hardware-aware neural architec-
+ture search for deploying convolutional neural networks on ultra-low-
+power computing platforms,” IEEE Sensors Letters, vol. 8, no. 5, 2024.
+[18] S. Ismail, S. Dandan, and A. Qushou, “Intrusion detection in IoT
+and IIoT: Comparing lightweight machine learning techniques using
+TON IoT, WUSTL-IIOT-2021, and EdgeIIoTset datasets,” IEEE Access,
+2025.
+[19] K. Hassini et al., “An end-to-end learning approach for enhancing
+intrusion detection in industrial-internet of things,” Knowledge-Based
+Systems, vol. 294, p. 111785, 2024.
+[20] S. Aslam, M. M. Alshoweky, and M. Saad, “Binary and multiclass
+classification of attacks in edge IIoT networks,” in Advances in Science
+and Engineering Technology International Conferences (ASET).
+IEEE,
+2024, pp. 01–05.
+[21] M. Selem, F. Jemili, and O. Korbaa, “Deep learning for intrusion
+detection in IoT networks,” Peer-to-Peer Netw. and Appl., vol. 18, no. 22,
+2025.

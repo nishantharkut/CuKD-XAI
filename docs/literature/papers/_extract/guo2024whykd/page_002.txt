@@ -1,0 +1,38 @@
+1. Introduction
+Knowledge Distillation (KD) (Hinton et al, 2015) is renowned for its effec-
+tiveness in deep model compression and enhancement, emerging as a critical
+technique for knowledge transfer. Previously, this process has been under-
+stood and evaluated through model fidelity (Stanton et al, 2021), measured
+by the student model replication degree to its teachers. High fidelity, assessed
+by metrics like low averaged predictive Kullback-Leibler (KL) divergence and
+high top-1 agreement (Stanton et al, 2021), have conventionally been used
+to assess the success of KD.
+While fidelity has traditionally guided enhancements in model architec-
+tures, optimization, and training frameworks, repeated high-fidelity results
+corresponding to strong student performance seem to indicate that a high
+degree of mimicry between the student and teachers is desirable (Wang et al,
+2022; Li et al, 2022; Lao et al, 2023). Yet this notion was initially challenged
+in (Stanton et al, 2021), which empirically shows that good student accuracy
+does not imply good distillation fidelity in self and ensemble distillation.
+However, though (Stanton et al, 2021) underscores their empirical findings
+on the low-fidelity phenomenon, they still believe that closely matching the
+teacher is beneficial for KD in terms of knowledge transfer. Further, they
+identify optimization difficulties as one key reason of student’s poor emula-
+tion behavior to its teachers. Thus, this paradox highlights a need for further
+exploration on model fidelity and its mechanism in KD.
+Among factors in KD analysis, the attention map mechanism serves as
+a pivotal role in understanding the student-teacher interplay. It is known
+that in ensemble learning, diverse models improve the overall performance,
+and one can check their diversities through looking into the attention maps.
+Nonetheless, whether we can take it granted to transferring this conclusion
+into the case of KD has not been systematically studied yet. For example,
+(Tsantekidis et al, 2021) empirically shows that diversifying teachers’ learnt
+policies by training them in different subsets of learning environment, can en-
+hance the distilled student performance in KD. Yet, a theoretical foundation
+is lack for doing so. And it would be intriguing to check the student-teacher
+fidelity under such circumstance, to see if diversifying teacher models in an
+ensemble consistently corresponds with low-fidelity as well. If so, one can de-
+vote model attention map diversities to explain the existing fidelity paradox.
+Thus in this paper, we utilize the Intersection over Union (IoU) (Rezatofighi
+et al, 2019) of attention maps (Zhou et al, 2016) between different teacher
+2

@@ -1,0 +1,104 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 15 of 23
+422
+Experimental results and analysis
+In this section, the experimental results and analysis are pre-
+sented through relevant ﬁgures and tables to provide a clear
+understanding of the proposed model’s performance across
+different federated learning settings. Comparisons are drawn
+across various settings to demonstrate the model’s robustness
+in handling data heterogeneity, client diversity, and non-IID
+distributions, which are inherent challenges in IoT botnet
+detection.
+Experimental setup
+The experimental setup for this research was conducted
+on Google Colab, utilizing Python libraries to implement
+and test our federated learning framework for IoT botnet
+detection. Key libraries included NumPy and Pandas for
+data handling and scikit-learn for machine learning mod-
+els and preprocessing tasks, such as RandomForestClassiﬁer
+for model training, StandardScaler for feature normaliza-
+tion, and LabelEncoder for encoding categorical data. SHAP
+was essential in calculating feature importances, enabling
+privacy-preserving aggregation of knowledge across clients.
+To avoid potential data leakage and ensure a fair evalua-
+tion, we employed a 70% training and 30% testing split in
+all experiments. Importantly, within the training portion, we
+further separated a validation set (typically 20% of the train-
+ing data) to optimize hyperparameters such as the number
+of trees, maximum depth, and minimum samples per split
+in the Random Forest classiﬁer. This means the ﬁnal test
+set remained entirely unseen during hyperparameter tuning,
+effectively preventing test data leakage and overﬁtting. Only
+after selecting the best-performing hyperparameters on the
+validation set was the model evaluated on the test set.
+Classification results
+Before describing the results of federated settings, we ﬁrst
+present the classiﬁcation results using a centralized approach
+with Random Forest on 30% of the test dataset. Table 4
+provides the accuracy, precision, recall, and F1-score for
+the models trained on three different datasets. These results
+demonstrate the performance of the centralized model using
+optimized hyperparameters across each dataset, achieving
+near-perfect classiﬁcation scores across all metrics, with
+accuracy values ranging from 99.95 to 99.99%.
+Table 5 presents the classiﬁcation performance metrics for
+each client in Federated Setting 1. Each client’s performance
+is evaluated in terms of precision, recall, and F1-score for
+their respective botnet classes, demonstrating the model’s
+effectiveness across different botnet types. Client 1, with
+classes Bashlite (0) and Normal (2), achieved an overall
+accuracy of 99.94%, with both classes showing high preci-
+sion and recall. Similarly, Client 2, comprising Mirai (1) and
+Normal (2), achieved an accuracy of 99.97%, with minimal
+variance between precision, recall, and F1-score, suggest-
+ing balanced classiﬁcation. Client 3, containing Normal (2)
+and Torii (3) classes, achieved an accuracy of 99.99%, show-
+ing the model’s robustness in distinguishing between these
+classes. Overall, the results highlight the framework’s high
+classiﬁcation accuracy and balanced performance across het-
+erogeneous client datasets.
+The confusion matrices shown in Fig. 5 illustrate the clas-
+siﬁcation performance of the proposed federated learning
+model on each client dataset in Setting 1. The low number of
+misclassiﬁcations across all clients reinforces the effective-
+ness of the proposed approach in handling heterogeneous
+botnet types in non-IID datasets, showcasing its capability
+to accurately detect IoT botnet intrusions across different
+devices and environments in a federated setting.
+Table 6 presents the classiﬁcation performance of the local
+model across multiple clients under Setting 2, capturing var-
+ious botnet types such as Bashlite, Mirai, and Torii along
+with normal trafﬁc. Each client dataset reﬂects a different
+distribution of botnet and normal trafﬁc, allowing us to eval-
+uate the model’s adaptability and robustness in handling
+diverse IoT botnet attacks. The high performance metrics
+for all clients underscore the effectiveness of the proposed
+federated learning approach, which leverages SHAP-based
+feature selection to enhance model interpretability and accu-
+racy while preserving data privacy across distributed IoT
+devices. The near-perfect classiﬁcation results highlight the
+model’s robustness in identifying botnet attacks, even in non-
+IID data settings, where client datasets vary signiﬁcantly in
+botnet type and normal trafﬁc distribution.
+The confusion matrices showing in Fig. 6 for each client
+illustrate the performance of the local model in distinguish-
+ing between botnet classes (Bashlite, Mirai, Torii, etc.) and
+normal trafﬁc across the various data partitions. Here 67.67%
+of data was used for training and 33.33% was used for testing.
+Each matrix shows a high concentration of correct classiﬁ-
+cations along the diagonal, indicating accurate predictions
+for each botnet type and normal trafﬁc. The minimal off-
+diagonal entries, which represent misclassiﬁcations, afﬁrm
+themodel’srobustnessandeffectivenessinidentifyingbotnet
+trafﬁc types with high accuracy across different client distri-
+butions. This strong performance demonstrates the capability
+of the federated learning framework to generalize well across
+heterogeneous IoT environments, achieving reliable detec-
+tion across varied and non-IID client data.
+Table 7 summarizes the classiﬁcation performance of the
+federated learning model in Setting 3, where each client
+has a unique mix of botnet and normal data from different
+datasets. Across all clients, the model achieved nearly perfect
+scores in accuracy, precision, recall, and F1, demonstrating
+123

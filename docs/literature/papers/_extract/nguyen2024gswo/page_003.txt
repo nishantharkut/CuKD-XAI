@@ -1,0 +1,53 @@
+Sensors 2024, 24, 3339
+3 of 26
+-
+Finally, we rigorously evaluate the proposed methodology using a comprehensive
+range of datasets, encompassing established benchmarks such as CICIDS 2017 and
+NSL-KDD as well as specialized WSN datasets including the WSN dataset and the
+WSNBFSF dataset, which was published in 2023. These comprehensive evaluations
+underscore the accuracy and real-time applicability of the proposed method on various
+data sources.
+The subsequent sections of this manuscript are structured as follows: Section 2 delves
+into the related literature and research. Section 3 explains the comprehensive IDS proposed
+for WSNs. Section 4 expounds on the GSWO algorithm, detailing its application in FS and
+the fine-tuning of hyperparameters. The experimental results and performance analysis
+are presented in Section 5. Finally, Section 6 provides the concluding remarks and outlines
+avenues for future research.
+2. Related Work
+2.1. WSN Intrusion Detection
+Almomani et al. [21] developed a specialized dataset called WSN-DS, tailored for WSN
+intrusion detection. They employed an artificial neural network (ANN) on this dataset,
+which resulted in enhanced accuracy in the detection and classification of DoS attacks.
+Subsequently, in 2023, Dener et al. [22] introduced a novel dataset, WSN-BFSF, specifically
+designed to detect DoS attacks in WSNs. Their investigation involved the evaluation of
+four ML and eight deep-learning models, yielding notable outcomes.
+Vinayakumar et al. [23] devised a hybrid IDS for detecting and classifying attacks.
+They introduced a scalable deep neural network (DNN) framework called scale-hybrid-
+IDS-AlertNet, which was designed to combat network attacks. The proposed methodology
+assessed diverse datasets, including CICIDS2017, WSN-DS, UNSW-NB15, and NSL-KDD,
+and exhibited commendable accuracy across various network traffic types. However, their
+study lacked a comprehensive discussion regarding computational time efficiency [24].
+Le et al. [6] implemented a random forest algorithm to classify four types of DoS
+attacks using the WSN-DS dataset. This study involved a comparative analysis of the
+performance of random forest and ANN algorithms. The findings demonstrated the efficacy
+of random forest as a robust machine-learning method adept at overcoming overfitting
+challenges and outperforming ANN. However, it is pertinent to note that the study’s
+results were derived from a relatively limited dataset comprising 94,042 instances during
+the testing phase [25]. It is worth mentioning that this investigation exclusively considered
+the LEACH routing protocol, while other protocols remained unexplored.
+Salmi and Oughdir [26] developed and implemented various models, including DNN,
+convolutional neural networks (CNNs), recurrent neural networks (RNNs), and hybrid
+RNN–CNN architectures, for the detection of DoS attacks in WSNs. The models were
+trained using the WSN-DS dataset, with the CNN exhibiting superior performance with an
+accuracy rate of 98.79%. Notably, compared to ML models, deep learning models introduce
+a heightened computational overhead. Given the inherent constraints of WSNs, lightweight
+security solutions are imperative for addressing these network limitations.
+Although there have been significant advancements in the development of specialized
+datasets and the application of various machine learning and deep learning models for
+intrusion detection in Wireless Sensor Networks (WSNs), there is still a significant research
+gap in terms of accuracy and inference time. This shortcoming stems from the intrinsic
+complexity of the current models, which are applied directly to raw data with high noise
+levels and no FS stage, leading to long inference times in real-world applications. Moreover,
+the aforementioned ML models do not yet incorporate hyperparameter optimization strate-
+gies designed to obtain the best possible performance of the models in certain wireless
+sensor network situations.

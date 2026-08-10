@@ -1,0 +1,57 @@
+Electronics 2026, 15, 938
+2 of 20
+To address the threat of network attacks, network intrusion detection systems (NIDS)
+have emerged as an important part of the proactive defense system. NIDS can identify
+potential attack behaviors and abnormal access by real-time monitoring and analysis of
+system logs, user behavior, and network traffic. Research on NIDS began globally in the
+1980s and has now become an indispensable part of network security [7]. However, with
+the continuous development of digital technology and the increasing diversification of
+network attack methods, the data characteristics of network traffic have become more and
+more complex, and traditional NIDS can no longer meet the needs of IoT users to accurately
+identify anomalies and unknown attacks [8].
+With the development of artificial intelligence, the NIDS field has begun to use deep
+learning to extract traffic features, thereby automatically identifying abnormal traffic in com-
+plex data traffic. Commonly used deep learning algorithms mainly include Convolutional
+Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Long Short-Term
+Memory Networks (LSTMs) [9]. However, these methods generally suffer from complex
+network structures and large parameter scales, thus requiring high hardware resources
+for the deployment environment. Meanwhile, traditional NIDS are mostly deployed in
+the cloud or on central servers. Although they possess strong computing and storage
+capabilities, they suffer from high latency and high bandwidth consumption in IoT scenar-
+ios. To address this, researchers have proposed deploying intrusion detection systems at
+the edge, enabling traffic analysis and detection to be completed locally. This effectively
+reduces communication latency, alleviates network transmission pressure, and improves
+the response speed to local attacks [10].
+The introduction of edge-based intrusion detection provides a new assurance for
+the real-time performance and security of IoT networks. However, it also brings several
+challenges that urgently need to be addressed:
+1.
+IoT network traffic data usually exhibits high dimensionality and strong feature
+correlation. If such data are directly fed into the detection model, redundant informa-
+tion will significantly increase computational burden and make the model prone to
+overfitting, which in turn degrades detection accuracy.
+2.
+Most deep learning-based intrusion detection models require substantial computa-
+tional and storage resources. Given the resource-constrained nature of edge devices,
+models with large parameter sizes and high computational costs are difficult to deploy
+and run efficiently in practical edge environments.
+To address the aforementioned issues, this paper aims to research a lightweight
+intrusion detection method for IoT networks at the edge. The main contributions are
+as follows:
+1.
+A hybrid feature extraction strategy: Aiming at the issues of high data dimensionality
+and feature redundancy in IoT network traffic, a hybrid feature selection method inte-
+grating variance filtering, mutual information, and correlation analysis is proposed.
+Firstly, variance filtering is used to quickly remove the information features with small
+variation amplitude and limited discrimination ability, thereby reducing the computa-
+tional overhead of subsequent feature selection. Then, a feature selection objective
+function is constructed by combining mutual information and Pearson Correlation
+Coefficient to select the feature subset with high correlation to the category label and
+low feature redundancy.
+2.
+A lightweight intrusion detection model: A detection model was developed based on
+a temporal convolutional network (TCN), which effectively captures the long-term
+temporal dependency features of network traffic by leveraging its hierarchical causal
+convolution and dilated convolution structure. Meanwhile, residual connections
+are utilized to alleviate the vanishing gradient problem, making the model easy
+https://doi.org/10.3390/electronics15050938

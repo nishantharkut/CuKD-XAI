@@ -1,0 +1,61 @@
+Annals of Telecommunications (2025) 80:1095–1120
+https://doi.org/10.1007/s12243-025-01118-9
+A versatile XAI-based framework for efﬁcient and explainable intrusion
+detection systems
+Beny Nugraha1 · Abhishek Venkatesh Jnanashree1 · Thomas Bauschert1
+Received: 22 January 2025 / Accepted: 21 September 2025 / Published online: 29 September 2025
+© The Author(s) 2025
+Abstract
+Artiﬁcialintelligence(AI)-basedintrusiondetectionsystems(IDSs)markedlyadvancenetworksecuritybyleveragingmachine
+learning (ML) and deep learning (DL) models for accurate, adaptive threat detection. Their main drawback, however, is an
+inherent “black-box” character that impedes trust, traceability, and regulatory compliance. To overcome this limitation, we
+propose an efﬁcient explainable-AI (XAI) framework that enhances both robustness and interpretability. The two-stage process
+ﬁrst couples a statistical selector (ANOVA) with global SHAP scores to retain only the ten most informative features, an
+approximately 70% dimensionality reduction, then retrains a lightweight XGBoost detector whose decisions are explained
+locally by SHAP and LIME. Cross-validating the two explanation modalities adds a reliability check absent from earlier
+hybrids, while the inclusion of a time-efﬁciency evaluation for explanation generation provides a new performance dimension
+that prior XAI-IDS studies have not addressed. To our knowledge, this is the ﬁrst framework to jointly apply dual-stage
+statistical–model-based feature selection and SHAP–LIME cross-validation in IDS, enabling near-real-time explainability
+without sacriﬁcing accuracy. Comprehensive experiments on three representative traces, CIC-DDoS2019 (legacy IP DDoS),
+CICIoT2023 (IoT malware), and 5G PFCP (control-plane attacks), conﬁrm the framework’s versatility: it sustains an F1 Score
+of at least 99 % while accelerating LIME explanation time from 36 to 4.9 s, an 87 % speed-up. These results demonstrate
+that high detection accuracy and transparent, near-real-time interpretability can be achieved simultaneously in modern IDS
+deployments.
+Keywords Explainable artiﬁcial intelligence · Network security · Intrusion detection system · SHAP · LIME ·
+Feature engineering
+1 Introduction
+In the digital era, robust intrusion detection systems (IDS)
+are crucial for safeguarding interconnected networks against
+the rise of cyber-attacks. AI-based IDS provides superior
+detection and analysis of anomalous trafﬁc through machine
+learning (ML) and deep learning (DL), representing a sig-
+niﬁcant advancement in cybersecurity. However, they face
+challenges due to their “black-box” nature, where decision-
+B Beny Nugraha
+beny.nugraha@etit.tu-chemnitz.de
+Abhishek Venkatesh Jnanashree
+abhishek.venkatesh-jnanashree@etit.tuchemnitz.de
+Thomas Bauschert
+thomas.bauschert@etit.tu-chemnitz.de
+1
+Chair of Communication Networks, Technische Universität
+Chemnitz, Chemnitz, Germany
+making processes are opaque, compromising trust among the
+involved parties [1, 2]. Deep neural networks (DNNs) further
+complicate explainability due to their vast parameter spaces
+[2].
+Explainable artiﬁcial intelligence (XAI) addresses these
+issues by introducing transparency and interpretability into
+AI systems, enabling stakeholders to comprehend and trust
+AI decisions. Techniques such as SHAP (SHapley Addi-
+tive exPlanations) and LIME (Local Interpretable Model-
+Agnostic Explanations) provide insights into feature contri-
+butions, enhancing the trustworthiness of AI-based IDSs [3,
+4]. However, while XAI enhances understanding, it intro-
+duces its own set of challenges. Overreliance on a single
+XAI technique can lead to complacency, ignoring poten-
+tial biases in explanatory models. Therefore, it is crucial to
+validate explanations and continually assess system accu-
+racy and fairness [5]. Another drawback is that conventional
+XAI methods often suffer from high computational com-
+123

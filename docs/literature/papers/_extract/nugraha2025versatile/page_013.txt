@@ -1,0 +1,164 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1107
+contribute to class separation by comparing the variance
+within classes (e.g., benign or malicious trafﬁc) to the vari-
+ance between classes. Features with a higher between-class
+variance than within-class variance are considered statis-
+tically signiﬁcant, making them crucial for distinguishing
+between malicious and benign trafﬁc. ANOVA is particularly
+advantageous due to its simplicity, efﬁciency, and ability to
+handle large datasets. Unlike more complex feature selection
+techniques, such as Recursive Feature Elimination (RFE),
+Mutual Information (MI), or Wrapper Methods, ANOVA
+does not rely on model-speciﬁc parameters and offers a
+purely statistical perspective, making it a robust complement
+to model-based interpretability tools like SHAP. By combin-
+ing the outcomes of SHAP Global Explanation and ANOVA,
+we achieve a more comprehensive selection of features,
+integrating SHAP’s interpretability with ANOVA’s statisti-
+cal precision. The Feature Reduction process merges these
+results, assigning a 60% weight to SHAP Global Explanation
+and 40% to ANOVA, prioritizing SHAP’s ability to capture
+feature importance in the context of model predictions while
+incorporating the statistical insights from ANOVA. Table 5
+presents the top 30 features for the CICIoT2023 and CIC-
+DDoS2019 datasets, and Table 6 lists the 9 features for the
+5G PFCP datasets. These identiﬁed features align well with
+the nature of each attack. For instance, in volumetric attacks,
+which rely on generating a high rate of trafﬁc to overwhelm
+the target, trafﬁc volume-related features such as ‘Number’
+are among the most important. On the other hand, for the
+Slowloris attack, ‘HTTP’ is a key feature, surpassed only by
+the ‘Number’ feature, as this attack relies on slowly send-
+ing incomplete HTTP requests to keep connections open.
+These tables represent the ﬁnal results of the ﬁrst stage and
+serve as the input for further analysis and evaluation in the
+second stage of our framework.
+Table 5 Most important
+features as identiﬁed in the ﬁrst
+stage
+Portmap
+SYN Flood
+HTTP Flood
+Slowloris
+Fwd Packet Length Min
+syn_ﬂag_number
+Number
+Number
+Min Packet Length
+Number
+HTTP
+HTTP
+Inbound
+rst_count
+urg_count
+syn_count
+Avg Fwd Segment Size
+IAT
+HTTPS
+IAT
+Fwd Packet Length Mean
+Weight
+rst_count
+rst_count
+URG Flag Count
+Magnitude
+Duration
+Tot sum
+Average Packet Size
+Header_Length
+syn_count
+Header_Length
+Fwd Packets/s
+Variance
+ack_count
+Variance
+Fwd Header Length
+Min
+ﬁn_count
+Duration
+Fwd IAT Total
+ack_ﬂag_number
+Header_Length
+HTTPS
+Packet Length Mean
+ﬁn_count
+Magnitude
+ﬁn_count
+Packet Length Std
+urg_count
+Rate
+rst_ﬂag_number
+Fwd IAT Std
+Tot sum
+AVG
+Tot size
+Down/Up Ratio
+ack_count
+Tot size
+psh_ﬂag_number
+Bwd IAT Mean
+HTTPS
+Std
+AVG
+Init_Win_bytes_forward
+Duration
+Radius
+urg_count
+Fwd IAT Min
+syn_count
+Max
+Magnitude
+Total Length of Fwd Packets
+Std
+Tot sum
+ack_count
+Total Length of Bwd Packets
+Radius
+Variance
+Rate
+Init_Win_bytes_backward
+Covariance
+Min
+Max
+Bwd Packet Length Min
+AVG
+syn_ﬂag_number
+Std
+Bwd IAT Min
+Tot size
+IAT
+Min
+CWE Flag Count
+Max
+TCP
+Radius
+ACK Flag Count
+rst_ﬂag_number
+Covariance
+Srate
+Bwd Packet Length Mean
+UDP
+rst_ﬂag_number
+ﬁn_ﬂag_number
+Avg Bwd Segment Size
+TCP
+UDP
+Covariance
+Bwd IAT Total
+HTTP
+Weight
+TCP
+Bwd IAT Std
+psh_ﬂag_number
+psh_ﬂag_number
+ack_ﬂag_number
+Bwd Packet Length Max
+Rate
+Srate
+UDP
+Fwd PSH Flags
+DNS
+ﬁn_ﬂag_number
+DNS
+123

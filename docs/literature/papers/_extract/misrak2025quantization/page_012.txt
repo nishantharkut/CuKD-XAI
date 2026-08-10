@@ -1,0 +1,35 @@
+Page 12 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+Ensuring accurate evaluation of the deep learning model’s performance necessitates 
+proper data splitting into train, test, and validation sets. To address potential issues aris­
+ing from unbalanced datasets, we employ a stratified splitting method. Following nor­
+malization, data is divided into 80 % training, 20% testing, and then further divide the 
+training set to training and validation 80% and 20% respectively.
+The research focuses on model lightweighting for IoT cyber-attack detection, In the 
+subsequent sections, the proposed architecture will be described in detail. Beginning 
+with data preprocessing, improved feature engineering was applied, which includes 
+RAL-MIFS and a two-stage IPCA process, as detailed in Sect. 3.4. Following this, we will 
+develop a hybrid DNN-BiLSTM model, which comprises a DNN and BiLSTM architec­
+ture for intricate feature extraction as described in Sect. 3.5. The training of this model 
+will incorporate quantization-aware training.
+Then the developed hybrid model parameters will be optimized using advanced optuna 
+parameter optimization, as detailed in Sect. 3.7, to achive the best accuracy and while 
+reducing model size. Then to create lightweight model, we will apply advanced dynamic 
+quantization, which integrates quantization-aware training with dynamic quantization 
+after training, as described in Sect. 3.6. This comprehensive approach aims to achieve 
+a lightweight yet highly accurate model by systematically optimizing each stage of the 
+development process.
+3.4  Improved feature engineering
+When real time sensor and system data directly inputted to neural network, unimport­
+ant redundant attributes in the real time sensor and system data typically make learn­
+ing process harder, which definitely has a adverse impact on the efficacy of the cyber 
+attack identification of entire system. The determination of relationships between input 
+and target variables may necessitate a considerable number of instances, particularly in 
+scenarios where the input data contains ample information but suffers from high dimen­
+sionality. Feature reduction presents a viable solution to these challenges, comprising 
+two primary techniques: feature selection and extraction. Feature selection involves the 
+identification and retention of pertinent inputs from the raw dataset, whereas extraction 
+of feature entails the derivation of new parameters from the original dataset, encapsulat­
+ing the most pertinent information relevant to the output variable.
+Fig. 1  Proposed lightweight hybrid deep learning architecture
+ 

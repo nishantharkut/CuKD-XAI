@@ -1,0 +1,48 @@
+{
+  "status": "complete",
+  "protocol_id": "archive_random_split_train_scaler_codistillation_v2",
+  "base_protocol_id": "archive_random_split_train_scaler_controlled_tuning_v2",
+  "source_existing_results": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed_v2_reconstructed\\cukd_xai_results.json",
+  "source_existing_results_sha256": "cd8b25007da8d6ef27986d40ec3a1c9def7be90d417d640e6462bb5ed253aa04",
+  "output_dir": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed_train_only_plus_j",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "students": [
+    "student_A_32_16",
+    "student_B_64_32"
+  ],
+  "added_config": "J_CoDistill_RF_CL",
+  "preprocessing": {
+    "scope": "train-only StandardScaler after seed-42 raw split",
+    "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "split_hashes": {
+      "train_raw_features_and_labels_sha256": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+      "validation_raw_features_and_labels_sha256": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+      "test_raw_features_and_labels_sha256": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+    },
+    "scaler_sha256": "2a53ababca7e45b41d4da98f816db558f4fe5baa92327f383d14bc30d02388f2",
+    "duplicate_policy": "archived random-row split; duplicate groups are not constrained"
+  },
+  "existing_configs_preserved": [
+    "A_RF_500",
+    "B_Full_MLP",
+    "C_CL_MLP_loss_fair",
+    "D_Small_MLP",
+    "E_KD_from_RF",
+    "E2_KD_from_MLP",
+    "F_KD_from_CL_MLP_fair",
+    "F_KD_from_CL_MLP"
+  ],
+  "j_runtime_sec": 5756.922107900002,
+  "warning": "Do not use quick-mode merged outputs for final evidence."
+}

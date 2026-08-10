@@ -1,0 +1,137 @@
+0
+20
+40
+60
+80 100 120
+Depth
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+Error/ECE
+Varying Depth
+ResNet - CIFAR-100
+Error
+ECE
+0
+50 100 150 200 250 300
+Filters per layer
+Varying Width
+ResNet-14 - CIFAR-100
+Error
+ECE
+Without
+With
+Batch Normalization
+Using Normalization
+ConvNet - CIFAR-100
+Error
+ECE
+10−5
+10−4
+10−3
+10−2
+Weight decay
+Varying Weight Decay
+ResNet-110 - CIFAR-100
+Error
+ECE
+Figure 2. The effect of network depth (far left), width (middle left), Batch Normalization (middle right), and weight decay (far right) on
+miscalibration, as measured by ECE (lower is better).
+taking a weighted average of the bins’ accuracy/conﬁdence
+difference. More precisely,
+ECE =
+M
+X
+m=1
+|Bm|
+n
+ acc(Bm) −conf(Bm)
+,
+(3)
+where n is the number of samples. The difference between
+acc and conf for a given bin represents the calibration gap
+(red bars in reliability diagrams – e.g. Figure 1). We use
+ECE as the primary empirical metric to measure calibra-
+tion. See Section S1 for more analysis of this metric.
+Maximum Calibration Error (MCE).
+In high-risk ap-
+plications where reliable conﬁdence measures are abso-
+lutely necessary, we may wish to minimize the worst-case
+deviation between conﬁdence and accuracy:
+max
+p∈[0,1]
+P
+
+ˆY = Y | ˆP = p
+
+−p
+ .
+(4)
+The Maximum Calibration Error (Naeini et al., 2015) – or
+MCE – estimates this deviation. Similarly to ECE, this ap-
+proximation involves binning:
+MCE =
+max
+m∈{1,...,M} |acc(Bm) −conf(Bm)| .
+(5)
+We can visualize MCE and ECE on reliability diagrams.
+MCE is the largest calibration gap (red bars) across all bins,
+whereas ECE is a weighted average of all gaps. For per-
+fectly calibrated classiﬁers, MCE and ECE both equal 0.
+Negative log likelihood
+is a standard measure of a prob-
+abilistic model’s quality (Friedman et al., 2001). It is also
+referred to as the cross entropy loss in the context of deep
+learning (Bengio et al., 2015). Given a probabilistic model
+ˆπ(Y |X) and n samples, NLL is deﬁned as:
+L = −
+n
+X
+i=1
+log(ˆπ(yi|xi))
+(6)
+It is a standard result (Friedman et al., 2001) that, in expec-
+tation, NLL is minimized if and only if ˆπ(Y |X) recovers
+the ground truth conditional distribution π(Y |X).
+3. Observing Miscalibration
+The architecture and training procedures of neural net-
+works have rapidly evolved in recent years. In this sec-
+tion we identify some recent changes that are responsible
+for the miscalibration phenomenon observed in Figure 1.
+Though we cannot claim causality, we ﬁnd that increased
+model capacity and lack of regularization are closely re-
+lated to model miscalibration.
+Model capacity.
+The model capacity of neural networks
+has increased at a dramatic pace over the past few years.
+It is now common to see networks with hundreds, if not
+thousands of layers (He et al., 2016; Huang et al., 2016)
+and hundreds of convolutional ﬁlters per layer (Zagoruyko
+& Komodakis, 2016). Recent work shows that very deep
+or wide models are able to generalize better than smaller
+ones, while exhibiting the capacity to easily ﬁt the training
+set (Zhang et al., 2017).
+Although increasing depth and width may reduce classi-
+ﬁcation error, we observe that these increases negatively
+affect model calibration. Figure 2 displays error and ECE
+as a function of depth and width on a ResNet trained on
+CIFAR-100. The far left ﬁgure varies depth for a network
+with 64 convolutional ﬁlters per layer, while the middle left
+ﬁgure ﬁxes the depth at 14 layers and varies the number
+of convolutional ﬁlters per layer. Though even the small-
+est models in the graph exhibit some degree of miscalibra-
+tion, the ECE metric grows substantially with model ca-
+pacity. During training, after the model is able to correctly
+classify (almost) all training samples, NLL can be further
+minimized by increasing the conﬁdence of predictions. In-
+creased model capacity will lower training NLL, and thus
+the model will be more (over)conﬁdent on average.
+Batch Normalization
+(Ioffe & Szegedy, 2015) improves
+the optimization of neural networks by minimizing distri-
+bution shifts in activations within the neural network’s hid-

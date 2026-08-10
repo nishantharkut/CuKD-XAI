@@ -1,0 +1,104 @@
+1118
+Annals of Telecommunications (2025) 80:1095–1120
+= 0.9969). Here, the fusion variant provides slightly faster
+explanations (2.16 s vs. 2.30–2.33 s), highlighting that com-
+bining statistical ﬁltering with model-driven importance can
+yield efﬁciency gains without impairing quality.
+Slowloris(Table19)presentsthemostchallengingcase,as
+ANOVA-only reduces performance more substantially (F1 =
+0.9838). By contrast, SHAP-only and ANOVA+SHAP both
+sustain nearly perfect detection (F1 = 0.9999 and 0.9997,
+respectively). The fusion variant shortens LIME explana-
+tion time (2.44 s) compared to SHAP-only (2.57 s), again
+demonstrating that combining ANOVA with SHAP helps
+remove redundant features, stabilizing interpretability efﬁ-
+ciency while preserving accuracy.
+Turningto5Gtraffic,theSessionDeletionattack(Table20)
+proves especially difﬁcult to classify, as the overall base-
+line accuracy is lower (F1 = 0.8566). Here, SHAP-only
+and ANOVA+SHAP fusion replicate the full-feature perfor-
+mance, while ANOVA-only reduces F1 to 0.8414. Efﬁciency
+gains are also observed, as explanation times drop from
+1.76 s (baseline equivalent) to 1.45–1.55 s. In contrast, Ses-
+sion Establishment (Table 21) achieves consistently strong
+performance, with ANOVA-only slightly boosting the F1
+Score (0.9952) compared to the baseline (0.9911), while
+SHAP-only and ANOVA+SHAP fusion maintain parity.
+Explanation times remain efﬁcient (1.76–1.83 s), conﬁrm-
+ing that the fusion approach does not introduce overhead and
+is effective even under 5G control-plane trafﬁc.
+In summary, across all six attack types, ANOVA-only
+consistently risks measurable accuracy losses, particularly
+in more complex trafﬁc such as Slowloris and PFCP Ses-
+sion Deletion. By contrast, SHAP-only and the proposed
+ANOVA+SHAP fusion consistently match or exceed the
+baseline detection quality, with the fusion variant providing
+modest but consistent gains in explanation efﬁciency. These
+ﬁndings conﬁrm that combining statistical ﬁltering with
+model-driven importance yields the best balance between
+accuracy and interpretability efﬁciency across diverse net-
+working environments.
+5 Conclusion
+This paper introduces an efﬁcient and explainable XAI-based
+IDS framework that mitigates the “black-box” limitations of
+conventional AI-IDS by integrating statistical feature selec-
+tion (ANOVA) with SHAP and LIME, thereby enhancing
+interpretability while preserving high detection performance
+and computational efﬁciency. The two-stage method not
+only reduces the feature space by ≈70% but also enforces
+consistency between SHAP and LIME local explanations,
+validating the reliability of the interpretations. A comprehen-
+sive evaluation on the CIC-DDoS2019, CICIoT2023, and 5G
+PFCP datasets demonstrates robust attack-detection capa-
+bility across diverse networking environments and attack
+scenarios: the framework maintains an F1 Score ≥99% and
+accelerates LIME explanation generation by up to 87 % with
+the reduced feature set. Although a full head-to-head bench-
+mark with the latest deep learning IDSs (e.g., DeepIDS and
+SAIDD) is left for future work, their published detection
+performance results are already matched or exceeded by our
+lightweight XGBoost pipeline.
+In future work, we will strengthen resilience to noisy
+data by integrating noise-robust preprocessing (e.g., Isola-
+tion Forest for outlier removal, Hampel and median ﬁltering
+for bursty artefacts, and RobustScaler to temper heavy-tailed
+feature distributions) and by injecting controlled Gaussian
+and burst noise during training for data-level augmenta-
+tion. To counter adversarial manipulation, we will extend
+the training loop with Fast Gradient Sign Method (FGSM)
+and Projected Gradient Descent (PGD) adversarial examples,
+followed by adversarial re-training and a lightweight detector
+based on Mahalanobis distance to ﬂag perturbed ﬂows at run-
+time. We also plan to develop a real-time online version and
+explore federated deployment for privacy-preserving scala-
+bility, while adding a packet-level module that leverages 1-D
+CNN embeddings so that raw packet traces can be processed
+alongside ﬂow features.
+Author contributions BN organized the paper’s structure, formulated
+the state-of-the-art, deﬁned the goals, and designed the experiments. BN
+and AVJ collaborated on formulating the framework, with TB review-
+ing and ﬁnalizing it. AVJ conducted the initial experiments using the
+CIC-DDoS2019 dataset, which were later expanded by BN to include
+the CICIoT 2023 and 5G PFCP datasets. All authors reviewed the
+manuscript.
+Funding Open Access funding enabled and organized by Projekt
+DEAL. This work has been performed in the framework of the
+RADARS project, funded by the German BSI (ID: 01MO24004B)
+and the SUSTAINET-Advance project, funded by the German BMFTR
+(ID:16KIS2280).
+Data availability No datasets were generated or analysed during the
+current study.
+Declarations
+Competing interests The authors declare no competing interests.
+Open Access This article is licensed under a Creative Commons
+Attribution 4.0 International License, which permits use, sharing, adap-
+tation, distribution and reproduction in any medium or format, as
+long as you give appropriate credit to the original author(s) and the
+source, provide a link to the Creative Commons licence, and indi-
+cate if changes were made. The images or other third party material
+in this article are included in the article’s Creative Commons licence,
+unless indicated otherwise in a credit line to the material. If material
+is not included in the article’s Creative Commons licence and your
+intended use is not permitted by statutory regulation or exceeds the
+permitteduse,youwillneedtoobtainpermissiondirectlyfromthecopy-
+123

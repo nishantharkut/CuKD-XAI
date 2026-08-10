@@ -1,0 +1,75 @@
+Sensors 2026, 26, 356
+7 of 22
+employed fine-tuned LLMs to achieve 94.9% accuracy in DDoS detection, surpassing tradi-
+tional MLPs in few-shot learning settings. These findings illustrate the capacity of LLMs to
+detect sophisticated threats in resource-constrained environments. Ref. [18] evaluated BERT
+and GPT-2 for malware detection using datasets such as TON-IoT [19] and NSL-KDD [20].
+BERT consistently outperformed GPT-2, achieving up to 94.0% accuracy on TON-IoT due
+to its encoder-only architecture, which enables more effective context modeling. However,
+practical deployment challenges on IoT hardware were not addressed, indicating the need
+for further work on model optimization.
+In another study, ref. [6] proposed a hybrid architecture combining GPT-4 with autoen-
+coders for enhanced preprocessing and interpretability. The LLM component recommends
+preprocessing strategies and generates explanatory insights post-detection. Although the
+model showed improved detection accuracy, the authors did not evaluate its deployability
+on actual IoT devices. Ref. [21] explored an ensemble approach combining BART for packet
+prediction and BERT for accuracy assessment, using the CICIoT2023 dataset [22]. BART
+achieved 98.26% classification accuracy, while BERT provided robust contextual validation.
+However, the study lacks a detailed analysis of training cost and inference latency, factors
+critical for real-world IoT applications.
+In our prior work [23], we applied federated learning with a lightweight BERT vari-
+ant for intrusion detection on IoT devices. Unlike centralized learning approaches, our
+method trains models locally and aggregates parameters globally to preserve data privacy.
+Although parameter transfer (1.17 million parameters) introduced delays, reducing the
+model depth significantly improved responsiveness, making the approach feasible for
+edge deployments.
+A prevalent shortcoming in the existing literature is the insufficient consideration of
+the resource-constrained nature of IoT devices, which are typically characterized by limited
+battery life and storage capacity. This limitation necessitates the development of solutions
+that are not only accurate but also highly efficient in terms of energy and memory utilization.
+To bridge this gap, we propose a novel approach that offloads the computationally intensive
+feature learning phase from the constrained devices, as summarized in Table 2. Our
+methodology leverages the superior representational capacity of a transformer model,
+which is trained in a resource-rich environment. The acquired knowledge is then transfer
+into a compact Feed-Forward Neural Network (FFNN) deployed on the IoT device. This
+strategy achieves an optimal balance between high detection performance and minimal
+resource consumption.
+Table 2. Comparative summary of case studies on LLM applications in IoT cybersecurity, highlighting
+results and limitations.
+Study
+Model(s)
+Dataset
+Key Contribution
+Limitations
+[10], 2024
+SecurityBERT
+EdgeIIoTset
+98.2%/Privacy-
+preserving intrusion
+detection for IoT/IIoT
+Lacks real-world
+deployment analysis;
+adversarial robustness
+not evaluated
+[18], 2024
+BERT, GPT-2
+TON-IoT, NSL-KDD,
+KDDcup99
+94.0% (BERT), 91.0%
+(GPT-2)/IoT malware
+detection using LLMs
+No consideration for
+deployability;
+scalability issues
+[23], 2024
+Federated
+SecurityBERT
+EdgeIIoTset
+97.7%/Quantized
+model for deployment
+on resource-constrained
+devices
+High communication
+overhead; delayed
+model aggregation
+https://doi.org/10.3390/s26020356

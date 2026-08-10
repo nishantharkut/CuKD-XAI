@@ -1,0 +1,52 @@
+Computers 2025, 14, 291
+2 of 25
+recurrent neural networks (RNNs) have reached remarkable results in image analysis,
+and text processing besides spotting anomalies [7]. Moreover, deep learning is highly
+suitable for anomaly-based IDS since it can learn complex patterns of normal and abnormal
+behaviors from high-dimensional data. Unlike traditional approaches, which rely on
+predefined rules or signatures, deep learning can adapt to unseen threats by identifying
+deviations from learned patterns. This makes it highly effective in detecting potential
+zero-day attacks and other novel threats based on the probability output from supervised
+neural network models [8]. Though there are certain challenges like high computational
+cost and the risk of overfitting, the advantages of deep learning in achieving high detection
+accuracy and its adaptability can be one of the best choices for anomaly-based IDS [9].
+Model compression refers to techniques that reduce the size of a deep learning
+model while maintaining its performance. This is important for model usage in resource-
+constrained settings, e.g., in a mobile device or IoT system. Often, the practices include
+pruning, quantization, and knowledge distillation. Knowledge distillation (KD) involves
+knowledge transferring between a large and complex model (teacher) into a smaller, sim-
+pler model (student). In the process, the student model also learns from the output labels
+and probability distributions of the teacher model over classes that are used as indication
+of attacks [10]. Adopting KD in edge computing is particularly important due to limited
+computing and energy resources. By using lightweight models instead of large ones, infer-
+ence can occur locally, reducing reliance on high-latency cloud computing. This can lead to
+faster response times, enhanced data privacy, and reduced bandwidth usage, which are
+critical for applications like real-time anomaly detection in IoT networks [11]. Furthermore,
+smaller models consume less power, satisfying energy efficiency requirements of edge
+devices. Its ability to balance model performance with computational efficiency makes it
+a promising approach for future advancements in edge computing [12,13]. Deep neural
+network (DNN) models are extremely computationally expensive, require heavy memory,
+and are slow during inference, so they are not suitable for real-time applications running
+on low-power devices like IoT sensors or UAVs. Large-scale model deployment is also
+highly problematic in an energy-constrained environment because large models consume
+extensive energy both at training and inference [14]. While shallow neural networks are
+lighter and faster, they often under fit complex, high dimensional data and therefore may
+fail to match the generalization performance of deeper models, which have greater repre-
+sentational capacity. These limitations highlight the need for techniques such as knowledge
+distillation. Additionally, smaller models require less energy, which aligns well with the
+goals of energy efficiency and sustainability [15].
+Knowledge distillation (KD) can be a promising solution to address both scalability
+and performance limitations of DNN models, making it especially relevant for deploying in-
+telligent systems in resource-constrained environments such as IoT and UAV platforms [16].
+These environments demand real-time processing and low computational overhead that
+traditional DNNs often fail to meet due to their high complexity and inference latency. To
+address these issues, this paper presents the implementation of a KD-based framework for
+developing lightweight yet effective intrusion detection systems tailored to IoT and UAV
+settings. Specifically, we (1) evaluate the effectiveness of KD in enabling compact DNN
+models to perform real-time threat detection with minimal resource usage, (2) demonstrate
+the framework’s generalizability by applying it across multiple benchmark intrusion detec-
+tion datasets, including NSL-KDD, UNSW-NB15, CIC-IDS2017, IoTID20, and UAV IDS,
+(3) show that the distilled student models maintain high detection accuracy while reducing
+model size by over 93%, making them suitable for edge deployment, and (4) enhance the
+models’ capability to detect rare and potentially unseen attacks by leveraging soft targets
+from teacher models, addressing a critical need in security for low-power systems.

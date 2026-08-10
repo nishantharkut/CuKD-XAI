@@ -1,0 +1,135 @@
+1098
+Annals of Telecommunications (2025) 80:1095–1120
+Table 1 Comparison of recent explainable IDS frameworks
+Study
+Detector Model
+Dataset(s)
+XAI Technique(s)
+This work
+XGBoost
+CIC-DDoS2019, CICIoT2023, 5G PFCP
+SHAP, LIME
+Mane and Rao [16]
+DNN
+NSL-KDD
+SHAP, LIME, CEM, ProtoDash, BRCG
+Mahbooba et al. [17]
+Decision Tree
+1999 KDD Cup
+Decision Tree
+Wang et al. [18]
+CNN+LSTM
+KDD99
+SHAP, LIME
+Houda et al. [19]
+DNN
+NSL-KDD, UNSW-NB15
+RuleFit, LIME, SHAP
+Barnard et al. [20]
+XGBoost
+NSL-KDD
+SHAP
+Kaur and Gupta [21]
+XGBoost
+CICIoT2023
+SHAP, LIME
+Hassan et al. [35]
+Random Forest
+Edge-IIoT
+SHAP, LIME
+Hassan et al. [36]
+Random Forest
+Application Layer DoS Attack Dataset
+LIME
+validation, ensuring explanation consistency and efﬁciency
+for near–real-time IDS.
+Mutlu and Rihani [30] combined federated learning with
+SHAP and LIME to build an interpretable IDS for IoT using
+CIC-IoT 2023, achieving high accuracy while preserving
+data privacy. Our work differs by extending beyond IoT to
+legacy IP and 5G scenarios, and by adding a novel time-
+efﬁciency evaluation of explanations absent from their study.
+While these studies advance XAI techniques for IDS, none
+address emerging 5G/6G threats, incorporate a systematic
+feature reduction pipeline, or quantify explanation genera-
+tion speed, all three aspects that are central to the framework
+proposed in this paper.
+2.3 Efficiency enhancement of XAI techniques
+The efﬁciency challenges of XAI techniques have been
+acknowledged in prior research, given their importance for
+real-time applications. Chuang et al. [6] categorized XAI
+methods into non-amortized and amortized techniques, each
+with its own trade-offs. Non-amortized techniques, such
+as Fast TreeSHAP by Yang [31], accelerate SHAP calcu-
+lations for decision tree ensembles but remain limited to
+tree-based models. Lemaire et al. [32] introduced an efﬁcient
+Shapley value algorithm tailored for Naive Bayes classiﬁers
+and demonstrated its scalability. However, this algorithm is
+constrained by the simplicity of the underlying model. Amor-
+tized techniques, like that proposed by Santhiappan et al.
+[33], enhance LIME’s efﬁciency using attention weights, but
+they are primarily designed for text-based models, which
+limits their applicability to IDS scenarios. Muschalik et al.
+[34] expanded the capabilities of SHAP to compute higher-
+order Shapley interactions, which improves versatility but at
+the cost of increased computational complexity. In [35], the
+authors applied a Random Forest model to the Edge-IIoT
+dataset and employed SHAP and LIME for explainability,
+without incorporating feature reduction, consistency checks,
+or time-efﬁciency evaluation. Similarly, [36] used a Random
+Forest model on the Application Layer DoS Attack Dataset
+with only LIME explanations, also without feature reduction,
+consistency checks, or time-efﬁciency evaluation. Despite
+these advancements, none of these studies have thoroughly
+investigated the efﬁciency of XAI techniques in the context
+of network security. Efﬁciency challenges are also present in
+5G/6G networking scenarios, where real-time explainabil-
+ity is required for high-bitrate data ﬂows and large trafﬁc
+volumes [37]. Tables 1 and 2 summarize the comparisons
+between our proposed method and previous studies. Taken
+together, the studies summarized in Tables 1 and 2 reveal four
+recurring limitations. (i) Narrow protocol scope: apart from
+Table 2 Comparison of recent
+explainable IDS frameworks
+(Continued)
+Study
+Feature Reduction
+Consistency Check
+Time Eff. Eval.
+This work
+Yes
+Yes
+Yes
+Mane and Rao [16]
+None
+None
+None
+Mahbooba et al. [17]
+None
+None
+None
+Wang et al. [18]
+None
+None
+None
+Houda et al. [19]
+None
+None
+None
+Barnard et al. [20]
+None
+None
+None
+Kaur et al. [21]
+None
+None
+None
+Hassan et al. [35]
+Yes
+Yes
+None
+Hassan et al. [36]
+None
+None
+None
+123

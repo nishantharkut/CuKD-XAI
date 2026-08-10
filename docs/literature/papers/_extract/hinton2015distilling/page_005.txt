@@ -1,0 +1,61 @@
+System
+Test Frame Accuracy
+WER
+Baseline
+58.9%
+10.9%
+10xEnsemble
+61.1%
+10.7%
+Distilled Single model
+60.8%
+10.7%
+Table 1: Frame classiﬁcation accuracy and WER showing that the distilled single model performs
+about as well as the averaged predictions of 10 models that were used to create the soft targets.
+4.1
+Results
+We trained 10 separate models to predict P(ht|st; θ), using exactly the same architecture and train-
+ing procedure as the baseline. The models are randomly initialized with different initial parameter
+values and we ﬁnd that this creates sufﬁcient diversity in the trained models to allow the averaged
+predictions of the ensemble to signiﬁcantly outperform the individual models. We have explored
+adding diversity to the models by varying the sets of data that each model sees, but we found this
+to not signiﬁcantly change our results, so we opted for the simpler approach. For the distillation we
+tried temperatures of [1, 2, 5, 10] and used a relative weight of 0.5 on the cross-entropy for the hard
+targets, where bold font indicates the best value that was used for table 1 .
+Table 1 shows that, indeed, our distillation approach is able to extract more useful information from
+the training set than simply using the hard labels to train a single model. More than 80% of the
+improvement in frame classiﬁcation accuracy achieved by using an ensemble of 10 models is trans-
+ferred to the distilled model which is similar to the improvement we observed in our preliminary
+experiments on MNIST. The ensemble gives a smaller improvement on the ultimate objective of
+WER (on a 23K-word test set) due to the mismatch in the objective function, but again, the im-
+provement in WER achieved by the ensemble is transferred to the distilled model.
+We have recently become aware of related work on learning a small acoustic model by matching
+the class probabilities of an already trained larger model [8]. However, they do the distillation at a
+temperature of 1 using a large unlabeled dataset and their best distilled model only reduces the error
+rate of the small model by 28% of the gap between the error rates of the large and small models
+when they are both trained with hard labels.
+5
+Training ensembles of specialists on very big datasets
+Training an ensemble of models is a very simple way to take advantage of parallel computation and
+the usual objection that an ensemble requires too much computation at test time can be dealt with
+by using distillation. There is, however, another important objection to ensembles: If the individual
+models are large neural networks and the dataset is very large, the amount of computation required
+at training time is excessive, even though it is easy to parallelize.
+In this section we give an example of such a dataset and we show how learning specialist models that
+each focus on a different confusable subset of the classes can reduce the total amount of computation
+required to learn an ensemble. The main problem with specialists that focus on making ﬁne-grained
+distinctions is that they overﬁt very easily and we describe how this overﬁtting may be prevented by
+using soft targets.
+5.1
+The JFT dataset
+JFT is an internal Google dataset that has 100 million labeled images with 15,000 labels. When we
+did this work, Google’s baseline model for JFT was a deep convolutional neural network [7] that had
+been trained for about six months using asynchronous stochastic gradient descent on a large number
+of cores. This training used two types of parallelism [2]. First, there were many replicas of the
+neural net running on different sets of cores and processing different mini-batches from the training
+set. Each replica computes the average gradient on its current mini-batch and sends this gradient
+to a sharded parameter server which sends back new values for the parameters. These new values
+reﬂect all of the gradients received by the parameter server since the last time it sent parameters
+to the replica. Second, each replica is spread over multiple cores by putting different subsets of
+the neurons on each core. Ensemble training is yet a third type of parallelism that can be wrapped
+5

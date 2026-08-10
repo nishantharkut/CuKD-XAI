@@ -1,0 +1,73 @@
+where λi is the eigenvalue of the i-th component, k is the total number of components, and 1(·) is the indicator 
+function.
+The Kaiser Criterion ensures that only the most significant principal components are retained, reducing 
+computational complexity without compromising the model’s performance. For WSN datasets, this approach 
+helps in efficiently capturing key variations, enhancing the accuracy of IDS models while maintaining scalability 
+in resource-constrained environments.
+The Kaiser Criterion is widely used because it provides a simple yet effective heuristic to select components 
+that contribute meaningfully to the variance. For IDS datasets, the high-dimensional nature and the need to 
+focus on features with significant explanatory power make eigenvalue ≥1 a reasonable threshold.
+PCA efficiently reduces the high-dimensional feature space while retaining the most significant information. 
+By eliminating redundant and less informative features using kaiser criterion, PCA minimizes noise and 
+improves computational efficiency. This streamlined feature set allows the classifier to focus on the most relevant 
+patterns, enhancing its predictive accuracy and performance metrics.
+Machine learning (ML) algorithms
+Machine Learning (ML) algorithms are computational techniques used to build models that can learn patterns 
+from data and make predictions or decisions without being explicitly programmed. These algorithms are crucial 
+for tasks such as detection attacks in IDS for Wireless Sensor Networks (WSNs).
+Decision Tree Classifier (DTC)
+A Decision Tree Classifier (DTC) is a tree-like structure where each internal node represents a feature (or 
+attribute), each branch represents a decision rule, and each leaf node represents a class label. The algorithm 
+splits the dataset into subsets based on feature values, recursively creating branches to partition the data into 
+homogenous subsets.
+The decision tree algorithm uses the following recursive rule for splitting:
+	
+Best Split = arg max
+f∈F Information Gain(f)
+(10)
+where
+	
+Information Gain(f) = H(S) −
+∑
+v∈V (f)
+|S_v|
+|S|
+H(S_v)
+(11)
+Here, H(S) is the entropy of the dataset, and Sv is the subset of data for each value v of the feature f.
+DTC is easy to interpret and visualize, making it suitable for IDS models. It effectively handles both numerical 
+and categorical data and is less prone to overfitting compared to other algorithms, especially when pruned.
+Random Forest Classifier (RFC)
+A Random Forest Classifier (RFC) is an ensemble learning method that builds multiple decision trees using 
+different subsets of the data and features. Each tree makes an independent prediction, and the final output is 
+determined by aggregating the predictions (usually by majority voting for classification).
+The output of RFC can be represented as:
+	
+ˆyRFC = 1
+T
+T
+∑
+t=1
+ˆyt
+(12)
+where T is the total number of trees, and ˆyt is the prediction from the t-th tree.
+RFC is robust to overfitting, handles large datasets well, and improves prediction accuracy by reducing variance 
+through bagging. It is also less sensitive to noisy data and outliers.
+CatBoost Classifier (CBC)
+The CatBoost Classifier (CBC) is an advanced gradient boosting algorithm designed for classification tasks. 
+It is based on the gradient boosting framework but has several key optimizations to improve performance, 
+reduce overfitting, and handle categorical features efficiently. CatBoost stands for “Categorical Boosting” and is 
+particularly useful when the dataset contains categorical variables, as it can process them directly without the 
+need for manual preprocessing, such as one-hot encoding.
+The general form of the gradient boosting equation for CatBoost is as follows:
+	
+F(x) =
+M
+∑
+m=1
+ηmhm(x)
+(13)
+Scientific Reports |         (2025) 15:4617 
+9
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

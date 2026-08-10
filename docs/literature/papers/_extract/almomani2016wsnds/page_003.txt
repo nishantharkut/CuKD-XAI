@@ -1,0 +1,117 @@
+Journal of Sensors
+3
+provided a review of 27 clustering and routing techniques
+based on LEACH protocol for WSNs that includes a com-
+prehensive discussion and comparisons among them. The
+authors in [14, 15] highlighted LEACH protocol and presented
+fifteen LEACH improved versions introduced in the liter-
+ature. The papers have compared some features of several
+variants of LEACH protocol not empirically but based on
+their descriptions. In [16] the author proposed and evaluated
+two new clustering-based protocols for heterogeneous WSNs
+that were built based on LEACH protocol by considering
+three types of nodes with different battery energies, which
+was the source of heterogeneity in the author’s protocols.
+LEACH-ICE (LEACH Inner Cluster Election) algorithm
+based on LEACH algorithm was introduced in [17]. The
+threshold function of the node selected as CH is adjusted.
+Also, direct communication with the BS occurs when a node
+is closer to the BS. To improve the clustering mechanism,
+LEACH-ICE elects a new CH inside the cluster when the
+resident energy of the current CH is lower than a predefined
+threshold.
+In [18] the authors proposed an energy efficient secondary
+CH selection algorithm for WSN. By controlling the distances
+among the CHs, a uniform distribution of CHs is satisfied.
+Two-level hierarchy mode was applied to transmit data to the
+BS. LEACH is compared with the improved LEACH-TLCH
+method. Simulation results show that the improved method
+can reduce the network consumption of energy and lengthen
+the network’s lifetime.
+In [19], a distributive Energy Neutral Clustering (ENC)
+protocol was proposed to group the network into several
+clusters, with the goal of providing perpetual network oper-
+ation. ENC employs a novel Cluster Head Group (CHG)
+mechanism that allows a cluster to use multiple CHs to share
+heavy traffic load and to reduce the frequency of cluster
+reformation. An extension to ENC based on convex opti-
+mization techniques of the number of clusters was proposed
+to group the network into equal-sized clusters to maximize
+network information gathering. According to the authors’
+experiments, the proposed protocol can successfully prevent
+sensors from shutting down due to excessive usage of energy.
+2.3. DoS and IDS in WSN. As mentioned earlier, DoS is a
+common attack that could have a severe impact on WSN’s
+functionalities and services [20]. Many different types of DoS
+attacks have been identified so far, for example, Blackhole
+attack, Grayhole attack, Flooding attack, and Wormhole. The
+seriousness of DoS attack stems from the fact that most WSN
+applications require the deployment of a sensor node in harsh
+environments where they are far away and difficult to be
+controlled [20, 21]. Recently, many researches are going on
+in an attempt to find solutions for DoS attacks, but mainly
+they have tackled one or two forms of these attacks but not
+the majority [2, 22–24]. Moreover, they offer partial solutions
+and they cannot be applied concurrently because they will
+consume high energy, which is not practical in WSNs [2, 25].
+Therefore, a mechanism should be found to identify different
+behaviors of DoS attacks and classify them to take effective
+countermeasures.
+Cryptography is a security mechanism that is used for
+protecting WSN against external attacks. It ensures many
+security services including integrity and authentication by
+checking the data packet source and its contents using
+several techniques such as symmetric encryption, public key
+cryptography, and hash functions [25]. These techniques
+cannot be used to detect internal attacks when security keys
+are exposed to the attacker which uses them to perform
+encryption and decryption of messages’ contents. Conse-
+quently, such techniques serve as first line of defense [5].
+Attackers always attempt to launch new and unknown attacks
+in more than one way; therefore, it is necessary to create an
+efficient IDS, which acts as a second line of defense to detect
+known and unknown attacks and alert sensor nodes about
+them. IDS allows detecting suspicious or abnormal activities
+and triggers alarms when intrusions are detected [26].
+The National Institute of Standards and Technology
+(NIST) [27] categorized intrusion detection into two main
+approaches: anomaly detection and misuse detection. In
+anomaly detection the system depends on prior knowledge of
+normal behavior of the network which will be then compared
+with its current activities. In misuse detection, the system
+depends on prior knowledge of attack signatures. It compares
+the signature with the current activities in the network.
+IDS has become an important security component of
+WSNs; however, the implementation of IDS in WSNs intro-
+duces number of challenges that can have negative impact
+on WSN performance [28]. It is inefficient to use IDS in
+every sensor node due to the resource-constrained nature of
+such nodes. IDS components should be installed in places
+where sensor nodes can be followed to be able to defend
+against certain threats to the network. IDS is also used in
+WSNs where huge amount of traffic is transmitted; therefore,
+there is a possibility an intrusion could be missed as sensor
+nodes generally have restrictions in handling huge data in the
+network.
+There are two main components of IDS, features extrac-
+tion and modeling algorithm. Features extraction defines
+measured attributes that are linked to the IDS functionalities.
+Modeling algorithm is the main component; the accuracy
+and the efficiency of detecting and responding to intrusions
+depend on the modeling algorithm. IDS may have compo-
+nents that depend on the network characteristics and possible
+intrusions [29]. Most of IDSs have six common components
+as shown in Figure 2:
+(1) Monitoring component: which is used for local activ-
+ity monitoring or for monitoring neighbor sensor
+nodes. This component mostly monitors internal
+activities, traffic patterns, and resource utilization.
+(2) Analysis component: which contains all records of
+normal and abnormal behaviors for all nodes in the
+network [30].
+(3) Detection component: which is the main component
+that is built based on the modeling algorithm. It
+works after analyzing network behaviors. Decisions
+are made to declare such behaviors as malicious or not
+[31].
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

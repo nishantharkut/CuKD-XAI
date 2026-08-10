@@ -1,0 +1,124 @@
+696
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+ing).
+They deploy a Passive-Aggressive (PA) clas-
+siﬁer at cluster heads for real-time detection among
+four DoS classes. Their experiments report ∼96 %
+overall accuracy but reveal low F1-scores for imbal-
+anced attacks (e.g., Grayhole F1 ≈0.59). Our hybrid
+IDS address these imbalances by preﬁltering benign
+traﬃc and applying DL only on ﬂagged packets.
+Alsulaiman et al. [9] Evaluate several ML classi-
+ﬁers (SVM, k-NN, NB, Decision Tree) on the WSN-
+DS dataset for DoS detection.
+Their results show
+that SVM yields ∼92 % accuracy but consumes ∼120
+mJ per detection on an ARM Cortex-M4, while NB
+uses ∼50 mJ with ∼85 % accuracy. These ﬁndings
+underscore the trade-oﬀbetween accuracy and en-
+ergy consumption, motivating our hybrid approach
+to minimize on-node ML inference.
+2.5 Deep Learning–Based IDSs
+Nayak et al. [16] Highlighting that routing deci-
+sions (e.g., LEACH, HEED clustering) inﬂuence en-
+ergy consumption, network lifetime, and security pos-
+ture. They discuss supervised, unsupervised, and RL
+techniques for dynamic route selection under energy
+and attack constraints. This routing context informs
+how DoS attacks propagate and where IDS compo-
+nents (node vs. edge) should reside.
+Parras et al.
+[8] Train DRL-based adversaries
+under partial observability (e.g., local channel en-
+ergy, neighbor feedback) to execute Selective Sub-
+scriber Denial of Service (SSDF) and MAC-backoﬀ
+attacks.
+Using Trust Region Policy Optimization
+(TRPO) with mean-embedding states, they demon-
+strate >90 % success in generating false alarms and
+>80 % packet drop. Their work highlights that static
+defenses fail against intelligent attackers, motivating
+our adaptive, federated approach.
+Yilmaz et al. [6] Proposed a DNN model to pre-
+dict WSN lifetime under various traﬃc and energy-
+harvesting scenarios.
+Their network takes features
+such as node roles, energy proﬁles, and traﬃc pat-
+terns, out-putting expected network lifetime. While
+not an IDS per se, their DNN design for resource es-
+timation informs our energy-penalty loss calculations
+and lifetime evaluations for the hybrid IDS.
+Ahmad et al. [10] Survey ML techniques for WSN
+security, covering intrusion detection, anomaly de-
+tection, and secure routing. They identify key chal-
+lenges: data scarcity, resource constraints, and model
+adaptability. Their overview reinforces the need for
+lightweight, energy-aware IDS designs that can gen-
+eralize to new attack patterns.
+C. Xu et al.
+[3] Design a GRU-based RNN for
+DoS detection on the WSN-DS dataset. Their model
+one GRU layer (64 units) followed by two fully con-
+nected layers achieves ∼98 % accuracy across Black-
+hole, Grayhole, Flooding, and Scheduling. They note
+that GRU’s temporal modeling outperforms static
+ML. However, they assume constant connectivity and
+do not address energy constraints. Our hybrid IDS
+integrate GRU (or LSTM) within a quantized CNN-
+LSTM model, invoked only on ﬂagged traﬃc.
+Aldweesh et al. [12] Survey DL architectures Au-
+toencoders, CNNs, RNNs (LSTM/GRU), and hy-
+brid CNN-LSTM for anomaly detection in WSNs
+and IoT. They categorize: (i) Unsupervised DL (Au-
+toencoders for anomaly scoring); (ii) Supervised DL
+(CNNs/LSTMs for classiﬁcation); and (iii) Hybrid
+CNN-LSTM. They observe that DL achieves higher
+accuracy than shallow ML but at signiﬁcant computa-
+tional and memory costs, identifying energy eﬃciency
+and model interpretability as open issues. This moti-
+vates our hybrid design combining rule-based ﬁltering
+with quantized DL.
+2.6 Datasets and Thresholding
+Almomani et al. [17] Introduced WSN-DS, a syn-
+thetic dataset simulating a 30-node WSN under four
+DoS attacks:
+Blackhole, Grayhole, Flooding, and
+Scheduling. Each sample includes 19 features (e.g.,
+node ID, cluster membership, packet timing, residual
+energy).
+With ∼30000 labeled instances, WSN-DS
+remains a standard benchmark for evaluating WSN
+IDSs. We use it to validate detection accuracy and
+confusion across attack types.
+Chae et al.
+[11] Proposed an adaptive thresh-
+olding mechanism for anomaly detection, adjusting
+thresholds dynamically based on traﬃc variance and
+node energy levels. They demonstrate that dynamic
+thresholds reduce false positives by ∼20 % compared
+to static thresholds. Their adaptive approach directly
+informs our node-level threshold adaptation based on
+residual battery and recent false-alarm rates.
+2.7 Quantized DL for Edge Inference
+Rizqyawan et al. [14] Demonstrate that by apply-
+ing 8-bit quantization to CNN layers, arrhythmia de-
+tection latency on a microcontroller reduces by ∼60
+% without signiﬁcant accuracy loss. Although tar-
+geting biomedical signals, their quantization method-
+ology informs our edge DL classiﬁer’s pruning and
+integer quantization strategies to minimize inference
+energy.
+Collectively, these eighteen works span compre-
+hensive security surveys, federated/model-driven DL,
+intermittent-power DNN techniques, shallow ML and
+DL-based IDSs, datasets, adaptive thresholding, and
+quantized DL for edge inference.
+Our hybrid IDS
+synthesize these insights: lightweight rule-based ﬁl-
+tering at sensor nodes [1, 2, 7, 11] quantized CNN-
+LSTM (or Autoen-coder-GRU) at edge gateways[3, 4,
+13-15] adaptive thresholding inspired by energy mod-
+els[5, 11]; and federated learning for continuous model
+adaptation[1, 15]. This integration yields a robust,
+energy-eﬃcient, and accurate DoS defense tailored to
+the unique constraints of WSN deployments.

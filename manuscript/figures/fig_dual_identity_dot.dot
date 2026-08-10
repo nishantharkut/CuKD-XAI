@@ -1,0 +1,16 @@
+
+digraph DualIdentity {
+  graph [rankdir=LR, fontname="Helvetica", fontsize=9, pad=0.12, nodesep=0.28, ranksep=0.4];
+  node  [shape=box, style="rounded,filled", fillcolor="white", color="black",
+         fontname="Helvetica", fontsize=8, penwidth=0.9, margin="0.1,0.06"];
+  edge  [fontname="Helvetica", fontsize=7, penwidth=0.9, arrowsize=0.55];
+
+  split [label="Fixed stratified split\n(seed 42)", fillcolor="gray95"];
+  ums   [label=<<b>Unit U-MS</b><br/>multi-config train-only<br/>A RF-KD 0.9203 +/- 0.0065 (n=10)>, fillcolor="gray90"];
+  udc   [label=<<b>Unit U-DC</b><br/>deploy-clean RF-KD<br/>A macro-F1 0.9485 (seed 42)>, fillcolor="gray90"];
+  tab   [label="Multi-seed tables"];
+  hil   [label="Export / HIL"];
+
+  split -> ums -> tab;
+  split -> udc -> hil;
+}

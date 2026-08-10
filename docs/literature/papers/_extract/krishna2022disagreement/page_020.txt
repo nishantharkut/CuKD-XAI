@@ -1,0 +1,52 @@
+Published in Transactions on Machine Learning Research (06/2024)
+A.2
+Measuring Disagreement With Respect to Features of Interest
+Practitioners also indicated that they consider two explanations to be different if the relative ordering of features of
+interest (e.g., salary and credit score discussed in Section 3.1) differ between the two explanations. To formalize this
+notion, we introduce the two metrics below.
+Rank Correlation:
+We adopt a standard rank correlation metric (i.e., Spearman’s rank correlation coefficient)
+to measure the agreement between feature rankings provided by two explanations for a selected set of features. In
+practice, this selected set of features corresponds to features that are of interest to end users and can be provided as
+input by end users. Given two explanations Ea and Eb, rank correlation is formulated as:
+RankCorrelationpEa, Eb, Fq “ rspRpEa, Fq, RpEb, Fqq
+where F “ tf1, f2 ¨ ¨ ¨ u is a set of features selected by an end user, rs computes Spearman’s rank correlation
+coefficient, and RpE, Fq assigns ranks to features in F based on explanation E.
+Pairwise Rank Agreement:
+The pairwise rank agreement takes as input a set of features that are of
+interest to the user and captures if the relative ordering of every pair of features in that set is the same for
+both explanations, i.e., if feature A is more important than B according to one explanation, then the same
+should be true for the other explanation. This metric computes the fraction of feature pairs for which the
+relative ordering is the same between two explanations. Given two explanations Ea and Eb, pairwise rank
+agreement is formulated as:
+PairwiseRankAgreementpEa, Eb, Fq “
+ř
+i,j for iăj
+1rROpEa, fi, fjq “ ROpEb, fi, fjqs
+`|F |
+2
+˘
+where F “ tf1, f2 ¨ ¨ ¨ u is a set of features selected by an end user, the relative ordering function ROpE, fi, fjq
+is an indicator function that returns 1 if feature fi is more important than feature fj according to explanation
+E and returns 0 otherwise.
+B
+Experimental Setup
+B.1
+Black Box Models: Training and Performance
+For tabular data, we train four models: a logistic regression model, a gradient-boosted tree model (50
+estimators), a random forest model (50 estimators), and a densely-connected feed-forward neural network
+(with 3 hidden layers with relu activation consisting of 50, 100, and 50 neurons, respectively). For the
+COMPAS dataset, we train the four models based on an 80%-20% train-test split of the dataset, using
+features to predict the COMPAS risk score group. The test accuracies of the four models are 0.75, 0.79, 0.79,
+and 0.73, respectively. For the German credit dataset, we train the same four models based on an 80%-20%
+train-test split of the dataset, using features to predict the credit risk group. The test accuracies of the four
+models are 0.65, 0.70, 0.73, and 0.64, respectively.
+For text data, we trained a widely-used LSTM-based text classifier, based on 120,000 training samples and
+7,600 test samples, to predict the news category of the article from which a sentence was obtained. The
+model performs with 90.67% accuracy. The architecture comprises an embedding layer of dimension 300,
+followed by an LSTM layer of hidden size 256 connected to a four-dimensional output layer.
+For image data, we use the pre-trained ResNet-18 model He et al. (2016) and analyze explanations generated
+for predictions made to classify images to one of the 1000 classes. This model performs 69.758 % and 89.078
+% on Accuracy@1 and Accuracy@5 metrics6, respectively.
+6https://pytorch.org/vision/stable/models.html
+20

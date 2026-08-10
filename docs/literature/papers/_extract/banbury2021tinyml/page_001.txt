@@ -1,0 +1,79 @@
+BENCHMARKING TINYML SYSTEMS: CHALLENGES AND DIRECTION
+Colby R. Banbury 1 Vijay Janapa Reddi 1 Max Lam 1 William Fu 1 Amin Fazel 2 Jeremy Holleman 3 4
+Xinyuan Huang 5 Robert Hurtado 6 David Kanter 7 Anton Lokhmotov 8 David Patterson 9 10 Danilo Pau 11
+Jae-sun Seo 12 Jeff Sieracki 13 Urmish Thakker 14 Marian Verhelst 15 16 Poonam Yadav 17
+ABSTRACT
+Recent advancements in ultra-low-power machine learning (TinyML) hardware promises to unlock an entirely new
+class of smart applications. However, continued progress is limited by the lack of a widely accepted benchmark
+for these systems. Benchmarking allows us to measure and thereby systematically compare, evaluate, and improve
+the performance of systems and is therefore fundamental to a ﬁeld reaching maturity. In this position paper, we
+present the current landscape of TinyML and discuss the challenges and direction towards developing a fair and
+useful hardware benchmark for TinyML workloads. Furthermore, we present our four benchmarks and discuss
+our selection methodology. Our viewpoints reﬂect the collective thoughts of the TinyMLPerf working group that
+is comprised of over 30 organizations.
+1
+INTRODUCTION
+Machine learning (ML) inference on the edge is an increas-
+ingly attractive prospect due to its potential for increasing
+energy efﬁciency (Fedorov et al., 2019), privacy, responsive-
+ness (Zhang et al., 2017), and autonomy of edge devices.
+Thus far, the ﬁeld edge ML has predominately focused on
+mobile inference which has led to numerous advancements
+in machine learning models such as exploiting pruning, spar-
+sity, and quantization. But in recent years, there have major
+been strides in expanding the scope of edge systems. In-
+terest is brewing in both academia (Fedorov et al., 2019;
+Zhang et al., 2017) and industry (Flamand et al., 2018; War-
+den, 2018a) towards expanding the scope of edge ML to
+microcontroller-class devices.
+The goal of “TinyML” (tinyML Foundation, 2019) is to
+bring ML inference to ultra-low-power devices, typically un-
+der a milliWatt, and thereby break the traditional power bar-
+rier preventing widely distributed machine intelligence. By
+performing inference on-device, and near-sensor, TinyML
+enables greater responsiveness and privacy while avoiding
+the energy cost associated with wireless communication,
+which at this scale is far higher than that of compute (War-
+1Harvard University 2Samsung Semiconductor, Inc. 3Syntiant
+4University of North Carolina,
+Charlotte
+5Cisco Systems
+6California State Polytechnic University, Pomona 7Real World
+Insights 8dividiti 9University of California, Berkeley 10Google
+11STMicroelectronics, Italy 12Arizona State University 13Reality
+AI 14Arm ML Research Lab 15KU Leuven 16Interuniversity Micro-
+electronics Centre (IMEC) 17University of York. Correspondence
+to: Colby R. Banbury <cbanbury@g.harvard.edu>.
+Copyright 2020 by the authors.
+den, 2018b). Furthermore, the efﬁciency of TinyML enables
+a class of smart, battery-powered, always-on applications
+that can revolutionize the real-time collection and process-
+ing of data. This emerging ﬁeld, which is the culmination
+of many innovations, is poised only further to accelerate its
+growth in the coming years.
+To unlock the full potential of the ﬁeld, hardware software
+co-design is required. Speciﬁcally, TinyML models must
+be small enough to ﬁt within the tight constraints of MCU-
+class devices (e.g., a few hundred kB of memory and limited
+onboard compute horsepower in the order of MHz proces-
+sor clock speed), thus limiting the size of the input and the
+number of layers (Zhang et al., 2017) or necessitating the
+use lightweight, non-neural network-based techniques (Ku-
+mar et al., 2017). TinyML tools are broadly deﬁned as
+anything that enables the design, mapping, and deployment
+of TinyML algorithms including aggressive quantization
+techniques (Wang et al., 2019), memory aware neural archi-
+tecture searches (Fedorov et al., 2019), frameworks (Ten-
+sorFlow), and efﬁcient inference libraries (Lai et al., 2018;
+Garofalo et al., 2019). Efforts in TinyML hardware in-
+clude improving inference on the next generation of general-
+purpose MCUs (arm; Flamand et al., 2018), developing
+hardware specialized for low power inference, and creating
+novel architectures intended only as inference engines for
+speciﬁc tasks (Moons et al., 2018).
+The complexity and dynamicity of the ﬁeld obscure the mea-
+surement of progress and make dynamism design decisions
+intractable. In order to enable the continued innovation, a
+fair and reliable method of comparison is needed. Since
+progress is often the result of increased hardware capability,
+arXiv:2003.04821v4  [cs.PF]  29 Jan 2021

@@ -1,0 +1,52 @@
+SMOTE
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+65
+70
+75
+80
+85
+90
+95
+100
+Phoneme ROC
+%FP
+%TP
+Under−C4.5              
+200 SMOTE−C4.5
+Naive Bayes        
+Hull               
+Figure 7: Phoneme. Comparison of SMOTE-C4.5, Under-C4.5, and Naive Bayes. SMOTE-
+C4.5 dominates over Naive Bayes and Under-C4.5 in the ROC space. SMOTE-
+C4.5 classiﬁers are potentially optimal classiﬁers.
+Figures 9 through 23 show the experimental ROC curves obtained for the nine datasets
+with the three classiﬁers. The ROC curve for plain under-sampling of the majority class
+(Ling & Li, 1998; Japkowicz, 2000; Kubat & Matwin, 1997; Provost & Fawcett, 2001) is
+compared with our approach of combining synthetic minority class over-sampling (SMOTE)
+with majority class under-sampling. The plain under-sampling curve is labeled “Under”,
+and the SMOTE and under-sampling combination ROC curve is labeled “SMOTE”. De-
+pending on the size and relative imbalance of the dataset, one to ﬁve SMOTE and under-
+sampling curves are created. We only show the best results from SMOTE combined with
+under-sampling and the plain under-sampling curve in the graphs. The SMOTE ROC curve
+from C4.5 is also compared with the ROC curve obtained from varying the priors of minority
+class using a Naive Bayes classiﬁer — labeled as “Naive Bayes”. “SMOTE”, “Under”, and
+“Loss Ratio” ROC curves, generated using Ripper are also compared. For a given family
+of ROC curves, an ROC convex hull (Provost & Fawcett, 2001) is generated. The ROC
+convex hull is generated using the Graham’s algorithm (O’Rourke, 1998). For reference, we
+show the ROC curve that would be obtained using minority over-sampling by replication
+in Figure 19.
+Each point on the ROC curve is the result of either a classiﬁer (C4.5 or Ripper) learned
+for a particular combination of under-sampling and SMOTE, a classiﬁer (C4.5 or Ripper)
+learned with plain under-sampling, or a classiﬁer (Ripper) learned using some loss ratio or
+a classiﬁer (Naive Bayes) learned for a diﬀerent prior for the minority class. Each point
+represents the average (%TP and %FP) 10-fold cross-validation result. The lower leftmost
+point for a given ROC curve is from the raw dataset, without any majority class under-
+335

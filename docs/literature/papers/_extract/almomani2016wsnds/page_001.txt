@@ -1,0 +1,60 @@
+Research Article
+WSN-DS: A Dataset for Intrusion Detection Systems in
+Wireless Sensor Networks
+Iman Almomani,1,2 Bassam Al-Kasasbeh,2 and Mousa AL-Akhras2,3
+1Computer Science Department, College of Computer and Information Sciences, Prince Sultan University, Riyadh, Saudi Arabia
+2Computer Science Department/Computer Information Systems Department, King Abdullah II School for
+Information Technology (KASIT), The University of Jordan, Amman, Jordan
+3Computer Science Department, College of Computation and Informatics, Saudi Electronic University, Riyadh, Saudi Arabia
+Correspondence should be addressed to Iman Almomani; imomani@psu.edu.sa
+Received 25 March 2016; Accepted 28 August 2016
+Academic Editor: Hana Vaisocherova
+Copyright © 2016 Iman Almomani et al. This is an open access article distributed under the Creative Commons Attribution
+License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly
+cited.
+Wireless Sensor Networks (WSN) have become increasingly one of the hottest research areas in computer science due to their wide
+range of applications including critical military and civilian applications. Such applications have created various security threats,
+especially in unattended environments. To ensure the security and dependability of WSN services, an Intrusion Detection System
+(IDS) should be in place. This IDS has to be compatible with the characteristics of WSNs and capable of detecting the largest possible
+number of security threats. In this paper a specialized dataset for WSN is developed to help better detect and classify four types of
+Denial of Service (DoS) attacks: Blackhole, Grayhole, Flooding, and Scheduling attacks. This paper considers the use of LEACH
+protocol which is one of the most popular hierarchical routing protocols in WSNs. A scheme has been defined to collect data
+from Network Simulator 2 (NS-2) and then processed to produce 23 features. The collected dataset is called WSN-DS. Artificial
+Neural Network (ANN) has been trained on the dataset to detect and classify different DoS attacks. The results show that WSN-
+DS improved the ability of IDS to achieve higher classification accuracy rate. WEKA toolbox was used with holdout and 10-Fold
+Cross Validation methods. The best results were achieved with 10-Fold Cross Validation with one hidden layer. The classification
+accuracies of attacks were 92.8%, 99.4%, 92.2%, 75.6%, and 99.8% for Blackhole, Flooding, Scheduling, and Grayhole attacks, in
+addition to the normal case (without attacks), respectively.
+1. Introduction
+Wireless Sensor Networks (WSN) have become increasingly
+an important field of research due to their wide range of
+real-time applications like critical military surveillance, bat-
+tlefields, building security monitoring, forest fire monitoring,
+and healthcare [1]. A WSN consists of large number of
+autonomous sensor nodes, which are distributed in different
+areas of interest to gather important data and cooperatively
+transmit the collected data wirelessly to a more powerful node
+called sink node or Base Station (BS) [2, 3]. The data transmit-
+ted across the network depend on specialized WSN protocols.
+Therefore, protecting WSN from different security threats
+is essential. Unfortunately, achieving this objective becomes
+a major challenge because of the constrained resources of
+WSNs including battery energy, memory, and processing
+capabilities [4]. Such limiting characteristics make traditional
+security measures like cryptography not always sufficient for
+such networks.
+WSNs are highly vulnerable to attacks, due to their open
+and distributed nature and limited resources of the sensor
+nodes. Moreover, in WSNs packets broadcasting has to be
+done frequently, sensor nodes can be deployed randomly
+in an environment so an attacker adversary can be easily
+injected to a WSN [5].
+An attacker can compromise a sensor node, eavesdrop
+messages, inject fake messages, alter the integrity of the data,
+and waste network resources. Denial of Service (DoS) attack
+is considered one of the most general and dangerous attacks
+that threaten WSN security. This attack has several forms
+Hindawi Publishing Corporation
+Journal of Sensors
+Volume 2016, Article ID 4731953, 16 pages
+http://dx.doi.org/10.1155/2016/4731953

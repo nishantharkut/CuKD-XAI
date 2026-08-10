@@ -1,0 +1,60 @@
+Received 13 December 2024, accepted 31 December 2024, date of publication 10 January 2025, date of current version 23 January 2025.
+Digital Object Identifier 10.1109/ACCESS.2025.3528341
+Intrusion Detection for Wireless Sensor Network
+Using Particle Swarm Optimization Based
+Explainable Ensemble Machine Learning
+Approach
+SHAIKH AFNAN BIRAHIM
+1, AVIJIT PAUL2, FAHMIDA RAHMAN3, (Member, IEEE),
+YAMINA ISLAM3, TONMOY ROY
+4, MOHAMMAD ASIF HASAN2, FARIHA HAQUE
+2,
+AND MUHAMMAD E. H. CHOWDHURY
+5, (Senior Member, IEEE)
+1School of Computer Science and Engineering, University of Glasgow, G12 8QQ Glasgow, U.K.
+2Department of Electronics and Telecommunication Engineering, Rajshahi University of Engineering and Technology, Rajshahi 6204, Bangladesh
+3Department of Computer Science and Engineering, International Islamic University Chittagong, Chittagong 4318, Bangladesh
+4Department of Data Analytics and Information Systems, Utah State University, Logan, UT 84322, USA
+5Department of Electrical Engineering, Qatar University, Doha, Qatar
+Corresponding author: Muhammad E. H. Chowdhury (mchowdhury@qu.edu.qa)
+ABSTRACT Wireless Sensor Networks (WSN) play a pivotal role in various domains, including monitoring,
+security, and data transmission. However, their susceptibility to intrusions poses a significant challenge. This
+paper proposes a novel Intrusion Detection System (IDS) leveraging Particle Swarm Optimization (PSO) and
+an ensemble machine learning approach combining Random Forest (RF), Decision Tree (DT), and K-Nearest
+Neighbors (KNN) models to enhance the accuracy and reliability of intrusion detection in WSNs. The system
+addresses key challenges such as the imbalanced nature of datasets and the evolving complexity of network
+attacks. By incorporating Synthetic Minority Oversampling Technique Tomek (SMOTE-Tomek) techniques
+to balance the dataset and employing explainable AI methods such as Local Interpretable Model-agnostic
+Explanations (LIME) and SHapley Additive exPlanations (SHAP), the proposed model achieves significant
+improvements in detection accuracy, precision, recall, and F1 score while providing clear, interpretable
+results. Extensive experimentation on WSN-DS dataset demonstrates the system’s efficacy, achieving an
+accuracy of 99.73%, with precision, recall, and F1 score values of 99.72% each, outperforming existing
+approaches. This work offers a robust, scalable solution for securing WSNs, contributing to both academic
+research and practical applications.
+INDEX TERMS
+Intrusion detection system, wireless sensor networks, particle swarm optimization,
+ensemble machine learning, explainable AI, streamlit web application.
+I. INTRODUCTION
+Wireless Sensor Networks (WSN) are a key component in
+the field of wireless communication. These networks consist
+of sensor nodes arranged in various topologies such as star,
+tree, or mesh, which enable data sensing, transmission, and
+flow within the network. The primary functions of these
+sensor nodes include sensing, processing, computation, and
+The associate editor coordinating the review of this manuscript and
+approving it for publication was Stefano Scanzio
+.
+communication [1]. WSNs are widely employed for monitor-
+ing, security, and tracking purposes, offering a cost-effective
+solution with minimal energy consumption for wireless
+traffic communication. However, WSNs are vulnerable to
+unauthorized access by intruders, both internal and external,
+making it crucial to implement security measures to safeguard
+the network and ensure its integrity [2].
+In complex and dynamic application scenarios, WSN
+nodes encounter several challenges: (1) limited computing
+power and storage capacity of individual nodes; (2) weak
+VOLUME 13, 2025
+ 2025 The Authors. This work is licensed under a Creative Commons Attribution 4.0 License.
+For more information, see https://creativecommons.org/licenses/by/4.0/
+13711

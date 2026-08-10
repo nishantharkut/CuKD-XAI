@@ -1,0 +1,116 @@
+M. S. Alshehri et al.: Self-Attention-Based DCNN for IIoT Networks Intrusion Detection
+where X is the input and W is the learning weight.
+Q = Wq · X
+(1)
+K = Wk · X
+(2)
+V = Wv · X
+(3)
+Eq 4 is used to compute the attention score (AS), where dq
+is the length of Q. Subsequently, the attention value (AV ) is
+computed using Eq 5.
+AS = Q · K T
+pdq
+(4)
+AV = softmax (AS) · V
+(5)
+Once the attention value for each input feature is calculated
+by the SA mechanism, it is then fed into the DCNN layers.
+The primary advantage of a CNN model lies in its capability
+to effectively capture the significance of input parameters.
+Furthermore, CNN operates with fewer parameters com-
+pared to recurrent algorithms in deep learning, resulting in
+improved processing speed [30]. A typical CNN architecture
+consists of convolutional layers, pooling layers, and fully
+connected layers [31]. In DCNN, We used four convolutional
+layers, two max-pooling layers, a flattening layer, and three
+fully connected feedforward neural network (FFNN) layers in
+the proposed SA-DCNN model. The convolutional layers are
+utilized to emphasize each parameter using a kernel, where
+the size of the kernel is three. Within this layer, the ReLU
+activation function is used. The convolutional operation is
+represented in Eq 6 and 7.
+xk = bk +
+N
+X
+i=1
+(Pi, wik)
+(6)
+yk = max(0, xk)
+(7)
+where xk denotes the input in convolutional, while Pk
+signifies the output of the preceding layer. wik corresponds
+to the kernel spanning from index i to k, and bk denotes the
+bias associated with the neuron in the convolutional layer.
+The output of the convolutional layer is passed into the max-
+pooling layer which selects the most significant parameters as
+expressed in Eq 8, where Mk is the output of the max-pooling
+layer.
+Mk =max
+i∈ℜyk
+(8)
+The output of the max-pooling layer is forwarded to the
+flattening layer, which transforms it into a one-dimensional
+array. This array is then passed to the fully connected FFNN
+layers. The FFNN comprises three layers, with the first two
+layers being hidden layers utilizing the ReLU activation
+function. The final layer is dedicated to producing output
+probabilities, and for this purpose, the softmax activation
+function is employed, as expressed in Eq 9.
+softmax(x)i =
+exi
+PK
+j=1 exj
+(9)
+IV. THE PROPOSED APPROACH
+This section offers a thorough exploration of the implemented
+approach as depicted in Figure 3, which highlights its key
+stages. The framework initiates with an in-depth analysis of
+the employed dataset, covering various preprocessing stages.
+Subsequently, the data undergoes stratified splitting into
+training and testing sets. Following these stages, the model
+proceeds through training and testing processes.
+A. DATASETS
+The IoTID20 and Edge-IIoTset are widely recognized
+and extensively used datasets in the research community.
+The IoTID20 dataset has been collected from home IoT
+networks to facilitate the detection of cyber attacks [32].
+Its primary advantage stems from the inclusion of up-to-
+date communication data and innovative samples, enhancing
+the capability to detect network intrusions [33]. The dataset
+comprises a total of 625,783 samples, with 40,073 classified
+as normal and the remaining 585,710 categorized into four
+types of attacks. Furthermore, these four types of attacks are
+subdivided into eight sub-types. The Edge-IIoTset includes
+samples of IoT and IIoT network traffic collected from
+a testbed consisting of seven layers. Comprising fourteen
+attacks associated with IoT and IIoT communication proto-
+cols [34], the Edge-IIoTset comprises a total of 2,219,201
+samples. Among these, 1,615,643 samples are classified as
+normal, while the remaining 603,558 samples are related to
+14 different attacks.
+B. DATA PREPROCESSING
+The preprocessing steps are important for readying the
+dataset for optimal compatibility with ML and DL models.
+This paper employs several preprocessing steps, encompass-
+ing data preparation, feature filtering, normalization, and the
+division of the dataset into train and test sets.
+1) DATA PREPARATION
+Data preparation is the initial step of preprocessing, involving
+two main methods: the first is cleaning, and the second is the
+conversion of categorical attributes into numerical format.
+a: CLEANING
+The data cleaning process consists of two sub-steps. In the
+first sub-step, we eliminate instances with undefined and
+‘Null’ values from the dataset using the Pandas library
+in Python. In the second sub-step, we address duplica-
+tion in the dataset by employing two methods. Initially,
+we remove duplications within the same class using the
+drop_duplicates function from the Pandas library. Subse-
+quently, we eliminate duplications across different classes
+by considering all attributes instead of just the classifi-
+cation label. For this, we utilize the drop and duplicate
+functions of Pandas, leveraging indexes to facilitate the
+process.
+VOLUME 12, 2024
+45765

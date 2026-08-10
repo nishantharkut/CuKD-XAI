@@ -1,0 +1,49 @@
+M. S. Alshehri et al.: Self-Attention-Based DCNN for IIoT Networks Intrusion Detection
+FIGURE 3. The proposed architecture block diagram.
+b: FEATURES ENCODING
+The datasets we employed contain numerous features in
+categorical form, necessitating conversion into numerical
+format for compatibility with DL models aimed at predicting
+network activity behaviors. To accomplish this, we opted
+for the label encoder method. This method assigns a unique
+numerical value to each category of values within an attribute,
+following an alphabetic order. We chose this approach due
+to its efficiency in terms of memory usage and processing
+power, as opposed to the one-hot encoder. The one-hot
+encoder, while effective, demands additional memory for the
+conversion of categorical features.
+2) FEATURES FILTERING
+In this experiment, we employed a feature filtering method
+to identify influential attributes within the dataset, while
+excluding features that have a negative impact on the
+classifier. The negative impact of certain attributes arises due
+to the amalgamation of data from different classes without
+providing discernible patterns. To filter the attributes in
+the utilized datasets, we employed the mutual information
+method, which demonstrates the impact of each feature and
+ranks them in descending order based on entropy. We selected
+all attributes with a value greater than 0.1, eliminating those
+with zero or near-zero impact values. Out of 83 attributes,
+56 were chosen for the IoTID20 dataset, and for the Edge-
+IIoTset dataset, 29 out of 62 features were selected for the
+experiment.
+3) NORMALIZATION
+Normalization involves rescaling data to a standardized
+range. The performance of classifiers is impacted by
+features with diverse ranges. The utilized datasets encompass
+attributes with varying scales, necessitating normalization.
+In this experiment, we employ the min-max normalization
+technique to normalize features within the range of 0 to 1,
+as presented in Equation 10.
+Xnorm =
+x −xmin
+xmax −xmin
+(10)
+4) STRATIFIED SPLIT
+The stratified method is utilized to divide the data into
+training and testing sets, maintaining specified percentages
+to ensure a balanced representation of each class in the splits.
+In this instance, we applied the stratified approach to allocate
+80% of the data to the training set and 20% to the test set.
+45766
+VOLUME 12, 2024

@@ -1,0 +1,66 @@
+detection have substantial challenges in reaching higher accuracy and exerting acceptable computational 
+efficiency, especially in resource-constrained environments8.
+Most existing solutions cannot adapt dynamically to changing attacks and network conditions, thus leading 
+to higher false positives and missed detections9. Nonetheless, machine learning model optimization in intrusion 
+detection for WSN has been left under-explored, with most studies focusing on the choice of algorithm rather 
+than on tuning the parameters used10.
+Motivation and challenges
+As the nature of WSNs is open, they are vulnerable to threats such as eavesdropping, spoofing, and jamming11. 
+These vulnerabilities are further exacerbated by sensor nodes’ limited computational power and energy 
+constraints, which restrict the implementation of complex security protocols12. Another significant challenge in 
+securing WSNs is achieving high intrusion detection accuracy without compromising computational efficiency, 
+as resource-intensive methods can quickly drain node energy and degrade network performance13. Also, many 
+existing security mechanisms are static and struggle to adapt to the dynamic nature of modern cyberattacks 
+and fluctuating network conditions14. This lack of adaptability increased undetected threats, undermining the 
+reliability of the network’s defense system.
+The novelty of this work is to fill these gaps by proposing a novel approach in which the advantages of TS are 
+combined with the RF algorithm and tested over three datasets: WSN-DS, CICIDS 2017, and CIC-IoT 2023.The 
+main goals of this work are as follows:
+•	 To optimize intrusion detection in WSNs for high accuracy and efficiency using an optimized RF model.
+•	 To validate the utility of TS in fine-tuning RF parameters to improve performance.
+•	 The proposed approach is evaluated on the extensive WSN-DS, CICIDS 2017, and CIC-IoT 2023 datasets, 
+giving an idea about its feasibility over various types of attacks.
+This research work contributes to the field of WSN security in the following areas:
+•	 Proposing a Tabu Search-optimized RF model that outperforms standard implementations, achieving superi­
+or accuracy, precision, recall, ROC AUC, Cohen’s kappa, and F1-score values.
+•	 A detailed study of intrusion detection behaviors and performance across all scenarios related to types of 
+attacks in WSN, particularly Blackhole, Flooding, Grayhole, and TDMA attacks.
+•	 Providing some insights about the impact of hyperparameter optimization on intrusion detection perfor­
+mance in resource-constrained environments.
+This work expands on recent advancements toward WSN security and optimization scenarios in machine 
+learning by accommodating more robust and adaptive intrusion detection systems.
+The organization of the paper is as follows. After the introduction in Section "Introduction", the literature 
+review is elaborated in Section "Proposed methodology".The proposed model and data analysis are described 
+in Sect. 3.The mathematical modeling is presented in Section "Conclusion and future scope".Further, Sect. 5 
+provides an experimental evaluation and comprehensive analysis of the results. Section 6 provides comparison 
+with state-of-the-art techniques. Finally, Sect. 7 concludes the manuscript and highlights its scope for the future.
+Literature review
+According to the literature, many researchers have explored machine learning models that aim to design optimal 
+intrusion detection systems to achieve high intrusion detection accuracy and reduce vulnerability issues. Still, 
+the task is very complex and challenging. This section presents a comparative analysis of similar algorithms 
+addressing this problem. All key advancements reviewed in WSN security from 2018 to 2025, along with 
+machine learning applications in intrusion detection, with optimizations followed for classification algorithms.
+In the literature, SVM-based IDS has achieved 90.8% accuracy using this model15. Among the energy 
+efficiency methods, the Firefly algorithm remained an interesting one that achieved a packet delivery ratio of 
+91.52% and extended the network lifespan by as much as 89.95%16. With the help of blockchain and federated 
+learning, 100% accuracy for binary classification and 99.95% for multiclass has been achieved to classify 
+malicious nodes in IoT17. However, techniques like RF, gradient boosting, and SVM have also been elaborated 
+for security-enhanced and localization-based improvements18. In addition, proper data transmission and 
+energy consumption were guaranteed with the help of trust evaluation and cascading encryption19. Different 
+DoS attacks in IoT networks are done using the application of XGBoost for feature selection compared with 
+Naive Bayes and Recurrent Neural Networks20. RNN, in an attempt to take snapshots of time patterns, showed 
+outstanding performance at 99.7 percent compared to NB, which reached a reasonable accuracy of 97.9 percent; 
+therefore, RNN could be very effective in detection in IoT environments21.
+Furthermore, multiple intrusion detection strategies for IoT ecosystems were evaluated, exploiting 
+quantitative metrics comprising accuracy, precision, recall, F1-score, and MCC22,23. The performance results 
+of the machine learning-based IDS models mostly depicted high accuracy values of over 99%, especially when 
+ensemble techniques such as RF and XGBoost were adopted in the models24. Instead, feature engineering and 
+transfer learning improvements were emphasized and left as future optimization work25. Another model has 
+been proposed that achieved high performance in intrusion detection. Results showed 99.7% accuracy, 99.8% 
+precision, and 97.8% recall on the NSL-KDD dataset26. The same high outcomes were seen on other datasets, 
+such as UNSW-NB15 and CICIDS 2017, with the model’s efficacy in improving detection accuracy through 
+feature reduction and data balancing techniques10,27.
+Scientific Reports |        (2025) 15:18634 
+3
+| https://doi.org/10.1038/s41598-025-03498-3
+www.nature.com/scientificreports/

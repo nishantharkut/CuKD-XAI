@@ -1,0 +1,56 @@
+Sensors 2024, 24, 3339
+13 of 26
+the iterative parameters converge toward the optimal values, substantially influencing the
+training speed.
+Previous hyperparameter optimization methods, such as random and grid search,
+were time-consuming but did not fully use the ranges. Thus, in this study, a GSWO
+approach was used to fine-tune the hyperparameters of CatBoost, and prior data were
+used to investigate the likely optimal parameter combination. Consequently, the GSWO-
+CatBoost hybrid algorithm was created.
+4.4. Applying GSWO for Feature Selection
+To apply the GSWO algorithm to a specific task, defining the total iteration (M),
+the number of crossovers (G), the number of whales in the population (N), and the form
+of each whale in the population as input and a fitness function as the target for this
+algorithm is required. The output is the candidate whale with the lowest fitness value.
+In this section, we apply GSWO for FS. To begin with, the total iteration (M), the number of
+crossovers (G), and the number of feature subsets in the population (N) are considered to be
+hyperparameters, which vary based on a specific dataset. These hyperparameters must be
+chosen pertinently to ensure that the GSWO can achieve the most useful feature subset and
+optimize the computational time. In addition, the form of whales in the input population,
+a feature subset, is illustrated as binary arrays comprising 0s and 1s. In this representation,
+a position of a feature marked 0 implies exclusion, whereas a position of another feature
+marked 1 implies inclusion in the feature subset for calculating fitness value. Therefore,
+a feature subset in the input population⃗Xt
+i is characterized as a binary array of dimensions
+D, which is the number of whole features in a specific dataset. For instance, the WSN-DS
+dataset [46] has eighteen features. Through comprehensive experiments for this dataset,
+the total iteration (M), the number of crossovers (G), and the number of feature subsets
+in the population (N) are set as 30, 20, and 30, respectively. An initial population that has
+30 feature subsets can be depicted in Figure 5. Note that an initial population is initialized
+randomly because the algorithm will update the feature subsets in the population to find
+the best subset, including only the useful features, to minimize the fitness function.
+Figure 5. An example of an input whale population for FS.
+Subsequently, the fitness function for FS is defined in Equation (16), where the value of
+the weight β is set as 0.9 through comprehensive experiments in this study; err(⃗Xt
+i) is the
+false prediction rate of the CatBoost model, which is gained from training and evaluating
+it on a particular dataset with the features in a feature subset⃗Xt
+i; sum(⃗Xt
+i) is the sum of
+features in the feature subset⃗Xt
+i, such as sum(⃗X1
+1) = 8, as depicted in Figure 5.
+Fiti = β × err(⃗Xt
+i) + (1 −β) × sum(⃗Xt
+i)
+D
+.
+(16)
+The fitness function is a weighted sum of the classification model error and the
+proportion of features present in the candidate solution. Therefore, the optimization goal
+involves minimizing the fitness function. This fitness function ensures a reduction in the
+rate of false predictions and that as few features as possible are maintained.
+Finally, Algorithm 1 is applied to run the GSWO algorithm 30 rounds. As a result,
+a feature subset with the lowest fitness value, corresponding to the most useful features
+subset, is determined. Figure 6 illustrates that the second feature subset, which has the
+lowest fitness value, is chosen as the output of GSWO for FS. In summary, the most useful

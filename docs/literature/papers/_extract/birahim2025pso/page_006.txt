@@ -1,0 +1,69 @@
+S. A. Birahim et al.: Intrusion Detection for WSN Using PSO Based Explainable Ensemble ML Approach
+Table 1. Feature description.
+Table 2. Label encoding used in the proposed method.
+Handled feature selection reduces superfluous computing
+load by eliminating unimportant features. The technique
+performs better when the data is scaled to a consistent range
+by standardization. Furthermore, label encoding converts the
+target class into a numerical format, which makes it easier for
+the ML models to process.
+C. DATA BALANCING
+A dataset’s class distribution must be adjusted for data
+balancing in order to guarantee that each class is represented
+proportionately or evenly. This is especially crucial for
+classification tasks because an imbalance in class can lead to
+the model being biased in favor of the majority class, which
+would make the minority class perform poorly in predictions.
+The normal class, or scenarios without anomalies, has a far
+larger number of records in the WSN dataset than do the
+attack scenarios. The assault records form only 9% of the
+overall dataset. When there is an imbalance, the model may
+forecast classes inconsistently, doing well for the majority
+class but poorly for the minority class. Consequently, if the
+data continues to be uneven, performance measurements will
+be less trustworthy.
+The SMOTETomek methodology, a hybrid data balancing
+method, is used to address the issue. To efficiently balance
+the dataset, SMOTETomek combines Tomek Links and
+SMOTE [33].
+Using an oversampling approach called SMOTE, artificial
+samples are produced for the minority class. SMOTE helps
+to build a more broad decision boundary by creating new
+samples by interpolating between existing ones rather than
+replicating current minority samples [30], [31].
+Tomek Links are groups of samples from various classes
+that are closest to one another. These couples are frequently
+found close to the class boundary and are regarded as
+ambiguously classed. The dataset is cleaned by removing
+these pairs, which also clarifies the decision border between
+classes [32].
+In concert, SMOTETomek detects and eliminates Tomek
+linkages from the dataset after oversampling the minority
+class. This procedure produces a cleaner dataset by removing
+erratic and noisy records. By combining these methods, the
+performance of the model is enhanced by the creation of a
+more precise and comprehensive decision boundary.
+Random Oversampling and Cluster-based Sampling ex-
+hibit limitations that reduce their effectiveness compared
+to SMOTE-Tomek. Random Oversampling often results in
+the repetition of existing data, which does not contribute
+new information and can increase the risk of overfitting.
+Although Cluster-based Sampling offers an alternative,
+it is computationally demanding and may not achieve the
+same performance as SMOTE-Tomek. The SMOTE-Tomek
+method combines the advantages of generating synthetic
+samples and eliminating noisy instances through Tomek
+Links, thereby producing a more balanced dataset with
+clearer decision boundaries.
+In summary, balancing the dataset is crucial for enhancing
+classification performance in ML models. SMOTETomek
+effectively addresses the imbalance issue, making the dataset
+balanced and more suitable for ML algorithms.
+D. MODELS AND ALGORITHMS
+1) ENSEMBLE LEARNING
+An ML method known as ‘‘ensemble learning’’ involves
+training and combining several models to address a specific
+issue. By utilizing the strengths of several models and
+reducing their individual flaws, ensemble learning aims to
+13716
+VOLUME 13, 2025

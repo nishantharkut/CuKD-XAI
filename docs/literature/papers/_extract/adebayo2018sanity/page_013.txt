@@ -1,0 +1,65 @@
+Appendix
+A
+Explanation Methods
+We now provide additional overview of the different saliency methods that we assess in this work. As described
+in the main text, an input is a vector x ∈Rd. A model describes a function S : Rd →RC, where C is the number
+of classes in the classiﬁcation problem. An explanation method provides an explanation map E : Rd →Rd that
+maps inputs to objects of the same shape. Each dimension then correspond to the ‘relevance’ or ‘importance’ of
+that dimension to the ﬁnal output, which is often a class-speciﬁc score as speciﬁed above.
+A.1
+Gradient with respect to input
+This corresponds to the gradient of the scalar logit for a particular class wrt to the input.
+Egrad(x) = ∂S
+∂x
+A.2
+Gradient ⊙Input
+Gradient element-wise product with the input. Ancona et. al. show that this input gradient product is equivalent
+to DeepLift, and ϵ-LRP (other explanations methods), for a network with with only Relu(s) and no additive
+biases.
+Egrad⊙input(x) = x ⊙∂S
+∂x
+A.3
+Guided Backpropagation (GBP)
+GBP speciﬁes a change in how to back-propagate gradienst for ReLus. Let {f l, f l−1, ..., f 0} be the feature
+maps derived during the forward pass through a DNN, and {Rl, Rl−1, ..., R0} be ‘intermediate representations’
+obtained during the backward pass. Concretely, f l = relu(f l−1) = max(f l−1, 0), and Rl+1 = ∂fout
+∂fl+1 (for
+regular back-propagation). GBP aims to zero out negative gradients during computation of R. The mask is
+computed as:
+Rl = 1Rl+1>01fl>0Rl+1
+1Rl+1>0 means keep only the positive gradients, and 1fl>0 means keep only the positive activations.
+A.4
+GradCAM and Guided GradCAM
+Introduced by Selvaraju et al. [19], GradCAM explanations correspond to the gradient of the class score (logit)
+with respect to the feature map of the last convolutional unit of a DNN. For pixel level granularity GradCAM,
+can be combined with Guided Backpropagation through an element-wise product.
+Following the exact notation by Selvaraju et al. [19], let Ak be the feature maps derived from the last con-
+volutional layer of a DNN. Consequently, GradCAM is deﬁned as follows: ﬁrst, neuron importance weights
+are calculated, αk
+c =
+1
+Z
+P
+i
+P
+j
+∂S
+∂Ak
+ij , then the GradCAM mask corresponds to: ReLU(P
+k αk
+cAk). This
+corresponds to a global average pooling of the gradients followed by weighted linear combination to which a
+ReLU is applied. Now, the Guided GradCAM mask is then deﬁned as:
+Eguided−gradcam(x) = Egradcam ⊙Egbp
+A.5
+Integrated Gradients (IG)
+IG is deﬁned as:
+EIG(x) = (x −¯x) ×
+Z 1
+0
+∂S(¯x + α(x −¯x)
+∂x
+dα
+where ¯x is the baseline input that represents the absence of a feature in the original sample xt. ¯x is typically set
+to zero.
+13

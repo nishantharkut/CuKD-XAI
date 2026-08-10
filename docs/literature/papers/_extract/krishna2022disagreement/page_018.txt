@@ -1,0 +1,42 @@
+Published in Transactions on Machine Learning Research (06/2024)
+Ramprasaath Selvaraju, Michael Cogswell, Abhishek Das, Ramakrishna Vedantam, Devi Parikh, and Dhruv
+Batra. Grad-cam: Visual explanations from deep networks via gradient-based localization. In IEEE
+International Conference on Computer Vision, 2017.
+Avanti Shrikumar, Peyton Greenside, and Anshul Kundaje. Learning important features through propagating
+activation differences. In Proceedings of the 34th International Conference on Machine Learning, 2017.
+Karen Simonyan, Andrea Vedaldi, and Andrew Zisserman. Deep inside convolutional networks: Visualising
+image classification models and saliency maps. In International Conference on Learning Representations,
+2014.
+Dylan Slack, Sophie Hilgard, Emily Jia, Sameer Singh, and Himabindu Lakkaraju. How can we fool LIME
+and SHAP? Adversarial attacks on post hoc explanation methods. In AAAI/ACM Conference on AI,
+Ethics, and Society, 2020.
+Dylan Slack, Anna Hilgard, Sameer Singh, and Himabindu Lakkaraju. Reliable post hoc explanations:
+Modeling uncertainty in explainability. Advances in Neural Information Processing Systems, 2021.
+Daniel Smilkov, Nikhil Thorat, Been Kim, Fernanda Viégas, and Martin Wattenberg. Smoothgrad: Removing
+noise by adding noise. arXiv preprint arXiv:1706.03825, 2017.
+Fabian Sperrle, Mennatallah El-Assady, Grace Guo, Rita Borgo, D Horng Chau, Alex Endert, and Daniel
+Keim. A survey of human-centered evaluations in human-centered machine learning. In Computer Graphics
+Forum, 2021.
+Mukund Sundararajan, Ankur Taly, and Qiqi Yan. Axiomatic attribution for deep networks. In International
+Conference on Machine Learning, 2017.
+Helena Vasconcelos, Matthew Jörke, Madeleine Grunde-McLaughlin, Tobias Gerstenberg, Michael S Bernstein,
+and Ranjay Krishna. Explanations can reduce overreliance on ai systems during decision-making. Proceedings
+of the ACM on Human-Computer Interaction, 7(CSCW1):1–38, 2023.
+Xiang Zhang, Junbo Zhao, and Yann LeCun. Character-level convolutional networks for text classification.
+In Advances in Neural Information Processing Systems, 2015.
+Jianlong Zhou, Amir H Gandomi, Fang Chen, and Andreas Holzinger. Evaluating the quality of machine
+learning explanations: A survey on methods and metrics. Electronics, 2021.
+A
+Measuring Disagreement
+In this section, we formally define our 6 different metrics: feature agreement, rank agreement, sign agreement,
+signed rank agreement, rank correlation, and pairwise rank agreement.
+The first four metrics capture
+disagreement for the top-k features of the explanations and the last two metrics capture disagreement for
+a selected set of features that could be provided as input by an end user. For all six metrics, lower values
+indicate stronger disagreement.
+A.1
+Measuring Disagreement For Top-k Features
+We now define four metrics, which capture specific aspects of explanation disagreement for the top-k features.5
+5The top-k features of an explanation are typically computed only based on the magnitude of the feature importance values
+and not the signs.
+18

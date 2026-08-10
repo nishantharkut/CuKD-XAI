@@ -1,0 +1,54 @@
+Page 8 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+Once explanations for the teacher are computed, these can be leveraged to guide the 
+distillation process. In particular, DiXtill introduces an extension of the classical dis-
+tillation loss, by adding an XAI-based term, i.e., LXAI , which promotes the alignment 
+between the explanation provided by the teacher and the student for each training 
+instance x by using a cosine distance loss. Let ET(x) and ES(x) be the explanation of the 
+teacher and the student prediction for an input instance x, respectively. Word attribu-
+tions can be extracted from the explanations, which are the σ T vector for the teacher, 
+statically computed by IG, and the σ S vector for the student, dynamically computed 
+by the student itself, and learned via backpropagation. The LXAI loss term is defined as 
+follows:
+Therefore, the overall loss is defined as: L = (1 −α)LCE + α(LKD + LXAI) , where:
+•	 LCE is the standard cross-entropy loss of the student with respect to the real hard 
+training labels y weighted by a factor (1 −α).
+•	 LKD is the distillation loss term, represented by a normalized version of the Kull-
+back–Leibler divergence scaled by a factor α . It is computed between the softmax 
+predictions of the teacher and the student models, softened with temperature τ , and 
+it is defined as: 1 −exp
+
+−KL(pT(τ), pS(τ)
+
+.
+•	 LXAI is the aforementioned XAI-based loss term, scaled by a factor α , forcing the 
+student to align the learned explanations (i.e, the unnormalized attention weights σ S ) 
+to those of the teacher computed via the IG method.
+Experimental evaluation
+In this section, we present the experimental evaluation we carried out to assess the effec-
+tiveness of DiXtill. The experiments were conducted using FinBERT [39], a BERT model 
+pre-trained on financial communication text. Specifically, the FinBERT model was fine-
+tuned on the Twitter Financial News dataset, which is an English-language dataset con-
+taining an annotated corpus of finance-related tweets for sentiment analysis. The dataset 
+contains 9 938 training instances and 2 486 instances for testing purposes. The model 
+determines the financial sentiment of given tweets, which can be classified as bearish, 
+bullish, or neutral.
+As concerns the student model configuration, we used a Glove word embedding layer, 
+which produces 50-dimensional vector representations, and 50 hidden LSTM units 
+with a sequence length equal to 150. In addition, each model was trained for 15 epochs 
+using the SGD optimization algorithm with a momentum of 0.9 and a learning rate of 
+0.01. Moreover, as suggested by Hinton et al. [8], we used a value of 0.9 for the α hyper-
+parameter, which assigns a considerably higher weight to the distillation loss LKD and 
+the attributions alignment term LXAI introduced by DiXtill, compared to the standard 
+cross-entropy loss term LCE . Finally, the temperature value τ was set to 5 for all distilla-
+tion techniques employing temperature scaling.
+In the following sections, we demonstrate how our XAI-driven distillation method 
+outperforms state-of-the-art techniques in terms of performance. Then, we discuss 
+(4)
+LXAI = 1
+2
+
+1 −
+σ T · σ S
+||σ T|| ||σ S||
+

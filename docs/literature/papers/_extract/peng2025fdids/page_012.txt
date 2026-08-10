@@ -1,0 +1,72 @@
+Sensors 2025, 25, 4309
+12 of 31
+where Lhard represents the hard-label loss, and Lsoft is the soft-label loss. The weighting
+parameter λ balances the contributions of the hard-label and soft-label losses, and it was
+set to 0.5 in this study.
+For the FedProx aggregation strategy, a proximal term was incorporated into the
+FedAvg framework to constrain the divergence between client models and the global model
+parameters. Combining this proximal term with KD, the client optimization objective is
+defined as follows:
+Ldistill = λ · Lhard + (1 −λ) · Lsoft + β · Lproximal,
+(6)
+where Lproximal denotes the proximal term from FedProx and β is its weighting factor,
+which was set to 0.1 in this study.
+By incorporating distillation loss, the global model can further guide client models
+through soft targets, ensuring that their training process remains aligned with the opti-
+mization direction of the global model and minimizing model drift to the greatest extent.
+The federated distillation process, which integrates the proximal term, is illustrated in
+Algorithm 1.
+Algorithm 1 FL with FedProx and KD.
+Require: Number of communication rounds R, total clients K, local dataset Dk, local
+epochs E, learning rate η, loss weights λ and β
+Ensure: Final global model wR
+G
+1: Server:
+2: Initialize w0
+G
+3: for t = 1, 2, . . . , R do
+4:
+Set m = K (all clients participate)
+5:
+for each client k = 1, 2, . . . , K (in parallel) do
+6:
+Send wt
+G to client k
+7:
+Receive wt+1
+k
+from client k
+8:
+end for
+9:
+Aggregate local models to update the global model:
+wt+1
+G
+=
+K
+∑
+k=1
+nk
+n wt+1
+k
+10: end for
+11: Return wR
+G
+12: Client:
+13: Function ClientUpdate(wt
+G, Dk):
+14: Initialize wk = wt
+G
+15: for local epoch e = 1, 2, . . . , E do
+16:
+for batch b ⊆Dk do
+17:
+Compute loss function:
+Ldistill = λ · Lhard + (1 −λ) · Lsoft + β · Lproximal
+18:
+Update wk:
+wk ←wk −η∇L
+19:
+end for
+20: end for
+21: Return wk to the server

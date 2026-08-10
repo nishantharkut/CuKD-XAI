@@ -1,0 +1,56 @@
+{
+  "id": "guo2017calibration",
+  "n_pages": 14,
+  "title_lines": [
+    "On Calibration of Modern Neural Networks",
+    "Chuan Guo * 1 Geoff Pleiss * 1 Yu Sun * 1 Kilian Q. Weinberger 1",
+    "Abstract",
+    "Con\ufb01dence calibration \u2013 the problem of predict-",
+    "ing probability estimates representative of the",
+    "true correctness likelihood \u2013 is important for",
+    "classi\ufb01cation models in many applications. We",
+    "discover that modern neural networks, unlike",
+    "those from a decade ago, are poorly calibrated.",
+    "Through extensive experiments, we observe that",
+    "depth, width, weight decay, and Batch Normal-",
+    "ization are important factors in\ufb02uencing calibra-",
+    "tion.",
+    "We evaluate the performance of various",
+    "post-processing calibration methods on state-of-",
+    "the-art architectures with image and document",
+    "classi\ufb01cation datasets. Our analysis and exper-",
+    "iments not only offer insights into neural net-",
+    "work learning, but also provide a simple and",
+    "straightforward recipe for practical settings: on",
+    "most datasets, temperature scaling \u2013 a single-",
+    "parameter variant of Platt Scaling \u2013 is surpris-",
+    "ingly effective at calibrating predictions.",
+    "1. Introduction",
+    "Recent advances in deep learning have dramatically im-"
+  ],
+  "abstract": "Con\ufb01dence calibration \u2013 the problem of predict- ing probability estimates representative of the true correctness likelihood \u2013 is important for classi\ufb01cation models in many applications. We discover that modern neural networks, unlike those from a decade ago, are poorly calibrated. Through extensive experiments, we observe that depth, width, weight decay, and Batch Normal- ization are important factors in\ufb02uencing calibra- tion. We evaluate the performance of various post-processing calibration methods on state-of- the-art architectures with image and document classi\ufb01cation datasets. Our analysis and exper- iments not only offer insights into neural net- work learning, but also provide a simple and straightforward recipe for practical settings: on most datasets, temperature scaling \u2013 a single- parameter variant of Platt Scaling \u2013 is surpris- ingly effective at calibrating predictions.",
+  "resultish_pages": [
+    1,
+    2,
+    4,
+    6,
+    7,
+    8
+  ],
+  "table_snippets": [
+    "Table 1. ECE (%) (with M = 15 bins) on standard vision and NLP datasets before calibration and with various calibration methods.\nThe number following a model\u2019s name denotes the network depth.\nExtension of binning methods.\nOne common way of ex-\ntending binary calibration methods to the multiclass setting\nis by treating the problem as K one-versus-all problems\n(Zadrozny & Elkan, 2002). For k = 1, . . . , K, we form a\nbinary calibration problem where the label is 1(yi = k)\nand the predicted probability is \u03c3SM(zi)(k).\nThis gives\nus K calibration models, each for a particular class. At\ntest time, we obtain an unnormalized probability vector\n[\u02c6q(1)\ni\n, . . . , \u02c6q(K)\ni\n], where \u02c6q(k)\ni\nis the calibrated probability for\nclass k. The new class prediction \u02c6y\u2032\ni is the argmax of the\nvector, and the new con\ufb01dence \u02c6q\u2032\ni is the max of the vector\nnormalized by PK\nk=1 \u02c6q(k)\ni\n. This extension can be app",
+    "Table 1 displays model calibration,\nas measured by ECE (with M = 15 bins), before and af-\nter applying the various methods (see Section S3 for MCE,\nNLL, and error tables). It is worth noting that most datasets\nand models experience some degree of miscalibration, with\nECE typically between 4 to 10%. This is not architecture\nspeci\ufb01c: we observe miscalibration on convolutional net-\nworks (with and without skip connections), recurrent net-\nworks, and deep averaging networks. The two notable ex-\nceptions are SVHN and Reuters, both of which experience\nECE values below 1%. Both of these datasets have very\nlow error (1.98% and 2.97%, respectively); and therefore\nthe ratio of ECE to error is comparable to other datasets.\nOur most important discovery is the surprising effective-\nness of temperature scaling despite its remarkable simplic-\nity. Temperature scaling outperforms all other methods on\nth"
+  ],
+  "metric_lines": [
+    "bene\ufb01cial to classi\ufb01cation accuracy. On CIFAR-100, test",
+    "parameters of a binning scheme are \u03b81, . . . , \u03b8M. Under this",
+    "The parameters \u03b81, . . . , \u03b8M can be viewed as parameters of",
+    "2005), Platt scaling learns scalar parameters a, b \u2208R and",
+    "scaling, uses a single scalar parameter T > 0 for all classes.",
+    "knowledge distillation (Hinton et al., 2015) and statistical",
+    "accuracy (see Section S3). Histogram binning, the simplest",
+    "whose parameter is 1/T. We set T =1 during training, and"
+  ],
+  "pass": 1,
+  "source": "pymupdf_text_extract"
+}

@@ -1,0 +1,58 @@
+Sensors 2024, 24, 7320
+3 of 15
+microcontrollers, so we quantized the trained CatBoost model to implement it in resource-
+constrained microcontrollers.
+The main contributions of this work are as follows:
+•
+A novel, computationally efficient, decentralized multi-class IDS using the CatBoost
+algorithm is proposed for deployment directly on IoT devices, without relying on
+gateways (such as Raspberry Pi or computers) or cloud computing. The decentralized
+multi-class IDS significantly improves detection accuracy by effectively handling
+categorical data and missing values. The system demonstrates reduced inference time
+on resource-constrained microcontrollers due to the fast prediction capability of the
+algorithm, ensuring that potential attacks are detected and mitigated with minimal
+latency. This enhances the robustness of the IDS across diverse IoT environments.
+•
+Quantization of CatBoost model to fit models into the limited memory and processing
+capabilities of devices like the ESP32.
+•
+A detailed comparison was conducted between XGBoost- and CatBoost-based IDS
+implementations on microcontroller-based IoT devices for binary and multi-class
+classification of DoS and MITM attacks using the IDSH dataset. The evaluation
+focused on both algorithms’ accuracy, inference time, and storage requirements.
+•
+Additionally, we evaluated the impact of feature selection on the accuracy of the IDS
+and the computational burden on resource-constrained IoT devices.
+The rest of the paper is organized as follows: Related work is presented in Section 2
+and the proposed methodology is described in Section 3. The results are discussed in
+Section 4, followed by conclusion and future work in Section 5.
+2. Related Work
+The authors in [24] developed the permission and credibility-based IDS (PCIDS) using
+a decision tree (DT) for IoT devices to protect them against DoS and MITM attacks from
+adversaries. The PCIDS categorized the user requests into normal, abnormal, and risky
+categories by calculating the importance ratio, minimum credibility index, and maximum
+credibility index. The experimental results showed that the accuracy of PCIDS was 94.7%.
+The authors proposed to deploy the PCIDS on the gateway; however, hardware implemen-
+tation of PCIDS on the gateway was not achieved.
+In [25], the authors prevented the MITM attack on the Internet of Medical Things
+(IoMT) by transmitting the data signatures derived from locality-sensitive hashing (LSH).
+Furthermore, the authors also used the Hash Message Authentication Code (HMAC) to
+prevent modification attacks. The results showed that the proposed technique achieves a
+high detection rate with a false alarm rate (FAR) of 3%. In a recent study by Tekin et al. [26],
+the authors conducted a comparative analysis of the energy consumption of ML-based IDS
+on IoT devices, showing that on-device DT algorithms perform best in terms of training
+time, inference time, and power efficiency. However, the proposed technique was not tested
+in a real IoT environment.
+In [27], a lightweight ML-based IDS is presented to be deployed on the edge side to
+detect impersonation attacks. Support vector machines (SVMs) were trained on the WiFi
+Intrusion Dataset to detect intrusions on the edge. The overall accuracy presented by this
+system was 98.22%. The authors in [18] introduced Deep-IDS for detecting DoS, DDoS,
+MITM, brute force, and replay attacks on Raspberry Pi-based edge servers/gateways.
+The Deep-IDS was trained using the CIC-IDS2017 dataset and achieved an accuracy of
+97.67%. Similarly, a two-layered IDS was proposed in [28] to deploy IDS on Raspberry Pi-
+based the edge side and on cloud servers. In the first stage, an extra tree (ET)-based classifier
+was used for binary classification, and in the second stage, an ensemble technique was
+utilized which combined ET, RF, and deep neural network (DNN) for multi-classification.
+The proposed technique was tested on multiple datasets.
+The IDS for real-time detection of DDoS attacks in smart homes based on software-
+defined networks (SDNs) was proposed in [29]. The authors collected the dataset of normal

@@ -1,0 +1,83 @@
+Journal of Sensors
+7
+N →Network Size
+SN →Sensor Node
+MN →Malicious Node
+CH →Cluster Head
+BS →Base Station
+CM →Cluster Member
+NC →Cluster Heads list
+x →Integer value between 0 and 𝑁−1
+∀SN𝑖, 0 < 𝑖≤𝑁, compute 𝑇(SN𝑖) and random 𝑟SN𝑖
+IF (𝑟SN𝑖< 𝑇(SN𝑖)) THEN
+SN𝑖= CH
+ELSE
+SN𝑖= CM
+ENDIF
+∀CH𝑗, 𝑗∈NC
+{
+CH𝑗broadcasts the advertisement message (ADV CH)
+x CMs will join CH𝑗
+CH𝑗creates TDMA schedule
+x CMs send data to CH𝑗in the corresponding TDMA time slot
+}
+IF CH𝑗= MN THEN
+Performs the attack by dropping all packets
+ELSE
+Sends aggregated data to BS
+ENDIF
+Algorithm 1: Model of Blackhole attack.
+Data sent: the number of data packets sent from a
+sensor to its CH.
+Data received: the number of data packets received
+from CH.
+Data sent to BS: the number of data packets sent to
+the BS.
+Distance CH to BS: the distance between the CH and
+the BS.
+Send Code: the cluster sending code.
+Attack Type: type of the node. It is a class of five pos-
+sible values, namely, Blackhole, Grayhole, Flooding,
+and Scheduling, in addition to normal, if the node is
+not an attacker.
+5. Attack Models
+Four types of DoS attacks in LEACH protocol are imple-
+mented in the constructed dataset; Blackhole, Grayhole,
+Flooding, and Scheduling attacks. This section models each
+one of these attacks. To ensure proper distribution of the
+attacker nodes, the network terrain has been divided into 10
+regions. Then the attackers’ ratios according to the simulation
+scenario were distributed randomly within these regions.
+5.1. Blackhole Attack. Blackhole attack is a type of DoS attack
+where the attacker affects LEACH protocol by advertising
+itself as a CH at the beginning of the round. Thus, any node
+that has joined this CH during this round will send the data
+packets to it in order to be forwarded to the BS. The Blackhole
+attacker assumes the role of CH and it will keep dropping
+these data packets and not forwarding them to the BS [39–
+41]. Algorithm 1 shows the algorithm of Blackhole attack.
+To implement this attack in the simulation environment,
+several attackers’ intensities (10%, 30%, and 50%) have been
+injected randomly to perform Blackhole attack. These attack-
+ers which act as CHs will drop all the packets relayed through
+them in their way to the BS.
+5.2. Grayhole Attack. Grayhole attack is a type of DoS attack
+where the attacker affects LEACH protocol by advertising
+itself as a CH for other nodes. Therefore, when the forged CH
+receives data packets from other nodes, it drops some packets
+(randomly or selectively) and prevents them from reaching
+the BS [40–42]. Algorithm 2 shows the algorithm of Grayhole
+attack.
+Similar to Blackhole attack, 10%, 30%, and 50% of
+the sensor nodes are injected randomly to implement the
+Grayhole attack. The decision whether to forward a specific
+packet or not is also devised randomly. But the decision can
+be done selectively based on the sensitivity of the sensed data
+carried by the packet.
+5.3. Flooding Attack. Flooding attack is a type of DoS attack
+where the attacker affects LEACH protocol in more than
+one way. This research studies the impact of Flooding
+attack by sending large number of advertising CH massages
+(ADV CH) with high transmission power. Consequently,
+when sensors receive large number of ADV CH messages,
+ 9161, 2016, 1, Downloaded from https://onlinelibrary.wiley.com/doi/10.1155/2016/4731953 by ABV Indian Institute of Information Technology & Management, Gwalior, Wiley Online Library on [06/08/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

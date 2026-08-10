@@ -1,0 +1,115 @@
+Complex & Intelligent Systems (2025) 11 :422
+Page 3 of 23
+422
+Table 1 Short forms and corresponding full terms used in the research
+paper
+Short form
+Full term
+Non-IID
+Non-independent and identically
+distributed
+SHAP
+Shapley additive explanations
+FL
+Federated learning
+IoT
+Internet of things
+DDoS
+Distributed denial of service
+FDL
+Federated deep learning
+SGDC
+Stochastic gradient descent classiﬁer
+IHHO-NN
+Harris hawks optimization algorithm for
+neural networks
+ER-VEC
+Extra tree based random—voting ensemble
+classiﬁer
+RF
+Random forest
+GWO
+Gray wolves optimization
+LGBA-NN
+Local–global best bat algorithm for neural
+networks
+CNN-LSTM
+Convolutional neural network with a long
+short-term memory
+AU-ANN
+Deep autoencoder with artiﬁcial neural
+network
+individual devices never share raw data, unlike centralized
+methods that require data aggregation at a single point,
+risking exposure and vulnerability. Second, our method
+effectively addresses the inherent heterogeneity and non-IID
+nature of IoT data by focusing on feature importance aggre-
+gation rather than direct data aggregation, making the model
+more adaptable to diverse IoT device characteristics and data
+distributions. Third, the decentralized feature aggregation
+allows the global model to capture critical, botnet-speciﬁc
+patterns across devices, enhancing its accuracy in identifying
+threats from botnets like Bashlite, Mirai, Neris, RBoT and
+Torii without needing explicit labels or patterns from each
+client. Finally, our approach is scalable and ﬂexible, enabling
+continuous learning across a broad network of devices as new
+threats and data patterns emerge, which is a critical improve-
+ment over static, centralized models that lack adaptability.
+The abbreviations used in this paper, along with their full
+forms, are listed in Table 1.
+The structure of this paper is as follows: The next
+section presents the “Literature review”, followed by the
+“Methodology”, detailing data preparation, preprocessing,
+client distribution, and model training. The “Experimental
+results and analysis” section evaluates the model’s perfor-
+mance, and the paper concludes with the “Conclusion” and
+references.
+Literature review
+The rapid evolution of IoT networks has driven extensive
+research in intrusion detection systems (IDS), with a partic-
+ular focus on securing these networks against botnet attacks.
+In this section, we review relevant literature on IoT botnet
+detection, federated learning, privacy-preserving techniques,
+andSHAP-basedinterpretabilitymethods.Thesestudiespro-
+vide foundational insights that informed the development of
+our novel federated learning framework.
+IoT botnet detection approaches
+IoT botnet attacks like exploit vulnerabilities in resource-
+constrained IoT devices, highlighting the limitations of
+traditional machine learning (ML) and deep learning (DL)
+classiﬁers in intrusion detection [15–18]. While centralized
+models such as Support Vector Machines (SVM), Decision
+Trees, and Neural Networks have been widely used to ana-
+lyze network trafﬁc for botnet detection, they face signiﬁcant
+challenges in real-world IoT environments. These models
+struggle to handle evolving and rapidly changing botnet
+attack architectures, as they are not designed for adaptive,
+distributed detection. Furthermore, centralized approaches
+are ill-suited for IoT due to data privacy constraints and
+their inability to manage non-IID data across heterogeneous
+devices [19–21].
+Federated learning for IoT security
+Federated learning (FL) has emerged as a promising solution
+to IoT security challenges, allowing data to remain decentral-
+ized across devices while still contributing to a global model
+[22]. Research has shown that FL can maintain privacy by
+enabling clients to train locally on their data and share model
+updates instead of raw data.
+Regan et al. [23] proposes a federated learning approach
+using a deep autoencoder for IoT botnet detection, empha-
+sizing data privacy by processing data locally on devices.
+The model learns normal device behaviors and ﬂags devi-
+ations as potential threats, achieving up to 98% accuracy
+in detecting botnet attacks like Mirai and Bashlite. While
+effective in preserving data privacy, this approach faces
+challenges with communication overhead and limited adapt-
+ability to complex, evolving attack patterns. Sayan and
+Hanawal [24] presents a federated learning approach using
+a hybrid ensemble model, Probabilistic Hybrid Ensemble
+Classiﬁcation (PHEC), for IoT intrusion detection. In a cen-
+tralized setup, PHEC combines K-Nearest Neighbors and
+Random Forest classiﬁers to maximize the True Positive Rate
+(TPR) while minimizing the False Positive Rate (FPR). The
+federated version, FedStacking, applies Multi-layer Percep-
+trons (MLPs) on distributed clients to preserve data privacy.
+123

@@ -1,0 +1,40 @@
+factors driving model decisions. The results, presented in the subsequent
+sub-sections, showcase its effectiveness in binary classification for the CTU-
+13 dataset and both binary and multi-class tasks for the UKM20 dataset.
+This analysis not only highlights key predictive features but also validates
+the method’s utility in enhancing transparency and trust for intrusion detec-
+tion systems across diverse classification scenarios.
+4.5.1. Binary Classification Results on CTU-13 Dataset
+Figure 8 compares the explainability outcomes of the Teacher and Student
+models for detecting anomalies in the CTU-13 dataset under binary classi-
+fication.
+Both models demonstrate strong predictive capability, yet they
+prioritize different latent dimensions and corresponding original features in
+their decision-making processes.
+Explainability Insights from the Teacher Model. A detailed break-
+down analysis of the Teacher model (Table 12) indicates a final predicted
+value of approximately 0.999984 for the sample under examination.
+The
+initial intercept (0.419964) serves as the baseline probability before feature
+contributions are considered. Several latent dimensions—mapped to features
+such as Flow Duration and Fwd IAT Tot—provide positive contribu-
+tions, gradually elevating the prediction closer to 1.0. Notably, latent dimen-
+sion 15 (Flow IAT Mean) and 1 (Tot Fwd Pkts) offer significant boosts
+to the prediction, underlining their critical role in detecting malicious traffic.
+Conversely, certain dimensions (e.g., mapped to Bwd IAT Max) exhibit
+negative or minimal contributions, reflecting how the model discounts these
+factors for this particular instance.
+By linking each latent dimension to the most influential original feature,
+security analysts gain insight into why the Teacher model flags a flow as
+anomalous.
+For instance, high values in Fwd IAT Tot or Flow IAT
+Mean suggest irregular timing patterns, consistent with potential malicious
+behaviors. This transparent mapping helps validate the model’s decisions
+and facilitates targeted countermeasures.
+Explainability Insights from the Student Model. The Student model,
+while aiming to reproduce the Teacher’s performance at lower computational
+cost, reveals a slightly different attribution pattern. Its mean predicted prob-
+ability (0.425) is comparable to the Teacher’s (0.42), indicating that it has
+learned a similarly discriminative latent space. Through the same break-
+down procedure, the Student model also emphasizes a core set of latent
+33

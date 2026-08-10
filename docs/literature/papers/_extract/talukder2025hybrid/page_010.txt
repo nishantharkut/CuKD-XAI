@@ -1,0 +1,66 @@
+where F(x) is the prediction function. ηm is the learning rate for the m-th boosting round. hm(x) is the weak 
+learner (usually a decision tree) fitted in the m-th iteration. M is the total number of boosting iterations.
+In CatBoost, the decision trees hm(x) are built using a gradient-based optimization process that minimizes a 
+loss function, typically the log-loss or binary cross-entropy in classification problems.
+With techniques like ordered boosting and regularization, CatBoost reduces overfitting and ensures better 
+generalization on unseen data. Moreover, it requires fewer hyperparameters, making it faster to train compared 
+to other gradient boosting algorithms, and is robust against noisy data and outliers.
+Extreme Gradient Boosting Classifier (XGBC)
+Extreme Gradient Boosting (XGBC) is an advanced implementation of gradient boosting that optimizes model 
+training by using decision trees in a boosting framework. XGBC builds trees sequentially, where each tree 
+corrects the errors of the previous one. It uses regularization to prevent overfitting and improve generalization.
+The final prediction in XGBC is given by:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(14)
+where αt is the weight of the t-th tree and ft(x) is the prediction of the t-th tree.
+XGBC is highly efficient and scalable, providing high predictive accuracy. It is robust against overfitting due to 
+its regularization mechanism and is widely used in IDS due to its ability to handle large datasets and complex 
+relationships.
+LightGBM Classifier (LGBC)
+LightGBM (Light Gradient Boosting Machine) is a gradient boosting framework that uses a histogram-based 
+approach for faster training. It builds decision trees leaf-wise (as opposed to level-wise), which helps reduce the 
+number of splits and improves computational efficiency.
+The prediction in LGBC can be written as:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(15)
+Similar to XGBC, but with improved efficiency and speed due to the histogram-based approach.
+LGBC is faster and more memory-efficient than traditional gradient boosting algorithms, making it suitable 
+for large-scale IDS datasets. It can handle categorical features directly and achieves high accuracy in a shorter 
+training time.
+Histogram-based Gradient Boosting Classifier (HGBC)
+Histogram-based Gradient Boosting (HGBC) builds trees using gradient boosting and bins continuous features 
+into histograms, which reduces the number of calculations during tree construction. This makes it efficient, 
+especially for large datasets.
+Similar to LightGBM, HGBC’s prediction is given by:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(16)
+where ft(x) is the decision function of the t-th tree, and αt is the corresponding weight.
+HGBC offers high accuracy and efficiency, with a focus on memory usage optimization, making it well-suited 
+for IDS in resource-constrained environments. It allows for fast model training and is capable of handling high-
+dimensional data with ease.
+Result analysis
+Result analysis plays a crucial role in evaluating the effectiveness of IDS built using ML models. It involves 
+assessing the ability of the model to accurately classify intrusion events while ensuring minimal false positives 
+and false negatives. This analysis typically includes metrics such as accuracy, precision, recall, f1-score, and area 
+under the curve (AUC), which offer insights into the model’s overall performance and robustness. The results 
+obtained help in comparing different models and selecting the one with the best performance for deployment 
+in real-world scenarios.
+Scientific Reports |         (2025) 15:4617 
+10
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

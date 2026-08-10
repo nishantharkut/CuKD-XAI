@@ -1,0 +1,82 @@
+A Lightweight Approach for Network Intrusion
+Detection based on Self-Knowledge Distillation
+Shuo Yang∗†, Xinran Zheng∗†, Zhengzhuo Xu∗, and Xingjun Wang∗‡
+∗Tsinghua Shenzhen International Graduate School, Tsinghua University, Shenzhen, China
+Abstract—Network Intrusion Detection (NID) works as a ker-
+nel technology for the security network environment, obtaining
+extensive research and application. Despite enormous efforts by
+researchers, NID still faces challenges in deploying on resource-
+constrained devices. To improve detection accuracy while reduc-
+ing computational costs and model storage simultaneously, we
+propose a lightweight intrusion detection approach based on
+self-knowledge distillation, namely LNet-SKD, which achieves
+the trade-off between accuracy and efficiency. Specifically, we
+carefully design the DeepMax block to extract compact repre-
+sentation efficiently and construct the LNet by stacking DeepMax
+blocks. Furthermore, considering compensating for performance
+degradation caused by the lightweight network, we adopt batch-
+wise self-knowledge distillation to provide the regularization
+of training consistency. Experiments on benchmark datasets
+demonstrate the effectiveness of our proposed LNet-SKD, which
+outperforms existing state-of-the-art techniques with fewer pa-
+rameters and lower computation loads.
+Index Terms—Intrusion detection, deep learning, lightweight
+network, self-knowledge distillation.
+I. INTRODUCTION
+Accompanied by the rapid development of network tech-
+nology, various network attacks emerge with more serious and
+huge threats [1]. As a response, Network Intrusion Detection
+(NID) plays an essential role in providing the desired security
+by constantly monitoring malicious and suspicious activities in
+network traffic. Nowadays, Intrusion Detection Systems (IDSs)
+have been widely used in military, medical, transportation, IoT,
+industrial control systems, and other fields [2].
+IDSs apply two types of detection manners, signature-based
+and anomaly-based [3]. The signature-based NID establishes
+the knowledge base by state modeling or string matching in
+advance and detects abnormal behavior by matching the data
+flow with the existing signature. Signature-based NID shows
+quite well performance on known attacks while failing to deal
+with attacks that are not in the knowledge base. Compared with
+it, anomaly-based NID has the ability to recognize unknown
+attacks by measuring the deviation between the detected
+activity and normal ones, which is vigorously developing.
+With the success of Deep Learning (DL), numerous DL-
+based intrusion detection models [4]–[6] have been proposed
+and promote the accuracy and robustness of intrusion detection
+by a large margin. Despite the satisfactory accuracy these
+models achieved, most of them are difficult to be implemented
+on resource-constraint devices as high computational overhead
+†Contributed Equally
+‡Corresponding Author
+Fig. 1. F1 score v.s. the number of model parameters on NSL-KDD datasets.
+Each data point is visualized as a circle whose radius is proportional to
+log(p), where p is the model’s FLOPs. Notice that LNet-SKD achieves the
+best performance with satisfying model parameters and FLOPs.
+and large model size. For example, DBN-based methods and
+RNN-based methods need more parameters resulting in the
+burden of storage (See Fig. 1).
+Several schemes have been proposed to lighten the model
+size for NID [7]–[9], where [7] designed a lightweight network
+using depthwise convolution instead of standard convolution.
+However, the reduction of network complexity is at the ex-
+pense of ignoring the correlation of channels, which leads
+to a decline in detection accuracy. In contrast, Depthwise
+Separable Convolution (DSConv) [10] is more wildly used
+that introduces point-wise convolution to combine features be-
+tween channels. Furthermore, motivated by the observation of
+the feature combination and selection ability of Max-Feature-
+Map (MFM) [11], we present a simple yet novel network
+structure named DeepMax block composed of DSConv and
+MFM, which allows a NID model to reinforce representation
+learning with lower computational cost.
+To compensate for the performance degradation caused by
+the lightweight, an intuitive solution uses Knowledge Distil-
+lation (KD) [12]–[14] to optimize the shallow student models
+by learning knowledge extracted from large and deep teacher
+models. However, we notice that student performance is highly
+dependent on the teacher models, which requires extra network
+design and results in additional training burdens to NID. To
+ameliorate it, we apply Self-Knowledge Distillation (SKD)
+[15] to obtain the instantaneous knowledge generated during
+arXiv:2307.10191v1  [cs.CR]  9 Jul 2023

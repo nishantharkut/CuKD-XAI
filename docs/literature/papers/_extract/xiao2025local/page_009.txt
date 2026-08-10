@@ -1,0 +1,145 @@
+Signal, Image and Video Processing (2025) 19 :1335
+Page 9 of 15
+1335
+Table 5 Class-wise Sample
+Distribution in Training and
+Testing Phases for the WSN
+Intrusion Dataset
+Phase
+Classes (attack type)
+Normal: 0
+Flooding: 1
+TDMA: 2
+Gray hole: 3
+Blackhole: 4
+Train
+273,129
+2851
+5013
+11,307
+7433
+Test
+66,937
+462
+1626
+3290
+2617
+Table 6 Evaluation metrics were
+employed to measure the
+predictive accuracy and overall
+performance of the models
+Phase
+Category
+Models
+Metrics
+Accuracy
+Precision
+Recall
+F1
+_score
+Speciﬁcity
+Train
+Ensemble
+DNN + CAT
+(DNCA)
+0.9218
+0.9580
+0.9218
+0.9335
+0.9807
+Ensemble-
+Hybrid
+DNCA + QIO
+(DCQI)
+0.9545
+0.9700
+0.9545
+0.9593
+0.9884
+DNCA +
+OOA
+(DCOA)
+0.9468
+0.9668
+0.9468
+0.9530
+0.9866
+Test
+Ensemble
+DNN + CAT
+(DNCA)
+0.9217
+0.9557
+0.9217
+0.9331
+0.9804
+Ensemble-
+Hybrid
+DNCA + QIO
+(DCQI)
+0.9562
+0.9703
+0.9562
+0.9607
+0.9892
+DNCA +
+OOA
+(DCOA)
+0.9464
+0.9658
+0.9464
+0.9527
+0.9868
+classiﬁcations when compared to DNCA in all adversarial
+scenarios. For instance, it can be seen from the heatmaps that
+the greatest differences in the numbers of false classiﬁcations
+between DCQI and DNCA occur in the “Flooding” and “TD-
+MA” attack categories. QIO can enable the reﬁnement of the
+decision boundary, thus providing a better distribution of the
+points and consequently reducing the number of false classi-
+ﬁcations. DCOA is able to show very good results, especially
+regarding “Blackhole” and “Grayhole” intrusions; however,
+the improvement in accuracy is somewhat less than that of
+DCQI, which is consistent with the optimization strategy that
+is more focused on the exploration of the solution space.
+Figure 4 visually compares the on-hand and forecasted
+results via a column plot for the baseline ensemble model
+(DNCA) and its metaheuristically optimized counterparts
+(DCQI and DCOA) over different attack categories and
+normal trafﬁc. The similarity between the measured and pre-
+dicted bars allows a quick visual check of the respective
+models’ potential to reﬂect the underlying class distributions.
+When looking at the “Normal” class, all models demonstrate
+that the measured and predicted values are very close, with
+DCQI being the closest one, thus the best precision and recall.
+On the other hand, the DNCA model is quite off in its predic-
+tions for the “Flooding” and “TDMA” scenarios; both false
+and true counts are signiﬁcantly underestimated. The opti-
+mized models, in particular DCQI, extend the contributions
+of these discrepancies to a great extent; hence, they are able
+to improve decision boundary reﬁnement and balance detec-
+tion. Moreover, DCOA also works towards closing the gap
+between the on-hand and predicted counts, albeit to a lesser
+extent than DCQI, which is parallel with its slightly lower
+overall accuracy. Thus, the ﬁgure is a visual conﬁrmation of
+the quantitative results, where the metaheuristic optimiza-
+tion, particularly QIO, is shown to be the most effective in
+achieving the predictive alignment with the actual network
+behaviors in wireless sensor network intrusion detection.
+Table 7 breaks down the performance of the models across
+different attack scenarios, among which are the baseline
+DNCA ensemble and its metaheuristically improved ver-
+sions, DCQI and DCOA. In the case of “Normal”, there is
+almost perfect precision for all models (> 0.998) with high
+recall (> 0.92), showing their ability to detect benign traf-
+ﬁc with a high level of conﬁdence. The DCQI model had
+the best F1-score value (0.9764) among all the others. This
+ﬁgure is the best indication that the model had a good balance
+between sensitivity and speciﬁcity. While adversarial condi-
+tions cause substantial variances, these kinds of variances are
+less pronounced in clean scenarios. In the “Flooding” setting,
+which represents an attack with a high level of noise and a
+high packet rate, the DNCA model’s precision was notably
+low (0.2942), whereas its recall was quite high (0.9218). It
+is the model’s habitual conduct, however, that it over-detects
+123

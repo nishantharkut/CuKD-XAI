@@ -1,0 +1,114 @@
+A. Awasthi et al.: TICNN—A Hybrid Light-Weight CNN for Large Imbalanced Multi-Class Datasets
+tasks, is beneficial in IoT. Concurrently, the adversarial
+aspect was also explored, with studies demonstrating how
+Conditional GANs (cGANs) can be used to craft attacks that
+deceive DL-based IDS in IoT networks [3].
+To further this research, foundational enhancements were
+made, including the creation of new, large-scale datasets like
+CICIoT2023 to better represent real-time attacks [10]. Efforts
+also focused on generally enhancing AI-based NIDS using
+Generative Adversarial Networks (GANs) [4] and improving
+not just attack detection but also the explainability of model
+predictions in IoT systems [11], [12].
+Building on these foundations, subsequent work has
+applied more sophisticated models. Researchers have demon-
+strated the combined power of CNN and Long Short-Term
+Memory (LSTM) networks for boosting IoT security using
+recent datasets [13], while further advancements in the IoV
+domain have included the use of tokenization alongside
+DL models to improve detection accuracy [14]. These
+studies collectively highlight a trend towards leveraging
+sophisticated deep learning models to build more accurate
+and context-aware intrusion detection systems [9].
+Recent advancements have also focused on optimizing
+machine learning frameworks to handle the complexity of
+IoT network traffic. To address this, researchers created
+better machine learning frameworks based on their ability to
+handle high-dimensional data. These enhanced frameworks
+generally use PCA techniques in addition to some methods
+for reducing the number of features so that they perform
+better on a wide variety of tasks by removing unnecessary
+complexity from the feature-extraction process [15], [16].
+Similarly, ensemble strategies have shown effective results;
+for instance, a tree-driven intelligent security system, which
+utilizes bagging ensembles to increase detection rates in
+diverse IoT environments [17]. To further improve upon the
+accuracy of these ensemble models, techniques based upon
+evolutionary optimization methods have been implemented.
+A perfect example of this is an ensemble learning approach
+using a butterfly optimization method to dynamically opti-
+mise weight parameters in order to enhance the strength
+and effectiveness of an intrusion detection system against
+different attack patterns [18]. Furthermore, recent studies
+have emphasized the importance of complex system security
+and intelligent detection in industrial contexts. For instance,
+research in industrial reliability engineering [19] and expert
+systems for security [20] highlights the need for robust
+anomaly detection in interconnected environments. Our
+proposed TICNN framework aligns with these trends by
+providing an efficient, image-based detection mechanism that
+is particularly suited for the high-stakes security requirements
+of industrial IoT (IIoT) systems.
+However, a major problem in training effective IDS
+models is the inherent class imbalance in network traffic
+datasets, where malicious activities are often rare compared
+to benign traffic. This imbalance can bias models, leading to
+poor detection rates for critical, albeit infrequent, attacks.
+To counter this, various strategies have been explored. Tradi-
+tional sampling techniques, such as SMOTE and ADASYN,
+have been evaluated for their effectiveness in IoT datasets [6],
+and specialized methods like Weighted Optimized SMOTE
+(WOSMOT) have been integrated into DL pipelines for
+detecting specific attacks like DDoS [2].
+GANs have become increasingly recognized as a powerful
+tool for generating high-quality synthetic minority-class
+data. Researchers have developed specialized GAN archi-
+tectures like TMG-GAN [5] and CTGAN [9] specifically
+for imbalanced IDS datasets. Other work has utilized
+GANs for unsupervised anomaly detection, with models
+like FlowGANAnomaly learning network flow patterns to
+identify deviations [21]. In parallel, adversarial techniques
+have continued to evolve with novel methods like ProGen,
+which focuses on generating projection-based adversarial
+examples [22].
+The latest research pushes the boundaries further with
+advanced hybrid models. These include approaches combin-
+ing Swin Transformers and LSTM with transfer learning [23].
+Furthermore, hybrid models combining Autoencoders (AE)
+with Wasserstein GANs (WGAN) have been proposed to both
+extract representative features and generate realistic synthetic
+attacks, achieving superior performance on established
+benchmarks like NSL-KDD and CIC-IDS2017 [7], [24].
+This dual role of GANs fortifying defenses by generating
+synthetic data while simultaneously simulating advanced
+threats to probe for vulnerabilities positions them as a key
+technology in the ongoing cybersecurity arms race. The
+ability of GANs to learn complex data distributions, even
+demonstrated in fields like SAR-to-Optical image transla-
+tion [25], underscores their potential impact on network
+security. However, the GAN techniques used can give rise to
+synthetic, biased training because the imbalance ratio among
+the classes is very high, a challenge that remains a focus of
+ongoing research.
+III. PROPOSED FRAMEWORK
+The proposed work first converts the dataset into images and
+then addresses the data imbalance issue using the proposed
+Tabular-Image Generative Adversarial Network (TIGAN)
+hybrid sampling method for image generation. This balanced
+dataset is used to train the proposed Transformed Image
+Convolution Neural Network (TICNN) model to achieve
+high results while maintaining performance on extensive IoT
+datasets.
+A. DATASET PREPROCESSING AND IMAGE
+TRANSFORMATION THAT RESOLVES RQ3
+The dataset consists of a substantial number of samples
+presented in one dimension that are represented using
+tables, which requires longer model training times and more
+computational power. To minimize both the training time
+and resource utilization at local client node, we convert the
+one-dimensional data into two-dimensional data represented
+in the form of RGB images.
+Let’s consider the dataset represented as D ∈RM×N,
+where each di,j in D represents jth feature value of ith sample.
+VOLUME 14, 2026
+23415

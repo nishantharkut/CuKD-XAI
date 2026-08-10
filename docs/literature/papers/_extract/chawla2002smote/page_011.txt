@@ -1,0 +1,44 @@
+SMOTE
+0
+50
+100
+150
+200
+250
+300
+350
+400
+450
+500
+50
+55
+60
+65
+70
+75
+Degree of Minority Over−sampling
+%Minority Correct
+% Minority Correct vs the Degree of Minority Over−sampling
+Synthetic data 
+Replicated data
+Figure 5: Comparison of % Minority correct for replicated over-sampling and SMOTE for
+the Mammography dataset
+4.3 Under-sampling and SMOTE Combination
+The majority class is under-sampled by randomly removing samples from the majority class
+population until the minority class becomes some speciﬁed percentage of the majority class.
+This forces the learner to experience varying degrees of under-sampling and at higher degrees
+of under-sampling the minority class has a larger presence in the training set. In describing
+our experiments, our terminology will be such that if we under-sample the majority class at
+200%, it would mean that the modiﬁed dataset will contain twice as many elements from the
+minority class as from the majority class; that is, if the minority class had 50 samples and
+the majority class had 200 samples and we under-sample majority at 200%, the majority
+class would end up having 25 samples. By applying a combination of under-sampling and
+over-sampling, the initial bias of the learner towards the negative (majority) class is reversed
+in the favor of the positive (minority) class. Classiﬁers are learned on the dataset perturbed
+by “SMOTING” the minority class and under-sampling the majority class.
+5. Experiments
+We used three diﬀerent machine learning algorithms for our experiments. Figure 6 provides
+an overview of our experiments.
+1. C4.5: We compared various combinations of SMOTE and under-sampling with plain
+under-sampling using C4.5 release 8 (Quinlan, 1992) as the base classiﬁer.
+331

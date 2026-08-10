@@ -1,0 +1,140 @@
+Sensors 2024, 24, 7320
+8 of 15
+achieved at a depth of 10 with a false negative rate (FNR) of 1.30% and false positive rate
+(FPR) of 0.25%.
+Table 3. Performance of CatBoost for binary classification.
+Hyperparameters
+Accuracy
+Precision
+Recall
+F1-Score
+FPR
+FNR
+Trees = 200, Depth = 6, 12_Reg_Leaf = 1, LR = 0.1
+98.63%
+0.98
+0.98
+0.98
+1.41%
+1.25%
+Trees = 200, Depth = 7, 12_Reg_Leaf = 3, LR = 0.3
+98.79%
+0.98
+0.99
+0.99
+1.30%
+1.00%
+Trees = 200, Depth = 8, 12_Reg_Leaf = 3, LR = 0.3
+98.79%
+0.98
+0.98
+0.98
+1.41%
+0.75%
+Trees = 200, Depth = 9, 12_Reg_Leaf = 3, LR = 0.3
+98.63%
+0.98
+0.98
+0.98
+1.30%
+1.50%
+Trees = 200, Depth = 10, 12_Reg_Leaf = 3, LR = 0.3
+99.03%
+0.99
+0.99
+0.99
+1.30%
+0.25%
+4.2. CatBoost-Based IDS Implementation on IoT Device with Feature Selection for
+Binary Classification
+The chi-square [39] FS technique was used to find the optimal number of features.
+The FS technique was performed for each depth. We evaluated the performance of CatBoost
+for seven to sixteen features. Table 4 shows the best FS results for each depth. The results
+show that the CatBoost model with 10 features and a depth of 10 gives the highest accuracy
+of 99.03%.
+Table 4. Performance of CatBoost for binary classification using feature selection.
+Hyperparameters
+No. of Features
+Accuracy
+Precision
+Recall
+F1-Score
+FPR
+FNR
+Trees = 200, Depth = 6, 12_Reg_Leaf = 3,
+LR = 0.3
+9
+98.71%
+0.98
+0.99
+0.98
+1.53%
+0.75%
+Trees = 200, Depth = 7, 12_Reg_Leaf = 3,
+LR = 0.3
+9
+98.87%
+0.98
+0.98
+0.98
+1.41%
+1.00%
+Trees = 200, Depth = 8, 12_Reg_Leaf = 3,
+LR = 0.3
+9
+98.95%
+0.98
+0.99
+0.99
+1.18%
+0.75%
+Trees = 150, Depth = 9, 12_Reg_Leaf = 3,
+LR = 0.3
+9
+98.87%
+0.98
+0.99
+0.99
+1.18%
+1.00%
+Trees = 200, Depth = 10, 12_Reg_Leaf = 3,
+LR = 0.3
+10
+99.03%
+0.99
+0.99
+0.99
+1.30%
+0.25%
+4.3. Catboost-Based IDS for Multi-Classification Without Feature Selection
+Similar to binary classification, for multi-classification, the timestamp, source_ip,
+and destination_ip were not included as inputs to avoid overfitting. Hyperparameter
+tuning was performed using grid search. The parameters for grid search included depth,
+learning rate, regularization parameter (L2_Leaf_reg), and the number of trees. The range
+for the number of trees was [50, 100, 150, 200, 250, 300]; for 12_Leaf_reg, it was [1, 3, 5];
+and the learning rate was [0.01, 0.1, 0.2, 0.3]. The performance of CatBoost was evaluated in
+terms of accuracy, precision, recall, and F1-score. The testing results are shown in Table 5.
+The highest accuracy of 98.15% was achieved at a depth of seven.
+Table 5. Performance of CatBoost for multi-classification without using feature selection.
+Hyperparameters
+Accuracy
+Precision
+Recall
+F1-Score
+Trees = 250, Depth = 6, 12_Reg = 3, LR = 0.3
+97.90%
+0.96
+0.96
+0.96
+Trees = 200, Depth = 7, 12_Reg_Leaf = 3,
+LR = 0.3
+98.15%
+0.97
+0.97
+0.97
+Trees = 250, Depth = 8, 12_Reg_Leaf = 3,
+LR = 0.3
+97.90%
+0.97
+0.96
+0.96

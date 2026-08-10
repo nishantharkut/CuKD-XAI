@@ -1,0 +1,64 @@
+Sensors 2025, 25, 4309
+17 of 31
+Figure 7. Accuracy under different distillation hyperparameter settings (N-BaIoT).
+To further investigate the impact of KD intervals on the performance of FD-IDS, we
+designed a comparative experiment to validate the effectiveness of performing KD after
+each communication round in improving FD-IDS performance. In the experiment, three
+different KD intervals were defined:
+•
+Periodic KD: KD is performed after every 8 communication rounds;
+•
+End-of-Training KD: KD is performed in Rounds 31 to 40;
+•
+Round-wise KD: KD is performed immediately after each communication round.
+Table 6 presents the experimental results that were obtained using Edge-IIoT. In the
+low-Non-IID scenario, the accuracy of round-wise KD (94.82%) slightly outperformed that
+of periodic KD (94.71%) and end-of-training KD (94.70%). In the high-Non-IID scenario, the
+performance advantage of round-wise KD became even more apparent, with an accuracy
+of 93.86%, which was higher than periodic KD (93.21%) and end-of-training KD (92.97%).
+Table 7 presents the experimental results that were obtained using N-BaIoT. When θ = 1,
+round-wise KD achieved an accuracy of 87.70%, which was higher than both periodic KD
+(86.28%) and end-of-training KD (86.25%). When θ = 0.1, round-wise KD still outperformed
+the other two strategies, with an accuracy of 83.81%, surpassing periodic KD (81.53%) and
+end-of-training KD (80.72%).
+Overall, the experimental results demonstrate that round-wise KD can effectively
+enhance the performance of FD-IDS under different Non-IID scenarios.
+Table 6. Performance comparison of the different KD intervals in different Non-IID scenarios (Edge-
+IIoT).
+KD Intervals
+Accuracy
+Precision
+Recall
+F1
+Low Non-IID (θ = 1)
+Periodic KD
+94.71
+95.38
+94.71
+94.25
+End-of-Training KD
+94.70
+95.10
+94.70
+94.42
+Round-wise KD
+94.82
+96.20
+94.82
+94.35
+High Non-IID (θ = 0.1)
+Periodic KD
+93.21
+94.50
+93.21
+91.94
+End-of-Training KD
+92.97
+93.31
+92.97
+91.58
+Round-wise KD
+93.86
+96.45
+93.86
+92.70

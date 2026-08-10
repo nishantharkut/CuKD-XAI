@@ -1,0 +1,47 @@
+Published in Transactions on Machine Learning Research (06/2024)
+majority of prompts. However, when participants do decide to choose a method rather than abstaining, they
+often choose the same method. For example, for the Vanilla Gradient vs. SmoothGrad pair (top row in
+Figure 6a), participants either chose SmoothGrad over Vanilla Gradient or chose neither. We also aggregate
+these choices’ overall prompts, and in Figure 6b, we plot how often each of the six explanation methods is
+chosen, finding that indeed, certain methods were favored over others. While KernelSHAP was chosen 66.7%
+of the time when there were disagreements, Gradient times Input was only chosen 7.0% of the time. We
+include a further explanation of why participants chose each of the explanations in Appendix E.5, including
+quotes from participants that supported each method.
+(a) The frequency with which each of the explanations in a pair is
+selected upon disagreement. The blue, gold, and grey bars show the
+percentage of participants (X-axis) that picked the left, right, and
+neither method when presented with the pair of methods shown
+on the Y-axis.
+(b) The frequency with which each of the expla-
+nations was chosen when there is a disagreement.
+X-axis indicates the explanation method and Y-
+axis indicates the frequency.
+Figure 6: Figures highlight which methods participants chose when the explanations they were shown
+disagreed. In (a), we show how participants resolved each particular prompt. In (b), we show the overall
+frequencies with which an explanation method was selected.
+5.2.3
+How do practitioners resolve disagreements?
+Across all six explanation methods, we find three unifying themes that dictated why participants chose one
+explanation over the other. We give a high-level description of these themes below, highlighting direct quotes
+from participants in Table 1.
+1. One method is inherently better than the other because of its associated theory or publication time (33%):
+Participants often indicated preference towards a particular method without referencing the shown explanation
+citing features such as the paper’s publication time (more recent is better), the theory behind the method,
+and the method’s stability.
+2. One of the generated explanations matches intuition better (32%):
+Participants frequently said that one
+method’s explanation aligned with their intuition better, citing the absolute and relative values of specific
+features as evidence.
+3. LIME and SHAP are better because the COMPAS dataset comprises tabular data (23%):
+Participants
+said that they mainly used LIME and SHAP for tabular data and commonly cited this as their sole reason.
+5.2.4
+Experiencing and resolving disagreements in day-to-day workflow
+After answering all 5 prompts, participants were asked a set of questions on their experience with the
+disagreement problem in their day-to-day work. First, to filter out participants who didn’t use explanation
+methods, we asked: “Have you used explanation methods in your work before?”. Of the 25 participants, 5 of
+them indicated that they had not. We asked the other 20 participants further questions to better understand
+their experience with the disagreement problem. The full set of questions can also be found in Appendix
+E.3. Having understood what participants look for to determine disagreement in Section 3.1, we next sought
+to better understand two crucial questions related to the disagreement problem: (Q1): Do you observe
+13

@@ -1,0 +1,81 @@
+Page 23 of 34
+Misrak and Melaku Discover Internet of Things            (2025) 5:97 
+were selected based on their performance during cross-validation, where they consis­
+tently produced the highest F1-score and lowest validation loss across multiple trials. 
+The learning rate of 0.0018895 allowed for stable and efficient convergence, while the 
+batch size of 148 provided a good balance between training speed and gradient stabil­
+ity. The small weight decay value 1.44357 × 10−5 was effective in preventing overfitting 
+without hindering learning.
+From the comparison, it is evident that:
+ 	•
+For accuracy, the DNN-BiLSTMQ model achieves 99.73%, which is 0.06%, 0.22%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For precision, the DNN-BiLSTMQ model obtains 99.57%, which is 0.04%, 0.10%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For recall, the DNN-BiLSTMQ model achieves 99.73%, which is 0.06%, 0.22%, and 
+0.08% better than BiLSTM, CNN, and DNN, respectively.
+ 	•
+For the F1-score, the DNN-BiLSTMQ model obtains 99.64%, which is 0.05%, 0.16%, 
+and 0.08% better than BiLSTM, CNN, and DNN, respectively.
+As evidenced in Table 4, the DNN-BiLSTMQ model emerges as the frontrunner, demon­
+strating unparalleled performance across all evaluation metrics, with accuracy, F1-score, 
+recall, and precision surpassing the 99.57% threshold. This exceptional performance is 
+due to RAL-MIFS + two stage IPCA with the synergistic fusion of feature extraction 
+capabilities from DNN and BiLSTM algorithms encapsulated within the DNN-BiL­
+STMQ framework, facilitating a more holistic feature representation.
+Despite advanced dynamic quantization efforts aimed at model generalization with 
+the help of QAT and PTDQ and reducing model size by one-third, it is observed to com­
+promise detection performance by small amount. However, the incorporation of the 
+DNN component within the DNN-BiLSTMQ architecture effectively mitigates these 
+deficiencies, endowing the model with enhanced classification prowess while maintain­
+ing computational efficiency compared to standalone local algorithms.
+Noteworthy is the DNN-BiLSTMQ model’s expedited test time relative to its counter­
+parts, albeit at the sacrifice of prolonged training time of CNN and BiLSTM models. This 
+disparity is attributed to the unified architectural design of DNN-BiLSTMQ, wherein 
+DNN and BiLSTM are seamlessly integrated while leveraging quantization-aware train­
+ing during training, which helps in model generalizability and to extract more important 
+features. While this integration does confer substantial computational advantages dur­
+ing training, its efficacy becomes discernible during the test stage, particularly with the 
+employment of dynamic quantization post-training.
+Complementing these quantitative assessments, Figs. 5, 6, 7, and 8 visually encapsu­
+lates the prediction outcomes of the DNN-BiLSTMQ model juxtaposed with other com­
+parative models across diverse sample categories within CIC-IDS2017 dataset, presented 
+in confusion matrix. This graphical representation provides intuitive insights into model 
+Table 4  Comparison of several models’ multiclassification accuracy on CIC-IDS2017 dataset
+Model
+Accuracy
+Precision
+Recall
+F1-score
+Training time (s)
+Inference time (s)
+BiLSTM
+0.9967
+0.9953
+0.9967
+0.9959
+1800
+19.00
+2D-CNN
+0.9951
+0.9947
+0.9951
+0.9948
+1350
+11.00
+DNN
+0.9965
+0.9949
+0.9965
+0.9956
+750
+9.00
+DNN-BiLSTMQ
+0.9973
+0.9957
+0.9973
+0.9964
+1200
+10.00

@@ -1,0 +1,55 @@
+Sensors 2025, 25, 4309
+3 of 31
+not only enhances the generalization ability of client models under Non-IID conditions,
+but it also improves the efficiency of information sharing among models. Furthermore,
+FD-IDS incorporates both the proximal term from the FedProx and the distillation loss
+function, establishing a dual regularization framework. Comprehensive experiments on
+both the Edge-IIoT and N-BaIoT datasets validated the effectiveness of FD-IDS. The primary
+contributions of this study are outlined as follows:
+•
+This work presents an IDS utilizing FL, referred to as FD-IDS, which achieves intrusion
+detection in IoT environments while preserving data privacy.
+•
+MI is employed for feature selection, enhancing feature quality, reducing re-
+dundancy in high-dimensional data, and improving model training efficacy and
+detection performance.
+•
+By integrating a proximal term with KD, this paper mitigates the drift issue caused by
+Non-IID data through global and local collaborative optimization.
+•
+The experiments were performed on both the Edge-IIoT and N-BaIoT datasets, with
+the results showing that FD-IDS delivers exceptional performance across various
+evaluation metrics.
+The structure of this paper is as follows. Section 2 provides a review of the related work
+on IDSs. Section 3 details the proposed methodology. Section 4 presents the experimental
+results and analysis. Section 5 concludes this paper and discusses future research.
+2. Related Work
+In recent years, IDSs have emerged as a critical component of cybersecurity, drawing
+significant attention from both academia and industry. While traditional rule-based and
+signature-based IDS approaches have achieved success, their limitations become evident
+in the context of IoT [20]. Challenges, such as constrained device resources, diverse
+communication protocols, and dynamic network topologies, hinder their effectiveness. To
+address these issues, researchers have integrated machine learning (ML) and DL techniques,
+which leverage high-dimensional features extracted from massive network traffic, thereby
+improving detection rates and adaptability to unknown attacks [7,21]. Furthermore, to
+overcome challenges related to data privacy and the centralized processing of distributed
+data, technologies like FL have been applied in IoT-based IDSs, enhancing their feasibility
+and efficiency in practical scenarios [22,23]. Table 1 summarizes the recent research in the
+field of IDSs, encompassing representative works on CL and FL approaches.
+Saurabh et al. [24] developed an long short-term memory network (LSTM)-based IDS
+(LBDMIDS) to detect sophisticated attacks in IoT networks. Their study incorporated both
+stacked LSTM and BiLSTM variants, and they were validated using the UNSW-NB15 and
+BoT-IoT datasets. Data preprocessing involved dimensionality reduction and standard-
+ization techniques. Experimental results showed that the stacked LSTM achieved 96.60%
+accuracy on the UNSW-NB15 dataset, while BiLSTM attained 96.41%. On the BoT-IoT
+dataset, both models excelled, achieving a remarkable 99.99% accuracy. Fatani et al. [25]
+introduced a feature extraction and selection method for IoT-based IDS, combining DL with
+the Aquila optimizer. The approach utilized convolutional neural networks (CNNs) for fea-
+ture extraction and the Aquila optimizer for feature selection, reducing data dimensionality
+and enhancing classification performance. Evaluated on the KDD99, NSL-KDD, BoT-IoT,
+and CIC-IDS2017 datasets, the method was benchmarked against multiple metaheuristic
+algorithms, showcasing superior results.
+Despite the advancements achieved through CL approaches in IDSs for IoT, real-world
+implementations face challenges, such as data privacy [8]. As a result, FL, a distributed
+ML framework, has been extensively employed in the design and optimization of IDSs.
+Ferrag et al. [26] developed the Edge-IIoTset cybersecurity dataset to support the perfor-

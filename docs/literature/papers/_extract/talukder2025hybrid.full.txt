@@ -1,0 +1,2954 @@
+
+
+===== PAGE 1 =====
+
+A hybrid machine learning model 
+for intrusion detection in wireless 
+sensor networks leveraging data 
+balancing and dimensionality 
+reduction
+Md. Alamin Talukder1, Majdi Khalid2 & Nasrin Sultana3
+Intrusion detection systems are essential for securing wireless sensor networks (WSNs) and Internet of 
+Things (IoT) environments against various threats. This study presents a novel hybrid machine learning 
+(ML) model that integrates KMeans-SMOTE (KMS) for data balancing and principal component analysis 
+(PCA) for dimensionality reduction, evaluated using the WSN-DS and TON-IoT datasets. The model 
+employs classifiers such as Decision Tree Classifier, Random Forest Classifier (RFC), and gradient 
+boosting techniques like XGBoost (XGBC) to enhance detection accuracy and efficiency. The proposed 
+hybrid (KMS + PCA + RFC) approach achieves remarkable performance, with an accuracy of 99.94% and 
+an f1-score of 99.94% on the WSN-DS dataset. For the TON-IoT dataset, it achieves 99.97% accuracy 
+and an f1-score of 99.97%, outperforming traditional SMOTE TomekLink and Generative Adversarial 
+Network-based data balancing techniques. This hybrid approach addresses class imbalance and high-
+dimensionality challenges, providing scalable and robust intrusion detection. Complexity analysis 
+reveals that the proposed model reduces training and prediction times, making it suitable for real-time 
+applications.
+Keywords  Intrusion detection systems, Wireless sensor networks, Internet of Things, Hybrid machine 
+learning, Model, Dimensionality reduction, Data balancing techniques
+Internet of Things (IoT) networks and wireless sensor networks (WSNs) have become pivotal in modern 
+technology, playing a crucial role in numerous fields, including industrial automation, smart cities, agriculture 
+and healthcare1. WSNs consist of spatially distributed autonomous sensors that monitor and record 
+environmental conditions, while IoT networks enable interconnected devices to communicate and exchange 
+data seamlessly2. Despite their potential, these networks are vulnerable to numerous security threats, including 
+data tampering, denial-of-service (DoS) attacks, routing attacks, and eavesdropping, which can severely 
+compromise their performance and reliability3,4. The dynamic and resource-constrained nature of WSNs and 
+IoT networks presents unique security challenges5. Traditional methods for intrusion detection often fall short 
+due to their inability to adapt to the heterogeneous and evolving attack patterns in these networks6,7. Over the 
+years, several machine learning (ML)-based approaches have been proposed for intrusion detection systems 
+(IDS) in WSNs and IoT networks8,9. These approaches leverage the capability of ML to learn complex patterns, 
+enabling automated detection of anomalies and malicious activities with improved accuracy compared to rule-
+based systems10,11.
+ML has emerged as a powerful tool in IDS due to its ability to automatically identify complex patterns and 
+anomalies in network data12,13. ML models can effectively detect known and unknown attacks by learning from 
+historical data, offering dynamic and adaptive solutions14–17. Techniques like Decision Trees (DT), Random 
+Forests (RF), and Gradient Boosting classifiers provide high accuracy, making them ideal for real-time threat 
+detection in WSN and IoT environments18.
+1Department of Computer Science and Engineering, International University of Business Agriculture and Technology, 
+Dhaka, Bangladesh. 2Department of Computer Science and Artificial Intelligence, College of Computing, Umm Al-
+Qura University, 21955 Mecca, Saudi Arabia. 3Department of ICT, Future Technology, RMIT University, Melbourne, 
+Australia. email: alamin.cse@iubat.edu; mknfiai@uqu.edu.sa; nasrin.sultana@rmit.edu.au
+OPEN
+Scientific Reports |         (2025) 15:4617 
+1
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports
+
+
+
+===== PAGE 2 =====
+
+Existing works in the wireless sensor and IoT network domain have demonstrated promising results using 
+various ML models such as DT, usfAD, one class classifier (OCC) and Gradient Boosting models19–22 to build 
+the IDS model. However, these methods often suffer from limitations, including imbalanced datasets and high 
+dimensionality of features, which degrade model performance. For instance, imbalanced datasets lead to biased 
+predictions favoring majority classes, while high-dimensional data increases computational costs and risks 
+overfitting.
+To address these limitations, we propose a novel hybrid ML model that integrates KMeans-SMOTE (KMS) 
+for data balancing with Principal Component Analysis (PCA) for dimensionality reduction, and Random Forest 
+Classifier (RFC) as the core attack detection model. The proposed model mitigates the issues of data imbalance 
+and feature redundancy while maintaining high accuracy and efficiency. By employing KMS, the proposed 
+approach effectively balances minority and majority classes, ensuring equitable representation in the dataset. 
+PCA reduces the dimensionality of data, capturing essential features while eliminating noise, thereby enhancing 
+computational efficiency. Finally, the use of RFC ensures robust and interpretable decision-making.
+Our proposed methodology surpasses the limitations of existing techniques by offering a more balanced, 
+efficient, and scalable solution for intrusion detection in WSN and IoT networks. Through extensive 
+experimentation on WSN-DS and TON-IoT datasets, our model demonstrates superior performance in terms 
+of accuracy, precision, recall, and f1-score, thereby providing a robust framework for securing these critical 
+networks against evolving threats.
+Objective
+The primary objective of this research is to develop a robust hybrid ML model for intrusion detection in WSNs. 
+By integrating advanced data balancing techniques such as STL, GANs, and KMS, and reducing the curse of 
+dimensionality using PCA, the model aims to address the challenges of class imbalance and high-dimensional 
+data. This approach enhances detection accuracy, minimizes false positives, and ensures computational efficiency, 
+making it suitable for real-time applications in WSNs security.
+Contributions
+This study offers the following important contributions:
+•	 Novel Hybrid Machine Learning Approach: This study introduces a hybrid approach combining data bal­
+ancing and dimensionality reduction techniques, specifically tailored for intrusion detection in Wireless Sen­
+sor Networks. It ensures improved accuracy and robustness by addressing class imbalance and high-dimen­
+sional data challenges.
+•	 Advanced Data Balancing Techniques: The integration of data balancing techniques such as STL, GANs, 
+and KMS, can effectively resolve overfitting and underfitting issues in imbalanced WSN datasets. These meth­
+ods enhance minority class representation and improve the model’s ability to detect intrusions accurately.
+•	 Dimension Reduction with PCA: PCA reduces the curse of dimensionality by projecting data onto signifi­
+cant features using the Kaiser criterion, thereby improving computational efficiency and enhancing classifica­
+tion accuracy. This technique also minimizes noise and irrelevant data, making the model scalable and reli­
+able for real-time intrusion detection.This paper is systematized as follows: “Section Related works” presents 
+an overview of related works, highlighting the recent works in intrusion detection systems. “Section Method­
+ology” details the proposed methodology, including preprocessing and model development. “Section Result 
+analysis” analyzes the experimental results analysis, followed by a discussion comparing with the existing 
+works in “Section Discussion”. Finally, “Section Conclusion” concludes the study, addressing its limitations 
+and proposing directions for future research.
+Related works
+IDS using ML have gained significant attention for securing WSNs. Various ML models have been applied to 
+IDS for detecting abnormal activities. These models effectively classify network traffic and identify intrusions, 
+though challenges such as class imbalance and high-dimensional data often hinder their performance. Recent 
+advancements incorporate hybrid techniques, ensemble learning, and deep learning (DL) to improve detection 
+accuracy and robustness.
+Related works on WSN-DS
+Talukder et al.23 introduced an IDS method that combined ML with the STL algorithm. This approach balanced 
+the dataset by generating synthetic minority instances and removing Tomek links, leading to improved detection 
+accuracy in WSNs. To ensure consistent and scalable input features, feature scaling through standardization was 
+applied. The STL resampling technique effectively addressed imbalanced datasets, reducing the risks of overfitting 
+and underfitting. An extensive evaluation using the WSN-DS dataset revealed the RFC model, achieving 99.92% 
+accuracy, precision, recall, and f1-score, in multiclass scenarios, demonstrating its effectiveness in identifying 
+and preventing intrusions.
+Karthikeyan et al.20 made significant advancements in IoT and WSN security by combining ML with the 
+Firefly Algorithm (FA). This work has two key contributions: first, the FA-ML technique enhances intrusion 
+detection accuracy in WSN-IoT systems, and second, it introduces a novel security optimization approach by 
+integrating ML with the Firefly Algorithm. The FA-ML method, utilizing an SVM model and optimized by the 
+Grey Wolf Optimizer (GWO), achieved an impressive performance with 99.34% accuracy, 98.36% recall and 
+96.67% f1-score. These results demonstrate the FA-ML method’s effectiveness as a robust security solution for 
+WSN-IoT systems.
+Scientific Reports |         (2025) 15:4617 
+2
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 3 =====
+
+Abinayaa et al.24 introduced an innovative approach to intrusion detection in WSN by combining the CatBoost 
+classifier (Cb-C) with the Lyrebird Optimization Algorithm (LOA). Cb-C effectively handles imbalanced datasets 
+commonly found in ID settings. Inspired by the Lyrebird’s ability to mimic environmental sounds, the LOA is a 
+metaheuristic optimization algorithm. The proposed method was evaluated using the WSN-DS dataset. Among 
+the models tested, LOA-Cb-C achieved the highest accuracy of 99.66% and 99% of precision, recall and f1-score 
+and the lowest error rate of 0.34%, significantly improving WSN-IoT security by enhancing detection accuracy 
+and reducing false alarms.
+Salmi et al.25 developed an effective IDS to address intelligent and frequent attacks in WSNs, particularly 
+Denial of Service (DoS) attacks. Traditional IDS methods were deemed less effective against these complex 
+threats. The study reviewed works focused on detecting DoS attacks in WSNs and implemented several DL-
+based IDS. These systems were trained on the WSN-DS dataset to detect four types of DoS attacks: Blackhole, 
+Grayhole, Flooding, and Scheduling. The CNN+RNN model achieved significant performance with 85.19% 
+precision, 85.29% recall, 82.34% f1-score, and 96.86% accuracy.
+Dontu et al.26 developed a multi-criteria framework to strengthen WSN cybersecurity, utilizing DL algorithms 
+to prioritize threats according to their severity and context. The study introduced the Enhanced Adaptive Butterfly 
+Optimization Algorithm (EABOA) for feature selection, addressing challenges such as slow convergence, 
+vulnerability to local optima, and lack of population diversity. Additionally, a new adaptive fragrance model was 
+proposed to enhance algorithm performance, incorporating Lévy flight for better exploration and escape from 
+local optima. The experimental results showed that the model on WSN-DS achieved an accuracy of 94.76%, 
+precision of 86%, recall of 80%, and an F-score of 80.06%.
+Vaishnavi et al.27 conducted a study on detecting Denial of Service (DoS) attacks in WSNs using ML techniques. 
+The research addresses the challenges of DoS attacks in WSN environments, using the WSN-DS dataset for 
+analysis. It applies data preprocessing methods like PCA and Min-Max Scaling and employs Convolutional 
+Neural Networks (CNN) and XGBoost algorithms in various combinations. Among these models, XGBoost 
+with Min-Max Scaling achieved the highest accuracy of 99.70%, outperforming the other approaches.
+Related works on TON-IoT-DS
+Cao et al.28 developed an innovative approach to simulate complex IoT scenarios by integrating multiple datasets. 
+This method employed sine and cosine cyclic encoding for temporal attributes and addressed data imbalance 
+using (STL) SMOTE for oversampling and an improved Tomek link removal for under-sampling. ML algorithms 
+were utilized to classify data, distinguishing between normal and attack instances. Multiclass classification 
+identified specific attack types, enriching the attack database, while normal data was stored securely for future 
+use. Evaluation demonstrated exceptional performance, achieving 98.87%, 99.36%, 99.18%, and 99.18% for 
+accurac, precision, recall, and F1 score respectively.
+Uddin et al.21 developed a semi-supervised learning-based IDS that does not require labeled attack data. 
+The approach consisted of two methods: (1) training a supervised model using randomly generated synthetic 
+attack samples, and (2) creating a One-Class Classification (OCC) model using only benign network traffic. Both 
+methods were tested on benchmark IDS datasets. The proposed usfAD model achieved 99.43% accuracy, 98.39% 
+precision, and 99.37% f1-score on the TON-IoT Network dataset. Results demonstrated that the OCC model, 
+utilizing the usfAD anomaly detection technique, outperformed conventional supervised and other OCC-based 
+methods, particularly in detecting new, unseen attacks.
+Hajla et al.29 proposed an improved intrusion detection system (IDS) framework to strengthen cybersecurity 
+in IoT networks. Departing from traditional IDS methods that relied on predefined attack patterns, this 
+framework focused on multiclass attack categorization using the TON-IoT dataset. It employed STL to balance 
+the dataset and ensemble techniques such as voting and stacking, which integrated decision trees, resilient 
+backpropagation multilayer perceptrons (RProp MLPs), and logistic regression to enhance accuracy and reduce 
+errors. The ensemble voting model outperformed individual classifiers, achieving 96.32% accuracy, 93.11% 
+precision, 84.55% recall, and 88.63% f1-score, demonstrating its effectiveness in detecting IoT cyber threats.
+Li et al.30 analyzed feature extraction and selection techniques for IoT network intrusion detection using the 
+TON-IoT dataset. Feature extraction demonstrated superior detection accuracy, greater feature retention, and 
+stability with varying feature counts, while feature selection excelled in reducing model training and inference 
+time. Decision trees (DT), using PCA with 33 features, achieved 77.62% accuracy, 67.34% precision, 48.67% 
+recall, and a 45.53% f1-score. The research highlighted the strengths and limitations of each approach, offering 
+insights into selecting effective methods for IoT intrusion detection and addressing prior gaps in the field.
+Torre et al.19 developed a federated learning (FL) IDS utilizing a 1D CNN to enhance IoT network security. 
+To address privacy concerns in FL, the system incorporated Differential Privacy, Diffie-Hellman Key Exchange, 
+and Homomorphic Encryption. The approach was evaluated on the TON-IoT dataset, achieving exceptional 
+results with an accuracy of 99.63%, precision of 96.48%, recall of 93.18%, and an f1-score of 94.45%. These 
+outcomes demonstrated the model’s effectiveness in accurately detecting intrusions within IoT networks while 
+maintaining data privacy.
+Uddin et al.22 introduced a two-tier, one-class classification-based IDS. The first tier differentiates between 
+normal behavior and attacks, while the second tier identifies known and unknown attacks using a multi-
+classification mechanism and clustering algorithm. This allows the system to recognize and adapt to new, unseen 
+threats by clustering unknown attacks and retraining. By employing one-class classifiers (OCC), the model 
+eliminates the need for attack samples, tackling issues like data imbalance and zero-day attacks. The proposed 
+framework demonstrated strong performance, achieving an accuracy and f1-score of 98.94% on the TON-IoT 
+network dataset, showing its practical deployment potential.
+Scientific Reports |         (2025) 15:4617 
+3
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 4 =====
+
+Methodology
+This study introduces a comprehensive methodology designed to enhance the intrusion detection performance 
+of ML models on the WSN and TON-IoT Network datasets. The methodology integrates advanced data 
+preprocessing, dimensionality reduction, and ML approaches, ensuring optimal accuracy and computational 
+efficiency. The steps involved are as follows:
+•	 Data Collection: The study utilizes two benchmark datasets, WSN-DS and TON-IoT Network, to evaluate 
+the proposed hybrid machine learning model for intrusion detection. These datasets contain diverse traffic 
+patterns and attack scenarios, providing a comprehensive foundation for training and testing the model’s 
+performance across different network conditions.
+•	 Data Preprocessing: Data preprocessing is a crucial step in preparing the dataset for ML models. Standard­
+Scaler was used to standardize the numerical feature values by removing the mean and scaling to unit vari­
+ance, which helps in achieving faster convergence during training. Label Encoding was applied to transform 
+categorical variables into numerical representations, enabling ML algorithms to process them effectively. 
+These preprocessing techniques ensure uniformity, reduce bias, and enhance the overall performance of the 
+models.
+•	 Data Balancing: The dataset was imbalanced, with certain classes being overrepresented. To address this 
+issue, SMOTE TomekLInk (STL), Generative Adversarial Network (GAN) and KMeans-SMOTE (KMS) were 
+utilized to balance the dataset by generating synthetic samples for minority classes. KMS leverages k-means 
+clustering before applying SMOTE, ensuring better synthetic data generation by capturing intrinsic patterns 
+in the data distribution.
+•	 Dimensionality Reduction: Principal component analysis (PCA) was employed as the dimensionality re­
+duction technique. PCA reduces the feature space by projecting the data into a lower-dimensional subspace, 
+retaining the most significant variance. This step minimizes redundancy and computational cost while pre­
+serving the critical information needed for intrusion detection.
+•	 Classification Models: Random Forest Classifier (RFC) was chosen as the primary classification model due 
+to its robustness, ability to handle high-dimensional data, and resistance to overfitting. The RFC model oper­
+ates by constructing multiple decision trees during training and combining their outputs to improve predic­
+tion accuracy. For comparison, other models, including Decision Tree Classifier (DTC), Gradient Boosting 
+models (CBC, XGBC, LGBC, HGBC), were also evaluated.
+•	 Performance Metrics: The intrusion detection performance of the models was evaluated using standard met­
+rics such as Accuracy, Precision, Recall, f1-score, Kappa, MCC, ROC-AUC. MAE, MSE, RMSE, Confusion 
+Matrix and Classification Report. Additionally, computational complexity was assessed by recording training 
+and prediction times for each model.
+•	 Experimental Validation: The proposed methodology, integrating KMS, PCA, and RFC, was compared 
+against existing works utilizing different data balancing processing and dimension reduction techniques with 
+K-fold (K=5) cross validation. The results demonstrated that the proposed approach significantly outper­
+forms others in terms of performance metrics and computational efficiency, validating its effectiveness for IoT 
+network anomaly detection tasks.This end-to-end methodology ensures balanced data, reduced dimension­
+ality, and high intrusion detection accuracy, making it well-suited for real-world applications in IoT network 
+security.
+Figure 1 illustrates the architecture of the proposed hybrid ML model for IDS in WSNs. The model integrates 
+advanced preprocessing, dimensionality reduction, and robust intrusion detection techniques to enhance 
+detection accuracy and computational efficiency. It highlights the end-to-end workflow, from raw data processing 
+to intrusion detection and performance evaluation of attacks in WSN.
+Dataset description
+The WSN-DS (Wireless Sensor Network Dataset) is a specialized benchmark for evaluating IDS in WSN 
+environments31. It simulates realistic WSN traffic, including both normal and malicious activities, such 
+as blackhole attacks, grayhole attacks, and flooding. The dataset is designed to reflect the constraints and 
+characteristics of WSNs, such as limited bandwidth, energy consumption, and dynamic topology. WSN-DS 
+provides a balanced representation of normal and attack behaviors, facilitating the development and testing of 
+ML-based IDS models. Its features include packet-level data and communication patterns, enabling detailed 
+analysis for intrusion detection. The dataset is critical for designing IDS tailored to the unique challenges of 
+WSNs, ensuring security while maintaining network efficiency and resource optimization.
+The TON-IoT Network dataset is a prominent benchmark designed to evaluate Intrusion Detection Systems 
+(IDS) in modern IoT networks32. It is derived from realistic IoT network scenarios, incorporating telemetry 
+data from IoT devices, network traffic, and logs from operating systems. The dataset includes a variety of attack 
+types, such as Distributed Denial of Service (DDoS), data exfiltration, backdoor, and password attacks, alongside 
+normal traffic, making it highly diverse and comprehensive. The dataset is notable for its high dimensionality 
+and heterogeneity, reflecting the dynamic and complex nature of IoT networks. It offers an extensive range of 
+features, enabling the evaluation of ML models for intrusion detection. TON-IoT Network dataset is a critical 
+resource for researchers aiming to enhance the scalability, robustness, and accuracy of IDS models in addressing 
+the security challenges of large-scale IoT ecosystems.
+Data preprocessing
+Data preprocessing is a critical step in the ML pipeline, involving the preparation and transformation of raw 
+data into a suitable format for analysis and modeling. This process encompasses a series of techniques aimed at 
+Scientific Reports |         (2025) 15:4617 
+4
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 5 =====
+
+cleaning, normalizing, transforming, and structuring data to enhance its quality and usability. The preprocessing 
+techniques utilized in this study include StandardScaler and Label Encoding. StandardScaler was applied to 
+standardize the feature values by removing the mean and scaling to unit variance, ensuring uniformity across 
+features and improving model convergence. Label Encoding was employed to convert categorical variables into 
+numerical format, facilitating seamless integration with ML algorithms while preserving the inherent order 
+of categorical data. It is essential to mitigate inconsistencies, redundancies, and noise in the dataset, which 
+can negatively impact model performance. Without proper preprocessing, ML models may produce biased or 
+inaccurate results, especially when handling imbalanced or high-dimensional data.
+StandardScaler
+The StandardScaler is a preprocessing technique used to normalize features by removing the mean and scaling 
+to unit variance. It ensures that the features have a mean of 0 and a standard deviation of 1, making the data 
+well-suited for ML algorithms sensitive to feature magnitudes. The standardization of a feature x is computed as:
+	
+z = x −µ
+σ
+
+(1)
+where x: Original feature value; µ: Mean of the feature; σ: Standard deviation of the feature.
+StandardScaler improves the model by ensuring that features are on a comparable scale, thereby allowing ML 
+algorithms to converge faster and avoid biases due to varying feature magnitudes. Additionally, it enhances 
+numerical stability, preventing issues arising from extreme values. The StandardScaler is particularly beneficial 
+for distance-based models, such as clustering algorithms, where feature scaling directly impacts the calculation 
+of distances.
+Label encoding
+Label Encoding is a preprocessing technique used to convert categorical labels into numerical values. Each 
+unique category is assigned a specific integer value, enabling ML algorithms to process non-numerical labels 
+effectively.
+Let y represent the categorical labels. The encoding maps each unique category c to a corresponding integer 
+value i:
+	
+f(c) = i,
+where i ∈{0, 1, . . . , n −1}
+(2)
+Here, n is the total number of unique categories, and f(c) is the mapping function.
+Fig. 1.  The proposed hybrid ML model for IDS in WSNs.
+ 
+Scientific Reports |         (2025) 15:4617 
+5
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 6 =====
+
+Label Encoding simplifies the representation of categorical labels, enabling compatibility with ML models 
+that require numerical input. It is computationally efficient and facilitates the direct integration of categorical 
+data into IDS model-building workflows. Tables 1 and 2 display the process of encoding categorical labels to 
+numerical labels for different classes in the WSN-DS and TON-IoT Network Datasets.
+Data balancing (DB) techniques
+Data Balancing (DB) techniques aim to address the class imbalance problem in datasets by ensuring an even 
+distribution of instances across all classes. This is crucial for improving the performance of ML models, 
+particularly in IDS, where the occurrence of attacks (minority classes) is often much rarer than normal behavior 
+(majority class). Data balancing techniques work by generating new samples for the minority classes or by 
+modifying the dataset to reduce bias toward majority classes. These methods either synthesize new data points 
+or combine existing ones to create balanced datasets.
+The class imbalance ratio can be calculated as:
+	
+IR = Size of Majority Class
+Size of Minority Class
+(3)
+where a high imbalance ratio (IR) indicates severe class imbalance. DB techniques aim to minimize this ratio.
+Class imbalance leads to biased models that perform poorly on minority classes, which are often the critical 
+classes for intrusion detection. Balancing the dataset ensures fair learning, reduces overfitting, and improves the 
+recall and precision of IDS models. Balancing techniques significantly enhance the accuracy and robustness of 
+IDS models by addressing the imbalance issue. They help prevent overfitting to the majority class, enabling the 
+model to detect rare but critical intrusion patterns more effectively.
+STL—SMOTETomekLink
+SMOTETomekLink (STL) is a hybrid approach combining the Synthetic Minority Oversampling Technique 
+(SMOTE) and Tomek Link undersampling to handle both overfitting and class overlap issues in imbalanced 
+datasets. SMOTE generates synthetic samples for the minority class by interpolating between existing instances. 
+Tomek Link identifies and removes overlapping samples from majority and minority classes, enhancing data 
+separation.
+SMOTE generates new samples using:
+	
+xnew = xi + δ · (xj −xi)
+(4)
+where xi and xj are minority class samples, and δ is a random number between 0 and 1.
+Category
+Label
+Normal
+0
+Scanning
+1
+DoS
+2
+Injection
+3
+DDoS
+4
+Password
+5
+XSS
+6
+Ransomware
+7
+Backdoor
+8
+MITM
+9
+Table 2.  Category-to-label mapping.
+ 
+Category
+Label
+Normal
+0
+Grayhole
+1
+Blackhole
+2
+TDMA
+3
+Flooding
+4
+Table 1.  Category-to-label mapping.
+ 
+Scientific Reports |         (2025) 15:4617 
+6
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 7 =====
+
+STL addresses both the imbalance and noise in datasets by combining oversampling and undersampling, 
+reducing the risk of model overfitting and misclassification. STL enhances IDS models’ recall and precision by 
+generating realistic synthetic samples while eliminating noisy instances, improving overall detection rates.
+GAN—generative adversarial network
+Generative Adversarial Networks (GANs) are DL-based methods that generate synthetic samples for the 
+minority class using a generator and discriminator model33. The generator creates synthetic samples, while the 
+discriminator evaluates their authenticity against real samples. The generator learns to produce realistic samples 
+that the discriminator cannot distinguish from real data.
+The optimization goal for GAN is:
+	
+min
+G max
+D
+Ex∼Pdata[log D(x)] + Ez∼Pz[log(1 −D(G(z)))]
+(5)
+where G is the generator, D is the discriminator, x represents real data, and z is a noise vector.
+GANs are effective in generating complex and realistic data distributions, making them suitable for highly 
+imbalanced datasets. GANs create high-quality synthetic samples for minority classes, improving the ability of 
+IDS models to detect rare intrusions without overfitting.
+KMS—KMeansSMOTE
+KMeansSMOTE is a clustering-based oversampling technique that applies K-Means clustering to partition data 
+before generating synthetic samples using SMOTE. The dataset is first clustered using K-Means, and SMOTE 
+is applied within each cluster to generate synthetic samples for the minority class. This localized oversampling 
+preserves the original data distribution and reduces noise.
+The clustering is performed as:
+	
+arg min
+C
+k
+∑
+i=1
+∑
+x∈Ci
+||x −µi||2
+(6)
+where C represents clusters, µi is the centroid of cluster i, and k is the number of clusters.
+KMS overcomes the limitations of global oversampling by focusing on local distributions within each cluster, 
+generating more representative synthetic samples. KMS improves the balance and quality of IDS datasets, leading 
+to more accurate and robust intrusion detection. By preserving data distribution, it reduces the risk of overfitting 
+and enhances detection rates for minority classes. In this study, we propose using KMS for data balancing. 
+Its ability to cluster data before generating synthetic samples ensures that the data distribution is preserved, 
+and noise is minimized. This approach makes it particularly well-suited for improving the performance of IDS 
+models.
+Table 3 highlights the impact of data balancing techniques-STL, GAN, and KMS-on the WSN-DS dataset. It 
+demonstrates how these methods address class imbalances by significantly increasing the number of samples in 
+minority classes, ensuring a balanced dataset for effective model training. Notably, KMS achieves comparable 
+balancing performance with slightly optimized total samples, enhancing data consistency.
+Table 4 demonstrates the effects of data balancing techniques-STL, GAN, and KMS-on the TON-IoT network 
+dataset. The table highlights how these methods substantially increase the number of samples in minority 
+classes, ensuring a balanced distribution across various attack types. KMS shows an effective performance in 
+data balancing, providing a slight improvement in the total number of samples compared to STL and GAN while 
+maintaining a well-distributed dataset for accurate model training.
+The integration of KMS addresses the challenges of class imbalance in WSNs intrusion datasets by clustering 
+the majority class data using KMeans and generating synthetic samples within these clusters for the minority 
+STL
+GAN
+KMS
+Class
+Before
+After
+Class
+Before
+After
+Class
+Before
+After
+Normal
+340066
+340063
+Normal
+340066
+340066
+Normal
+340066
+340068
+Grayhole
+14596
+340038
+Grayhole
+14596
+340066
+Grayhole
+14596
+340067
+Blackhole
+10049
+340020
+Blackhole
+10049
+340066
+Blackhole
+10049
+340066
+TDMA
+6638
+339803
+TDMA
+6638
+340066
+TDMA
+6638
+340066
+Flooding
+3312
+339784
+Flooding
+3312
+340066
+Flooding
+3312
+340066
+Total
+374661
+1699708
+Total
+374661
+1700330
+Total
+374661
+1700333
+Table 3.  Before and after data balancing techniques on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+7
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 8 =====
+
+class. This approach ensures that the synthetic samples are representative of the distribution of the majority class 
+while maintaining the integrity and diversity of the dataset. Compared to traditional balancing techniques like 
+STL, KMS has a distinct advantage in preserving data integrity. While STL combines oversampling and under-
+sampling to address the imbalance and remove overlapping samples, it may inadvertently discard useful data, 
+leading to the potential loss of information. In contrast, KMS avoids aggressive under-sampling by focusing 
+on targeted oversampling within clusters, which helps retain the original dataset’s structure and diversity. 
+Furthermore, our experimental results demonstrate that KMS provides a balanced representation of classes, 
+leading to improved detection accuracy and reduced false positives in intrusion detection tasks. This makes it a 
+more suitable choice for datasets with complex distributions and varying levels of class imbalance.
+Dimension reduction using PCA
+Principal Component Analysis (PCA) is a statistical technique used for reducing the dimensionality of a dataset 
+by transforming it into a new coordinate system, where the axes (principal components) represent directions of 
+maximum variance in the data. PCA works by finding the eigenvectors and eigenvalues of the covariance matrix 
+of the data. The eigenvectors define the principal components, and the corresponding eigenvalues measure the 
+variance along these components. PCA transforms the data into a lower-dimensional space by selecting a subset 
+of components that capture the most variance.
+The covariance matrix is computed as:
+	
+C = 1
+n
+n
+∑
+i=1
+(xi −µ)(xi −µ)T 
+(7)
+where xi is a data point, µ is the mean vector, and n is the number of samples.
+Eigenvalues and eigenvectors are computed as:
+	
+Cvi = λivi
+(8)
+where λi is an eigenvalue, and vi is the corresponding eigenvector.
+PCA reduces the curse of dimensionality in WSN datasets, enabling faster and more efficient ML model training. 
+It eliminates redundant features and noise, improving the generalization ability of IDS models in wireless sensor 
+networks. By focusing on key variations in the data, PCA also enhances model interpretability and reduces 
+computational overhead.
+Kaiser criterion
+The Kaiser Criterion is a rule for selecting the number of principal components in PCA. It states that only 
+components with eigenvalues greater than 1 should be retained, as these components explain more variance than 
+an individual feature in the original dataset.
+Process: 1. Compute the eigenvalues of the covariance matrix after applying PCA. 2. Retain only those 
+components whose eigenvalues are greater than 1. 3. Transform the data using the selected components.
+The number of components selected by the Kaiser Criterion is given by:
+	
+ncomponents =
+k
+∑
+i=1
+1(λi > 1)
+(9)
+STL
+GAN
+KMS
+Class
+Before
+After
+Class
+Before
+After
+Class
+Before
+After
+Normal
+300000
+300000
+Normal
+300000
+300000
+Normal
+300000
+300006
+Scanning
+20000
+299999
+Scanning
+20000
+300000
+Scanning
+20000
+300005
+Dos
+20000
+299997
+Dos
+20000
+300000
+Dos
+20000
+300004
+Injection
+20000
+299995
+Injection
+20000
+300000
+Injection
+20000
+300003
+Ddos
+20000
+299987
+Ddos
+20000
+300000
+Ddos
+20000
+300003
+Password
+20000
+299980
+Password
+20000
+300000
+Password
+20000
+300003
+Xss
+20000
+299979
+Xss
+20000
+300000
+Xss
+20000
+300003
+Ransomware
+20000
+299975
+Ransomware
+20000
+300000
+Ransomware
+20000
+300002
+Backdoor
+20000
+299966
+Backdoor
+20000
+300000
+Backdoor
+20000
+300001
+Mitm
+1043
+299946
+Mitm
+1043
+300000
+Mitm
+1043
+300000
+Total
+461043
+2999824
+Total
+461043
+3000000
+Total
+461043
+3000030
+Table 4.  Before and after data balancing techniques on TON-IoT network.
+ 
+Scientific Reports |         (2025) 15:4617 
+8
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 9 =====
+
+where λi is the eigenvalue of the i-th component, k is the total number of components, and 1(·) is the indicator 
+function.
+The Kaiser Criterion ensures that only the most significant principal components are retained, reducing 
+computational complexity without compromising the model’s performance. For WSN datasets, this approach 
+helps in efficiently capturing key variations, enhancing the accuracy of IDS models while maintaining scalability 
+in resource-constrained environments.
+The Kaiser Criterion is widely used because it provides a simple yet effective heuristic to select components 
+that contribute meaningfully to the variance. For IDS datasets, the high-dimensional nature and the need to 
+focus on features with significant explanatory power make eigenvalue ≥1 a reasonable threshold.
+PCA efficiently reduces the high-dimensional feature space while retaining the most significant information. 
+By eliminating redundant and less informative features using kaiser criterion, PCA minimizes noise and 
+improves computational efficiency. This streamlined feature set allows the classifier to focus on the most relevant 
+patterns, enhancing its predictive accuracy and performance metrics.
+Machine learning (ML) algorithms
+Machine Learning (ML) algorithms are computational techniques used to build models that can learn patterns 
+from data and make predictions or decisions without being explicitly programmed. These algorithms are crucial 
+for tasks such as detection attacks in IDS for Wireless Sensor Networks (WSNs).
+Decision Tree Classifier (DTC)
+A Decision Tree Classifier (DTC) is a tree-like structure where each internal node represents a feature (or 
+attribute), each branch represents a decision rule, and each leaf node represents a class label. The algorithm 
+splits the dataset into subsets based on feature values, recursively creating branches to partition the data into 
+homogenous subsets.
+The decision tree algorithm uses the following recursive rule for splitting:
+	
+Best Split = arg max
+f∈F Information Gain(f)
+(10)
+where
+	
+Information Gain(f) = H(S) −
+∑
+v∈V (f)
+|S_v|
+|S|
+H(S_v)
+(11)
+Here, H(S) is the entropy of the dataset, and Sv is the subset of data for each value v of the feature f.
+DTC is easy to interpret and visualize, making it suitable for IDS models. It effectively handles both numerical 
+and categorical data and is less prone to overfitting compared to other algorithms, especially when pruned.
+Random Forest Classifier (RFC)
+A Random Forest Classifier (RFC) is an ensemble learning method that builds multiple decision trees using 
+different subsets of the data and features. Each tree makes an independent prediction, and the final output is 
+determined by aggregating the predictions (usually by majority voting for classification).
+The output of RFC can be represented as:
+	
+ˆyRFC = 1
+T
+T
+∑
+t=1
+ˆyt
+(12)
+where T is the total number of trees, and ˆyt is the prediction from the t-th tree.
+RFC is robust to overfitting, handles large datasets well, and improves prediction accuracy by reducing variance 
+through bagging. It is also less sensitive to noisy data and outliers.
+CatBoost Classifier (CBC)
+The CatBoost Classifier (CBC) is an advanced gradient boosting algorithm designed for classification tasks. 
+It is based on the gradient boosting framework but has several key optimizations to improve performance, 
+reduce overfitting, and handle categorical features efficiently. CatBoost stands for “Categorical Boosting” and is 
+particularly useful when the dataset contains categorical variables, as it can process them directly without the 
+need for manual preprocessing, such as one-hot encoding.
+The general form of the gradient boosting equation for CatBoost is as follows:
+	
+F(x) =
+M
+∑
+m=1
+ηmhm(x)
+(13)
+Scientific Reports |         (2025) 15:4617 
+9
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 10 =====
+
+where F(x) is the prediction function. ηm is the learning rate for the m-th boosting round. hm(x) is the weak 
+learner (usually a decision tree) fitted in the m-th iteration. M is the total number of boosting iterations.
+In CatBoost, the decision trees hm(x) are built using a gradient-based optimization process that minimizes a 
+loss function, typically the log-loss or binary cross-entropy in classification problems.
+With techniques like ordered boosting and regularization, CatBoost reduces overfitting and ensures better 
+generalization on unseen data. Moreover, it requires fewer hyperparameters, making it faster to train compared 
+to other gradient boosting algorithms, and is robust against noisy data and outliers.
+Extreme Gradient Boosting Classifier (XGBC)
+Extreme Gradient Boosting (XGBC) is an advanced implementation of gradient boosting that optimizes model 
+training by using decision trees in a boosting framework. XGBC builds trees sequentially, where each tree 
+corrects the errors of the previous one. It uses regularization to prevent overfitting and improve generalization.
+The final prediction in XGBC is given by:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(14)
+where αt is the weight of the t-th tree and ft(x) is the prediction of the t-th tree.
+XGBC is highly efficient and scalable, providing high predictive accuracy. It is robust against overfitting due to 
+its regularization mechanism and is widely used in IDS due to its ability to handle large datasets and complex 
+relationships.
+LightGBM Classifier (LGBC)
+LightGBM (Light Gradient Boosting Machine) is a gradient boosting framework that uses a histogram-based 
+approach for faster training. It builds decision trees leaf-wise (as opposed to level-wise), which helps reduce the 
+number of splits and improves computational efficiency.
+The prediction in LGBC can be written as:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(15)
+Similar to XGBC, but with improved efficiency and speed due to the histogram-based approach.
+LGBC is faster and more memory-efficient than traditional gradient boosting algorithms, making it suitable 
+for large-scale IDS datasets. It can handle categorical features directly and achieves high accuracy in a shorter 
+training time.
+Histogram-based Gradient Boosting Classifier (HGBC)
+Histogram-based Gradient Boosting (HGBC) builds trees using gradient boosting and bins continuous features 
+into histograms, which reduces the number of calculations during tree construction. This makes it efficient, 
+especially for large datasets.
+Similar to LightGBM, HGBC’s prediction is given by:
+	
+ˆy =
+T
+∑
+t=1
+αtft(x)
+(16)
+where ft(x) is the decision function of the t-th tree, and αt is the corresponding weight.
+HGBC offers high accuracy and efficiency, with a focus on memory usage optimization, making it well-suited 
+for IDS in resource-constrained environments. It allows for fast model training and is capable of handling high-
+dimensional data with ease.
+Result analysis
+Result analysis plays a crucial role in evaluating the effectiveness of IDS built using ML models. It involves 
+assessing the ability of the model to accurately classify intrusion events while ensuring minimal false positives 
+and false negatives. This analysis typically includes metrics such as accuracy, precision, recall, f1-score, and area 
+under the curve (AUC), which offer insights into the model’s overall performance and robustness. The results 
+obtained help in comparing different models and selecting the one with the best performance for deployment 
+in real-world scenarios.
+Scientific Reports |         (2025) 15:4617 
+10
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 11 =====
+
+Experiment setup
+The experiments for the IDS model were conducted on a system equipped with Ubuntu 20.04 LTS as the operating 
+system, ensuring compatibility with various ML libraries. The system was configured with 16 GB of RAM and 
+a 512 GB ROM, allowing efficient handling of large datasets. For processing, an Intel Core i7-9700K processor 
+was used, coupled with a 1 TB SSD for faster data access and a 2 TB HDD for additional storage. To support 
+the execution of ML models, several Python libraries were utilized, including scikit-learn for traditional 
+algorithms, xgboost for extreme gradient boosting, lightgbm for Light Gradient Boosting and pandas, 
+numpy along with matplotlib for implementing data reading, numerical computing, and visualization on 
+Jupyter Notebook, Anaconda Navigator environment. This setup provided a robust environment to conduct 
+model training, testing, and performance evaluation effectively.
+Performance metrics
+•	 Confusion Matrix: The confusion matrix (Table 5) displays the performance of a classification model by 
+showing the counts of True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives 
+(FN). The matrix can be used to compute various evaluation metrics.
+•	 Accuracy: 
+	
+Accuracy =
+TP + TN
+TP + FP + FN + TN 
+(17)
+•	 Precision: 
+	
+Precision =
+TP
+TP + FP 
+(18)
+•	 Sensitivity (Recall): 
+	
+Sensitivity =
+TP
+TP + FN 
+(19)
+•	 Specificity: 
+	
+Speciﬁcity =
+TN
+TN + FP 
+(20)
+•	 F1-Score: 
+	
+F1-score = 2 · Precision · Recall
+Precision + Recall
+(21)
+•	 Cohen’s Kappa (Kappa): 
+	
+κ = Po −Pe
+1 −Pe 
+(22)
+where
+•	 Po = observed agreement (the proportion of correct predictions).
+•	 Pe = expected agreement (the proportion of agreement that would be expected by chance).
+•	 Matthews Correlation Coefficient (MCC): 
+Actual positive
+Actual negative
+Predicted positive
+TP
+FP
+Predicted negative
+FN
+TN
+Table 5.  Confusion matrix.
+ 
+Scientific Reports |         (2025) 15:4617 
+11
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 12 =====
+
+	
+MCC =
+TP · TN −FP · FN
+√
+(TP + FP)(TP + FN)(TN + FP)(TN + FN)
+(23)
+•	 ROC-AUC: 
+	
+AUC =
+∫1
+0
+TPR(FPR) dFPR
+(24)
+•	
+•	 TruePositiveRate(TPR) =
+T P
+T P +F N
+•	 FalsePositiveRate(FPR) =
+F P
+F P +T N
+•	 Mean Absolute Error—MAE: 
+	
+MAE =
+n
+∑
+i=1
+predicted(i) −actual(i)
+n
+
+(25)
+•	 Mean Squared Error—MSE : 
+	
+MSE =
+n
+∑
+i=1
+(predicted(i) −actual(i))2
+n
+
+(26)
+•	 Root Mean Squared Error—RMSE: 
+	
+RMSE =
+
+
+
+
+n
+
+i=1
+(predicted(i) −actual(i))2
+n
+
+(27)
+ Here, n represents the total number of values.
+Performance analysis
+In our experiments, various data balancing techniques, including SMOTE TomekLink (STL), Generative 
+Adversarial Networks (GAN), and K-Means Sampling (KMS) and Principal Component Analysis (PCA) for 
+efficiently reducing the high-dimensional feature space while retaining the most significant information. Metrics 
+such as accuracy, precision, sensitivity, specificity, F1 score, kappa, MCC, ROC-AUC, MAE, MSE, and RMSE 
+were used to evaluate six models: Decision Tree Classifier (DTC), Random Forest Classifier (RFC), CatBoost 
+Classifier (CBC), XGBoost Classifier (XGBC), LightGBM Classifier (LGBC), and HistGradientBoosting 
+Classifier (HGBC). Among these combinations, the KMS+PCA+RFC model demonstrated the best performance, 
+achieving superior accuracy in detecting attacks effectively. This highlights the importance of selecting the 
+appropriate data balancing technique while retaining the most significant information and model for improving 
+the accuracy and reliability of IDS systems.
+Table 6 shows the performance of various ML models on the WSN dataset across three experimental setups: 
+STL, GAN, and KMS. Among these, the KMS+PCA+RFC combination consistently outperforms others, 
+achieving the highest metrics across all categories, including accuracy (99.94%), precision (99.94%), sensitivity 
+(99.94%), specificity (99.99%), f1-score (99.94%), Kappa (99.93%), MCC (99.93%), and ROC-AUC (99.99%). 
+Furthermore, KMS+PCA+RFC exhibits the lowest error rates, with minimal MAE (0.16), MSE (0.53), and 
+RMSE (7.30). These results highlight the effectiveness and robustness of the proposed KMS+PCA+RFC model 
+compared to other techniques such as DTC, CBC, XGBC, LGBC, and HGBC across different data balancing 
+methods.
+Table 7 illustrates the performance analysis of various hybrid machine learning models applied to the TON-
+IoT dataset under three data balancing techniques: STL, GAN and KMN. RFC consistently achieved the highest 
+performance across all setups, with near-perfect accuracy, specificity, and ROC-AUC scores, followed by XGBC, 
+which also exhibited strong results, especially under the KMS technique. Models like CBC and HGBC showed 
+reliable performance, with slight improvements using GAN balancing, while LGBC had the lowest metrics, 
+including higher error rates. The analysis highlights RFC and XGBC as the most effective models for the TON-
+IoT dataset, demonstrating their robustness and scalability across different data balancing techniques. The KMS 
+combined with the RFC achieved exceptional performance on the TON-IoT dataset, showcasing an accuracy of 
+99.97%, precision of 99.97%, sensitivity of 99.97%, specificity of 100.0%, F1 score of 99.97%, kappa of 99.97%, 
+Scientific Reports |         (2025) 15:4617 
+12
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 13 =====
+
+and MCC of 99.97%. The model also attained a perfect ROC-AUC score of 100.0%, reflecting its ability to 
+distinguish between classes. Furthermore, the error metrics were minimal, with an MAE of 0.11, MSE of 0.59, 
+and RMSE of 7.68, highlighting its precision and robustness in predicting outcomes with high reliability.
+The confusion matrix (Table 8) for the proposed KMS+PCA+RFC model on the WSN dataset demonstrates 
+its outstanding performance in accurately classifying network attacks. For the Normal class, 68,114 instances 
+were correctly classified, with minimal misclassifications: 21 as Grayhole, 2 as Blackhole, 2 as TDMA, and 56 as 
+Flooding. Similarly, the Grayhole class had 67,575 correctly classified instances, with negligible misclassifications: 
+10 as Normal and 9 as Blackhole. The Blackhole class achieved near-perfect accuracy, with 68,249 instances 
+correctly classified and only 5 misclassified as Grayhole. For the TDMA class, 68,188 instances were correctly 
+identified, with minor errors: 86 as Normal and 2 as Grayhole. Finally, the Flooding class was accurately classified 
+for 67,743 instances, with only 4 instances misclassified as Normal. These results underscore the high precision 
+and robustness of the KMS+PCA+RFC model in distinguishing between different types of network behaviors 
+and attacks.
+DB+DR Tech.
+Model
+Accuracy
+Precision
+Sensitivity
+Specificity
+F1score
+Kappa
+MCC
+ROC-AUC
+MAE
+MSE
+RMSE
+STL+PCA
+DTC
+99.95
+99.95
+99.95
+99.99
+99.95
+99.94
+99.94
+99.97
+0.19
+1.04
+10.19
+RFC
+99.97
+99.97
+99.97
+100.0
+99.97
+99.97
+99.97
+100.0
+0.10
+0.49
+7.03
+CBC
+99.52
+99.52
+99.52
+99.95
+99.52
+99.46
+99.46
+100.0
+1.36
+6.20
+24.89
+XGBC
+99.78
+99.78
+99.78
+99.98
+99.78
+99.75
+99.75
+100.0
+0.69
+3.17
+17.80
+LGBC
+98.63
+98.63
+98.63
+99.85
+98.62
+98.47
+98.47
+98.82
+6.50
+40.08
+63.31
+HGBC
+99.42
+99.42
+99.42
+99.94
+99.42
+99.35
+99.35
+99.99
+1.92
+9.25
+30.41
+GAN+PCA
+DTC
+99.95
+99.95
+99.95
+99.99
+99.95
+99.95
+99.95
+99.97
+0.19
+1.04
+10.18
+RFC
+99.97
+99.97
+99.97
+100.0
+99.97
+99.97
+99.97
+100.0
+0.12
+0.63
+7.92
+CBC
+99.83
+99.83
+99.83
+99.98
+99.83
+99.81
+99.81
+100.0
+0.61
+3.12
+17.68
+XGBC
+99.89
+99.89
+99.89
+99.99
+99.89
+99.87
+99.87
+100.0
+0.41
+2.00
+14.14
+LGBC
+96.89
+96.92
+96.89
+99.65
+96.88
+96.54
+96.55
+97.83
+8.38
+39.49
+62.84
+HGBC
+99.69
+99.69
+99.69
+99.97
+99.69
+99.65
+99.65
+99.90
+1.31
+6.92
+26.31
+KMS+PCA
+DTC
+99.96
+99.96
+99.96
+100.0
+99.96
+99.95
+99.95
+99.98
+0.18
+0.95
+9.74
+RFC
+99.97
+99.97
+99.97
+100.0
+99.97
+99.97
+99.97
+100.0
+0.11
+0.59
+7.68
+CBC
+99.74
+99.74
+99.74
+99.97
+99.74
+99.71
+99.71
+100.0
+0.94
+4.58
+21.40
+XGBC
+99.90
+99.90
+99.90
+99.99
+99.90
+99.89
+99.89
+100.0
+0.38
+1.85
+13.62
+LGBC
+99.49
+99.49
+99.49
+99.94
+99.49
+99.43
+99.43
+99.85
+1.82
+9.42
+30.69
+HGBC
+99.64
+99.64
+99.64
+99.96
+99.64
+99.60
+99.60
+99.98
+1.38
+6.68
+25.85
+Table 7.  Performance analysis of ML models on TON-IoT network dataset. Significant values are in bold.
+ 
+DB+DR Tech.
+Model
+Accuracy
+Precision
+Sensitivity
+Specificity
+F1score
+Kappa
+MCC
+ROC-AUC
+MAE
+MSE
+RMSE
+STL+PCA
+DTC
+99.31
+99.31
+99.31
+99.83
+99.31
+99.14
+99.14
+99.57
+1.86
+5.47
+23.40
+RFC
+99.65
+99.65
+99.65
+99.91
+99.65
+99.56
+99.56
+99.99
+0.98
+2.95
+17.19
+CBC
+97.98
+98.03
+97.98
+99.50
+97.98
+97.48
+97.49
+99.91
+4.58
+12.33
+35.12
+XGBC
+98.32
+98.37
+98.32
+99.58
+98.32
+97.91
+97.92
+99.94
+4.03
+11.13
+33.37
+LGBC
+97.68
+97.74
+97.68
+99.42
+97.67
+97.10
+97.12
+99.85
+5.20
+13.86
+37.23
+HGBC
+97.18
+97.26
+97.18
+99.29
+97.17
+96.47
+96.50
+99.84
+5.78
+14.65
+38.27
+GAN+PCA
+DTC
+99.80
+99.80
+99.80
+99.95
+99.80
+99.74
+99.74
+99.87
+0.47
+1.35
+11.63
+RFC
+99.86
+99.86
+99.86
+99.97
+99.86
+99.83
+99.83
+99.98
+0.31
+0.87
+9.35
+CBC
+99.75
+99.75
+99.75
+99.94
+99.75
+99.69
+99.69
+100.0
+0.43
+1.06
+10.30
+XGBC
+99.77
+99.77
+99.77
+99.94
+99.77
+99.72
+99.72
+100.0
+0.42
+1.06
+10.27
+LGBC
+99.72
+99.72
+99.72
+99.93
+99.72
+99.65
+99.65
+99.77
+0.65
+1.82
+13.48
+HGBC
+99.67
+99.67
+99.67
+99.92
+99.67
+99.58
+99.58
+99.99
+0.55
+1.25
+11.20
+KMS+PCA
+DTC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.87
+99.87
+99.93
+0.29
+0.90
+9.50
+RFC
+99.94
+99.94
+99.94
+99.99
+99.94
+99.93
+99.93
+99.99
+0.16
+0.53
+7.30
+CBC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.86
+99.86
+100.0
+0.23
+0.66
+8.12
+XGBC
+99.93
+99.93
+99.93
+99.98
+99.93
+99.92
+99.92
+100.0
+0.17
+0.52
+7.21
+LGBC
+99.74
+99.74
+99.74
+99.94
+99.74
+99.68
+99.68
+99.98
+0.47
+1.18
+10.86
+HGBC
+99.91
+99.91
+99.91
+99.98
+99.91
+99.89
+99.89
+99.99
+0.21
+0.64
+8.02
+Table 6.  Performance analysis of ML models on WSN dataset. Significant values are in bold.
+ 
+Scientific Reports |         (2025) 15:4617 
+13
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 14 =====
+
+The confusion matrix (Table 9) for the proposed KMS+PCA+RFC model on the TON-IoT Network dataset 
+demonstrates its remarkable accuracy across 10 classes of network activities and attacks. The Normal class 
+achieved excellent classification with 60,074 correct predictions, and minimal misclassifications: 1 as Scanning, 
+2 as DoS, 1 as Injection, 5 as DDoS, 26 as Password, 21 as XSS, and 5 as Ransomware. The Scanning class also 
+showed high accuracy, with 60,043 correctly classified instances and minor errors, such as 2 misclassified as 
+Normal and 1 as DDoS. The DoS class was accurately classified for 59,973 instances, with minimal confusion: 
+7 as Normal, 4 as Injection, and 1 as Backdoor. Similarly, the Injection class had 59,981 accurate predictions, 
+with slight misclassifications: 4 as Normal, 10 as DDoS, and 1 as Password. For the DDoS class, 59,983 instances 
+were correctly classified, with minor errors: 6 as Normal, 11 as Injection, and 1 as XSS. The Password class was 
+nearly perfect with 60,085 correct classifications, and only 1 misclassified as DDoS. The XSS class also performed 
+well with 60,054 correct classifications, with minor misclassifications: 20 as Normal, 1 each as Injection and 
+DDoS, and 1 as Password. The RansomwareThe confusion matrix for the proposed KMS+PCA+RFC model 
+on the TON-IoT Network dataset demonstrates its remarkable accuracy across 10 classes of network activities 
+and attacks. The Normal class achieved excellent classification with 60,074 correct predictions, and minimal 
+misclassifications: 1 as Scanning, 2 as DoS, 1 as Injection, 5 as DDoS, 26 as Password, 21 as XSS, and 5 as 
+Ransomware. The Scanning class also showed high accuracy, with 60,043 correctly classified instances and 
+minor errors, such as 2 misclassified as Normal and 1 as DDoS. The DoS class was accurately classified for 59,973 
+instances, with minimal confusion: 7 as Normal, 4 as Injection, and 1 as Backdoor. Similarly, the Injection class 
+had 59,981 accurate predictions, with slight misclassifications: 4 as Normal, 10 as DDoS, and 1 as Password. For 
+the DDoS class, 59,983 instances were correctly classified, with minor errors: 6 as Normal, 11 as Injection, and 
+1 as XSS. The Password class was nearly perfect with 60,085 correct classifications, and only 1 misclassified as 
+DDoS. The XSS class also performed well with 60,054 correct classifications, with minor misclassifications: 20 
+as Normal, 1 each as Injection and DDoS, and 1 as Password. The Ransomware class achieved 59,835 correct 
+classifications, with negligible confusion: 1 misclassified as Normal. The Backdoor class saw 59,801 correctly 
+classified instances, with 1 misclassified as MitM and 1 as Normal. Finally, the MitM class achieved strong 
+performance with 60,024 accurate classifications and minimal errors: 7 as Normal and 3 as XSS. Overall, this 
+confusion matrix highlights the exceptional capability of the KMS+PCA+RFC model to effectively differentiate 
+between diverse network behaviors and attack types, with extremely low misclassification rates. class achieved 
+59,835 correct classifications, with negligible confusion: 1 misclassified as Normal. The Backdoor class saw 
+59,801 correctly classified instances, with 1 misclassified as MitM and 1 as Normal. Finally, the MitM class 
+achieved strong performance with 60,024 accurate classifications and minimal errors: 7 as Normal and 3 as XSS.
+Overall, both confusion matrices highlight the exceptional capability of the KMS+PCA+RFC model to 
+effectively differentiate between diverse network behaviors and attack types, with extremely low misclassification 
+rates.
+The classification report (Table 10) for the proposed RFC (KMS+PCA+RFC) model on the WSN-DS dataset 
+demonstrates exceptional performance across all five classes (Normal, Grayhole, Blackhole, TDMA, and 
+Flooding), surpassing most other models evaluated in the study . The following key observations can be made: 
+Normal Class: The RFC model achieved a precision of 99.85%, a recall of 99.88%, and an f1-score of 99.87%. 
+These metrics indicate highly reliable identification of Normal network behavior with minimal false positives 
+Normal
+Scanning
+Dos
+Injection
+Ddos
+Password
+Xss
+Ransomware
+Backdoor
+Mitm
+Normal
+60074
+1
+2
+1
+5
+26
+21
+5
+0
+0
+Scanning
+2
+60043
+2
+0
+1
+0
+0
+0
+0
+0
+Dos
+7
+0
+59973
+4
+1
+0
+0
+0
+1
+0
+Injection
+4
+0
+0
+59981
+10
+1
+0
+0
+0
+0
+Ddos
+6
+0
+0
+11
+59983
+0
+1
+0
+0
+0
+Password
+4
+0
+0
+0
+1
+60085
+0
+0
+0
+0
+Xss
+20
+0
+0
+1
+1
+1
+60054
+0
+0
+0
+Ransomware
+1
+0
+0
+0
+0
+0
+0
+59835
+0
+0
+Backdoor
+1
+0
+0
+0
+0
+0
+0
+0
+59801
+1
+Mitm
+7
+0
+0
+0
+0
+0
+3
+0
+0
+60024
+Table 9.  Confusion matrix of the proposed (KMS+PCA+RFC) model on TON-IoT-network.
+ 
+Normal
+Grayhole
+Blackhole
+TDMA
+Flooding
+Normal
+68114
+21
+2
+2
+56
+Grayhole
+10
+67575
+9
+0
+0
+Blackhole
+0
+5
+68249
+0
+0
+TDMA
+86
+2
+0
+68188
+0
+Flooding
+4
+0
+0
+0
+67743
+Table 8.  Confusion matrix of the proposed (KMS+PCA+RFC) model on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+14
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 15 =====
+
+or negatives. Grayhole Class: The Grayhole class exhibited outstanding classification metrics with a precision of 
+99.96%, a recall of 99.97%, and an f1-score of 99.97%. This demonstrates the model’s robust ability to detect and 
+classify Grayhole attacks accurately. Blackhole Class: The RFC model delivered near-perfect results for Blackhole 
+attacks, achieving a precision of 99.98%, a recall of 99.99%, and an f1-score of 99.99%. These scores signify the 
+model’s capability to handle this attack type with precision and consistency. TDMA Class: The model achieved 
+a perfect precision of 100.00%, a recall of 99.87%, and an f1-score of 99.93% for TDMA. This highlights the 
+model’s strength in minimizing false positives while maintaining high recall. Flooding Class: The Flooding class 
+classification also showed excellent results, with a precision of 99.92%, a recall of 99.99%, and an f1-score of 
+99.96%. This indicates the model’s ability to accurately identify Flooding attacks with almost no misclassification.
+The RFC model’s performance surpasses most of the other models (DTC, CBC, LGBC, HGBC, and XGBC) in 
+terms of precision, recall, and f1-score across all classes. Notably, its metrics for Blackhole, Grayhole, and TDMA 
+classes outperform all competing models. While some models like XGBC and HGBC also achieve competitive 
+scores, the RFC model demonstrates consistently high performance with minimal variability across all classes, 
+making it the most reliable option among the models tested. The RFC (KMS+PCA+RFC) model demonstrates 
+superior classification capabilities across all network behavior and attack types on the WSN-DS dataset, making 
+it an excellent choice for robust and precise intrusion detection in wireless sensor networks.
+Table 11 compares the classification performance of various models on the TON-IoT Network dataset, 
+evaluated across multiple attack categories. Key metrics such as Precision, Recall, and f1-score are provided 
+for each class (Normal, Scanning, Dos, Injection, Ddos, Password, Xss, Ransomware, Backdoor, and Mitm). 
+DTC: Achieves excellent performance across all classes, with nearly perfect metrics for Scanning, Ransomware, 
+Backdoor, and Mitm (f1-score ≥99.99%). Slightly lower but still strong results for Normal (f1-score: 99.85%) 
+and Xss (f1-score: 99.92%). XGBC: Strong overall performance but marginally lower than DTC in several classes 
+(e.g., Normal with f1-score: 99.67%). Excels in Scanning, Ransomware, Backdoor, and Mitm, maintaining near-
+perfect metrics. RFC (Proposed Model): Outperforms other models with consistently high metrics across all 
+classes. Achieves perfect scores for Scanning, Backdoor, and Mitm (Precision, Recall, and f1-score = 100%). 
+Demonstrates robust generalization with a slightly lower f1-score for Normal (99.91%). LGBC: Metrics are 
+notably lower compared to other models, especially for Normal (f1-score: 96.92%) and Backdoor (f1-score: 
+97.27%). Struggles with classes such as Password and Ddos, with performance below that of DTC and RFC. 
+CBC: Strong performance with near-perfect scores for Backdoor and Mitm (f1-score = 99.99% and 99.94%, 
+respectively). Slightly underperforms in Normal and Injection classes compared to DTC and RFC. HGBC: 
+Competitive with CBC, achieving near-perfect scores for most attack classes (e.g., Backdoor: 100%, Ransomware: 
+99.94%). Marginally lower f1-scores for Normal (98.74%) and Ddos (99.45%).
+RFC (Proposed Model) demonstrates the most consistent and superior performance across all classes, 
+particularly excelling in Scanning, Backdoor, and Mitm categories. Models like LGBC show room for 
+improvement, especially in Normal and Ddos detection. All models achieve high classification metrics, 
+highlighting the effectiveness of the KMS+ML approach on the TON-IoT dataset. Conclusion: The RFC model, 
+when integrated with the KMS data balancing technique with PCA for the dimension reduction process, proves 
+to be the most effective among the tested models for classifying normal and attack classes in the TON-IoT dataset. 
+Its ability to achieve perfect precision, recall, and f1-scores for critical attack types underlines its robustness and 
+suitability for network intrusion detection.
+Justification of KFCV
+To address the effectiveness of k-fold cross-validation (KFCV) in mitigating model overfitting and variance 
+compared to alternative strategies like stratified sampling (SS), we conducted a comprehensive analysis using 
+the KMS+ML models on the WSN dataset. Results presented in Table 12 indicate that both approaches deliver 
+Model
+Class
+Precision
+Recall
+F1-score
+Model
+Class
+Precision
+Recall
+F1-score
+DTC
+Normal
+99.77
+99.75
+99.76
+XGBC
+Normal
+99.85
+99.89
+99.87
+Grayhole
+99.92
+99.93
+99.93
+Grayhole
+99.95
+99.94
+99.95
+Blackhole
+99.98
+99.97
+99.97
+Blackhole
+99.95
+99.99
+99.97
+TDMA
+99.86
+99.88
+99.87
+TDMA
+99.99
+99.87
+99.93
+Flooding
+99.94
+99.94
+99.94
+Flooding
+99.93
+99.99
+99.96
+RFC
+Normal
+99.85
+99.88
+99.87
+LGBC
+Normal
+99.66
+99.68
+99.67
+Grayhole
+99.96
+99.97
+99.97
+Grayhole
+99.83
+99.18
+99.51
+Blackhole
+99.98
+99.99
+99.99
+Blackhole
+99.80
+99.94
+99.87
+TDMA
+100.00
+99.87
+99.93
+TDMA
+99.83
+99.84
+99.84
+Flooding
+99.92
+99.99
+99.96
+Flooding
+99.48
+99.95
+99.71
+CBC
+Normal
+99.85
+99.84
+99.84
+HGBC
+Normal
+99.83
+99.79
+99.81
+Grayhole
+99.91
+99.78
+99.85
+Grayhole
+99.90
+99.93
+99.92
+Blackhole
+99.80
+99.96
+99.88
+Blackhole
+99.95
+99.99
+99.97
+TDMA
+100.00
+99.87
+99.93
+TDMA
+99.94
+99.88
+99.91
+Flooding
+99.90
+99.99
+99.94
+Flooding
+99.94
+99.98
+99.96
+Table 10.  Classification reports of (KMS+PCA+ML) models on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+15
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 16 =====
+
+robust performance metrics, with KFCV and SS achieving comparable accuracy, precision, and F1 scores 
+across models. However, KFCV (k=5) demonstrates slightly better consistency in minimizing mean absolute 
+error (MAE) and root mean square error (RMSE), particularly for the RFC model, which achieved the highest 
+performance metrics (99.94% accuracy, precision, and F1 score). The stratification inherent in both methods 
+ensures class balance, but KFCV’s iterative training on multiple folds enhances generalizability and reduces 
+variance, making it a more robust choice for scenarios involving diverse or imbalanced datasets.
+SS VS KFCV
+DB Tech.
+Model
+Accuracy
+Precision
+Sensitivity
+Specificity
+F1score
+Kappa
+MCC
+ROC-AUC
+MAE
+MSE
+RMSE
+SS
+KMS
+DTC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.86
+99.86
+99.93
+0.29
+0.89
+9.42
+RFC
+99.94
+99.94
+99.94
+99.98
+99.94
+99.92
+99.92
+99.99
+0.17
+0.53
+7.31
+CBC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.86
+99.86
+100
+0.23
+0.64
+7.99
+XGBC
+99.93
+99.93
+99.93
+99.98
+99.93
+99.91
+99.91
+100
+0.18
+0.53
+7.3
+LGBC
+99.72
+99.72
+99.72
+99.93
+99.72
+99.65
+99.65
+99.8
+0.46
+1.04
+10.19
+KFCV
+KMS
+DTC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.87
+99.87
+99.93
+0.29
+0.9
+9.5
+RFC
+99.94
+99.94
+99.94
+99.99
+99.94
+99.93
+99.93
+99.99
+0.16
+0.53
+7.3
+CBC
+99.89
+99.89
+99.89
+99.97
+99.89
+99.86
+99.86
+100
+0.23
+0.66
+8.12
+XGBC
+99.93
+99.93
+99.93
+99.98
+99.93
+99.92
+99.92
+100
+0.17
+0.52
+7.21
+LGBC
+99.72
+99.72
+99.72
+99.93
+99.72
+99.65
+99.65
+99.77
+0.65
+1.82
+13.48
+Table 12.  SS VS KFCV using KMS+ML models on WSN-DS. Significant values are in bold.
+ 
+Model
+Class
+Precision
+Recall
+F1-score
+Model
+Class
+Precision
+Recall
+F1-score
+DTC
+Normal
+99.89
+99.81
+99.85
+XGBC
+Normal
+99.78
+99.56
+99.67
+Scanning
+99.98
+99.99
+99.99
+Scanning
+99.98
+99.99
+99.98
+Dos
+99.97
+99.98
+99.97
+Dos
+99.97
+99.92
+99.94
+Injection
+99.96
+99.94
+99.95
+Injection
+99.87
+99.88
+99.87
+Ddos
+99.94
+99.96
+99.95
+Ddos
+99.81
+99.85
+99.83
+Password
+99.94
+99.99
+99.96
+Password
+99.72
+99.99
+99.86
+Xss
+99.92
+99.92
+99.92
+Xss
+99.89
+99.86
+99.87
+Ransomware
+99.98
+99.99
+99.99
+Ransomware
+99.97
+99.98
+99.98
+Backdoor
+100.0
+100.0
+100.0
+Backdoor
+100.0
+99.99
+100.0
+Mitm
+99.99
+99.98
+99.99
+Mitm
+99.99
+99.97
+99.98
+RFC
+Normal
+99.91
+99.90
+99.91
+LGBC
+Normal
+97.64
+96.21
+96.92
+Scanning
+100.0
+99.99
+100.0
+Scanning
+98.60
+98.77
+98.68
+Dos
+99.99
+99.98
+99.99
+Dos
+99.90
+99.84
+99.87
+Injection
+99.97
+99.97
+99.97
+Injection
+99.14
+99.37
+99.26
+Ddos
+99.97
+99.97
+99.97
+Ddos
+98.08
+99.49
+98.78
+Password
+99.95
+99.99
+99.97
+Password
+97.42
+99.49
+98.44
+Xss
+99.96
+99.96
+99.96
+Xss
+99.57
+98.41
+98.98
+Ransomware
+99.99
+100.0
+99.99
+Ransomware
+98.97
+99.36
+99.16
+Backdoor
+100.0
+100.0
+100.0
+Backdoor
+98.69
+95.89
+97.27
+Mitm
+100.0
+99.98
+99.99
+Mitm
+98.29
+99.41
+98.85
+CBC
+Normal
+99.63
+98.81
+99.22
+HGBC
+Normal
+99.20
+98.28
+98.74
+Scanning
+99.89
+99.96
+99.93
+Scanning
+99.89
+99.96
+99.92
+Dos
+99.86
+99.88
+99.87
+Dos
+99.85
+99.88
+99.87
+Injection
+99.80
+99.62
+99.71
+Injection
+99.71
+99.54
+99.63
+Ddos
+99.65
+99.66
+99.66
+Ddos
+99.28
+99.61
+99.45
+Password
+99.13
+99.96
+99.54
+Password
+99.12
+99.93
+99.53
+Xss
+99.62
+99.62
+99.62
+Xss
+99.44
+99.36
+99.40
+Ransomware
+99.92
+99.94
+99.93
+Ransomware
+99.97
+99.90
+99.94
+Backdoor
+100.0
+99.99
+99.99
+Backdoor
+100.0
+99.99
+100.0
+Mitm
+99.92
+99.97
+99.94
+Mitm
+99.92
+99.95
+99.94
+Table 11.  Classification reports of (KMS+PCA+ML) models on TON-IoT network.
+ 
+Scientific Reports |         (2025) 15:4617 
+16
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 17 =====
+
+Potential impact of PCA on performance
+The high dimensionality and heterogeneity of the WSN-DS dataset indeed necessitate the use of dimensionality 
+reduction techniques to optimize model performance and interpretability. Principal Component Analysis 
+(PCA), applied alongside the Kaiser Criterion, plays a pivotal role in this context. PCA reduces the dataset’s 
+dimensionality by transforming it into a set of orthogonal components that maximize variance. This approach 
+eliminates redundancy, minimizes noise, and mitigates the curse of dimensionality, which can hinder efficient 
+training of IDS. In our study, PCA was applied to WSN-DS, retaining components with eigenvalues greater 
+than 1, as per the Kaiser Criterion. This ensured that only the most significant features were used for training, 
+reducing computational overhead while preserving over 95% of the data’s variance. By streamlining the feature 
+space, PCA enabled faster training and inference without sacrificing model accuracy (99.94%), which achieved a 
+remarkable ROC-AUC of 99.99% in combination with the Hybrid (KMS+PCA+RFC) framework (Tables 6 and 
+15). Additionally, PCA improved the model’s generalization capability by focusing on key variations, reducing 
+overfitting risks. The interpretability of results was further enhanced as PCA allowed us to identify the most 
+impactful features in intrusion detection scenarios (Figs. 2, 3). By demonstrating the benefits of PCA and the 
+Kaiser Criterion, we highlight how dimensionality reduction not only boosts IDS performance but also ensures 
+scalability and reliability, which are critical for resource-constrained wireless sensor network environments.
+Discussion
+Our proposed model, which integrates KMeansSMOTE (KMS) with Principal Component Analysis (PCA) and 
+Random Forest Classifier (RFC), achieves outstanding performance for Intrusion Detection Systems (IDS) in 
+Wireless Sensor Networks (WSNs), particularly on the WSN-DS dataset. A comparative analysis with existing 
+works is presented in Table 13, highlighting the significant improvements offered by our approach. Talukder 
+et al.23 achieved a remarkable accuracy, precision, recall, and f1-score of 99.92% using STL with an RFC-based 
+model. Similarly, Karthikeyan et al.20 reported an accuracy of 99.34% with their FA-ML approach, though their 
+f1-score was slightly lower at 96.67%. Abinayaa et al.24 employed LOA techniques with their LOA-Cb-C model, 
+achieving 99.66% accuracy and 99.00% for precision, recall, and f1-score. In contrast, hybrid and neural models 
+such as CNN+RNN by Salmi et al.25 and Dontu et al.26 demonstrated lower performance, with an accuracy of 
+96.86% and an f1-score of 82.29%. Vaishnavi et al.27 used PCA with XGB, reaching an accuracy of 99.70% but 
+did not report precision, recall, or f1-scores. Our proposed model outperforms these existing works across all 
+evaluation metrics, with an unparalleled accuracy, precision, recall, and f1-score of 99.94%. This improvement 
+underscores the efficacy of combining KMS with PCA for dimensionality reduction and RFC for classification, 
+making it a robust and reliable solution for IDS in WSNs.
+For the TON-IoT Network dataset, our proposed model, integrating KMS with PCA and RFC, demonstrates 
+exceptional performance. As shown in Table 14, our approach achieves the highest accuracy, precision, recall, 
+and f1-score, setting a new benchmark for IDS in IoT networks. Cao et al.28 employed STL and RFC, achieving 
+an accuracy of 98.87% with precision, recall, and f1-scores of 99.36%, 99.18%, and 99.18%, respectively. Similarly, 
+Uddin et al.21 reported comparable accuracy and an f1-score of 99.37% using their usfAD model, although they 
+did not report recall. Hajla et al.29 utilized STL and a Voting-based model, achieving a lower accuracy of 96.32% 
+Fig. 2.  Kaiser criterion for PCA on WSN-DS.
+ 
+Scientific Reports |         (2025) 15:4617 
+17
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 18 =====
+
+and an f1-score of 88.63%. Other models such as Li et al.30, which applied PCA and Decision Tree (DT), reported 
+significantly lower accuracy (77.62%) and an f1-score of 45.53%. Torre et al.19 achieved an impressive accuracy 
+of 99.63% with their DT model but lower precision (96.48%) and recall (93.18%). Uddin et al.22 achieved a high 
+accuracy of 98.94% using OCC but did not report precision or recall. Our proposed model surpasses all these 
+works, achieving unparalleled metrics of 99.97% for accuracy, precision, recall, and f1-score. This demonstrates 
+the robustness and efficiency of combining KMS with PCA for feature selection and RFC for classification, 
+making it an ideal choice for IDS in the TON-IoT Network dataset.
+The superior performance of the RFC in our study can be attributed to several factors related to the specific 
+characteristics of the datasets used, namely WSN-DS and TON-IoT. Both of these datasets contain diverse attack 
+Authors
+DB Tech.
+DD Tech.
+Model
+Accuracy
+Precision
+Recall
+F1-score
+Cao et al.28
+STL
+–
+RFC
+98.87
+99.36
+99.18
+99.18
+Uddin et al.21
+–
+–
+usfAD
+98.87
+99.36
+–
+99.37
+Hajla et al.29
+STL
+–
+Voting
+96.32
+93.11
+84.55
+88.63
+Li et al.30
+–
+PCA
+DT
+77.62
+67.34
+48.67
+45.53
+Torre et al.19
+–
+–
+DT
+99.63
+96.48
+93.18
+94.45
+Uddin et al.22
+–
+–
+OCC
+98.94
+–
+–
+98.94
+Our Proposed
+KMS
+PCA
+RFC
+99.97
+99.97
+99.97
+99.97
+Table 14.  Performance comparison of our proposed model with existing works on TON-IoT Network.
+ 
+Authors
+DB Tech.
+DD Tech.
+Model
+Accuracy
+Precision
+Recall
+F1-score
+Talukder et al.23
+STL
+–
+RFC
+99.92
+99.92
+99.92
+99.92
+Karthikeyan et al.20
+–
+–
+FA-ML
+99.34
+-
+98.36
+96.67
+Abinayaa et al.24
+–
+LOA
+LOA-Cb-C
+99.66
+99.00
+99.00
+99.00
+Salmi et al.25
+–
+–
+CNN+RNN
+96.86
+85.19
+85.29
+82.29
+Dontu et al.26
+–
+EABOA
+Hybrid
+96.86
+85.19
+85.29
+82.29
+Vaishnavi et al.27
+–
+PCA
+XGB
+99.70
+–
+–
+–
+Our Proposed
+KMS
+PCA
+RFC
+99.94
+99.94
+99.94
+99.94
+Table 13.  Performance comparison of our proposed model with existing works on WSN-DS.
+ 
+Fig. 3.  Kaiser criterion for PCA on TON-IoT network.
+ 
+Scientific Reports |         (2025) 15:4617 
+18
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 19 =====
+
+profiles and feature sets that align well with RFC’s strengths in handling heterogeneous data. The RFC’s ability to 
+effectively manage both categorical and continuous features likely contributed to its strong performance on these 
+datasets. In particular, on WSN-DS, RFC demonstrated high accuracy and robustness, yielding an accuracy of 
+99.94%, precision of 99.94%, and recall of 99.94%. Similarly, on the TON-IoT dataset, RFC also showed strong 
+performance with an accuracy of 99.97%, precision of 99.97%, and recall of 99.97%. These results highlight 
+the classifier’s ability to adapt to different types of data and attack scenarios, reinforcing its effectiveness for 
+intrusion detection in wireless sensor networks and IoT environments. While the RFC performed exceptionally 
+well in these specific scenarios, its generalizability to other intrusion detection tasks with varying attack profiles 
+will depend on how closely the features and data distributions in new datasets match those of WSN-DS and 
+TON-IoT. Nonetheless, given RFC’s robustness in these cases, we are confident that it could offer competitive 
+performance in a variety of contexts.
+Our methodology enhances the scalability and robustness of IDS in resource-constrained environments 
+like WSNs by integrating an adaptive framework that leverages StandardScaler, KMS for data balancing, PCA 
+with Kaiser Criterion for dimension reduction, and RFC. StandardScaler ensures feature standardization, which 
+stabilizes the model and improves performance. KMeans SMOTE addresses class imbalance by generating 
+synthetic samples of minority classes, thereby enhancing the model’s ability to detect underrepresented attack 
+patterns. PCA, applied using the Kaiser Criterion, reduces the dimensionality of the data while retaining only the 
+most significant features, significantly lowering computational complexity. Finally, the RFC classifier is employed 
+to effectively classify attacks with high accuracy and resilience, even in environments with limited resources. We 
+validated the proposed approach on the WSN-DS and TON-IoT datasets, demonstrating its robust performance 
+across diverse network conditions and attack profiles. This adaptive methodology ensures our model’s scalability, 
+efficiency, and resilience, making it well-suited for deployment in WSNs.
+While advanced DL architectures, such as hybrid models, have demonstrated strong performance in domains 
+like power systems (Graph wavelet CNN)34 and in network attack detection (CNN+RNN)25, we find that 
+ML models are more compatible and effective in enhancing adaptability to complex attack patterns in WSNs 
+than DL. DL models often require substantial computational resources, which may not be optimal in WSN 
+environments with limited resources. Therefore, we focus on the use of the ML model, which offers a more 
+efficient and effective solution for intrusion detection in such sensors and IOT netowrks.
+Complexity analysis
+The complexity analysis of our proposed model, which integrates KMeans-SMOTE (KMS) with PCA and RFC, 
+is presented in Table 15. The analysis compares the training, prediction, and total time required for different 
+machine learning models using various dataset preprocessing techniques. Experiment 1, which uses STL+PCA, 
+shows that the RFC has the highest total time of 602.360 seconds, followed by the CBC at 381.434 seconds. In 
+Experiment 2, using GAN+PCA, the total time is generally lower, with RFC taking 312.986 seconds, while the 
+other models, such as DTC and XGBC, show significantly shorter training and prediction times. For Experiment 
+3, which applies KMS+PCA, our proposed model with RFC achieves a training time of 247.621 seconds and a 
+prediction time of 3.468 seconds, resulting in a total time of 251.090 seconds. While RFC remains the model 
+with the highest computational complexity, the integration of KMS+PCA significantly reduces the overall time 
+compared to STL+PCA, making it more efficient. PCA-based preprocessing aids in reducing training times 
+for most models, while maintaining high classification performance, which is crucial for real-time intrusion 
+Exp. No.
+DB+DR Tech.
+Model Name
+Training Time (s)
+Prediction Time (s)
+Total Time (s)
+1
+STL+PCA
+DTC
+20.617
+0.044
+20.661
+RFC
+597.124
+5.236
+602.360
+CBC
+379.410
+2.023
+381.434
+XGBC
+62.912
+3.891
+66.803
+LGBC
+41.225
+8.466
+49.690
+HGBC
+42.975
+8.082
+51.057
+2
+GAN+PCA
+DTC
+10.728
+0.021
+10.749
+RFC
+310.220
+2.766
+312.986
+CBC
+324.239
+1.934
+326.172
+XGBC
+54.040
+3.336
+57.376
+LGBC
+33.258
+4.142
+37.400
+HGBC
+34.322
+6.346
+40.668
+3
+KMS+PCA
+DTC
+13.432
+0.032
+13.464
+RFC
+247.621
+3.468
+251.090
+CBC
+490.615
+3.331
+493.946
+XGBC
+74.303
+3.428
+77.732
+LGBC
+49.744
+6.251
+55.995
+HGBC
+64.503
+7.984
+72.486
+Table 15.  Complexity analysis of ML models on WSN-DS. Significant values are in bold.
+ 
+Scientific Reports |         (2025) 15:4617 
+19
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 20 =====
+
+detection applications in IoT networks. These results highlight the trade-off between computation time and 
+performance, with our proposed model offering an optimal balance for efficient and accurate predictions.
+The complexity analysis of various ML models on the TON-IoT-Network dataset is presented in Table 
+16. This analysis evaluates the training, prediction, and total time required for each model under different 
+preprocessing techniques. Experiment 1, using STL+PCA, reveals that the RFC has the longest total time 
+of 865.554 seconds, followed by the CBC at 1700.610 seconds. Experiment 2, utilizing GAN+PCA, shows a 
+reduction in total times for most models, with RFC taking 740.333 seconds. For Experiment 3, applying 
+KMS+PCA, the RFC model again takes the longest time, totaling 894.537 seconds, but this is still efficient 
+compared to the other models. Specifically, the DTC maintains a lower time requirement, with 40.369 seconds 
+for total time. Although KMS+PCA preprocessing adds some time overhead, it helps in improving classification 
+performance, as demonstrated by the shorter prediction times for most models compared to STL+PCA. This 
+indicates that the application of KMS+PCA improves data quality for training, leading to better model efficiency 
+and performance, while still maintaining reasonable computational costs. The complexity analysis highlights the 
+trade-offs between model accuracy and time efficiency, with the proposed model (KMS+PCA+RFC) providing 
+a balance of high performance and manageable computational demands for real-time applications in IoT-based 
+intrusion detection systems.
+The computational trade-offs and scalability of employing KMS for real-time intrusion detection in resource-
+constrained WSN environments were evaluated using the TON-IoT dataset. Results in Tables 6, 7 and 15, 16 
+demonstrate that KMS significantly outperforms STL and GAN in both computational efficiency and model 
+performance respectively. The proposed model (KMS+PCA+RFC) achieved the lowest total time (251.090 
+seconds) compared to STL (602.360 seconds) and GAN (312.986 seconds) while delivering superior performance, 
+including 99.94% accuracy, precision, recall, and F1 score in WSN. Similary on TON-IoT Network, achieved the 
+lowest total time (8.94.537 seconds) compared to STL (865.554 seconds) and GAN (740.333 seconds) while 
+delivering superior performance, including 99.97% accuracy, precision, recall, and F1 score. These results 
+highlight the method’s ability to correctly identify attacks with minimal computational overhead, making it ideal 
+for large-scale and dynamic datasets. The balance between reduced computational cost and enhanced detection 
+performance confirms its scalability and suitability for resource-constrained WSNs.
+Practical implementation of IDS in real-world scenarios
+Our research addresses the dynamic nature of WSN environments and evolving attack patterns by presenting a 
+robust and adaptable intrusion detection framework. We employ advanced data processing techniques, including 
+StandardScaler for feature standardization, KMeans SMOTE for handling class imbalance, and PCA with the 
+Kaiser Criterion for dimensionality reduction, to efficiently process diverse attack scenarios. By validating our 
+approach on benchmark datasets such as WSN-DS and TON-IoT, we demonstrate its effectiveness in real-
+world scenarios. Furthermore, the lightweight design of our machine learning models ensures compatibility 
+with resource-constrained WSN environments, offering a scalable and efficient solution for real-time intrusion 
+detection.
+Addressing the adaptability to various attack types
+The inherent limitations of KMS in certain scenarios, such as handling highly diverse attack types or adapting 
+to varying network topologies. To address these challenges, we evaluated its performance alongside other 
+Exp. No.
+DB. Tech.
+Model Name
+Training Time (s)
+Prediction Time (s)
+Total Time (s)
+1
+STL+PCA
+DTC
+36.745
+0.052
+36.796
+RFC
+858.795
+6.760
+865.554
+CBC
+1697.640
+2.969
+1700.610
+XGBC
+91.203
+5.297
+96.500
+LGBC
+70.621
+28.021
+98.642
+HGBC
+61.308
+8.388
+69.696
+2
+GAN+PCA
+DTC
+36.051
+0.042
+36.093
+RFC
+735.018
+5.315
+740.333
+CBC
+1675.049
+3.070
+1678.118
+XGBC
+85.460
+4.856
+90.317
+LGBC
+63.061
+23.389
+86.450
+HGBC
+57.499
+8.210
+65.709
+3
+KMS+PCA
+DTC
+40.307
+0.062
+40.369
+RFC
+887.191
+7.347
+894.537
+CBC
+1700.508
+2.904
+1703.411
+XGBC
+90.031
+5.042
+95.072
+LGBC
+74.114
+28.524
+102.638
+HGBC
+47.937
+6.400
+54.336
+Table 16.  Complexity analysis of ML models on TON-IoT-Network. Significant values are in bold.
+ 
+Scientific Reports |         (2025) 15:4617 
+20
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 21 =====
+
+techniques, such as GAN-based oversampling and STL methods, to compare their effectiveness (Table 6). Our 
+results demonstrate that KMS provides superior adaptability to diverse attack types by effectively balancing class 
+distributions while maintaining computational efficiency (Table 15). Additionally, the integration of PCA with 
+the Kaiser Criterion ensures dimensionality reduction tailored to the network’s topology, further enhancing 
+the robustness of our intrusion detection system (Fig. 2). This combination makes our framework versatile and 
+effective in adapting to the dynamic nature of WSNs.
+Addressing the continuous learning and adaptation to emerging threats in WSNs
+Our research addresses the crucial aspect of continuous learning and adaptation by designing a flexible and 
+robust intrusion detection framework tailored to the dynamic nature of WSNs. The integration of KMS ensures 
+adaptability to evolving attack patterns by effectively addressing class imbalances, thereby enhancing the model’s 
+capacity to detect underrepresented threats. PCA with the Kaiser Criterion enables dynamic dimensionality 
+reduction, focusing on the most critical features as data characteristics change, which optimizes computational 
+efficiency. Additionally, the use of RFC provides high accuracy and resilience across diverse network conditions 
+and attack profiles. By validating the methodology on benchmark datasets like WSN-DS and TON-IoT, we 
+demonstrate its ability to adapt to emerging threats and varying scenarios, ensuring its scalability and practical 
+applicability in real-world WSN environments.
+Conclusion
+In this research, we proposed a novel intrusion detection system (IDS) for wireless sensor networks (WSNs) by 
+integrating K-means Smote (KMS) with Principal Component Analysis (PCA) and Random Forest Classifier 
+(RFC). Our approach aimed at improving the performance and efficiency of IDS by addressing the challenges of 
+class imbalance and dimensionality reduction in real-time applications. The experimental results demonstrated 
+that our proposed model outperforms existing state-of-the-art models, achieving higher accuracy, precision, 
+recall, and f1-score across different datasets, including WSN-DS and TON-IoT Network. The comparative 
+analysis showed that KMS+PCA+RFC delivers superior classification performance, with the ability to effectively 
+handle large-scale datasets and imbalanced classes. Moreover, the complexity analysis revealed that our model 
+strikes a balance between classification accuracy and computational efficiency, making it suitable for deployment 
+in resource-constrained environments such as WSNs. The time efficiency of our model was competitive, 
+showing minimal increases in training and prediction times compared to other models. Overall, our research 
+contributes to advancing IDS in WSNs, providing a robust and scalable solution for intrusion detection in IoT-
+based networks, and offering valuable insights for future work in this domain, particularly in optimizing the 
+trade-off between model complexity and real-time application performance.
+Despite the promising results of our proposed model, there are certain limitations that need to be addressed. 
+First, the performance of the model relies on the quality of the feature extraction techniques, which may vary 
+across different network conditions and types of attacks. Second, our approach does not yet account for the 
+dynamic nature of wireless sensor networks, where environmental factors and changing network conditions 
+could affect the model’s privacy and accuracy.
+For future work, we aim to explore adaptive feature selection methods that can dynamically adjust based on 
+real-time network conditions. Furthermore, we plan to investigate federated learning techniques to improve the 
+privacy of our model in large-scale, distributed WSN environments.
+Data Availability
+The selected datasets are sourced from free and open-access sources such as: WSN-DS dataset ​h​t​t​p​s​:​/​/​w​w​w​.​k​a​g​
+g​l​e​.​c​o​m​/​d​a​t​a​s​e​t​s​/​b​a​s​s​a​m​k​a​s​a​s​b​e​h​1​/​w​s​n​d​s and TON-IoT Network dataset ​h​t​t​p​s​:​/​/​r​e​s​e​a​r​c​h​.​u​n​s​w​.​e​d​u​.​a​u​/​p​r​o​j​e​c​t​
+s​/​t​o​n​i​o​t​-​d​a​t​a​s​e​t​s.
+Received: 11 August 2024; Accepted: 15 January 2025
+References
+	 1.	 Kumari, S. & Tyagi, A. K. Wireless sensor networks: An introduction. In Digital Twin and Blockchain for Smart Cities, 495–528 
+(2024).
+	 2.	 Sharma, K. & Shivandu, S. K. Integrating artificial intelligence and internet of things (IoT) for enhanced crop monitoring and 
+management in precision agriculture. Sens. Int. 5, 100292 (2024).
+	 3.	 Oztoprak, A., Hassanpour, R., Ozkan, A. & Oztoprak, K. Security challenges, mitigation strategies, and future trends in wireless 
+sensor networks: A review. ACM Comput. Surv. (2024).
+	 4.	 Bukhowah, R., Aljughaiman, A. & Rahman, M. H. Detection of dos attacks for IoT in information-centric networks using machine 
+learning: Opportunities, challenges, and future research directions. Electronics 13(6), 1031 (2024).
+	 5.	 Pathak, V. et al. A secure and lightweight trust evaluation model for enhancing decision-making in resource-constrained industrial 
+wsns. Sci. Rep. 14(1), 28162 (2024).
+	 6.	 Hussain, S., He, J., Zhu, N., Mughal, F. R., Hussain, M. I., Algarni, A. D., Ahmad, S., Zarie, M. M. & Ateya, A. A. An adaptive 
+intrusion detection system for WSN using reinforcement learning and deep classification. Arab. J. Sci. Eng., 1–15 (2024).
+	 7.	 Abdulganiyu, O. H., Tchakoucht, T. A. & Saheed, Y. K. Towards an efficient model for network intrusion detection system (IDS): 
+systematic literature review. Wirel. Netw. 30(1), 453–482 (2024).
+	 8.	 Sadia, H., Farhan, S., Haq, Y. U., Sana, R., Mahmood, T., Bahaj, S. A. O. & Rehman, A. Intrusion detection system for wireless 
+sensor networks: A machine learning based approach. IEEE Access (2024).
+	 9.	 Kikissagbe, B. R. & Adda, M. Machine learning-based intrusion detection methods in IoT systems: A comprehensive review. 
+Electronics 13(18), 3601 (2024).
+	10.	 Mohite, R. & Ouarbya, L. Interpretable anomaly detection: A hybrid approach using rule-based and machine learning techniques. 
+In 2024 IEEE 9th International Conference for Convergence in Technology (I2CT), 1–10 (2024). IEEE.
+Scientific Reports |         (2025) 15:4617 
+21
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 22 =====
+
+	11.	 Sarker, I. H., Janicke, H., Ferrag, M. A. & Abuadbba, A. Multi-aspect rule-based AI: Methods, taxonomy, challenges and directions 
+toward automation, intelligence and transparent cybersecurity modeling for critical infrastructures. Internet Things 25, 101110 
+(2024).
+	12.	 Li, Y., Wei, X., Li, Y., Dong, Z. & Shahidehpour, M. Detection of false data injection attacks in smart grid: A secure federated deep 
+learning approach. IEEE Trans. Smart Grid 13(6), 4862–4872 (2022).
+	13.	 Urmi, W. F. et al. A stacked ensemble approach to detect cyber attacks based on feature selection techniques. Int. J. Cognit. Comput. 
+Eng. 5, 316–331 (2024).
+	14.	 Talukder, M. A. et al. A dependable hybrid machine learning model for network intrusion detection. J. Inf. Secur. Appl. 72, 103405 
+(2023).
+	15.	 Talukder, M. A. et al. Machine learning-based network intrusion detection for big and imbalanced data using oversampling, 
+stacking feature embedding and feature extraction. J. Big Data 11(1), 1–44 (2024).
+	16.	 Talukder, M. A., Hossen, R., Uddin, M. A., Uddin, M. N. & Acharjee, U. K. Securing transactions: A hybrid dependable ensemble 
+machine learning model using IHT-LR and grid search. Cybersecurity 7(1), 32 (2024).
+	17.	 Talukder, M. A., Khalid, M. & Uddin, M. A. An integrated multistage ensemble machine learning model for fraudulent transaction 
+detection. J. Big Data 11(1), 168 (2024).
+	18.	 Uddin, M. A., Aryal, S., Bouadjenek, M. R., Al-Hawawreh, M. & Talukder, M. A. Hierarchical classification for intrusion detection 
+system: Effective design and empirical analysis. arXiv preprint arXiv:2403.13013 (2024).
+	19.	 Torre, D., Chennamaneni, A., Jo, J., Vyas, G. & Sabrsula, B. Towards enhancing privacy-preservation of a federated learning cnn 
+intrusion detection system in IoT: Method and empirical study. ACM Trans. Softw. Eng. Methodol. (2024).
+	20.	 Karthikeyan, M., Manimegalai, D. & RajaGopal, K. Firefly algorithm based WSN-IoT security enhancement with machine 
+learning for intrusion detection. Sci. Rep. 14(1), 231 (2024).
+	21.	 Uddin, M. A., Aryal, S., Bouadjenek, M. R., Al-Hawawreh, M. & Talukder, M. A. usfAD based effective unknown attack detection 
+focused IDS framework. Sci. Rep. 14(1), 29103 (2024).
+	22.	 Uddin, M. A., Aryal, S., Bouadjenek, M. R., Al-Hawawreh, M. & Talukder, M. A. A dual-tier adaptive one-class classification IDS 
+for emerging cyberthreats. Comput. Commun. 229, 108006 (2025).
+	23.	 Talukder, M. A., Sharmin, S., Uddin, M. A., Islam, M. M. & Aryal, S. MLSTL-WSN: Machine learning-based intrusion detection 
+using smotetomek in WSNs. Int. J. Inf. Secur. 23(3), 2139–2158 (2024).
+	24.	 Abinayaa, S. S. et al. Securing the edge: Catboost classifier optimized by the lyrebird algorithm to detect denial of service attacks in 
+internet of things-based wireless sensor networks. Future Internet 16(10), 381 (2024).
+	25.	 Salmi, S. & Oughdir, L. Performance evaluation of deep learning techniques for dos attacks detection in wireless sensor network. 
+J. Big Data 10(1), 17 (2023).
+	26.	 Dontu, S., Vallabhaneni, R., Addula, S. R., Pareek, P. K. & Hussein, R. R. Enhanced adaptive butterfly optimizer based feature 
+selection for protecting the data in industry based WSN. In 2024 International Conference on Intelligent Algorithms for 
+Computational Intelligence Systems (IACIS), 1–6 (2024). IEEE.
+	27.	 Vaishnavi, S. & Reddy, R. Implementation of machine learning algorithms to detect dos attack in WSN. In 2024 5th International 
+Conference on Circuits, Control, Communication and Computing (I4C), 386–391. (IEEE, 2024).
+	28.	 Cao, Z., Zhao, Z., Shang, W., Ai, S. & Shen, S. Using the TON-IoT dataset to develop a new intrusion detection system for industrial 
+IoT devices. Multimedia Tools Appl. 1–29 (2024).
+	29.	 Hajla, S., Ennaji, E., Maleh, Y. & Mounir, S. Enhancing IoT network defense: advanced intrusion detection via ensemble learning 
+techniques. Indones. J. Electr. Eng. Comput. Sci. 35(3), 2010–2020 (2024).
+	30.	 Li, J., Othman, M. S., Chen, H. & Yusuf, L. M. Optimizing IoT intrusion detection system: Feature selection versus feature 
+extraction in machine learning. J. Big Data 11(1), 36 (2024).
+	31.	 Almomani, I., Al-Kasasbeh, B., Al-Akhras, M. et al. Wsn-ds: A dataset for intrusion detection systems in wireless sensor networks. 
+J. Sens. 2016 (2016)
+	32.	 Moustafa, N. A new distributed architecture for evaluating AI-based security systems at the edge: Network ton_iot datasets. 
+Sustain. Cities Soc. 72, 102994 (2021).
+	33.	 Li, Y., Cao, J., Xu, Y., Zhu, L. & Dong, Z. Y. Deep learning based on transformer architecture for power system short-term voltage 
+stability assessment with class imbalance. Renew. Sustain. Energy Rev. 189, 113913 (2024).
+	34.	 Qu, Z. et al. Localization of dummy data injection attacks in power systems considering incomplete topological information: A 
+spatio-temporal graph wavelet convolutional neural network approach. Appl. Energy 360, 122736 (2024).
+Acknowledgements
+The authors extend their appreciation to Umm Al-Qura University, Saudi Arabia for funding this research work 
+through grant number: 25UQU4290340GSSR01.
+Author contributions
+Md.A.T.: Conceptualization, Methodology, Software, Visualization, Investigation, Formal analysis, Supervision, 
+Validation, Writing—Original draft preparation, Writing—Reviewing and Editing. M.K.: Visualization, Valida­
+tion, Investigation and Writing-Review & editing. N.S.: Visualization, Validation, Formal Analysis, Investigation 
+and Writing-Review & editing.
+Funding
+This research work was funded by Umm Al-Qura University, Saudi Arabia under grant number: 
+25UQU4290340GSSR01.
+Declarations
+Competing interests
+The authors declare no competing interests.
+Additional information
+Correspondence and requests for materials should be addressed to M.A.T., M.K. or N.S.
+Reprints and permissions information is available at www.nature.com/reprints.
+Publisher’s note  Springer Nature remains neutral with regard to jurisdictional claims in published maps and 
+institutional affiliations.
+Scientific Reports |         (2025) 15:4617 
+22
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/
+
+
+
+===== PAGE 23 =====
+
+Open Access  This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 
+4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in 
+any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide 
+a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have 
+permission under this licence to share adapted material derived from this article or parts of it. The images or 
+other third party material in this article are included in the article’s Creative Commons licence, unless indicated 
+otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence 
+and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to 
+obtain permission directly from the copyright holder. To view a copy of this licence, visit ​h​t​t​p​:​/​/​c​r​e​a​t​i​v​e​c​o​m​m​o​
+n​s​.​o​r​g​/​l​i​c​e​n​s​e​s​/​b​y​-​n​c​-​n​d​/​4​.​0​/​.​
+© The Author(s) 2025 
+Scientific Reports |         (2025) 15:4617 
+23
+| https://doi.org/10.1038/s41598-025-87028-1
+www.nature.com/scientificreports/

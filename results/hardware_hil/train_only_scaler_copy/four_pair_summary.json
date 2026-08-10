@@ -1,0 +1,133 @@
+{
+  "protocol": "train_only_seed42_copy_pipeline",
+  "arduino_r4": {
+    "protocol": "train_only_seed42_copy_pipeline",
+    "board": "arduino_r4",
+    "note": "All artifacts under *_copy paths. Original export_train_only_deployment.py and archived HIL results were not modified.",
+    "gate_policy_copy": {
+      "minimum_fixed_vs_fp32_agreement": 0.99,
+      "maximum_macro_f1_drop": 0.03,
+      "rationale": "0.03 matches measured archived Student B float-to-fixed macro-F1 drop ~0.0266 from generated_student_b_rfkd_hil_full/hil_reference_predictions.csv. Original strict tools still use 0.01."
+    },
+    "deployment_models": "results/wsnds/confirmation_runs_v2/deployment_seed_42 (RF-KD A/B seed 42, train-only scaler)",
+    "pairs": [
+      {
+        "student": "A",
+        "export_dir": "deployment/firmware_export/wsnds_rfkd_hil/generated_train_only_student_A_seed42_copy",
+        "bundle_dir": "deployment/hardware_hil/build/train_only_student_A_seed42_arduino_r4_copy",
+        "results_dir": "results/hardware_hil/train_only_scaler_copy/pi5_arduino_r4_student_A",
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "accuracy": 0.9874911032028469,
+        "macro_f1": 0.9244157867972325,
+        "latency_us_mean": 301.4711209964413,
+        "n": 56200,
+        "all_status_ok": true
+      },
+      {
+        "student": "B",
+        "export_dir": "deployment/firmware_export/wsnds_rfkd_hil/generated_train_only_student_B_seed42_copy",
+        "bundle_dir": "deployment/hardware_hil/build/train_only_student_B_seed42_arduino_r4_copy",
+        "results_dir": "results/hardware_hil/train_only_scaler_copy/pi5_arduino_r4_student_B",
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "accuracy": 0.9872775800711744,
+        "macro_f1": 0.9179877463612371,
+        "latency_us_mean": 791.4001423487545,
+        "n": 56200,
+        "all_status_ok": true
+      }
+    ],
+    "archived_hil_comparison_for_context_only": {
+      "student_A_macro_f1": 0.9140138730454984,
+      "student_B_macro_f1": 0.9180992145299044,
+      "note": "Archived HIL used global-scaler lineage; copy pipeline uses train-only scaler. Do not mix as one protocol."
+    },
+    "remaining_for_full_four_pair_matrix": [],
+    "matrix_status": "complete_with_esp32c3"
+  },
+  "matrix_complete": true,
+  "matrix_note": "All four pairs (R4 A/B + ESP32-C3 A/B) full_56200 agree=1.0 under train_only_seed42_copy_pipeline. Pi host 192.168.137.234.",
+  "esp32c3": {
+    "protocol": "train_only_seed42_copy_pipeline",
+    "board": "esp32c3",
+    "pairs": [
+      {
+        "board": "esp32c3",
+        "student": "A",
+        "protocol": "train_only_seed42_copy_pipeline",
+        "port": "/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_f8df315e2a6def11a9bec5a7c169b110-if00-port0",
+        "n": 56200,
+        "all_status_ok": true,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "accuracy": 0.9874911032028469,
+        "macro_f1": 0.9244157867972325,
+        "latency_us_mean": 116.51985765124554,
+        "latency_us_p50": 116.0
+      },
+      {
+        "board": "esp32c3",
+        "student": "B",
+        "protocol": "train_only_seed42_copy_pipeline",
+        "port": "/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_f8df315e2a6def11a9bec5a7c169b110-if00-port0",
+        "n": 56200,
+        "all_status_ok": true,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "accuracy": 0.9872775800711744,
+        "macro_f1": 0.9179877463612371,
+        "latency_us_mean": 320.27793594306047,
+        "latency_us_p50": 320.0
+      }
+    ]
+  },
+  "mcu_vs_fp32_by_pair": [
+    {
+      "board": "arduino_r4",
+      "student": "A",
+      "n": 56200,
+      "all_status_ok": true,
+      "mcu_vs_fixed_reference_agreement": 1.0,
+      "mcu_vs_fp32_agreement": 0.9919395017793594,
+      "accuracy": 0.9874911032028469,
+      "macro_f1": 0.9244157867972325,
+      "latency_us_mean": 301.4711209964413,
+      "latency_us_p50": 301.0
+    },
+    {
+      "board": "arduino_r4",
+      "student": "B",
+      "n": 56200,
+      "all_status_ok": true,
+      "mcu_vs_fixed_reference_agreement": 1.0,
+      "mcu_vs_fp32_agreement": 0.9904626334519573,
+      "accuracy": 0.9872775800711744,
+      "macro_f1": 0.9179877463612371,
+      "latency_us_mean": 791.4001423487545,
+      "latency_us_p50": 792.0
+    },
+    {
+      "board": "esp32c3",
+      "student": "A",
+      "n": 56200,
+      "all_status_ok": true,
+      "mcu_vs_fixed_reference_agreement": 1.0,
+      "mcu_vs_fp32_agreement": 0.9919395017793594,
+      "accuracy": 0.9874911032028469,
+      "macro_f1": 0.9244157867972325,
+      "latency_us_mean": 116.51985765124554,
+      "latency_us_p50": 116.0
+    },
+    {
+      "board": "esp32c3",
+      "student": "B",
+      "n": 56200,
+      "all_status_ok": true,
+      "mcu_vs_fixed_reference_agreement": 1.0,
+      "mcu_vs_fp32_agreement": 0.9904626334519573,
+      "accuracy": 0.9872775800711744,
+      "macro_f1": 0.9179877463612371,
+      "latency_us_mean": 320.27793594306047,
+      "latency_us_p50": 320.0
+    }
+  ],
+  "compile_footprints_path": "results/hardware_hil/train_only_scaler_copy/compile_evidence/compile_footprint_summary.json",
+  "master_report_path": "results/hardware_hil/train_only_scaler_copy/TIER15_MASTER_REPORT.json"
+}

@@ -1,0 +1,122 @@
+TABLE I
+HYPERPARAMETERS USED IN TRAINING TEACHER AND STUDENT
+MODELS.
+Parameter
+Value
+Batch size
+1024
+Learning rate
+0.001
+Weight decay
+0.001
+Epochs
+50
+Patience
+8
+Dropout
+0.3
+Scheduler
+Cosine
+Step size
+10
+Gamma
+0.5
+and robustness under imbalanced traffic distributions. We
+first describe the training setup and dataset profiling before
+reporting experimental results.
+A. Model Training Setup
+All experiments were conducted in a Google Colab en-
+vironment with GPU acceleration and a PyTorch runtime.
+The TON IOT dataset was preprocessed using the same
+ColumnTransformer pipeline described in Section IV-B, where
+numerical features were standardized and categorical attributes
+one-hot encoded. To avoid source leakage, a source-aware
+split was applied whenever device or subnet identifiers were
+available; otherwise stratified random partitioning preserved
+class ratios. The final distribution allocated 70% of data to
+training, 15% to validation, and 15% to testing, ensuring that
+evaluation measured cross-source generalization rather than
+memorization.
+The hyperparameters are summarized in Table I. Both
+teacher and student models were trained with a batch size
+of 1024 using AdamW (learning rate 10−3, weight decay
+10−3). A cosine learning rate scheduler with step size 10 and
+decay factor γ = 0.5 stabilized convergence under non-IID
+traffic. Dropout with rate 0.3 was applied, and early stopping
+with patience of 8 epochs prevented overfitting. Weighted
+cross-entropy was adopted as the primary loss. SHAP-guided
+feature pruning was always applied before Kronecker-based
+knowledge distillation to ensure reproducibility. Exported ar-
+tifacts include preprocessing maps, class distributions, and
+convergence curves for auditability.
+B. Dataset Profiling and Preprocessing
+The TON IOT dataset was generated in a cyber-range
+integrating edge, fog, and cloud via SDN/NFV orchestration,
+capturing heterogeneous behaviors across IoT, IIoT, and host
+systems [11], [12]. Its network split contains 21.98 million
+flow records with 42 features and nine attack categories,
+including scanning, DoS, DDoS, ransomware, backdoor, in-
+jection, Cross-site Scripting, password cracking, and Man-in-
+the-Middle [13]. Preprocessing combined a StandardScaler for
+numeric features and a OneHotEncoder for categorical ones,
+yielding an expanded input space whose dimensionality and
+mapping were exported. Partitioning preserved empirical label
+distributions while minimizing leakage.
+normal
+23.7% (50000)
+backdoor
+9.5% (20000)
+ddos
+9.5% (20000)
+dos
+9.5% (20000)
+injection
+9.5% (20000)
+password
+9.5% (20000)
+scanning
+9.5% (20000)
+ransomware
+9.5% (20000)
+xss
+9.5% (20000)
+Other
+0.5% (1043)
+N=211043
+Fig. 2. Relative frequencies of attack categories in TON IOT network data
+(donut view with total sample size at center).
+Figure 2 shows the distribution of attack categories. Vol-
+umetric attacks such as DoS and DDoS dominate, while
+categories such as injection, cross-site scripting, and Man-in-
+the-Middle are rare, resulting in a heavy-tail imbalance. From
+a deployment point of view, this imbalance may degrade the
+recall of minority classes under distribution changes. Mitiga-
+tion in our workflow includes stratified batching, class-aware
+metrics, and SHAP-guided pruning combined with knowledge
+distillation to preserve decision margins for rare attacks under
+constrained inference.
+The correlation analysis of high-variance numeric fea-
+tures further reveals redundancy. As shown in Fig. 3, traffic
+volume attributes (src_bytes, dst_bytes, src_pkts,
+dst_pkts) exhibit strong dependencies, whereas protocol-
+level indicators remain weakly correlated. This confirms that
+SHAP-based feature pruning can remove collinear attributes
+with little information loss, reducing latency and memory
+footprint without compromising detection of rare attacks.
+C. Experimental Results
+The evaluation integrates explainability-driven feature se-
+lection, confusion structure, and runtime benchmarks to assess
+the student architecture.
+As shown in Fig. 4, SHAP highlights the traffic volume
+and connection state attributes as dominant. Moreover, Fig. 5
+indicates that K = 128 recovers nearly all importance mass.
+This justifies pruning as a latency-aware strategy, although
+stability under non-IID traffic and noise remains an open
+consideration.
+Fig. 6 shows that both fp32 and int8 variants achieve iden-
+tical recall with no false negatives. Specificity reaches 0.9966
+and precision 0.9497 for fp32, with minor improvements for
+int8. Reported accuracy (≈0.997) and macro-F1 (≈0.987)
+confirm that quantization preserves performance. Errors con-
+centrate in false positives on benign flows, suggesting the need
+for calibration to mitigate alert fatigue in deployment.

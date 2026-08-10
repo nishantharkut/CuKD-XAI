@@ -1,0 +1,36 @@
+expect a decreased mimicry behavior of the student to benefit the student
+generalization ability during training, as it learns more intricate patterns
+from the diverse set of teachers.
+Effect of Optimization towards Student-Teacher Logits Match-
+ing on Fidelity. Question also comes on why some works thought a high-
+fidelity is beneficial, while others thought a low-fidelity is inevitable during
+training. Our intuition is that the researches devoted to optimizing towards
+increased student-teacher fidelity or mutual information do achieve the ulti-
+mate goal of improving the overall student performance, but in fact fail at
+enhancing the mimicry behavior during training. In this paper, we try to an-
+swer this question by delving into a logits matching KD case as in (Sun et al,
+2024). Specifically, we experiment with a z-score standardization method to
+mitigate the logits magnitudes and variance gap between teacher and student,
+which facilitates the student-teacher emulation procedure. Our hypothesis
+is that though such an optimization can relieve the logit shift and variance
+match problem, in reality its benefit lies in the student generalization rather
+than the fidelity improvement.
+These questions aim to dissect the underlying learning dynamics in KD,
+moving beyond traditional metrics and exploring how newer facets like data
+augmentation strength, attention map diversity, fidelity and mutual informa-
+tion interplay to influence the student’s learning and generalization abilities.
+Here, the data augmentation strength is measured by Affinity (Cubuk et al,
+2021), the offset in data distribution between the original one and the one
+after data augmentation as captured by the student model, which we will
+talk more later. By addressing these questions, this study seeks to provide a
+more comprehensive understanding of KD.
+4. Evaluation Metrics
+This section introduces evaluation metrics aimed at quantifying the learn-
+ing dynamics and thus explains the existing fidelity paradox of Knowledge
+Distillation (KD) with teacher ensemble training, particularly when subject
+to varied data augmentation strengths.
+4.1. IoU in Attention Maps
+To elucidate divergent attentional patterns within teacher ensembles, we
+examine their attention maps (Zhou et al, 2016) in ResNet (He et al, 2016) or
+Transformer (Vaswani et al, 2017) during the training and validation stage.
+8

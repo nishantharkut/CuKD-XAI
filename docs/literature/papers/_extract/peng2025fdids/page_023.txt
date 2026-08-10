@@ -1,0 +1,78 @@
+Sensors 2025, 25, 4309
+23 of 31
+To comprehensively evaluate the impact of feature selection on training efficiency,
+we further analyzed the changes in execution time. Table 12 provides the overall runtime
+of the IDS and the training time of the slowest client. Since the FL setup employed
+synchronous communication, the global model update in each communication round
+required waiting for all clients to complete their local training. Consequently, the client with
+the longest training time was used as the benchmark for comparison. In Table 12, “Client
+(s)” refers to the cumulative training time of the slowest client over 40 communication
+rounds. The results in Table 12 show a significant increase in runtime under the high-
+Non-IID scenario, primarily due to the extreme data imbalance, where certain clients had
+substantially larger datasets than others, thereby prolonging the overall training process.
+However, by introducing MI for feature selection, the dimensionality of the features was
+reduced, effectively lowering computational overhead and shortening training time. Under
+the low-Non-IID scenario, the total runtime of the IDS decreased from 1538.56 s to 1399.09 s,
+representing a 9.07% reduction. The training time of the slowest client was reduced from
+1191.37 s to 1111.95 s, a 6.67% decrease. Under the high-Non-IID scenario, the total runtime
+of the IDS decreased from 2247.25 s to 2104.78 s, a reduction of 6.34%, while the training
+time of the slowest client decreased from 1906.55 s to 1813.38 s, a 4.89% reduction. These
+results further validate that feature selection slightly enhances model performance while
+also optimizing training efficiency.
+In addition, the experimental results on N-BaIoT were recorded, as presented in
+Table 13. When θ = 1, incorporating feature selection led to a modest performance gain for
+FD-IDS. The accuracy increased from 87.68% to 87.70%, and the F1-score rose marginally
+from 83.51% to 83.52%, indicating minimal change. In terms of training efficiency, the
+total runtime decreased from 522.56 s to 493.30 s, while the training time of the slowest
+client was reduced from 381.47 s to 366.39 s. When θ = 0.1, the introduction of feature
+selection resulted in a moderate decline in detection performance, although it remained
+within an acceptable range. Specifically, the accuracy decreased from 84.17% to 83.81%, and
+the F1-score dropped from 79.35% to 78.24%. Meanwhile, the total runtime was reduced
+from 547.77 s to 513.66 s, and the training time of the slowest client decreased from 405.23 s
+to 383.45 s. These results indicate that feature selection also improved training efficiency on
+the N-BaIoT dataset without causing significant degradation in model performance.
+Table 13. Performance comparison of FD-IDS before and after MI on N-BaIoT.
+MI
+Accuracy
+Precision
+Recall
+F1
+Runtime (s)
+Client (s) *
+Low Non-IID (θ = 1)
+Before
+87.68
+82.75
+87.68
+83.51
+522.56
+381.47
+After
+87.70
+82.23
+87.70
+83.52
+493.30
+366.39
+High Non-IID (θ = 0.1)
+Before
+84.17
+78.32
+84.17
+79.35
+547.77
+405.23
+After
+83.81
+78.39
+83.81
+78.24
+513.66
+383.45
+* denotes the cumulative training time of the slowest client across 40 rounds.
+4.3.6. Computational and Communication Overhead Analysis
+To evaluate the deployability of the proposed system in real-world IoT scenarios,
+Table 14 presents a comprehensive analysis of resource utilization, covering critical indica-
+tors, such as parameter count, computational complexity, and communication overhead.
+Given that Edge-IIoT is more recent than N-BaIoT, it was selected as the test dataset in this
+study. The model was designed with approximately 22,095 trainable parameters, result-

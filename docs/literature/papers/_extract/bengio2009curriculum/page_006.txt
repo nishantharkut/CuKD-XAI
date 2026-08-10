@@ -1,0 +1,113 @@
+Curriculum Learning
+Input Window
+the cat sat on the
+word to score
+s(1) s(2) s(3) s(4) s(5)
+text
+indices
+Lookup Table
+LTw
+Tanh
+Linear
+Linear
+50
+250 (concatenation)
+Score
+100
+context
+Figure 4. Architecture of the deep neural network comput-
+ing the score of the next word given the previous ones.
+following ranking loss over sequences s sampled from
+a dataset S of valid English text windows:
+Cs =
+X
+w∈D
+1
+|D|Cs,w =
+X
+w∈D
+1
+|D| max(0, 1−f(s)+f(sw))
+(5)
+where D is the considered word vocabulary and S
+is the set of training word sequences.
+Note that a
+stochastic sample of the gradient with respect to Cs
+can be obtained by sampling a counter-example word
+w uniformly from D.
+For each word sequence s we
+then compute f(s) and f(sw) and the gradient of
+max(0, 1 −f(s) + f(sw)) with respect to parameters.
+6.1. Architecture
+The architecture of our language model (Figure 4)
+follows the work introduced by Bengio et al. (2001)
+and Schwenk and Gauvain (2002), and closely resem-
+bles the one used in Collobert and Weston (2008).
+Each word i ∈D is embedded into a d-dimensional
+space using a look-up table LTW (·): LTW (i) = Wi ,
+where W
+∈Rd×|D| is a matrix of parameters to
+be learnt, Wi ∈Rd is the ith column of W and
+d is the embedding dimension hyper-parameter.
+In
+the ﬁrst layer an input window {s1, s2, . . . sn} of n
+words in D is thus transformed into a series of vectors
+{Ws1, Ws2, . . . Wsn} by applying the look-up table to
+each of its words.
+The feature vectors obtained by the look-up table layer
+are then concatenated and fed to a classical linear
+layer.
+A non-linearity (like tanh(·)) follows and the
+score of the language model is ﬁnally obtained after
+applying another linear layer with one output.
+The cost (5) is minimized using stochastic gradient
+descent, by iteratively sampling pairs (s, w) composed
+of a window of text s from the training set S and a
+random word w, and performing a step in the direction
+of the gradient of Cs,w with respect to the parameters,
+including the matrix of embeddings W.
+Figure 5. Ranking language model trained with vs without
+curriculum on Wikipedia. “Error” is log of the rank of the
+next word (within 20k-word vocabulary). In its ﬁrst pass
+through Wikipedia, the curriculum-trained model skips ex-
+amples with words outside of 5k most frequent words (down
+to 270 million from 631 million), then skips examples out-
+side 10k most frequent words (doing 370 million updates),
+etc.
+The drop in rank occurs when the vocabulary size
+is increased, as the curriculum-trained model quickly gets
+better on the new words.
+6.2. Experiments
+We chose the training set S as all possible win-
+dows
+of
+text
+of
+size
+n
+=
+5
+from
+Wikipedia
+(http://en.wikipedia.org), obtaining 631 million
+windows processed as in Collobert and Weston (2008).
+We chose as a curriculum strategy to grow the vocabu-
+lary size: the ﬁrst pass over Wikipedia was performed
+using the 5, 000 most frequent words in the vocabu-
+lary, which was then increased by 5, 000 words at each
+subsequent pass through Wikipedia. At each pass, any
+window of text containing a word not in the consid-
+ered vocabulary was discarded.
+The training set is
+thus increased after each pass through Wikipedia. We
+compare against no curriculum, where the network
+is trained using the ﬁnal desired vocabulary size of
+20, 000. The evaluation criterion was the average of
+the log of the rank of the last word in each test win-
+dow, taken in a test set of 10, 000 windows of text not
+seen during the training, with words from the most
+20, 000 frequent ones (i.e.
+from the target distribu-
+tion). We chose the word embedding dimension to be
+d = 50, and the number of hidden units as 100.
+In Figure 5, we observe that the log rank on the target

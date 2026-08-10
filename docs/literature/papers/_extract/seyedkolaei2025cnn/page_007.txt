@@ -1,0 +1,40 @@
+Future Internet 2025, 17, 230
+7 of 21
+Figure 3. Convolutional neural network architecture [19].
+While CNNs are commonly associated with image processing, they are also effective
+for non-visual data, such as communication traffic. Their structure enables the learning
+of temporal–spatial dependencies within sequences of traffic features. Pooling operations
+further reduce noise and redundancy, focusing the model’s attention on key traffic char-
+acteristics. This ability to generalize is essential for handling previously unseen attacks.
+Furthermore, CNNs’ inherent support for multiclass classification makes them valuable for
+identifying various attack types or anomalies in traffic patterns.
+The overall architecture of the proposed method is shown in Figure 4. The operation
+of the proposed method is organized as follows:
+1.
+Preprocessing: Data are initially preprocessed to improve their quality and prepare
+them for analysis.
+2.
+Data splitting: The preprocessed data are divided into two subsets: a training set for
+model training and a testing set for performance evaluation.
+3.
+Feature extraction: The training data are input into the CNN to extract key features
+from the dataset.
+4.
+Evaluation: Finally, the proposed model is evaluated with the test set to measure its
+effectiveness in detecting and classifying attacks within IoT and IIoT networks.
+Preprocessing includes removing malformed or inconsistent entries (1.2% of the data),
+label encoding categorical attributes, and normalizing numerical values to the [0, 1] range
+using min–max scaling. After this, the training set is used for model learning, while the
+testing set remains unseen during training for unbiased performance assessment. Real-time
+feature extraction is achieved using optimized TensorFlow Lite libraries, enabling efficient
+execution on edge devices (e.g., Raspberry Pi).
+The CNN model is trained with the Adam optimizer (learning rate = 0.001), using
+sparse categorical cross-entropy loss over 10 epochs with a batch size of 32. An early
+stopping mechanism monitors validation loss to avoid overfitting. Dropout layers after
+pooling and dense stages further support generalization.
+The model architecture, shown in Figure 4, is designed to classify 15 attack types using
+63 normalized features from the DNN-EdgeIIoT dataset [7]. The architecture starts with
+two Conv1D layers (32 and 64 filters, kernel size 3), followed by max pooling (pool size
+2), a fully connected layer (128 neurons, ReLU), and a softmax output layer for multiclass
+classification. The design balances accuracy and computational efficiency, consistent with
+prior CNN-based intrusion detection frameworks [11,18].

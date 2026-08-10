@@ -1,0 +1,20 @@
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth,height=45mm,ybar,bar width=7mm,
+  symbolic x coords={Strict,Literature-oriented},xtick=data,
+  ymin=0.60,ymax=0.92,ylabel={Macro-F1},
+  legend style={font=\scriptsize,at={(0.5,-0.27)},anchor=north,legend columns=2},
+  tick label style={font=\scriptsize},label style={font=\scriptsize},
+  ymajorgrids=true,major grid style={gray!25}
+]
+\addplot[fill=black!35] coordinates {(Strict,0.872913) (Literature-oriented,0.889193)};
+\addplot[fill=red!50] coordinates {(Strict,0.711114) (Literature-oriented,0.824382)};
+\legend{RF teacher,Best compact student}
+\end{axis}
+\end{tikzpicture}
+\caption{Protocol sensitivity on Edge-IIoTset. The protocols use different source files and retained features, so the gap is not attributed to training alone.}
+\label{fig:edge-protocol}
+\end{figure}

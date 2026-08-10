@@ -1,0 +1,56 @@
+{
+  "id": "banbury2021tinyml",
+  "n_pages": 8,
+  "title_lines": [
+    "BENCHMARKING TINYML SYSTEMS: CHALLENGES AND DIRECTION",
+    "Colby R. Banbury 1 Vijay Janapa Reddi 1 Max Lam 1 William Fu 1 Amin Fazel 2 Jeremy Holleman 3 4",
+    "Xinyuan Huang 5 Robert Hurtado 6 David Kanter 7 Anton Lokhmotov 8 David Patterson 9 10 Danilo Pau 11",
+    "Jae-sun Seo 12 Jeff Sieracki 13 Urmish Thakker 14 Marian Verhelst 15 16 Poonam Yadav 17",
+    "ABSTRACT",
+    "Recent advancements in ultra-low-power machine learning (TinyML) hardware promises to unlock an entirely new",
+    "class of smart applications. However, continued progress is limited by the lack of a widely accepted benchmark",
+    "for these systems. Benchmarking allows us to measure and thereby systematically compare, evaluate, and improve",
+    "the performance of systems and is therefore fundamental to a \ufb01eld reaching maturity. In this position paper, we",
+    "present the current landscape of TinyML and discuss the challenges and direction towards developing a fair and",
+    "useful hardware benchmark for TinyML workloads. Furthermore, we present our four benchmarks and discuss",
+    "our selection methodology. Our viewpoints re\ufb02ect the collective thoughts of the TinyMLPerf working group that",
+    "is comprised of over 30 organizations.",
+    "INTRODUCTION",
+    "Machine learning (ML) inference on the edge is an increas-",
+    "ingly attractive prospect due to its potential for increasing",
+    "energy ef\ufb01ciency (Fedorov et al., 2019), privacy, responsive-",
+    "ness (Zhang et al., 2017), and autonomy of edge devices.",
+    "Thus far, the \ufb01eld edge ML has predominately focused on",
+    "mobile inference which has led to numerous advancements",
+    "in machine learning models such as exploiting pruning, spar-",
+    "sity, and quantization. But in recent years, there have major",
+    "been strides in expanding the scope of edge systems. In-",
+    "terest is brewing in both academia (Fedorov et al., 2019;",
+    "Zhang et al., 2017) and industry (Flamand et al., 2018; War-"
+  ],
+  "abstract": "Recent advancements in ultra-low-power machine learning (TinyML) hardware promises to unlock an entirely new class of smart applications. However, continued progress is limited by the lack of a widely accepted benchmark for these systems. Benchmarking allows us to measure and thereby systematically compare, evaluate, and improve the performance of systems and is therefore fundamental to a \ufb01eld reaching maturity. In this position paper, we present the current landscape of TinyML and discuss the challenges and direction towards developing a fair and useful hardware benchmark for TinyML workloads. Furthermore, we present our four benchmarks and discuss our selection methodology. Our viewpoints re\ufb02ect the collective thoughts of the TinyMLPerf working group that is comprised of over 30 organizations.",
+  "resultish_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "table_snippets": [
+    "type in Table 3, which in the context of TinyML systems\nplays a crucial role in the use case de\ufb01nition.\nAudio wake words is already a fairly ubiquitous example of\nalways-on ML inference. Audio wake words is generally a\nspeech classi\ufb01cation problem that achieves very low power\ninference by limiting the label space, often to two labels:\n\u201cwake word\u201d and \u201cnot wake word\u201d (Zhang et al., 2017).\nAnomaly detection and predictive maintenance are com-\nmonly deployed on MCUs in factory settings where audio,\nmotor bearing, or IMU data can be used to detect faults in\nproducts or equipment.\nOther deployed TinyML applications, like activity recog-\nnition from IMU data (Hassan et al., 2018), rely on low\nfeature dimensionality to \ufb01t within the tight constraints of\nthe platforms. Some use cases have been proven viable, but\nhave yet to reach end users because they are too new, like\nvisual wake words (Chowdh",
+    "to TinyML usecases. Table 3 breaks them down by the\ntype of data. Despite the availability of these datasets, the\nmajority of deployed TinyML models are trained on much\nlarger, proprietary datasets. The open-source datasets that\nare competitively large are not TinyML speci\ufb01c. The lack\nof large, TinyML focused, open-source datasets slows the\nprogress of academic research and limits the ability of a\nbenchmark to represent real workloads accurately.\n2.3\nModels\nTable 3 lists common model types for TinyML use cases.\nAlthough neural networks (NN) are a dominant force in\ntraditional ML, it is common to use non-NN based solutions\nlike decision trees (Kumar et al., 2017), for some TinyML\nuse cases, due to their low compute and memory require-\nments.\nMachine learning on MCU-class devices has only recently\nbecome feasible; therefore, the community has yet to pro-\nduce models that have become widely",
+    "Table 3 lists common model types for TinyML use cases.\nAlthough neural networks (NN) are a dominant force in\ntraditional ML, it is common to use non-NN based solutions\nlike decision trees (Kumar et al., 2017), for some TinyML\nuse cases, due to their low compute and memory require-\nments.\nMachine learning on MCU-class devices has only recently\nbecome feasible; therefore, the community has yet to pro-\nduce models that have become widely accepted as Mo-\nbileNets have become for mobile devices. This makes the\ntask of selecting representative models challenging. How-\never, immaturity also brings opportunity as our decisions\ncan help direct future progress. Selecting a subset of the\ncurrently available models, outlining the rules for quality\nversus accuracy trade-offs, and prescribing a measurement\nmethodology that can be faithfully reproduced will encour-\nage the community to develop new mode",
+    "Table 1. Survey of TinyML Use Cases, Models, and Datasets\nINPUT TYPE\nUSE CASES\nMODEL TYPES\nDATASETS\nAUDIO\nAUDIO WAKE WORDS\nCONTEXT RECOGNITION\nCONTROL WORDS\nKEYWORD DETECTION\nDNN\nCNN\nRNN\nLSTM\nSPEECH COMMANDS (WARDEN, 2018A)\nAUDIOSET (GEMMEKE ET AL., 2017)\nEXTRASENSORY (VAIZMAN ET AL., 2017)\nIMAGE\nVISUAL WAKE WORDS\nOBJECT DETECTION\nIMAGE CLASSIFICATION\nGESTURE RECOGNITION\nOBJECT COUNTING\nTEXT RECOGNITION\nDNN\nCNN\nSVM\nDECISION TREES\nKNN\nLINEAR\nVISUAL WAKE WORDS (CHOWDHERY ET AL., 2019)\nCIFAR10 (KRIZHEVSKY ET AL., 2009B)\nMNIST (LECUN & CORTES, 2010)\nIMAGENET (DENG ET AL., 2009)\nDVS128 GESTURE (AMIR ET AL., 2017)\nPHYSIOLOGICAL /\nBEHAVIORAL\nMETRICS\nSEGMENTATION\nFORECASTING\nACTIVITY DETECTION\nDNN\nDECISION TREE\nSVM\nLINEAR\nPHYSIONET (GOLDBERGER ET AL., 2000)\nHAR (CRAMARIUC, 2019)\nDSA (ALTUN ET AL., 2010)\nOPPORTUNITY (ROGGEN ET AL., 2010)\nUCI EMG (LOBOV ET AL., 2018)\nINDUSTRY\nTELEMETRY\nSENSING (LI",
+    "Table 2. Existing Benchmarks\nBENCHMARK\nML?\nPOWER?\nTINY?\nCOREMARK\n\u00d7\n\u221a\n\u221a\nMLMARK\n\u221a\n\u00d7\n\u00d7\nMLPERF INFERENCE\n\u221a\n\u221a\n\u00d7\nTINYML REQUIREMENTS\n\u221a\n\u221a\n\u221a\nA benchmark suite must balance optimality with portabil-\nity, and comparibility with representativeness. A TinyML\nbenchmark should support many options for model deploy-\nment but the impact of that choice on the results must be\ncarefully evaluated.\n5\nRELATED WORK\nThere are a number of ML related hardware benchmarks,\nhowever, none that accurately represent the performance\nof TinyML workloads on tiny hardware. Table 2 shows a\nsampling of the widely accepted industry benchmarks that\nare directly applicable to the discussion on TinyML systems.\nEEMBC CoreMark (Gal-On & Levy) has become the stan-\ndard performance benchmark for MCU-class devices due\nto its ease of implementation and use of real algorithms.\nYet, CoreMark does not pro\ufb01le full programs, nor does it\na",
+    "of TinyML workloads on tiny hardware. Table 2 shows a\nsampling of the widely accepted industry benchmarks that\nare directly applicable to the discussion on TinyML systems.\nEEMBC CoreMark (Gal-On & Levy) has become the stan-\ndard performance benchmark for MCU-class devices due\nto its ease of implementation and use of real algorithms.\nYet, CoreMark does not pro\ufb01le full programs, nor does it\naccurately represent machine learning inference workloads.\nEEMBC MLMark (Torelli & Bangale) addresses these is-\nsues by using actual ML inference workloads. However, the\nsupported models are far too large for MCU-class devices\nand are not representative of TinyML workloads. They re-\nquire far too much memory (GBs) and have signi\ufb01cant run\ntimes. Additionally, while CoreMark supports power mea-\nsurements with ULPMark-CM (EEMBC), MLMark does\nnot, which is critical for a TinyML benchmark.\nMLPerf, a communit",
+    "As Table 2 summarizes, there is a clear and distinct need for\na TinyML benchmark that caters to the unique needs of ML\nworkloads, makes power a \ufb01rst-class citizen and prescribes\na methodology that suits TinyML.\n6\nBENCHMARKS\nTo overcome theses challenges, we adopt a set of principles\nfor the development of a robust TinyML benchmarking suite\nand select a set of 4 benchmarks.\n6.1\nOpen and Closed Divisions\nAs previously stated, TinyML is a diverse \ufb01eld, therefore\nnot all systems can be accommodated under strict rules,\nhowever, without strict rules, direct comparison of the hard-\nware becomes more dif\ufb01cult. To address this issue, we\nadopt MLPerf\u2019s open and closed structure. More traditional\nTinyML solutions can submit to the closed division where\nsubmissions must use a model that is considered equivalent\nto the reference model. TinyML systems that fall outside\nthe bounds of the \u201dclosed\u201d bench",
+    "in Table 3. The datasets help specify the use cases, are used\nto train the reference models, and are sampled to create the\ntests sets used during the measurement on device. Further-\n\n\n\n===== PAGE 6 =====\n\nBenchmarking TinyML Systems\nTable 3. TinyMLPerf Benchmarking Suite\nUSE CASE\nDATASETS\nMODEL\nAUDIO WAKE WORDS\nSPEECH COMMANDS (WARDEN, 2018A)\nDS-CNN (ZHANG ET AL., 2017)\nVISUAL WAKE\nWORDS\nVISUAL WAKE WORDS DATASET\n(CHOWDHERY ET AL., 2019)\nDS-CNN (TFLM-PERSON-DETECTION)\nIMAGE\nCLASSIFICATION\nCIFAR10(KRIZHEVSKY ET AL., 2009A)\nRESNET 8 (HE ET AL., 2016)\nANOMALY\nDETECTION\nTOYADMOS (TOY CAR)(KOIZUMI ET AL.,\n2019)\nDEEP AUTOENCODER (KOIZUMI ET AL.,\n2020)\nmore, the datasets can be used to train a new or modi\ufb01ed\nmodel in the open division. We have selected datasets that\nare open, well known, and relevant to industry use cases.\n6.4\nModel Selection\nThe group has selected four reference models. These "
+  ],
+  "metric_lines": [
+    "1-16b precision recon\ufb01gurable digital in-memory com-"
+  ],
+  "pass": 1,
+  "source": "pymupdf_text_extract"
+}

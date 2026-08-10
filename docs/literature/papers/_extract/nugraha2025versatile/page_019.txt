@@ -1,0 +1,50 @@
+Annals of Telecommunications (2025) 80:1095–1120
+1113
+Fig. 10 LIME local explanation results for HTTP Flood and Slowloris attacks
+features needed to detect slow DDoS attacks. Nonetheless,
+minor discrepancies were observed in the ranking and mag-
+nitude of other features, e.g., ‘syn_count’ and ‘DNS’,
+which appeared more prominently in LIME compared to
+SHAP. These variations might reﬂect differences in how
+each method prioritizes subtle feature contributions in low-
+intensity attack trafﬁc scenarios like Slowloris attacks.
+These differences indicate areas where further analysis or
+a feature reassessment might be required to enhance the inter-
+pretability and ensure the robustness of the detection model.
+This might involve analyzing the feature impact for differ-
+ent samples, exploring feature engineering techniques, and
+adjusting the model hyperparameters. For instance, features
+that show a consistent importance for attack detection in both
+methodscouldbefurthervalidatedbyusingdifferentsamples
+that are classiﬁed as malicious (by XGBoost) to assess their
+generalizability. Similarly, discrepancies between SHAP and
+LIME could indicate opportunities to improve feature selec-
+tion or to reﬁne the hyperparameters in the training process.
+With this iterative process, it is ensured that the most
+signiﬁcant features are retained, enhancing the overall IDS
+detection performance and interpretability. Furthermore,
+incorporating additional consistency checks for different
+attack types and networking environments, such as IoT or
+5G, could further solidify the framework’s reliability. This
+approach not only strengthens trust in the IDS’s decision-
+making but also supports its adaptability to evolving cyber
+threats.
+4.2.4 Efﬁciency of the local explanations
+In this subsection, we evaluate the efﬁciency of SHAP and
+LIME local explanations by comparing their execution times
+for two scenarios: using all features and using the reduced
+feature set obtained through the ﬁrst stage of our frame-
+work. All experiments were conducted on a workstation
+with an AMD Ryzen 7 3800X 8-core CPU, 32 GB RAM,
+and an NVIDIA RTX 3060 GPU (12 GB VRAM). For
+LIME, we used a single CPU core with 5000 perturba-
+tions per instance to provide consistent timing comparisons.
+While the reported measurements reﬂect this speciﬁc hard-
+wareconﬁguration,theframework’sdesign—particularlythe
+dimensionality reduction stage and the use of a lightweight
+XGBoost model—ensures that detection accuracy is pre-
+served even on lower-speciﬁcation systems. The primary
+difference in such environments would be in explanation gen-
+eration time, especially for LIME, which is more sensitive to
+CPU performance than SHAP’s TreeExplainer.
+123

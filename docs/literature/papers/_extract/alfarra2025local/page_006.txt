@@ -1,0 +1,135 @@
+698
+ECTI TRANSACTIONS ON COMPUTER AND INFORMATION TECHNOLOGY VOL.19, NO.4 October 2025
+• Energy: mJ per inference; network lifetime T50
+(time until 50 % nodes die).
+• QoS: Average latency, PDR.
+• Statistical tests: paired Wilcoxon versus base-
+lines (signiﬁcance α = 0.05); 95 % CI via boot-
+strap (1 k resamples).
+3.7 Baselines
+• Signature-based IDS (Snort-WSN rules).
+• Na¨ıve Bayes + Random Forest two-layer ﬁlter.
+• Stand-alone GRU IDS (no rule ﬁlter, no quanti-
+zation).
+3.8 Prototype Deployment
+• Hardware: LoPy4 (sensor), Raspberry Pi Zero
+W (gateway).
+• Firmware:
+MicroPython 1.22 + CMSIS-DSP
+keys for rule execution.
+• Measurements: INA219 inline power monitor @
+1 kHz; Wi-Fi sniﬀer logs ground-truth.
+• Field test: 72 h rooftop deployment streaming
+to Things Board.
+3.9 Prototype Deployment
+• Aggregate metrics into spider plots (accuracy vs.
+energy vs. latency).
+• Ablation
+study:
+disable
+each
+optimization
+(quantization, pruning, rule ﬁlter) to isolate
+gains.
+• Provide open-source code and full NS-3 conﬁg
+via GitHub for reproducibility.
+3.10 Figure 2
+The ﬂow-chart illustrates (top row) the oﬄine
+pipeline from dataset curation to quantized model,
+and (bottom row) the simulation–to–deployment loop
+including attack injection and federated updates.
+4. EXPERIMENTAL SETUP (LAPTOP-
+BASED SIMULATION)
+This section details the complete environment in
+which all experiments were executed, emphasizing
+that every run was performed locally on a single Win-
+dows laptop using the ns-3 v3.39 simulator. Table 3.
+summarizes the hardware and software stack; subse-
+quent subsections describe datasets, topology, attack
+scripts, IDS parameters and evaluation metrics.
+4.1 Datasets
+WSN-DS (374 661 packets, 19 features, 4 DoS
+classes) was used as the benchmark corpus.
+The
+raw CSV was windowed into 5-packet ﬂows (5
+× 18 tensor) yielding 308 598 labelled windows.
+NS-3 Synthetic Augmentation to balance minority
+classes, an additional 15 000 packets per attack type
+Table 3:
+Host hardware / software stack used for
+all simulations.
+Item
+Speciﬁcation
+Host machine
+Dell XPS 13 9310
+Intel Core i7-1165G7 (4C/8T, 2.8GHz)
+16 GB LPDDR4x 4267 MHz
+Windows 10 Pro 22H2 (64-bit)
+Compiler
+Visual Studio 2022 (Build Tools)
+tool-chain
++ Ninja 1.11
+x64 Native Tools prompt
+Python (for
+Python 3.10.12 (64-bit) −−installed in
+preprocessing)
+D:\mepy\python.exe
+Network
+ns-3 v3.39 (oﬃcial tarball)
+simulator
+built with cmake -G Ninja -
+DCMAKE BUILD TYPE
+=Release -DPython3 EXECUTABLE
+=D:/mepy/python.exe
+Run-time
+One 1 800 s scenario →
+footprint
+< 8 min wall-clock, < 4 GB RAM
+were generated using NS-3 traﬃc generators (black-
+hole, ﬂooding, grayhole) and merged with WSN-DS.
+Train/Val/Test Split Stratiﬁed 70 / 15 / 15 % on win-
+dows, resulting in 262 308 train, 23 145 validation and
+23 145 test samples.
+4.2 Network Topology and Simulation Envi-
+ronment
+All custom logic (rule ﬁlter, TFLite gateway wrap-
+per, attack applications) was implemented as C++
+scratch modules (scratch/ids scenario.cc) and stati-
+cally linked into the same release build.
+Table 4.
+shows that the simulation is detailed enough to cap-
+ture energy and traﬃc dynamics relevant to intrusion
+detection, yet lightweight enough to run entirely on
+an oﬀ-the-shelf laptop underscoring the practicality
+and reproducibility of the study.
+Table 4:
+ns-3 Simulation Conﬁguration.
+Parameter
+Value
+Simulator
+ns-3 v3.39, Release build, Ninja
+backend, executed on laptop
+Nodes
+50 sensor nodes + 1 edge gateway
+Radio
+LoRa, SF 7, 125 kHz, TX = 8 mA,
+PHY
+RX = 7 mA
+MAC /
+LEACH clustering; TDMA slot = 1 s
+Routing
+Area
+Uniform disc, radius = 100 m
+Traﬃc
+Periodic sensing 5 pkt min−1 + event
+bursts
+Energy
+LiIonEnergySource 2 500 mAh;
+model
+CPU 48 MHz @ 5 mA, sleep 12 µA
+Simulation
+1 800 s
+time
+Seeds
+10 independent seeds (−−RngSeed
+1. . .10)

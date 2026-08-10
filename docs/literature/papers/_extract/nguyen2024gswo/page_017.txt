@@ -1,0 +1,73 @@
+Sensors 2024, 24, 3339
+17 of 26
+5.1.2. CICIDS2017 Dataset
+The CICIDS-2017 dataset, sourced from the ISCX Consortium, has a prominent position
+in the landscape of WSN research, particularly in the domain of network intrusion detection.
+This dataset is a valuable resource for investigating and understanding network security
+challenges in real-world contexts. With its systematic arrangement, the dataset encompasses
+eight discrete traffic monitoring sessions, each presented in a comma-separated value (CSV)
+format. The categorization of network traffic involves the classification into “Benign” for
+regular activities and “Attacks” for a diverse array of intrusion attempts. Offering a rich
+array of 14 different attack types, including sophisticated scenarios such as Infiltration,
+Bot attacks, and DDoS, the dataset enables researchers to explore complex attack patterns
+reflective of contemporary network environments.
+According to CICIDS-2017, datasets characterized by a notable class imbalance tend
+to exhibit diminished detection accuracy and increased false alarm rates. The approach
+advocated by Karimi et al. [50] and Panigrahi and Borah [51] proposed novel labeling
+methodologies for attack traffic, as shown in Table 4. Additionally, because many instances
+of normal traffic were included in this dataset, we extracted only 20% of the normal traffic
+data for training and testing. The numbers of each class are also shown in Table 4.
+Table 4. Data distribution of relabeled attack.
+New Labels
+Old Labels
+Distribution
+Percentage
+Normal
+Benign
+325,681
+45.49
+Bot
+Bot
+1943
+0.27
+Brute Force
+FTP-Patator, SSH-Patator
+8551
+1.19
+DoS/DdoS
+DDoS, DoS Hulk, Heartbleed, Slow, DoS slowloris, GoldenEye, DoS, httptest
+320,269
+44.74
+Infiltration
+Infiltration
+36
+0.005
+Portscan
+Portscan
+57,305
+8.01
+Web Attack
+Web Attack-Sql Injection, Web Attack-XSS, Web Attack-Brute Force
+2118
+Moreover, including advanced features tailored to detect specific attack types en-
+hances their utility in modeling and analyzing the intricacies of network intrusions. Thus,
+the CICIDS-2017 dataset is a crucial tool for conducting in-depth research and evaluating
+the intrusion detection model [52]. This dataset was also separated into two sets for training
+and testing, the distribution of which is presented in Table 3.
+5.1.3. WSN-DS Dataset
+A Wireless Sensor Network Dataset (WSN-DS) [21] facilitates the application of diverse
+intelligent and data mining methodologies to enhance the detection and classification
+of Denial of Service (DoS) attacks. This leads to sensor nodes acquiring proficiency in
+discerning normal behaviors and promptly identifying the signatures of attackers, thereby
+enabling timely and well-informed decision-making. The dataset employed the LEACH
+routing protocol to extract 23 attributes crucial for evaluating the status of each node within
+the network. It is noteworthy that, in the CSV files, certain attributes such as RSSI, max
+distance to CH, the average distance to CH, and current energy are removed.
+Within this dataset, researchers have specifically delineated four types of DoS attacks
+using the LEACH protocol. These encompass Blackhole, Grayhole, Flooding, and Schedul-
+ing (or TDMA) attacks. Notably, the dataset includes a category for “Normal” nodes,
+serving as a reference for non-attacker nodes. This initiative ensures that the dataset com-
+prehensively covers both malicious and benign network behaviors, thereby fostering the
+development and evaluation of robust intrusion detection mechanisms tailored to WSNs.
+The distributions of 70% of the dataset for training and 30% for testing are presented in
+Table 3.

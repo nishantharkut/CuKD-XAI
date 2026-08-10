@@ -1,0 +1,751 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage[hidelinks]{hyperref}
+
+% IEEEtran-friendly float density
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\setcounter{dbltopnumber}{2}
+
+% Custom commands for consistency
+\newcommand{\method}{TinyRF-KD}
+\newcommand{\mf}{macro-F1}
+\newcommand{\dataset}{WSN-DS}
+\newcommand{\ums}{U-MS}
+\newcommand{\udc}{U-DC}
+\newcommand{\KBF}[1]{\KB{#1}}
+
+\title{\method{}: Protocol-Sensitive Knowledge Distillation of Ultra-Small Neural Detectors for Wireless Sensor Network Intrusion Detection with Dual-MCU Fixed-Point Validation}
+
+\author{Nishant Harkut and Mahendra Shukla%
+\thanks{N.~Harkut and M.~Shukla are with the Atal Bihari Vajpayee Indian Institute of Information Technology and Management (ABV-IIITM), Gwalior 474015, India (e-mail: img\_2023040@iiitm.ac.in, mahendra@iiitm.ac.in).}}
+
+\markboth{TinyRF-KD: Protocol-Sensitive RF Distillation for WSN Intrusion Detection}%
+{Harkut and Shukla: TinyRF-KD for WSN Intrusion Detection}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Wireless sensor network (WSN) intrusion detection under severe class imbalance demands detectors that fit kilobyte-scale memory and integer-arithmetic budgets while retaining accuracy on minority attack classes.
+This paper presents \method{} (\emph{tiny RF knowledge distillation}), a controlled study of ultra-small multilayer-perceptron students distilled from a calibrated random-forest teacher on the \dataset{} corpus.
+Under train-only scaling with ten seeds, RF-KD Student~A achieves macro-F1 $0.9203 \pm 0.0065$ at $1{,}189$ parameters ($4.64$\,KB) and Student~B achieves $0.9392 \pm 0.0129$ at $3{,}397$ parameters ($13.27$\,KB), representing $58.8\times$ and $20.6\times$ compression relative to the neural teacher.
+
+A critical finding is that KD benefit is protocol-contingent: seed-paired RF-KD minus scratch yields $\Delta = +0.0094$ ($p = 0.048$) under random-row splits but only $+0.0002$ ($p = 0.95$) under feature-group splits, and per-route RNG isolation independently confirms the collapse ($\Delta = +0.0007$ for A).
+Per-class analysis reveals minority-class tradeoffs: Student~B RF-KD loses $0.023$ Blackhole F1 relative to scratch while gaining Flooding and TDMA.
+
+The fixed-point inference core cross-compiles for MSP430F1611-class motes in $2{,}842$\,B Flash.
+Full-test hardware-in-the-loop ($N = 56{,}200$) on ESP32-C3 and Arduino UNO~R4 WiFi reproduces fixed-point references with agreement $1.0$ on all four student--board pairs, with float-to-fixed macro-F1 reduction $\approx 0.024$--$0.027$ and latencies from $116.5$\,$\mu$s to $791.4$\,$\mu$s.
+
+Negative results are reported with the same rigor: global SHAP rank agreement is low and non-significant ($\rho \approx 0.24$, $p > 0.35$); co-distillation underperforms RF-KD by $0.0046$--$0.0069$ macro-F1; curriculum-extension collapses at seed-$5678$ under multi-route training.
+Instrumented radio motes were unavailable, so commercial MCUs proxy the constrained on-node class via offline feature replay.
+These findings support KB-scale executable neural detectors when evaluation protocols, split constructions, and negative results are reported alongside compression ratios.
+\end{abstract}
+
+\begin{IEEEkeywords}
+wireless sensor networks, intrusion detection, knowledge distillation, model compression, TinyML, fixed-point inference, hardware-in-the-loop, SHAP, Edge-IIoTset
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:intro}
+\IEEEPARstart{T}{he} proliferation of wireless sensor networks (WSNs) for environmental monitoring, industrial sensing, and infrastructure surveillance has elevated on-node security analysis to a first-order systems problem~\cite{ghadi2024review}.
+A practical detector must identify minority routing and traffic attacks from tabular features while its parameters, intermediate activations, and arithmetic fit devices with limited flash, RAM, and energy~\cite{banbury2021benchmarking,sze2017efficient}.
+On the public \dataset{} corpus~\cite{almomani2016wsnds}, optimized ensembles and deep models report very high software accuracy~\cite{talukder2024mlstl,talukder2025hybrid,birahim2025pso,pandey2025tabu,nguyen2024gswo}.
+These results establish a predictive ceiling but leave open a critical question: can a \emph{kilobyte-scale integer student} preserve task utility under an auditable training protocol and full-test hardware replay?
+
+Knowledge distillation transfers soft targets from a teacher to a compact student~\cite{hinton2015distilling}.
+Stanton \emph{et al.} demonstrated that student--teacher fidelity and generalization need not move together~\cite{stanton2021kd}, framing KD as an empirical protocol question rather than a guaranteed improvement.
+Recent intrusion detection system (IDS) studies apply KD to reduce neural size on classical and IoT traffic benchmarks~\cite{yang2023selfkd,wisanwanichthan2025kd,yagiz2025lens,benaddi2025lightweight,peng2025fdids,hossain2025federatedkd}.
+In parallel, hardware-aware IDS targets gateway-class platforms such as Raspberry~Pi~\cite{diab2025hardware}, hybrid designs retain deep models at a gateway after on-node filtering~\cite{alfarra2025energy}, and tree detectors have been embedded on ESP32-class devices for smart-home traffic~\cite{javed2024thermostat}.
+
+What remains under-specified is the joint case that matters for WSN routing attacks: RF-to-tiny neural compression on \dataset{}, under a train-only scaler and leakage-aware protocol ladder, with two evaluation units for multi-seed tables versus deploy export, two-board full-test integer agreement, and a quantitative post-KD explanation-rank diagnostic.
+Explanation methods can disagree even when predictive metrics appear strong~\cite{krishna2022disagreement,adebayo2018sanity,lundberg2017shap}.
+A responsible compression study must therefore report when distillation helps, when it does not, when integer conversion costs utility, and when global explanation ranks fail to transfer.
+
+This paper studies that joint case under the name \method{}.
+Curriculum ordering and co-distillation appear as controlled routes, not as guaranteed superiority claims.
+Explainability enters as a measurement of global feature-rank transfer from RF TreeExplainer to student DeepExplainer, not as a claim that distillation preserves RF rankings.
+We do not claim first KD for IDS, first MCU IDS, SHAP rank preservation, co-distillation superiority under train-only scaling, or that deploy seed-$42$ macro-F1 is a multi-seed table cell.
+
+The main contributions of this paper are as follows:
+\begin{enumerate}
+\item \textbf{Primary multi-seed compression (\ums{}):} Fixed-capacity Students~A/B under train-only scaler and ten seeds, with RF-KD as the principal distilled route, reported against scratch, MLP-KD, co-distillation, curriculum, and control routes. Student~A achieves $58.8\times$ compression (4.64\,KB) with macro-F1 $0.9203 \pm 0.0065$; Student~B achieves $20.6\times$ compression (13.27\,KB) with macro-F1 $0.9392 \pm 0.0129$.
+
+\item \textbf{Protocol sensitivity of KD benefit:} Seed-paired KD-minus-scratch contrasts random-row train-only against feature-group disjoint splits, revealing that KD gain for Student~A is significant ($p = 0.048$) under random-row but vanishes ($p = 0.95$) under feature-group; per-route RNG isolation independently confirms the collapse ($\Delta = +0.0007$ for A, $+0.0005$ for B), with per-class costs showing minority-class tradeoffs under the stricter protocol.
+
+\item \textbf{Dual evaluation protocols:} Multi-seed tables (\ums{}) versus deploy protocol (\udc{}) for hardware export, demonstrating that the deploy seed-$42$ macro-F1 $0.9485$ is not interchangeable with multi-seed results.
+
+\item \textbf{Deployment feasibility and dual-MCU full-test HIL:} Fixed-point inference core cross-compiles for MSP430F1611-class WSN motes in $2{,}842$\,B Flash with ${\sim}248$\,B stack, and full-test integer agreement on ESP32-C3 and Arduino UNO~R4 WiFi ($N = 56{,}200$) is $1.0$ on all four student--board pairs, with measured float-to-fixed utility cost $0.024$--$0.027$ macro-F1 and board latencies from $116.5$\,$\mu$s to $791.4$\,$\mu$s.
+
+\item \textbf{Negative and boundary results:} Global SHAP rank transfer is low and non-significant ($\rho \approx 0.24$, $p > 0.35$); co-distillation underperforms RF-KD by $0.0046$--$0.0069$ macro-F1; curriculum-extension collapses at seed-$5678$ under multi-route training but recovers under isolated seeding; Edge-IIoTset group-aware evaluation shows lower absolute scores than standard random splits with identified $\approx 17\%$ test-row leakage.
+\end{enumerate}
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:related} reviews related work and positions our contributions.
+Section~\ref{sec:system} defines the system model, evaluation boundary, and hardware constraints.
+Section~\ref{sec:method} presents the \method{} framework, training routes, and evaluation units.
+Section~\ref{sec:protocols} details experimental protocols and dataset characteristics.
+Section~\ref{sec:results} reports comprehensive results including negative findings.
+Section~\ref{sec:discussion} discusses implications, limitations, and positioning against prior systems.
+Section~\ref{sec:conclusion} concludes with future directions.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{WSN-DS and Software Detectors}
+Almomani \emph{et al.} introduced \dataset{} from NS-2/LEACH simulations with five traffic classes: Blackhole, Grayhole, Flooding, TDMA, and Normal~\cite{almomani2016wsnds}.
+Subsequent work emphasizes high software accuracy through resampling, feature selection, and ensemble methods~\cite{talukder2024mlstl,talukder2025hybrid,nguyen2024gswo,alqahtani2019gxgboost,birahim2025pso,pandey2025tabu,xiao2025ensemble,salmi2022cnnlstm}.
+These papers establish a predictive ceiling against which ultra-small students should be judged but leave open whether kilobyte-scale neural students, under train-only scaling and two-board integer HIL, remain useful under explicit protocol controls.
+Our work uses \dataset{} as a comparable public benchmark and explicitly reports the train-only scaler and fixed split protocol.
+
+\subsection{Knowledge Distillation for IDS Compression}
+Hinton \emph{et al.} formulated temperature-scaled soft-label distillation for model compression~\cite{hinton2015distilling}.
+Stanton \emph{et al.} showed that student--teacher fidelity and generalization need not move together, identifying optimization difficulties and dataset characteristics as key factors~\cite{stanton2021kd}.
+Yang \emph{et al.} apply self-KD to lightweight network intrusion detection~\cite{yang2023selfkd}.
+Wisanwanichthan and Thammawichai distill deep teachers into shallow networks across multiple IDS datasets on workstation hardware~\cite{wisanwanichthan2025kd}.
+Yagiz and Goktas combine KD with variational autoencoders and attribution-based XAI~\cite{yagiz2025lens}.
+Benaddi \emph{et al.} couple SHAP-guided feature pruning with Kronecker-compressed students on TON\_IoT~\cite{benaddi2025lightweight}.
+Peng \emph{et al.} study federated learning with KD under Non-IID IoT traffic~\cite{peng2025fdids}.
+Hossain \emph{et al.} use SHAP-based knowledge sharing in federated botnet detection~\cite{hossain2025federatedkd}.
+Guo \emph{et al.} analyze why knowledge distillation works through attention and fidelity mechanisms~\cite{guo2024whykd}.
+\method{} differs by centering RF soft targets into fixed ultra-small MLPs on \dataset{}, a train-only multi-seed protocol with a feature-group stress test, two evaluation units, and two-MCU full-test integer HIL.
+
+\subsection{On-Device and Hardware-Aware IDS}
+Jacob \emph{et al.} provide integer-arithmetic-only quantization foundations for neural network inference~\cite{jacob2018integer}.
+Diab \emph{et al.} co-design tree and 1D-CNN detectors under flash/RAM/operation budgets and deploy on Raspberry~Pi~3, achieving $95.3\%$ accuracy with 75\,KB flash and $1.2$\,K operations for LightGBM, and $97.2\%$ accuracy with 190\,KB flash and $840$\,K FLOPs for a HW-NAS-optimized CNN~\cite{diab2025hardware}.
+Alfarra and AbuSamra study energy-efficient hybrid WSN security with on-node rules and gateway CNN-LSTM~\cite{alfarra2025energy}.
+Javed \emph{et al.} embed CatBoost on an ESP32 smart thermostat for DoS/MITM detection on a home-IoT feature set, achieving $98.71\%$ binary accuracy with $276$\,$\mu$s inference time~\cite{javed2024thermostat}.
+Misrak \emph{et al.} study quantization-aware hybrid IDS models with software size reports~\cite{misrak2025quantization}.
+Banbury \emph{et al.} and Sze \emph{et al.} survey TinyML and efficient DNN processing constraints~\cite{banbury2021benchmarking,sze2017efficient}.
+Our HIL targets two MCU families as on-node proxies with full-test integer agreement for RF-distilled neural students, not gateway-class training/inference and not live radio energy accounting.
+We report inference latencies from $116.5$\,$\mu$s to $791.4$\,$\mu$s across four student--board pairs with full-test agreement $1.0$.
+
+\subsection{Explainability and Disagreement}
+Lundberg and Lee introduced SHAP (SHapley Additive exPlanations) for model interpretation~\cite{lundberg2017shap}.
+Krishna \emph{et al.} document systematic disagreement among post-hoc explainers even when predictive metrics are strong~\cite{krishna2022disagreement}.
+Adebayo \emph{et al.} provide sanity checks for saliency methods~\cite{adebayo2018sanity}.
+Nugraha \emph{et al.} integrate SHAP for IDS feature workflows~\cite{nugraha2025versatile}.
+We measure global rank Spearman correlation between RF TreeExplainer and student DeepExplainer on the deploy unit and report low non-significant agreement ($\rho \approx 0.24$, $p > 0.35$) as a measured failure of global rank transfer, consistent with explanation disagreement literature.
+
+\section{System Model and Evaluation Boundary}
+\label{sec:system}
+
+\subsection{Conceptual Placement}
+Fig.~\ref{fig:system} distinguishes three layers of the problem.
+In a fielded WSN, sensing and short-range radio terminate at a sink or gateway, with optional cloud services beyond.
+An intrusion detector may run \emph{on-node} (severe resource limits), at the \emph{gateway} (SBC-class resources), or remotely.
+Hybrid designs intentionally leave deep models at the gateway~\cite{alfarra2025energy}.
+Gateway-class hardware-aware search targets Pi-class platforms~\cite{diab2025hardware}.
+\method{} targets the on-node class: ultra-small students intended for constrained microcontrollers.
+The evaluation boundary is explicit: we measure model-core fixed-point fidelity and latency on commercial MCUs via offline feature replay, not over-the-air LEACH dynamics or joules-per-packet on a live mesh.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.98\textwidth,height=0.28\textheight,keepaspectratio]{figures/fig_system_hil_dot.pdf}
+\caption{System context for \method{}.
+(a)~Ideal WSN stack with on-node detector placement.
+(b)~Offline development on public \dataset{} features with train-only scaling and RF-to-MLP distillation.
+(c)~HIL fidelity: Raspberry~Pi host streams standardized test vectors over USB serial to ESP32-C3 and Arduino UNO~R4 WiFi devices under test; predictions are compared to a host fixed-point reference ($N = 56{,}200$).
+The Pi is the orchestrator only, not the student classifier for agreement metrics.}
+\label{fig:system}
+\end{figure*}
+
+\subsection{What We Instrumented}
+Instrumented radio motes with live mesh traffic were not available.
+We therefore evaluate inference fidelity on two commercial microcontrollers---ESP32-C3 and Arduino UNO~R4 WiFi---using full-test replay of standardized \dataset{} feature vectors over USB serial.
+Fig.~\ref{fig:lab} shows the laboratory HIL bench.
+A Raspberry~Pi host flashes firmware and streams vectors; it does \emph{not} execute the student classifier for the reported MCU--reference agreement.
+That boundary is intentional so the HIL result remains interpretable: the Pi host flashes firmware and streams vectors, but the classifier runs only on the MCU under test.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_lab_setup.pdf}
+\caption{Laboratory HIL bench used in this work: Raspberry~Pi host with Arduino UNO~R4 WiFi and ESP32-C3 devices under test (USB serial full-test replay of standardized feature vectors).}
+\label{fig:lab}
+\end{figure}
+
+\subsection{Dataset and Threat Setting}
+\dataset{} provides a public five-class WSN routing/DoS setting with a large software literature, enabling protocol comparisons that a private mote capture would not support.
+Class counts in our repository CSV are $10{,}049$ Blackhole, $3{,}312$ Flooding, $14{,}596$ Grayhole, $340{,}066$ Normal, and $6{,}638$ TDMA ($374{,}661$ rows, $17$ numeric features after removing identifier and label).
+The Normal class dominates; minority attack classes drive macro-F1.
+We do not claim these rows are live over-the-air captures.
+Edge-IIoTset appears only as a secondary robustness study with its own feature construction and is never merged with \dataset{} scores.
+
+\section{Proposed \method{} Framework}
+\label{sec:method}
+
+\subsection{Problem Formulation}
+\label{sec:problem}
+Let $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^{N}$ denote the WSN-DS dataset with features $x_i \in \mathbb{R}^{d}$ ($d=17$) and labels $y_i \in \{1, \ldots, C\}$ ($C=5$ classes).
+Given a fixed stratified split into training $\mathcal{D}_{\mathrm{train}}$, validation $\mathcal{D}_{\mathrm{val}}$, and test $\mathcal{D}_{\mathrm{test}}$ partitions, our objective is to train a compact neural network $f_\theta: \mathbb{R}^{d} \rightarrow \mathbb{R}^{C}$ parameterized by $\theta \in \mathbb{R}^{|\theta|}$ that minimizes the test macro-F1 while satisfying a memory constraint:
+\begin{equation}
+\min_\theta \; \mathcal{M}(f_\theta; \mathcal{D}_{\mathrm{test}}) \quad \text{s.t.} \quad |\theta| \leq \Theta_{\max},
+\end{equation}
+where $\mathcal{M}$ denotes macro-F1 and $\Theta_{\max}$ represents the parameter budget.
+We define the \emph{compression ratio} relative to the neural teacher $f_{\theta_{\mathrm{teacher}}}$ as:
+\begin{equation}
+\kappa = \frac{|\theta_{\mathrm{teacher}}|}{|\theta_{\mathrm{student}}|}.
+\end{equation}
+
+\subsection{Teachers and Students}
+\label{sec:architectures}
+The RF teacher uses $500$ trees and maximum depth $15$~\cite{breiman2001random}.
+For distillation, class probabilities are isotonic-calibrated with three-fold cross-validation~\cite{guo2017calibration}.
+A neural teacher MLP ($17$--$128$--$256$--$128$--$5$; $69{,}893$ parameters; $273.02$\,KB FP32 parameter payload) provides an optional soft-target baseline.
+Student~A is $17$--$32$--$16$--$5$ ($1{,}189$ parameters, $1{,}136$ MACs, $4.64$\,KB FP32).
+Student~B is $17$--$64$--$32$--$5$ ($3{,}397$ parameters, $3{,}296$ MACs, $13.27$\,KB FP32).
+Architectures are fixed across routes; routes change losses and teachers, not capacity.
+
+\subsection{Training Routes and Losses}
+\label{sec:routes}
+Let $z = f_\theta(x) \in \mathbb{R}^{C}$ denote the logits and $\sigma(z)_c = \exp(z_c) / \sum_{j=1}^{C} \exp(z_j)$ the softmax output.
+For knowledge distillation, we use temperature-scaled softmax:
+\begin{equation}
+\sigma^{(T)}(z)_c = \frac{\exp(z_c / T)}{\sum_{j=1}^{C} \exp(z_j / T)},
+\end{equation}
+where $T > 0$ controls the smoothness of the distribution.
+As $T \rightarrow \infty$, the distribution approaches uniform; as $T \rightarrow 0$, it approaches a one-hot distribution.
+
+The scratch objective uses class-weighted cross-entropy:
+\begin{equation}
+\mathcal{L}_{\mathrm{CE}}(\theta) = -\sum_{c=1}^{C} w_c\, y_c \log \sigma(f_\theta(x))_c,
+\end{equation}
+where $w_c$ are inverse-frequency class weights.
+For RF-KD, we combine hard and soft supervision as a convex balance:
+\begin{equation}
+\begin{split}
+\mathcal{L}_{\mathrm{RF\text{-}KD}}(\theta) &= (1 - \alpha)\, \mathcal{L}_{\mathrm{CE}}(\theta) \\
+&\quad + \alpha\, T^2\, \mathrm{KL}\!\left(q^{\mathrm{RF}} \| \sigma^{(T)}\right),
+\end{split}
+\end{equation}
+where $\alpha \in [0, 1]$ balances hard and soft supervision.
+The temperature $T=4$ and $\alpha=0.7$ are used for all primary experiments, selected by grid search ($T \in \{2, 3, 4, 5\}$, $\alpha \in \{0.5, 0.7, 0.9\}$) against leakage-free validation.
+The KL divergence term encourages the student to match the teacher's predictive distribution:
+\begin{equation}
+\mathrm{KL}(p \| q) = \sum_{c=1}^{C} p_c \log \frac{p_c}{q_c}.
+\end{equation}
+Co-distillation (route J) applies joint soft supervision from the RF teacher and a curriculum-trained MLP~\cite{benaddi2025lightweight}:
+{\begin{equation}
+\begin{split}
+\mathcal{L}_{\mathrm{J}}(\theta) &= w_{\mathrm{CE}}\, \mathcal{L}_{\mathrm{CE}} + w_{\mathrm{RF}}\, T^2 \mathrm{KL}(q^{\mathrm{RF}} \| \sigma^{(T)}) \\
+&\quad + w_{\mathrm{CL}}\, T^2 \mathrm{KL}(q^{\mathrm{CL}} \| \sigma^{(T)}),
+\end{split}
+\end{equation}}
+with $w_{\mathrm{CE}} = 0.30$, $w_{\mathrm{RF}} = 0.40$, $w_{\mathrm{CL}} = 0.30$, where $q^{\mathrm{CL}}$ denotes soft targets from the curriculum-trained MLP.
+
+\subsection{Fidelity and Agreement Metrics}
+\label{sec:fidelity}
+Following Stanton \emph{et al.}~\cite{stanton2021kd}, we distinguish between \emph{fidelity} (agreement with the teacher) and \emph{generalization} (test performance).
+We define the agreement metric between a student $f_\theta$ and reference $f_{\mathrm{ref}}$ on test set $\mathcal{D}_{\mathrm{test}}$:
+{\begin{equation}
+\mathrm{Agree}(f_\theta, f_{\mathrm{ref}}) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}\!\left[\hat{y}_\theta(x_i) = \hat{y}_{\mathrm{ref}}(x_i)\right],
+\end{equation}}
+where $N = |\mathcal{D}_{\mathrm{test}}|$ and $\mathbf{1}[\cdot]$ is the indicator function.
+For MCU HIL, the reference $f_{\mathrm{ref}}$ is the host fixed-point model.
+We also report the predictive KL divergence:
+\begin{equation}
+\mathrm{KL}_{\mathrm{avg}}(f_\theta, f_{\mathrm{ref}}) = \frac{1}{N} \sum_{i=1}^{N} \mathrm{KL}\!\left(\sigma(f_{\mathrm{ref}}(x_i)) \| \sigma(f_\theta(x_i))\right).
+\end{equation}
+
+\subsection{Train-Only Scaler}
+\label{sec:train-only}
+After the fixed seed-$42$ stratified $70$/$15$/$15$ split, a \texttt{StandardScaler} is fit on the training partition only and applied to validation and test.
+Formally, the scaler computes mean $\mu_j$ and standard deviation $\sigma_j$ for each feature $j$ on $\mathcal{D}_{\mathrm{train}}$:
+\begin{align}
+\mu_j &= \frac{1}{|\mathcal{D}_{\mathrm{train}}|} \sum_{(x_i, y_i) \in \mathcal{D}_{\mathrm{train}}} x_{i,j}, \\
+\sigma_j &= \sqrt{\frac{1}{|\mathcal{D}_{\mathrm{train}}|} \sum_{(x_i, y_i) \in \mathcal{D}_{\mathrm{train}}} (x_{i,j} - \mu_j)^2},
+\end{align}
+and transforms all partitions: $\tilde{x}_{i,j} = (x_{i,j} - \mu_j) / \sigma_j$.
+This train-only protocol prevents test-set statistics from leaking into the model and is the default for all WSN-DS experiments.
+
+\subsection{Dual Evaluation Units}
+\label{sec:dual-identity}
+Fig.~\ref{fig:dual} defines two evaluation protocols on the same fixed stratified split:
+\begin{itemize}
+\item \textbf{Multi-seed protocol (\ums{}):} Ten independent seeds with full route comparison (scratch, MLP-KD, RF-KD, co-distillation, curriculum). Each seed trains all routes before moving to the next.
+\item \textbf{Deploy protocol (\udc{}):} Single seed-42 RF-KD only, used for ONNX export, fixed-point conversion, and two-board HIL.
+\end{itemize}
+The distinction is critical: seed-$42$ multi-seed RF-KD macro-F1 $0.9249$ is \emph{not} the deploy protocol seed-$42$ macro-F1 $0.9485$.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_dual_identity_dot.pdf}
+\caption{Two evaluation protocols on the same fixed stratified split.
+Multi-seed (\ums{}) supports distributional analysis; deploy (\udc{}) supports hardware deployment.
+Student~A RF-KD scores differ between protocols and must not be interchanged.}
+\label{fig:dual}
+\end{figure}
+
+\subsection{Export, Fixed-Point, and HIL Protocol}
+\label{sec:export}
+deploy FP32 graphs are exported for host ONNX Runtime and OpenVINO evaluation.
+MCU export uses post-training fixed-point quantization.
+Given FP32 weights $w \in \mathbb{R}$ and activations $a \in \mathbb{R}$, we map to fixed-point:
+\begin{align}
+w_{\mathrm{fix}} &= \mathrm{round}(w / s_w), \\
+a_{\mathrm{fix}} &= \mathrm{clip}\!\left(\mathrm{round}(a / s_a), -2^{n-1}, 2^{n-1}-1\right),
+\end{align}
+where $s_w, s_a > 0$ are scale factors determined by calibration, and $n=8$ for Q8.
+The scale factor is computed from calibration data $\mathcal{D}_{\mathrm{cal}}$:
+\begin{equation}
+s = \frac{\max_{x \in \mathcal{D}_{\mathrm{cal}}} |f(x)|}{2^{n-1} - 1},
+\end{equation}
+ensuring the dynamic range covers observed activation magnitudes.
+We disclose a float-to-fixed macro-F1 drop bound of $0.03$; a stricter $0.01$ bound is not claimed for these weights.
+
+Quantization-aware training probes reduced deploy FP32 macro-F1 to $0.8996$ (Student~A, $\Delta = -0.018$) and $0.9213$ (Student~B, $\Delta = -0.023$), worse than post-training quantization at $0.9244$/$0.9180$; these QAT weights were not used for the reported HIL binaries.
+
+Before MCU flashing, the fixed-point C kernel is cross-compiled for an MSP430F1611-class target (TelosB/Tmote Sky-style WSN mote, 48\,KB Flash, 10\,KB RAM) to verify memory feasibility on genuinely constrained hardware.
+Under \texttt{-Os} with \texttt{msp430-elf-gcc} 9.3.1, the linked smoke firmware (integer StandardScaler preprocessing plus fixed-point MLP inference) requires $2{,}842$\,B Flash-class \texttt{.text}, $0$\,B \texttt{.data}, $6$\,B \texttt{.bss}, and a compiler-reported bounded project-function stack usage of approximately $248$\,B during prediction.
+This cross-compile result supports MSP430/TelosB-class memory feasibility of the model core; it does not constitute physical deployment or measure real-time latency and energy on a live mote.
+
+For each student--board pair, the host streams all $56{,}200$ test vectors; the MCU returns predictions; agreement is scored against the generated fixed-point reference.
+Reported boards: ESP32-C3 and Arduino UNO~R4 WiFi.
+Algorithm~\ref{alg:workflow} summarizes the end-to-end process.
+
+\begin{algorithm}[!t]
+\caption{\method{} training and dual-MCU HIL workflow}
+\label{alg:workflow}
+\begin{algorithmic}[1]
+\REQUIRE \dataset{} features, fixed seed-$42$ split, student capacity $\{A,B\}$, seed set $\mathcal{S}$
+\ENSURE Multi-seed tables (\ums{}), deploy artifacts (\udc{}), HIL agreement matrix
+\STATE Fit \texttt{StandardScaler} on training partition only; transform val/test
+\FOR{each seed $s \in \mathcal{S}$ under multi-seed protocol}
+  \STATE Train RF teacher; calibrate soft targets; train routes (scratch, MLP-KD, RF-KD, J, curriculum, controls)
+  \STATE Record accuracy, macro-F1, per-class F1
+\ENDFOR
+\STATE Aggregate \ums{} means and sample standard deviations; compute seed-paired KD$-$scratch tests
+\STATE deploy unit: \texttt{set\_seed($42$)}; train RF-KD only for A and B
+\STATE Export FP32; evaluate ONNX/OpenVINO; convert to fixed-point C under $0.03$ macro-F1 drop bound
+\FOR{each board $\in \{$ESP32-C3, Arduino R4$\}$ and student $\in \{A,B\}$}
+  \STATE Flash firmware; stream $N = 56{,}200$ test vectors over USB serial
+  \STATE Score MCU predictions vs fixed-point reference; record latency
+\ENDFOR
+\STATE On \udc{}, compute global SHAP rank Spearman (RF TreeExplainer vs student DeepExplainer)
+\STATE Secondary: Edge-IIoTset group-aware splits and leakage audit (no merge with \dataset{} scores)
+\RETURN tables, figures, HIL matrix, SHAP diagnostics
+\end{algorithmic}
+\end{algorithm}
+
+\section{Experimental Protocols}
+\label{sec:protocols}
+
+Table~\ref{tab:protocols} summarizes evaluation contracts.
+Ten seeds for primary \dataset{} multi-seed work:
+\[
+\mathcal{S} = \{42, 123, 456, 789, 1001, 2024, 3141, 5678, 8192, 9999\}.
+\]
+Feature-group disjoint sensitivity uses five seeds $\{42, 123, 456, 789, 1001\}$ and $56{,}301$ test rows.
+Edge-IIoTset appears only as a secondary robustness study with its own feature construction and $15$-class label space.
+
+Primary metric is macro-F1 (equal class weight), motivated by the severe class imbalance in \dataset{} (Normal: $91\%$ of rows).
+Macro-F1 is defined as the harmonic mean of per-class precision and recall, averaged across classes:
+\begin{equation}
+\mathrm{macro\text{-}F1} = \frac{1}{C} \sum_{c=1}^{C} \frac{2 \cdot \mathrm{Prec}_c \cdot \mathrm{Rec}_c}{\mathrm{Prec}_c + \mathrm{Rec}_c},
+\end{equation}
+where $\mathrm{Prec}_c$ and $\mathrm{Rec}_c$ are precision and recall for class $c$.
+Accuracy is reported for continuity with prior work.
+Per-class F1 exposes minority costs that macro-F1 can hide.
+Multi-seed summaries use mean $\pm$ sample standard deviation.
+
+For seed-paired comparisons, we use the paired $t$-test:
+\begin{equation}
+t = \frac{\bar{\Delta}}{s_{\Delta} / \sqrt{n}}, \quad \bar{\Delta} = \frac{1}{n} \sum_{i=1}^{n} (\mathrm{F1}_{\mathrm{KD}}^{(i)} - \mathrm{F1}_{\mathrm{scratch}}^{(i)}),
+\end{equation}
+where $n$ is the number of seeds and $s_{\Delta}$ is the sample standard deviation of the paired differences.
+We also report two-tailed Wilcoxon signed-rank tests as a non-parametric alternative.
+Given shared splits and modest $n$, $p$-values are interpreted as exploratory rather than confirmatory.
+
+\begin{table*}[!t]
+\caption{Experimental protocols}
+\label{tab:protocols}
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{35mm}rrrr>{\raggedright\arraybackslash}p{55mm}}
+\toprule
+Protocol & Rows & Classes & Features & Seeds & Notes \\
+\midrule
+WSN-DS multi-seed (\ums{}) & $374{,}661$ & $5$ & $17$ & $10$ & Train-only scaler; fixed stratified $70$/$15$/$15$. \\
+WSN-DS feature-group & $374{,}661$ & $5$ & $17$ & $5$ & Disjoint on identical feature vectors. \\
+WSN-DS deploy (\udc{})\textsuperscript{*} & $374{,}661$ & $5$ & $17$ & $1$ & Seed-42 RF-KD only; ONNX/HIL. \\
+Edge-IIoTset group-aware & $2{,}219{,}201$ & $15$ & $49$ & $5$ & Removes cross-partition groups. \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+{\small \textsuperscript{*}Same fixed stratified split as \ums{}; differ only in seed count and route set.}
+\end{table*}
+
+\section{Results and Analysis}
+\label{sec:results}
+
+This section follows the evaluation contracts of Section~\ref{sec:protocols}.
+We report primary multi-seed compression, protocol sensitivity and minority costs, full multi-seed route surface, two-unit and seeding diagnostics, host conversion, two-MCU HIL, SHAP rank transfer, and Edge-IIoTset secondary study.
+Positive compression and HIL fidelity results are reported alongside negative or boundary findings with the same evidence level.
+
+\subsection{Primary Multi-Seed Compression}
+\label{sec:results-compression}
+Table~\ref{tab:wsn-main} and Fig.~\ref{fig:pareto} summarize the primary train-only multi-seed unit (\ums{}).
+The RF teacher remains strongest ($0.9789 \pm 0.0003$ macro-F1).
+The full MLP reaches $0.9227 \pm 0.0020$.
+Student~A RF-KD reaches $0.9203 \pm 0.0065$ macro-F1 at $4.64$\,KB FP32 parameters, above Student~A scratch ($0.9109 \pm 0.0068$).
+Student~B RF-KD reaches $0.9392 \pm 0.0129$, above Student~B scratch ($0.9313 \pm 0.0066$).
+Relative to the full MLP FP32 payload, Students~A and~B achieve $58.8\times$ and $20.6\times$ compression.
+
+Fig.~\ref{fig:route_bars} compares the principal student routes.
+Co-distillation (J) yields Student~A macro-F1 $0.9158 \pm 0.0026$ and Student~B $0.9323 \pm 0.0141$, underperforming RF-KD by $0.0046$ (A) and $0.0069$ (B) in mean macro-F1.
+We therefore do not claim co-distillation superiority under train-only scaling.
+
+\begin{table*}[!t]
+\caption{Selected \dataset{} ten-seed results under train-only scaler (\ums{}). Neural sizes are FP32 parameter payloads. RF size is mean serialized pickle (different basis).}
+\label{tab:wsn-main}
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Model & Route & Params & Size (KB) & Accuracy & Macro-F1 \\
+\midrule
+RF teacher & supervised & -- & $85186^\dagger$ & $0.9966 \pm 0.0001$ & $0.9789 \pm 0.0003$ \\
+Full MLP & supervised & $69{,}893$ & $273.02$ & $0.9873 \pm 0.0003$ & $0.9227 \pm 0.0020$ \\
+Student A & scratch & $1{,}189$ & $4.64$ & $0.9844 \pm 0.0024$ & $0.9109 \pm 0.0068$ \\
+Student A & MLP-KD & $1{,}189$ & $4.64$ & $0.9854 \pm 0.0003$ & $0.9120 \pm 0.0023$ \\
+Student A & RF-KD & $1{,}189$ & $4.64$ & $0.9869 \pm 0.0010$ & $0.9203 \pm 0.0065$ \\
+Student A & co-distill (J) & $1{,}189$ & $4.64$ & $0.9861 \pm 0.0004$ & $0.9158 \pm 0.0026$ \\
+Student B & scratch & $3{,}397$ & $13.27$ & $0.9887 \pm 0.0010$ & $0.9313 \pm 0.0066$ \\
+Student B & MLP-KD & $3{,}397$ & $13.27$ & $0.9864 \pm 0.0007$ & $0.9177 \pm 0.0046$ \\
+Student B & RF-KD & $3{,}397$ & $13.27$ & $0.9902 \pm 0.0020$ & $0.9392 \pm 0.0129$ \\
+Student B & co-distill (J) & $3{,}397$ & $13.27$ & $0.9889 \pm 0.0023$ & $0.9323 \pm 0.0141$ \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize $^\dagger$Serialized RF artifact; not comparable to raw neural FP32 payloads on the same axis.}
+\end{tabular}
+\end{table*}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_pareto_train_only.pdf}
+\caption{Size--performance under \ums{} (train-only multi-seed).
+Points from aggregate CSVs; open markers: scratch; filled: RF-KD.
+RF teacher omitted because its size basis is serialized pickle, not FP32 parameter payload.}
+\label{fig:pareto}
+\end{figure}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.95\textwidth,height=0.28\textheight,keepaspectratio]{figures/fig_route_bars.pdf}
+\caption{Primary student routes under \ums{}.
+Co-distillation (J) underperforms RF-KD for both students under the train-only multi-seed protocol.}
+\label{fig:route_bars}
+\end{figure*}
+
+\subsection{Protocol Sensitivity of KD Benefit}
+\label{sec:results-protocol}
+Table~\ref{tab:protocol-delta} and Fig.~\ref{fig:protocol_delta} report seed-paired RF-KD minus scratch.
+Under random-row splits, Student~A paired mean $\Delta = +0.00944$ ($t$-test $p = 0.0479$, Wilcoxon $p = 0.0488$, $n = 10$).
+Under feature-group splits, paired mean $\Delta = +0.00023$ ($t$-test $p = 0.946$, Wilcoxon $p = 1.0$, $n = 5$).
+Student~B RF-KD minus scratch is $+0.00783$ ($t$-test $p = 0.097$, $n = 10$) under random-row and $-0.00165$ ($t$-test $p = 0.735$, $n = 5$) under feature-group.
+KD benefit is therefore split-dependent: significant under random-row but vanishing under feature-group.
+
+\begin{table}[!t]
+\caption{Seed-paired RF-KD minus scratch macro-F1}
+\label{tab:protocol-delta}
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+Student & Split protocol & $\Delta$ mean & $t$~$p$ & $n$ \\
+\midrule
+A & random-row & $+0.00944$ & $0.048$ & $10$ \\
+A & feature-group & $+0.00023$ & $0.946$ & $5$ \\
+B & random-row & $+0.00783$ & $0.097$ & $10$ \\
+B & feature-group & $-0.00165$ & $0.735$ & $5$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_protocol_delta_bars.pdf}
+\caption{Paired $\Delta$ macro-F1 (RF-KD $-$ scratch) under random-row versus feature-group splits.
+KD benefit for Student~A is significant under random-row and vanishes under feature-group.}
+\label{fig:protocol_delta}
+\end{figure}
+
+\subsection{Per-Class Costs under Feature-Group Partitions}
+\label{sec:results-perclass}
+Fig.~\ref{fig:perclass} shows RF-KD minus scratch per class under feature-group disjoint five-seed evaluation.
+Student~B RF-KD loses $0.0232$ Blackhole F1 and $0.0158$ Grayhole F1 relative to scratch while gaining Flooding ($+0.0100$) and TDMA ($+0.0201$).
+Student~A shows a larger Blackhole loss ($-0.0362$) with gains on Flooding and TDMA.
+Macro-F1 alone can hide minority degradation; protocol-sensitive KD analysis must therefore report class-level costs.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.95\textwidth,height=0.26\textheight,keepaspectratio]{figures/fig_perclass_delta.pdf}
+\caption{Per-class $\Delta$ F1 (RF-KD $-$ scratch) under feature-group disjoint partitions ($n = 5$).
+Minority Blackhole/Grayhole losses can offset Flooding/TDMA gains.}
+\label{fig:perclass}
+\end{figure*}
+
+\subsection{Complete Route Tables}
+Tables~\ref{tab:all-A} and~\ref{tab:all-B} list all multi-seed routes, including curriculum and control routes.
+Curriculum-extension rows exhibit large standard deviations driven by the seed-$5678$ collapse discussed in Section~\ref{sec:results-curriculum}.
+These full tables make the multi-seed surface auditable rather than limited to the selected main routes in Table~\ref{tab:wsn-main}.
+
+\begin{table*}[!t]
+\caption{All Student~A routes under train-only multi-seed aggregate (\ums{})}
+\label{tab:all-A}
+\centering
+\scriptsize
+\begin{tabular}{lrrrr}
+\toprule
+Config & Params & Size (KB) & Accuracy & Macro-F1 \\
+\midrule
+A\_RF\_500 & -- & $85186$ & $0.9966 \pm 0.0001$ & $0.9789 \pm 0.0003$ \\
+B\_Full\_MLP & $69893$ & $273.02$ & $0.9873 \pm 0.0003$ & $0.9227 \pm 0.0020$ \\
+C2\_CL\_MLP\_domain & $69893$ & $273.02$ & $0.9857 \pm 0.0007$ & $0.9131 \pm 0.0045$ \\
+C\_CL\_MLP\_loss & $69893$ & $273.02$ & $0.9857 \pm 0.0007$ & $0.9136 \pm 0.0039$ \\
+C\_CL\_MLP\_loss\_ext & $69893$ & $273.02$ & $0.9786 \pm 0.0252$ & $0.8674 \pm 0.1617$ \\
+C\_CL\_MLP\_loss\_fair & $69893$ & $273.02$ & $0.9857 \pm 0.0007$ & $0.9136 \pm 0.0039$ \\
+D\_Small\_MLP (scratch) & $1189$ & $4.64$ & $0.9844 \pm 0.0025$ & $0.9109 \pm 0.0068$ \\
+E2\_KD\_from\_MLP & $1189$ & $4.64$ & $0.9854 \pm 0.0004$ & $0.9120 \pm 0.0023$ \\
+E\_KD\_from\_RF & $1189$ & $4.64$ & $0.9869 \pm 0.0011$ & $0.9203 \pm 0.0065$ \\
+F\_KD\_from\_CL\_MLP & $1189$ & $4.64$ & $0.9851 \pm 0.0004$ & $0.9105 \pm 0.0031$ \\
+F\_KD\_from\_CL\_MLP\_ext & $1189$ & $4.64$ & $0.9812 \pm 0.0127$ & $0.8937 \pm 0.0554$ \\
+F\_KD\_from\_CL\_MLP\_fair & $1189$ & $4.64$ & $0.9851 \pm 0.0004$ & $0.9105 \pm 0.0031$ \\
+G\_KD\_random\_pacing & $1189$ & $4.64$ & $0.9852 \pm 0.0006$ & $0.9108 \pm 0.0038$ \\
+I\_KD\_from\_SMOTE\_MLP & $1189$ & $4.64$ & $0.9847 \pm 0.0008$ & $0.9085 \pm 0.0050$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{All Student~B routes under train-only multi-seed aggregate (\ums{})}
+\label{tab:all-B}
+\centering
+\scriptsize
+\begin{tabular}{lrrrr}
+\toprule
+Config & Params & Size (KB) & Accuracy & Macro-F1 \\
+\midrule
+D\_Small\_MLP (scratch) & $3397$ & $13.27$ & $0.9887 \pm 0.0010$ & $0.9313 \pm 0.0066$ \\
+E2\_KD\_from\_MLP & $3397$ & $13.27$ & $0.9864 \pm 0.0008$ & $0.9177 \pm 0.0046$ \\
+E\_KD\_from\_RF & $3397$ & $13.27$ & $0.9902 \pm 0.0021$ & $0.9392 \pm 0.0129$ \\
+F\_KD\_from\_CL\_MLP & $3397$ & $13.27$ & $0.9862 \pm 0.0008$ & $0.9166 \pm 0.0051$ \\
+F\_KD\_from\_CL\_MLP\_ext & $3397$ & $13.27$ & $0.9831 \pm 0.0105$ & $0.9045 \pm 0.0421$ \\
+F\_KD\_from\_CL\_MLP\_fair & $3397$ & $13.27$ & $0.9862 \pm 0.0008$ & $0.9166 \pm 0.0051$ \\
+G\_KD\_random\_pacing & $3397$ & $13.27$ & $0.9861 \pm 0.0008$ & $0.9166 \pm 0.0049$ \\
+I\_KD\_from\_SMOTE\_MLP & $3397$ & $13.27$ & $0.9864 \pm 0.0014$ & $0.9176 \pm 0.0088$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Curriculum-Extension Instability}
+\label{sec:results-curriculum}
+In the multi-seed protocol, curriculum-extension at seed~$5678$ collapses to macro-F1 $\approx 0.4075$ with Blackhole and Grayhole F1 equal to zero.
+Isolated re-runs with seed-$5678$ recover healthy macro-F1 $\approx 0.9145$ across five trials.
+We attribute the collapse to multi-route training-path contingency, not to inherent seed failure under single-route training.
+Curriculum-extension is reported for integrity, not as a recommended default.
+
+Isolated RF-KD training for Student~A averages macro-F1 $0.9138 \pm 0.0056$, versus multi-seed RF-KD $0.9203 \pm 0.0065$ (paired $\Delta = -0.0066$, $t$-test $p = 0.037$).
+For seed~$42$ alone, isolated RF-KD is $0.9148$ while the multi-seed cell is $0.9249$ and deploy protocol is $0.9485$.
+These gaps justify dual-protocol reporting.
+
+Critically, the corresponding isolated scratch (per-route seed) baseline is $0.9131 \pm 0.0055$ for Student~A and $0.9307 \pm 0.0046$ for Student~B, yielding an isolated KD-minus-scratch $\Delta$ of only $+0.0007$ (A) and $+0.0005$ (B)---essentially zero.
+This provides a second, independent confirmation that the KD advantage vanishes: under per-route RNG isolation (a completely different correction mechanism than feature-group splitting), the RF-KD gain collapses to near-zero, consistent with the feature-group disjoint result ($\Delta = +0.0002$, $p = 0.95$).
+
+\subsection{Deploy Protocol Host Conversion}
+\label{sec:results-host}
+On \udc{}, PyTorch FP32 macro-F1 is $0.9485$ (A) and $0.9449$ (B) with $N = 56{,}200$.
+Fig.~\ref{fig:host} summarizes host conversion.
+ONNX Runtime FP32 matches PyTorch predictions with agreement $1.0$ for both students at serialized model sizes of $5.44$\,KB (A) and $14.07$\,KB (B), with median inference latency $27.0$\,$\mu$s (A) and $21.4$\,$\mu$s (B) on the host workstation.
+Dynamic INT8 ONNX reduces macro-F1 to $0.8938$ (A) and $0.9066$ (B) and is retained only as a software-size probe.
+OpenVINO FP32 agreement with PyTorch is $1.0$ in the deploy protocol.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.95\textwidth,height=0.24\textheight,keepaspectratio]{figures/fig_host_conversion.pdf}
+\caption{Host conversion on \udc{} RF-KD graphs (ONNX Runtime).
+FP32 matches PyTorch at agreement $1.0$; dynamic INT8 reduces macro-F1 substantially and is not used for MCU HIL binaries.}
+\label{fig:host}
+\end{figure*}
+
+\subsection{Dual-MCU Full-Test HIL}
+\label{sec:results-hil}
+Table~\ref{tab:hil} and Fig.~\ref{fig:hil} report the four-pair matrix under the deploy protocol.
+MCU versus fixed-point reference agreement is $1.0$ for every pair; all statuses OK; $n = 56{,}200$.
+MCU fixed-point macro-F1 is $0.9244$ (A) and $0.9180$ (B) on both boards (board-invariant reference match).
+Mean total latency is $116.5$\,$\mu$s (ESP32-C3 A), $320.3$\,$\mu$s (ESP32-C3 B), $301.5$\,$\mu$s (R4 A), and $791.4$\,$\mu$s (R4 B).
+Fixed-versus-FP32 prediction agreement on export vectors is $0.9919$ (A) and $0.9905$ (B).
+Float-to-fixed macro-F1 reduction relative to deploy FP32 is approximately $0.024$ (A: $0.9485 \rightarrow 0.9244$) and $0.027$ (B: $0.9449 \rightarrow 0.9180$), within the disclosed $0.03$ bound and outside a $0.01$ bound.
+Input quantization uses signed Q8 calibrated standardized features with zero reported saturation on $955{,}400$ values in the export reports.
+MCU HIL agreement to the fixed reference remains $1.0$, isolating remaining utility loss to conversion rather than board execution.
+Compiled firmware footprints on the target boards are $281{,}776$\,--$284{,}132$\,B Flash ($21\%$ of $1{,}310{,}720$\,B) and $13{,}592$\,B RAM ($4\%$ of $327{,}680$\,B) on ESP32-C3, and $56{,}384$\,--$58{,}736$\,B Flash ($21\%$--$22\%$ of $262{,}144$\,B) and $7{,}128$\,B RAM ($21\%$ of $32{,}768$\,B) on Arduino UNO~R4 WiFi, confirming that the full HIL firmware including serial protocol and model weights occupies well under half of each board's available memory.
+
+\begin{table*}[!t]
+\caption{Full-test HIL under deploy train-only RF-KD ($N = 56{,}200$)}
+\label{tab:hil}
+\centering
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Board & Student & Agree (MCU/ref) & Acc. & Macro-F1 & Mean lat.\ ($\mu$s) \\
+\midrule
+ESP32-C3 & A & $1.0$ & $0.9875$ & $0.9244$ & $116.5$ \\
+ESP32-C3 & B & $1.0$ & $0.9873$ & $0.9180$ & $320.3$ \\
+Arduino R4 & A & $1.0$ & $0.9875$ & $0.9244$ & $301.5$ \\
+Arduino R4 & B & $1.0$ & $0.9873$ & $0.9180$ & $791.4$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.95\textwidth,height=0.24\textheight,keepaspectratio]{figures/fig_hil_latency.pdf}
+\caption{Dual-MCU HIL under \udc{} RF-KD ($N = 56{,}200$).
+(a)~Mean latency.
+(b)~MCU fixed-point macro-F1 (agreement with fixed reference is $1.0$ on all four pairs).}
+\label{fig:hil}
+\end{figure*}
+
+\subsection{SHAP Rank Transfer}
+\label{sec:results-shap}
+SHAP (SHapley Additive exPlanations) assigns each feature an importance value based on Shapley values from cooperative game theory~\cite{lundberg2017shap}.
+For a model $f$ and input $x$, the SHAP value $\phi_j(f, x)$ for feature $j$ is:
+\begin{equation}
+\phi_j(f, x) = \sum_{S \subseteq [d] \setminus \{j\}} \frac{|S|!\, (d - |S| - 1)!}{d!} \bigl[ f(x_{S \cup \{j\}}) - f(x_S) \bigr],
+\end{equation}
+where $x_S$ denotes the input with features not in $S$ replaced by background values and $[d] = \{1, \ldots, d\}$.
+For tree models, TreeExplainer computes exact Shapley values in polynomial time.
+For neural networks, DeepExplainer approximates Shapley values using backpropagation.
+
+We measure global rank agreement using Spearman correlation on mean absolute SHAP values:
+\begin{equation}
+\rho = \frac{\sum_{j=1}^{d} (R_j^{\mathrm{RF}} - \bar{R}^{\mathrm{RF}})(R_j^{\mathrm{student}} - \bar{R}^{\mathrm{student}})}{\sqrt{\sum_{j} (R_j^{\mathrm{RF}} - \bar{R}^{\mathrm{RF}})^2} \sqrt{\sum_{j} (R_j^{\mathrm{student}} - \bar{R}^{\mathrm{student}})^2}},
+\end{equation}
+where $R_j$ is the rank of feature $j$ by mean $|\phi_j|$ across the test set.
+
+Fig.~\ref{fig:shap} and Table~\ref{tab:shap-top} summarize the explanation-rank diagnostic.
+Global mean-absolute SHAP rank Spearman correlation between RF TreeExplainer and student DeepExplainer on \udc{} is $\rho = 0.238$ ($p = 0.358$) for Student~A and $\rho = 0.225$ ($p = 0.384$) for Student~B.
+Bootstrap means over five repeats are $0.178 \pm 0.086$ (A) and $0.162 \pm 0.055$ (B).
+Top features diverge: Student~A global top features include \texttt{Is\_CH}, \texttt{JOIN\_S}, \texttt{dist\_CH\_To\_BS}; the RF teacher top features include \texttt{Is\_CH}, \texttt{ADV\_S}, \texttt{Data\_Sent\_To\_BS}, \texttt{DATA\_S}, \texttt{Rank}.
+Shared presence of \texttt{Is\_CH} does not imply global rank agreement.
+We treat this as a measured failure of global rank transfer, consistent with explanation disagreement literature~\cite{krishna2022disagreement}, not as evidence that RF-KD preserves RF explanations.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_shap_rho.pdf}
+\caption{Global SHAP rank agreement on \udc{} (RF TreeExplainer vs student DeepExplainer).
+Point Spearman $\rho$ is low and non-significant; bootstrap means confirm weak transfer.}
+\label{fig:shap}
+\end{figure}
+
+\begin{table}[!t]
+\caption{Top-5 global features by mean $|$SHAP$|$ on deploy RF-KD (\udc{})}
+\label{tab:shap-top}
+\centering
+\small
+\begin{tabular}{cll}
+\toprule
+Rank & Student A & RF teacher \\
+\midrule
+1 & \texttt{Is\_CH} & \texttt{Is\_CH} \\
+2 & \texttt{JOIN\_S} & \texttt{ADV\_S} \\
+3 & \texttt{dist\_CH\_To\_BS} & \texttt{Data\_Sent\_To\_BS} \\
+4 & \texttt{Data\_Sent\_To\_BS} & \texttt{DATA\_S} \\
+5 & \texttt{ADV\_S} & \texttt{Rank} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Edge-IIoTset Secondary Study}
+\label{sec:results-edge}
+Under standard random splits, pre-encode cross-partition groups expose about $17.0\%$ of test rows.
+Group-aware splits remove that exposure ($0\%$ leakage).
+Fig.~\ref{fig:edge} shows Student~A results.
+Student~A RF-KD mean macro-F1 under group-aware five seeds is $0.7676 \pm 0.0079$ with KD-minus-scratch mean $+0.0340$; standard random-split RF-KD for Student~A is $0.8118 \pm 0.0032$.
+Student~B under the same group-aware protocol achieves $0.8129 \pm 0.0068$ RF-KD macro-F1 with KD-minus-scratch mean only $+0.0073$, substantially smaller than Student~A's gain and consistent with the capacity-contingent KD benefit observed on WSN-DS.
+Note: the group-aware RF teacher used 200 trees versus 500 in the reference, so the comparison involves two configuration changes.
+Absolute scores are lower under group-aware evaluation; KD still shows a positive mean delta for Student~A but a marginal one for Student~B.
+Edge-IIoTset scores are never merged with WSN-DS scores.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_edge_bars.pdf}
+\caption{Edge-IIoTset Student~A: group-aware versus standard random splits.
+Group-aware evaluation removes $\approx 17\%$ test-row leakage.}
+\label{fig:edge}
+\end{figure}
+
+\subsection{Deploy Protocol Replication}
+\label{sec:results-deploy-style}
+With matching soft targets, ten-seed RF-KD means are $0.9206 \pm 0.0127$ (A) and $0.9370 \pm 0.0126$ (B), with seed-$42$ exactly reproducing $0.9485$ (A) and $0.9449$ (B).
+This confirms that the high deploy seed-$42$ point is reproducible under matching soft targets.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What the Evidence Supports}
+Ultra-small RF-KD students retain competitive macro-F1 under train-only multi-seed evaluation at $4.64$\,KB and $13.27$\,KB FP32 payloads, achieving $58.8\times$ and $20.6\times$ compression relative to the neural teacher while preserving detection performance.
+Dual-board full-test integer agreement is achievable for the deploy RF-KD unit, with float-to-fixed macro-F1 cost $0.024$--$0.027$ inside a disclosed $0.03$ bound and inference latencies from $116.5$\,$\mu$s to $791.4$\,$\mu$s.
+Host FP32 conversion preserves predictions at agreement $1.0$.
+These results support KB-scale executable neural detectors when evaluation units and protocol controls are reported carefully.
+
+\subsection{What Requires Qualification}
+KD gain vanishes under two independent corrections: feature-group splits ($\Delta = +0.0002$, $p = 0.95$) and per-route RNG isolation ($\Delta = +0.0007$ for A, $+0.0005$ for B). Either correction alone would be noteworthy; both converging on near-zero strengthens the conclusion that the multi-seed random-row KD advantage is protocol-contingent. KD benefit can also hide minority-class costs (Blackhole/Grayhole losses under feature-group).
+Deploy seed-$42$ macro-F1 ($0.9485$ for Student~A) is not a multi-seed table cell ($0.9203 \pm 0.0065$ under \ums{}).
+Global SHAP ranks are not preserved ($\rho \approx 0.24$, $p > 0.35$).
+Co-distillation (J) underperforms RF-KD ($\Delta = -0.0046$ for A, $-0.0069$ for B).
+Curriculum-extension can collapse under multi-route training (seed-$5678$ $\rightarrow$ $0.41$ macro-F1) even when isolated re-seeding recovers ($\approx 0.91$).
+
+\subsection{Relation to Closest Prior Systems}
+Javed \emph{et al.} demonstrate tree IDS on ESP32 for a different dataset and task, achieving $98.71\%$ binary accuracy with $276$\,$\mu$s inference~\cite{javed2024thermostat}.
+Wisanwanichthan and Thammawichai demonstrate KD compression in software on workstation hardware~\cite{wisanwanichthan2025kd}.
+Diab \emph{et al.} demonstrate hardware-aware models on Pi-class gateways with $95.3\%$ accuracy at $75$\,KB flash and $1.2$\,K operations for LightGBM~\cite{diab2025hardware}.
+\method{} sits between these lines: RF-distilled neural students, WSN routing-attack labels, protocol ladder, two evaluation units, two-MCU HIL, and an explicit offline-feature evaluation boundary.
+We do not claim first MCU IDS, first KD for IDS, or gateway-class deployment.
+
+\subsection{Limitations}
+Instrumented WSN motes and live radio energy measurements were unavailable; commercial MCUs proxy the constrained on-node class via offline feature replay.
+Shared fixed splits limit claims of independence across seeds.
+SHAP uses finite background and explain sample sizes and focuses on global ranks rather than local explanations.
+HIL latencies are board means under serial replay, not worst-case real-time radio stacks.
+Edge-IIoTset results use a different feature space and label set than WSN-DS and are not merged.
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+\method{} provides a protocol-honest account of RF-to-tiny neural distillation for WSN-DS intrusion detection.
+Under multi-seed evaluation, Students~A and~B retain strong macro-F1 at $4.64$\,KB and $13.27$\,KB FP32 payloads ($58.8\times$ and $20.6\times$ compression), but KD benefit is protocol-contingent: significant under random-row ($p = 0.048$ for A) but vanishing under both feature-group splits ($\Delta = +0.0002$, $p = 0.95$) and per-route RNG isolation ($\Delta = +0.0007$ for A, $+0.0005$ for B)---two independent corrections that converge on the same conclusion.
+A deploy protocol supports MSP430F1611-class cross-compile in $2{,}842$\,B Flash and dual-MCU full-test integer agreement ($1.0$ on all four student--board pairs) with measured float-to-fixed utility cost $0.024$--$0.027$ macro-F1.
+Global SHAP ranks do not transfer reliably ($\rho \approx 0.24$, $p > 0.35$).
+Co-distillation does not dominate RF-KD, and curriculum-extension instability under multi-route training must be disclosed.
+These findings support KB-scale executable detectors when evaluation protocols, splits, and negative results are reported with the same rigor as compression ratios.
+
+Future work includes instrumented radio motes with live mesh traffic and energy accounting, on-device feature extraction from packet streams, broader multi-dataset evaluation, and tighter quantization-aware training under the same two-protocol reporting.
+
+\section*{Data and Artifact Availability}
+Primary multi-seed aggregates, split comparisons, per-class deltas, deploy artifacts, HIL summaries, Edge results, SHAP data, and figure provenance are provided in the accompanying project repository at \url{https://github.com/nishantharkut/CuKD-XAI}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

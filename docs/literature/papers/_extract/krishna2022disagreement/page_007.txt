@@ -1,0 +1,50 @@
+Published in Transactions on Machine Learning Research (06/2024)
+Next, we apply six state-of-the-art post hoc explanation methods to explain the black box models’ predictions
+for a set of test data points.3 We apply two perturbation-based explanation methods (LIME Ribeiro et al.
+(2016b) and KernelShap Lundberg & Lee (2017)), and four gradient-based explanation methods (Vanilla
+Gradient Simonyan et al. (2014), Gradient times Input Shrikumar et al. (2017), Integrated Gradients Sun-
+dararajan et al. (2017), and SmoothGrad Smilkov et al. (2017)). For explanation methods with a sample size
+hyper-parameter, we either run the explanation method to convergence (i.e., select a sample size such that an
+increase in the number of samples does not significantly change the explanations) or use a sample size that is
+much higher than the sample size recommended by previous work.
+We then evaluate the (dis)agreement between the explanation methods using the metrics described in
+Section 3.2. For tabular and text data, we apply rank correlation and pairwise rank agreement across
+all features; and feature agreement, rank agreement, sign agreement, and signed rank agreement across
+top-k features for varying values of k. For image data, metrics that operate on the top-k features are more
+applicable to super-pixels. Thus, we apply the six disagreement metrics on explanations output by LIME
+and KernelSHAP (which leverage superpixels), and calculate rank correlation (across all pixels as features)
+between the explanations output by gradient-based methods. Additional details are described in Appendix B.
+4.3
+Results and Insights
+We discuss the results of our empirical analysis for each of the three data modalities.
+4.3.1
+Tabular Data
+Figure 1 shows the disagreement between various pairs of explanation methods for the neural network model
+trained on the COMPAS dataset. We computed the six metrics outlined in Section 3.2 using k “ 5 (out
+of 7 features) for metrics that focus on top-k features. Each cell in the heatmap shows the metric value
+averaged over the test data points for each pair of explanation methods with lighter colors indicating stronger
+disagreement. We see that explanation methods tend to exhibit slightly higher values on pairwise rank
+agreement and feature agreement metrics, and relatively lower values on other metrics (indicating stronger
+disagreement).
+We next study the effect of the number of top features on the degree of disagreement. Figure 2 shows the
+disagreement of explanation methods for the neural network model trained on the COMPAS dataset. We
+computed the rank agreement (top row) and signed rank agreement (bottom row) at top-k features for
+increasing values of k. We see that as the number of top-k features increases, rank agreement and signed rank
+agreement decrease. This indicates that, as k increases, top-k features of a pair of explanation methods are
+less likely to contain shared features with the same rank (as measured by rank agreement) or shared features
+with the same rank and sign (as measured by signed rank agreement). These patterns are consistent across
+other models trained on the COMPAS dataset. See Appendix C.1.
+In addition, across metrics, values of k, and models, the specific explanation method pairs of Vanilla Gradient-
+SmoothGrad and Gradient times Input-Integrated Gradients exhibit strong agreement while the pairs of
+Vanilla Gradient-Integrated Gradients, Vanilla Gradient-Gradient times Input, SmoothGrad-Gradient times
+Input and SmoothGrad-Integrated Gradients consistently exhibit stronger disagreement. These results
+are consistent with the theoretical findings indicating that certain pairs of explanation methods are more
+consistent with one another than other pairs Han et al. (2022).
+Furthermore, there are varying degrees of disagreement among pairs of explanation methods. For example,
+for the neural network model trained on the COMPAS dataset, rank correlation displays a wide range of
+values across explanation method pairs, with 14 out of 15 explanation method pairs even exhibiting negative
+rank correlation when explaining multiple data points. This is shown in the left panel of Figure 3, which
+displays the rank correlation over all the features among all pairs of explanation methods for the neural
+network model trained on the COMPAS dataset.
+3We also studied another explanation method called L2X Chen et al. (2018). See Section D.1 for more details.
+7

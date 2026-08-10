@@ -1,0 +1,61 @@
+{
+  "id": "chawla2002smote",
+  "n_pages": 37,
+  "title_lines": [
+    "Journal of Arti\ufb01cial Intelligence Research 16 (2002) 321\u2013357",
+    "Submitted 09/01; published 06/02",
+    "SMOTE: Synthetic Minority Over-sampling Technique",
+    "Nitesh V. Chawla",
+    "chawla@csee.usf.edu",
+    "Department of Computer Science and Engineering, ENB 118",
+    "University of South Florida",
+    "4202 E. Fowler Ave.",
+    "Tampa, FL 33620-5399, USA",
+    "Kevin W. Bowyer",
+    "kwb@cse.nd.edu",
+    "Department of Computer Science and Engineering",
+    "384 Fitzpatrick Hall",
+    "University of Notre Dame",
+    "Notre Dame, IN 46556, USA",
+    "Lawrence O. Hall",
+    "hall@csee.usf.edu",
+    "Department of Computer Science and Engineering, ENB 118",
+    "University of South Florida",
+    "4202 E. Fowler Ave.",
+    "Tampa, FL 33620-5399, USA",
+    "W. Philip Kegelmeyer",
+    "wpk@california.sandia.gov",
+    "Sandia National Laboratories",
+    "Biosystems Research Department, P.O. Box 969, MS 9951"
+  ],
+  "abstract": "An approach to the construction of classi\ufb01ers from imbalanced datasets is described. A dataset is imbalanced if the classi\ufb01cation categories are not approximately equally rep- resented. Often real-world data sets are predominately composed of \u201cnormal\u201d examples with only a small percentage of \u201cabnormal\u201d or \u201cinteresting\u201d examples. It is also the case that the cost of misclassifying an abnormal (interesting) example as a normal example is often much higher than the cost of the reverse error. Under-sampling of the majority (nor- mal) class has been proposed as a good means of increasing the sensitivity of a classi\ufb01er to the minority class. This paper shows that a combination of our method of over-sampling the minority (abnormal) class and under-sampling the majority (normal) class can achieve better classi\ufb01er performance (in ROC space) than only under-sampling the majority class. This paper also shows that a combination of our method of over-sampling the minority class and under-sampling the majority class can achieve better classi\ufb01er performance (in ROC space) than varying the loss ratios in Ripper or class priors in Naive Bayes. Our method of over-sampling the minority class involves creating synthetic minority class examples. Experiments are performed using C4.5, Ripper and a Naive Bayes classi\ufb01er. The method is evaluated using the area under the Receiver Operating Characteristic curve (AUC) and the ROC convex hull strategy.",
+  "resultish_pages": [
+    6,
+    8,
+    10,
+    14,
+    25,
+    28,
+    31
+  ],
+  "table_snippets": [
+    "Algorithm SMOTE, on the next page, is the pseudo-code for SMOTE. Table 4.2 shows\nan example of calculation of random synthetic samples.\nThe amount of over-sampling\nis a parameter of the system, and a series of ROC curves can be generated for di\ufb00erent\npopulations and ROC analysis performed.\nThe synthetic examples cause the classi\ufb01er to create larger and less speci\ufb01c decision\nregions as shown by the dashed lines in Figure 3(c), rather than smaller and more speci\ufb01c\nregions. More general regions are now learned for the minority class samples rather than\nthose being subsumed by the majority class samples around them. The e\ufb00ect is that de-\ncision trees generalize better. Figures 4 and 5 compare the minority over-sampling with\nreplacement and SMOTE. The experiments were conducted on the mammography dataset.\nThere were 10923 examples in the majority class and 260 examples in the minority class\no",
+    "Table 1: Example of generation of synthetic examples (SMOTE).\n0\n50\n100\n150\n200\n250\n300\n350\n400\n450\n500\n60\n80\n100\n120\n140\n160\n180\n200\n220\n240\n260\nDegree of minority over\u2212sampling\nDecisiion tree size (Number of nodes)\nPruned decision tree size vs the degree of minority over\u2212sampling\nSynthetic data \nReplicated data\nFigure 4: Comparison of decision tree sizes for replicated over-sampling and SMOTE for\nthe Mammography dataset\n330\n\n\n\n===== PAGE 11 =====\n\nSMOTE\n0\n50\n100\n150\n200\n250\n300\n350\n400\n450\n500\n50\n55\n60\n65\n70\n75\nDegree of Minority Over\u2212sampling\n%Minority Correct\n% Minority Correct vs the Degree of Minority Over\u2212sampling\nSynthetic data \nReplicated data\nFigure 5: Comparison of % Minority correct for replicated over-sampling and SMOTE for\nthe Mammography dataset\n4.3 Under-sampling and SMOTE Combination\nThe majority class is under-sampled by randomly removing samples from the majority class\n",
+    "We experimented on nine di\ufb00erent datasets. These datasets are summarized in Table 5.2.\nThese datasets vary extensively in their size and class proportions, thus o\ufb00ering di\ufb00erent\ndomains for SMOTE. In order of increasing imbalance they are:\n1. The Pima Indian Diabetes (Blake & Merz, 1998) has 2 classes and 768 samples. The\ndata is used to identify the positive diabetes cases in a population near Phoenix,\nArizona.\nThe number of positive class samples is only 268.\nGood sensitivity to\ndetection of diabetes cases will be a desirable attribute of the classi\ufb01er.\n2. The Phoneme dataset is from the ELENA project3. The aim of the dataset is to\ndistinguish between nasal (class 0) and oral sounds (class 1). There are 5 features.\nThe class distribution is 3,818 samples in class 0 and 1,586 samples in class 1.\n3. The Adult dataset (Blake & Merz, 1998) has 48,842 samples with 11,687 samples\nbelonging t",
+    "Table 2: Dataset distribution\nsamples. Nevertheless, the SMOTE technique can be applied to a multiple class prob-\nlem as well by specifying what class to SMOTE for. However, in this paper, we have\nfocused on 2-classes problems, to explicitly represent positive and negative classes.\n7. The Oil dataset was provided by Robert Holte and is used in their paper (Kubat et al.,\n1998). This dataset has 41 oil slick samples and 896 non-oil slick samples.\n8. The Mammography dataset (Woods et al., 1993) has 11,183 samples with 260 calci-\n\ufb01cations. If we look at predictive accuracy as a measure of goodness of the classi\ufb01er\nfor this case, the default accuracy would be 97.68% when every sample is labeled non-\ncalci\ufb01cation. But, it is desirable for the classi\ufb01er to predict most of the calci\ufb01cations\ncorrectly.\n9. The Can dataset was generated from the Can ExodusII data using the AVATAR\n(Chawla & Hall, 19",
+    "The AUCs listed in Table 5.3 show that for all datasets the combined synthetic mi-\nnority over-sampling and majority over-sampling is able to improve over plain majority\nunder-sampling with C4.5 as the base classi\ufb01er.\nThus, our SMOTE approach provides\nan improvement in correct classi\ufb01cation of data in the underrepresented class. The same\nconclusion holds from an examination of the ROC convex hulls. Some of the entries are\nmissing in the table, as SMOTE was not applied at the same amounts to all datasets. The\namount of SMOTE was less for less skewed datasets. Also, we have not included AUC\u2019s\nfor Ripper/Naive Bayes. The ROC convex hull identi\ufb01es SMOTE classi\ufb01ers to be poten-\ntially optimal as compared to plain under-sampling or other treatments of misclassi\ufb01cation\ncosts, generally. Exceptions are as follows: for the Pima dataset, Naive Bayes dominates\nover SMOTE-C4.5; for the Oil dataset, ",
+    "Table 3: AUC\u2019s [C4.5 as the base classi\ufb01er] with the best highlighted in bold.\ncurves overlap in the ROC space. For all the other datasets, SMOTE-classi\ufb01er has more\npotentially optimal classi\ufb01ers than any other approach.\n5.4 Additional comparison to changing the decision thresholds\nProvost (2000) suggested that simply changing the decision threshold should always be\nconsidered as an alternative to more sophisticated approaches. In the case of C4.5, this\nwould mean changing the decision threshold at the leaves of the decision trees. For example,\na leaf could classify examples as the minority class even if more than 50% of the training\nexamples at the leaf represent the majority class. We experimented by setting the decision\nthresholds at the leaves for the C4.5 decision tree learner at 0.5, 0.45, 0.42, 0.4, 0.35, 0.32,\n0.3, 0.27, 0.25, 0.22, 0.2, 0.17, 0.15, 0.12, 0.1, 0.05, 0.0. We exper",
+    "& Matwin, 1997) and (b) the SHRINK system (Kubat et al., 1998). Table 5.5 contains the\nresults from (Kubat et al., 1998). Acc+ is the accuracy on positive (minority) examples and\nAcc\u2212is the accuracy on the negative (majority) examples. Figure 25 shows the trend for\nAcc+ and Acc\u2212for one combination of the SMOTE strategy and varying degrees of under-\nsampling of the majority class. The Y-axis represents the accuracy and the X-axis represents\nthe percentage majority class under-sampled.\nThe graphs indicate that in the band of\nunder-sampling between 50% and 125% the results are comparable to those achieved by\nSHRINK and better than SHRINK in some cases. Table 5.5 summarizes the results for the\nSMOTE at 500% and under-sampling combination. We also tried combinations of SMOTE\nat 100-400% and varying degrees of under-sampling and achieved comparable results. The\n345\n\n\n\n===== PAGE 26 =====\n\nChaw",
+    "SHRINK and better than SHRINK in some cases. Table 5.5 summarizes the results for the\nSMOTE at 500% and under-sampling combination. We also tried combinations of SMOTE\nat 100-400% and varying degrees of under-sampling and achieved comparable results. The\n345\n\n\n\n===== PAGE 26 =====\n\nChawla, Bowyer, Hall & Kegelmeyer\n10\n20\n30\n40\n50\n60\n70\n80\n90\n100\n75\n80\n85\n90\n95\n100\nPhoneme: ROC comparison between SMOTE and C4.5 variation of decision thresholds\n%FP\n%TP\nSMOTE \nVarying C4.5 decision thresholds\nHull \nFigure 24: SMOTE and Under-sampling combination against C4.5 learning by tuning the\nbias towards the minority class\n0\n100\n200\n300\n400\n500\n600\n700\n800\n30\n40\n50\n60\n70\n80\n90\n100\nSMOTE and Under\u2212sampling\nPercentage under\u2212sampling of majority class\nAccuracy\nAccuracy on majority (negative class)\nAccuracy on minority (positive class)\nFigure 25: SMOTE (500 OU) and Under-sampling combination performance\nS"
+  ],
+  "metric_lines": [
+    "performance metric. Error rate is 1 \u2212Accuracy. In the presence of imbalanced datasets",
+    "for this case, the default accuracy would be 97.68% when every sample is labeled non-",
+    "results from (Kubat et al., 1998). Acc+ is the accuracy on positive (minority) examples and",
+    "Acc\u2212is the accuracy on the negative (majority) examples. Figure 25 shows the trend for",
+    "Provost, F., Fawcett, T., & Kohavi, R. (1998). The Case Against Accuracy Estimation",
+    "Swets, J. (1988). Measuring the Accuracy of Diagnostic Systems. Science, 240, 1285\u20131293."
+  ],
+  "pass": 1,
+  "source": "pymupdf_text_extract"
+}

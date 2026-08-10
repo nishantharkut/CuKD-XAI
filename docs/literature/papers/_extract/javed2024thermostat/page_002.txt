@@ -1,0 +1,56 @@
+Sensors 2024, 24, 7320
+2 of 15
+DoS attack, the smart device is overwhelmed with traffic by the adversary, and as a result,
+the device stops working. In an MITM attack, the attacker secretly intercepts the communi-
+cation between the sender and the receiver without either party being aware [6]. MITM
+attacks can lead to repudiation and information disclosure attacks.
+A smart home is a residence where appliances can be remotely controlled via the
+internet. The smart home market is projected to grow to USD 633.20 billion by 2032 [7]. This
+growth is largely driven by the adoption of IoT platforms. Key stakeholders are increasingly
+focusing on developing smart home appliances that utilize IoT and machine learning.
+Wifi-based smart thermostats are used in smart homes to control heating and cooling
+appliances. However, according to Rambus [8], nearly 80% of IoT devices remain exposed
+to potential cyberattacks, highlighting their significant vulnerability to security breaches.
+These security threats present major challenges for the expansion of the IoT. Due to security
+vulnerabilities in IoT devices used in smart homes, hackers can gain unauthorized access
+to personal information and control of connected appliances. Unauthorized access to the
+smart thermostat may result in high energy consumption and the occupant’s discomfort.
+An IDS for IoT is a system designed to monitor and analyze network traffic to identify
+and react to intrusions and anomalies, safeguarding the security and integrity of the IoT
+network. Most of the work on IDS for IoT systems has been simulation-based using
+existing datasets and real-time implementation has been lacking [9–14]. IoT devices have
+limited computational resources and in many cases, malicious/hacked IoT devices remain
+undetected and are only detected when they stop working. This could be disastrous for
+some applications and may result in heavy losses.
+Raspberry Pi-based gateways function as intermediary devices that connect local IoT
+devices to the cloud. They perform essential tasks such as data preprocessing, filtering,
+and traffic monitoring. Furthermore, these gateways can improve the security of the IoT
+network by hosting lightweight IDS to detect intrusions and anomalies in real-time. Few
+authors have implemented IDS on Raspberry Pi-based gateways of smart homes [15–18]
+to detect intrusions. However, many commercially available WiFi-based IoT devices of
+smart homes are connected to the cloud without having Raspberry Pi/computer-based
+gateways on which IDS can be deployed. Consequently, these IoT devices are easy targets
+for DoS/Distributed Denial of Service (DDoS) and MITM attacks. Therefore, the security of
+these IoT devices can be enhanced by embedded ML-based IDS.
+Embedded ML, also called TinyML, allows embedding ML models in microcontroller-
+based IoT devices. Numerous applications of embedded ML/TinyML have recently been
+reported. A few examples include an intrusion detection system for IoT [19], urban noise
+data analysis [20], fault diagnosis [21], and soil quality monitoring [22].
+Researchers have traditionally implemented IDS on gateways or the cloud due to
+the availability of network traffic analyzers like Wireshark (https://www.wireshark.org
+(accessed on 6 October 2024)) and tcpdump (https://www.tcpdump.org/ (accessed on
+6 October 2024)). In our recent work [19], we introduced a novel approach by embedding an
+XGBoost-based IDS for binary classification in an ESP32 (https://www.espressif.com/en/
+products/socs/esp32 (accessed on 6 October 2024))-powered smart thermostat. The smart
+thermostat updates the HVAC status, indoor air temperature, and humidity on a webpage,
+allowing occupants to control it remotely. The lightweight IP (lwIP) (https://github.
+com/espressif/esp-lwip (accessed on 6 October 2024)) library for the ESP32 provides
+restricted access to network features. We developed a unique dataset named as the IDSH
+dataset [23] for intrusion detection in smart thermostats by using a Raspberry Pi-based
+adversary node to generate DoS and MITM attacks. The dataset is based on the features
+extractable from the smart thermostat using the lwIP library. This dataset is unique because
+existing datasets rely on packet capture tools (like Wireshark, tcpdump etc.) running
+on single-board computer-based gateways or workstations. In this work, we enhanced
+the performance of the IDS in terms of accuracy and computational efficiency through
+the novel implementation of CatBoost-based IDS on the ESP32 microcontroller. CatBoost
+implementation is not supported in existing ML libraries that port trained ML models to

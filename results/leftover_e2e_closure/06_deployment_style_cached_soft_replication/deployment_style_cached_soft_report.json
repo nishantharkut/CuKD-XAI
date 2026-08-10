@@ -1,0 +1,497 @@
+{
+  "status": "complete",
+  "protocol": "deployment_style_cached_soft_v1",
+  "definition": "set_seed(seed); StudentMLP; train_rf_kd with main_10seed/rf_soft_seed_{seed}.npy; no multi-config prior training; no RF re-calibration.",
+  "soft_identity_seed42": {
+    "deployment_soft_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975",
+    "main10_soft_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975",
+    "byte_identical": true
+  },
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "seed42_four_way_comparison": {
+    "student_A": {
+      "pipeline_multiconfig": 0.9248593568626194,
+      "per_route_recalibrated_soft": 0.9147550770067197,
+      "deployment_recorded": 0.9485087159320515,
+      "this_replication_cached_soft": 0.9485087159320515,
+      "replication_minus_deployment": 0.0,
+      "replication_minus_pipeline": 0.023649359069432108
+    },
+    "student_B": {
+      "pipeline_multiconfig": 0.9223664084994161,
+      "per_route_recalibrated_soft": 0.9238223598870234,
+      "deployment_recorded": 0.9449299339062804,
+      "this_replication_cached_soft": 0.9449299339062804,
+      "replication_minus_deployment": 0.0,
+      "replication_minus_pipeline": 0.02256352540686435
+    }
+  },
+  "deployment_style_cached_soft_aggregate": {
+    "A": {
+      "macro_f1_mean": 0.9206408924788082,
+      "macro_f1_std_ddof1": 0.01272272470189725,
+      "macro_f1_min": 0.9032988452912247,
+      "macro_f1_max": 0.9485087159320515,
+      "values_by_seed": {
+        "42": 0.9485087159320515,
+        "123": 0.9152057905873393,
+        "456": 0.9032988452912247,
+        "789": 0.9190582771849339,
+        "1001": 0.9207881642984767,
+        "2024": 0.9276228212503643,
+        "3141": 0.918839916026062,
+        "5678": 0.9306829412517537,
+        "8192": 0.9083424137465345,
+        "9999": 0.9140610392193403
+      },
+      "n": 10
+    },
+    "B": {
+      "macro_f1_mean": 0.936953761537216,
+      "macro_f1_std_ddof1": 0.012639554813955397,
+      "macro_f1_min": 0.9244864010876892,
+      "macro_f1_max": 0.9615264164964147,
+      "values_by_seed": {
+        "42": 0.9449299339062804,
+        "123": 0.9380631419958505,
+        "456": 0.9280827988006219,
+        "789": 0.9247141095112591,
+        "1001": 0.9408341787908929,
+        "2024": 0.9506846260199785,
+        "3141": 0.9316528905334694,
+        "5678": 0.9615264164964147,
+        "8192": 0.9245631182297025,
+        "9999": 0.9244864010876892
+      },
+      "n": 10
+    }
+  },
+  "interpretation": {
+    "seed42_replication_ok": true,
+    "note_if_not_exact": "Small residual differences can come from GPU nondeterminism / library versions; large gaps mean the recorded deployment unit is not reproduced.",
+    "key_question": "Does deployment-style + cached soft produce systematically high F1 across seeds, or is 0.9485 a seed-42 outlier under that protocol?"
+  },
+  "by_seed": {
+    "42": {
+      "seed": 42,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_42.npy",
+      "soft_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9485087159320515,
+          "accuracy": 0.991423487544484,
+          "macro_precision": 0.9439783789489624,
+          "macro_recall": 0.954176818585489,
+          "per_class_f1": [
+            0.9157266091572661,
+            0.9539347408829175,
+            0.9225894069714803,
+            0.9977644428756324,
+            0.9525283797729618
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9449299339062804,
+          "accuracy": 0.9911209964412812,
+          "macro_precision": 0.9397592851546308,
+          "macro_recall": 0.9518480517821587,
+          "per_class_f1": [
+            0.9033909149072297,
+            0.9539347408829175,
+            0.9152305542617606,
+            0.9980882915208377,
+            0.9540051679586563
+          ]
+        }
+      }
+    },
+    "123": {
+      "seed": 123,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_123.npy",
+      "soft_sha256": "e5e7212992dd26f933f4d194f69fc09c0f5edd07c6de87d7e34b50ae6720ded2",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9152057905873393,
+          "accuracy": 0.9860498220640569,
+          "macro_precision": 0.9087507349521797,
+          "macro_recall": 0.9246142299136334,
+          "per_class_f1": [
+            0.8261543229005268,
+            0.9538461538461539,
+            0.8475783475783476,
+            0.997832844661051,
+            0.9506172839506173
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9380631419958505,
+          "accuracy": 0.9900355871886121,
+          "macro_precision": 0.9333753835351853,
+          "macro_recall": 0.9447336004842889,
+          "per_class_f1": [
+            0.8830260648442466,
+            0.9548511047070125,
+            0.9002581553625909,
+            0.9981277263147577,
+            0.9540526587506454
+          ]
+        }
+      }
+    },
+    "456": {
+      "seed": 456,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_456.npy",
+      "soft_sha256": "d29109d5ceb683a4093c9047af23fb10bdcefbce7e9751f8e36c59bafdd65067",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9032988452912247,
+          "accuracy": 0.9841281138790036,
+          "macro_precision": 0.8984576289891664,
+          "macro_recall": 0.9135122397246352,
+          "per_class_f1": [
+            0.793631721237609,
+            0.9548511047070125,
+            0.815968841285297,
+            0.9979899004755601,
+            0.9540526587506454
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9280827988006219,
+          "accuracy": 0.9882918149466192,
+          "macro_precision": 0.9228111246518929,
+          "macro_recall": 0.9364349578223624,
+          "per_class_f1": [
+            0.8582089552238806,
+            0.9539347408829175,
+            0.8757424566405322,
+            0.998029392445024,
+            0.954498448810755
+          ]
+        }
+      }
+    },
+    "789": {
+      "seed": 789,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_789.npy",
+      "soft_sha256": "55e800b107dde752e8220ad79f6878ee18577704bdc0eb503f7e7ea04edda3e2",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9190582771849339,
+          "accuracy": 0.9866370106761566,
+          "macro_precision": 0.9135589092343143,
+          "macro_recall": 0.929514936721537,
+          "per_class_f1": [
+            0.8407026044821321,
+            0.9548511047070125,
+            0.8522837706511176,
+            0.9978136183146232,
+            0.9496402877697842
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9247141095112591,
+          "accuracy": 0.9878291814946619,
+          "macro_precision": 0.9202337127551345,
+          "macro_recall": 0.935531614763623,
+          "per_class_f1": [
+            0.8513311396948848,
+            0.9530201342281879,
+            0.8654741484930164,
+            0.998166612743512,
+            0.9555785123966942
+          ]
+        }
+      }
+    },
+    "1001": {
+      "seed": 1001,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_1001.npy",
+      "soft_sha256": "6f6eaa01345526910abfb017d6ebd56e4df1b882d9a28646aa88097623796900",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9207881642984767,
+          "accuracy": 0.9870462633451957,
+          "macro_precision": 0.9176134707164627,
+          "macro_recall": 0.9329871913050489,
+          "per_class_f1": [
+            0.84536685179772,
+            0.9539347408829175,
+            0.8525,
+            0.9980391772387693,
+            0.9541000515729757
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9408341787908929,
+          "accuracy": 0.990355871886121,
+          "macro_precision": 0.935704629429311,
+          "macro_recall": 0.9478797222040296,
+          "per_class_f1": [
+            0.8926409684612934,
+            0.9539347408829175,
+            0.9046397761716017,
+            0.998009784409651,
+            0.9549456240290005
+          ]
+        }
+      }
+    },
+    "2024": {
+      "seed": 2024,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_2024.npy",
+      "soft_sha256": "27cb6aa991554dd7981a24d2f35aed98df8bb6f803cd463c017eece1223806eb",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9276228212503643,
+          "accuracy": 0.9881316725978647,
+          "macro_precision": 0.9218730098905488,
+          "macro_recall": 0.9354340585066675,
+          "per_class_f1": [
+            0.8564199873497786,
+            0.9548511047070125,
+            0.8753514526710403,
+            0.9979311900069614,
+            0.9535603715170279
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9506846260199785,
+          "accuracy": 0.9921174377224199,
+          "macro_precision": 0.9452513003254628,
+          "macro_recall": 0.9582686857733094,
+          "per_class_f1": [
+            0.9201520912547528,
+            0.9539347408829175,
+            0.928169014084507,
+            0.998147149649527,
+            0.9530201342281879
+          ]
+        }
+      }
+    },
+    "3141": {
+      "seed": 3141,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_3141.npy",
+      "soft_sha256": "c10b079be83177d7347a2d48c0f10f8170efa23e3918d125e3e293ca9573abcf",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.918839916026062,
+          "accuracy": 0.9868149466192171,
+          "macro_precision": 0.91369585396689,
+          "macro_recall": 0.9274603586222756,
+          "per_class_f1": [
+            0.8329731398579808,
+            0.9539347408829175,
+            0.8557784145176696,
+            0.9980489622243791,
+            0.953464322647363
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9316528905334694,
+          "accuracy": 0.9890391459074733,
+          "macro_precision": 0.926720994792986,
+          "macro_recall": 0.9399259014873511,
+          "per_class_f1": [
+            0.867163252638113,
+            0.9530201342281879,
+            0.8859188544152745,
+            0.998157043427115,
+            0.9540051679586563
+          ]
+        }
+      }
+    },
+    "5678": {
+      "seed": 5678,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_5678.npy",
+      "soft_sha256": "619a6aab82a694f7cdcab2f169055a89ffc96bc82e780636706c926a5f0737ef",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9306829412517537,
+          "accuracy": 0.9886298932384342,
+          "macro_precision": 0.9253585426696176,
+          "macro_recall": 0.9380973523798428,
+          "per_class_f1": [
+            0.8639240506329114,
+            0.9548511047070125,
+            0.88164987110382,
+            0.9979509201251017,
+            0.9550387596899225
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9615264164964147,
+          "accuracy": 0.9938790035587188,
+          "macro_precision": 0.956537638065428,
+          "macro_recall": 0.967707676883703,
+          "per_class_f1": [
+            0.9505728314238953,
+            0.9530201342281879,
+            0.9522935779816514,
+            0.9981372914256583,
+            0.9536082474226805
+          ]
+        }
+      }
+    },
+    "8192": {
+      "seed": 8192,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_8192.npy",
+      "soft_sha256": "042d67f364222fc6364b255a9f6a876dcb156b7812b8b4e7ca249f94bd208431",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9083424137465345,
+          "accuracy": 0.9852491103202847,
+          "macro_precision": 0.9058433593033388,
+          "macro_recall": 0.9127809289739298,
+          "per_class_f1": [
+            0.7950191570881227,
+            0.9548511047070125,
+            0.8352112676056338,
+            0.998167403298674,
+            0.9584631360332295
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9245631182297025,
+          "accuracy": 0.9878825622775801,
+          "macro_precision": 0.9195794786042182,
+          "macro_recall": 0.9323013434124574,
+          "per_class_f1": [
+            0.8455284552845529,
+            0.9539347408829175,
+            0.8706774040738986,
+            0.9981765420963884,
+            0.954498448810755
+          ]
+        }
+      }
+    },
+    "9999": {
+      "seed": 9999,
+      "soft_cache": "results/wsnds/leakage_free_rerun/main_10seed/rf_soft_seed_9999.npy",
+      "soft_sha256": "ea477fffcfce310c32e25edc233781ea9cca341067a2a3ce5bbda23c303f7051",
+      "students": {
+        "A": {
+          "hidden": [
+            32,
+            16
+          ],
+          "macro_f1": 0.9140610392193403,
+          "accuracy": 0.9858185053380782,
+          "macro_precision": 0.9081483395702306,
+          "macro_recall": 0.9245088879411881,
+          "per_class_f1": [
+            0.8242792109256449,
+            0.9548511047070125,
+            0.8412162162162162,
+            0.9978721109247982,
+            0.9520865533230294
+          ]
+        },
+        "B": {
+          "hidden": [
+            64,
+            32
+          ],
+          "macro_f1": 0.9244864010876892,
+          "accuracy": 0.987864768683274,
+          "macro_precision": 0.9192999451402457,
+          "macro_recall": 0.9323262767472809,
+          "per_class_f1": [
+            0.8455029771231589,
+            0.9530201342281879,
+            0.8713105076741441,
+            0.9981470406572613,
+            0.9544513457556936
+          ]
+        }
+      }
+    }
+  }
+}

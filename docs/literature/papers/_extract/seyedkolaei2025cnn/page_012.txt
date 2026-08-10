@@ -1,0 +1,94 @@
+Future Internet 2025, 17, 230
+12 of 21
+direct integration into Colab workflows. This setup highlights the model’s adaptability to
+cloud-based development and edge deployment, balancing computational efficiency with
+robust intrusion detection capabilities in IoT/IIoT networks. In evaluating the proposed
+method, random forest, support vector machine, K-nearest neighbor, and decision tree
+algorithms were compared as benchmark algorithms.
+Tables 6–8 show the confusion matrices for the proposed CNN-based method in 2-
+class, 6-class, and 15-class scenarios, respectively. The confusion matrix is an essential tool
+for evaluating machine learning model performance, especially for intrusion detection in
+IoT networks. It enables comparison between the model’s predictions and actual labels,
+providing insight into the model’s accuracy and effectiveness.
+In Table 6, the binary classification results (2-class) indicate an accuracy of 100% and a
+sensitivity of 100%, meaning that the model has correctly identified all actual attacks and
+has not misclassified any attacks as normal. Additionally, the model’s precision is 100%,
+reflecting its high ability to accurately predict attacks, and the F1 score is 1.00. These results
+demonstrate the model’s high efficiency in identifying security threats and emphasize the
+importance of using such algorithms in cybersecurity systems.
+The results in Tables 7 and 8 show that, for both 6-class and 15-class classifications,
+none of the normal samples were misclassified as attacks, nor were any attack samples
+classified as normal traffic. This indicates the model’s high accuracy, precision, and recall
+(100%) in identifying normal traffic. In the 6-class classification results (Table 7), the
+model achieved strong weighted values, with a precision of 99.57%, recall of 99.48%,
+and an F1 score of 0.994. However, for specific attack types, some misclassifications
+were observed. For instance, the model correctly identified 57,045 DDoS-based attack
+samples, yet misclassified 577 as injection-based attacks, resulting in a high F1 score of
+0.995, despite some errors. For injection attacks, 10,165 samples were accurately classified,
+but 1565 samples were incorrectly categorized as this attack type, yielding an F1 score
+of 0.929. Similarly, MITM-based attacks achieved an F1 score of 0.971, whereas malware-
+based attacks had the lowest classification performance, with an F1 score of 0.649. Overall,
+the errors mainly arose from distinguishing between different attack types rather than
+misclassifying benign traffic as attacks or vice versa. Misclassifications within attack
+categories are less critical compared to false positives (FP) or false negatives (FN) in
+practical intrusion detection applications.
+Table 6. Classification results for 2-class.
+Class/Prediction
+Normal
+Attack
+Normal
+272,800
+0
+Attack
+0
+109,134
+Table 7. Classification results for 6-class.
+Class/Prediction
+Normal
+DDoS
+Injection
+Scanning
+Malware
+MITM
+Normal
+272,800
+0
+0
+0
+0
+0
+DDoS
+0
+57,045
+577
+0
+0
+0
+Injection
+0
+0
+10,165
+0
+0
+0
+Scaninng
+0
+0
+0
+3995
+0
+0
+Malware
+0
+20
+988
+0
+930
+0
+MITM
+0
+4
+0
+0
+0
+68

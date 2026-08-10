@@ -1,0 +1,54 @@
+SMOTE
+3. Populate the synthetic sample: The continuous features of the new synthetic minority
+class sample are created using the same approach of SMOTE as described earlier. The
+nominal feature is given the value occuring in the majority of the k-nearest neighbors.
+The SMOTE-NC experiments reported here are set up the same as those with SMOTE,
+except for the fact that we examine one dataset only. SMOTE-NC with the Adult dataset
+diﬀers from our typical result: it performs worse than plain under-sampling based on AUC,
+as shown in Figures 26 and 27. We extracted only continuous features to separate the eﬀect
+of SMOTE and SMOTE-NC on this dataset, and to determine whether this oddity was
+due to our handling of nominal features. As shown in Figure 28, even SMOTE with only
+continuous features applied to the Adult dataset, does not achieve any better performance
+than plain under-sampling. Some of the minority class continuous features have a very high
+variance, so, the synthetic generation of minority class samples could be overlapping with
+the majority class space, thus leading to more false positives than plain under-sampling.
+This hypothesis is also supported by the decreased AUC measure as we SMOTE at degrees
+greater than 50%. The higher degrees of SMOTE lead to more minority class samples in
+the dataset, and thus a greater overlap with the majority class decision space.
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+50
+55
+60
+65
+70
+75
+80
+85
+90
+95
+100
+Adult SMOTE−NC
+%FP
+%TP
+Under−C4.5      
+50 SMOTE−NC−C4.5
+Naive Bayes     
+Hull            
+Figure 26: Adult. Comparison of SMOTE-C4.5, Under-C4.5, and Naive Bayes. SMOTE-
+C4.5 and Under-C4.5 ROC curves overlap for most of the ROC space.
+6.2 SMOTE-N
+Potentially, SMOTE can also be extended for nominal features — SMOTE-N — with the
+nearest neighbors computed using the modiﬁed version of Value Diﬀerence Metric (Stanﬁll
+& Waltz, 1986) proposed by Cost and Salzberg (1993). The Value Diﬀerence Metric (VDM)
+looks at the overlap of feature values over all feature vectors. A matrix deﬁning the distance
+349

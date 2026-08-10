@@ -1,0 +1,58 @@
+Academic Editor: Alessandra Rizzardi
+Received: 2 December 2025
+Revised: 23 December 2025
+Accepted: 31 December 2025
+Published: 6 January 2026
+Copyright: © 2026 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license.
+Article
+From Edge Transformer to IoT Decisions: Offloaded Embeddings
+for Lightweight Intrusion Detection
+Frédéric Adjewa 1,2,*
+, Moez Esseghir 1 and Leïla Merghem-Boulahia 1
+1
+LIST3N, University of Technology of Troyes, 12 rue Marie Curie, 10010 Troyes CEDEX, France;
+moez.esseghir@utt.fr (M.E.); leila.merghem_boulahia@utt.fr (L.M.-B.)
+2
+Computer Science Departement, Saint Jean Ingénieur, Yaounde 749, Cameroon
+*
+Correspondence: frederic.adjewa@utt.fr
+Abstract
+The convergence of Artificial Intelligence (AI) and the Internet of Things (IoT) is enabling
+a new class of intelligent applications. Specifically, Large Language Models (LLMs) are
+emerging as powerful tools not only for natural language understanding but also for
+enhancing IoT security. However, the integration of these computationally intensive models
+into resource-constrained IoT environments presents significant challenges. This paper
+provides an in-depth examination of how LLMs can be adapted to secure IoT ecosystems.
+We identify key application areas, discuss major challenges, and propose optimization
+strategies for resource-limited settings. Our primary contribution is a novel collaborative
+embeddings offloading mechanism for IoT intrusion detection named SEED (Semantic
+Embeddings for Efficient Detection). This system leverages a lightweight, fine-tuned BERT
+model, chosen for its proven contextual and semantic understanding of sequences, to
+generate rich network embeddings at the edge. A compact neural network deployed on
+the end-device then queries these embeddings to assess network flow normality. This
+architecture alleviates the computational burden of running a full transformer on the
+device while capitalizing on its analytical performance. Our optimized BERT model is
+reduced by approximately 90% from its original size, now representing approximately
+41 MB, suitable for the Edge. The resulting compact neural network is a mere 137 KB,
+appropriate for the IoT devices. This system achieves 99.9% detection accuracy with an
+average inference time of under 70 ms on a standard CPU. Finally, the paper discusses
+the ethical implications of LLM-IoT integration and evaluates the resilience of LLMs in
+dynamic and adversarial environments.
+Keywords: semantic embeddings; computation offloading; edge computing; BERT; artificial
+intelligence of things; efficient intrusion detection
+1. Introduction
+Kevin Ashton, a pioneer in the field, once remarked: “The Internet of Things has the
+potential to change the world, just as the internet did.”. This statement has become increas-
+ingly relevant as we witness the widespread adoption of connected devices across nearly
+every domain involving communication between entities, whether machines, humans, or
+both; And according to trends, the number of connected devices is expected to exceed
+40 billion by 2030 (https://iot-analytics.com/number-connected-iot-devices/ (28 October
+2025)). This unprecedented growth is reshaping modern life, with transformative impacts
+across domains such as smart homes, healthcare, transportation, and industrial systems.
+Sensors 2026, 26, 356
+https://doi.org/10.3390/s26020356

@@ -1,0 +1,90 @@
+Page 11 of 17
+Cantini et al. Journal of Big Data  (2024) 11:63
+	
+performance of a pruned model in which 6 out of 12 attention heads per layer are 
+retained, denoted as AHP-6.
+To fairly compare PTQ and AHP to DiXtill, in Table 3 we measure the model size 
+and the compression ratio Cratio = Sr
+Sc , which is defined as the ratio of the reference 
+model size r to the size of the compressed model c, where a higher compression ratio 
+means that the model is more compact and efficient. In addition, we provide the 
+inference time computed for a batch of 32 test samples and the speedup relative to the 
+teacher model, determined as the ratio between the inference time of the reference 
+model and that of the compressed one.
+We compared DiXtill to the other compression methods in terms of classification 
+performance, by also computing for each classification metric the performance drop 
+relative to the teacher model. Particularly, we define the performance drop for a given 
+metric m as Pm
+drop = 1 −Pm
+c
+Pm
+r  , where Pm
+c is the performance of the compressed model c 
+concerning the metric m and Pm
+r is the performance of the reference model r (e.g., the 
+teacher) for the same metric. Results achieved are reported in Table 4.
+The dynamically int8 quantized model maintains a high accuracy of 85.2% , com-
+parable to that of the original 32-floating point model. This suggests that the quanti-
+zation process, which reduces the precision of model weights and activations, has a 
+minimal impact on the overall performance. However, int8 quantization only reduces 
+the model size from 439 MB to 182.5 MB, resulting in a compression ratio of 2.40× , 
+while maintaining inference times similar to those of the teacher model, enabling a 
+modest speedup of 1.52× . On the other hand, attention head pruning, while dem-
+onstrating a marked reduction in inference time by a factor of 2.18× , falls short in 
+achieving a significant compression ratio compared to the original teacher model. 
+Notably, when 50% of attention heads are pruned, the resultant model size remains 
+prohibitively large for deployment on edge devices, yielding a mere compression ratio 
+Table 3  Comparison of compression ratio and speedup between DiXtill, PTQ, and AHP models, 
+relative to the teacher model
+Results achieved by DiXtill are highlighted in bold
+Method
+Size
+(Cratio)
+Inference time
+(Speedup)
+AHP-6
+365 MB ( ↑1.20×)
+0.28 s ( ↑2.18×)
+PTQ
+182.5 MB ( ↑2.40×)
+0.40 s ( ↑1.52×)
+DiXtill
+3.45 MB ( ↑127×)
+0.07 s ( ↑8.7×)
+Teacher
+439 MB
+0.61 s
+Table 4  Comparison of classification performance between DiXtill, PTQ, and AHP models
+Method
+Accuracy
+(PAcc
+drop)
+Macro F1
+(PF1
+drop)
+Matthews corr.
+(PMatt.
+drop )
+Macro AUC​
+(PAUC
+drop)
+AHP-6
+0.832 ( ↓2.6e−2)
+0.743 ( ↓8.2e−2)
+0.652 ( ↓9.5e−2)
+0.938 ( ↓1.2e−2)
+PTQ
+0.852 ( ↓3.5e−3)
+0.808 ( ↓2.5e−3)
+0.719 ( ↓2.8e−3)
+0.948 ( ↓1.1e−3)
+DiXtill
+0.843 ( ↓1.4e−2)
+0.789 ( ↓2.6e−2)
+0.689 ( ↓4.5e−2)
+0.926 ( ↓2.4e−2)
+Teacher
+0.855
+0.810
+0.721
+0.949

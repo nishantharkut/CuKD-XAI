@@ -1,0 +1,49 @@
+{
+  "id": "cantini2024dixtill",
+  "n_pages": 17,
+  "title": "\u00a9 The Author(s) 2024, corrected publication 2024. Open Access  This article is licensed under a Creative Commons Attribution 4.0 Interna-",
+  "abstract": "Large Language Models (LLMs) are characterized by their inherent memory inef- ficiency and compute-intensive nature, making them impractical to run on low- resource devices and hindering their applicability in edge AI contexts. To address this issue, Knowledge Distillation approaches have been adopted to transfer knowledge from a complex model, referred to as the teacher, to a more compact, computationally efficient one, known as the student. The aim is to retain the performance of the original model while substantially reducing computational requirements. However, traditional knowledge distillation methods may struggle to effectively transfer crucial explainable knowledge from an LLM teacher to the student, potentially leading to explanation inconsistencies and decreased performance. This paper presents DiXtill, a method based on a novel approach to distilling knowledge from LLMs into lightweight neural architectures. The main idea is to leverage local explanations provided by an eXplain- able Artificial Intelligence (XAI) method to guide the cross-architecture distillation of a teacher LLM into a self-explainable student, specifically a bi-directional LSTM network.Experimental results show that our XAI-driven distillation method allows the teacher explanations to be effectively transferred to the student, resulting in bet- ter agreement compared to classical distillation methods,thus enhancing the student interpretability. Furthermore, it enables the student to achieve comparable perfor- mance to the teacher LLM while also delivering a significantly higher compression ratio and speedup compared to other techniques such as post-training quantiza- tion and pruning, which paves the way for more efficient and sustainable edge AI applications",
+  "table_headers": [
+    "Table\u202f1\u2002 Classification performance comparison of different knowledge distillation methods",
+    "Table\u202f2\u2002 Performance achieved by DiXtill at different temperature values",
+    "Table\u202f3\u2002 Comparison of compression ratio and speedup between DiXtill, PTQ, and AHP models,",
+    "Table\u202f4\u2002 Comparison of classification performance between DiXtill, PTQ, and AHP models"
+  ],
+  "metric_lines": [
+    "ers) encompasses 110 million parameters in its base version, while the GPT-3 contains",
+    "175 billion parameters, requiring at least 320 gigabytes of storage in half-precision (i.e.,",
+    "edge Distillation (KD)\u00a0[7, 8]. In particular, knowledge distillation has been leveraged to",
+    "the literature\u00a0[16]. Knowledge distillation has been explored to reduce the size of LLMs",
+    "tilling BERT base with 40% fewer parameters than the original BERT. Other attempts",
+    "tectures, using a cross-architecture knowledge distillation process\u00a0 [18]. For example,",
+    "Tang et\u00a0al.\u00a0[15] proposed a method to distill knowledge from BERT into a single-layer",
+    "ing the precision of model parameters (e.g., weights and activations from 32-bit floating-",
+    "(SHapley Additive exPlanation)\u00a0[30]. The method computes the contribution of each fea-",
+    "Bahdanau-like attention mechanism\u00a0[37], implemented by a parameterized feed-for-",
+    "Fig.\u202f1\u2002 Distillation process in DiXtill. The Explainer, the Teacher LLM, and the Student are indicated in red, green,",
+    "cross-entropy loss term LCE\u200a. Finally, the temperature value \u03c4 was set to 5 for all distilla-",
+    "knowledge distillation\u00a0[8] and matching logits with MSE\u00a0[14, 15], respectively; (iii)",
+    "For each model, we evaluated the accuracy, macro F1 score, Matthews correlation,",
+    "bound for performance, reaching an accuracy of 85.5% and a macro F1 score of 81%.",
+    "is a noticeable decrease in accuracy to 82.7% and in macro F1 score to 76%. Simi-",
+    "further reduces the accuracy to 81.6% and macro F1 to 75.2%. As a baseline, train-",
+    "racy of 80.2%. These results highlight the challenges of distilling an LLM into a small",
+    "the performance achieved by using DiXtill, which shows an accuracy of 84.3% and a",
+    "macro F1 score of 78.9%, indicates that incorporating local explanations during distil-",
+    "remarkable reduction of the number of parameters, decreasing from 0.11 billion to",
+    "Table\u202f1\u2002 Classification performance comparison of different knowledge distillation methods",
+    "Macro F1",
+    "Fig.\u202f2\u2002 Classification performance comparison with other knowledge distillation methods. Dotted lines",
+    "Macro F1",
+    "The dynamically int8 quantized model maintains a high accuracy of 85.2%\u200a, com-",
+    "Macro F1",
+    "depicts the evolution of the macro F1 score as the number of pruned heads increases",
+    "reaching a macro F1 score of 0.4 when employing only 1 head. In line with the results",
+    "distilled students S (i.e., ES(x)\u200a). We used the following metrics\u00a0[40]:"
+  ],
+  "tags": [
+    "KD",
+    "XAI",
+    "quant"
+  ]
+}

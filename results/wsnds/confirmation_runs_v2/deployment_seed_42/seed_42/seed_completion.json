@@ -1,0 +1,216 @@
+{
+  "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1",
+  "seed": 42,
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "142850384d60557b9a860fbd37ae9a4507c47dfb22892d726a14a5226aabc997",
+  "scaler_sha256": "f4a7f826b806bea34fc297c64212c32fd9b601dc64582b8b40ceb88704bf5a26",
+  "execution_contract_sha256": "1e8d4fe0d72c53e214118e89bee02770885daeddde8d96b80b51c18b1cada584",
+  "status": "complete",
+  "teacher_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "calibration_method": "isotonic",
+    "calibration_cv": 3
+  },
+  "teacher_metrics": null,
+  "teacher_fit_seconds": 0.0,
+  "teacher_soft_target_provenance": {
+    "source_type": "bound_active_v1_calibrated_rf_soft_targets",
+    "rf_seed": 42,
+    "rf_config": {
+      "n_estimators": 500,
+      "max_depth": 15,
+      "calibration_method": "isotonic",
+      "calibration_cv": 3
+    },
+    "cache_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\rf_soft_seed_42.npy",
+    "cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+    "expected_cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+    "preprocessing_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\leakage_free_preprocessing.json",
+    "preprocessing_report_sha256": "8088aa7362d2c50207c808a02fde3bba4faa203282e09cc0dbafe0f3bcd389ee",
+    "execution_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\execution_manifest.json",
+    "execution_manifest_sha256": "bf4dfe1fff61e170d6967d99b842433dbcf0d3a84f8a7a3692e12df4dfd6815d",
+    "executed_source_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\run_leakage_free_wsnds.executed.py",
+    "executed_source_sha256": "728eb19b1330e94652db9cf6f57f3d0d698fae0b9849e48b4e8ba25ba20eee27",
+    "active_protocol_id": "archive_random_split_train_scaler_retuned_v1",
+    "verified_split_hashes": {
+      "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+      "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+      "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+    },
+    "verified_transformed_split_hashes": {
+      "train": "95091edecd00aefa3268d7f39655a3c042c31e314a3dd8ae2397592e11641432",
+      "validation": "dc1cfdbcf63a360b0ca105be227430e88d36653cb7698f165f3a5d4b965dfa5e",
+      "test": "d1651b05c8c50b1f22530fbbfe2bfc54364b9dc781dfc98a40db4d134ebda776"
+    },
+    "verified_sklearn_version": "1.8.0",
+    "cache_content_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975"
+  },
+  "student_results": {
+    "student_A_rf_kd": {
+      "route": "rf_kd",
+      "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+      "plain_state_dict_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "56e14cb55e2d4ef437e9ce8700564358e74ea48259d737f61e54588e9e03d253",
+      "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+      "test_predictions_sha256": "bd8e793dd33e84c2b2b14cf193cce2bec04b93353f2f8003c9611ce9b9da2b33",
+      "initial_state_sha256": "6edfd2376daff2b86828badae615375283585321b6c6ff1e9be0d85f562fa8c2",
+      "trained_state_sha256": "e812784b87a73e76c689c40341dacce72fd899c23dd6d23a811e63fda6cf4120",
+      "metrics": {
+        "accuracy": 0.991423487544484,
+        "macro_precision": 0.9439783789489624,
+        "macro_recall": 0.954176818585489,
+        "macro_f1": 0.9485087159320515,
+        "per_class_precision": [
+          0.9157266091572661,
+          0.9119266055045872,
+          0.9143113503813369,
+          0.9980971810816642,
+          0.9798301486199575
+        ],
+        "per_class_recall": [
+          0.9157266091572661,
+          1.0,
+          0.9310187300137049,
+          0.9974319264472369,
+          0.9267068273092369
+        ],
+        "per_class_f1": [
+          0.9157266091572661,
+          0.9539347408829175,
+          0.9225894069714803,
+          0.9977644428756324,
+          0.9525283797729618
+        ],
+        "per_class_support": [
+          1507,
+          497,
+          2189,
+          51011,
+          996
+        ],
+        "confusion_matrix": [
+          [
+            1380,
+            0,
+            126,
+            0,
+            1
+          ],
+          [
+            0,
+            497,
+            0,
+            0,
+            0
+          ],
+          [
+            124,
+            0,
+            2038,
+            25,
+            2
+          ],
+          [
+            3,
+            48,
+            64,
+            50880,
+            16
+          ],
+          [
+            0,
+            0,
+            1,
+            72,
+            923
+          ]
+        ]
+      }
+    },
+    "student_B_rf_kd": {
+      "route": "rf_kd",
+      "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+      "plain_state_dict_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+      "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "dad87f15b3e8aca56a1ec6b7a98b8628ed3de288e8191155bb5bd77ec2bb6093",
+      "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+      "test_predictions_sha256": "d2ed2355d249714f8bb89c48e2524f3e85a6d8c10bcc0395d7c0bbd7f153fedc",
+      "initial_state_sha256": "94da8af7d0c544ab5aa403aac224afbf5e94b389b131239cbe6aa1955766d144",
+      "trained_state_sha256": "271c76bf4cde0bc2c08ddfc14c6d9c55319266056dd44e128f1238e5c41961c4",
+      "metrics": {
+        "accuracy": 0.9911209964412812,
+        "macro_precision": 0.9397592851546308,
+        "macro_recall": 0.9518480517821587,
+        "macro_f1": 0.9449299339062804,
+        "per_class_precision": [
+          0.8721432983323039,
+          0.9119266055045872,
+          0.9334916864608076,
+          0.9982742390963288,
+          0.9829605963791267
+        ],
+        "per_class_recall": [
+          0.9369608493696084,
+          1.0,
+          0.897670169026953,
+          0.997902413204995,
+          0.9267068273092369
+        ],
+        "per_class_f1": [
+          0.9033909149072297,
+          0.9539347408829175,
+          0.9152305542617606,
+          0.9980882915208377,
+          0.9540051679586563
+        ],
+        "per_class_support": [
+          1507,
+          497,
+          2189,
+          51011,
+          996
+        ],
+        "confusion_matrix": [
+          [
+            1412,
+            0,
+            94,
+            0,
+            1
+          ],
+          [
+            0,
+            497,
+            0,
+            0,
+            0
+          ],
+          [
+            204,
+            0,
+            1965,
+            16,
+            4
+          ],
+          [
+            3,
+            48,
+            45,
+            50904,
+            11
+          ],
+          [
+            0,
+            0,
+            1,
+            72,
+            923
+          ]
+        ]
+      }
+    }
+  },
+  "wall_seconds": 364.41635155677795
+}

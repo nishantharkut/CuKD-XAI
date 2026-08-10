@@ -1,0 +1,121 @@
+Sensors 2025, 25, 4309
+5 of 31
+into a lightweight student model, thereby addressing the challenges posed by limited
+computational resources.
+The aforementioned related works have made significant contributions to the research
+on IDSs and have inspired this study. However, existing approaches that integrate FL with
+KD primarily focus on model compression and communication efficiency optimization.
+These methods typically adopt offline distillation or exhibit weak coupling with the feder-
+ated optimization process, making it difficult to achieve synchronized convergence between
+global and local models during training. As a result, the issue of model drift under Non-IID
+conditions remains inadequately addressed. This paper proposes FD-IDS, an IDS tailored
+for Non-IID IoT environments. The proposed system was developed to tackle key chal-
+lenges, including data privacy protection and the issue of distributed heterogeneity. FD-IDS
+employs a MI-based feature selection method to effectively reduce model complexity and
+computational overhead. In terms of optimization, FD-IDS introduces a dual-constraint
+collaborative design mechanism that integrates the proximal term with KD. Unlike conven-
+tional approaches that treat distillation as a post-training procedure or loosely connected
+component, FD-IDS embeds this mechanism directly into each round of federated training.
+This enables dynamic collaborative training guided by both parameter synchronization
+constraints and semantic consistency supervision. Experiments were conducted using the
+Edge-IIoT and N-BaIoT datasets to evaluate the performance of FD-IDS.
+Table 1. Summary of the recent research on IDSs.
+Ref.
+Year
+Dataset
+Algorithm
+Learning
+Strategy
+Client
+Aggregation
+Strategy
+Data
+Distribution
+[24]
+2022
+UNSW-NB15,
+BoT-IoT
+LSTM
+CL
+[25]
+2021
+KDD99,
+NSL-KDD,
+BoT-IoT,
+CICIDS-2017
+CNN
+CL
+[26]
+2022
+Edge-IIoTset
+DT, RF, KNN,
+SVM, DNN
+CL, FL
+K = 5, 10, 15
+FedAvg
+IID, Non-IID
+[27]
+2022
+Edge-IIoTset
+CNN, RNN
+CL, FL
+K = 3, 9, 15
+FedAvg
+IID, Non-IID
+[28]
+2023
+Edge-IIoTset,
+InSDN
+DT, RF
+CL, FL
+K = 5, 10, 15
+FedAvg
+Ø
+[29]
+2024
+IoT-23
+CNN
+CL, FL
+K = 10, 15, 20
+FedAvg,
+FedAvgM,
+FedMedian,
+FedProx
+Ø
+[31]
+2023
+TON-IoT
+DNN, DBN
+CL, FL
+K = 10
+FedAvg, FedProx,
+FedYogi
+Non-IID
+[32]
+2024
+CIC-DDoS2019
+VAE
+CL, FL
+K = 6
+FedAvgM
+Non-IID
+[33]
+2024
+Edge-IIoTset
+CNN, DNN,
+CNN-LSTM
+CL, FL
+K = 4
+FedAvg
+Ø
+Our
+method
+Edge-IIoTset,
+N-BaIoT
+FD-IDS
+CL, FL
+K = 9
+FedProx
+Non-IID
+indicates data are not applicable, whereas Ø indicates that the corresponding study did not mention this infor-
+mation.

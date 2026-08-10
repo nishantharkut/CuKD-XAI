@@ -1,0 +1,120 @@
+2
+Artificial Intelligence 
+Machine Learning 
+Brain-Inspired 
+Spiking 
+ 
+Neural 
+Networks 
+Deep 
+Learning 
+Fig. 1.
+Deep Learning in the context of Artiﬁcial Intelligence.
+achieve goals like humans do, according to John McCarthy,
+the computer scientist who coined the term in the 1950s.
+The relationship of deep learning to the whole of artiﬁcial
+intelligence is illustrated in Fig. 1.
+Within artiﬁcial intelligence is a large sub-ﬁeld called
+machine learning, which was deﬁned in 1959 by Arthur Samuel
+as the ﬁeld of study that gives computers the ability to learn
+without being explicitly programmed. That means a single
+program, once created, will be able to learn how to do some
+intelligent activities outside the notion of programming. This is
+in contrast to purpose-built programs whose behavior is deﬁned
+by hand-crafted heuristics that explicitly and statically deﬁne
+their behavior.
+The advantage of an effective machine learning algorithm
+is clear. Instead of the laborious and hit-or-miss approach of
+creating a distinct, custom program to solve each individual
+problem in a domain, the single machine learning algorithm
+simply needs to learn, via a processes called training, to handle
+each new problem.
+Within the machine learning ﬁeld, there is an area that is
+often referred to as brain-inspired computation. Since the brain
+is currently the best ‘machine’ we know for learning and
+solving problems, it is a natural place to look for a machine
+learning approach. Therefore, a brain-inspired computation is
+a program or algorithm that takes some aspects of its basic
+form or functionality from the way the brain works. This is in
+contrast to attempts to create a brain, but rather the program
+aims to emulate some aspects of how we understand the brain
+to operate.
+Although scientists are still exploring the details of how the
+brain works, it is generally believed that the main computational
+element of the brain is the neuron. There are approximately
+86 billion neurons in the average human brain. The neurons
+themselves are connected together with a number of elements
+entering them called dendrites and an element leaving them
+called an axon as shown in Fig. 2. The neuron accepts the
+signals entering it via the dendrites, performs a computation on
+those signals, and generates a signal on the axon. These input
+and output signals are referred to as activations. The axon of
+one neuron branches out and is connected to the dendrites of
+many other neurons. The connections between a branch of the
+axon and a dendrite is called a synapse. There are estimated
+yj = f
+wixi
+i∑
++ b
+⎛
+⎝
+⎜
+⎞
+⎠
+⎟
+w1x1
+w2x2
+w0x0
+x0
+w0 synapse 
+axon 
+dendrite 
+axon 
+neuron 
+yj
+Fig. 2.
+Connections to a neuron in the brain. xi, wi, f(·), and b are the
+activations, weights, non-linear function and bias, respectively. (Figure adopted
+from [7].)
+to be 1014 to 1015 synapses in the average human brain.
+A key characteristic of the synapse is that it can scale the
+signal (xi) crossing it as shown in Fig. 2. That scaling factor
+can be referred to as a weight (wi), and the way the brain is
+believed to learn is through changes to the weights associated
+with the synapses. Thus, different weights result in different
+responses to an input. Note that learning is the adjustment
+of the weights in response to a learning stimulus, while the
+organization (what might be thought of as the program) of the
+brain does not change. This characteristic makes the brain an
+excellent inspiration for a machine-learning-style algorithm.
+Within the brain-inspired computing paradigm there is a
+subarea called spiking computing. In this subarea, inspiration
+is taken from the fact that the communication on the dendrites
+and axons are spike-like pulses and that the information being
+conveyed is not just based on a spike’s amplitude. Instead,
+it also depends on the time the pulse arrives and that the
+computation that happens in the neuron is a function of not just
+a single value but the width of pulse and the timing relationship
+between different pulses. An example of a project that was
+inspired by the spiking of the brain is the IBM TrueNorth [8].
+In contrast to spiking computing, another subarea of brain-
+inspired computing is called neural networks, which is the
+focus of this article.1
+B. Neural Networks and Deep Neural Networks (DNNs)
+Neural networks take their inspiration from the notion that
+a neuron’s computation involves a weighted sum of the input
+values. These weighted sums correspond to the value scaling
+performed by the synapses and the combining of those values
+in the neuron. Furthermore, the neuron doesn’t just output that
+weighted sum, since the computation associated with a cascade
+of neurons would then be a simple linear algebra operation.
+Instead there is a functional operation within the neuron that
+is performed on the combined inputs. This operation appears
+to be a non-linear function that causes a neuron to generate
+an output only if the inputs cross some threshold. Thus by
+analogy, neural networks apply a non-linear function to the
+weighted sum of the input values. We look at what some of
+those non-linear functions are in Section III-A1.
+1Note: Recent work using TrueNorth in a stylized fashion allows it to be
+used to compute reduced precision neural networks [9]. These types of neural
+networks are discussed in Section VII-A.

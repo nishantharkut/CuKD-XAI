@@ -1,0 +1,101 @@
+1102
+Annals of Telecommunications (2025) 80:1095–1120
+CICIoT2023, 5G PFCP). The summary plot (used to repre-
+sent the global explanation) yields a global view of feature
+importance across the entire dataset, showing the distribu-
+tion of SHAP values for each feature and indicating which
+features have the most signiﬁcant impact on the AI model’s
+predictions.
+The local explanation examines individual data samples,
+identifying speciﬁc feature contributions that inﬂuence the
+AI model’s predictions. The force plot (used to represent the
+local explanation) visualizes the SHAP values for a single
+data sample, showing how each feature contributes to the
+prediction. This visualization clearly indicates the features
+that push the prediction higher or lower relative to the base-
+line prediction.
+3.2.2 LIME
+LIME, developed by Ribeiro, Singh, and Guestrin [4],
+explains complex machine learning models by generating
+local surrogate models that approximate the AI model’s
+behavior around a speciﬁc sample. These surrogate models
+are simple and interpretable, such as linear regression or deci-
+sion trees. To obtain an explanation for a speciﬁc (original)
+sample, LIME creates perturbed samples out of the original
+sample by making slight modiﬁcations to its feature values.
+Each perturbed sample is then inputted to the original AI
+model to obtain a prediction. In the next step, the perturbed
+samples are weighted based on their similarity to the orig-
+inal sample, ensuring that perturbed samples that are more
+similar to the original sample have a greater inﬂuence. The
+weighted perturbed samples and their corresponding predic-
+tions are then used to train the surrogate model. The surrogate
+model approximates the complex original AI model’s deci-
+sion boundary around the speciﬁc sample, making it possible
+to explain the local behavior of the AI model. We encourage
+readers to refer to the publication [4] for a thorough discus-
+sion of the LIME algorithm.
+LIME offers several types of visualizations to help users to
+understand the explanations it generates. One of the primary
+visualizations is the feature importance plot, which displays
+the contribution of each feature to the prediction for a spe-
+ciﬁc sample. LIME’s model-agnostic nature allows it to be
+applied to any machine learning algorithm, offering ﬂexi-
+bility and versatility. This adaptability makes it particularly
+useful for local explanations, such as understanding why a
+speciﬁc sample in the CICIoT2023 dataset was classiﬁed as
+malicious. In our framework, LIME is exclusively used in
+the second stage, as it does not offer global explanations like
+SHAP. LIME provides local explanations of the AI model’s
+prediction behavior for individual samples, providing end-
+users with clear insights into the decision-making process.
+3.3 Implementation stages
+3.3.1 First stage
+The process begins with the preprocessing of a well-known
+ofﬂine dataset to ensure the dataset’s integrity and relevance
+while preventing issues such as computational inefﬁciency
+and model bias. The cleaned dataset is then normalized
+using the MinMaxScaler to ensure uniform feature scaling,
+which is crucial for the convergence and performance of the
+machine learning model.
+Once pre-processed, each dataset is subjected to a strati-
+ﬁed 10-fold cross-validation procedure: the shufﬂed data are
+partitionedintotenequalfoldsthatpreservethebenign/attack
+class ratio, eight folds (≈80%) are used to train the XGBoost
+model, one fold (≈10%) serves as an inner validation set for
+early stopping and hyper-parameter tuning, and the remain-
+ing fold (≈10%) provides an unseen test set. This cycle
+is repeated until every sample has appeared exactly once
+in the test fold, and we report the mean ± standard devi-
+ation of all performance and explanation-time metrics across
+the ten runs, yielding reliable estimates with markedly lower
+variance than a single train/test split. Concurrently, in the
+feature selection step, ANOVA identiﬁes features with sta-
+tistically signiﬁcant differences between classes. The SHAP
+Global Explanation module complements this by analyzing
+the model’s output to determine the features that are most
+inﬂuential on its predictions.
+The Feature Reduction process merges insights from
+ANOVA and SHAP Global Explanation, assigning a 60%
+weight to SHAP results and 40% to ANOVA results. This
+weighting prioritizes SHAP’s ability to capture feature
+importance in the context of model predictions while lever-
+aging ANOVA’s statistical rigor to ensure that the selected
+features are statistically signiﬁcant. By combining these
+approaches, we ensure that the most impactful features are
+retained, balancing computational efﬁciency with predictive
+accuracy. Preliminary trials with adjacent ratios (50:50 and
+70:30 produced the same top feature list, so 60:40 was kept
+as a balanced default that modestly favors the model-aware
+SHAP signal without sacriﬁcing ANOVA’s variance-based
+insight.
+The ﬁnal outcome of the ﬁrst stage is a reduced set of
+features that is both statistically signiﬁcant and crucial to
+model predictions. These features serve as input for the sec-
+ond stage, reducing dimensionality and computational costs
+while preserving the essential information needed for high-
+performance IDS operations.
+3.3.2 Second stage
+In the second stage, the dataset with reduced features is fed
+to the XGBoost model for another round of 10-fold cross-
+123

@@ -1,0 +1,411 @@
+TABLE III
+ABLATION WITH REGARD TO LNET-SKD.
+Dataset
+Model
+Acc.(%)
+∆(%)
+Prec.(%)
+∆(%)
+Recall(%)
+∆(%)
+F1(%)
+∆(%)
+Para.(K)
+FLOPs(K)
+NSL-KDD
+CNN
+98.45
+-
+90.21
+-
+82.74
+-
+85.51
+-
+13.12
+527.3
+LNet−
+93.34
+-5.11
+72.83
+-17.38
+59.60
+-23.14
+61.79
+-23.72
+2.76
+205.66
+LNet
+96.55
+-1.90
+78.89
+-11.32
+66.77
+-15.97
+70.21
+-15.30
+4.94
+194.58
+LNet-SKD
+98.66
++0.21
+95.22
++5.01
+85.68
++2.94
+89.03
++3.52
+4.94
+194.58
+CICIDS2017
+CNN
+99.87
+-
+97.03
+-
+92.44
+-
+94.32
+-
+13.19
+632.66
+LNet−
+97.93
+-1.94
+82.52
+-14.51
+62.60
+-29.84
+68.40
+-25.92
+2.83
+245.78
+LNet
+98.30
+-1.57
+96.16
+-0.87
+70.21
+-22.23
+73.79
+-20.53
+5.00
+233.42
+LNet-SKD
+99.89
++0.02
+96.60
+-0.43
+96.89
++4.45
+96.74
++2.42
+5.00
+233.42
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10654
+99.73%
+16
+0.15%
+1
+0.01%
+0
+0.00%
+12
+0.11%
+18
+0.63%
+2727
+95.55%
+6
+0.21%
+0
+0.00%
+103
+3.61%
+1
+0.13%
+5
+0.67%
+635
+84.78%
+0
+0.00%
+108
+14.42%
+0
+0.00%
+7
+14.29%
+1
+2.04%
+17
+34.69%
+24
+48.98%
+18
+0.12%
+79
+0.51%
+52
+0.34%
+9
+0.06%
+15211
+98.97%
+(a) CNN
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10118
+94.71%
+368
+3.44%
+0
+0.00%
+0
+0.00%
+197
+1.84%
+329
+11.53%
+2344
+82.13%
+4
+0.14%
+0
+0.00%
+177
+6.20%
+0
+0.00%
+20
+2.67%
+172
+22.96%
+0
+0.00%
+557
+74.37%
+0
+0.00%
+18
+36.73%
+0
+0.00%
+0
+0.00%
+31
+63.27%
+39
+0.25%
+232
+1.51%
+5
+0.03%
+0
+0.00%
+15093
+98.20%
+(b) LNet−
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10571
+98.95%
+16
+0.15%
+1
+0.01%
+0
+0.00%
+95
+0.89%
+54
+1.89%
+2642
+92.57%
+1
+0.04%
+0
+0.00%
+157
+5.50%
+2
+0.27%
+3
+0.40%
+280
+37.38%
+0
+0.00%
+464
+61.95%
+4
+8.16%
+3
+6.12%
+1
+2.04%
+3
+6.12%
+38
+77.55%
+31
+0.20%
+71
+0.46%
+74
+0.48%
+9
+0.06%
+15184
+98.80%
+(c) LNet
+Dos
+Probe
+R2L
+U2R
+Normal
+Dos
+Probe
+R2L
+U2R
+Normal
+10633
+99.53%
+22
+0.21%
+0
+0.00%
+0
+0.00%
+28
+0.26%
+11
+0.39%
+2774
+97.20%
+6
+0.21%
+0
+0.00%
+63
+2.21%
+3
+0.40%
+7
+0.93%
+657
+87.72%
+0
+0.00%
+82
+10.95%
+1
+2.04%
+4
+8.16%
+1
+2.04%
+22
+44.90%
+21
+42.86%
+15
+0.10%
+96
+0.62%
+34
+0.22%
+3
+0.02%
+15221
+99.04%
+0.0
+0.2
+0.4
+0.6
+0.8
+(d) LNet-SKD
+Fig. 4. Confusion matrix for each model on NSL-KDD.
+C. Ablation w.r.t. Hyper-parameters
+In LNet-SKD, we take trade-offs about the performance of
+self-knowledge distillation with temperature parameter τ and
+balancing coefficient λ. Thus, effective hyper-parameters must
+be found to get the best classification result. Fig. 3 shows the
+impact of different values for τ and λ used in LNet-SKD.
+We fix λ to 1 and vary τ from 1 to 10. As shown in Fig. 3(a),
+LNet-SKD achieves the best accuracy in both datasets with a
+temperature τ = 3, which means that more knowledge can
+be transferred when τ = 3. The effect of balance factor λ is
+plotted in Fig. 3(b), with a fixed τ = 3. As noted in Eq. 6,
+the balance coefficient λ is considered for the contribution of
+the gap between two adjacent batches to the final loss. For
+NSL-KDD dataset, LNet-SKD performs best with λ = 2, and
+for CICIDS2017, the value is λ = 1.
+D. Ablation w.r.t. LNet-SKD
+To evaluate our proposed method comprehensively, we
+perform multi-classification tasks on CNN, LNet, and LNet-
+SKD. CNN applies a network structure similar to LNet but
+uses standard convolution. Moreover, a specially designed
+LNet−(LNet without MFM) is considered for comparison. We
+apply the parameters suggested by the previous experiment to
+train the LNet-SKD model. The result is shown in Table III.
+Compared with the standard CNN model, LNet uses 37.7%
+of its parameters, resulting in a succinct model with the
+FLOPs of 194.58K (↓63.1%). Meanwhile, our self-distillation
+approach does not introduce additional parameters while im-
+proving the accuracy of LNet by 2.1% / 1.6% on NSL-KDD
+and CICIDS2017, respectively, so that LNet-SKD achieves a
+classification accuracy on par with CNN and outperforms on
+F1-score. From the Table III, we observe that the DeepMax
+block only reduces accuracy by 1.89% and 1.57% on two
+datasets compared with standard convolution. However, the
+value of LNet−is 5.11% / 1.94%, which means LNet has
+benefited a lot from the more representative features extracted
+by the DeepMax block that integrates MFM.
+E. Visualization
+The visualized confusion matrix in Fig. 4 further verifies
+the effectiveness of LNet-SKD in detecting different attack
+types. Especially to U2R, which is totally neglected by LNet−,
+whereas LNet detects a few instances from more valuable fea-
+tures. Further enabled by SKD, LNet-SKD achieves a highly
+competitive detection rate even compared to the standard
+CNN model. It can be concluded that our approach achieves
+satisfactory intrusion detection performance with low model
+storage and computational cost.
+F. Compared with other methods
+This section provides a comparison of the LNet-SKD with
+baseline DL models and SOTA methods [6], [14] applied
+to the NSL-KDD and CICIDS2017 datasets. We present our
+experiment of LNet-SKD against the aforementioned ones in
+Table IV, where - means the calculation is not considered.
+As shown in the table, our LNet-SKD obtains the best perfor-
+mance in terms of accuracy and F1 score on both datasets with
+only 4.94K and 5K parameters, respectively. Compared with
+KD-TCNN designed for resource-constrained IoT devices, the
+LNet-SKD model has a better detection performance and lower

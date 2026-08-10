@@ -1,0 +1,24 @@
+For instance, Flow IAT Std can exhibit substantial positive contributions,
+hinting that variability in packet timing is a decisive indicator for intrusion
+detection. In certain cases, negative attributions (e.g., mapped to Fwd IAT
+Max) signal how the Student model can down-weight specific timing-related
+variables that the Teacher model might consider more crucial. Despite these
+nuanced differences, the Student model maintains high accuracy on the CTU-
+13 dataset. This consistency of essential features—coupled with some redis-
+tribution of attributions—demonstrates effective knowledge transfer. More-
+over, by retaining interpretability, the Student model remains transparent
+regarding its learned decision boundaries, further ensuring trustworthiness
+in operational environments.
+Figure 8: Variable attribution-based explainability results for the CTU-13 dataset, high-
+lighting key feature contributions for (Left) Teacher and (Right) Student models.
+4.5.2. Binary Classification Results on UKM20 Dataset
+Figure 9 illustrates the explainability outcomes of the Teacher and Stu-
+dent models for binary classification of anomalies in the UKM20 dataset.
+Both models exhibit robust predictive performance, with distinct patterns
+of feature emphasis and latent dimension prioritization, highlighting their
+unique strategies for identifying and leveraging critical factors in decision-
+making.
+Explainability Insights from the Teacher Model. The Teacher model
+achieved a final predicted value of approximately 0.9990, with an initial base-
+line probability (intercept) of 0.689. Key features such as Source Bytes,
+35

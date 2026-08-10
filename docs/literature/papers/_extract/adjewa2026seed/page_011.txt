@@ -1,0 +1,65 @@
+Sensors 2026, 26, 356
+11 of 22
+model classifies traffic instances as benign or anomalous and even performs fine-grained
+classification, enabling near real-time detection with minimal computational overhead.
+The overall workflow is summarized by two core processes. Algorithm 2 depicts the
+training process of the BERT model at the edge level. In this phase, the model learns to
+classify various types of attacks while concurrently learning to represent network flows
+in a high-dimensional space. Algorithm 3 outlines the lightweight model inference at the
+IoT level. Here, instead of processing raw network flows directly, which can be compu-
+tationally intensive due to the feature learning phase, the model requests the embedding
+representation of these flows from the EdgeBERT model. It then trains a Feed-Forward
+Neural Network (FFNN) on these rich semantic embeddings. Finally, the model classifies
+traffic as anomalous by comparing the output probability of the classification head with a
+threshold τ (typically set to 0.5 for binary classification).
+Algorithm 2 Edge-Level BERT Model Training and Embedding Generation
+Input: Dataset D = {(xi, yi)}N
+i=1 of network traffic samples
+Output: Trained BERT model MBERT
+1: Initialize BERT-base model MBERT with pre-trained weights
+2: for each mini-batch (xb, yb) in D do
+3:
+xb into input sequence sb
+▷Tokenize and encode
+4:
+hb = MBERT(sb)
+▷Compute hidden representations
+5:
+ˆyb = f (hb)
+▷Compute classification output
+6:
+L = CrossEntropy( ˆyb, yb)
+▷Compute the loss
+7:
+Update MBERT parameters via backpropagation
+8: end for
+9: Freeze the trained model parameters
+10: return MBERT
+Algorithm 3 IoT-Level Lightweight Neural Network Inference
+Input: Compact neural network MIoT
+Input: Incoming IoT traffic sample xi
+Output: Predicted class label ˆyi ∈[0, 1]
+1: ei = MBERT(xi)
+▷Embeddings request, processing and transmission
+2: ˆyi = MIoT(ei)
+▷Compute prediction score
+3: if ˆyi ≥τ then
+4:
+Classify traffic as anomalous
+5: else
+6:
+Classify traffic as benign
+7: end if
+8: return ˆyi
+4.2. Compression in SEED
+Given the large size and computational demands of LLMs, compression techniques
+are vital to making them compatible with IoT constraints. These techniques reduce memory
+usage and inference latency while maintaining acceptable performance.
+Quantization
+Quantization involves reducing the numerical precision of model weights, which
+are typically represented in 32-bit floating-point (FP32) format. By converting weights
+to lower-precision formats such as 8-bit integers (int8) or 4-bit (int4), quantization can
+reduce model size by a factor of four to eight [11]. This results in lower memory and
+energy consumption during inference. However, this compression may introduce minor
+degradation in model accuracy due to reduced precision, particularly in sensitive layers.
+https://doi.org/10.3390/s26020356

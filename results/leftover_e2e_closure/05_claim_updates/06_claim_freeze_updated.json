@@ -1,0 +1,88 @@
+{
+  "status": "frozen_research_claims_leftover_closure_complete",
+  "allowed_primary_claims": [
+    {
+      "id": "C1_compression",
+      "text": "Under train-only scaler random-row 10-seed evaluation, RF-KD students retain macro-F1 0.9203\u00b10.0065 (A, 1189 params) and 0.9392\u00b10.0129 (B, 3397 params).",
+      "evidence": "main_10seed_full_aggregate_copy + checkpoints"
+    },
+    {
+      "id": "C2_kd_sensitive_to_split",
+      "text": "Student A RF-KD minus scratch macro-F1 is +0.0094 paired under train-only random-row (t p\u22480.048) but +0.0002 under feature-group disjoint 5-seed (t p\u22480.95). KD benefit is split-construction sensitive.",
+      "evidence": "02_protocol_ladder.json"
+    },
+    {
+      "id": "C3_minority_tradeoff",
+      "text": "Macro-F1 can hide minority-class costs: under FG, Student B RF-KD loses ~0.023 Blackhole and ~0.016 Grayhole F1 vs scratch while gaining Flooding/TDMA.",
+      "evidence": "03_per_class_kd_minus_scratch.csv"
+    },
+    {
+      "id": "C4_deployment_fidelity",
+      "text": "For the deployment-clean seed-42 RF-KD unit, MCU predictions match fixed-point references on all 56200 vectors (agree=1.0) on ESP32-C3 and Arduino R4; float-to-fixed macro-F1 drop is ~0.024 (A) and ~0.027 (B).",
+      "evidence": "deployment HIL + export gates + dual identity freeze"
+    },
+    {
+      "id": "C5_host_conversion",
+      "text": "ONNX FP32 and OpenVINO FP32 agree with PyTorch at 1.0 for deployment RF-KD graphs; dynamic INT8 reduces size but costs substantial macro-F1.",
+      "evidence": "train_only_seed42_copy runtime package"
+    },
+    {
+      "id": "C6_xai_deployment",
+      "text": "On the deployment-clean seed-42 RF-KD students, global SHAP rank agreement with an RF teacher is low and non-significant (A rho=0.238, p=0.358; B rho=0.225, p=0.384; bootstrap mean rho A=0.178+/-0.086, B=0.162+/-0.055). This extends the archived curriculum-KD misalignment finding to the actual deployment RF-KD units.",
+      "evidence": "results/paper_strength_e2e/shap_train_only_deployment/shap_results.json"
+    },
+    {
+      "id": "C7_codistill_train_only",
+      "text": "Under train-only 10-seed co-distillation, J macro-F1 is A 0.9158+/-0.0026 and B 0.9323+/-0.0141. J underperforms RF-KD (A d~-0.0046, B d~-0.0069) and must not be claimed superior without deltas.",
+      "evidence": "main_10seed_train_only_plus_j + leftover_e2e_closure/01_j_codistill"
+    },
+    {
+      "id": "C8_clext_instability",
+      "text": "Curriculum-ext under the multi-config train-only pipeline collapses at seed 5678 (macro-F1~0.41, Blackhole/Grayhole F1=0). Isolated set_seed(5678) re-runs recover healthy macro-F1~0.9145 (5/5 trials). Report original collapse with disclosure; attribute to multi-config RNG path contingency, not inherent seed failure under clean seeding.",
+      "evidence": "leftover_e2e_closure/02_seed5678_clext"
+    },
+    {
+      "id": "C9_per_route_seed",
+      "text": "Per-route set_seed RF-KD (A) mean macro-F1 0.9138 vs multi-config pipeline 0.9203 (\u0394=-0.0066, paired t p=0.03718338057066324). Dual identity (pipeline vs deployment-clean) is measured, not assumed equal.",
+      "evidence": "leftover_e2e_closure/03_per_route_set_seed"
+    },
+    {
+      "id": "C10_edge_group_aware",
+      "text": "Literature-comparable Edge-IIoTset group-aware splits remove pre-encode cross-partition groups (~17% test exposure under random-row). Student A RF-KD macro-F1 mean 0.7676+/-0.0079 (n=5) with KD-scratch +0.0340; absolute scores are lower than random-row literature protocol (A RF-KD ~0.812).",
+      "evidence": "leftover_e2e_closure/04_edge_group_aware"
+    }
+  ],
+  "forbidden_or_retired_claims": [
+    {
+      "id": "X1",
+      "text": "RF-KD is the strongest ultra-small route (unqualified).",
+      "reason": "Fails under feature-group disjoint protocol for Student A KD-over-scratch."
+    },
+    {
+      "id": "X2",
+      "text": "Deployment seed-42 F1 0.9485 is the multi-seed table's seed-42 cell.",
+      "reason": "Different training unit (clean seed vs multi-config RNG)."
+    },
+    {
+      "id": "X3",
+      "text": "Fixed-point conversion meets a 0.01 macro-F1 drop gate for these deploy weights.",
+      "reason": "Measured drops 0.024/0.027; gate policy B uses 0.03 measured bound."
+    },
+    {
+      "id": "X4",
+      "text": "Unqualified co-distillation superiority under train-only scaler.",
+      "reason": "Train-only J measured: underperforms RF-KD for both students (A -0.0046, B -0.0069 macro-F1)."
+    },
+    {
+      "id": "X5",
+      "text": "Deployment RF-KD preserves RF teacher global SHAP ranking (rho > 0.7).",
+      "reason": "Measured global rho A=0.238, B=0.225, both n.s."
+    }
+  ],
+  "manuscript_policy": "Rewrite manuscript only after this freeze; draft tex is not submission-ready.",
+  "leftover_closure_dir": "results/leftover_e2e_closure",
+  "hardware_rehil": {
+    "required": false,
+    "reason": "Subject deployment RF-KD weights and 0.01/0.03 PTQ path unchanged; J/reseed/edge are software research units only."
+  }
+}

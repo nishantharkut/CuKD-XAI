@@ -1,0 +1,169 @@
+MLSTL-WSN: machine learning-based intrusion detection using SMOTETomek in WSNs
+2155
+Fig. 9 ROC Curve for multilabel classiﬁcation
+text, where multiple intrusion classes need to be classiﬁed
+accurately, the combination of SMOTE-TomekLink and RF
+proves its robustness. This high accuracy rate implies that the
+proposed model can effectively distinguish between various
+types of intrusions in the WSN-DS dataset, making it a reli-
+able choice for real-world wireless sensor network security
+applications.
+Several factors contribute to the superior performance
+of our proposal. The utilization of SMOTE-TomekLink as
+the data balancing technique in both binary and multiclass
+scenarios underlines its importance in improving the perfor-
+mance of intrusion detection models. SMOTE-TomekLink
+addresses the class imbalance issue, ensuring that the model
+is not biased towards the majority class and can effectively
+learn from both minority and majority classes. Additionally,
+the use of the Random Forest algorithm, known for its ensem-
+blelearningcapabilityandabilitytohandlecomplexdatasets,
+contributes signiﬁcantly to the success of “Our proposal.”
+Finally, the effectiveness of our proposal is underpinned by
+the quality and representativeness of the WSN-DS dataset
+used for training and evaluation.
+4.7 Cost analysis
+In the realm of algorithms, time complexity is a crucial
+component of cost analysis. It speciﬁcally focuses on under-
+standing how the execution time of an algorithm grows
+concerning the size of its input. The time complexity of an
+algorithm is often expressed using Big O notation, providing
+an upper bound on the rate of growth of the running time. The
+assessment of time complexity for ML models in WSN-IDS
+is essential for their effective functioning. In this regard, we
+analyze the time complexity for prominent ML algorithms
+including DT, RF, MLP, KNN, LGB, and XGB models as
+follows:
+• DT: The time complexity is typically O(n · m · log(m)),
+with n representing data points and m as features. It con-
+structs a tree by recursively partitioning data.
+• RF : Comprising multiple DTs, its time complexity is
+O(t · n · m · log(m)), where t is the number of trees.
+Table 8 Comparison analysis of wireless sensor intrusion detection models in WSN-DS
+Serial no.
+Authors
+Data balancing technique
+Algorithm
+Dataset
+Class
+Accuracy rate (%)
+1
+[13]
+SMOTE
+RF
+WSN-DS
+Binary
+92.57
+2
+[25]
+BCO
+SVM
+WSN-DS
+Binary
+97.90
+3
+[31]
+–
+ELM+ ETSAO
+WSN-DS
+Binary
+96.90
+4
+Our proposal
+SMOTE-TomekLink
+RF
+WSN-DS
+Binary
+99.78
+4
+[22]
+–
+ML
+WSN-DS
+Multiclass
+98.56 (ANN)
+5
+[23]
+SMOTE-Tomek
+LightGBM
+WSN-DS
+Multiclass
+99
+6
+[16]
+–
+Fuzzy Rule
+WSN-DS
+Multiclass
+98.29
+7
+[15]
+–
+RF
+WSN-DS
+Multiclass
+97
+8
+[17]
+–
+CNN
+WSN-DS
+Multiclass
+97
+9
+[24]
+SMOTE-TomekLink
+LightGBM
+WSN-DS
+Multiclass
+99.95
+10
+[14]
+IG
+PA
+WSN-DS
+Multiclass
+96
+11
+[18]
+–
+XGBoost
+WSN-DS
+Multiclass
+99.70
+12
+[26]
+SBS
+LightGBM
+WSN-DS
+Multiclass
+99.76
+13
+[47]
+–
+ML
+WSN-DS
+Multiclass
+96.7 (SVM)
+14
+[32]
+–
+RKOA+LCWOA
+WSN-DS
+Multiclass
+98.94
+15
+[33]
+–
+HMMs+GMMs
+WSN-DS
+Multiclass
+94.55
+16
+Our proposal
+SMOTE-TomekLink
+RF
+WSN-DS
+Multiclass
+99.92
+123

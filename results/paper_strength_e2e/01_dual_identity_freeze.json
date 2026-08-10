@@ -1,0 +1,118 @@
+{
+  "status": "frozen",
+  "units": {
+    "multi_seed_pipeline_seed42": {
+      "definition": "Student trained inside main_10seed run_all_configs after set_seed(seed) once; RF-KD is not re-seeded; RNG follows prior configs in the same seed.",
+      "student_A_rf_kd": {
+        "macro_f1": 0.9248593568626194,
+        "accuracy": 0.9877402135231317,
+        "per_class_f1": [
+          0.8497536945812808,
+          0.9548511047070125,
+          0.8666507062485037,
+          0.9980490387349144,
+          0.9549922400413865
+        ],
+        "z_vs_10seed_mean": 0.6932000734908956
+      },
+      "student_B_rf_kd": {
+        "macro_f1": 0.9223664084994161,
+        "accuracy": 0.9873843416370107,
+        "per_class_f1": [
+          0.8411801632140615,
+          0.9530201342281879,
+          0.8652081863091038,
+          0.9980194136680066,
+          0.9544041450777202
+        ],
+        "z_vs_10seed_mean": -1.3013907036310486
+      },
+      "use_for": [
+        "multi_seed_statistical_tables",
+        "seed_level_paired_tests",
+        "protocol_ladder_random_row_train_only"
+      ]
+    },
+    "deployment_clean_seed42": {
+      "definition": "run_tier15_confirmation deployment mode: set_seed(42) then train only RF-KD; bound soft targets from main_10seed rf_soft_seed_42.npy (byte-identical).",
+      "student_A_rf_kd": {
+        "n": 56200,
+        "accuracy": 0.991423487544484,
+        "macro_f1": 0.9485087159320515,
+        "per_class_f1": [
+          0.9157266091572661,
+          0.9539347408829175,
+          0.9225894069714803,
+          0.9977644428756324,
+          0.9525283797729618
+        ],
+        "trained_state_sha256": "e812784b87a73e76c689c40341dacce72fd899c23dd6d23a811e63fda6cf4120",
+        "weights_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+        "z_vs_10seed_mean": 4.324253679263561
+      },
+      "student_B_rf_kd": {
+        "n": 56200,
+        "accuracy": 0.9911209964412812,
+        "macro_f1": 0.9449299339062804,
+        "per_class_f1": [
+          0.9033909149072297,
+          0.9539347408829175,
+          0.9152305542617606,
+          0.9980882915208377,
+          0.9540051679586563
+        ],
+        "trained_state_sha256": "271c76bf4cde0bc2c08ddfc14c6d9c55319266056dd44e128f1238e5c41961c4",
+        "weights_sha256": "e9b8775a62e1941dcce2b6573ff4239f6fa983fd91271aa3d55a3ef7e18dfc36",
+        "z_vs_10seed_mean": 0.44573300975991703
+      },
+      "soft_targets_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+      "soft_targets_match_main_10seed": true,
+      "test_n": 56200,
+      "use_for": [
+        "fixed_point_export",
+        "four_pair_hil",
+        "onnx_openvino_train_only_package",
+        "deployment_artifact_claims_only"
+      ],
+      "forbidden_use": [
+        "as_the_seed_42_cell_of_the_10seed_table",
+        "inside_10seed_mean_or_std_without_relabeling"
+      ]
+    }
+  },
+  "ten_seed_rf_kd_distribution": {
+    "student_A": {
+      "mean": 0.9203444861873752,
+      "sample_std": 0.00651308453057103,
+      "values": [
+        0.9248593568626194,
+        0.9147966345689703,
+        0.9180034447190092,
+        0.9205531658177485,
+        0.9324717616733122,
+        0.9154417760499027,
+        0.9139138788778659,
+        0.9193036779243725,
+        0.9293214421170589,
+        0.9147797232628927
+      ]
+    },
+    "student_B": {
+      "mean": 0.939173439381416,
+      "sample_std": 0.012914669541672667,
+      "values": [
+        0.9223664084994161,
+        0.9209664391410678,
+        0.9503661153015115,
+        0.9389774512393881,
+        0.9305941228111907,
+        0.9479306391953889,
+        0.9316570381459499,
+        0.9374297092797471,
+        0.9571708320135194,
+        0.9542756381869797
+      ]
+    }
+  },
+  "paper_rule": "Always name which unit is meant. Multi-seed statistics must use checkpoint/full-aggregate tables. Hardware and fixed-point must name the deployment-clean unit."
+}
