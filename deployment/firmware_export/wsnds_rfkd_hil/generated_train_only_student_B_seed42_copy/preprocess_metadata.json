@@ -1,0 +1,92 @@
+{
+  "dataset": "WSN-DS",
+  "preprocessing_contract": "Seed-42 stratified raw-row 70/15/15 split followed by StandardScaler fit on the training partition only; validation and test are transform-only.",
+  "target_col": "Attack type",
+  "feature_names": [
+    "Time",
+    "Is_CH",
+    "who CH",
+    "Dist_To_CH",
+    "ADV_S",
+    "ADV_R",
+    "JOIN_S",
+    "JOIN_R",
+    "SCH_S",
+    "SCH_R",
+    "Rank",
+    "DATA_S",
+    "DATA_R",
+    "Data_Sent_To_BS",
+    "dist_CH_To_BS",
+    "send_code",
+    "Expaned Energy"
+  ],
+  "class_names": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "input_dim": 17,
+  "num_classes": 5,
+  "scaler": {
+    "mean": [
+      1062.7740341351066,
+      0.11576270152372527,
+      274225.6622904687,
+      22.643447998365726,
+      0.26838689504751156,
+      6.934299833747693,
+      0.7803296066378903,
+      0.7364062047191251,
+      0.28908835776276254,
+      0.7481048762259201,
+      9.732047801351372,
+      44.86668166496347,
+      73.75899516495585,
+      4.540533532632735,
+      22.466167167934827,
+      2.497357503469945,
+      0.30520334689637585
+    ],
+    "scale": [
+      898.4648333161712,
+      0.31994014824525285,
+      388720.9307643411,
+      21.961827765676503,
+      2.076118663485793,
+      7.043776707241458,
+      0.41402332258235364,
+      4.704404777426114,
+      2.767934142604349,
+      0.43410133654811733,
+      14.728095483066708,
+      42.58321877206497,
+      230.1453257945025,
+      19.623041455474013,
+      50.172224030609286,
+      2.4040033422864746,
+      0.6524913301865224
+    ]
+  },
+  "split_sizes": {
+    "train": 262252,
+    "val": 56209,
+    "test": 56200
+  },
+  "limitations": [
+    "Feature extraction is not implemented on TelosB in this artifact.",
+    "Scaler constants are exported for reproducibility and host/gateway preprocessing.",
+    "The fixed-point C core consumes already standardized and quantized feature vectors."
+  ],
+  "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_hashes": {
+    "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+    "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+    "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+  },
+  "scaler_sha256": "f4a7f826b806bea34fc297c64212c32fd9b601dc64582b8b40ceb88704bf5a26",
+  "scaler_fit_partition": "train only"
+}

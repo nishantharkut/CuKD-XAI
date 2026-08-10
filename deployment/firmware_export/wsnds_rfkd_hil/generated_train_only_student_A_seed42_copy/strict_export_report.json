@@ -1,0 +1,670 @@
+{
+  "status": "passed",
+  "export_id": "697491c3301191795b7c055db2e85defeec66fc0fa3248a644295651ce4d0e28",
+  "provenance": {
+    "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1",
+    "student": "student_A",
+    "seed": 42,
+    "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "split_hashes": {
+      "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+      "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+      "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+    },
+    "scaler_sha256": "f4a7f826b806bea34fc297c64212c32fd9b601dc64582b8b40ceb88704bf5a26",
+    "model_file_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+    "model_artifact_sha256": "56e14cb55e2d4ef437e9ce8700564358e74ea48259d737f61e54588e9e03d253",
+    "execution_contract_sha256": "1e8d4fe0d72c53e214118e89bee02770885daeddde8d96b80b51c18b1cada584",
+    "seed_completion_sha256": "d544c9d13171900b57391a04ddd110f081e994a19c4fea1c0537fc39c5798df7",
+    "exporter_sha256": "dfb4cfc67fb7dbe0732e1a035b261d0c2f53b661bbb1ecf43a0c21cacb3a1ce7",
+    "legacy_numeric_exporter_sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+    "firmware_common_files": {
+      "cukd_model.c": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+      "cukd_model.h": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648",
+      "cukd_preprocess.c": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+      "cukd_preprocess.h": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    },
+    "host_self_test_source_sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0",
+    "calibration_partition": "train only",
+    "feature_overlap_audit": {
+      "train_validation_feature_overlap": 2425,
+      "train_test_feature_overlap": 2433,
+      "validation_test_feature_overlap": 676
+    },
+    "teacher_soft_target_provenance": {
+      "source_type": "bound_active_v1_calibrated_rf_soft_targets",
+      "rf_seed": 42,
+      "rf_config": {
+        "n_estimators": 500,
+        "max_depth": 15,
+        "calibration_method": "isotonic",
+        "calibration_cv": 3
+      },
+      "cache_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\rf_soft_seed_42.npy",
+      "cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+      "expected_cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+      "preprocessing_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\leakage_free_preprocessing.json",
+      "preprocessing_report_sha256": "8088aa7362d2c50207c808a02fde3bba4faa203282e09cc0dbafe0f3bcd389ee",
+      "execution_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\execution_manifest.json",
+      "execution_manifest_sha256": "bf4dfe1fff61e170d6967d99b842433dbcf0d3a84f8a7a3692e12df4dfd6815d",
+      "executed_source_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\run_leakage_free_wsnds.executed.py",
+      "executed_source_sha256": "728eb19b1330e94652db9cf6f57f3d0d698fae0b9849e48b4e8ba25ba20eee27",
+      "active_protocol_id": "archive_random_split_train_scaler_retuned_v1",
+      "verified_split_hashes": {
+        "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+        "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+        "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+      },
+      "verified_transformed_split_hashes": {
+        "train": "95091edecd00aefa3268d7f39655a3c042c31e314a3dd8ae2397592e11641432",
+        "validation": "dc1cfdbcf63a360b0ca105be227430e88d36653cb7698f165f3a5d4b965dfa5e",
+        "test": "d1651b05c8c50b1f22530fbbfe2bfc54364b9dc781dfc98a40db4d134ebda776"
+      },
+      "verified_sklearn_version": "1.8.0",
+      "cache_content_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975"
+    }
+  },
+  "export_identity_payload": {
+    "provenance": {
+      "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1",
+      "student": "student_A",
+      "seed": 42,
+      "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+      "split_hashes": {
+        "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+        "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+        "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+      },
+      "scaler_sha256": "f4a7f826b806bea34fc297c64212c32fd9b601dc64582b8b40ceb88704bf5a26",
+      "model_file_sha256": "2e63567e7de85be8bb17cb31c5d1e56de1f5840ee7ba2a5e7631108c5616b43c",
+      "model_artifact_sha256": "56e14cb55e2d4ef437e9ce8700564358e74ea48259d737f61e54588e9e03d253",
+      "execution_contract_sha256": "1e8d4fe0d72c53e214118e89bee02770885daeddde8d96b80b51c18b1cada584",
+      "seed_completion_sha256": "d544c9d13171900b57391a04ddd110f081e994a19c4fea1c0537fc39c5798df7",
+      "exporter_sha256": "dfb4cfc67fb7dbe0732e1a035b261d0c2f53b661bbb1ecf43a0c21cacb3a1ce7",
+      "legacy_numeric_exporter_sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+      "firmware_common_files": {
+        "cukd_model.c": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+        "cukd_model.h": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648",
+        "cukd_preprocess.c": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+        "cukd_preprocess.h": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+      },
+      "host_self_test_source_sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0",
+      "calibration_partition": "train only",
+      "feature_overlap_audit": {
+        "train_validation_feature_overlap": 2425,
+        "train_test_feature_overlap": 2433,
+        "validation_test_feature_overlap": 676
+      },
+      "teacher_soft_target_provenance": {
+        "source_type": "bound_active_v1_calibrated_rf_soft_targets",
+        "rf_seed": 42,
+        "rf_config": {
+          "n_estimators": 500,
+          "max_depth": 15,
+          "calibration_method": "isotonic",
+          "calibration_cv": 3
+        },
+        "cache_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\rf_soft_seed_42.npy",
+        "cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+        "expected_cache_file_sha256": "9ac2937644343782322fc397d0b8a3d7c8dc1d5047812e031e0829b79b8c069c",
+        "preprocessing_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\leakage_free_preprocessing.json",
+        "preprocessing_report_sha256": "8088aa7362d2c50207c808a02fde3bba4faa203282e09cc0dbafe0f3bcd389ee",
+        "execution_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\execution_manifest.json",
+        "execution_manifest_sha256": "bf4dfe1fff61e170d6967d99b842433dbcf0d3a84f8a7a3692e12df4dfd6815d",
+        "executed_source_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\leakage_free_rerun\\main_10seed\\executed_source_snapshot\\run_leakage_free_wsnds.executed.py",
+        "executed_source_sha256": "728eb19b1330e94652db9cf6f57f3d0d698fae0b9849e48b4e8ba25ba20eee27",
+        "active_protocol_id": "archive_random_split_train_scaler_retuned_v1",
+        "verified_split_hashes": {
+          "train": "e40f6710abaa97013f2241275cdeff3fa262c7cae61a946292c0b4722703bb93",
+          "validation": "4688ecc06fe61f590bef069b17830cd1a6b9e3e6afafa211dab3f5d075ff7d37",
+          "test": "64256808f3cf9f06ffe4be7e423e5780b4c5e4344eb52d20e8fdd45db79130ff"
+        },
+        "verified_transformed_split_hashes": {
+          "train": "95091edecd00aefa3268d7f39655a3c042c31e314a3dd8ae2397592e11641432",
+          "validation": "dc1cfdbcf63a360b0ca105be227430e88d36653cb7698f165f3a5d4b965dfa5e",
+          "test": "d1651b05c8c50b1f22530fbbfe2bfc54364b9dc781dfc98a40db4d134ebda776"
+        },
+        "verified_sklearn_version": "1.8.0",
+        "cache_content_sha256": "dc2db4b1b604dbf5eaa19e2a845fab02e0121ac65c1b7c091f1674e4c5462975"
+      }
+    },
+    "core_files": [
+      {
+        "path": "model_weights.h",
+        "size_bytes": 6861,
+        "sha256": "9d8aa9f087ab73f4f9c205307ddde77244653de13a3f02accf36e93ecc7c4b1a"
+      },
+      {
+        "path": "preprocess_metadata.h",
+        "size_bytes": 1400,
+        "sha256": "501d6a2e525ca4d618946c462fdb12bc8c74e975a89409782534aa8872b8ee82"
+      },
+      {
+        "path": "preprocess_metadata.json",
+        "size_bytes": 2602,
+        "sha256": "1f0dcc5f9ba259089b68fc3beb840a190c0ed3a936d89c4dc311579e76e151d8"
+      },
+      {
+        "path": "preprocess_int_metadata.h",
+        "size_bytes": 895,
+        "sha256": "a7f16d709d1492a8a8fb5dafa22922c743a4a6fa47de4ed14aa5f07fb89c08c5"
+      },
+      {
+        "path": "preprocess_int_metadata.json",
+        "size_bytes": 1557,
+        "sha256": "c8bba0403ccd187e4a0e9c3b0e8fccc955a3e5f6f947e76aef3bdf08eef46e52"
+      },
+      {
+        "path": "test_vectors.h",
+        "size_bytes": 18449847,
+        "sha256": "ac13bc341645edba0c404542d5c21a576ec3a988e1eff1796e5c7a7f4a53a96a"
+      },
+      {
+        "path": "hil_replay_vectors.csv",
+        "size_bytes": 4393218,
+        "sha256": "3099b82d9c38001a3855b6a03ba5758f3d0597608eec81ae91204b8527cddbcb"
+      },
+      {
+        "path": "hil_reference_predictions.csv",
+        "size_bytes": 2641854,
+        "sha256": "025e2efec1c9ba22d2258d273b23df83ce4c53ed8cb821723be1c4391eaf401f"
+      },
+      {
+        "path": "equivalence_report.json",
+        "size_bytes": 778287,
+        "sha256": "172b31a4cbe70694ad12a513e6369018ec2713cd22ade43132063e56700ae78c"
+      }
+    ]
+  },
+  "gates": {
+    "full_test_rows": 56200,
+    "saved_test_rows_and_labels_exact": true,
+    "saved_fp32_predictions_exact": true,
+    "raw_input_saturation_count": 0,
+    "standardized_input_saturation_count": 0,
+    "strict_saturation_audit": {
+      "parameter_layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "weight_saturation_count": 0,
+      "bias_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "activation_layers": [
+        {
+          "layer": 0,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 21263
+        },
+        {
+          "layer": 1,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 24358
+        },
+        {
+          "layer": 2,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": -20183,
+          "maximum_before_clip": 8261
+        }
+      ],
+      "activation_saturation_count": 0
+    },
+    "calibration_partition_saturation_audit": {
+      "partition": "training calibration partition",
+      "rows_audited": 262252,
+      "chunk_size": 8192,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "parameter_layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "activation_layers": [
+        {
+          "layer": 0,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 21351
+        },
+        {
+          "layer": 1,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 25520
+        },
+        {
+          "layer": 2,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": -21374,
+          "maximum_before_clip": 8414
+        }
+      ],
+      "activation_saturation_count": 0
+    },
+    "accumulator_bounds": [
+      {
+        "layer": 0,
+        "pre_rescale_absolute_bound": 8490709,
+        "output_shift": 5,
+        "post_left_shift_absolute_bound": 8490709,
+        "int32_max": 2147483647,
+        "passed": true
+      },
+      {
+        "layer": 1,
+        "pre_rescale_absolute_bound": 26413982,
+        "output_shift": 5,
+        "post_left_shift_absolute_bound": 26413982,
+        "int32_max": 2147483647,
+        "passed": true
+      },
+      {
+        "layer": 2,
+        "pre_rescale_absolute_bound": 13795950,
+        "output_shift": 4,
+        "post_left_shift_absolute_bound": 13795950,
+        "int32_max": 2147483647,
+        "passed": true
+      }
+    ],
+    "preprocess_multiply_bounds": [
+      {
+        "feature": 0,
+        "maximum_centered_absolute": 2147755718,
+        "inverse_scale_absolute": 1167,
+        "maximum_product_absolute": 2506430922906,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 1,
+        "maximum_centered_absolute": 2147483678,
+        "inverse_scale_absolute": 3277413,
+        "maximum_product_absolute": 7038190923565014,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 2,
+        "maximum_centered_absolute": 2217685418,
+        "inverse_scale_absolute": 3,
+        "maximum_product_absolute": 6653056254,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 3,
+        "maximum_centered_absolute": 2147489445,
+        "inverse_scale_absolute": 47745,
+        "maximum_product_absolute": 102531883551525,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 4,
+        "maximum_centered_absolute": 2147483717,
+        "inverse_scale_absolute": 505066,
+        "maximum_product_absolute": 1084621011010322,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 5,
+        "maximum_centered_absolute": 2147485423,
+        "inverse_scale_absolute": 148866,
+        "maximum_product_absolute": 319687564980318,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 6,
+        "maximum_centered_absolute": 2147483848,
+        "inverse_scale_absolute": 2532650,
+        "maximum_product_absolute": 5438824967637200,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 7,
+        "maximum_centered_absolute": 2147483837,
+        "inverse_scale_absolute": 222892,
+        "maximum_product_absolute": 478656967396604,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 8,
+        "maximum_centered_absolute": 2147483722,
+        "inverse_scale_absolute": 378830,
+        "maximum_product_absolute": 813531258405260,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 9,
+        "maximum_centered_absolute": 2147483840,
+        "inverse_scale_absolute": 2415510,
+        "maximum_product_absolute": 5187268690358400,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 10,
+        "maximum_centered_absolute": 2147486139,
+        "inverse_scale_absolute": 71196,
+        "maximum_product_absolute": 152892423152244,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 11,
+        "maximum_centered_absolute": 2147495134,
+        "inverse_scale_absolute": 24624,
+        "maximum_product_absolute": 52879920179616,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 12,
+        "maximum_centered_absolute": 2147502530,
+        "inverse_scale_absolute": 4556,
+        "maximum_product_absolute": 9784021526680,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 13,
+        "maximum_centered_absolute": 2147484810,
+        "inverse_scale_absolute": 53436,
+        "maximum_product_absolute": 114752998307160,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 14,
+        "maximum_centered_absolute": 2147489399,
+        "inverse_scale_absolute": 20900,
+        "maximum_product_absolute": 44882528439100,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 15,
+        "maximum_centered_absolute": 2147484287,
+        "inverse_scale_absolute": 436179,
+        "maximum_product_absolute": 936687548819373,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 16,
+        "maximum_centered_absolute": 2147483726,
+        "inverse_scale_absolute": 1607034,
+        "maximum_product_absolute": 3451079362128684,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      }
+    ],
+    "integer_preprocess_reference_delta": {
+      "max_abs_delta_vs_direct_standardized_q": 231,
+      "exact_match_vs_direct_standardized_q": false,
+      "interpretation": "The integer scaler is an approximation of direct floating-point StandardScaler quantization. Deployment preservation is therefore gated by full-test prediction agreement and macro-F1, not by numeric identity of the two preprocessing paths."
+    },
+    "fixed_vs_fp32_agreement": 0.9919395017793594,
+    "minimum_fixed_vs_fp32_agreement": 0.99,
+    "fp32_macro_f1": 0.9485087159320515,
+    "fixed_macro_f1": 0.9244157867972325,
+    "macro_f1_drop": 0.024092929134819085,
+    "maximum_macro_f1_drop": 0.03
+  },
+  "fp32_metrics": {
+    "accuracy": 0.991423487544484,
+    "macro_precision": 0.9439783789489624,
+    "macro_recall": 0.954176818585489,
+    "macro_f1": 0.9485087159320515,
+    "per_class_precision": [
+      0.9157266091572661,
+      0.9119266055045872,
+      0.9143113503813369,
+      0.9980971810816642,
+      0.9798301486199575
+    ],
+    "per_class_recall": [
+      0.9157266091572661,
+      1.0,
+      0.9310187300137049,
+      0.9974319264472369,
+      0.9267068273092369
+    ],
+    "per_class_f1": [
+      0.9157266091572661,
+      0.9539347408829175,
+      0.9225894069714803,
+      0.9977644428756324,
+      0.9525283797729618
+    ],
+    "per_class_support": [
+      1507,
+      497,
+      2189,
+      51011,
+      996
+    ],
+    "confusion_matrix": [
+      [
+        1380,
+        0,
+        126,
+        0,
+        1
+      ],
+      [
+        0,
+        497,
+        0,
+        0,
+        0
+      ],
+      [
+        124,
+        0,
+        2038,
+        25,
+        2
+      ],
+      [
+        3,
+        48,
+        64,
+        50880,
+        16
+      ],
+      [
+        0,
+        0,
+        1,
+        72,
+        923
+      ]
+    ]
+  },
+  "fixed_metrics": {
+    "accuracy": 0.9874911032028469,
+    "macro_precision": 0.9202406926921718,
+    "macro_recall": 0.9361625111703461,
+    "macro_f1": 0.9244157867972325,
+    "per_class_precision": [
+      0.7702127659574468,
+      0.9119266055045872,
+      0.9336188436830836,
+      0.9982932140544994,
+      0.987152034261242
+    ],
+    "per_class_recall": [
+      0.9608493696084937,
+      1.0,
+      0.7967108268615807,
+      0.9975495481366764,
+      0.9257028112449799
+    ],
+    "per_class_f1": [
+      0.8550339533510481,
+      0.9539347408829175,
+      0.8597485826965738,
+      0.9979212425478506,
+      0.9554404145077721
+    ],
+    "per_class_support": [
+      1507,
+      497,
+      2189,
+      51011,
+      996
+    ],
+    "confusion_matrix": [
+      [
+        1448,
+        0,
+        56,
+        2,
+        1
+      ],
+      [
+        0,
+        497,
+        0,
+        0,
+        0
+      ],
+      [
+        430,
+        0,
+        1744,
+        12,
+        3
+      ],
+      [
+        2,
+        48,
+        67,
+        50886,
+        8
+      ],
+      [
+        0,
+        0,
+        1,
+        73,
+        922
+      ]
+    ]
+  },
+  "fixed_point_calibration": {
+    "calibration_source": "WSN-DS training partition only after the bound train-only StandardScaler",
+    "input_max_abs": 68.63758087158203,
+    "input_frac": 8,
+    "layers": [
+      {
+        "index": 0,
+        "source_prefix": "net.0",
+        "output_max_abs": 83.56107330322266,
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 8,
+        "output_shift": 5
+      },
+      {
+        "index": 1,
+        "source_prefix": "net.2",
+        "output_max_abs": 99.99954986572266,
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 8,
+        "output_shift": 5
+      },
+      {
+        "index": 2,
+        "source_prefix": "net.4",
+        "output_max_abs": 41.15989685058594,
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      }
+    ],
+    "protocol_id": "wsnds_archive_split_train_only_scaler_deployment_seed42_v1"
+  },
+  "host_equivalence": {
+    "compile": {
+      "command": [
+        "gcc",
+        "-std=c99",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "-I",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_train_only_student_A_seed42_copy.tmp.15368.1785957715315554600",
+        "-I",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common\\cukd_preprocess.c",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common\\cukd_model.c",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\wsnds_train_only_self_test.c",
+        "-o",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_train_only_student_A_seed42_copy.tmp.15368.1785957715315554600\\cukd_train_only_self_test.exe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "self_test": {
+      "command": [
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_train_only_student_A_seed42_copy.tmp.15368.1785957715315554600\\cukd_train_only_self_test.exe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "executable": "cukd_train_only_self_test.exe",
+    "executable_sha256": "00965c159e554678604e0a7d98fa37f4ff5929dadb37baba3e354b66cfd235fd"
+  },
+  "claim_boundary": "Replay of already extracted 17-feature WSN-DS records; no live packet capture, feature extraction, board energy, or TelosB execution. The archive-compatible random-row split contains exact feature groups that cross partitions; deployment evidence establishes execution fidelity, not duplicate-free generalization."
+}
