@@ -1,0 +1,659 @@
+{
+  "status": "passed",
+  "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+  "provenance": {
+    "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+    "student": "student_B",
+    "seed": 42,
+    "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "split_hashes": {
+      "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+      "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+      "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+    },
+    "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+    "model_file_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+    "model_artifact_sha256": "df741ddc1e451d61d3d22b88421f55851849800556dc2514495108be1548a4f6",
+    "execution_contract_sha256": "aea903fba31258755cf841e8db90df87195084a74280bb72a5dff27d736d83a0",
+    "seed_completion_sha256": "11de7cffe0a8baacf54e29c71acabb3f4c3ef102b84466c59fead9dfeb78fc90",
+    "exporter_sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82",
+    "legacy_numeric_exporter_sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+    "firmware_common_files": {
+      "cukd_model.c": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+      "cukd_model.h": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648",
+      "cukd_preprocess.c": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+      "cukd_preprocess.h": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    },
+    "host_self_test_source_sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0",
+    "calibration_partition": "train only",
+    "feature_overlap_audit": {
+      "train_validation_feature_overlap": 0,
+      "train_test_feature_overlap": 0,
+      "validation_test_feature_overlap": 0,
+      "num_feature_groups": 361156,
+      "conflicting_label_feature_groups": 3,
+      "group_stratification_label": "majority label; smallest class index breaks ties"
+    },
+    "teacher_soft_target_provenance": {
+      "source_type": "fresh_calibrated_rf_soft_targets",
+      "rf_seed": 42,
+      "rf_config": {
+        "n_estimators": 500,
+        "max_depth": 15,
+        "calibration_method": "isotonic",
+        "calibration_cv": 3
+      },
+      "calibration_audit": {
+        "strategy": "stratified_group_kfold",
+        "folds": 3,
+        "group_overlap_per_fold": [
+          0,
+          0,
+          0
+        ],
+        "unique_groups": 252799
+      },
+      "train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452"
+    },
+    "teacher_probability_file_sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf"
+  },
+  "export_identity_payload": {
+    "provenance": {
+      "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+      "student": "student_B",
+      "seed": 42,
+      "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+      "split_hashes": {
+        "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+        "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+        "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+      },
+      "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+      "model_file_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+      "model_artifact_sha256": "df741ddc1e451d61d3d22b88421f55851849800556dc2514495108be1548a4f6",
+      "execution_contract_sha256": "aea903fba31258755cf841e8db90df87195084a74280bb72a5dff27d736d83a0",
+      "seed_completion_sha256": "11de7cffe0a8baacf54e29c71acabb3f4c3ef102b84466c59fead9dfeb78fc90",
+      "exporter_sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82",
+      "legacy_numeric_exporter_sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+      "firmware_common_files": {
+        "cukd_model.c": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+        "cukd_model.h": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648",
+        "cukd_preprocess.c": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+        "cukd_preprocess.h": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+      },
+      "host_self_test_source_sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0",
+      "calibration_partition": "train only",
+      "feature_overlap_audit": {
+        "train_validation_feature_overlap": 0,
+        "train_test_feature_overlap": 0,
+        "validation_test_feature_overlap": 0,
+        "num_feature_groups": 361156,
+        "conflicting_label_feature_groups": 3,
+        "group_stratification_label": "majority label; smallest class index breaks ties"
+      },
+      "teacher_soft_target_provenance": {
+        "source_type": "fresh_calibrated_rf_soft_targets",
+        "rf_seed": 42,
+        "rf_config": {
+          "n_estimators": 500,
+          "max_depth": 15,
+          "calibration_method": "isotonic",
+          "calibration_cv": 3
+        },
+        "calibration_audit": {
+          "strategy": "stratified_group_kfold",
+          "folds": 3,
+          "group_overlap_per_fold": [
+            0,
+            0,
+            0
+          ],
+          "unique_groups": 252799
+        },
+        "train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452"
+      },
+      "teacher_probability_file_sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf"
+    },
+    "core_files": [
+      {
+        "path": "model_weights.h",
+        "size_bytes": 14831,
+        "sha256": "4f2da9d49072739e4cc5e3054591ed4ebbd897e963ae0c554926330e95e5c16b"
+      },
+      {
+        "path": "preprocess_metadata.h",
+        "size_bytes": 1400,
+        "sha256": "0072cf13c0691ffec9772ae5745e4d61ab27ead5673dee6d3a0e0858c4576342"
+      },
+      {
+        "path": "preprocess_metadata.json",
+        "size_bytes": 2654,
+        "sha256": "189a3c56bc9cc2ef70a29f21017e8350eac2a865fb459ca477b9f937da4987b0"
+      },
+      {
+        "path": "preprocess_int_metadata.h",
+        "size_bytes": 895,
+        "sha256": "6d9dccf3bcee753625df80f3246a18766a4d2f7c5f404164c2025a7928f6d05c"
+      },
+      {
+        "path": "preprocess_int_metadata.json",
+        "size_bytes": 1557,
+        "sha256": "fbb083b1cde16ae12d81012c7e946e19be720f22a6624e4e9e4b11178a1de246"
+      },
+      {
+        "path": "test_vectors.h",
+        "size_bytes": 18495450,
+        "sha256": "e044855a735f59fd540e11e94ea223b023ac0623ab5037f13684b118bb21d24e"
+      },
+      {
+        "path": "hil_replay_vectors.csv",
+        "size_bytes": 4399794,
+        "sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625"
+      },
+      {
+        "path": "hil_reference_predictions.csv",
+        "size_bytes": 2662926,
+        "sha256": "06e5dc48f28f56f5e3a9e687ffaae3aa3c3bc0269a1a2d537cfd4c917a95cffb"
+      },
+      {
+        "path": "equivalence_report.json",
+        "size_bytes": 779702,
+        "sha256": "799a34ef5ddba96fc2292dd458e7fe132443d0142dd57e51b35e530b9e8570ca"
+      }
+    ]
+  },
+  "gates": {
+    "full_test_rows": 56301,
+    "saved_test_rows_and_labels_exact": true,
+    "saved_fp32_predictions_exact": true,
+    "raw_input_saturation_count": 0,
+    "standardized_input_saturation_count": 0,
+    "strict_saturation_audit": {
+      "parameter_layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "weight_saturation_count": 0,
+      "bias_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "activation_layers": [
+        {
+          "layer": 0,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 19517
+        },
+        {
+          "layer": 1,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 26377
+        },
+        {
+          "layer": 2,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": -14496,
+          "maximum_before_clip": 6019
+        }
+      ],
+      "activation_saturation_count": 0
+    },
+    "calibration_partition_saturation_audit": {
+      "partition": "training calibration partition",
+      "rows_audited": 262197,
+      "chunk_size": 8192,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "parameter_layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "activation_layers": [
+        {
+          "layer": 0,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 19565
+        },
+        {
+          "layer": 1,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": 0,
+          "maximum_before_clip": 26333
+        },
+        {
+          "layer": 2,
+          "activation_saturation_count": 0,
+          "minimum_before_clip": -16368,
+          "maximum_before_clip": 5897
+        }
+      ],
+      "activation_saturation_count": 0
+    },
+    "accumulator_bounds": [
+      {
+        "layer": 0,
+        "pre_rescale_absolute_bound": 7343799,
+        "output_shift": 4,
+        "post_left_shift_absolute_bound": 7343799,
+        "int32_max": 2147483647,
+        "passed": true
+      },
+      {
+        "layer": 1,
+        "pre_rescale_absolute_bound": 17761195,
+        "output_shift": 4,
+        "post_left_shift_absolute_bound": 17761195,
+        "int32_max": 2147483647,
+        "passed": true
+      },
+      {
+        "layer": 2,
+        "pre_rescale_absolute_bound": 17303265,
+        "output_shift": 5,
+        "post_left_shift_absolute_bound": 17303265,
+        "int32_max": 2147483647,
+        "passed": true
+      }
+    ],
+    "preprocess_multiply_bounds": [
+      {
+        "feature": 0,
+        "maximum_centered_absolute": 2147756089,
+        "inverse_scale_absolute": 1166,
+        "maximum_product_absolute": 2504283599774,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 1,
+        "maximum_centered_absolute": 2147483678,
+        "inverse_scale_absolute": 3281864,
+        "maximum_product_absolute": 7047749373415792,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 2,
+        "maximum_centered_absolute": 2217685533,
+        "inverse_scale_absolute": 3,
+        "maximum_product_absolute": 6653056599,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 3,
+        "maximum_centered_absolute": 2147489435,
+        "inverse_scale_absolute": 47796,
+        "maximum_product_absolute": 102641405035260,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 4,
+        "maximum_centered_absolute": 2147483717,
+        "inverse_scale_absolute": 504942,
+        "maximum_product_absolute": 1084354723029414,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 5,
+        "maximum_centered_absolute": 2147485423,
+        "inverse_scale_absolute": 149074,
+        "maximum_product_absolute": 320134241948302,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 6,
+        "maximum_centered_absolute": 2147483848,
+        "inverse_scale_absolute": 2533930,
+        "maximum_product_absolute": 5441573746962640,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 7,
+        "maximum_centered_absolute": 2147483838,
+        "inverse_scale_absolute": 221754,
+        "maximum_product_absolute": 476213131011852,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 8,
+        "maximum_centered_absolute": 2147483722,
+        "inverse_scale_absolute": 378140,
+        "maximum_product_absolute": 812049494637080,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 9,
+        "maximum_centered_absolute": 2147483839,
+        "inverse_scale_absolute": 2414990,
+        "maximum_product_absolute": 5186151996346610,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 10,
+        "maximum_centered_absolute": 2147486132,
+        "inverse_scale_absolute": 71423,
+        "maximum_product_absolute": 153379902005836,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 11,
+        "maximum_centered_absolute": 2147495148,
+        "inverse_scale_absolute": 24606,
+        "maximum_product_absolute": 52841265611688,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 12,
+        "maximum_centered_absolute": 2147502593,
+        "inverse_scale_absolute": 4542,
+        "maximum_product_absolute": 9753956777406,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 13,
+        "maximum_centered_absolute": 2147484808,
+        "inverse_scale_absolute": 53835,
+        "maximum_product_absolute": 115609844638680,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 14,
+        "maximum_centered_absolute": 2147489409,
+        "inverse_scale_absolute": 20889,
+        "maximum_product_absolute": 44858906264601,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 15,
+        "maximum_centered_absolute": 2147484289,
+        "inverse_scale_absolute": 435352,
+        "maximum_product_absolute": 934911580184728,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      },
+      {
+        "feature": 16,
+        "maximum_centered_absolute": 2147483726,
+        "inverse_scale_absolute": 1568278,
+        "maximum_product_absolute": 3367851482843828,
+        "int64_max": 9223372036854775807,
+        "passed": true
+      }
+    ],
+    "integer_preprocess_reference_delta": {
+      "max_abs_delta_vs_direct_standardized_q": 228,
+      "exact_match_vs_direct_standardized_q": false,
+      "interpretation": "The integer scaler is an approximation of direct floating-point StandardScaler quantization. Deployment preservation is therefore gated by full-test prediction agreement and macro-F1, not by numeric identity of the two preprocessing paths."
+    },
+    "fixed_vs_fp32_agreement": 0.9947425445373972,
+    "minimum_fixed_vs_fp32_agreement": 0.99,
+    "fp32_macro_f1": 0.9223807931422797,
+    "fixed_macro_f1": 0.9145641200681947,
+    "macro_f1_drop": 0.007816673074085068,
+    "maximum_macro_f1_drop": 0.03,
+    "original_code_level_macro_f1_drop": 0.01,
+    "passes_original_0_01_code_level_gate": true,
+    "passes_frozen_0_03_reporting_tolerance": true
+  },
+  "fp32_metrics": {
+    "accuracy": 0.9872115948206959,
+    "macro_precision": 0.9140187823378657,
+    "macro_recall": 0.9354647889010911,
+    "macro_f1": 0.9223807931422797,
+    "per_class_precision": [
+      0.7883795309168443,
+      0.8931159420289855,
+      0.9077163712200208,
+      0.998627370237465,
+      0.9822546972860126
+    ],
+    "per_class_recall": [
+      0.930188679245283,
+      0.9959595959595959,
+      0.8101442531409958,
+      0.9971999216761308,
+      0.9438314944834504
+    ],
+    "per_class_f1": [
+      0.8534333525678015,
+      0.941738299904489,
+      0.8561593312023604,
+      0.9979131354894334,
+      0.9626598465473146
+    ],
+    "per_class_support": [
+      1590,
+      495,
+      2149,
+      51070,
+      997
+    ],
+    "confusion_matrix": [
+      [
+        1479,
+        0,
+        111,
+        0,
+        0
+      ],
+      [
+        0,
+        493,
+        0,
+        2,
+        0
+      ],
+      [
+        396,
+        0,
+        1741,
+        12,
+        0
+      ],
+      [
+        1,
+        59,
+        66,
+        50927,
+        17
+      ],
+      [
+        0,
+        0,
+        0,
+        56,
+        941
+      ]
+    ]
+  },
+  "fixed_metrics": {
+    "accuracy": 0.9860038009982061,
+    "macro_precision": 0.9041352115825836,
+    "macro_recall": 0.9261806200310622,
+    "macro_f1": 0.9145641200681947,
+    "per_class_precision": [
+      0.8205445544554455,
+      0.8931159420289855,
+      0.8481651376146789,
+      0.9986463421811548,
+      0.960204081632653
+    ],
+    "per_class_recall": [
+      0.8339622641509434,
+      0.9959595959595959,
+      0.8604001861330851,
+      0.9967495594282357,
+      0.9438314944834504
+    ],
+    "per_class_f1": [
+      0.827199001871491,
+      0.941738299904489,
+      0.8542388542388543,
+      0.9976970492831453,
+      0.9519473950429944
+    ],
+    "per_class_support": [
+      1590,
+      495,
+      2149,
+      51070,
+      997
+    ],
+    "confusion_matrix": [
+      [
+        1326,
+        0,
+        264,
+        0,
+        0
+      ],
+      [
+        0,
+        493,
+        0,
+        2,
+        0
+      ],
+      [
+        289,
+        0,
+        1849,
+        11,
+        0
+      ],
+      [
+        1,
+        59,
+        67,
+        50904,
+        39
+      ],
+      [
+        0,
+        0,
+        0,
+        56,
+        941
+      ]
+    ]
+  },
+  "fixed_point_calibration": {
+    "calibration_source": "WSN-DS FG-DS training partition only after the bound train-only StandardScaler",
+    "input_max_abs": 66.98252868652344,
+    "input_frac": 8,
+    "layers": [
+      {
+        "index": 0,
+        "source_prefix": "net.0",
+        "output_max_abs": 37.38090515136719,
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      },
+      {
+        "index": 1,
+        "source_prefix": "net.2",
+        "output_max_abs": 50.03019332885742,
+        "input_frac": 9,
+        "weight_frac": 4,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      },
+      {
+        "index": 2,
+        "source_prefix": "net.4",
+        "output_max_abs": 32.16026306152344,
+        "input_frac": 9,
+        "weight_frac": 5,
+        "accum_frac": 14,
+        "output_frac": 9,
+        "output_shift": 5
+      }
+    ],
+    "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1"
+  },
+  "host_equivalence": {
+    "compile": {
+      "command": [
+        "gcc",
+        "-std=c99",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "-I",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_fgds_student_B_seed42.tmp.36708.1786377005197320200",
+        "-I",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common\\cukd_preprocess.c",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\hardware_hil\\firmware\\common\\cukd_model.c",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\wsnds_train_only_self_test.c",
+        "-o",
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_fgds_student_B_seed42.tmp.36708.1786377005197320200\\cukd_train_only_self_test.exe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "self_test": {
+      "command": [
+        "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\.generated_fgds_student_B_seed42.tmp.36708.1786377005197320200\\cukd_train_only_self_test.exe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "executable": "cukd_train_only_self_test.exe",
+    "executable_sha256": "bb351f892ef2dc971414fa53e257ca2c4aa3d3823c3832a4034844c09831580a"
+  },
+  "claim_boundary": "Replay of already extracted 17-feature WSN-DS records from the feature-group-disjoint seed-42 test partition; no live packet capture, feature extraction, board energy, or TelosB execution. The deployment evidence establishes fixed-point execution fidelity for the preserved FG-DS seed-42 RF-KD model, not five-seed hardware replication."
+}
