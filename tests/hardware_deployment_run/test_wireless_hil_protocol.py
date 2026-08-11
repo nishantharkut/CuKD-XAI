@@ -718,6 +718,9 @@ class WirelessFirmwareStaticTests(unittest.TestCase):
             "cukd_parse_wifi_request_envelope",
             "cukd_endpoint_bound",
             "cukd_cache_response",
+            "cukd_is_unicast_ipv4",
+            "CUKD_WIFI_DHCP_TIMEOUT_MS",
+            '"DHCP_FAILED"',
             "cukd_secure_zero_buffer(cukd_serial_line",
             "cukd_aborted_stage_valid",
             "cukd_aborted_stage_response",
@@ -727,6 +730,20 @@ class WirelessFirmwareStaticTests(unittest.TestCase):
             "duplicate_replays",
         ]:
             self.assertIn(required, sketch)
+
+        connect_body = sketch[
+            sketch.index("static bool cukd_connect_wifi") : sketch.index(
+                "static void cukd_process_serial_line"
+            )
+        ]
+        address_capture = connect_body.index(
+            "IPAddress local_address = WiFi.localIP()"
+        )
+        dhcp_failure = connect_body.index('"DHCP_FAILED"')
+        udp_bind = connect_body.index("cukd_udp.begin")
+        self.assertLess(address_capture, dhcp_failure)
+        self.assertLess(dhcp_failure, udp_bind)
+        self.assertIn('"OK",\n        local_address,', connect_body)
 
 
 if __name__ == "__main__":

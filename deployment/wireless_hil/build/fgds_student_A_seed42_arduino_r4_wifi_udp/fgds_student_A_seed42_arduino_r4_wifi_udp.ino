@@ -26,6 +26,8 @@ extern "C" {
 
 #define CUKD_WIFI_STAGE_ORDINAL_MAX 255u
 #define CUKD_WIFI_STAGE_ROW_MAX 56301u
+#define CUKD_WIFI_CONNECT_TIMEOUT_MS 30000u
+#define CUKD_WIFI_DHCP_TIMEOUT_MS 15000u
 #define CUKD_WIFI_IDENTITY_TX "FFFFFFFFFFFFFFFC"
 #define CUKD_WIFI_ABORT_TX "FFFFFFFFFFFFFFFD"
 #define CUKD_WIFI_BEGIN_TX "FFFFFFFFFFFFFFFE"
@@ -149,6 +151,13 @@ static const char *cukd_connectivity_firmware() {
 #endif
 }
 
+static bool cukd_is_unicast_ipv4(const IPAddress &address) {
+    const uint8_t first = address[0];
+    const bool all_zero =
+        first == 0u && address[1] == 0u && address[2] == 0u && address[3] == 0u;
+    return !all_zero && first != 0u && first != 127u && first < 224u;
+}
+
 static void cukd_format_mac(char output[18]) {
     uint8_t mac[6] = {0u, 0u, 0u, 0u, 0u, 0u};
     WiFi.macAddress(mac);
@@ -251,7 +260,10 @@ static bool cukd_connect_wifi(cukd_wifi_config_t *config) {
 #endif
     (void)WiFi.begin(config->ssid, config->password);
     const uint32_t started = millis();
-    while (WiFi.status() != WL_CONNECTED && millis() - started < 30000u) {
+    while (
+        WiFi.status() != WL_CONNECTED &&
+        millis() - started < CUKD_WIFI_CONNECT_TIMEOUT_MS
+    ) {
         delay(100);
     }
     if (WiFi.status() != WL_CONNECTED) {
@@ -264,11 +276,42 @@ static bool cukd_connect_wifi(cukd_wifi_config_t *config) {
         );
         return false;
     }
+    IPAddress local_address = WiFi.localIP();
+    const uint32_t dhcp_started = millis();
+    while (
+        WiFi.status() == WL_CONNECTED &&
+        !cukd_is_unicast_ipv4(local_address) &&
+        millis() - dhcp_started < CUKD_WIFI_DHCP_TIMEOUT_MS
+    ) {
+        delay(100);
+        local_address = WiFi.localIP();
+    }
+    if (WiFi.status() != WL_CONNECTED) {
+        cukd_send_config_response(
+            config->session_id,
+            "CONNECT_FAILED",
+            zero_address,
+            0u,
+            0
+        );
+        return false;
+    }
+    if (!cukd_is_unicast_ipv4(local_address)) {
+        cukd_send_config_response(
+            config->session_id,
+            "DHCP_FAILED",
+            zero_address,
+            0u,
+            (int32_t)WiFi.RSSI()
+        );
+        WiFi.disconnect();
+        return false;
+    }
     if (cukd_udp.begin(CUKD_WIRELESS_UDP_PORT) != 1u) {
         cukd_send_config_response(
             config->session_id,
             "UDP_BIND_FAILED",
-            WiFi.localIP(),
+            local_address,
             0u,
             (int32_t)WiFi.RSSI()
         );
@@ -285,7 +328,7 @@ static bool cukd_connect_wifi(cukd_wifi_config_t *config) {
     cukd_send_config_response(
         cukd_session_id,
         "OK",
-        WiFi.localIP(),
+        local_address,
         CUKD_WIRELESS_UDP_PORT,
         (int32_t)WiFi.RSSI()
     );
