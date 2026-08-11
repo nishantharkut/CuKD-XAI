@@ -1,0 +1,1253 @@
+{
+  "status": "passed",
+  "registry_id": "cukd_fgds_evidence_registry_20260811_v1",
+  "generated_utc": "2026-08-11T10:52:19.771070+00:00",
+  "primary_wsnds_multi_seed": {
+    "status": "primary_multi_seed_evidence",
+    "protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+    "evaluation_unit": "ten optimizer seeds on one fixed feature-group split",
+    "seeds": [
+      42,
+      123,
+      456,
+      789,
+      1001,
+      2024,
+      3141,
+      5678,
+      8192,
+      9999
+    ],
+    "test_rows_per_model_seed": 56301,
+    "split_sizes": {
+      "train": 262197,
+      "validation": 56163,
+      "test": 56301
+    },
+    "scaler_fit_partition": "train only",
+    "cross_partition_exact_raw_feature_group_overlap": 0,
+    "conflicting_label_feature_groups": 3,
+    "routes": {
+      "student_A_scratch": {
+        "macro_f1_mean": 0.9147922276378904,
+        "macro_f1_sample_std": 0.0056582035624154975,
+        "macro_f1_values": [
+          0.9102878179701264,
+          0.9127184098496748,
+          0.9136135634364952,
+          0.9140663271131281,
+          0.9205760057747921,
+          0.9163903428461037,
+          0.9104557097556591,
+          0.9269548719283918,
+          0.9071707940474392,
+          0.9156884336570936
+        ],
+        "per_class_f1": [
+          {
+            "class_index": 0,
+            "class_name": "Blackhole",
+            "values": [
+              0.879697057966793,
+              0.8556789069171649,
+              0.8575514874141875,
+              0.863678516228748,
+              0.8718555785735425,
+              0.8644356211003971,
+              0.8478690375388089,
+              0.8836662749706229,
+              0.8517857142857143,
+              0.8496844520940906
+            ],
+            "mean": 0.862590264709007,
+            "sample_std": 0.01247417438084345,
+            "min": 0.8478690375388089,
+            "max": 0.8836662749706229
+          },
+          {
+            "class_index": 1,
+            "class_name": "Flooding",
+            "values": [
+              0.9283018867924527,
+              0.9249530956848029,
+              0.9345971563981043,
+              0.931067044381492,
+              0.9259606373008435,
+              0.9293119698397737,
+              0.9345971563981043,
+              0.9372623574144486,
+              0.939047619047619,
+              0.9372623574144486
+            ],
+            "mean": 0.9322361280672089,
+            "sample_std": 0.005009893980804274,
+            "min": 0.9249530956848029,
+            "max": 0.939047619047619
+          },
+          {
+            "class_index": 2,
+            "class_name": "Grayhole",
+            "values": [
+              0.8106178898059336,
+              0.8442161897774516,
+              0.8338122605363985,
+              0.8425249169435215,
+              0.8731521220791607,
+              0.8495964783565665,
+              0.8385185185185184,
+              0.8768167738861091,
+              0.8161333934204597,
+              0.8502817936780203
+            ],
+            "mean": 0.843567033700214,
+            "sample_std": 0.021141497107643896,
+            "min": 0.8106178898059336,
+            "max": 0.8768167738861091
+          },
+          {
+            "class_index": 3,
+            "class_name": "Normal",
+            "values": [
+              0.9937613162245139,
+              0.996801914927013,
+              0.9963782696177061,
+              0.9953431709665377,
+              0.9969886904236432,
+              0.9967821685044931,
+              0.9969001981518902,
+              0.996969013310838,
+              0.9949577849637805,
+              0.9973820706154585
+            ],
+            "mean": 0.9962264597705873,
+            "sample_std": 0.0011571716382356456,
+            "min": 0.9937613162245139,
+            "max": 0.9973820706154585
+          },
+          {
+            "class_index": 4,
+            "class_name": "TDMA",
+            "values": [
+              0.939060939060939,
+              0.941941941941942,
+              0.9457286432160803,
+              0.9377179870453414,
+              0.934923000496771,
+              0.9418254764292878,
+              0.9343936381709741,
+              0.9400599400599401,
+              0.9339294585196225,
+              0.9438314944834504
+            ],
+            "mean": 0.9393412519424349,
+            "sample_std": 0.0040881049386151955,
+            "min": 0.9339294585196225,
+            "max": 0.9457286432160803
+          }
+        ]
+      },
+      "student_A_rf_kd": {
+        "macro_f1_mean": 0.9137807036842556,
+        "macro_f1_sample_std": 0.0045457135429595764,
+        "macro_f1_values": [
+          0.9146237916726868,
+          0.9125468419852776,
+          0.9096287225595748,
+          0.9035214827826703,
+          0.9175728594370385,
+          0.9148331800245334,
+          0.9190117229227657,
+          0.9170863406862425,
+          0.9162882264816444,
+          0.9126938682901218
+        ],
+        "per_class_f1": [
+          {
+            "class_index": 0,
+            "class_name": "Blackhole",
+            "values": [
+              0.8308588064046579,
+              0.8233897298901752,
+              0.8186317321688501,
+              0.7992916174734357,
+              0.834678624813154,
+              0.8254731150495644,
+              0.8473625140291807,
+              0.8333333333333334,
+              0.8289393010423053,
+              0.8202820282028203
+            ],
+            "mean": 0.8262240802407478,
+            "sample_std": 0.012581353354653898,
+            "min": 0.7992916174734357,
+            "max": 0.8473625140291807
+          },
+          {
+            "class_index": 1,
+            "class_name": "Flooding",
+            "values": [
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9407265774378585,
+              0.9408396946564884,
+              0.9407265774378585,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9407265774378585
+            ],
+            "mean": 0.9413449226396999,
+            "sample_std": 0.0005088965967505939,
+            "min": 0.9407265774378585,
+            "max": 0.9417382999044891
+          },
+          {
+            "class_index": 2,
+            "class_name": "Grayhole",
+            "values": [
+              0.8403525954946132,
+              0.8395002402691013,
+              0.8305957342485903,
+              0.8174794785127957,
+              0.8518164435946464,
+              0.8437127177284657,
+              0.8458238708049457,
+              0.8502392344497608,
+              0.8516159471573485,
+              0.8412774070543376
+            ],
+            "mean": 0.8412413669314605,
+            "sample_std": 0.010589891772274339,
+            "min": 0.8174794785127957,
+            "max": 0.8518164435946464
+          },
+          {
+            "class_index": 3,
+            "class_name": "Normal",
+            "values": [
+              0.9980015673981191,
+              0.9979425077890777,
+              0.9979525661497468,
+              0.9979131354894335,
+              0.9980210435566353,
+              0.9980212761789079,
+              0.9980308982434829,
+              0.9979918695204975,
+              0.9979627017708822,
+              0.9980308210790316
+            ],
+            "mean": 0.9979868387175814,
+            "sample_std": 4.167125424137732e-05,
+            "min": 0.9979131354894335,
+            "max": 0.9980308982434829
+          },
+          {
+            "class_index": 4,
+            "class_name": "TDMA",
+            "values": [
+              0.9621676891615543,
+              0.9601634320735445,
+              0.9592252803261978,
+              0.9611848825331971,
+              0.9626216077828981,
+              0.9661190965092402,
+              0.9631147540983606,
+              0.962128966223132,
+              0.9611848825331971,
+              0.9631525076765609
+            ],
+            "mean": 0.9621063098917884,
+            "sample_std": 0.001893172555652244,
+            "min": 0.9592252803261978,
+            "max": 0.9661190965092402
+          }
+        ]
+      },
+      "student_B_scratch": {
+        "macro_f1_mean": 0.9328671717288433,
+        "macro_f1_sample_std": 0.005727443260750714,
+        "macro_f1_values": [
+          0.9292986132349995,
+          0.9240639331723861,
+          0.9370623905452931,
+          0.9292374140319193,
+          0.9316696247314893,
+          0.9390274759942322,
+          0.9330696243887051,
+          0.9288549641822318,
+          0.9437596634332802,
+          0.9326280135738958
+        ],
+        "per_class_f1": [
+          {
+            "class_index": 0,
+            "class_name": "Blackhole",
+            "values": [
+              0.884241531664212,
+              0.868040602891418,
+              0.9015264890751272,
+              0.8852838933951332,
+              0.8935157644259369,
+              0.9069478908188585,
+              0.895985936126575,
+              0.887719298245614,
+              0.9237237237237237,
+              0.8945518453427065
+            ],
+            "mean": 0.8941536975709304,
+            "sample_std": 0.014894361826898399,
+            "min": 0.868040602891418,
+            "max": 0.9237237237237237
+          },
+          {
+            "class_index": 1,
+            "class_name": "Flooding",
+            "values": [
+              0.931067044381492,
+              0.9275634995296331,
+              0.9337121212121211,
+              0.9337121212121211,
+              0.9293119698397737,
+              0.9363722697056029,
+              0.935483870967742,
+              0.9328287606433302,
+              0.9328287606433302,
+              0.939047619047619
+            ],
+            "mean": 0.9331928037182765,
+            "sample_std": 0.0033617138764697138,
+            "min": 0.9275634995296331,
+            "max": 0.939047619047619
+          },
+          {
+            "class_index": 2,
+            "class_name": "Grayhole",
+            "values": [
+              0.8875000000000001,
+              0.8820798514391829,
+              0.9053282588011416,
+              0.8835849975645398,
+              0.8962061560486758,
+              0.9111826967326276,
+              0.8954863625392228,
+              0.8877600387034349,
+              0.9214758751182592,
+              0.8944699347983578
+            ],
+            "mean": 0.8965074171745442,
+            "sample_std": 0.012713393595217785,
+            "min": 0.8820798514391829,
+            "max": 0.9214758751182592
+          },
+          {
+            "class_index": 3,
+            "class_name": "Normal",
+            "values": [
+              0.9974803674545828,
+              0.9973820706154585,
+              0.9975885662752172,
+              0.9974019353130913,
+              0.9973722914011177,
+              0.9973329672700175,
+              0.9973919523099851,
+              0.9973133567352381,
+              0.9974115616911131,
+              0.9973526816354544
+            ],
+            "mean": 0.9974027750701275,
+            "sample_std": 7.990969927141315e-05,
+            "min": 0.9973133567352381,
+            "max": 0.9975885662752172
+          },
+          {
+            "class_index": 4,
+            "class_name": "TDMA",
+            "values": [
+              0.946204122674711,
+              0.945253641386238,
+              0.9471565173628586,
+              0.946204122674711,
+              0.941941941941942,
+              0.9433015554440541,
+              0.9410000000000001,
+              0.9386533665835411,
+              0.943358395989975,
+              0.9377179870453414
+            ],
+            "mean": 0.9430791651103373,
+            "sample_std": 0.003248203303429706,
+            "min": 0.9377179870453414,
+            "max": 0.9471565173628586
+          }
+        ]
+      },
+      "student_B_rf_kd": {
+        "macro_f1_mean": 0.9321418755524803,
+        "macro_f1_sample_std": 0.010930384531076219,
+        "macro_f1_values": [
+          0.9214806336793947,
+          0.9356459288940758,
+          0.9428272336495134,
+          0.9189570630322852,
+          0.9374181876888121,
+          0.9399476866214039,
+          0.9506206918395854,
+          0.9253725865130029,
+          0.9305203292267302,
+          0.9186284143799993
+        ],
+        "per_class_f1": [
+          {
+            "class_index": 0,
+            "class_name": "Blackhole",
+            "values": [
+              0.8461308634598147,
+              0.8794726930320151,
+              0.9021065675340767,
+              0.8341859765272345,
+              0.8844822159269751,
+              0.8935513730330146,
+              0.9209876543209876,
+              0.85415421398685,
+              0.8681845416417017,
+              0.8391812865497076
+            ],
+            "mean": 0.8722437386012377,
+            "sample_std": 0.02885003463252829,
+            "min": 0.8341859765272345,
+            "max": 0.9209876543209876
+          },
+          {
+            "class_index": 1,
+            "class_name": "Flooding",
+            "values": [
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9408396946564884,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9408396946564884,
+              0.9417382999044891,
+              0.9417382999044891,
+              0.9417382999044891
+            ],
+            "mean": 0.941558578854889,
+            "sample_std": 0.000378885240141679,
+            "min": 0.9408396946564884,
+            "max": 0.9417382999044891
+          },
+          {
+            "class_index": 2,
+            "class_name": "Grayhole",
+            "values": [
+              0.8608383233532935,
+              0.8967905795428307,
+              0.9110851808634773,
+              0.8578278590266123,
+              0.9020962911771481,
+              0.9061549262813012,
+              0.9288899319408589,
+              0.8696693818878773,
+              0.882804995196926,
+              0.8519061583577713
+            ],
+            "mean": 0.8868063627628097,
+            "sample_std": 0.02605576345278135,
+            "min": 0.8519061583577713,
+            "max": 0.9288899319408589
+          },
+          {
+            "class_index": 3,
+            "class_name": "Normal",
+            "values": [
+              0.9980014499284832,
+              0.99806038282949,
+              0.9980212374123271,
+              0.9982861116279981,
+              0.9980798996845549,
+              0.9980897522555617,
+              0.9982468340172966,
+              0.9981485291092368,
+              0.9981977746434727,
+              0.9981486379264745
+            ],
+            "mean": 0.9981280609434895,
+            "sample_std": 9.463287273387295e-05,
+            "min": 0.9980014499284832,
+            "max": 0.9982861116279981
+          },
+          {
+            "class_index": 4,
+            "class_name": "TDMA",
+            "values": [
+              0.9606942317508933,
+              0.9621676891615543,
+              0.9611848825331971,
+              0.9636456733230927,
+              0.9606942317508933,
+              0.9602040816326531,
+              0.9641393442622952,
+              0.9631525076765609,
+              0.961676034747062,
+              0.9621676891615543
+            ],
+            "mean": 0.9619726365999757,
+            "sample_std": 0.0013361143684166691,
+            "min": 0.9602040816326531,
+            "max": 0.9641393442622952
+          }
+        ]
+      }
+    },
+    "paired_tests": {
+      "student_A": {
+        "comparison": "rf_kd_minus_scratch_macro_f1",
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          1001,
+          2024,
+          3141,
+          5678,
+          8192,
+          9999
+        ],
+        "differences": [
+          0.004335973702560447,
+          -0.00017156786439720406,
+          -0.003984840876920415,
+          -0.01054484433045777,
+          -0.0030031463377536705,
+          -0.001557162821570257,
+          0.008556013167106524,
+          -0.009868531242149259,
+          0.009117432434205264,
+          -0.0029945653669718464
+        ],
+        "difference_summary": {
+          "values": [
+            0.004335973702560447,
+            -0.00017156786439720406,
+            -0.003984840876920415,
+            -0.01054484433045777,
+            -0.0030031463377536705,
+            -0.001557162821570257,
+            0.008556013167106524,
+            -0.009868531242149259,
+            0.009117432434205264,
+            -0.0029945653669718464
+          ],
+          "mean": -0.0010115239536348185,
+          "sample_std": 0.006747863079546559,
+          "min": -0.01054484433045777,
+          "max": 0.009117432434205264
+        },
+        "wilcoxon": {
+          "statistic": 21.0,
+          "p_value_two_sided_exact": 0.556640625,
+          "nonzero_pairs": 10,
+          "positive_pairs": 3,
+          "negative_pairs": 7,
+          "zero_pairs": 0,
+          "rank_ties_present": false,
+          "enumerated_sign_assignments": 1024
+        },
+        "holm_adjusted_p": 1.0,
+        "reject_holm_alpha_0_05": false
+      },
+      "student_B": {
+        "comparison": "rf_kd_minus_scratch_macro_f1",
+        "seeds": [
+          42,
+          123,
+          456,
+          789,
+          1001,
+          2024,
+          3141,
+          5678,
+          8192,
+          9999
+        ],
+        "differences": [
+          -0.007817979555604815,
+          0.01158199572168972,
+          0.0057648431042203185,
+          -0.010280350999634091,
+          0.005748562957322845,
+          0.0009202106271717359,
+          0.01755106745088031,
+          -0.0034823776692288755,
+          -0.01323933420654999,
+          -0.013999599193896484
+        ],
+        "difference_summary": {
+          "values": [
+            -0.007817979555604815,
+            0.01158199572168972,
+            0.0057648431042203185,
+            -0.010280350999634091,
+            0.005748562957322845,
+            0.0009202106271717359,
+            0.01755106745088031,
+            -0.0034823776692288755,
+            -0.01323933420654999,
+            -0.013999599193896484
+          ],
+          "mean": -0.0007252961763629329,
+          "sample_std": 0.010823073864450746,
+          "min": -0.013999599193896484,
+          "max": 0.01755106745088031
+        },
+        "wilcoxon": {
+          "statistic": 25.0,
+          "p_value_two_sided_exact": 0.845703125,
+          "nonzero_pairs": 10,
+          "positive_pairs": 5,
+          "negative_pairs": 5,
+          "zero_pairs": 0,
+          "rank_ties_present": false,
+          "enumerated_sign_assignments": 1024
+        },
+        "holm_adjusted_p": 1.0,
+        "reject_holm_alpha_0_05": false
+      }
+    },
+    "interpretation": "RF-KD is statistically indistinguishable from scratch for both students under this fixed clean protocol.",
+    "boundary": "This estimates optimizer-seed variation on one fixed split. It does not estimate split-to-split uncertainty and it does not cover the full archived route matrix.",
+    "analysis": {
+      "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed_analysis/feature_group_10seed_analysis.json",
+      "size_bytes": 24759,
+      "sha256": "ee0ab4713ae143eaf3577c2d674ac1605108871343da1717f08cd24350807cc2"
+    },
+    "run_inventory": {
+      "manifest": {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/artifact_manifest.json",
+        "size_bytes": 31414,
+        "sha256": "6bb4a7d9456ea3bd93dbb479c4ea9c34b9061881179c943521b18db96b491e92"
+      },
+      "verified_files": 165,
+      "status": "complete",
+      "protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+      "verification_modes": {
+        "exact_bytes": 165,
+        "working_tree_crlf_normalized_to_recorded_lf": 0
+      }
+    },
+    "analysis_inventory": {
+      "manifest": {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed_analysis/analysis_manifest.json",
+        "size_bytes": 894,
+        "sha256": "c08c7c153fb2f209da45b77bffa95be26acc74a69ebc4b8cc4f42b5fc66064ba"
+      },
+      "verified_files": 3,
+      "status": "passed",
+      "protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+      "verification_modes": {
+        "exact_bytes": 3,
+        "working_tree_crlf_normalized_to_recorded_lf": 0
+      }
+    }
+  },
+  "fixed_deployment_specimen": {
+    "status": "fixed_single_seed_deployment_evidence",
+    "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+    "seed": 42,
+    "selection_boundary": "The preserved seed-42 checkpoint is the deployment specimen. Hardware execution is not replicated over all optimizer seeds.",
+    "preprocessing_equivalence_to_ten_seed": {
+      "all_semantic_fields_equal": true,
+      "field_checks": {
+        "dataset_sha256": true,
+        "dataset_shape": true,
+        "feature_names": true,
+        "class_names": true,
+        "split_policy": true,
+        "split_sizes": true,
+        "split_class_counts": true,
+        "split_hashes": true,
+        "split_indices_sha256": true,
+        "scaler_fit_partition": true,
+        "scaler_fit_row_count": true,
+        "scaler_fit_indices_sha256": true,
+        "scaler_sha256": true,
+        "transformed_split_hashes": true,
+        "feature_overlap_audit": true
+      },
+      "binary_npz_files_expected_to_differ_across_hosts": true,
+      "basis": "Content hashes and contract fields match; container-file hashes are not used as semantic identity."
+    },
+    "local_ten_seed_seed42_checkpoint_sha256": {
+      "student_A": "2b2b000084d010a05cbb00159de5100990d4ffd0ab039a4c9955a0f66a3d59b8",
+      "student_B": "cab27197376a0e3b10d8fd90c5f328557043e010faa766749ece20d5d7c37c2e"
+    },
+    "deployment_checkpoint_sha256": {
+      "student_A": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+      "student_B": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f"
+    },
+    "checkpoints_byte_identical": {
+      "student_A": false,
+      "student_B": false
+    },
+    "checkpoint_identity_boundary": "The Windows ten-seed and Winterfell five-seed checkpoints share protocol semantics but are separate trained artifacts. Their metrics and hashes must not be interchanged.",
+    "runtime_protocol_id": "wsnds_fgds_seed42_exact_runtime_v1",
+    "runtime_test_rows": 56301,
+    "exports": {
+      "student_A": {
+        "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+        "source_state_sha256": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+        "source_prediction_sha256": "16c250ba11c25f7df98394c4e2ef665694748590292b810f5a68e1e304116f02",
+        "pytorch_fp32": {
+          "accuracy": 0.9862524644322481,
+          "macro_f1": 0.9160761302322431
+        },
+        "onnxruntime_fp32": {
+          "accuracy": 0.9862524644322481,
+          "macro_f1": 0.9160761302322431,
+          "agreement_vs_pytorch_fp32": 1.0,
+          "artifact_path": "artifacts/student_A_rf_kd_fgds_seed42.onnx",
+          "artifact_sha256": "856da53b7ddb7842f2c69e8a2d987e476306c88352889c0477a800e8196f0944",
+          "serialized_size_bytes": 5573,
+          "latency": {
+            "mean_ms_b1": 0.030758333333333332,
+            "sample_std_ms_b1": 0.012333054962359116,
+            "median_ms_b1": 0.0279,
+            "p95_ms_b1": 0.053305,
+            "p99_ms_b1": 0.07943899999999997,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        },
+        "openvino_fp32_from_onnx": {
+          "accuracy": 0.9862524644322481,
+          "macro_f1": 0.9160761302322431,
+          "agreement_vs_pytorch_fp32": 1.0,
+          "agreement_vs_onnxruntime_fp32": 1.0,
+          "source_onnx_path": "artifacts/student_A_rf_kd_fgds_seed42.onnx",
+          "source_onnx_sha256": "856da53b7ddb7842f2c69e8a2d987e476306c88352889c0477a800e8196f0944",
+          "latency": {
+            "mean_ms_b1": 0.5230036666666666,
+            "sample_std_ms_b1": 4.15946720076028,
+            "median_ms_b1": 0.17525000000000002,
+            "p95_ms_b1": 0.28138000000000013,
+            "p99_ms_b1": 0.5895519999999999,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        },
+        "onnxruntime_dynamic_int8_weights": {
+          "accuracy": 0.9851157173051989,
+          "macro_f1": 0.909281125402534,
+          "agreement_vs_pytorch_fp32": 0.9970693238130761,
+          "artifact_path": "artifacts/student_A_rf_kd_fgds_seed42_dynamic_int8.onnx",
+          "artifact_sha256": "a21981d9af9bcb215ad462f30f21fc47263d7c8879de8b401ec457252fa3c64e",
+          "serialized_size_bytes": 5191,
+          "latency": {
+            "mean_ms_b1": 0.33970066666666665,
+            "sample_std_ms_b1": 5.090580457608363,
+            "median_ms_b1": 0.0347,
+            "p95_ms_b1": 0.10097000000000002,
+            "p99_ms_b1": 0.175288999999998,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        }
+      },
+      "student_B": {
+        "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+        "source_state_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+        "source_prediction_sha256": "fea1bd08448c75418f7d6ad1caca70e6b47d347e6d92ed4b78d946c0d63d372b",
+        "pytorch_fp32": {
+          "accuracy": 0.9872115948206959,
+          "macro_f1": 0.9223807931422797
+        },
+        "onnxruntime_fp32": {
+          "accuracy": 0.9872115948206959,
+          "macro_f1": 0.9223807931422797,
+          "agreement_vs_pytorch_fp32": 1.0,
+          "artifact_path": "artifacts/student_B_rf_kd_fgds_seed42.onnx",
+          "artifact_sha256": "b757fcb053d33f5b70330d8a490e29a49632ec3def09f570acf481e2b79c9684",
+          "serialized_size_bytes": 14407,
+          "latency": {
+            "mean_ms_b1": 0.041862,
+            "sample_std_ms_b1": 0.05628712841687752,
+            "median_ms_b1": 0.0328,
+            "p95_ms_b1": 0.07638000000000003,
+            "p99_ms_b1": 0.13639199999999982,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        },
+        "openvino_fp32_from_onnx": {
+          "accuracy": 0.9872115948206959,
+          "macro_f1": 0.9223807931422797,
+          "agreement_vs_pytorch_fp32": 1.0,
+          "agreement_vs_onnxruntime_fp32": 1.0,
+          "source_onnx_path": "artifacts/student_B_rf_kd_fgds_seed42.onnx",
+          "source_onnx_sha256": "b757fcb053d33f5b70330d8a490e29a49632ec3def09f570acf481e2b79c9684",
+          "latency": {
+            "mean_ms_b1": 0.13927733333333334,
+            "sample_std_ms_b1": 0.0354215325678285,
+            "median_ms_b1": 0.12495,
+            "p95_ms_b1": 0.189865,
+            "p99_ms_b1": 0.2396519999999997,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        },
+        "onnxruntime_dynamic_int8_weights": {
+          "accuracy": 0.9870872631036749,
+          "macro_f1": 0.9213228237895137,
+          "agreement_vs_pytorch_fp32": 0.9954707731656631,
+          "artifact_path": "artifacts/student_B_rf_kd_fgds_seed42_dynamic_int8.onnx",
+          "artifact_sha256": "59cecca2cc6fed035292315205e3ea805f96568dd9e75d3a252c30a1140e0f2a",
+          "serialized_size_bytes": 7547,
+          "latency": {
+            "mean_ms_b1": 0.04320233333333333,
+            "sample_std_ms_b1": 0.015846661588503664,
+            "median_ms_b1": 0.0396,
+            "p95_ms_b1": 0.07630500000000005,
+            "p99_ms_b1": 0.10192399999999989,
+            "iterations": 300,
+            "warmup_iterations": 50
+          }
+        }
+      }
+    },
+    "dynamic_onnx_boundary": "Dynamic ONNX quantization applies int8 weight quantization in ONNX Runtime. It is separate from the MCU fixed-point implementation.",
+    "runtime_report": {
+      "path": "results/runtime/onnx_openvino/wsnds/fgds_seed42_exact/runtime_report.json",
+      "size_bytes": 14252,
+      "sha256": "7e980e8ed50fcc5af961d2a8db14a393064982cd1b840004d28b2a78eb52164c"
+    },
+    "deployment_inventory": {
+      "manifest": {
+        "path": "results/wsnds/confirmation_runs_v2/remote_winterfell_feature_group_5seed_20260805/feature_group_5seed/artifact_manifest.json",
+        "size_bytes": 15735,
+        "sha256": "6f5538ac4303121ec46a5245e8f720f8a9106a72186ca51423269527fd20c255"
+      },
+      "verified_files": 85,
+      "status": "complete",
+      "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+      "verification_modes": {
+        "exact_bytes": 85,
+        "working_tree_crlf_normalized_to_recorded_lf": 0
+      }
+    },
+    "runtime_inventory": {
+      "manifest": {
+        "path": "results/runtime/onnx_openvino/wsnds/fgds_seed42_exact/artifact_manifest.json",
+        "size_bytes": 1248,
+        "sha256": "d47b495061dd5c29baeada6a86b44303945f5b9089fa20779ee6d82bd7abe514"
+      },
+      "verified_files": 6,
+      "status": "complete",
+      "protocol_id": "wsnds_fgds_seed42_exact_runtime_v1",
+      "verification_modes": {
+        "exact_bytes": 6,
+        "working_tree_crlf_normalized_to_recorded_lf": 0
+      }
+    }
+  },
+  "hardware_execution": {
+    "status": "passed",
+    "deployment_seed": 42,
+    "board_model_pairs": 4,
+    "full_test_rows_per_pair": 56301,
+    "usb_full_predictions": 225204,
+    "wireless_full_predictions": 225204,
+    "combined_transport_executions": 450408,
+    "independence_boundary": "USB and Wi-Fi replay the same two model artifacts on the same test records. They are transport and execution replications, not independent predictive samples.",
+    "wireless_boundary": "Controlled-LAN Wi-Fi UDP replay of extracted FG-DS features into exact fixed-point MCU inference. The evidence does not establish live WSN capture, on-device feature extraction, transport security, energy efficiency, BLE, or physical WSN-radio deployment.",
+    "usb_boundary": "Operator-selected serial-endpoint replay of extracted WSN-DS feature records with firmware identity verification; no cryptographic board attestation, live packet capture, on-board feature extraction, energy measurement, or TelosB execution. The replay uses the preserved seed-42 RF-KD models and the 56,301-row feature-group-disjoint test partition. It establishes execution fidelity for that seed, not five-seed hardware replication.",
+    "timing_boundary": "Firmware compute time and host-observed UDP round-trip time are separate measurements. Their difference is not pure wireless latency.",
+    "rows": {
+      "esp32c3_student_A": {
+        "board": "esp32c3",
+        "student": "student_A",
+        "vectors_per_transport": 56301,
+        "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+        "reference_csv_sha256": "8c37bbe70a4ebc9664518ec389fc5d8086ada897917b187e8f9a5bf161713740",
+        "accuracy": 0.9848137688495764,
+        "macro_f1": 0.9056937003135953,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "exact_logit_agreement": 1.0,
+        "mcu_vs_fp32_agreement": 0.9950089696452994,
+        "usb_metrics": {
+          "path": "results/hardware_hil/fgds_seed42/pi5_esp32c3_student_A/full_56301_metrics.json",
+          "size_bytes": 3916,
+          "sha256": "ac0297c8aa98a2182465e517dc98e023eb7f9dd7bae691fd0519f94aaa071bbc",
+          "verification_mode": "working_tree_crlf_normalized_to_recorded_lf"
+        },
+        "wireless_metrics": {
+          "path": "results/wireless_hil/fgds_seed42/pi5_esp32c3_student_A/full_56301_metrics.json",
+          "size_bytes": 8075,
+          "sha256": "dc59487a6723397bf87d51b5f4f56b333f71d6017b1233718fb8f745b2cf355a",
+          "verification_mode": "exact_bytes"
+        },
+        "usb_device_compute_mean_us": 116.41315429566082,
+        "wireless_device_compute_mean_us": 162.44864212003338,
+        "wireless_host_rtt_mean_us": 48830.02808120637,
+        "wireless_data_retransmissions": 101
+      },
+      "esp32c3_student_B": {
+        "board": "esp32c3",
+        "student": "student_B",
+        "vectors_per_transport": 56301,
+        "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+        "reference_csv_sha256": "06e5dc48f28f56f5e3a9e687ffaae3aa3c3bc0269a1a2d537cfd4c917a95cffb",
+        "accuracy": 0.9860038009982061,
+        "macro_f1": 0.9145641200681949,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "exact_logit_agreement": 1.0,
+        "mcu_vs_fp32_agreement": 0.9947425445373972,
+        "usb_metrics": {
+          "path": "results/hardware_hil/fgds_seed42/pi5_esp32c3_student_B/full_56301_metrics.json",
+          "size_bytes": 3917,
+          "sha256": "5d00d00073c7a29cb94c939b39b173a6001976a10b0666d67d5c6a088536c738",
+          "verification_mode": "working_tree_crlf_normalized_to_recorded_lf"
+        },
+        "wireless_metrics": {
+          "path": "results/wireless_hil/fgds_seed42/pi5_esp32c3_student_B/full_56301_metrics.json",
+          "size_bytes": 8060,
+          "sha256": "74a3f6a22f6da20e810b1236cb88b82bee99540f8f417367c2b4317fc0dbc79c",
+          "verification_mode": "exact_bytes"
+        },
+        "usb_device_compute_mean_us": 320.23660325749097,
+        "wireless_device_compute_mean_us": 401.42393563169395,
+        "wireless_host_rtt_mean_us": 9570.773716275022,
+        "wireless_data_retransmissions": 0
+      },
+      "arduino_r4_student_A": {
+        "board": "arduino_r4",
+        "student": "student_A",
+        "vectors_per_transport": 56301,
+        "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+        "reference_csv_sha256": "8c37bbe70a4ebc9664518ec389fc5d8086ada897917b187e8f9a5bf161713740",
+        "accuracy": 0.9848137688495764,
+        "macro_f1": 0.9056937003135953,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "exact_logit_agreement": 1.0,
+        "mcu_vs_fp32_agreement": 0.9950089696452994,
+        "usb_metrics": {
+          "path": "results/hardware_hil/fgds_seed42/pi5_arduino_r4_student_A/full_56301_metrics.json",
+          "size_bytes": 3923,
+          "sha256": "316abaab79533f84545fe4d7b6eabe03902b64e39915ea51a34e027d0975c0a1",
+          "verification_mode": "working_tree_crlf_normalized_to_recorded_lf"
+        },
+        "wireless_metrics": {
+          "path": "results/wireless_hil/fgds_seed42/pi5_arduino_r4_student_A/full_56301_metrics.json",
+          "size_bytes": 8075,
+          "sha256": "5563205af8f084626e2c9d3dd406ca9e5f2ae93fb0507c3de87543182f393c29",
+          "verification_mode": "exact_bytes"
+        },
+        "usb_device_compute_mean_us": 301.0804781442603,
+        "wireless_device_compute_mean_us": 300.19941031242786,
+        "wireless_host_rtt_mean_us": 98486.71751833893,
+        "wireless_data_retransmissions": 1
+      },
+      "arduino_r4_student_B": {
+        "board": "arduino_r4",
+        "student": "student_B",
+        "vectors_per_transport": 56301,
+        "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+        "reference_csv_sha256": "06e5dc48f28f56f5e3a9e687ffaae3aa3c3bc0269a1a2d537cfd4c917a95cffb",
+        "accuracy": 0.9860038009982061,
+        "macro_f1": 0.9145641200681949,
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "exact_logit_agreement": 1.0,
+        "mcu_vs_fp32_agreement": 0.9947425445373972,
+        "usb_metrics": {
+          "path": "results/hardware_hil/fgds_seed42/pi5_arduino_r4_student_B/full_56301_metrics.json",
+          "size_bytes": 3923,
+          "sha256": "585dd08ff0e5c66d504bbabecf5085502686ab2eef5813f7fa611933872beab1",
+          "verification_mode": "working_tree_crlf_normalized_to_recorded_lf"
+        },
+        "wireless_metrics": {
+          "path": "results/wireless_hil/fgds_seed42/pi5_arduino_r4_student_B/full_56301_metrics.json",
+          "size_bytes": 8076,
+          "sha256": "2c6dc3da2d440db7fad2712e801f05d5858587492244805d497873ca2077fc07",
+          "verification_mode": "exact_bytes"
+        },
+        "usb_device_compute_mean_us": 791.0193424628337,
+        "wireless_device_compute_mean_us": 789.9769631090033,
+        "wireless_host_rtt_mean_us": 148823.0385961173,
+        "wireless_data_retransmissions": 3
+      }
+    },
+    "usb_report": {
+      "path": "results/hardware_hil/fgds_seed42/final_report_20260810T204825Z/fgds_seed42_hardware_summary.json",
+      "size_bytes": 10379,
+      "sha256": "b3c90f9bc329ba4440bb80fcef78a1a257e9dc9c98632b4d8329583d2d1dd248",
+      "verification_mode": "working_tree_crlf_normalized_to_recorded_lf"
+    },
+    "wireless_report": {
+      "path": "results/wireless_hil/fgds_seed42/final_report_20260811T090515Z/wireless_hil_final_report.json",
+      "size_bytes": 6144,
+      "sha256": "b5101fe980a320cc36088a014c2247fafefab4e70641eeea527335f329b08535",
+      "verification_mode": "exact_bytes"
+    },
+    "usb_report_inventory": {
+      "manifest": {
+        "path": "results/hardware_hil/fgds_seed42/final_report_20260810T204825Z/final_report_manifest.json",
+        "size_bytes": 618,
+        "sha256": "bc75c486219e2382246b428ab40e78488f6b15302c232809d0104305c9a0ce25"
+      },
+      "verified_files": 3,
+      "status": "complete",
+      "protocol_id": null,
+      "verification_modes": {
+        "exact_bytes": 1,
+        "working_tree_crlf_normalized_to_recorded_lf": 2
+      }
+    },
+    "wireless_report_inventory": {
+      "manifest": {
+        "path": "results/wireless_hil/fgds_seed42/final_report_20260811T090515Z/wireless_report_manifest.json",
+        "size_bytes": 730,
+        "sha256": "5adf7d3e306d82aa01b0bd34f18d083fd7ae987b188c66f9eeeb91952a3c4be7"
+      },
+      "verified_files": 3,
+      "status": "passed",
+      "protocol_id": "cukd_fgds_wifi_udp_session_v2",
+      "verification_modes": {
+        "exact_bytes": 3,
+        "working_tree_crlf_normalized_to_recorded_lf": 0
+      }
+    }
+  },
+  "secondary_edge_iiotset": {
+    "status": "secondary_protocol_evidence",
+    "evaluation_unit": "five optimizer seeds on one fixed group-aware Edge-IIoTset split",
+    "input_dim": 40,
+    "class_count": 15,
+    "split_rows": {
+      "train": 1556588,
+      "validation": 332240,
+      "test": 330373
+    },
+    "pre_encode_group_overlap": 0,
+    "encoded_exact_row_overlap": {
+      "train_test": 163,
+      "train_validation": 157,
+      "validation_test": 26
+    },
+    "random_row_test_records_in_cross_partition_pre_encode_groups_percent": 17.016591514685427,
+    "routes_recomputed_with_sample_std": {
+      "student_A_scratch": {
+        "values": [
+          0.7185980195239438,
+          0.7053357580095938,
+          0.7460482433757446,
+          0.7410343168326153,
+          0.7566135396974482
+        ],
+        "mean": 0.7335259754878691,
+        "sample_std": 0.020998513248976294,
+        "min": 0.7053357580095938,
+        "max": 0.7566135396974482,
+        "n": 5
+      },
+      "student_A_rf_kd": {
+        "values": [
+          0.7630789240039444,
+          0.7565244225576596,
+          0.7696307835638764,
+          0.7716937860809545,
+          0.7768880609925686
+        ],
+        "mean": 0.7675631954398007,
+        "sample_std": 0.007909693646512698,
+        "min": 0.7565244225576596,
+        "max": 0.7768880609925686,
+        "n": 5
+      },
+      "student_B_scratch": {
+        "values": [
+          0.8079022400503834,
+          0.8016838930823226,
+          0.8102697570557404,
+          0.8063819835450545,
+          0.8017643641447443
+        ],
+        "mean": 0.805600447575649,
+        "sample_std": 0.0038002116150665666,
+        "min": 0.8016838930823226,
+        "max": 0.8102697570557404,
+        "n": 5
+      },
+      "student_B_rf_kd": {
+        "values": [
+          0.8117371119738478,
+          0.8207545902815238,
+          0.802784387525466,
+          0.8119222235541751,
+          0.8172463468000513
+        ],
+        "mean": 0.8128889320270127,
+        "sample_std": 0.006804753440998418,
+        "min": 0.802784387525466,
+        "max": 0.8207545902815238,
+        "n": 5
+      },
+      "rf_teacher_200": {
+        "values": [
+          0.9435403040494533,
+          0.944076982099298,
+          0.942923025551525,
+          0.944058428275641,
+          0.9448016412017217
+        ],
+        "mean": 0.9438800762355278,
+        "sample_std": 0.0006984365587681837,
+        "min": 0.942923025551525,
+        "max": 0.9448016412017217,
+        "n": 5
+      }
+    },
+    "paired_tests": {
+      "student_A": {
+        "comparison": "rf_kd_minus_scratch_macro_f1",
+        "difference_summary": {
+          "values": [
+            0.04448090448000064,
+            0.05118866454806581,
+            0.023582540188131773,
+            0.030659469248339177,
+            0.020274521295120418
+          ],
+          "mean": 0.03403721995193156,
+          "sample_std": 0.01335443747742213,
+          "min": 0.020274521295120418,
+          "max": 0.05118866454806581,
+          "n": 5
+        },
+        "wilcoxon": {
+          "statistic": 0.0,
+          "p_value_two_sided_exact": 0.0625,
+          "nonzero_pairs": 5,
+          "positive_pairs": 5,
+          "negative_pairs": 0,
+          "zero_pairs": 0,
+          "enumerated_sign_assignments": 32
+        }
+      },
+      "student_B": {
+        "comparison": "rf_kd_minus_scratch_macro_f1",
+        "difference_summary": {
+          "values": [
+            0.0038348719234644335,
+            0.01907069719920118,
+            -0.007485369530274455,
+            0.005540240009120567,
+            0.01548198265530698
+          ],
+          "mean": 0.007288484451363741,
+          "sample_std": 0.010478603313977347,
+          "min": -0.007485369530274455,
+          "max": 0.01907069719920118,
+          "n": 5
+        },
+        "wilcoxon": {
+          "statistic": 3.0,
+          "p_value_two_sided_exact": 0.3125,
+          "nonzero_pairs": 5,
+          "positive_pairs": 4,
+          "negative_pairs": 1,
+          "zero_pairs": 0,
+          "enumerated_sign_assignments": 32
+        }
+      }
+    },
+    "boundary": "The group-aware Edge protocol changes the split, feature representation, teacher size, and training configuration relative to the literature-style run. Score differences cannot be attributed to grouping alone.",
+    "summary": {
+      "path": "results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_summary.json",
+      "size_bytes": 2681,
+      "sha256": "817607483548d948de390462b877237ecb9694ca1b448920ee59bddfd30a1fa5"
+    },
+    "split_audit": {
+      "path": "results/leftover_e2e_closure/04_edge_group_aware/group_aware_split_audit.json",
+      "size_bytes": 763,
+      "sha256": "7ad5c09516ebf207459a5fa0fe98a548d88ea737875fcb327bf914cf6b5237fa"
+    },
+    "long_table": {
+      "path": "results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_long.csv",
+      "size_bytes": 8668,
+      "sha256": "f1e02b1d46bb1231b2e36a2531f979f5a424fa751c6eccfaf8d6cb332464a9fe"
+    }
+  },
+  "historical_or_non_primary": {
+    "full_route_matrix": {
+      "status": "exploratory_historical_lineage",
+      "boundary": "The full route matrix uses a random-row train-only-scaler protocol with exact raw-feature groups crossing partitions. It is not primary FG-DS confirmation evidence."
+    },
+    "qat": {
+      "status": "historical_non_fgds_lineage",
+      "artifact": {
+        "path": "results/wsnds/confirmation_runs_v2/deployment_seed_42_qat/qat_refinement_report.json",
+        "size_bytes": 7570,
+        "sha256": "1d7e2f900c26097faa3f14dae45904b37f70d2a04bd255a901fcb4b9dc41cd9f"
+      },
+      "boundary": "This QAT refinement belongs to the older 56,200-row train-only deployment lineage. It must not be combined with the 56,301-row FG-DS deployment results."
+    },
+    "shap": {
+      "status": "historical_non_fgds_lineage",
+      "artifact": {
+        "path": "results/paper_strength_e2e/shap_train_only_deployment/shap_results.json",
+        "size_bytes": 7557,
+        "sha256": "0e4ec4db213c8f0136155b4c4c4cfaf20107e0c03d26a5c69a1065860d7dccf4"
+      },
+      "boundary": "This SHAP audit explains 500 of 56,200 test rows from the older train-only deployment lineage and compares students with a freshly refitted uncalibrated RF reference. Its repeated samples are not bootstrap samples."
+    },
+    "msp430": {
+      "status": "legacy_static_feasibility_only",
+      "artifact": {
+        "path": "deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md",
+        "size_bytes": 3870,
+        "sha256": "029fd9a9584d5bda7578b5d27c5b7f7618f7f01d4430c02afb5782e86cbde044"
+      },
+      "boundary": "The MSP430 report covers a legacy Student A fixed-point core and static cross-compile footprint. It is not physical execution and is not the exact current FG-DS deployment model."
+    },
+    "codistillation_and_curriculum": {
+      "status": "exploratory_historical_lineage",
+      "codistillation_artifact": {
+        "path": "results/leftover_e2e_closure/01_j_codistill/j_summary.json",
+        "size_bytes": 1117,
+        "sha256": "205ef381748cb9ad7073dbca274818461df441ca19db1502772d5235dffe5149"
+      },
+      "boundary": "Co-distillation and curriculum extensions were not rerun under FG-DS. Curriculum recovery repetitions share an internal RNG reset and are deterministic repeats, not independent robustness replications."
+    }
+  },
+  "claim_rules": {
+    "allowed": [
+      "Report ten-seed FG-DS scratch and RF-KD statistics as primary WSN-DS predictive evidence.",
+      "Report seed-42 runtime, USB, and Wi-Fi results as execution evidence for one fixed deployment specimen.",
+      "Report exact MCU agreement as fixed-reference execution fidelity, not as independent model accuracy replication.",
+      "Report Edge group-aware results as secondary protocol evidence with its exact 40-input contract and residual encoded-row overlaps."
+    ],
+    "forbidden": [
+      "Do not substitute the local ten-seed seed-42 checkpoint for the distinct Winterfell deployment checkpoint.",
+      "Do not mix 56,200-row historical artifacts with the 56,301-row FG-DS lineage.",
+      "Do not count USB and Wi-Fi executions as independent predictive samples.",
+      "Do not describe Wi-Fi application retransmissions as raw UDP losslessness.",
+      "Do not describe dynamic ONNX int8 weights as the MCU fixed-point method.",
+      "Do not present historical QAT, SHAP, MSP430, curriculum, or full-route results as current FG-DS evidence."
+    ]
+  },
+  "registry_script": {
+    "path": "experiments/evidence/build_fgds_evidence_registry.py",
+    "size_bytes": 44893,
+    "sha256": "3a32fb0e20e0acac824ee8c9e16bae08f7b4b94dc035ab18a43a13640faeb703"
+  },
+  "source_analysis_sha256": "ee0ab4713ae143eaf3577c2d674ac1605108871343da1717f08cd24350807cc2",
+  "source_report_sha256": {
+    "runtime": "7e980e8ed50fcc5af961d2a8db14a393064982cd1b840004d28b2a78eb52164c",
+    "usb": "b3c90f9bc329ba4440bb80fcef78a1a257e9dc9c98632b4d8329583d2d1dd248",
+    "wireless": "b5101fe980a320cc36088a014c2247fafefab4e70641eeea527335f329b08535",
+    "edge": "817607483548d948de390462b877237ecb9694ca1b448920ee59bddfd30a1fa5"
+  },
+  "verified_prediction_rows_primary": 2815050
+}

@@ -9,9 +9,12 @@ core. The USB evidence under `results/hardware_hil/fgds_seed42` is not changed.
 
 The protocol-v2 firmware, host replay, verification, completion, compile
 evidence, and report path are implemented. All four board/model bundles compile
-against ESP32 core 3.3.11 and Arduino Renesas UNO core 1.6.0. The physical Wi-Fi
-replay results have not yet been collected and must not be reported as completed
-evidence.
+against ESP32 core 3.3.11 and Arduino Renesas UNO core 1.6.0. The four physical
+Wi-Fi replays completed on 2026-08-11 and passed the sequence, prediction,
+logit, provenance, and compile-evidence gates. The sealed evidence is under
+[`results/wireless_hil/fgds_seed42`](../../results/wireless_hil/fgds_seed42),
+with the consolidated report in
+[`final_report_20260811T090515Z`](../../results/wireless_hil/fgds_seed42/final_report_20260811T090515Z).
 
 ## Experiment matrix
 
@@ -49,6 +52,20 @@ The frozen expected full-stage values are:
 Any prediction, logit, classification-metric, row-sequence, or identity mismatch
 invalidates the run. RTT, retries, response timeouts, RSSI, and footprint are
 separate transport/platform measurements and are not model-quality metrics.
+
+## Recorded full-stage evidence
+
+| Board | Model | Fixed pred. | Exact logits | Macro-F1 | MCU mean (us) | Host RTT mean (us) | Retries | Flash (B) | RAM (B) |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| ESP32-C3 | Student A RF-KD | 1.000000 | 1.000000 | 0.905694 | 162.449 | 48,830.028 | 101 | 956,091 | 40,236 |
+| ESP32-C3 | Student B RF-KD | 1.000000 | 1.000000 | 0.914564 | 401.424 | 9,570.774 | 0 | 958,447 | 40,236 |
+| UNO R4 WiFi | Student A RF-KD | 1.000000 | 1.000000 | 0.905694 | 300.199 | 98,486.718 | 1 | 71,548 | 12,568 |
+| UNO R4 WiFi | Student B RF-KD | 1.000000 | 1.000000 | 0.914564 | 789.977 | 148,823.039 | 3 | 73,900 | 12,568 |
+
+Each row contains 56,301 completed `OK` inferences, zero device data/control
+errors, and identical classification output across boards for the same model.
+The host RTT values describe these controlled-LAN sessions; they are not a
+pure wireless-latency estimate or a model-quality comparison.
 
 ## What the experiment establishes
 

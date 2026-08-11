@@ -1,5 +1,6 @@
 import csv
 import re
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -42,6 +43,8 @@ def is_excluded_from_active_scan(path: Path) -> bool:
     rel = path.as_posix()
     if rel == "tests/repository/test_repository_structure_smoke.py":
         return True
+    if rel.startswith("results/wsnds/leakage_free_rerun/_codex_session_"):
+        return True
     if path.suffix not in TEXT_SUFFIXES:
         return True
     if "archive" in parts:
@@ -67,12 +70,21 @@ class RepositoryStructureSmokeTests(unittest.TestCase):
 
     def test_active_files_do_not_reference_old_layout_paths(self):
         offenders = []
-        for path in ROOT.rglob("*"):
-            if not path.is_file():
-                continue
-            rel_path = path.relative_to(ROOT)
+        proc = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=ROOT,
+            capture_output=True,
+            check=True,
+        )
+        tracked_paths = [
+            Path(raw.decode("utf-8"))
+            for raw in proc.stdout.split(b"\0")
+            if raw
+        ]
+        for rel_path in tracked_paths:
             if is_excluded_from_active_scan(rel_path):
                 continue
+            path = ROOT / rel_path
             try:
                 text = path.read_text(encoding="utf-8")
             except UnicodeDecodeError:

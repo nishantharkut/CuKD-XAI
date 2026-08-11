@@ -239,8 +239,8 @@ python -m deployment.wireless_hil.host.generate_wireless_report \
   --run arduino_r4_student_B=results/wireless_hil/fgds_seed42/pi5_arduino_r4_student_B/full_56301_metrics.json \
   --compile esp32c3_student_A=results/wireless_hil/fgds_seed42/compile_evidence/esp32c3_student_A.json \
   --compile esp32c3_student_B=results/wireless_hil/fgds_seed42/compile_evidence/esp32c3_student_B.json \
-  --compile arduino_r4_student_A=results/wireless_hil/fgds_seed42/compile_evidence/arduino_r4_student_A.json \
-  --compile arduino_r4_student_B=results/wireless_hil/fgds_seed42/compile_evidence/arduino_r4_student_B.json \
+  --compile arduino_r4_student_A=results/wireless_hil/fgds_seed42/compile_evidence/arduino_r4_student_A_dhcp_v2.json \
+  --compile arduino_r4_student_B=results/wireless_hil/fgds_seed42/compile_evidence/arduino_r4_student_B_dhcp_v2.json \
   --output-dir "$REPORT"
 
 cat "$REPORT/wireless_hil_final_report.md"
