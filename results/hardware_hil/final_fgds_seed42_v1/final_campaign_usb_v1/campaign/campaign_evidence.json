@@ -1,0 +1,105 @@
+{
+  "schema": "cukd_final_hil_campaign_evidence_v1",
+  "status": "passed_with_blocked_routes",
+  "contract_id": "aa123a4d668b9fd7f7c0c182f9811979e6291437c5ebd7f75cf7f25d8afc6c7a",
+  "sessions": [
+    {
+      "combination_id": "student_A_scratch__esp32c3__usb_serial",
+      "session_evidence_id": "0a9c687ed56fcc522fa3b044597940b65d66722d76fbb551b346fe1235536314",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_A_scratch__esp32c3__usb_serial.json",
+      "session_sha256": "ebc95bec248d0bcec31cdfd014314aa61428ff8481beeb7a02e6de88b5dbae8f"
+    },
+    {
+      "combination_id": "student_A_rf_kd__esp32c3__usb_serial",
+      "session_evidence_id": "e050dc0ab2f60e2f97954e450fcbfb49ac2c3dd21a35776f96d99beaf8caefde",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_A_rf_kd__esp32c3__usb_serial.json",
+      "session_sha256": "e9731f3faff8e1e352dff88223b7a36a87eb2b151f4bf41ca7d85f16593e4ac1"
+    },
+    {
+      "combination_id": "student_B_rf_kd__esp32c3__usb_serial",
+      "session_evidence_id": "7c9fbb1d1a151f5d8f5d4fa12f61b66e024f3ffba4b324f9a35a501968650037",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_B_rf_kd__esp32c3__usb_serial.json",
+      "session_sha256": "2bd321b733757cf2036158654772c362f4a02bd952ca6317514bcf040adc1c00"
+    },
+    {
+      "combination_id": "student_B_rf_kd__arduino_r4__usb_serial",
+      "session_evidence_id": "65cc402190f74276798d482c2ff8c7d4b0e51631d202eb446be5f7f097a85c03",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_B_rf_kd__arduino_r4__usb_serial.json",
+      "session_sha256": "d6fc4cf667367ae66e07963b594c2319caae28f260268629a8da8c5b62024199"
+    },
+    {
+      "combination_id": "student_A_rf_kd__arduino_r4__usb_serial",
+      "session_evidence_id": "1f3aeb597c7dc326bd6698ac95bf84352e45d182f2e4933c5006281fe07a7723",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_A_rf_kd__arduino_r4__usb_serial.json",
+      "session_sha256": "6f20d4e0b0e5b39aab9a901108912e73a0dfa5e2e5afd70b9f628e789bfed6cd"
+    },
+    {
+      "combination_id": "student_A_scratch__arduino_r4__usb_serial",
+      "session_evidence_id": "5197acfd2adfc1e2853766362f9eff17e2393850bb2168b250a7d9bce93f8f58",
+      "session_path_recorded": "/home/project/final_hil_runs/20260813_final_v1/evidence/final_campaign_usb_v1/sessions/student_A_scratch__arduino_r4__usb_serial.json",
+      "session_sha256": "4e93be0a858f8d648a23bc0e3a75f42b7f5b215a254f968a8b33eda4ecd5e3d3"
+    }
+  ],
+  "totals": {
+    "session_count": 6,
+    "stage_attempts": 36,
+    "balanced_timing_rows": 18000,
+    "warmup_rows_excluded": 60,
+    "smoke_rows_excluded": 60,
+    "full_exact_replay_rows": 337806,
+    "all_device_inferences": 355926
+  },
+  "all_four_models_retained": true,
+  "all_gate_eligible_combinations_executed": true,
+  "blocked_routes": [
+    {
+      "model_key": "student_B_scratch",
+      "reason": "Fixed-point quality gates failed: fixed/FP32 agreement 0.989574 is below 0.99; absolute macro-F1 drop 0.020193 exceeds 0.015"
+    }
+  ],
+  "excluded_combinations": [
+    {
+      "execution_ordinal": 3,
+      "combination_id": "student_B_scratch__esp32c3__usb_serial",
+      "model_key": "student_B_scratch",
+      "board": "esp32c3",
+      "transport": "usb_serial",
+      "model_status": "blocked",
+      "reason": "Fixed-point quality gates failed: fixed/FP32 agreement 0.989574 is below 0.99; absolute macro-F1 drop 0.020193 exceeds 0.015"
+    },
+    {
+      "execution_ordinal": 6,
+      "combination_id": "student_B_scratch__arduino_r4__usb_serial",
+      "model_key": "student_B_scratch",
+      "board": "arduino_r4",
+      "transport": "usb_serial",
+      "model_status": "blocked",
+      "reason": "Fixed-point quality gates failed: fixed/FP32 agreement 0.989574 is below 0.99; absolute macro-F1 drop 0.020193 exceeds 0.015"
+    }
+  ],
+  "boards": [
+    "esp32c3",
+    "arduino_r4"
+  ],
+  "transports": [
+    "usb_serial"
+  ],
+  "physical_specimens": {
+    "esp32c3": {
+      "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+      "wifi_mac_reported": null,
+      "session_count": 3
+    },
+    "arduino_r4": {
+      "physical_port_serial": "48CA43BD5890",
+      "wifi_mac_reported": null,
+      "session_count": 3
+    }
+  },
+  "board_build_contracts": {
+    "esp32c3": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0",
+    "arduino_r4": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+  },
+  "claim_boundary": "One seed-42 model specimen per fixed-point-gate-eligible route on one physical specimen of each board type. Gate-failed routes remain explicit non-deployment results. Exact replay and timing evidence do not establish multi-seed or multi-unit hardware variability, energy, or secure attestation.",
+  "campaign_evidence_id": "922f46573eded7b63c605990b6434c3bbc8c89dfe00cdd5274b19eb2cf4fcad5"
+}

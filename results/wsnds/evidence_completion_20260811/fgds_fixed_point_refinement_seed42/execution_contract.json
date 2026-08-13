@@ -1,0 +1,136 @@
+{
+  "protocol_id": "wsnds_fgds_seed42_frozen_fixed_point_refinement_v1",
+  "status": "complete",
+  "created_utc": "2026-08-11T12:43:49.873916+00:00",
+  "script_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\experiments\\wsnds\\evidence_completion\\run_fgds_fixed_point_refinement.py",
+  "script_sha256": "6f8c4389f04da57e00233d1ff49ff1ea29a1394c51f922674315765f910b2bcc",
+  "source_protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "dataset_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\data\\wsnds\\WSN-DS.csv",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "deployment_root_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed",
+  "generated_root_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "rf_soft_target_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452",
+  "numeric_implementation_sources": {
+    "strict_export_module": {
+      "path": "deployment/firmware_export/wsnds_rfkd_hil/export_fgds_seed42_deployment.py",
+      "sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82",
+      "size_bytes": 52811
+    },
+    "legacy_numeric_exporter": {
+      "path": "deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py",
+      "sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+      "size_bytes": 47073
+    },
+    "training_common_module": {
+      "path": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+      "sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+      "size_bytes": 19294
+    },
+    "firmware_model_c": {
+      "path": "deployment/hardware_hil/firmware/common/cukd_model.c",
+      "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+      "size_bytes": 2290
+    },
+    "firmware_preprocess_c": {
+      "path": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+      "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+      "size_bytes": 1027
+    }
+  },
+  "source_checkpoint_sha256": {
+    "student_A": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+    "student_B": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f"
+  },
+  "frozen_schedules": {
+    "student_A": [
+      {
+        "source_prefix": "net.0",
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      },
+      {
+        "source_prefix": "net.2",
+        "input_frac": 9,
+        "weight_frac": 6,
+        "accum_frac": 15,
+        "output_frac": 9,
+        "output_shift": 6
+      },
+      {
+        "source_prefix": "net.4",
+        "input_frac": 9,
+        "weight_frac": 5,
+        "accum_frac": 14,
+        "output_frac": 9,
+        "output_shift": 5
+      }
+    ],
+    "student_B": [
+      {
+        "source_prefix": "net.0",
+        "input_frac": 8,
+        "weight_frac": 5,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      },
+      {
+        "source_prefix": "net.2",
+        "input_frac": 9,
+        "weight_frac": 4,
+        "accum_frac": 13,
+        "output_frac": 9,
+        "output_shift": 4
+      },
+      {
+        "source_prefix": "net.4",
+        "input_frac": 9,
+        "weight_frac": 5,
+        "accum_frac": 14,
+        "output_frac": 9,
+        "output_shift": 5
+      }
+    ]
+  },
+  "kd_hyperparameters": {
+    "T": 4.0,
+    "alpha": 0.7
+  },
+  "refinement_config": {
+    "epochs": 20,
+    "batch_size": 1024,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "patience": 5
+  },
+  "selection_contract": {
+    "eligible_checkpoint_requirements": "zero parameter saturation, zero activation saturation, and zero int32 accumulator overflow",
+    "ranking_metric": "exact integer-simulator validation macro-F1 only",
+    "tie_policy": "retain the earlier checkpoint",
+    "epoch_zero_candidate": "preserved current PTQ deployment checkpoint",
+    "test_access": "Previously available source-model test evidence is verified before training. New candidate test metrics are computed after selection only."
+  },
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "device": "cuda",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "fake_fixed_compute_dtype": "float64 with exact integer-valued forward"
+  },
+  "software_only": true,
+  "hardware_replayed": false,
+  "model_state_scope": "one preserved training seed (42) per student",
+  "completed_utc": "2026-08-11T12:44:43.520715+00:00",
+  "contract_sha256": "529a95502a3beefefa5f4d68b7629e0d908c35f67ea032388edd1921d0a6c70d"
+}

@@ -1,0 +1,236 @@
+{
+  "accuracy": 0.998,
+  "macro_f1": 0.39979777553083923,
+  "weighted_f1": 0.9989989888776543,
+  "per_class": {
+    "0": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "1": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 10
+    },
+    "2": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "3": {
+      "precision": 1.0,
+      "recall": 0.997979797979798,
+      "f1": 0.9989888776541962,
+      "support": 990
+    },
+    "4": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      10,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      988,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "status": "passed",
+  "protocol_id": "cukd_fgds_wifi_udp_session_v2",
+  "stage_contract": {
+    "name": "validation_1000",
+    "stage_id": "63305574182C6F97",
+    "ordinal": 2,
+    "expected_rows": 1000
+  },
+  "completed_vectors": 1000,
+  "mcu_vs_fixed_reference_agreement": 1.0,
+  "exact_logit_agreement": 1.0,
+  "mcu_vs_fp32_agreement": 0.999,
+  "non_ok_status_count": 0,
+  "data_network_counters": {
+    "successful_transactions": 1000,
+    "datagrams_sent": 1000,
+    "retransmissions": 0,
+    "response_timeouts": 0,
+    "ignored_datagrams": 0,
+    "request_bytes_sent": 239432,
+    "response_bytes_received": 198968
+  },
+  "session_network_counters": {
+    "datagrams_received": 1003,
+    "datagrams_sent": 1003,
+    "device_protocol_errors": 0,
+    "ignored_bad_attempt": 0,
+    "ignored_bad_crc": 0,
+    "ignored_bad_identity": 0,
+    "ignored_bad_inner_hex": 0,
+    "ignored_bad_inner_text": 0,
+    "ignored_bad_length": 0,
+    "ignored_bad_prefix": 0,
+    "ignored_malformed": 0,
+    "ignored_non_ascii": 0,
+    "ignored_wrong_attempt": 0,
+    "ignored_wrong_endpoint": 0,
+    "ignored_wrong_session": 0,
+    "ignored_wrong_stage": 0,
+    "ignored_wrong_transaction": 0,
+    "request_bytes_sent": 239822,
+    "response_bytes_received": 199814,
+    "response_timeouts": 0,
+    "retransmissions": 0,
+    "stale_datagrams_drained_before_identity": 0
+  },
+  "device_stage_counters": {
+    "completed_rows": 1000,
+    "expected_rows": 1000,
+    "received_datagrams": 1002,
+    "oversized_datagrams": 0,
+    "short_reads": 0,
+    "bad_envelopes": 0,
+    "wrong_sessions": 0,
+    "wrong_endpoints": 0,
+    "wrong_stages": 0,
+    "control_errors": 0,
+    "data_errors": 0,
+    "duplicate_replays": 0,
+    "stale_transactions": 0,
+    "inferences": 1000,
+    "stage_ordinal": 2
+  },
+  "device_compute_latency": {
+    "preprocess_us": {
+      "count": 1000,
+      "min": 20,
+      "mean": 21.293,
+      "median": 21.0,
+      "p95": 22,
+      "p99": 24,
+      "max": 25,
+      "std": 0.6189919224028695
+    },
+    "inference_us": {
+      "count": 1000,
+      "min": 276,
+      "mean": 278.866,
+      "median": 278.0,
+      "p95": 282,
+      "p99": 283,
+      "max": 285,
+      "std": 1.5466234189355856
+    },
+    "total_us": {
+      "count": 1000,
+      "min": 298,
+      "mean": 300.159,
+      "median": 300.0,
+      "p95": 303,
+      "p99": 304,
+      "max": 305,
+      "std": 1.4912139350207267
+    }
+  },
+  "host_observed_transport_timing": {
+    "host_observed_datagram_rtt_us": {
+      "count": 1000,
+      "min": 81093,
+      "mean": 150166.206,
+      "median": 116326.0,
+      "p95": 304760,
+      "p99": 359364,
+      "max": 413041,
+      "std": 75971.87619400724
+    },
+    "transaction_elapsed_us": {
+      "count": 1000,
+      "min": 81093,
+      "mean": 150166.206,
+      "median": 116326.0,
+      "p95": 304760,
+      "p99": 359364,
+      "max": 413041,
+      "std": 75971.87619400724
+    },
+    "host_rtt_minus_device_compute_us_descriptive_only": {
+      "count": 1000,
+      "min": 80790,
+      "mean": 149866.047,
+      "median": 116026.5,
+      "p95": 304456,
+      "p99": 359061,
+      "max": 412740,
+      "std": 75971.92095647438
+    }
+  },
+  "timing_boundaries": {
+    "total_us": "MCU micros() interval around integer preprocessing and fixed-point inference only; UDP receive, envelope parsing, formatting, send, and radio time are outside the timed code region. The wall-clock interval can include interrupt preemption.",
+    "host_observed_datagram_rtt_us": "Host monotonic interval from immediately before the successful attempt sendto call to immediately after its matching recvfrom call.",
+    "transaction_elapsed_us": "Host monotonic interval from the first attempt through the matching response, including earlier response timeouts and retransmissions.",
+    "host_rtt_minus_device_compute_us_descriptive_only": "Difference between measurements from independent host and MCU clocks; it is not pure radio, network, or protocol latency."
+  },
+  "provenance": {
+    "transport": "IEEE 802.11 station mode with UDP datagrams",
+    "application_protocol": "cukd_fgds_wifi_udp_session_v2",
+    "board": "arduino_r4",
+    "student": "student_A",
+    "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+    "wireless_bundle_id": "db14abd65cbc5c0fb7fdf41aee342395eb4e15427afd31cfbfab7f34abf01749",
+    "session_id": "B76161DAA94F708B82CB39870485F5F7",
+    "device_identity": "CUKDWBUILD,student_A,2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8,db14abd65cbc5c0fb7fdf41aee342395eb4e15427afd31cfbfab7f34abf01749,arduino_r4,cukd_fgds_wifi_udp_session_v2",
+    "device_endpoint": "192.168.137.208:42101",
+    "host_udp_port": 42102,
+    "vector_sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625",
+    "strict_export_manifest_sha256": "06207bad14b8191076b9e1cab5d3729d00247d4e5e402a32b3d3a13a2f85515a",
+    "strict_export_report_sha256": "652b46071adb1921e932e97af999d9d91dbd80f18f3c7e55db30ab55da6987d0",
+    "wireless_bundle_manifest_sha256": "11560ef3fd77bf1b3122fdc0b74914c955457b01708380935ba85dcb08c6c344",
+    "connection_json_sha256": "096a0ba6fb14dafcb7c5de6e330eb8cc0c9b7145616cbb8c5657ef25f18e689f",
+    "stream_script_sha256": "92d304b60aa37fee7b8fd697c3c3d25b6b5d627cdc5e0358a775e80fa9519e75",
+    "udp_session_sha256": "e85724b99e920f2976c0d5c4338063ba87a801c10b60f8888b4d0efb73539c4a",
+    "wireless_common_sha256": "f557ce998bf81e096556aea15a7282c68f32f2a46297ce55609f6a75b0cabbd6",
+    "protocol_helper_sha256": "a62975085409eea3e856df247f36991b14bca3c47115d60496c2de928fee21fa",
+    "vector_loader_sha256": "8a752aea55a55daf64f9886f18583e2f0c6971f94ac4392421ebc05c8593037e",
+    "run_script_sha256": "ff03f4456129eb7cbc0a02189ac203e06bae38051494f87bd064575ad4d7008a",
+    "stage_id": "63305574182C6F97",
+    "mcu_csv_sha256": "ae695fa3ce3f200c186fc494c58571a57247b30b267d92759a819319dc8b8bd2",
+    "sequence_json_sha256": "9efb4ac95ca44e9ceb0ec9cb1ad2a5cdf6c88eb39246d50ea21a977dc5170da9",
+    "reference_csv_sha256": "8c37bbe70a4ebc9664518ec389fc5d8086ada897917b187e8f9a5bf161713740",
+    "verification_script_sha256": "e1c1598e8baefd2ef4fbd3506e1cc470668669a7f5e79e0f29b2845e6bdae75b"
+  },
+  "claim_boundary": "Controlled-LAN Wi-Fi UDP replay of already extracted 17-feature FG-DS records into the fixed-point MCU inference path, with exact fixed-logit verification. This does not establish live WSN capture, packet-to-feature extraction, production transport security, energy efficiency, BLE, or WSN-radio deployment."
+}

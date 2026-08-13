@@ -1,0 +1,337 @@
+{
+  "status": "passed",
+  "protocol_id": "wsnds_fgds_seed42_exact_runtime_v1",
+  "hardware_required": false,
+  "deployment_source_protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "deployment_seed": 42,
+  "test_rows": 56301,
+  "dataset": {
+    "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\data\\wsnds\\WSN-DS.csv",
+    "sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9"
+  },
+  "source_contracts": {
+    "execution_contract": {
+      "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\execution_contract.json",
+      "sha256": "aea903fba31258755cf841e8db90df87195084a74280bb72a5dff27d736d83a0"
+    },
+    "preprocessing_contract": {
+      "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\preprocessing_contract.json",
+      "sha256": "f7a708961b6615dfad5e696d87f87117824725177828eeb6ef58d05e1cdf58e9"
+    },
+    "split_indices": {
+      "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\split_indices.npz",
+      "sha256": "7e3d293163ed704302cb6882eb0be9f0ff5254c77849d2571dad04859c0cecd0"
+    },
+    "scaler_parameters": {
+      "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\scaler_parameters.npz",
+      "sha256": "f06e29132bf8ddbbe59988ace013314d1c3ecb7aa636ba33741edb881c07d889"
+    }
+  },
+  "students": {
+    "student_A": {
+      "lineage": {
+        "metrics": {
+          "accuracy": 0.9862524644322481,
+          "macro_precision": 0.9065384793541152,
+          "macro_recall": 0.9273422197717984,
+          "macro_f1": 0.9160761302322431,
+          "per_class_precision": [
+            0.8009367681498829,
+            0.8931159420289855,
+            0.8606870229007634,
+            0.99876431821748,
+            0.9791883454734651
+          ],
+          "per_class_recall": [
+            0.8603773584905661,
+            0.9959595959595959,
+            0.8394602140530479,
+            0.9970824358723321,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.8295936931473621,
+            0.941738299904489,
+            0.8499411071849234,
+            0.9979226683912439,
+            0.9611848825331971
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1368,
+              0,
+              222,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              340,
+              0,
+              1804,
+              5,
+              0
+            ],
+            [
+              0,
+              59,
+              70,
+              50921,
+              20
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "state_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_fp32.pt",
+        "state_sha256": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+        "artifact_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_artifact.pt",
+        "artifact_sha256": "173195a9c97c350e0d520ff0a186e5fb342a3de3d4e6392c5d0cc66c303b3a5b",
+        "prediction_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_test_predictions.csv",
+        "prediction_sha256": "16c250ba11c25f7df98394c4e2ef665694748590292b810f5a68e1e304116f02",
+        "export_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_A_seed42\\strict_export_report.json",
+        "export_report_sha256": "652b46071adb1921e932e97af999d9d91dbd80f18f3c7e55db30ab55da6987d0",
+        "export_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_A_seed42\\strict_export_manifest.json",
+        "export_manifest_sha256": "06207bad14b8191076b9e1cab5d3729d00247d4e5e402a32b3d3a13a2f85515a",
+        "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8"
+      },
+      "pytorch_fp32": {
+        "accuracy": 0.9862524644322481,
+        "macro_f1": 0.9160761302322431
+      },
+      "onnxruntime_fp32": {
+        "accuracy": 0.9862524644322481,
+        "macro_f1": 0.9160761302322431,
+        "agreement_vs_pytorch_fp32": 1.0,
+        "artifact_path": "artifacts/student_A_rf_kd_fgds_seed42.onnx",
+        "artifact_sha256": "856da53b7ddb7842f2c69e8a2d987e476306c88352889c0477a800e8196f0944",
+        "serialized_size_bytes": 5573,
+        "latency": {
+          "mean_ms_b1": 0.030758333333333332,
+          "sample_std_ms_b1": 0.012333054962359116,
+          "median_ms_b1": 0.0279,
+          "p95_ms_b1": 0.053305,
+          "p99_ms_b1": 0.07943899999999997,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      },
+      "onnxruntime_dynamic_int8_weights": {
+        "accuracy": 0.9851157173051989,
+        "macro_f1": 0.909281125402534,
+        "agreement_vs_pytorch_fp32": 0.9970693238130761,
+        "artifact_path": "artifacts/student_A_rf_kd_fgds_seed42_dynamic_int8.onnx",
+        "artifact_sha256": "a21981d9af9bcb215ad462f30f21fc47263d7c8879de8b401ec457252fa3c64e",
+        "serialized_size_bytes": 5191,
+        "latency": {
+          "mean_ms_b1": 0.33970066666666665,
+          "sample_std_ms_b1": 5.090580457608363,
+          "median_ms_b1": 0.0347,
+          "p95_ms_b1": 0.10097000000000002,
+          "p99_ms_b1": 0.175288999999998,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      },
+      "openvino_fp32_from_onnx": {
+        "accuracy": 0.9862524644322481,
+        "macro_f1": 0.9160761302322431,
+        "agreement_vs_pytorch_fp32": 1.0,
+        "agreement_vs_onnxruntime_fp32": 1.0,
+        "source_onnx_path": "artifacts/student_A_rf_kd_fgds_seed42.onnx",
+        "source_onnx_sha256": "856da53b7ddb7842f2c69e8a2d987e476306c88352889c0477a800e8196f0944",
+        "latency": {
+          "mean_ms_b1": 0.5230036666666666,
+          "sample_std_ms_b1": 4.15946720076028,
+          "median_ms_b1": 0.17525000000000002,
+          "p95_ms_b1": 0.28138000000000013,
+          "p99_ms_b1": 0.5895519999999999,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      }
+    },
+    "student_B": {
+      "lineage": {
+        "metrics": {
+          "accuracy": 0.9872115948206959,
+          "macro_precision": 0.9140187823378657,
+          "macro_recall": 0.9354647889010911,
+          "macro_f1": 0.9223807931422797,
+          "per_class_precision": [
+            0.7883795309168443,
+            0.8931159420289855,
+            0.9077163712200208,
+            0.998627370237465,
+            0.9822546972860126
+          ],
+          "per_class_recall": [
+            0.930188679245283,
+            0.9959595959595959,
+            0.8101442531409958,
+            0.9971999216761308,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.8534333525678015,
+            0.941738299904489,
+            0.8561593312023604,
+            0.9979131354894334,
+            0.9626598465473146
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1479,
+              0,
+              111,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              396,
+              0,
+              1741,
+              12,
+              0
+            ],
+            [
+              1,
+              59,
+              66,
+              50927,
+              17
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "state_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_fp32.pt",
+        "state_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+        "artifact_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_artifact.pt",
+        "artifact_sha256": "df741ddc1e451d61d3d22b88421f55851849800556dc2514495108be1548a4f6",
+        "prediction_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_test_predictions.csv",
+        "prediction_sha256": "fea1bd08448c75418f7d6ad1caca70e6b47d347e6d92ed4b78d946c0d63d372b",
+        "export_report_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_report.json",
+        "export_report_sha256": "c5e45b8c4196b493ac85e9a4e38f8a96feafbe501444f89c0715da46bff4ed60",
+        "export_manifest_path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_manifest.json",
+        "export_manifest_sha256": "cbc3aeeb81a837414ae32f2637603759ae09d83ccceda9b00013f541ccd8704e",
+        "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485"
+      },
+      "pytorch_fp32": {
+        "accuracy": 0.9872115948206959,
+        "macro_f1": 0.9223807931422797
+      },
+      "onnxruntime_fp32": {
+        "accuracy": 0.9872115948206959,
+        "macro_f1": 0.9223807931422797,
+        "agreement_vs_pytorch_fp32": 1.0,
+        "artifact_path": "artifacts/student_B_rf_kd_fgds_seed42.onnx",
+        "artifact_sha256": "b757fcb053d33f5b70330d8a490e29a49632ec3def09f570acf481e2b79c9684",
+        "serialized_size_bytes": 14407,
+        "latency": {
+          "mean_ms_b1": 0.041862,
+          "sample_std_ms_b1": 0.05628712841687752,
+          "median_ms_b1": 0.0328,
+          "p95_ms_b1": 0.07638000000000003,
+          "p99_ms_b1": 0.13639199999999982,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      },
+      "onnxruntime_dynamic_int8_weights": {
+        "accuracy": 0.9870872631036749,
+        "macro_f1": 0.9213228237895137,
+        "agreement_vs_pytorch_fp32": 0.9954707731656631,
+        "artifact_path": "artifacts/student_B_rf_kd_fgds_seed42_dynamic_int8.onnx",
+        "artifact_sha256": "59cecca2cc6fed035292315205e3ea805f96568dd9e75d3a252c30a1140e0f2a",
+        "serialized_size_bytes": 7547,
+        "latency": {
+          "mean_ms_b1": 0.04320233333333333,
+          "sample_std_ms_b1": 0.015846661588503664,
+          "median_ms_b1": 0.0396,
+          "p95_ms_b1": 0.07630500000000005,
+          "p99_ms_b1": 0.10192399999999989,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      },
+      "openvino_fp32_from_onnx": {
+        "accuracy": 0.9872115948206959,
+        "macro_f1": 0.9223807931422797,
+        "agreement_vs_pytorch_fp32": 1.0,
+        "agreement_vs_onnxruntime_fp32": 1.0,
+        "source_onnx_path": "artifacts/student_B_rf_kd_fgds_seed42.onnx",
+        "source_onnx_sha256": "b757fcb053d33f5b70330d8a490e29a49632ec3def09f570acf481e2b79c9684",
+        "latency": {
+          "mean_ms_b1": 0.13927733333333334,
+          "sample_std_ms_b1": 0.0354215325678285,
+          "median_ms_b1": 0.12495,
+          "p95_ms_b1": 0.189865,
+          "p99_ms_b1": 0.2396519999999997,
+          "iterations": 300,
+          "warmup_iterations": 50
+        }
+      }
+    }
+  },
+  "gates": {
+    "pytorch_predictions_match_preserved_csv": true,
+    "onnxruntime_fp32_prediction_agreement": 1.0,
+    "openvino_fp32_prediction_agreement": 1.0,
+    "openvino_vs_onnxruntime_fp32_prediction_agreement": 1.0
+  },
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "onnx": "1.22.0",
+    "onnxruntime": "1.28.0",
+    "openvino": "2026.3.0-22451-8a17657b995-releases/2026/3",
+    "cpu": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD"
+  },
+  "timing_boundary": "Single-sample synchronous CPU inference in the recorded host environment. Values are descriptive runtime measurements and are not MCU latency.",
+  "quantization_boundary": "ONNX dynamic quantization applies int8 weights to supported operators; it is distinct from the calibrated fixed-point MCU export.",
+  "script": {
+    "path_recorded": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\export_fgds_runtime.py",
+    "sha256": "04758c8da79ad5e7e9d60f10b0ae15672ba92ca7fb21e0382d44f3799dc1bd16"
+  }
+}

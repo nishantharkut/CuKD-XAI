@@ -1,0 +1,347 @@
+{
+  "protocol_id": "wsnds_fgds_seed42_reconstructed_teacher_permutation_shap_v2",
+  "status": "passed",
+  "script_sha256": "3e57cfbbf763251498291decb3b0b83766563028ea09b15c5b1b7346d0a5c83e",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "deployment_execution_contract_sha256": "aea903fba31258755cf841e8db90df87195084a74280bb72a5dff27d736d83a0",
+  "deployment_preprocessing_contract_sha256": "f7a708961b6615dfad5e696d87f87117824725177828eeb6ef58d05e1cdf58e9",
+  "deployment_seed_completion_sha256": "11de7cffe0a8baacf54e29c71acabb3f4c3ef102b84466c59fead9dfeb78fc90",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "feature_overlap_audit": {
+    "train_validation_feature_overlap": 0,
+    "train_test_feature_overlap": 0,
+    "validation_test_feature_overlap": 0,
+    "num_feature_groups": 361156,
+    "conflicting_label_feature_groups": 3,
+    "group_stratification_label": "majority label; smallest class index breaks ties"
+  },
+  "teacher": {
+    "identity": "output-validated deterministic reconstruction of the calibrated RF; no original serialized RF was retained",
+    "original_executed_training_source_sha256": "b63f506d85ebabf40037e2e7deeb7c0c4267757cc9ba4605a664068d1f33c362",
+    "fitter_source_path": "experiments\\wsnds\\leakage_free_rerun\\run_feature_group_10seed_confirmation.py",
+    "fitter_source_sha256": "6b76bb0eba54691d7d1ac43324e95160ff21328374c991f0b34843d167a3546e",
+    "function_equivalence_on_permutation_masked_inputs_established": false,
+    "fit_seconds": 71.15626931190491,
+    "calibration_audit": {
+      "strategy": "stratified_group_kfold",
+      "folds": 3,
+      "group_overlap_per_fold": [
+        0,
+        0,
+        0
+      ],
+      "unique_groups": 252799
+    },
+    "train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452",
+    "test_artifact_verification": {
+      "row_count": true,
+      "source_indices_exact": true,
+      "labels_exact": true,
+      "predictions_exact": true,
+      "probabilities_within_tolerance": true,
+      "maximum_absolute_probability_delta": 2.9796600298226394e-08,
+      "file_sha256": "c22e16492b83a7da706d6f547291bc25be280c127217fe2034a30773a2667bed"
+    },
+    "metrics": {
+      "accuracy": 0.9966608053142928,
+      "macro_precision": 0.9778221848014071,
+      "macro_recall": 0.9807830826221375,
+      "macro_f1": 0.9789215588747504,
+      "per_class_precision": [
+        0.9855979962429555,
+        0.9283018867924528,
+        0.9799813780260708,
+        0.9984143763213531,
+        0.9968152866242038
+      ],
+      "per_class_recall": [
+        0.989937106918239,
+        0.9939393939393939,
+        0.9795253606328524,
+        0.9986880751909144,
+        0.9418254764292878
+      ],
+      "per_class_f1": [
+        0.9877627863194226,
+        0.96,
+        0.9797533162671631,
+        0.9985512070011943,
+        0.9685404847859721
+      ],
+      "per_class_support": [
+        1590,
+        495,
+        2149,
+        51070,
+        997
+      ],
+      "confusion_matrix": [
+        [
+          1574,
+          0,
+          16,
+          0,
+          0
+        ],
+        [
+          0,
+          492,
+          0,
+          3,
+          0
+        ],
+        [
+          23,
+          0,
+          2105,
+          21,
+          0
+        ],
+        [
+          0,
+          38,
+          26,
+          51003,
+          3
+        ],
+        [
+          0,
+          0,
+          1,
+          57,
+          939
+        ]
+      ]
+    },
+    "serialized_reconstruction": "reconstructed_calibrated_rf_teacher_seed42.joblib",
+    "serialized_reconstruction_sha256": "b25f54069967748e70329ca7dd5124960b2c86ae353c3cf865fcf9e5ef6b5442"
+  },
+  "students": {
+    "A": {
+      "row_count": true,
+      "source_indices_exact": true,
+      "labels_exact": true,
+      "predictions_exact": true,
+      "probabilities_within_tolerance": true,
+      "maximum_absolute_probability_delta": 6.58914947493372e-07,
+      "file_sha256": "16c250ba11c25f7df98394c4e2ef665694748590292b810f5a68e1e304116f02",
+      "cross_platform_fp32_probability_replay_atol": 1e-06,
+      "metrics_exact": true,
+      "metrics": {
+        "accuracy": 0.9862524644322481,
+        "macro_precision": 0.9065384793541152,
+        "macro_recall": 0.9273422197717984,
+        "macro_f1": 0.9160761302322431,
+        "per_class_precision": [
+          0.8009367681498829,
+          0.8931159420289855,
+          0.8606870229007634,
+          0.99876431821748,
+          0.9791883454734651
+        ],
+        "per_class_recall": [
+          0.8603773584905661,
+          0.9959595959595959,
+          0.8394602140530479,
+          0.9970824358723321,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8295936931473621,
+          0.941738299904489,
+          0.8499411071849234,
+          0.9979226683912439,
+          0.9611848825331971
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1368,
+            0,
+            222,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            340,
+            0,
+            1804,
+            5,
+            0
+          ],
+          [
+            0,
+            59,
+            70,
+            50921,
+            20
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      }
+    },
+    "B": {
+      "row_count": true,
+      "source_indices_exact": true,
+      "labels_exact": true,
+      "predictions_exact": true,
+      "probabilities_within_tolerance": true,
+      "maximum_absolute_probability_delta": 4.7028427119233385e-07,
+      "file_sha256": "fea1bd08448c75418f7d6ad1caca70e6b47d347e6d92ed4b78d946c0d63d372b",
+      "cross_platform_fp32_probability_replay_atol": 1e-06,
+      "metrics_exact": true,
+      "metrics": {
+        "accuracy": 0.9872115948206959,
+        "macro_precision": 0.9140187823378657,
+        "macro_recall": 0.9354647889010911,
+        "macro_f1": 0.9223807931422797,
+        "per_class_precision": [
+          0.7883795309168443,
+          0.8931159420289855,
+          0.9077163712200208,
+          0.998627370237465,
+          0.9822546972860126
+        ],
+        "per_class_recall": [
+          0.930188679245283,
+          0.9959595959595959,
+          0.8101442531409958,
+          0.9971999216761308,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8534333525678015,
+          0.941738299904489,
+          0.8561593312023604,
+          0.9979131354894334,
+          0.9626598465473146
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1479,
+            0,
+            111,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            396,
+            0,
+            1741,
+            12,
+            0
+          ],
+          [
+            1,
+            59,
+            66,
+            50927,
+            17
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      }
+    }
+  },
+  "student_deployment_lineage": {
+    "A": {
+      "plain_checkpoint": "results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_fp32.pt",
+      "plain_checkpoint_sha256": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+      "rich_artifact": "results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "173195a9c97c350e0d520ff0a186e5fb342a3de3d4e6392c5d0cc66c303b3a5b",
+      "trained_state_content_sha256": "52cc65b3088f9e78a7b86ab066305ed85a932c7b85a6f8a5cdcd8b68d795eab2",
+      "strict_export_report": "deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_A_seed42\\strict_export_report.json",
+      "strict_export_report_sha256": "652b46071adb1921e932e97af999d9d91dbd80f18f3c7e55db30ab55da6987d0",
+      "strict_export_manifest": {
+        "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_A_seed42\\strict_export_manifest.json",
+        "sha256": "06207bad14b8191076b9e1cab5d3729d00247d4e5e402a32b3d3a13a2f85515a",
+        "file_count_excluding_manifest": 12
+      },
+      "strict_export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+      "hardware_replay_scope": "The verified FP32 checkpoint is the source of the strict fixed-point export. SHAP still explains FP32 outputs, not integer MCU outputs."
+    },
+    "B": {
+      "plain_checkpoint": "results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_fp32.pt",
+      "plain_checkpoint_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+      "rich_artifact": "results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "df741ddc1e451d61d3d22b88421f55851849800556dc2514495108be1548a4f6",
+      "trained_state_content_sha256": "dd4d5719a4af2bcda1fe72365f6015d5806ee5f018d70123fb50f25f3adc45d9",
+      "strict_export_report": "deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_report.json",
+      "strict_export_report_sha256": "c5e45b8c4196b493ac85e9a4e38f8a96feafbe501444f89c0715da46bff4ed60",
+      "strict_export_manifest": {
+        "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_manifest.json",
+        "sha256": "cbc3aeeb81a837414ae32f2637603759ae09d83ccceda9b00013f541ccd8704e",
+        "file_count_excluding_manifest": 12
+      },
+      "strict_export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+      "hardware_replay_scope": "The verified FP32 checkpoint is the source of the strict fixed-point export. SHAP still explains FP32 outputs, not integer MCU outputs."
+    }
+  },
+  "artifact_manifests": {
+    "deployment_root": {
+      "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\artifact_manifest.json",
+      "sha256": "6f5538ac4303121ec46a5245e8f720f8a9106a72186ca51423269527fd20c255",
+      "file_count_excluding_manifest": 85
+    },
+    "seed_42": {
+      "path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\artifact_manifest.json",
+      "sha256": "bbd15926890f4082925ca08e8121078d01c6a1bb6cbf062fa47c316c8691ba61",
+      "file_count_excluding_manifest": 15
+    }
+  },
+  "shared_model_preprocessing_source_path": "experiments\\wsnds\\leakage_free_rerun\\tier15_common.py",
+  "shared_model_preprocessing_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scipy": "1.17.1",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "shap": "0.48.0"
+  },
+  "deployment_specimen_scope": "Separate Linux seed-42 deployment replication from the five-seed Winterfell lineage; it is not the local Windows ten-seed seed-42 checkpoint.",
+  "explanations_started": true,
+  "execution_fingerprint_sha256": "40f16096ff876524edaa47607ac68d878e7693db5a8a4a50c34e63cbb3f938ce"
+}

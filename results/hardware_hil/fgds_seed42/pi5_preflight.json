@@ -1,0 +1,86 @@
+{
+  "status": "ready_for_compile_flash_and_hil",
+  "scope": "Host-side preflight only. This does not claim that firmware compiled, was flashed, or executed on either physical board.",
+  "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "full_test_rows_per_board_model_pair": 56301,
+  "planned_full_test_board_predictions": 225204,
+  "exporter_sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82",
+  "exports": {
+    "student_A": {
+      "generated_dir": "/home/project/Desktop/CuKD-XAI/deployment/firmware_export/wsnds_rfkd_hil/generated_fgds_student_A_seed42",
+      "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+      "test_rows": 56301,
+      "fixed_vs_fp32_agreement": 0.9950089696452994,
+      "fp32_macro_f1": 0.9160761302322431,
+      "fixed_macro_f1": 0.9056937003135953,
+      "macro_f1_drop": 0.010382429918647795,
+      "passes_original_0_01_code_level_gate": false,
+      "passes_frozen_0_03_reporting_tolerance": true,
+      "split_hashes": {
+        "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+        "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+        "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+      },
+      "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+      "replay_vectors_sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625",
+      "reference_predictions_sha256": "8c37bbe70a4ebc9664518ec389fc5d8086ada897917b187e8f9a5bf161713740"
+    },
+    "student_B": {
+      "generated_dir": "/home/project/Desktop/CuKD-XAI/deployment/firmware_export/wsnds_rfkd_hil/generated_fgds_student_B_seed42",
+      "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+      "test_rows": 56301,
+      "fixed_vs_fp32_agreement": 0.9947425445373972,
+      "fp32_macro_f1": 0.9223807931422797,
+      "fixed_macro_f1": 0.9145641200681947,
+      "macro_f1_drop": 0.007816673074085068,
+      "passes_original_0_01_code_level_gate": true,
+      "passes_frozen_0_03_reporting_tolerance": true,
+      "split_hashes": {
+        "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+        "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+        "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+      },
+      "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+      "replay_vectors_sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625",
+      "reference_predictions_sha256": "06e5dc48f28f56f5e3a9e687ffaae3aa3c3bc0269a1a2d537cfd4c917a95cffb"
+    }
+  },
+  "bundles": {
+    "esp32c3_student_A": {
+      "bundle_dir": "/home/project/Desktop/CuKD-XAI/deployment/hardware_hil/build/fgds_student_A_seed42_esp32c3",
+      "board": "esp32c3",
+      "student": "student_A",
+      "bundle_id": "c3ffa4940ff4809355db25571e9243f3fc3276e26ba36a135f8ad404ca217f0a",
+      "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+      "sketch_file": "fgds_student_A_seed42_esp32c3.ino",
+      "sketch_sha256": "7e01ca5edceeb9aac2bbbeba460ac093df41fa0bb30853c7566e058c8c737700"
+    },
+    "arduino_r4_student_A": {
+      "bundle_dir": "/home/project/Desktop/CuKD-XAI/deployment/hardware_hil/build/fgds_student_A_seed42_arduino_r4",
+      "board": "arduino_r4",
+      "student": "student_A",
+      "bundle_id": "d31d494585ac51d0a57130eb29cdf4da5d521573545f83cbe9c7a1dc6fb03117",
+      "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+      "sketch_file": "fgds_student_A_seed42_arduino_r4.ino",
+      "sketch_sha256": "5ac14636c7edcfca2179cf6283b12aaeda1b6c284a3928c007040c63387b070b"
+    },
+    "esp32c3_student_B": {
+      "bundle_dir": "/home/project/Desktop/CuKD-XAI/deployment/hardware_hil/build/fgds_student_B_seed42_esp32c3",
+      "board": "esp32c3",
+      "student": "student_B",
+      "bundle_id": "347e014b62540d901d73ead45a216ac2676aed186fe99dcce68b07fd7e7ce2d2",
+      "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+      "sketch_file": "fgds_student_B_seed42_esp32c3.ino",
+      "sketch_sha256": "7e01ca5edceeb9aac2bbbeba460ac093df41fa0bb30853c7566e058c8c737700"
+    },
+    "arduino_r4_student_B": {
+      "bundle_dir": "/home/project/Desktop/CuKD-XAI/deployment/hardware_hil/build/fgds_student_B_seed42_arduino_r4",
+      "board": "arduino_r4",
+      "student": "student_B",
+      "bundle_id": "22f2229686ad074cbe50a66c22a3e528399d861ecae70933c92612557edcbdb1",
+      "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+      "sketch_file": "fgds_student_B_seed42_arduino_r4.ino",
+      "sketch_sha256": "5ac14636c7edcfca2179cf6283b12aaeda1b6c284a3928c007040c63387b070b"
+    }
+  }
+}

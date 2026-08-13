@@ -1,0 +1,145 @@
+{
+  "protocol": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+  "seed": 42,
+  "student": "A",
+  "route": "rf_kd",
+  "checkpoint_file_sha256": "2b2b000084d010a05cbb00159de5100990d4ffd0ab039a4c9955a0f66a3d59b8",
+  "trained_state_sha256": "32dcb823f1602595fee5a60906a31eae5cec1b2df5c65bb091580c1f002ac36a",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "test_source_indices_sha256": "7c0e5c678af1f9a79749dda2d9b752dabe5fc8c4c5bc135c47d174ed594ff7e2",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "route_provenance": {
+    "kd_hyperparameters": {
+      "T": 4.0,
+      "alpha": 0.7
+    },
+    "teacher_soft_target_provenance": {
+      "source_type": "fresh_calibrated_rf_soft_targets",
+      "rf_seed": 42,
+      "rf_config": {
+        "n_estimators": 500,
+        "max_depth": 15,
+        "calibration_method": "isotonic",
+        "calibration_cv": 3
+      },
+      "calibration_audit": {
+        "strategy": "stratified_group_kfold",
+        "folds": 3,
+        "group_overlap_per_fold": [
+          0,
+          0,
+          0
+        ],
+        "unique_groups": 252799
+      },
+      "train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452"
+    },
+    "teacher_probability_file_sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf"
+  },
+  "quantization_policy_sha256": "5873cf4f910ff3ec203a2a14c37306b9a44c835fd9d66dbcae5aedbde4c5a909",
+  "core_files": [
+    {
+      "path": "model_weights.h",
+      "size_bytes": 6885,
+      "sha256": "4ec99fe2d93aafcf2a86c584a32cf26f56b249eecfe7e74cb298aff077884e35"
+    },
+    {
+      "path": "preprocess_metadata.h",
+      "size_bytes": 1400,
+      "sha256": "0072cf13c0691ffec9772ae5745e4d61ab27ead5673dee6d3a0e0858c4576342"
+    },
+    {
+      "path": "preprocess_metadata.json",
+      "size_bytes": 2652,
+      "sha256": "590f56e3c5935775277b3f88e5186b323844adf20d9e8f4999132b26cd9081fa"
+    },
+    {
+      "path": "preprocess_int_metadata.h",
+      "size_bytes": 895,
+      "sha256": "934fc0ecce8277e254a28242a39f94569d95e05a660b5d5db68318b9db7014cc"
+    },
+    {
+      "path": "preprocess_int_metadata.json",
+      "size_bytes": 1537,
+      "sha256": "bacd4afe946cc18c7c2143845cce24c19e6ed98aeb07a575f55076e83857fd29"
+    },
+    {
+      "path": "test_vectors.h",
+      "size_bytes": 17837426,
+      "sha256": "1dbd269331a4e62c95710356bf2b1488f5c79c15a485d68f68375fa97ea3177e"
+    },
+    {
+      "path": "hil_replay_vectors.csv",
+      "size_bytes": 4399794,
+      "sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625"
+    },
+    {
+      "path": "hil_reference_predictions.csv",
+      "size_bytes": 2650669,
+      "sha256": "9abd3a6a774c45ac9af3782f3a1ebbfb609539f7c4d41ddb9b9a94b6ac8bb342"
+    },
+    {
+      "path": "equivalence_report.json",
+      "size_bytes": 938042,
+      "sha256": "498768d439ac9a837bdd4587db77c43b8ba260f3379b566b8a7b38d5f8159fc1"
+    }
+  ],
+  "source_snapshots": [
+    {
+      "origin_relative_path": "deployment/firmware_export/wsnds_final_hil/export_final_seed42.py",
+      "snapshot_path": "source_snapshot/python/export_final_seed42.py",
+      "size_bytes": 98283,
+      "sha256": "552399971495f9a00ed37e13c9dba6bf8ae9933f8c5a5b309f13f600e0a0a6b9"
+    },
+    {
+      "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_fgds_seed42_deployment.py",
+      "snapshot_path": "source_snapshot/python/export_fgds_seed42_deployment.py",
+      "size_bytes": 52811,
+      "sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82"
+    },
+    {
+      "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py",
+      "snapshot_path": "source_snapshot/python/export_wsnds_student_a_rfkd_int8.py",
+      "size_bytes": 47073,
+      "sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88"
+    },
+    {
+      "origin_relative_path": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+      "snapshot_path": "source_snapshot/python/tier15_common.py",
+      "size_bytes": 19294,
+      "sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47"
+    },
+    {
+      "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/wsnds_train_only_self_test.c",
+      "snapshot_path": "source_snapshot/c/wsnds_train_only_self_test.c",
+      "size_bytes": 2195,
+      "sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0"
+    },
+    {
+      "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.c",
+      "snapshot_path": "source_snapshot/c/cukd_model.c",
+      "size_bytes": 2290,
+      "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+    },
+    {
+      "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.h",
+      "snapshot_path": "source_snapshot/c/cukd_model.h",
+      "size_bytes": 389,
+      "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+    },
+    {
+      "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+      "snapshot_path": "source_snapshot/c/cukd_preprocess.c",
+      "size_bytes": 1027,
+      "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+    },
+    {
+      "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.h",
+      "snapshot_path": "source_snapshot/c/cukd_preprocess.h",
+      "size_bytes": 363,
+      "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    }
+  ],
+  "export_id": "f4d9718635bc3c8d74152a4fdac91011ff93a4d5847cc2f80a350928ff8f8d71"
+}

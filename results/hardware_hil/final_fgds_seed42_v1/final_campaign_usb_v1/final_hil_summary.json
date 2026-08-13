@@ -1,0 +1,2514 @@
+{
+  "schema": "cukd_final_hil_archive_report_v1",
+  "status": "passed_with_blocked_routes",
+  "archive_verification": {
+    "schema": "cukd_final_hil_portable_archive_v2",
+    "status": "passed_with_blocked_routes",
+    "archive_id": "79969dc146a3889983ddd28120578a7f74daa5b78977733985d3ae6a2a5e6fce",
+    "contract_id": "aa123a4d668b9fd7f7c0c182f9811979e6291437c5ebd7f75cf7f25d8afc6c7a",
+    "campaign_evidence_id": "922f46573eded7b63c605990b6434c3bbc8c89dfe00cdd5274b19eb2cf4fcad5",
+    "combination_count": 6,
+    "totals": {
+      "session_count": 6,
+      "stage_attempts": 36,
+      "balanced_timing_rows": 18000,
+      "warmup_rows_excluded": 60,
+      "smoke_rows_excluded": 60,
+      "full_exact_replay_rows": 337806,
+      "all_device_inferences": 355926
+    },
+    "physical_specimens": {
+      "esp32c3": {
+        "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+        "wifi_mac_reported": null,
+        "session_count": 3
+      },
+      "arduino_r4": {
+        "physical_port_serial": "48CA43BD5890",
+        "wifi_mac_reported": null,
+        "session_count": 3
+      }
+    },
+    "build_contracts_by_board": {
+      "esp32c3": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0",
+      "arduino_r4": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+    },
+    "portable": true,
+    "original_source_paths_dereferenced": false,
+    "archive_local_source_snapshots_verified": true,
+    "verifier_execution_mode": "current_checkout_with_archived_source_ledger_verified",
+    "portable_selection_boundary": "Archive-local verification binds the cohort rows and preprocessing hashes to the archived full exports. Reconstructing deterministic group selection from the original dataset remains a generation-time check."
+  },
+  "contract_id": "aa123a4d668b9fd7f7c0c182f9811979e6291437c5ebd7f75cf7f25d8afc6c7a",
+  "campaign_evidence_id": "922f46573eded7b63c605990b6434c3bbc8c89dfe00cdd5274b19eb2cf4fcad5",
+  "archive_id": "79969dc146a3889983ddd28120578a7f74daa5b78977733985d3ae6a2a5e6fce",
+  "campaign_scope": {
+    "seed": 42,
+    "boards": [
+      "esp32c3",
+      "arduino_r4"
+    ],
+    "transports": [
+      "usb_serial"
+    ],
+    "eligible_session_count": 6,
+    "full_replay_rows_per_session": 56301,
+    "timing_repeats_per_session": 3,
+    "timing_rows_per_repeat": 1000,
+    "timing_statistical_unit": "three ordered repeat summaries on one physical board specimen; the 3,000 rows are not independent hardware replications"
+  },
+  "totals": {
+    "session_count": 6,
+    "stage_attempts": 36,
+    "balanced_timing_rows": 18000,
+    "warmup_rows_excluded": 60,
+    "smoke_rows_excluded": 60,
+    "full_exact_replay_rows": 337806,
+    "all_device_inferences": 355926
+  },
+  "physical_specimens": {
+    "esp32c3": {
+      "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+      "wifi_mac_reported": null,
+      "session_count": 3
+    },
+    "arduino_r4": {
+      "physical_port_serial": "48CA43BD5890",
+      "wifi_mac_reported": null,
+      "session_count": 3
+    }
+  },
+  "blocked_routes": [
+    {
+      "model_key": "student_B_scratch",
+      "model": "Student B scratch",
+      "status": "blocked_before_firmware_generation",
+      "reason": "Fixed-point quality gates failed: fixed/FP32 agreement 0.989574 is below 0.99; absolute macro-F1 drop 0.020193 exceeds 0.015",
+      "fixed_vs_fp32_agreement": 0.9895738974440952,
+      "absolute_macro_f1_drop": 0.020192624669403636,
+      "minimum_fixed_vs_fp32_agreement": 0.99,
+      "maximum_absolute_macro_f1_drop": 0.015,
+      "excluded_combinations": [
+        "student_B_scratch__esp32c3__usb_serial",
+        "student_B_scratch__arduino_r4__usb_serial"
+      ]
+    }
+  ],
+  "model_results": {
+    "student_A_scratch": {
+      "model": "Student A scratch",
+      "student": "A",
+      "route": "scratch",
+      "seed": 42,
+      "export_id": "26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61",
+      "model_footprint": {
+        "architecture": "17-32-16-5",
+        "weight_bytes": 1136,
+        "bias_bytes": 212,
+        "parameter_bytes": 1348,
+        "activation_bytes_estimate": 140,
+        "macs_per_inference": 1136
+      },
+      "fp32_metrics": {
+        "accuracy": 0.9814035274684286,
+        "macro_precision": 0.8805521931841456,
+        "macro_recall": 0.9441407794220392,
+        "macro_f1": 0.9102878179701264,
+        "per_class_precision": [
+          0.8193163320672816,
+          0.8707964601769912,
+          0.7784918594687232,
+          0.9988329311231554,
+          0.9353233830845771
+        ],
+        "per_class_recall": [
+          0.949685534591195,
+          0.9939393939393939,
+          0.8455095393206142,
+          0.9887409438026239,
+          0.9428284854563691
+        ],
+        "per_class_f1": [
+          0.8796970579667929,
+          0.9283018867924528,
+          0.8106178898059335,
+          0.9937613162245139,
+          0.939060939060939
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1510,
+            0,
+            80,
+            0,
+            0
+          ],
+          [
+            1,
+            492,
+            0,
+            2,
+            0
+          ],
+          [
+            331,
+            0,
+            1817,
+            1,
+            0
+          ],
+          [
+            1,
+            73,
+            436,
+            50495,
+            65
+          ],
+          [
+            0,
+            0,
+            1,
+            56,
+            940
+          ]
+        ]
+      },
+      "fixed_metrics": {
+        "accuracy": 0.9798760235164562,
+        "macro_precision": 0.8748469795281577,
+        "macro_recall": 0.9364254145508472,
+        "macro_f1": 0.9036666571664094,
+        "per_class_precision": [
+          0.8302107728337237,
+          0.8707964601769912,
+          0.743702518992403,
+          0.9988320763307401,
+          0.9306930693069307
+        ],
+        "per_class_recall": [
+          0.8918238993710692,
+          0.9939393939393939,
+          0.865518845974872,
+          0.9880164480125319,
+          0.9428284854563691
+        ],
+        "per_class_f1": [
+          0.8599151000606429,
+          0.9283018867924528,
+          0.8,
+          0.9933948241408842,
+          0.9367214748380668
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            1,
+            492,
+            0,
+            2,
+            0
+          ],
+          [
+            288,
+            0,
+            1860,
+            1,
+            0
+          ],
+          [
+            1,
+            73,
+            468,
+            50458,
+            70
+          ],
+          [
+            0,
+            0,
+            1,
+            56,
+            940
+          ]
+        ]
+      },
+      "fixed_point_quality_gates": {
+        "fixed_vs_fp32_agreement": 0.9958792916644464,
+        "absolute_macro_f1_drop": 0.006621160803716997,
+        "minimum_fixed_vs_fp32_agreement": 0.99,
+        "maximum_absolute_macro_f1_drop": 0.015,
+        "zero_saturation_passed": true,
+        "accumulator_bounds_passed": true,
+        "preprocess_bounds_passed": true
+      },
+      "signed_fixed_minus_fp32_macro_f1": -0.006621160803716997
+    },
+    "student_A_rf_kd": {
+      "model": "Student A RF-KD",
+      "student": "A",
+      "route": "rf_kd",
+      "seed": 42,
+      "export_id": "f4d9718635bc3c8d74152a4fdac91011ff93a4d5847cc2f80a350928ff8f8d71",
+      "model_footprint": {
+        "architecture": "17-32-16-5",
+        "weight_bytes": 1136,
+        "bias_bytes": 212,
+        "parameter_bytes": 1348,
+        "activation_bytes_estimate": 140,
+        "macs_per_inference": 1136
+      },
+      "fp32_metrics": {
+        "accuracy": 0.9860393243459263,
+        "macro_precision": 0.9066396684625758,
+        "macro_recall": 0.9266403229615575,
+        "macro_f1": 0.9146237916726868,
+        "per_class_precision": [
+          0.7734417344173442,
+          0.8931159420289855,
+          0.8868217054263566,
+          0.9985885120564595,
+          0.9812304483837331
+        ],
+        "per_class_recall": [
+          0.8974842767295598,
+          0.9959595959595959,
+          0.798510935318753,
+          0.9974153123164284,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8308588064046579,
+          0.941738299904489,
+          0.8403525954946132,
+          0.9980015673981191,
+          0.9621676891615542
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1427,
+            0,
+            163,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            418,
+            0,
+            1716,
+            14,
+            1
+          ],
+          [
+            0,
+            59,
+            56,
+            50938,
+            17
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      },
+      "fixed_metrics": {
+        "accuracy": 0.9863767961492691,
+        "macro_precision": 0.909158888464477,
+        "macro_recall": 0.9279358099838058,
+        "macro_f1": 0.9169590056763808,
+        "per_class_precision": [
+          0.7890929326655537,
+          0.8931159420289855,
+          0.8860630722278738,
+          0.9983341499265066,
+          0.9791883454734651
+        ],
+        "per_class_recall": [
+          0.8918238993710692,
+          0.9959595959595959,
+          0.8106095858538855,
+          0.997454474251028,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8373191614998524,
+          0.941738299904489,
+          0.8466585662211422,
+          0.9978941182232235,
+          0.9611848825331971
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            379,
+            0,
+            1742,
+            27,
+            1
+          ],
+          [
+            0,
+            59,
+            52,
+            50940,
+            19
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      },
+      "fixed_point_quality_gates": {
+        "fixed_vs_fp32_agreement": 0.9977265057459015,
+        "absolute_macro_f1_drop": 0.002335214003693964,
+        "minimum_fixed_vs_fp32_agreement": 0.99,
+        "maximum_absolute_macro_f1_drop": 0.015,
+        "zero_saturation_passed": true,
+        "accumulator_bounds_passed": true,
+        "preprocess_bounds_passed": true
+      },
+      "signed_fixed_minus_fp32_macro_f1": 0.002335214003693964
+    },
+    "student_B_rf_kd": {
+      "model": "Student B RF-KD",
+      "student": "B",
+      "route": "rf_kd",
+      "seed": 42,
+      "export_id": "77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280",
+      "model_footprint": {
+        "architecture": "17-64-32-5",
+        "weight_bytes": 3296,
+        "bias_bytes": 404,
+        "parameter_bytes": 3700,
+        "activation_bytes_estimate": 236,
+        "macs_per_inference": 3296
+      },
+      "fp32_metrics": {
+        "accuracy": 0.987229356494556,
+        "macro_precision": 0.912564432675422,
+        "macro_recall": 0.9327833165312489,
+        "macro_f1": 0.9214806336793948,
+        "per_class_precision": [
+          0.8059191804211725,
+          0.8931159420289855,
+          0.8869693978282329,
+          0.9986471649282409,
+          0.9781704781704782
+        ],
+        "per_class_recall": [
+          0.8905660377358491,
+          0.9959595959595959,
+          0.8362028850628199,
+          0.9973565694145291,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8461308634598148,
+          0.941738299904489,
+          0.8608383233532935,
+          0.9980014499284833,
+          0.9606942317508933
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1416,
+            0,
+            174,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            341,
+            0,
+            1797,
+            11,
+            0
+          ],
+          [
+            0,
+            59,
+            55,
+            50935,
+            21
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      },
+      "fixed_metrics": {
+        "accuracy": 0.9862879877799684,
+        "macro_precision": 0.9074526990279835,
+        "macro_recall": 0.931415358881473,
+        "macro_f1": 0.9170184349203362,
+        "per_class_precision": [
+          0.7763645998940116,
+          0.8931159420289855,
+          0.8980125523012552,
+          0.9986661697495145,
+          0.9711042311661506
+        ],
+        "per_class_recall": [
+          0.9213836477987422,
+          0.9959595959595959,
+          0.7989762680316427,
+          0.9969257881339338,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8426804716709807,
+          0.941738299904489,
+          0.8456045309037183,
+          0.9977952200370404,
+          0.9572736520854527
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1465,
+            0,
+            125,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            422,
+            0,
+            1717,
+            10,
+            0
+          ],
+          [
+            0,
+            59,
+            70,
+            50913,
+            28
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      },
+      "fixed_point_quality_gates": {
+        "fixed_vs_fp32_agreement": 0.9969982771176356,
+        "absolute_macro_f1_drop": 0.004462198759058622,
+        "minimum_fixed_vs_fp32_agreement": 0.99,
+        "maximum_absolute_macro_f1_drop": 0.015,
+        "zero_saturation_passed": true,
+        "accumulator_bounds_passed": true,
+        "preprocess_bounds_passed": true
+      },
+      "signed_fixed_minus_fp32_macro_f1": -0.004462198759058622
+    }
+  },
+  "sessions": [
+    {
+      "execution_ordinal": 1,
+      "combination_id": "student_A_scratch__esp32c3__usb_serial",
+      "model_key": "student_A_scratch",
+      "model": "Student A scratch",
+      "student": "A",
+      "route": "scratch",
+      "board": "esp32c3",
+      "board_label": "ESP32-C3",
+      "transport": "usb_serial",
+      "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+      "session_evidence_id": "0a9c687ed56fcc522fa3b044597940b65d66722d76fbb551b346fe1235536314",
+      "campaign_session_id": "EE96272B18E5387CE230BCEBE5F26B45",
+      "export_id": "26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61",
+      "bundle_id": "981739137d7b05dad6dcf07d18e427ef68d566f7c3ce91a5eeebd51dd8e59bf2",
+      "provenance_id": "b8b03b256333a515152b42942f6067a5923932654c227b20026bb474d7f4e733",
+      "duration_seconds": 1035.56548,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9798760235164562,
+        "macro_f1": 0.9036666571664093,
+        "weighted_f1": 0.9806674734435835,
+        "per_class": {
+          "0": {
+            "precision": 0.8302107728337237,
+            "recall": 0.8918238993710692,
+            "f1": 0.8599151000606429,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8707964601769912,
+            "recall": 0.9939393939393939,
+            "f1": 0.9283018867924527,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.743702518992403,
+            "recall": 0.865518845974872,
+            "f1": 0.8,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9988320763307401,
+            "recall": 0.9880164480125319,
+            "f1": 0.9933948241408841,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9306930693069307,
+            "recall": 0.9428284854563691,
+            "f1": 0.9367214748380668,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            1,
+            492,
+            0,
+            2,
+            0
+          ],
+          [
+            288,
+            0,
+            1860,
+            1,
+            0
+          ],
+          [
+            1,
+            73,
+            468,
+            50458,
+            70
+          ],
+          [
+            0,
+            0,
+            1,
+            56,
+            940
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9958792916644464
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 6.612,
+          "sample_sd_of_repeat_means": 0.012529964086141421,
+          "repeat_means": [
+            6.599,
+            6.624,
+            6.613
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 5,
+            "mean": 6.612,
+            "median": 7.0,
+            "p95": 8,
+            "p99": 8,
+            "max": 17,
+            "std": 0.8821126156374064
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 111.24333333333334,
+          "sample_sd_of_repeat_means": 0.02829016319028877,
+          "repeat_means": [
+            111.267,
+            111.212,
+            111.251
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 109,
+            "mean": 111.24333333333334,
+            "median": 111.0,
+            "p95": 117,
+            "p99": 118,
+            "max": 144,
+            "std": 2.315913546649692
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 117.85533333333333,
+          "sample_sd_of_repeat_means": 0.016772994167214027,
+          "repeat_means": [
+            117.866,
+            117.836,
+            117.864
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 115,
+            "mean": 117.85533333333333,
+            "median": 118.0,
+            "p95": 124,
+            "p99": 125,
+            "max": 161,
+            "std": 2.70599425145156
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 15822.891666666666,
+          "sample_sd_of_repeat_means": 3.740357781460127,
+          "repeat_means": [
+            15820.218,
+            15821.291,
+            15827.166
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 13966,
+            "mean": 15822.891666666666,
+            "median": 15879.0,
+            "p95": 16932,
+            "p99": 17337,
+            "max": 20318,
+            "std": 633.3166695505145
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 15822.891666666666,
+          "sample_sd_of_repeat_means": 3.740357781460127,
+          "repeat_means": [
+            15820.218,
+            15821.291,
+            15827.166
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 13966,
+            "mean": 15822.891666666666,
+            "median": 15879.0,
+            "p95": 16932,
+            "p99": 17337,
+            "max": 20318,
+            "std": 633.3166695505145
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 281882,
+        "program_max_bytes": 1310720,
+        "program_percent_reported": 21,
+        "global_bytes": 13592,
+        "global_max_bytes": 327680,
+        "global_percent_reported": 4,
+        "remaining_dynamic_bytes": 314088
+      },
+      "build_environment": {
+        "fqbn": "esp32:esp32:esp32c3",
+        "board_core_version": "3.3.11",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "riscv32-esp-elf-g++ 14.2.0",
+        "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0"
+      }
+    },
+    {
+      "execution_ordinal": 2,
+      "combination_id": "student_A_rf_kd__esp32c3__usb_serial",
+      "model_key": "student_A_rf_kd",
+      "model": "Student A RF-KD",
+      "student": "A",
+      "route": "rf_kd",
+      "board": "esp32c3",
+      "board_label": "ESP32-C3",
+      "transport": "usb_serial",
+      "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+      "session_evidence_id": "e050dc0ab2f60e2f97954e450fcbfb49ac2c3dd21a35776f96d99beaf8caefde",
+      "campaign_session_id": "ECCE62BBC4DA7DCF4001C45D332909AD",
+      "export_id": "f4d9718635bc3c8d74152a4fdac91011ff93a4d5847cc2f80a350928ff8f8d71",
+      "bundle_id": "9894d6fafc15c402797ed423e8df39c655fa413f8c466d2b82eed7b0d5e24179",
+      "provenance_id": "636d21e666064c34102f4fa7eef0d20d8f7fb2da3c330428afb67577df5fcf18",
+      "duration_seconds": 1056.563857,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9863767961492691,
+        "macro_f1": 0.9169590056763809,
+        "weighted_f1": 0.9864428896394795,
+        "per_class": {
+          "0": {
+            "precision": 0.7890929326655537,
+            "recall": 0.8918238993710692,
+            "f1": 0.8373191614998523,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8931159420289855,
+            "recall": 0.9959595959595959,
+            "f1": 0.9417382999044891,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.8860630722278738,
+            "recall": 0.8106095858538855,
+            "f1": 0.8466585662211422,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9983341499265066,
+            "recall": 0.997454474251028,
+            "f1": 0.9978941182232234,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9791883454734651,
+            "recall": 0.9438314944834504,
+            "f1": 0.9611848825331971,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            379,
+            0,
+            1742,
+            27,
+            1
+          ],
+          [
+            0,
+            59,
+            52,
+            50940,
+            19
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9977265057459015
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 6.645333333333333,
+          "sample_sd_of_repeat_means": 0.030924639582917305,
+          "repeat_means": [
+            6.629,
+            6.681,
+            6.626
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 5,
+            "mean": 6.645333333333333,
+            "median": 7.0,
+            "p95": 8,
+            "p99": 12,
+            "max": 17,
+            "std": 0.9445695080593888
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 111.28666666666666,
+          "sample_sd_of_repeat_means": 0.04801388688008399,
+          "repeat_means": [
+            111.238,
+            111.334,
+            111.288
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 109,
+            "mean": 111.28666666666666,
+            "median": 111.0,
+            "p95": 117,
+            "p99": 118,
+            "max": 145,
+            "std": 2.299381559366682
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 117.932,
+          "sample_sd_of_repeat_means": 0.07562407024221675,
+          "repeat_means": [
+            117.867,
+            118.015,
+            117.914
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 115,
+            "mean": 117.932,
+            "median": 118.0,
+            "p95": 124,
+            "p99": 125,
+            "max": 162,
+            "std": 2.6799333325041252
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 16173.187666666667,
+          "sample_sd_of_repeat_means": 5.974862118353636,
+          "repeat_means": [
+            16176.851,
+            16166.293,
+            16176.419
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14570,
+            "mean": 16173.187666666667,
+            "median": 16221.5,
+            "p95": 17133,
+            "p99": 17366,
+            "max": 20962,
+            "std": 582.45891910751
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 16173.187666666667,
+          "sample_sd_of_repeat_means": 5.974862118353636,
+          "repeat_means": [
+            16176.851,
+            16166.293,
+            16176.419
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14570,
+            "mean": 16173.187666666667,
+            "median": 16221.5,
+            "p95": 17133,
+            "p99": 17366,
+            "max": 20962,
+            "std": 582.45891910751
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 281874,
+        "program_max_bytes": 1310720,
+        "program_percent_reported": 21,
+        "global_bytes": 13592,
+        "global_max_bytes": 327680,
+        "global_percent_reported": 4,
+        "remaining_dynamic_bytes": 314088
+      },
+      "build_environment": {
+        "fqbn": "esp32:esp32:esp32c3",
+        "board_core_version": "3.3.11",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "riscv32-esp-elf-g++ 14.2.0",
+        "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0"
+      }
+    },
+    {
+      "execution_ordinal": 4,
+      "combination_id": "student_B_rf_kd__esp32c3__usb_serial",
+      "model_key": "student_B_rf_kd",
+      "model": "Student B RF-KD",
+      "student": "B",
+      "route": "rf_kd",
+      "board": "esp32c3",
+      "board_label": "ESP32-C3",
+      "transport": "usb_serial",
+      "physical_port_serial": "f8df315e2a6def11a9bec5a7c169b110",
+      "session_evidence_id": "7c9fbb1d1a151f5d8f5d4fa12f61b66e024f3ffba4b324f9a35a501968650037",
+      "campaign_session_id": "917EA7E3B225EF162C626F188063322C",
+      "export_id": "77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280",
+      "bundle_id": "3e439bd52f893b16c189423cc6ffc4ce1cc2029cec4147d6efb6a86de876ddd1",
+      "provenance_id": "b43a84dd25f16a806cb68202090f85a6dfdc35ab96bef46b62547284186d04d2",
+      "duration_seconds": 1064.381207,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9862879877799684,
+        "macro_f1": 0.9170184349203362,
+        "weighted_f1": 0.9863950953578536,
+        "per_class": {
+          "0": {
+            "precision": 0.7763645998940116,
+            "recall": 0.9213836477987422,
+            "f1": 0.8426804716709808,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8931159420289855,
+            "recall": 0.9959595959595959,
+            "f1": 0.9417382999044891,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.8980125523012552,
+            "recall": 0.7989762680316427,
+            "f1": 0.8456045309037185,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9986661697495145,
+            "recall": 0.9969257881339338,
+            "f1": 0.9977952200370404,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9711042311661506,
+            "recall": 0.9438314944834504,
+            "f1": 0.9572736520854527,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1465,
+            0,
+            125,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            422,
+            0,
+            1717,
+            10,
+            0
+          ],
+          [
+            0,
+            59,
+            70,
+            50913,
+            28
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9969982771176356
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 7.780666666666667,
+          "sample_sd_of_repeat_means": 0.02250185177565019,
+          "repeat_means": [
+            7.758,
+            7.781,
+            7.803
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 6,
+            "mean": 7.780666666666667,
+            "median": 8.0,
+            "p95": 9,
+            "p99": 13,
+            "max": 17,
+            "std": 0.9746244860913812
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 313.335,
+          "sample_sd_of_repeat_means": 0.09969453345091243,
+          "repeat_means": [
+            313.388,
+            313.397,
+            313.22
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 308,
+            "mean": 313.335,
+            "median": 313.0,
+            "p95": 320,
+            "p99": 320,
+            "max": 388,
+            "std": 4.073504838178871
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 321.1156666666667,
+          "sample_sd_of_repeat_means": 0.08183112692204197,
+          "repeat_means": [
+            321.146,
+            321.178,
+            321.023
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 315,
+            "mean": 321.11566666666664,
+            "median": 321.0,
+            "p95": 328,
+            "p99": 329,
+            "max": 404,
+            "std": 4.527650739867445
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 16635.353,
+          "sample_sd_of_repeat_means": 7.149876362567185,
+          "repeat_means": [
+            16629.055,
+            16643.125,
+            16633.879
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14756,
+            "mean": 16635.353,
+            "median": 16645.0,
+            "p95": 17748,
+            "p99": 17923,
+            "max": 20178,
+            "std": 592.2981909964495
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 16635.353,
+          "sample_sd_of_repeat_means": 7.149876362567185,
+          "repeat_means": [
+            16629.055,
+            16643.125,
+            16633.879
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14756,
+            "mean": 16635.353,
+            "median": 16645.0,
+            "p95": 17748,
+            "p99": 17923,
+            "max": 20178,
+            "std": 592.2981909964495
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 284230,
+        "program_max_bytes": 1310720,
+        "program_percent_reported": 21,
+        "global_bytes": 13592,
+        "global_max_bytes": 327680,
+        "global_percent_reported": 4,
+        "remaining_dynamic_bytes": 314088
+      },
+      "build_environment": {
+        "fqbn": "esp32:esp32:esp32c3",
+        "board_core_version": "3.3.11",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "riscv32-esp-elf-g++ 14.2.0",
+        "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0"
+      }
+    },
+    {
+      "execution_ordinal": 5,
+      "combination_id": "student_B_rf_kd__arduino_r4__usb_serial",
+      "model_key": "student_B_rf_kd",
+      "model": "Student B RF-KD",
+      "student": "B",
+      "route": "rf_kd",
+      "board": "arduino_r4",
+      "board_label": "Arduino UNO R4 WiFi",
+      "transport": "usb_serial",
+      "physical_port_serial": "48CA43BD5890",
+      "session_evidence_id": "65cc402190f74276798d482c2ff8c7d4b0e51631d202eb446be5f7f097a85c03",
+      "campaign_session_id": "9ECDD520EEA54353CA32E384BBDD6BC6",
+      "export_id": "77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280",
+      "bundle_id": "1f4212e5d26e25f204be70daf5c68c9e28712e8a782455d75c692dce9cac0378",
+      "provenance_id": "bfd70928e5466da305ac22c457f3b119dc70c7a4802f4043c8061c1bb479de9c",
+      "duration_seconds": 985.862695,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9862879877799684,
+        "macro_f1": 0.9170184349203362,
+        "weighted_f1": 0.9863950953578536,
+        "per_class": {
+          "0": {
+            "precision": 0.7763645998940116,
+            "recall": 0.9213836477987422,
+            "f1": 0.8426804716709808,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8931159420289855,
+            "recall": 0.9959595959595959,
+            "f1": 0.9417382999044891,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.8980125523012552,
+            "recall": 0.7989762680316427,
+            "f1": 0.8456045309037185,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9986661697495145,
+            "recall": 0.9969257881339338,
+            "f1": 0.9977952200370404,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9711042311661506,
+            "recall": 0.9438314944834504,
+            "f1": 0.9572736520854527,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1465,
+            0,
+            125,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            422,
+            0,
+            1717,
+            10,
+            0
+          ],
+          [
+            0,
+            59,
+            70,
+            50913,
+            28
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9969982771176356
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 20.729666666666667,
+          "sample_sd_of_repeat_means": 0.020550750189064635,
+          "repeat_means": [
+            20.728,
+            20.71,
+            20.751
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 19,
+            "mean": 20.729666666666667,
+            "median": 21.0,
+            "p95": 21,
+            "p99": 23,
+            "max": 24,
+            "std": 0.6109445328523877
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 772.7256666666667,
+          "sample_sd_of_repeat_means": 0.04021608301826086,
+          "repeat_means": [
+            772.759,
+            772.737,
+            772.681
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 766,
+            "mean": 772.7256666666667,
+            "median": 773.0,
+            "p95": 776,
+            "p99": 776,
+            "max": 777,
+            "std": 2.3778998904261908
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 793.4553333333333,
+          "sample_sd_of_repeat_means": 0.028431203515360777,
+          "repeat_means": [
+            793.487,
+            793.447,
+            793.432
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 787,
+            "mean": 793.4553333333333,
+            "median": 794.0,
+            "p95": 797,
+            "p99": 797,
+            "max": 798,
+            "std": 2.2975359748120496
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 15728.751666666667,
+          "sample_sd_of_repeat_means": 3.972977766529145,
+          "repeat_means": [
+            15731.76,
+            15730.247,
+            15724.248
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14069,
+            "mean": 15728.751666666667,
+            "median": 15829.0,
+            "p95": 16822,
+            "p99": 16854,
+            "max": 16923,
+            "std": 570.6749331542043
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 15728.751666666667,
+          "sample_sd_of_repeat_means": 3.972977766529145,
+          "repeat_means": [
+            15731.76,
+            15730.247,
+            15724.248
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 14069,
+            "mean": 15728.751666666667,
+            "median": 15829.0,
+            "p95": 16822,
+            "p99": 16854,
+            "max": 16923,
+            "std": 570.6749331542043
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 58864,
+        "program_max_bytes": 262144,
+        "program_percent_reported": 22,
+        "global_bytes": 7128,
+        "global_max_bytes": 32768,
+        "global_percent_reported": 21,
+        "remaining_dynamic_bytes": 25640
+      },
+      "build_environment": {
+        "fqbn": "arduino:renesas_uno:unor4wifi",
+        "board_core_version": "1.6.0",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "arm-none-eabi-g++ 7.2.1",
+        "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+      }
+    },
+    {
+      "execution_ordinal": 7,
+      "combination_id": "student_A_rf_kd__arduino_r4__usb_serial",
+      "model_key": "student_A_rf_kd",
+      "model": "Student A RF-KD",
+      "student": "A",
+      "route": "rf_kd",
+      "board": "arduino_r4",
+      "board_label": "Arduino UNO R4 WiFi",
+      "transport": "usb_serial",
+      "physical_port_serial": "48CA43BD5890",
+      "session_evidence_id": "1f3aeb597c7dc326bd6698ac95bf84352e45d182f2e4933c5006281fe07a7723",
+      "campaign_session_id": "A67D62CF441C9590FD15B7F8E89C4213",
+      "export_id": "f4d9718635bc3c8d74152a4fdac91011ff93a4d5847cc2f80a350928ff8f8d71",
+      "bundle_id": "1af53144accc6121fc25efefc19e72df69f291a78535b2e419562e59e5067d89",
+      "provenance_id": "c87ef79b97934a2a17446c6aa7a740e8d74eb78bcfe549dcc6ed7791fbf850bc",
+      "duration_seconds": 955.630726,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9863767961492691,
+        "macro_f1": 0.9169590056763809,
+        "weighted_f1": 0.9864428896394795,
+        "per_class": {
+          "0": {
+            "precision": 0.7890929326655537,
+            "recall": 0.8918238993710692,
+            "f1": 0.8373191614998523,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8931159420289855,
+            "recall": 0.9959595959595959,
+            "f1": 0.9417382999044891,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.8860630722278738,
+            "recall": 0.8106095858538855,
+            "f1": 0.8466585662211422,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9983341499265066,
+            "recall": 0.997454474251028,
+            "f1": 0.9978941182232234,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9791883454734651,
+            "recall": 0.9438314944834504,
+            "f1": 0.9611848825331971,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            379,
+            0,
+            1742,
+            27,
+            1
+          ],
+          [
+            0,
+            59,
+            52,
+            50940,
+            19
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9977265057459015
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 20.759,
+          "sample_sd_of_repeat_means": 0.01058300524425854,
+          "repeat_means": [
+            20.763,
+            20.767,
+            20.747
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 19,
+            "mean": 20.759,
+            "median": 21.0,
+            "p95": 21,
+            "p99": 23,
+            "max": 24,
+            "std": 0.6310723677466265
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 281.5846666666667,
+          "sample_sd_of_repeat_means": 0.04619884558439721,
+          "repeat_means": [
+            281.559,
+            281.557,
+            281.638
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 277,
+            "mean": 281.5846666666667,
+            "median": 282.0,
+            "p95": 285,
+            "p99": 286,
+            "max": 286,
+            "std": 1.8838342696626886
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 302.34366666666665,
+          "sample_sd_of_repeat_means": 0.03580968211716849,
+          "repeat_means": [
+            302.322,
+            302.324,
+            302.385
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 298,
+            "mean": 302.34366666666665,
+            "median": 302.0,
+            "p95": 306,
+            "p99": 306,
+            "max": 307,
+            "std": 1.840170251785295
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 14844.832666666667,
+          "sample_sd_of_repeat_means": 5.205803524273442,
+          "repeat_means": [
+            14841.159,
+            14842.549,
+            14850.79
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 13688,
+            "mean": 14844.832666666667,
+            "median": 14843.0,
+            "p95": 15816,
+            "p99": 15875,
+            "max": 15974,
+            "std": 547.7101258873671
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 14844.832666666667,
+          "sample_sd_of_repeat_means": 5.205803524273442,
+          "repeat_means": [
+            14841.159,
+            14842.549,
+            14850.79
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 13688,
+            "mean": 14844.832666666667,
+            "median": 14843.0,
+            "p95": 15816,
+            "p99": 15875,
+            "max": 15974,
+            "std": 547.7101258873671
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 56528,
+        "program_max_bytes": 262144,
+        "program_percent_reported": 21,
+        "global_bytes": 7128,
+        "global_max_bytes": 32768,
+        "global_percent_reported": 21,
+        "remaining_dynamic_bytes": 25640
+      },
+      "build_environment": {
+        "fqbn": "arduino:renesas_uno:unor4wifi",
+        "board_core_version": "1.6.0",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "arm-none-eabi-g++ 7.2.1",
+        "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+      }
+    },
+    {
+      "execution_ordinal": 8,
+      "combination_id": "student_A_scratch__arduino_r4__usb_serial",
+      "model_key": "student_A_scratch",
+      "model": "Student A scratch",
+      "student": "A",
+      "route": "scratch",
+      "board": "arduino_r4",
+      "board_label": "Arduino UNO R4 WiFi",
+      "transport": "usb_serial",
+      "physical_port_serial": "48CA43BD5890",
+      "session_evidence_id": "5197acfd2adfc1e2853766362f9eff17e2393850bb2168b250a7d9bce93f8f58",
+      "campaign_session_id": "0419365B749307F70CAFC51214570AF1",
+      "export_id": "26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61",
+      "bundle_id": "acebc4643843e705b40876b13b8e760672d171278f422cdfce4b60372cc958a2",
+      "provenance_id": "ab766af9dc31d2c20f49b377bf9e32cfd61af7cf8fb07c21c3874ba3c0536c89",
+      "duration_seconds": 923.217039,
+      "fidelity": {
+        "rows": 56301,
+        "accuracy": 0.9798760235164562,
+        "macro_f1": 0.9036666571664093,
+        "weighted_f1": 0.9806674734435835,
+        "per_class": {
+          "0": {
+            "precision": 0.8302107728337237,
+            "recall": 0.8918238993710692,
+            "f1": 0.8599151000606429,
+            "support": 1590
+          },
+          "1": {
+            "precision": 0.8707964601769912,
+            "recall": 0.9939393939393939,
+            "f1": 0.9283018867924527,
+            "support": 495
+          },
+          "2": {
+            "precision": 0.743702518992403,
+            "recall": 0.865518845974872,
+            "f1": 0.8,
+            "support": 2149
+          },
+          "3": {
+            "precision": 0.9988320763307401,
+            "recall": 0.9880164480125319,
+            "f1": 0.9933948241408841,
+            "support": 51070
+          },
+          "4": {
+            "precision": 0.9306930693069307,
+            "recall": 0.9428284854563691,
+            "f1": 0.9367214748380668,
+            "support": 997
+          }
+        },
+        "confusion_matrix": [
+          [
+            1418,
+            0,
+            172,
+            0,
+            0
+          ],
+          [
+            1,
+            492,
+            0,
+            2,
+            0
+          ],
+          [
+            288,
+            0,
+            1860,
+            1,
+            0
+          ],
+          [
+            1,
+            73,
+            468,
+            50458,
+            70
+          ],
+          [
+            0,
+            0,
+            1,
+            56,
+            940
+          ]
+        ],
+        "mcu_vs_fixed_reference_agreement": 1.0,
+        "mcu_fixed_logits_exact_fraction": 1.0,
+        "mcu_vs_fp32_agreement": 0.9958792916644464
+      },
+      "timing": {
+        "repeat_count": 3,
+        "preprocess_us": {
+          "mean_of_repeat_means": 21.051333333333332,
+          "sample_sd_of_repeat_means": 0.0060277137733401355,
+          "repeat_means": [
+            21.052,
+            21.057,
+            21.045
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 19,
+            "mean": 21.051333333333332,
+            "median": 21.0,
+            "p95": 22,
+            "p99": 24,
+            "max": 25,
+            "std": 0.6603268550918974
+          }
+        },
+        "inference_us": {
+          "mean_of_repeat_means": 281.2246666666667,
+          "sample_sd_of_repeat_means": 0.03384277372398018,
+          "repeat_means": [
+            281.196,
+            281.262,
+            281.216
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 279,
+            "mean": 281.2246666666667,
+            "median": 281.0,
+            "p95": 284,
+            "p99": 285,
+            "max": 285,
+            "std": 1.5319458940257067
+          }
+        },
+        "total_us": {
+          "mean_of_repeat_means": 302.276,
+          "sample_sd_of_repeat_means": 0.03780211634287992,
+          "repeat_means": [
+            302.248,
+            302.319,
+            302.261
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 298,
+            "mean": 302.276,
+            "median": 302.0,
+            "p95": 305,
+            "p99": 306,
+            "max": 306,
+            "std": 1.5641261671190936
+          }
+        },
+        "host_observed_rtt_us": {
+          "mean_of_repeat_means": 14723.628666666667,
+          "sample_sd_of_repeat_means": 5.671326505618365,
+          "repeat_means": [
+            14728.756,
+            14724.593,
+            14717.537
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 12817,
+            "mean": 14723.628666666667,
+            "median": 14834.0,
+            "p95": 15820,
+            "p99": 15872,
+            "max": 15926,
+            "std": 567.3576732933899
+          }
+        },
+        "transaction_elapsed_us": {
+          "mean_of_repeat_means": 14723.628666666667,
+          "sample_sd_of_repeat_means": 5.671326505618365,
+          "repeat_means": [
+            14728.756,
+            14724.593,
+            14717.537
+          ],
+          "row_level_descriptive_3000": {
+            "count": 3000,
+            "min": 12817,
+            "mean": 14723.628666666667,
+            "median": 14834.0,
+            "p95": 15820,
+            "p99": 15872,
+            "max": 15926,
+            "std": 567.3576732933899
+          }
+        }
+      },
+      "compile_footprint": {
+        "program_bytes": 56512,
+        "program_max_bytes": 262144,
+        "program_percent_reported": 21,
+        "global_bytes": 7128,
+        "global_max_bytes": 32768,
+        "global_percent_reported": 21,
+        "remaining_dynamic_bytes": 25640
+      },
+      "build_environment": {
+        "fqbn": "arduino:renesas_uno:unor4wifi",
+        "board_core_version": "1.6.0",
+        "arduino_cli_version": "arduino-cli 1.5.1",
+        "toolchain_version": "arm-none-eabi-g++ 7.2.1",
+        "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+      }
+    }
+  ],
+  "timing_repeat_rows": [
+    {
+      "combination_id": "student_A_scratch__esp32c3__usb_serial",
+      "model": "Student A scratch",
+      "board": "ESP32-C3",
+      "repeat": 1,
+      "preprocess_us_mean": 6.599,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 8,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 111.267,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 118,
+      "inference_us_min": 109,
+      "inference_us_max": 144,
+      "total_us_mean": 117.866,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 161,
+      "host_observed_rtt_us_mean": 15820.218,
+      "host_observed_rtt_us_median": 15879.0,
+      "host_observed_rtt_us_p95": 16931,
+      "host_observed_rtt_us_p99": 17328,
+      "host_observed_rtt_us_min": 13975,
+      "host_observed_rtt_us_max": 18951,
+      "transaction_elapsed_us_mean": 15820.218,
+      "transaction_elapsed_us_median": 15879.0,
+      "transaction_elapsed_us_p95": 16931,
+      "transaction_elapsed_us_p99": 17328,
+      "transaction_elapsed_us_min": 13975,
+      "transaction_elapsed_us_max": 18951
+    },
+    {
+      "combination_id": "student_A_scratch__esp32c3__usb_serial",
+      "model": "Student A scratch",
+      "board": "ESP32-C3",
+      "repeat": 2,
+      "preprocess_us_mean": 6.624,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 8,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 111.212,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 118,
+      "inference_us_min": 109,
+      "inference_us_max": 144,
+      "total_us_mean": 117.836,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 161,
+      "host_observed_rtt_us_mean": 15821.291,
+      "host_observed_rtt_us_median": 15880.0,
+      "host_observed_rtt_us_p95": 16931,
+      "host_observed_rtt_us_p99": 17337,
+      "host_observed_rtt_us_min": 13966,
+      "host_observed_rtt_us_max": 20318,
+      "transaction_elapsed_us_mean": 15821.291,
+      "transaction_elapsed_us_median": 15880.0,
+      "transaction_elapsed_us_p95": 16931,
+      "transaction_elapsed_us_p99": 17337,
+      "transaction_elapsed_us_min": 13966,
+      "transaction_elapsed_us_max": 20318
+    },
+    {
+      "combination_id": "student_A_scratch__esp32c3__usb_serial",
+      "model": "Student A scratch",
+      "board": "ESP32-C3",
+      "repeat": 3,
+      "preprocess_us_mean": 6.613,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 8,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 111.251,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 117,
+      "inference_us_min": 109,
+      "inference_us_max": 144,
+      "total_us_mean": 117.864,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 161,
+      "host_observed_rtt_us_mean": 15827.166,
+      "host_observed_rtt_us_median": 15879.0,
+      "host_observed_rtt_us_p95": 16932,
+      "host_observed_rtt_us_p99": 17347,
+      "host_observed_rtt_us_min": 13977,
+      "host_observed_rtt_us_max": 19842,
+      "transaction_elapsed_us_mean": 15827.166,
+      "transaction_elapsed_us_median": 15879.0,
+      "transaction_elapsed_us_p95": 16932,
+      "transaction_elapsed_us_p99": 17347,
+      "transaction_elapsed_us_min": 13977,
+      "transaction_elapsed_us_max": 19842
+    },
+    {
+      "combination_id": "student_A_rf_kd__esp32c3__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 1,
+      "preprocess_us_mean": 6.629,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 8,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 111.238,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 118,
+      "inference_us_min": 109,
+      "inference_us_max": 145,
+      "total_us_mean": 117.867,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 162,
+      "host_observed_rtt_us_mean": 16176.851,
+      "host_observed_rtt_us_median": 16221.0,
+      "host_observed_rtt_us_p95": 17134,
+      "host_observed_rtt_us_p99": 17389,
+      "host_observed_rtt_us_min": 14575,
+      "host_observed_rtt_us_max": 19786,
+      "transaction_elapsed_us_mean": 16176.851,
+      "transaction_elapsed_us_median": 16221.0,
+      "transaction_elapsed_us_p95": 17134,
+      "transaction_elapsed_us_p99": 17389,
+      "transaction_elapsed_us_min": 14575,
+      "transaction_elapsed_us_max": 19786
+    },
+    {
+      "combination_id": "student_A_rf_kd__esp32c3__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 2,
+      "preprocess_us_mean": 6.681,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 12,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 16,
+      "inference_us_mean": 111.334,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 118,
+      "inference_us_min": 109,
+      "inference_us_max": 145,
+      "total_us_mean": 118.015,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 161,
+      "host_observed_rtt_us_mean": 16166.293,
+      "host_observed_rtt_us_median": 16217.0,
+      "host_observed_rtt_us_p95": 17131,
+      "host_observed_rtt_us_p99": 17344,
+      "host_observed_rtt_us_min": 14573,
+      "host_observed_rtt_us_max": 20962,
+      "transaction_elapsed_us_mean": 16166.293,
+      "transaction_elapsed_us_median": 16217.0,
+      "transaction_elapsed_us_p95": 17131,
+      "transaction_elapsed_us_p99": 17344,
+      "transaction_elapsed_us_min": 14573,
+      "transaction_elapsed_us_max": 20962
+    },
+    {
+      "combination_id": "student_A_rf_kd__esp32c3__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 3,
+      "preprocess_us_mean": 6.626,
+      "preprocess_us_median": 7.0,
+      "preprocess_us_p95": 8,
+      "preprocess_us_p99": 8,
+      "preprocess_us_min": 5,
+      "preprocess_us_max": 16,
+      "inference_us_mean": 111.288,
+      "inference_us_median": 111.0,
+      "inference_us_p95": 117,
+      "inference_us_p99": 118,
+      "inference_us_min": 109,
+      "inference_us_max": 145,
+      "total_us_mean": 117.914,
+      "total_us_median": 118.0,
+      "total_us_p95": 124,
+      "total_us_p99": 125,
+      "total_us_min": 115,
+      "total_us_max": 161,
+      "host_observed_rtt_us_mean": 16176.419,
+      "host_observed_rtt_us_median": 16225.0,
+      "host_observed_rtt_us_p95": 17132,
+      "host_observed_rtt_us_p99": 17352,
+      "host_observed_rtt_us_min": 14570,
+      "host_observed_rtt_us_max": 19560,
+      "transaction_elapsed_us_mean": 16176.419,
+      "transaction_elapsed_us_median": 16225.0,
+      "transaction_elapsed_us_p95": 17132,
+      "transaction_elapsed_us_p99": 17352,
+      "transaction_elapsed_us_min": 14570,
+      "transaction_elapsed_us_max": 19560
+    },
+    {
+      "combination_id": "student_B_rf_kd__esp32c3__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 1,
+      "preprocess_us_mean": 7.758,
+      "preprocess_us_median": 8.0,
+      "preprocess_us_p95": 9,
+      "preprocess_us_p99": 9,
+      "preprocess_us_min": 6,
+      "preprocess_us_max": 16,
+      "inference_us_mean": 313.388,
+      "inference_us_median": 313.0,
+      "inference_us_p95": 320,
+      "inference_us_p99": 320,
+      "inference_us_min": 308,
+      "inference_us_max": 388,
+      "total_us_mean": 321.146,
+      "total_us_median": 321.0,
+      "total_us_p95": 328,
+      "total_us_p99": 329,
+      "total_us_min": 315,
+      "total_us_max": 404,
+      "host_observed_rtt_us_mean": 16629.055,
+      "host_observed_rtt_us_median": 16637.0,
+      "host_observed_rtt_us_p95": 17746,
+      "host_observed_rtt_us_p99": 17864,
+      "host_observed_rtt_us_min": 14971,
+      "host_observed_rtt_us_max": 19673,
+      "transaction_elapsed_us_mean": 16629.055,
+      "transaction_elapsed_us_median": 16637.0,
+      "transaction_elapsed_us_p95": 17746,
+      "transaction_elapsed_us_p99": 17864,
+      "transaction_elapsed_us_min": 14971,
+      "transaction_elapsed_us_max": 19673
+    },
+    {
+      "combination_id": "student_B_rf_kd__esp32c3__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 2,
+      "preprocess_us_mean": 7.781,
+      "preprocess_us_median": 8.0,
+      "preprocess_us_p95": 9,
+      "preprocess_us_p99": 9,
+      "preprocess_us_min": 6,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 313.397,
+      "inference_us_median": 313.0,
+      "inference_us_p95": 320,
+      "inference_us_p99": 320,
+      "inference_us_min": 308,
+      "inference_us_max": 382,
+      "total_us_mean": 321.178,
+      "total_us_median": 321.0,
+      "total_us_p95": 328,
+      "total_us_p99": 328,
+      "total_us_min": 315,
+      "total_us_max": 399,
+      "host_observed_rtt_us_mean": 16643.125,
+      "host_observed_rtt_us_median": 16649.5,
+      "host_observed_rtt_us_p95": 17748,
+      "host_observed_rtt_us_p99": 17924,
+      "host_observed_rtt_us_min": 14865,
+      "host_observed_rtt_us_max": 19896,
+      "transaction_elapsed_us_mean": 16643.125,
+      "transaction_elapsed_us_median": 16649.5,
+      "transaction_elapsed_us_p95": 17748,
+      "transaction_elapsed_us_p99": 17924,
+      "transaction_elapsed_us_min": 14865,
+      "transaction_elapsed_us_max": 19896
+    },
+    {
+      "combination_id": "student_B_rf_kd__esp32c3__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "ESP32-C3",
+      "repeat": 3,
+      "preprocess_us_mean": 7.803,
+      "preprocess_us_median": 8.0,
+      "preprocess_us_p95": 9,
+      "preprocess_us_p99": 13,
+      "preprocess_us_min": 6,
+      "preprocess_us_max": 17,
+      "inference_us_mean": 313.22,
+      "inference_us_median": 313.0,
+      "inference_us_p95": 320,
+      "inference_us_p99": 320,
+      "inference_us_min": 308,
+      "inference_us_max": 387,
+      "total_us_mean": 321.023,
+      "total_us_median": 321.0,
+      "total_us_p95": 328,
+      "total_us_p99": 329,
+      "total_us_min": 315,
+      "total_us_max": 404,
+      "host_observed_rtt_us_mean": 16633.879,
+      "host_observed_rtt_us_median": 16645.0,
+      "host_observed_rtt_us_p95": 17748,
+      "host_observed_rtt_us_p99": 17928,
+      "host_observed_rtt_us_min": 14756,
+      "host_observed_rtt_us_max": 20178,
+      "transaction_elapsed_us_mean": 16633.879,
+      "transaction_elapsed_us_median": 16645.0,
+      "transaction_elapsed_us_p95": 17748,
+      "transaction_elapsed_us_p99": 17928,
+      "transaction_elapsed_us_min": 14756,
+      "transaction_elapsed_us_max": 20178
+    },
+    {
+      "combination_id": "student_B_rf_kd__arduino_r4__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 1,
+      "preprocess_us_mean": 20.728,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 23,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 772.759,
+      "inference_us_median": 773.0,
+      "inference_us_p95": 776,
+      "inference_us_p99": 776,
+      "inference_us_min": 766,
+      "inference_us_max": 777,
+      "total_us_mean": 793.487,
+      "total_us_median": 793.0,
+      "total_us_p95": 797,
+      "total_us_p99": 797,
+      "total_us_min": 787,
+      "total_us_max": 798,
+      "host_observed_rtt_us_mean": 15731.76,
+      "host_observed_rtt_us_median": 15830.0,
+      "host_observed_rtt_us_p95": 16821,
+      "host_observed_rtt_us_p99": 16875,
+      "host_observed_rtt_us_min": 14602,
+      "host_observed_rtt_us_max": 16923,
+      "transaction_elapsed_us_mean": 15731.76,
+      "transaction_elapsed_us_median": 15830.0,
+      "transaction_elapsed_us_p95": 16821,
+      "transaction_elapsed_us_p99": 16875,
+      "transaction_elapsed_us_min": 14602,
+      "transaction_elapsed_us_max": 16923
+    },
+    {
+      "combination_id": "student_B_rf_kd__arduino_r4__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 2,
+      "preprocess_us_mean": 20.71,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 23,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 772.737,
+      "inference_us_median": 773.0,
+      "inference_us_p95": 776,
+      "inference_us_p99": 776,
+      "inference_us_min": 766,
+      "inference_us_max": 777,
+      "total_us_mean": 793.447,
+      "total_us_median": 794.0,
+      "total_us_p95": 797,
+      "total_us_p99": 797,
+      "total_us_min": 787,
+      "total_us_max": 798,
+      "host_observed_rtt_us_mean": 15730.247,
+      "host_observed_rtt_us_median": 15828.0,
+      "host_observed_rtt_us_p95": 16822,
+      "host_observed_rtt_us_p99": 16846,
+      "host_observed_rtt_us_min": 14622,
+      "host_observed_rtt_us_max": 16894,
+      "transaction_elapsed_us_mean": 15730.247,
+      "transaction_elapsed_us_median": 15828.0,
+      "transaction_elapsed_us_p95": 16822,
+      "transaction_elapsed_us_p99": 16846,
+      "transaction_elapsed_us_min": 14622,
+      "transaction_elapsed_us_max": 16894
+    },
+    {
+      "combination_id": "student_B_rf_kd__arduino_r4__usb_serial",
+      "model": "Student B RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 3,
+      "preprocess_us_mean": 20.751,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 23,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 772.681,
+      "inference_us_median": 773.0,
+      "inference_us_p95": 776,
+      "inference_us_p99": 776,
+      "inference_us_min": 766,
+      "inference_us_max": 777,
+      "total_us_mean": 793.432,
+      "total_us_median": 794.0,
+      "total_us_p95": 797,
+      "total_us_p99": 797,
+      "total_us_min": 787,
+      "total_us_max": 798,
+      "host_observed_rtt_us_mean": 15724.248,
+      "host_observed_rtt_us_median": 15829.0,
+      "host_observed_rtt_us_p95": 16823,
+      "host_observed_rtt_us_p99": 16845,
+      "host_observed_rtt_us_min": 14069,
+      "host_observed_rtt_us_max": 16894,
+      "transaction_elapsed_us_mean": 15724.248,
+      "transaction_elapsed_us_median": 15829.0,
+      "transaction_elapsed_us_p95": 16823,
+      "transaction_elapsed_us_p99": 16845,
+      "transaction_elapsed_us_min": 14069,
+      "transaction_elapsed_us_max": 16894
+    },
+    {
+      "combination_id": "student_A_rf_kd__arduino_r4__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 1,
+      "preprocess_us_mean": 20.763,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 23,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 281.559,
+      "inference_us_median": 282.0,
+      "inference_us_p95": 285,
+      "inference_us_p99": 286,
+      "inference_us_min": 277,
+      "inference_us_max": 286,
+      "total_us_mean": 302.322,
+      "total_us_median": 302.0,
+      "total_us_p95": 306,
+      "total_us_p99": 306,
+      "total_us_min": 299,
+      "total_us_max": 307,
+      "host_observed_rtt_us_mean": 14841.159,
+      "host_observed_rtt_us_median": 14843.0,
+      "host_observed_rtt_us_p95": 15813,
+      "host_observed_rtt_us_p99": 15861,
+      "host_observed_rtt_us_min": 13711,
+      "host_observed_rtt_us_max": 15974,
+      "transaction_elapsed_us_mean": 14841.159,
+      "transaction_elapsed_us_median": 14843.0,
+      "transaction_elapsed_us_p95": 15813,
+      "transaction_elapsed_us_p99": 15861,
+      "transaction_elapsed_us_min": 13711,
+      "transaction_elapsed_us_max": 15974
+    },
+    {
+      "combination_id": "student_A_rf_kd__arduino_r4__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 2,
+      "preprocess_us_mean": 20.767,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 24,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 281.557,
+      "inference_us_median": 282.0,
+      "inference_us_p95": 285,
+      "inference_us_p99": 286,
+      "inference_us_min": 277,
+      "inference_us_max": 286,
+      "total_us_mean": 302.324,
+      "total_us_median": 302.0,
+      "total_us_p95": 306,
+      "total_us_p99": 306,
+      "total_us_min": 299,
+      "total_us_max": 307,
+      "host_observed_rtt_us_mean": 14842.549,
+      "host_observed_rtt_us_median": 14839.0,
+      "host_observed_rtt_us_p95": 15815,
+      "host_observed_rtt_us_p99": 15863,
+      "host_observed_rtt_us_min": 13688,
+      "host_observed_rtt_us_max": 15947,
+      "transaction_elapsed_us_mean": 14842.549,
+      "transaction_elapsed_us_median": 14839.0,
+      "transaction_elapsed_us_p95": 15815,
+      "transaction_elapsed_us_p99": 15863,
+      "transaction_elapsed_us_min": 13688,
+      "transaction_elapsed_us_max": 15947
+    },
+    {
+      "combination_id": "student_A_rf_kd__arduino_r4__usb_serial",
+      "model": "Student A RF-KD",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 3,
+      "preprocess_us_mean": 20.747,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 21,
+      "preprocess_us_p99": 23,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 281.638,
+      "inference_us_median": 282.0,
+      "inference_us_p95": 285,
+      "inference_us_p99": 286,
+      "inference_us_min": 277,
+      "inference_us_max": 286,
+      "total_us_mean": 302.385,
+      "total_us_median": 302.0,
+      "total_us_p95": 306,
+      "total_us_p99": 306,
+      "total_us_min": 298,
+      "total_us_max": 307,
+      "host_observed_rtt_us_mean": 14850.79,
+      "host_observed_rtt_us_median": 14848.0,
+      "host_observed_rtt_us_p95": 15826,
+      "host_observed_rtt_us_p99": 15883,
+      "host_observed_rtt_us_min": 13762,
+      "host_observed_rtt_us_max": 15908,
+      "transaction_elapsed_us_mean": 14850.79,
+      "transaction_elapsed_us_median": 14848.0,
+      "transaction_elapsed_us_p95": 15826,
+      "transaction_elapsed_us_p99": 15883,
+      "transaction_elapsed_us_min": 13762,
+      "transaction_elapsed_us_max": 15908
+    },
+    {
+      "combination_id": "student_A_scratch__arduino_r4__usb_serial",
+      "model": "Student A scratch",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 1,
+      "preprocess_us_mean": 21.052,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 22,
+      "preprocess_us_p99": 24,
+      "preprocess_us_min": 20,
+      "preprocess_us_max": 25,
+      "inference_us_mean": 281.196,
+      "inference_us_median": 281.0,
+      "inference_us_p95": 284,
+      "inference_us_p99": 285,
+      "inference_us_min": 279,
+      "inference_us_max": 285,
+      "total_us_mean": 302.248,
+      "total_us_median": 302.0,
+      "total_us_p95": 305,
+      "total_us_p99": 306,
+      "total_us_min": 299,
+      "total_us_max": 306,
+      "host_observed_rtt_us_mean": 14728.756,
+      "host_observed_rtt_us_median": 14834.0,
+      "host_observed_rtt_us_p95": 15818,
+      "host_observed_rtt_us_p99": 15874,
+      "host_observed_rtt_us_min": 12825,
+      "host_observed_rtt_us_max": 15907,
+      "transaction_elapsed_us_mean": 14728.756,
+      "transaction_elapsed_us_median": 14834.0,
+      "transaction_elapsed_us_p95": 15818,
+      "transaction_elapsed_us_p99": 15874,
+      "transaction_elapsed_us_min": 12825,
+      "transaction_elapsed_us_max": 15907
+    },
+    {
+      "combination_id": "student_A_scratch__arduino_r4__usb_serial",
+      "model": "Student A scratch",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 2,
+      "preprocess_us_mean": 21.057,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 22,
+      "preprocess_us_p99": 24,
+      "preprocess_us_min": 19,
+      "preprocess_us_max": 25,
+      "inference_us_mean": 281.262,
+      "inference_us_median": 281.0,
+      "inference_us_p95": 284,
+      "inference_us_p99": 284,
+      "inference_us_min": 279,
+      "inference_us_max": 285,
+      "total_us_mean": 302.319,
+      "total_us_median": 302.0,
+      "total_us_p95": 305,
+      "total_us_p99": 305,
+      "total_us_min": 298,
+      "total_us_max": 306,
+      "host_observed_rtt_us_mean": 14724.593,
+      "host_observed_rtt_us_median": 14836.0,
+      "host_observed_rtt_us_p95": 15822,
+      "host_observed_rtt_us_p99": 15868,
+      "host_observed_rtt_us_min": 12825,
+      "host_observed_rtt_us_max": 15926,
+      "transaction_elapsed_us_mean": 14724.593,
+      "transaction_elapsed_us_median": 14836.0,
+      "transaction_elapsed_us_p95": 15822,
+      "transaction_elapsed_us_p99": 15868,
+      "transaction_elapsed_us_min": 12825,
+      "transaction_elapsed_us_max": 15926
+    },
+    {
+      "combination_id": "student_A_scratch__arduino_r4__usb_serial",
+      "model": "Student A scratch",
+      "board": "Arduino UNO R4 WiFi",
+      "repeat": 3,
+      "preprocess_us_mean": 21.045,
+      "preprocess_us_median": 21.0,
+      "preprocess_us_p95": 22,
+      "preprocess_us_p99": 24,
+      "preprocess_us_min": 20,
+      "preprocess_us_max": 24,
+      "inference_us_mean": 281.216,
+      "inference_us_median": 281.0,
+      "inference_us_p95": 284,
+      "inference_us_p99": 285,
+      "inference_us_min": 279,
+      "inference_us_max": 285,
+      "total_us_mean": 302.261,
+      "total_us_median": 302.0,
+      "total_us_p95": 305,
+      "total_us_p99": 305,
+      "total_us_min": 299,
+      "total_us_max": 306,
+      "host_observed_rtt_us_mean": 14717.537,
+      "host_observed_rtt_us_median": 14832.0,
+      "host_observed_rtt_us_p95": 15819,
+      "host_observed_rtt_us_p99": 15864,
+      "host_observed_rtt_us_min": 12817,
+      "host_observed_rtt_us_max": 15923,
+      "transaction_elapsed_us_mean": 14717.537,
+      "transaction_elapsed_us_median": 14832.0,
+      "transaction_elapsed_us_p95": 15819,
+      "transaction_elapsed_us_p99": 15864,
+      "transaction_elapsed_us_min": 12817,
+      "transaction_elapsed_us_max": 15923
+    }
+  ],
+  "claim_boundary": "One seed-42 model specimen per fixed-point-gate-eligible route on one physical specimen of each board type. Gate-failed routes remain explicit non-deployment results. Exact replay and timing evidence do not establish multi-seed or multi-unit hardware variability, energy, or secure attestation.",
+  "report_id": "dda909ee24262574264b2515308636ed1aedecc410c3d6d7b87391406dc78b23"
+}

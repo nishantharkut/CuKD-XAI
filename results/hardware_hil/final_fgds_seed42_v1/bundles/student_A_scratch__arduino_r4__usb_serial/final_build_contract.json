@@ -1,0 +1,32 @@
+{
+  "schema": "cukd_final_hil_build_contract_v1",
+  "board": "arduino_r4",
+  "fqbn": "arduino:renesas_uno:unor4wifi",
+  "platform_id": "arduino:renesas_uno",
+  "board_core_version": "1.6.0",
+  "frontend_version": "arduino-cli 1.5.1",
+  "toolchain_version": "arm-none-eabi-g++ 7.2.1",
+  "compile_command": [
+    "arduino-cli",
+    "compile",
+    "--fqbn",
+    "{fqbn}",
+    "--verbose",
+    "--output-dir",
+    "{build_dir}",
+    "{bundle}"
+  ],
+  "upload_command": [
+    "arduino-cli",
+    "upload",
+    "--fqbn",
+    "{fqbn}",
+    "--port",
+    "{port}",
+    "--verbose",
+    "--input-dir",
+    "{build_dir}",
+    "{bundle}"
+  ],
+  "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97"
+}

@@ -1,0 +1,1743 @@
+{
+  "student": "student_B",
+  "status": "complete",
+  "source_checkpoint": {
+    "checkpoint_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_fp32.pt",
+    "checkpoint_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+    "state_content_sha256": "dd4d5719a4af2bcda1fe72365f6015d5806ee5f018d70123fb50f25f3adc45d9",
+    "strict_export_report_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_report.json",
+    "strict_export_report_sha256": "c5e45b8c4196b493ac85e9a4e38f8a96feafbe501444f89c0715da46bff4ed60",
+    "strict_export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+    "fixed_metrics": {
+      "accuracy": 0.9860038009982061,
+      "macro_precision": 0.9041352115825836,
+      "macro_recall": 0.9261806200310622,
+      "macro_f1": 0.9145641200681947,
+      "per_class_precision": [
+        0.8205445544554455,
+        0.8931159420289855,
+        0.8481651376146789,
+        0.9986463421811548,
+        0.960204081632653
+      ],
+      "per_class_recall": [
+        0.8339622641509434,
+        0.9959595959595959,
+        0.8604001861330851,
+        0.9967495594282357,
+        0.9438314944834504
+      ],
+      "per_class_f1": [
+        0.827199001871491,
+        0.941738299904489,
+        0.8542388542388543,
+        0.9976970492831453,
+        0.9519473950429944
+      ],
+      "per_class_support": [
+        1590,
+        495,
+        2149,
+        51070,
+        997
+      ],
+      "confusion_matrix": [
+        [
+          1326,
+          0,
+          264,
+          0,
+          0
+        ],
+        [
+          0,
+          493,
+          0,
+          2,
+          0
+        ],
+        [
+          289,
+          0,
+          1849,
+          11,
+          0
+        ],
+        [
+          1,
+          59,
+          67,
+          50904,
+          39
+        ],
+        [
+          0,
+          0,
+          0,
+          56,
+          941
+        ]
+      ]
+    },
+    "float_metrics": {
+      "accuracy": 0.9872115948206959,
+      "macro_precision": 0.9140187823378657,
+      "macro_recall": 0.9354647889010911,
+      "macro_f1": 0.9223807931422797,
+      "per_class_precision": [
+        0.7883795309168443,
+        0.8931159420289855,
+        0.9077163712200208,
+        0.998627370237465,
+        0.9822546972860126
+      ],
+      "per_class_recall": [
+        0.930188679245283,
+        0.9959595959595959,
+        0.8101442531409958,
+        0.9971999216761308,
+        0.9438314944834504
+      ],
+      "per_class_f1": [
+        0.8534333525678015,
+        0.941738299904489,
+        0.8561593312023604,
+        0.9979131354894334,
+        0.9626598465473146
+      ],
+      "per_class_support": [
+        1590,
+        495,
+        2149,
+        51070,
+        997
+      ],
+      "confusion_matrix": [
+        [
+          1479,
+          0,
+          111,
+          0,
+          0
+        ],
+        [
+          0,
+          493,
+          0,
+          2,
+          0
+        ],
+        [
+          396,
+          0,
+          1741,
+          12,
+          0
+        ],
+        [
+          1,
+          59,
+          66,
+          50927,
+          17
+        ],
+        [
+          0,
+          0,
+          0,
+          56,
+          941
+        ]
+      ]
+    },
+    "input_saturation_audit": {
+      "rows": 56301,
+      "values": 957117,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "minimum_preprocessed_q": -483,
+      "maximum_preprocessed_q": 17141
+    },
+    "parameter_saturation_audit": {
+      "layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "weight_saturation_count": 0,
+      "bias_saturation_count": 0
+    },
+    "activation_and_accumulator_audit": {
+      "rows": 56301,
+      "layers": [
+        {
+          "layer": 0,
+          "accumulator_minimum": -652638,
+          "accumulator_maximum": 312273,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 19517,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "accumulator_minimum": -629510,
+          "accumulator_maximum": 422039,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 26377,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "accumulator_minimum": -463883,
+          "accumulator_maximum": 192621,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": -14496,
+          "activation_maximum_before_clip": 6019,
+          "activation_saturation_count": 0
+        }
+      ],
+      "accumulator_int32_overflow_count": 0,
+      "activation_saturation_count": 0
+    },
+    "numeric_assertions": {
+      "signed_shift_truncates_toward_zero": true,
+      "torch_numpy_round_to_even_match": true,
+      "fake_fixed_vs_numpy_integer_rows": 335,
+      "sample_selection": "up to 64 validation rows per class plus per-feature minima and maxima",
+      "classes_covered": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "device": "cpu",
+      "fake_fixed_vs_numpy_integer_logits_exact": true
+    },
+    "preserved_full_test_logits_exact": true,
+    "preserved_full_test_predictions_exact": true
+  },
+  "refinement": {
+    "selected_epoch": 1,
+    "changed_from_source": true,
+    "selected_fixed_validation_macro_f1": 0.922338086605125,
+    "baseline_fixed_validation_macro_f1": 0.915665582399164,
+    "validation_macro_f1_delta": 0.006672504205960994,
+    "history": [
+      {
+        "epoch": 0,
+        "source": "preserved PTQ checkpoint",
+        "fixed_validation_macro_f1": 0.915665582399164,
+        "fixed_validation_metrics": {
+          "accuracy": 0.9864145433826541,
+          "macro_precision": 0.9045260561055602,
+          "macro_recall": 0.9287415025562676,
+          "macro_f1": 0.915665582399164,
+          "per_class_precision": [
+            0.8040170419963482,
+            0.8905109489051095,
+            0.8777621062529384,
+            0.9985453115785335,
+            0.9517948717948718
+          ],
+          "per_class_recall": [
+            0.869651086240948,
+            1.0,
+            0.8501821493624773,
+            0.9968013501049864,
+            0.9270729270729271
+          ],
+          "per_class_f1": [
+            0.8355471220746363,
+            0.9420849420849421,
+            0.8637520240573676,
+            0.9976725687181451,
+            0.9392712550607287
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1321,
+              0,
+              197,
+              0,
+              1
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              322,
+              0,
+              1867,
+              6,
+              1
+            ],
+            [
+              0,
+              60,
+              58,
+              50796,
+              45
+            ],
+            [
+              0,
+              0,
+              5,
+              68,
+              928
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650966,
+              "accumulator_maximum": 314059,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19628,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -600807,
+              "accumulator_maximum": 400839,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 25052,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -450591,
+              "accumulator_maximum": 185901,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14080,
+              "activation_maximum_before_clip": 5809,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7343799,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7343799,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17761195,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17761195,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17303265,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17303265,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 1,
+        "mean_training_loss": 0.25410129906834333,
+        "learning_rate_used": 0.0001,
+        "fixed_validation_macro_f1": 0.922338086605125,
+        "fixed_validation_metrics": {
+          "accuracy": 0.9875006676993751,
+          "macro_precision": 0.9147874331844846,
+          "macro_recall": 0.9359241378741043,
+          "macro_f1": 0.922338086605125,
+          "per_class_precision": [
+            0.7817785051827605,
+            0.8905109489051095,
+            0.9263867288750648,
+            0.9984677340143404,
+            0.9767932489451476
+          ],
+          "per_class_recall": [
+            0.9433838051349572,
+            1.0,
+            0.813752276867031,
+            0.9974096822936086,
+            0.9250749250749251
+          ],
+          "per_class_f1": [
+            0.8550119331742243,
+            0.9420849420849421,
+            0.8664242424242424,
+            0.9979384277075316,
+            0.9502308876346844
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1433,
+              0,
+              86,
+              0,
+              0
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              400,
+              0,
+              1787,
+              8,
+              1
+            ],
+            [
+              0,
+              60,
+              51,
+              50827,
+              21
+            ],
+            [
+              0,
+              0,
+              5,
+              70,
+              926
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650796,
+              "accumulator_maximum": 314042,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19627,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -604014,
+              "accumulator_maximum": 394147,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 24634,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -451316,
+              "accumulator_maximum": 184365,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14103,
+              "activation_maximum_before_clip": 5761,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7343779,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7343779,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17793968,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17793968,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17368799,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17368799,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 2,
+        "mean_training_loss": 0.253923777824246,
+        "learning_rate_used": 9.938441702975689e-05,
+        "fixed_validation_macro_f1": 0.9161129061073687,
+        "fixed_validation_metrics": {
+          "accuracy": 0.986539180599327,
+          "macro_precision": 0.9077871842224117,
+          "macro_recall": 0.9283330746460422,
+          "macro_f1": 0.9161129061073687,
+          "per_class_precision": [
+            0.7791095890410958,
+            0.8905109489051095,
+            0.8960716061660865,
+            0.9985069348945032,
+            0.9747368421052631
+          ],
+          "per_class_recall": [
+            0.8986175115207373,
+            1.0,
+            0.8205828779599271,
+            0.9973900586746208,
+            0.9250749250749251
+          ],
+          "per_class_f1": [
+            0.8346071537756038,
+            0.9420849420849421,
+            0.8566674589969099,
+            0.9979481842903565,
+            0.9492567913890313
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1365,
+              0,
+              151,
+              0,
+              3
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              387,
+              0,
+              1802,
+              6,
+              1
+            ],
+            [
+              0,
+              60,
+              53,
+              50826,
+              20
+            ],
+            [
+              0,
+              0,
+              5,
+              70,
+              926
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650798,
+              "accumulator_maximum": 314042,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19627,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -606981,
+              "accumulator_maximum": 381966,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 23872,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -463641,
+              "accumulator_maximum": 179983,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14488,
+              "activation_maximum_before_clip": 5624,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7376553,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7376553,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17925041,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17925041,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17434341,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17434341,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 3,
+        "mean_training_loss": 0.25270401031242734,
+        "learning_rate_used": 9.755282581475769e-05,
+        "fixed_validation_macro_f1": 0.9150405075440833,
+        "fixed_validation_metrics": {
+          "accuracy": 0.9863077114826487,
+          "macro_precision": 0.9056320476400037,
+          "macro_recall": 0.9268137022958625,
+          "macro_f1": 0.9150405075440833,
+          "per_class_precision": [
+            0.793289394847214,
+            0.8905109489051095,
+            0.8772013326987149,
+            0.9985065241314258,
+            0.9686520376175548
+          ],
+          "per_class_recall": [
+            0.8716260697827518,
+            1.0,
+            0.8392531876138434,
+            0.9971153280087914,
+            0.926073926073926
+          ],
+          "per_class_f1": [
+            0.8306148055207027,
+            0.9420849420849421,
+            0.8578077728647894,
+            0.997810441151924,
+            0.9468845760980592
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1324,
+              0,
+              194,
+              0,
+              1
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              345,
+              0,
+              1843,
+              7,
+              1
+            ],
+            [
+              0,
+              60,
+              59,
+              50812,
+              28
+            ],
+            [
+              0,
+              0,
+              5,
+              69,
+              927
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650912,
+              "accumulator_maximum": 314044,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19627,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -598575,
+              "accumulator_maximum": 393588,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 24599,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -449910,
+              "accumulator_maximum": 181232,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14059,
+              "activation_maximum_before_clip": 5663,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7376556,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7376556,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17925042,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17925042,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17434346,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17434346,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 4,
+        "mean_training_loss": 0.25171086431303374,
+        "learning_rate_used": 9.45503262094184e-05,
+        "fixed_validation_macro_f1": 0.9126665299800758,
+        "fixed_validation_metrics": {
+          "accuracy": 0.9859159945159625,
+          "macro_precision": 0.9057325174182281,
+          "macro_recall": 0.9217619204847995,
+          "macro_f1": 0.9126665299800758,
+          "per_class_precision": [
+            0.7905405405405406,
+            0.8905109489051095,
+            0.8598696461824954,
+            0.9984480895786269,
+            0.9892933618843683
+          ],
+          "per_class_recall": [
+            0.847267939433838,
+            1.0,
+            0.8410746812386156,
+            0.9973900586746208,
+            0.9230769230769231
+          ],
+          "per_class_f1": [
+            0.8179218303145853,
+            0.9420849420849421,
+            0.8503683241252302,
+            0.9979187936856986,
+            0.9550387596899225
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1287,
+              0,
+              231,
+              0,
+              1
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              341,
+              0,
+              1847,
+              7,
+              1
+            ],
+            [
+              0,
+              60,
+              65,
+              50826,
+              8
+            ],
+            [
+              0,
+              0,
+              5,
+              72,
+              924
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650794,
+              "accumulator_maximum": 314779,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19673,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -608290,
+              "accumulator_maximum": 390779,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 24423,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -435635,
+              "accumulator_maximum": 178023,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -13613,
+              "activation_maximum_before_clip": 5563,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7376556,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7376556,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17990577,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17990577,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17467120,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17467120,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 5,
+        "mean_training_loss": 0.25145637728128917,
+        "learning_rate_used": 9.045084971874738e-05,
+        "fixed_validation_macro_f1": 0.9220394023508798,
+        "fixed_validation_metrics": {
+          "accuracy": 0.9874828623827074,
+          "macro_precision": 0.9158503557710771,
+          "macro_recall": 0.9327633488079318,
+          "macro_f1": 0.9220394023508798,
+          "per_class_precision": [
+            0.7900396151669496,
+            0.8905109489051095,
+            0.9110999497739829,
+            0.9983308787432499,
+            0.9892703862660944
+          ],
+          "per_class_recall": [
+            0.9190256747860435,
+            1.0,
+            0.8260473588342441,
+            0.9976647893404502,
+            0.9210789210789211
+          ],
+          "per_class_f1": [
+            0.8496652465003043,
+            0.9420849420849421,
+            0.8664915213756866,
+            0.9979977229005536,
+            0.9539575788929125
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1396,
+              0,
+              122,
+              0,
+              1
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              371,
+              0,
+              1814,
+              10,
+              1
+            ],
+            [
+              0,
+              60,
+              51,
+              50840,
+              8
+            ],
+            [
+              0,
+              0,
+              4,
+              75,
+              922
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650947,
+              "accumulator_maximum": 314596,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19662,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -608444,
+              "accumulator_maximum": 390515,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 24407,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -463675,
+              "accumulator_maximum": 183507,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14489,
+              "activation_maximum_before_clip": 5734,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7343791,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7343791,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17925041,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17925041,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17467123,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17467123,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      },
+      {
+        "epoch": 6,
+        "mean_training_loss": 0.2522025420276108,
+        "learning_rate_used": 8.535533905932738e-05,
+        "fixed_validation_macro_f1": 0.9215073069222453,
+        "fixed_validation_metrics": {
+          "accuracy": 0.987340419849367,
+          "macro_precision": 0.9135326915396551,
+          "macro_recall": 0.934616264300316,
+          "macro_f1": 0.9215073069222453,
+          "per_class_precision": [
+            0.7851193781232648,
+            0.8905109489051095,
+            0.9178152118427769,
+            0.9984284451429133,
+            0.9757894736842105
+          ],
+          "per_class_recall": [
+            0.9308755760368663,
+            1.0,
+            0.8187613843351548,
+            0.9973704350556329,
+            0.926073926073926
+          ],
+          "per_class_f1": [
+            0.8518072289156626,
+            0.9420849420849421,
+            0.8654632972322504,
+            0.9978991596638656,
+            0.9502819067145054
+          ],
+          "per_class_support": [
+            1519,
+            488,
+            2196,
+            50959,
+            1001
+          ],
+          "confusion_matrix": [
+            [
+              1414,
+              0,
+              104,
+              0,
+              1
+            ],
+            [
+              0,
+              488,
+              0,
+              0,
+              0
+            ],
+            [
+              387,
+              0,
+              1798,
+              10,
+              1
+            ],
+            [
+              0,
+              60,
+              53,
+              50825,
+              21
+            ],
+            [
+              0,
+              0,
+              4,
+              70,
+              927
+            ]
+          ]
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56163,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -650865,
+              "accumulator_maximum": 313888,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19618,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -607047,
+              "accumulator_maximum": 390048,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 24378,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -427133,
+              "accumulator_maximum": 178171,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -13347,
+              "activation_maximum_before_clip": 5567,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "conservative_sequential_accumulator_bounds": [
+          {
+            "layer": 0,
+            "pre_rescale_absolute_bound": 7343795,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 7343795,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 1,
+            "pre_rescale_absolute_bound": 17892274,
+            "output_shift": 4,
+            "post_left_shift_absolute_bound": 17892274,
+            "int32_max": 2147483647,
+            "passed": true
+          },
+          {
+            "layer": 2,
+            "pre_rescale_absolute_bound": 17499894,
+            "output_shift": 5,
+            "post_left_shift_absolute_bound": 17499894,
+            "int32_max": 2147483647,
+            "passed": true
+          }
+        ],
+        "conservative_sequential_accumulator_bound_passed": true,
+        "conservative_sequential_accumulator_bound_error": null,
+        "numeric_admissible": true
+      }
+    ],
+    "source_checkpoint_active_device_numeric_assertions": {
+      "signed_shift_truncates_toward_zero": true,
+      "torch_numpy_round_to_even_match": true,
+      "fake_fixed_vs_numpy_integer_rows": 335,
+      "sample_selection": "up to 64 validation rows per class plus per-feature minima and maxima",
+      "classes_covered": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "device": "cuda",
+      "fake_fixed_vs_numpy_integer_logits_exact": true
+    },
+    "selected_checkpoint_active_device_numeric_assertions": {
+      "signed_shift_truncates_toward_zero": true,
+      "torch_numpy_round_to_even_match": true,
+      "fake_fixed_vs_numpy_integer_rows": 335,
+      "sample_selection": "up to 64 validation rows per class plus per-feature minima and maxima",
+      "classes_covered": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "device": "cuda",
+      "fake_fixed_vs_numpy_integer_logits_exact": true
+    },
+    "wall_seconds": 14.303579900006298
+  },
+  "test_evaluation_after_selection": {
+    "float_metrics": {
+      "accuracy": 0.9879753467966821,
+      "macro_precision": 0.9210982796772933,
+      "macro_recall": 0.9380919160824517,
+      "macro_f1": 0.9262751789236834,
+      "per_class_precision": [
+        0.7871235721703012,
+        0.8931159420289855,
+        0.9342033713974986,
+        0.9984324790344071,
+        0.9926160337552743
+      ],
+      "per_class_recall": [
+        0.9534591194968554,
+        0.9959595959595959,
+        0.7994416007445323,
+        0.9977677697278245,
+        0.9438314944834504
+      ],
+      "per_class_f1": [
+        0.8623435722411832,
+        0.941738299904489,
+        0.8615847542627884,
+        0.9981000137112412,
+        0.9676092544987146
+      ],
+      "per_class_support": [
+        1590,
+        495,
+        2149,
+        51070,
+        997
+      ],
+      "confusion_matrix": [
+        [
+          1516,
+          0,
+          74,
+          0,
+          0
+        ],
+        [
+          0,
+          493,
+          0,
+          2,
+          0
+        ],
+        [
+          409,
+          0,
+          1718,
+          22,
+          0
+        ],
+        [
+          1,
+          59,
+          47,
+          50956,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          56,
+          941
+        ]
+      ]
+    },
+    "fixed_metrics": {
+      "accuracy": 0.9871227864513952,
+      "macro_precision": 0.9130779583488866,
+      "macro_recall": 0.9332121999839046,
+      "macro_f1": 0.9215660850121804,
+      "per_class_precision": [
+        0.7975596228508042,
+        0.8931159420289855,
+        0.8917966784096628,
+        0.9986079250240182,
+        0.9843096234309623
+      ],
+      "per_class_recall": [
+        0.9044025157232705,
+        0.9959595959595959,
+        0.8245695672405771,
+        0.9972978265126298,
+        0.9438314944834504
+      ],
+      "per_class_f1": [
+        0.8476274683171235,
+        0.941738299904489,
+        0.8568665377176016,
+        0.9979524457985951,
+        0.9636456733230927
+      ],
+      "per_class_support": [
+        1590,
+        495,
+        2149,
+        51070,
+        997
+      ],
+      "confusion_matrix": [
+        [
+          1438,
+          0,
+          152,
+          0,
+          0
+        ],
+        [
+          0,
+          493,
+          0,
+          2,
+          0
+        ],
+        [
+          364,
+          0,
+          1772,
+          13,
+          0
+        ],
+        [
+          1,
+          59,
+          63,
+          50932,
+          15
+        ],
+        [
+          0,
+          0,
+          0,
+          56,
+          941
+        ]
+      ]
+    },
+    "fixed_vs_float_prediction_agreement": 0.9963410951848102,
+    "fixed_macro_f1_minus_current_ptq": 0.00700196494398575,
+    "float_macro_f1_minus_source": 0.003894385781403664
+  },
+  "saturation_and_range_audit": {
+    "train_input": {
+      "rows": 262197,
+      "values": 4457349,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "minimum_preprocessed_q": -483,
+      "maximum_preprocessed_q": 17147
+    },
+    "validation_input": {
+      "rows": 56163,
+      "values": 954771,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "minimum_preprocessed_q": -483,
+      "maximum_preprocessed_q": 17148
+    },
+    "test_input": {
+      "rows": 56301,
+      "values": 957117,
+      "raw_input_saturation_count": 0,
+      "integer_preprocess_saturation_count": 0,
+      "minimum_preprocessed_q": -483,
+      "maximum_preprocessed_q": 17141
+    },
+    "parameters": {
+      "layers": [
+        {
+          "layer": 0,
+          "source_prefix": "net.0",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "source_prefix": "net.2",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "source_prefix": "net.4",
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        }
+      ],
+      "weight_saturation_count": 0,
+      "bias_saturation_count": 0
+    },
+    "train_activations_and_accumulators": {
+      "rows": 262197,
+      "layers": [
+        {
+          "layer": 0,
+          "accumulator_minimum": -659148,
+          "accumulator_maximum": 313030,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 19564,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "accumulator_minimum": -712996,
+          "accumulator_maximum": 414081,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 25880,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "accumulator_minimum": -503974,
+          "accumulator_maximum": 183934,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": -15749,
+          "activation_maximum_before_clip": 5747,
+          "activation_saturation_count": 0
+        }
+      ],
+      "accumulator_int32_overflow_count": 0,
+      "activation_saturation_count": 0
+    },
+    "validation_activations_and_accumulators": {
+      "rows": 56163,
+      "layers": [
+        {
+          "layer": 0,
+          "accumulator_minimum": -650796,
+          "accumulator_maximum": 314042,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 19627,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "accumulator_minimum": -604014,
+          "accumulator_maximum": 394147,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 24634,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "accumulator_minimum": -451316,
+          "accumulator_maximum": 184365,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": -14103,
+          "activation_maximum_before_clip": 5761,
+          "activation_saturation_count": 0
+        }
+      ],
+      "accumulator_int32_overflow_count": 0,
+      "activation_saturation_count": 0
+    },
+    "test_activations_and_accumulators": {
+      "rows": 56301,
+      "layers": [
+        {
+          "layer": 0,
+          "accumulator_minimum": -652478,
+          "accumulator_maximum": 312256,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 19516,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 1,
+          "accumulator_minimum": -636269,
+          "accumulator_maximum": 414759,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": 0,
+          "activation_maximum_before_clip": 25922,
+          "activation_saturation_count": 0
+        },
+        {
+          "layer": 2,
+          "accumulator_minimum": -467703,
+          "accumulator_maximum": 187684,
+          "accumulator_int32_overflow_count": 0,
+          "activation_minimum_before_clip": -14615,
+          "activation_maximum_before_clip": 5865,
+          "activation_saturation_count": 0
+        }
+      ],
+      "accumulator_int32_overflow_count": 0,
+      "activation_saturation_count": 0
+    },
+    "strict_zero_saturation_and_no_overflow_gate": true
+  },
+  "outputs": {
+    "plain_state_dict": "refined_student_B_fp32.pt",
+    "rich_artifact": "refined_student_B_artifact.pt",
+    "test_predictions": "refined_student_B_test_predictions.npz"
+  },
+  "output_hashes": {
+    "plain_state_dict_sha256": "eaab726fe16fc06782f998f54d53174e60a8ef40e8e27ae8fbed6652c8fbf5ff",
+    "plain_state_content_sha256": "81713eebb8c210262f156c177a3f231c81912931db32d2a5cbb5941adda94bbb",
+    "rich_artifact_sha256": "67efb90aeaf2dc9db83dd2ff03afdc20312282f73fea121cfbc2ffe368b38bbc",
+    "test_predictions_sha256": "cced019fff30d0907d40b9db305c963bcd8b45cbf185b9fcb1fff0715d60ff2c"
+  },
+  "claim_boundary": {
+    "software_only": true,
+    "hardware_replayed": false,
+    "firmware_exported": false,
+    "board_timing_measured": false,
+    "board_energy_measured": false,
+    "may_replace_current_ptq_hardware_results": false
+  }
+}

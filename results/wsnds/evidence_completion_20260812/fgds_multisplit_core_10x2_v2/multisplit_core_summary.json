@@ -1,0 +1,71 @@
+{
+  "protocol_id": "wsnds_fgds_multisplit_core_10x2_v2",
+  "status": "complete",
+  "split_count": 10,
+  "optimizer_seeds_per_split": [
+    42,
+    123
+  ],
+  "training_jobs": 80,
+  "rf_fits": 10,
+  "descriptive_summaries": {
+    "student_A": {
+      "unit": "seeded split assignment; each value averages two paired optimizer seeds",
+      "values": [
+        0.0037430690674079004,
+        0.009776440024588273,
+        0.0043216054489753075,
+        0.0069876141413142134,
+        0.0041937850150318146,
+        0.01614909016079108,
+        0.006146663315768408,
+        0.00614731026634624,
+        0.005051459488634946,
+        0.00874577490897055
+      ],
+      "mean": 0.007126281183782873,
+      "sample_std": 0.003729926964795678,
+      "median": 0.006146986791057324,
+      "minimum": 0.0037430690674079004,
+      "maximum": 0.01614909016079108,
+      "interquartile_range": [
+        0.004504068958890217,
+        0.008306234717056465
+      ],
+      "positive_split_count": 10,
+      "negative_split_count": 0,
+      "zero_split_count": 0,
+      "inference": "descriptive sensitivity analysis; repeated holdouts from one dataset overlap and are not treated as independent inferential units"
+    },
+    "student_B": {
+      "unit": "seeded split assignment; each value averages two paired optimizer seeds",
+      "values": [
+        -0.0004905247407784308,
+        0.0011427466557918375,
+        0.006832159980190933,
+        -0.0003996706683103146,
+        -0.006576194550802383,
+        -0.0006297884474318893,
+        -0.004970116403917368,
+        0.003059340218915907,
+        0.006019332911119002,
+        0.007645526519886259
+      ],
+      "mean": 0.001163281147466355,
+      "sample_std": 0.004798650657116644,
+      "median": 0.00037153799374076146,
+      "minimum": -0.006576194550802383,
+      "maximum": 0.007645526519886259,
+      "interquartile_range": [
+        -0.0005949725207685247,
+        0.005279334738068228
+      ],
+      "positive_split_count": 5,
+      "negative_split_count": 5,
+      "zero_split_count": 0,
+      "inference": "descriptive sensitivity analysis; repeated holdouts from one dataset overlap and are not treated as independent inferential units"
+    }
+  },
+  "formal_hypothesis_test_performed": false,
+  "claim_boundary": "This confirmation estimates sensitivity to ten exact-feature-group split seeds for the core scratch versus RF-KD comparison. Each split-level value averages two paired optimizer seeds. The repeated holdouts overlap and are therefore reported descriptively, not as independent replications. This does not replace the finalized ten-optimizer-seed result on the fixed primary split and does not cover the full route matrix, deployment, XAI, or Edge-IIoTset."
+}

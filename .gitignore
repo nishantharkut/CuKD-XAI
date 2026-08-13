@@ -40,3 +40,14 @@ Thumbs.db
 # Temp export debris
 **/.generated_*.tmp.*/
 **/*.tmp.*/
+
+# Regenerable HIL build caches and local process markers
+results/**/compile_raw/
+results/**/*.pid
+
+# Preserved local runtime-development attempts; only fgds_seed42_exact is evidence
+results/runtime/onnx_openvino/wsnds/fgds_seed42_exact_incomplete_dev_*/
+results/runtime/onnx_openvino/wsnds/fgds_seed42_exact_pre_label_gate_*/
+
+# Private agent/session transcripts can contain credentials and local context.
+results/wsnds/leakage_free_rerun/_codex_session_*

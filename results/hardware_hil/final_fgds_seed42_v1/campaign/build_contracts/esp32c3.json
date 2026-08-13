@@ -1,0 +1,32 @@
+{
+  "schema": "cukd_final_hil_build_contract_v1",
+  "board": "esp32c3",
+  "fqbn": "esp32:esp32:esp32c3",
+  "platform_id": "esp32:esp32",
+  "board_core_version": "3.3.11",
+  "frontend_version": "arduino-cli 1.5.1",
+  "toolchain_version": "riscv32-esp-elf-g++ 14.2.0",
+  "compile_command": [
+    "arduino-cli",
+    "compile",
+    "--fqbn",
+    "{fqbn}",
+    "--verbose",
+    "--output-dir",
+    "{build_dir}",
+    "{bundle}"
+  ],
+  "upload_command": [
+    "arduino-cli",
+    "upload",
+    "--fqbn",
+    "{fqbn}",
+    "--port",
+    "{port}",
+    "--verbose",
+    "--input-dir",
+    "{build_dir}",
+    "{bundle}"
+  ],
+  "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0"
+}

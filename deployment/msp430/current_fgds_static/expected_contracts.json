@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "evidence_scope": "Static cross-compilation of the current FGDS seed-42 integer preprocessing and inference cores for MSP430F1611.",
+  "claim_boundary": "Static MSP430F1611 cross-compile and memory-footprint evidence only. No physical TelosB execution, latency, energy, radio integration, or live WSN feature-extraction claim is supported.",
+  "target": {
+    "mcu": "msp430f1611",
+    "flash_budget_bytes": 49152,
+    "ram_budget_bytes": 10240,
+    "optimization": "-Os",
+    "stack_flag": "-fstack-usage"
+  },
+  "toolchain": {
+    "official_toolchain_archive": "msp430-gcc-9.3.1.11_win64.zip",
+    "official_support_archive": "msp430-gcc-support-files-1.212.zip",
+    "required_gcc_version_substring": "9.3.1",
+    "required_binutils_version_substring": "2.34",
+    "required_toolchain_release_marker": "9.3.1.11",
+    "required_support_release_marker": "1.212"
+  },
+  "common_sources": {
+    "directory": "deployment/hardware_hil/firmware/common",
+    "files": {
+      "cukd_model.c": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+      "cukd_model.h": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648",
+      "cukd_preprocess.c": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+      "cukd_preprocess.h": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    }
+  },
+  "shared_contract": {
+    "protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+    "seed": 42,
+    "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "split_hashes": {
+      "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+      "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+      "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+    },
+    "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+    "execution_contract_sha256": "aea903fba31258755cf841e8db90df87195084a74280bb72a5dff27d736d83a0",
+    "rf_train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452",
+    "full_test_rows": 56301,
+    "calibration_partition": "train only",
+    "feature_overlap_audit": {
+      "train_validation_feature_overlap": 0,
+      "train_test_feature_overlap": 0,
+      "validation_test_feature_overlap": 0,
+      "num_feature_groups": 361156,
+      "conflicting_label_feature_groups": 3,
+      "group_stratification_label": "majority label; smallest class index breaks ties"
+    },
+    "input_dim": 17,
+    "output_dim": 5,
+    "preprocess_header_sha256": "6d9dccf3bcee753625df80f3246a18766a4d2f7c5f404164c2025a7928f6d05c",
+    "preprocess_raw_q_frac": 8,
+    "preprocess_output_q_frac": 8,
+    "preprocess_right_shift": 20
+  },
+  "students": {
+    "student_A": {
+      "generated_directory": "deployment/firmware_export/wsnds_rfkd_hil/generated_fgds_student_A_seed42",
+      "export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+      "manifest_sha256": "06207bad14b8191076b9e1cab5d3729d00247d4e5e402a32b3d3a13a2f85515a",
+      "strict_report_sha256": "652b46071adb1921e932e97af999d9d91dbd80f18f3c7e55db30ab55da6987d0",
+      "identity_header_sha256": "2876372d0560ef596368da4eb8d9a69723d424b09159a11c231488c0b0e5e794",
+      "model_header_sha256": "4c91983ec3b204a29cb2cc6c26aa303340f5ab15323aa70cb0d1075fa0972026",
+      "model_file_sha256": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+      "model_artifact_sha256": "173195a9c97c350e0d520ff0a186e5fb342a3de3d4e6392c5d0cc66c303b3a5b",
+      "dimensions": [17, 32, 16, 5],
+      "parameter_bytes": 1348,
+      "activation_bytes_estimate": 140,
+      "macs_per_inference": 1136
+    },
+    "student_B": {
+      "generated_directory": "deployment/firmware_export/wsnds_rfkd_hil/generated_fgds_student_B_seed42",
+      "export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+      "manifest_sha256": "cbc3aeeb81a837414ae32f2637603759ae09d83ccceda9b00013f541ccd8704e",
+      "strict_report_sha256": "c5e45b8c4196b493ac85e9a4e38f8a96feafbe501444f89c0715da46bff4ed60",
+      "identity_header_sha256": "3286b90e421cdff5a817099cf0ef9a3a1d71dec325452f3b02bd1b4adbc7186c",
+      "model_header_sha256": "4f2da9d49072739e4cc5e3054591ed4ebbd897e963ae0c554926330e95e5c16b",
+      "model_file_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+      "model_artifact_sha256": "df741ddc1e451d61d3d22b88421f55851849800556dc2514495108be1548a4f6",
+      "dimensions": [17, 64, 32, 5],
+      "parameter_bytes": 3700,
+      "activation_bytes_estimate": 236,
+      "macs_per_inference": 3296
+    }
+  }
+}

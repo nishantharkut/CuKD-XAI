@@ -1,0 +1,1914 @@
+{
+  "protocol_id": "wsnds_fgds_behavioral_transfer_logits_10seed_v5",
+  "status": "complete",
+  "execution_contract": {
+    "protocol_id": "wsnds_fgds_behavioral_transfer_logits_10seed_v5",
+    "analysis_status": "post_hoc_secondary_evidence",
+    "analysis_status_reason": "The behavioral-transfer question was specified after the finalized prediction artifacts had been inspected; inferential outputs are therefore reported as secondary evidence rather than preregistered confirmation.",
+    "source_protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+    "source_run_root": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed",
+    "dataset": {
+      "path": "data/wsnds/WSN-DS.csv",
+      "sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9"
+    },
+    "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+    "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+    "seeds": [
+      42,
+      123,
+      456,
+      789,
+      1001,
+      2024,
+      3141,
+      5678,
+      8192,
+      9999
+    ],
+    "test_rows_per_seed": 56301,
+    "test_exact_feature_groups": 54174,
+    "statistical_unit": "paired training-run/model seed on one fixed feature-group-disjoint split; the same seed also controls RF construction and student training",
+    "primary_metric": {
+      "name": "kl_teacher_to_student_T4",
+      "weighting": "one total unit per exact raw-feature group",
+      "direction": "teacher to student",
+      "temperature": 4.0,
+      "teacher_T4_definition": "softmax(log(max(calibrated_RF_probability, 1e-8)) / 4), matching KD",
+      "student_T4_definition": "softmax(saved_checkpoint_logits / 4), matching KD and XAI",
+      "student_T4_computation_dtype": "float64 evaluation of the original float32 checkpoint logits to avoid float32 exponential underflow; no student probability floor",
+      "teacher_probability_floor": 1e-08,
+      "student_probability_floor": null,
+      "checkpoint_T1_replay_absolute_tolerance": 3e-06,
+      "checkpoint_T1_replay_requirement": "bounded probability drift plus exact hard-label equality across all rows",
+      "comparison": "scratch minus RF-KD; positive means RF-KD is closer",
+      "multiplicity": "Holm adjustment across Student A and Student B"
+    },
+    "secondary_test_metrics": [
+      "js_T4",
+      "l1_T4",
+      "top2_overlap_T1",
+      "hard_agreement_T1",
+      "macro_class_kl_T4"
+    ],
+    "secondary_multiplicity": "Holm adjustment across ten student-metric tests",
+    "row_weighted_sensitivity": true,
+    "per_class_results": "descriptive; no class-wise null-hypothesis tests",
+    "software_dependencies": {
+      "analysis_source_sha256": "105f6a0e7ed42f54f9492e03063a64f5f44c8f383ed74a3ac93b2ef38049b423",
+      "checkpoint_inference_runtime": {
+        "device": "cpu",
+        "torch_deterministic_algorithms": true,
+        "torch_intraop_threads": 1
+      },
+      "weighted_reduction": "fixed row order with Python math.fsum for numerator and denominator",
+      "statistics_source": "experiments/wsnds/evidence_completion/analyze_fgds_group_balanced_routes.py",
+      "statistics_source_sha256": "84686fbc00100e0ffb67c5f5ad8e0d344010dfc78ee63b0c9418a511ab7d91a4",
+      "common_source": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+      "common_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47"
+    },
+    "claim_boundary": "This analysis tests held-out in-distribution response-distribution transfer from the calibrated RF to each checkpoint-reconstructed student and compares RF-KD with matched scratch under the same T=4 output contract used by KD and XAI. It does not establish causal mechanism transfer, off-manifold decision-boundary equivalence, explanation transfer, or deployment fidelity.",
+    "execution_contract_id": "eaf68690e61a6ee59529aec302697fd8288d63fb322d32c2edad08f83d44bc1b"
+  },
+  "source_contract": {
+    "source_execution_contract_sha256": "21722565d0ec4b9e6e25a8e0a48617db0e7c4debff4891295dd4e5ef32ffb3ad",
+    "source_preprocessing_contract_sha256": "2c2499caa28fec5e3e4253596631d3e8fd0dc8ac65623b3e9080c02f4bd30c22",
+    "source_artifact_manifest_sha256": "6bb4a7d9456ea3bd93dbb479c4ea9c34b9061881179c943521b18db96b491e92",
+    "teacher_prediction_sha256_by_seed": {
+      "42": "25cbfc52c5bad6b4d9a710f20c2b7659d609b19d8eb4dd9a7a2a9c0cc92eae31",
+      "123": "a7f34cfc18293affbffa469403e4f689c138aefc8aa52fede06ce71c64b01327",
+      "456": "5abfd11a876723ac4bd0e3405a849791ee1fe4566517c5a3e5bea8ee49d96212",
+      "789": "ceef70bb2ae2a57653d44cc4023c0ab81d5d8a8beb5b2ba81cb5d4135010f243",
+      "1001": "62e2c64031651445aa048dc66ccb4d13421dba384025acfc6ef7089d5471a43f",
+      "2024": "5cb05c672f2009fd75b8886f7dbdbb3c3fa00e0c8f4f1b8f61b97d68b746bdf0",
+      "3141": "152c56bc29698409dc4f1efce937a1757b06567b5cbe24fca5e27327114dd95e",
+      "5678": "d777e8c6b954b0e50469bbf1207f871c532542a832cdf61ca84a366854d74397",
+      "8192": "6b7f2bc53f161f36c6978a51fc601986f94929b8534fe4869bf7e60242fbb203",
+      "9999": "ef288309126c8fa4282cba5079b035049ba9977f089fb5253959a283e9c63869"
+    },
+    "validated_source_artifacts": [
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/RF_teacher_test_predictions.csv",
+        "sha256": "62e2c64031651445aa048dc66ccb4d13421dba384025acfc6ef7089d5471a43f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/rf_train_probabilities.npy",
+        "sha256": "18a049cbed1347ee64af8f45a36add9a8e6e6f32b39ce7083ec02adc84b7729d"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/seed_completion.json",
+        "sha256": "4b4baae90e2b9464dd10fe91afd2c535f9c28e76543224e96671d9099de27185"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_KD_from_RF_artifact.pt",
+        "sha256": "2814def5aa249a64225327ece4486ba57fb835732129887412498153cb6e54b3"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_KD_from_RF_fp32.pt",
+        "sha256": "1cf7bf34f3c190eb10c38ba9bee534c40da0852bdb7bfa5575847a09433fef82"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "ee4ef97e7ac1233db1a428584bb26488daa13fa5be8693ce6ca2c7e82ba286fc"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "a48b67c2915b439810be1b46b427fbdea6ced56fb785f035a707ffdb76e00dd0"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "206ae7a9656e8baff776e4c4af6c1b9eb1f2a9f4cf9a151e6a349a1ba58689f1"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "417fa055d97ac4cd1b0f83675c34b16b6f5cf0c1eec0b289b05d0a7299a6731d"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_KD_from_RF_artifact.pt",
+        "sha256": "98ceab5ef909eb988b343c260fcdfd6fe2f9ddac4e27624b4f21db37415d84bd"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_KD_from_RF_fp32.pt",
+        "sha256": "94f36c2fa1b13a3d6fd10e26a31b6719214abd5f98b6778c95cf0ebc1c3bf59f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "c79264153cc9381b4309ba3b2ab892f795a55d62afea3ae2ca819dd823061bc1"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "cc9364f2b28c405035ade28e689f63792d33b51fb459f3287432c5676278a35f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "b6af68ac41bc7f065a723ccb1739c1f1316ec04e60ca6b91ed8a9a6f51d6a1eb"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_1001/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "3c4acb8ebbec07864fb3a967492a94ef209f8e5add0680602f8bb554a741b837"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/RF_teacher_test_predictions.csv",
+        "sha256": "a7f34cfc18293affbffa469403e4f689c138aefc8aa52fede06ce71c64b01327"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/rf_train_probabilities.npy",
+        "sha256": "c13b92865da78db7773a4e2d0c92b2247ce49150686a8fdcaa08de9572720758"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/seed_completion.json",
+        "sha256": "5b33a409d39549aeda92eea9611a18b5b75c932670ed4eeac84fc44aaeb7decb"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_KD_from_RF_artifact.pt",
+        "sha256": "39703c308dbe8032a476f2af3d9ec43189235056892a4b267f4e706683b316b8"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_KD_from_RF_fp32.pt",
+        "sha256": "b229473f42f657ed37badf33a782946df49f4ba162c17d2c1446edeab136341a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "c6911d823e6978791a5259a02a202df191aee2cb2415bf8f1fef980abcaab184"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "e5df5413addc56e1ea17ab1da0c85e1f99aaa09489e94db67c91d008276c9538"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "20298be97e2219429126b296e93a28896805c234a5f6f9134e688847020df3f4"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "035512e5b72a72ccb727003652cf5d2cc2b8328c1c78e757680111df7c6fd3cf"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_KD_from_RF_artifact.pt",
+        "sha256": "9c3e769ef4f9a7d11bd9b9ed990c7f6e8d58c276bb8d34cd5597ff78f32c07f9"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_KD_from_RF_fp32.pt",
+        "sha256": "7c7cc8e1e8ec357ddb27c1c10bd451e2d4a4c0a72b960ec00bc3551512f29e16"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "3f320244734e702ed9feb68bd4f2fb37176add806ac3b41544ef136a2e55b478"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "b6e038bb0ed550121079e1e8fc8406016ed3c380bb7c27afd9675c08a1e4a9df"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "f6c416cb2baec384d26c24077497591ca32a7b188713de60a131431b53f9a4e7"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_123/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "e163a2e3452f220195bd4077134d3aa6ce4f9ed8866f8e6a76c14b0ecd3d2090"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/RF_teacher_test_predictions.csv",
+        "sha256": "5cb05c672f2009fd75b8886f7dbdbb3c3fa00e0c8f4f1b8f61b97d68b746bdf0"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/rf_train_probabilities.npy",
+        "sha256": "9ab9569eeb9e32695472188c1094507076a064e9550825fe18ee3f10efebb331"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/seed_completion.json",
+        "sha256": "508e9ace3eca77c7b0c758fa99029f7723f5b9807d435db9e7cf1ab3cbc67f4a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_KD_from_RF_artifact.pt",
+        "sha256": "f1bbb6bb01989d076eeadf85695f755c79d8b5a5e8dfe79d3ac785f9e3fc797d"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_KD_from_RF_fp32.pt",
+        "sha256": "f4c5ffe5cede88ecd7f371aa937ed9ed90de0c8b795a3a4e39fe55d7de03ac95"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "d8fcf0bc5b01b0a9f243b99facc72198c1bb72a981621cc1cb31760a4bbb84d0"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "7ac0bc029aa38df60668d50d98bd1ef851db566b7bb1cbb5b9c20beb6dddd064"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "0d9018b509008533812a4ed49cb465ac7e6faeaaca0d0cee8fb591f88a61ef74"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "15242cbcc17839903eb026bc50e69cc1bbfb934efb5407d36ae0f59870f865b5"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_KD_from_RF_artifact.pt",
+        "sha256": "b9658e42857fe6d6ed5986389711c21b7a30d90176049630453f8165c3ddfc31"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_KD_from_RF_fp32.pt",
+        "sha256": "c512382440e422ff4f3540701d7818b2f87ecd7af8d57f2a4be2e9155a6486a4"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "356e7023a44d43467383004bda546ca13c8dcc70a2ddb0f835662b3cdcadffb0"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "bfa05850563baa2bc9541b85dce0159f8248726949f83b176dd795cbc13e4701"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "166bf17fa528bd95079198642dabf2bce0580a1ad51c524ed5fe5a23f4d9e9c8"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_2024/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "2e336bbaeda3aaf2df8981358d13dc176ee782391b9e11ffc63100fb72874d52"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/RF_teacher_test_predictions.csv",
+        "sha256": "152c56bc29698409dc4f1efce937a1757b06567b5cbe24fca5e27327114dd95e"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/rf_train_probabilities.npy",
+        "sha256": "ee9fb93da4f9cf949b7442ebdc7ca37713b3df1700f044f266a7f389c2c254a2"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/seed_completion.json",
+        "sha256": "bd39e2bedd0ba19db735da37779a1c401a7edc4431dadcbb4c26736ae61d8f83"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_KD_from_RF_artifact.pt",
+        "sha256": "e5cf47321cc89195f936eaace793789ff578cfaedc5b57ca1bbb8ff5e10b35d6"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_KD_from_RF_fp32.pt",
+        "sha256": "e26151644d399d5ccc0de294628b5d5dae15c4b91abbcd2d632499f019cd8ac7"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "735a10f880dbb005b2bee5973832437f9452af5f6a963c4c380d5f002e6cba3e"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "c4aa98edfa176f2ac38cf33de46ae7928e6c53bc017b0a237d7ee8d99d8f724b"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "3643c156ae118d0c317681e9c176340a81a2b55b400d9cb43782d470351460cb"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "ac2acc7ea9a1acb8d3a859f16bef1b3f3dabe1169c6020d4e877191fb4a61b84"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_KD_from_RF_artifact.pt",
+        "sha256": "6a3886210acfdd09f38f78f9eec7ee3326ea188e9f6ed671176ffd57aeb304a3"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_KD_from_RF_fp32.pt",
+        "sha256": "1192c8ae9ce8983ed62b93d872157360dfc0493a69c526f59ae64ca51b7a97a4"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "738eac38fcf1d59de86bc06d7e450eb783eaa3ce18d9febd959b0fbaba53c99c"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "ac4f8319ef97230b53d95fa1c0968caafc153d0112288f6c620870f1a739880a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "680797da6a874759008d1631e21f1bf6f68b48fe1d4ab2628080d1491b0d6ea5"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_3141/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "dc2edb678b89cf8c9b430e02047da45d6f5929f3ac202d2702fa28937b19ccf7"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/RF_teacher_test_predictions.csv",
+        "sha256": "25cbfc52c5bad6b4d9a710f20c2b7659d609b19d8eb4dd9a7a2a9c0cc92eae31"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/rf_train_probabilities.npy",
+        "sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/seed_completion.json",
+        "sha256": "25e36afaf33b68ec5433887f03fcd888966e40b966c465fec2ca912fcb82d87b"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_KD_from_RF_artifact.pt",
+        "sha256": "beaad1a927f23aecde03ab1f09b5d558cc0e846a3ebe997154cd2bfbfb78f8f3"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_KD_from_RF_fp32.pt",
+        "sha256": "2b2b000084d010a05cbb00159de5100990d4ffd0ab039a4c9955a0f66a3d59b8"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "e374fb674ce60c65d1bff2be2d4a5843f6ab5532ab87cf7ec0e9e77b4bd648c7"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "69150834c04e7c36fd1e810f5a0d78d5b22e1b1295896df7df2e0aaf219a4674"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "b73b177dc74231886d324b1ac5313a00a97ad903d6c81f9148804ab15e75bf65"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "e1bad0a144299e101a3e6648223500cbe44c154980059352bae97c92d849c202"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_KD_from_RF_artifact.pt",
+        "sha256": "e238bdb4ea58620fe8c7d828ce0217d8cf19a81a172a408f29bf106efc44af56"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_KD_from_RF_fp32.pt",
+        "sha256": "cab27197376a0e3b10d8fd90c5f328557043e010faa766749ece20d5d7c37c2e"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "a038824ce129b848595d4d55322db365d34b6a7fb5574fde612895fcb0173329"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "c7a73c6d283da4565cf990f440ff483df4132d094544b89dda51b194c41e8678"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "dc51eee44e11a4bdb092b9718330d1df7af7ddb4c39d8c09b1b11233948cc937"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_42/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "5683d29faa91d8c748f71d9e37f9ebd9763123a7a1c8aa1c4a5265e36fe332d2"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/RF_teacher_test_predictions.csv",
+        "sha256": "5abfd11a876723ac4bd0e3405a849791ee1fe4566517c5a3e5bea8ee49d96212"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/rf_train_probabilities.npy",
+        "sha256": "f4b83c63ac9a23861f0be7ba6c36e15f2a2178c27ab3ae6b0cef307136bad349"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/seed_completion.json",
+        "sha256": "d0521dd4e5ab74ec8099fab00ce4c6eff5c9fc2d789a4607eef4caf773e86a55"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_KD_from_RF_artifact.pt",
+        "sha256": "0cd6d58a4cfbd22877eb6fb6faff7a7d563efc3d84fda66b1d4bbc1ae6b84432"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_KD_from_RF_fp32.pt",
+        "sha256": "f4265ef5284db60239978b21da5803372d697bae4fe50605ffe86300f679ecc6"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "3dc09ff7412a6c32dd66bafe9ebab1c734885b15e30d4cb2cd79a43205ef2cf8"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "61f47c2cae99afcdfafee4e7084bb498db194087d8a31c95e5f19838c45d391c"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "b649908477b96e04636eca19015156b59ee51a01c695aa5cb7313651352d4589"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "0087df4f9befcbb96f7684a3ba130605e8fc1422b639687460604863caed0ed4"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_KD_from_RF_artifact.pt",
+        "sha256": "f0a4cb1f961c2ca3b3008cc6b3faa4d240c31d620d767586a4de7631ad2e9d0b"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_KD_from_RF_fp32.pt",
+        "sha256": "7e93b3368c560fb579c2cbecba603623ed7e9d0fa898d65a9df3b54f7a91f110"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "2cc4fa8bb8c6ce6a18b4926dfdab8182b25b47cb19603a59fbc959b74870f2af"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "bd15543264de71891a120b457822f399044b8aa51afb5b741c8c5541365f412a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "4ae5478e58d78a33aabeb6a1c27ddf4088973e46349227d6efe187b242139888"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_456/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "83d1eb331a2115ddc1b93d42b03e4166cafab7c005a3bff5c9d9db18712cb011"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/RF_teacher_test_predictions.csv",
+        "sha256": "d777e8c6b954b0e50469bbf1207f871c532542a832cdf61ca84a366854d74397"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/rf_train_probabilities.npy",
+        "sha256": "3da66079efc88037f5bd35645aff9b113f72715005b453c8aa70bf1d0db2b8d3"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/seed_completion.json",
+        "sha256": "a2ab8235549f797826b237a12bb738b4def9819e8502a6cfeac15f049cd14645"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_KD_from_RF_artifact.pt",
+        "sha256": "a6cb5392a32ee73d943093cd75e88a13351f5aa340bab148c8e6c5966a329621"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_KD_from_RF_fp32.pt",
+        "sha256": "45c79826c9bc50f0b6d1c982fc42e4c037c5f692ddb4a07d95cdee71c83a4c89"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "0fd3fb4bb5b15af14fd5ff02a58ba729c4ee00e7bb88be40d1a70057c622e0ac"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "326dbb7598bb843247aa588d4650a2626e5110672a515b0cd571f6f768154f26"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "e592c0ecd4f7e0edc79c4979351c8c35a88e63cdb35b0fd577a0069ad7f5cd73"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "1414d5cad1d659b9530c15268ff632aa0a99a36fa66fb21d7338e857e1061bfe"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_KD_from_RF_artifact.pt",
+        "sha256": "0533dc08caa256b0cc57ac46f1a1d5953ed3aebee39ae4f17a8fba934ab46ad9"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_KD_from_RF_fp32.pt",
+        "sha256": "3e80c77f023be5db1d18d72ea71ce866311a765d0e10381500b886afa26f21c9"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "70275372af94e4cfd33c999200bf943290cd359efef14f0d0eaea40c24fc3c42"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "cc263d6e02bd8b92b0c1c8e9d2799451ce1e483f304d5d3cb096af25380cd855"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "b086e0248e56567015ba540c1a73d4464d28f07bd732a5eba8fff2f21d7f2ae3"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_5678/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "36059fa25db31039cc468a749a1eab7deb81ecd02ea240b7487bc66cda547d6f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/RF_teacher_test_predictions.csv",
+        "sha256": "ceef70bb2ae2a57653d44cc4023c0ab81d5d8a8beb5b2ba81cb5d4135010f243"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/rf_train_probabilities.npy",
+        "sha256": "6e54ef05570170e92ed60db46b3d39a294b9edfb1c2f2286bf28e5e04a474d11"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/seed_completion.json",
+        "sha256": "79f16bed75af7bbb98b84fb4da2fef2b3be8dd86ad4420599b651b0e64ba8260"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_KD_from_RF_artifact.pt",
+        "sha256": "3b48eebcdaec0c43df5d236d51622ed4a66ec75ffc0266feeb7511fe8693136a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_KD_from_RF_fp32.pt",
+        "sha256": "c365b7de7ab00783033b95e58a5cf5fae5b1ef4e45b8251af14fc293fdd9ffcf"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "9903bab51aeaab6ed70df711443d08c6429dca9a9a336a19833cefd0672cdb28"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "239863c6c025553a8d6b843759d389f738deafa7e03d9b82ac9189781c96ce3e"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "92be595ac9f19464ed4d0476feebd9646a06f8072a1c057c2ee88cb805e1ec83"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "9e5e0e893227f89d9934c92cfc5e4015f5459e2364505ae8de2c047fc95aae0d"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_KD_from_RF_artifact.pt",
+        "sha256": "83091e0fcf8bade737c6ae3bde7819c698931ead9c7b9d5fc204152c14456d8d"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_KD_from_RF_fp32.pt",
+        "sha256": "c4d5916d5e64e13526510bf4552c627167c5b7b69a789e2ee3c63231befaf014"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "cdeb32976df267a9e972c7e056da6a543839b8bdccbcc99657ad571c0691be5a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "658b649ea082e0a780f27bf907b93c987f193c0aadb16264d73ed1988115dff1"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "fcdc6d7470d00adec62eef2d9b316f4f777b01e1b6d9a45eb72228cf32e6432e"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_789/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "44c72af71d95ebc76c86cb7a4c4b16cfe274808c18834b156ab3caafecaca8fe"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/RF_teacher_test_predictions.csv",
+        "sha256": "6b7f2bc53f161f36c6978a51fc601986f94929b8534fe4869bf7e60242fbb203"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/rf_train_probabilities.npy",
+        "sha256": "6b6b6b63db237de39445abc298ca079af4f404a1cc8d1fc050a500f8f3d2ac87"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/seed_completion.json",
+        "sha256": "c4f784247f72bff38773ba240bc2c80eb2c88da087f08c3a08dd5f984a144d35"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_KD_from_RF_artifact.pt",
+        "sha256": "6b0b1287e3505c98e76e40c3f77cac1453f8829e3afc5bed8055e2415a095ec6"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_KD_from_RF_fp32.pt",
+        "sha256": "30271d33bbb7b7d4349f72a85e25457adb3f13ff1797b88229c8bfbb4bfba55b"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "2075b733248d9483182251b94f032baf5b601a30d35bf6798e68597ee88320fd"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "0dc10538b6ac78525537c254b9abca61c48df1b348b2623810ffb831a5142d4c"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "c6569fcc13b4b8473738e43dec72d6e0ac4288646c1e67e61d5a2c2274808a7f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "2da18e9d26a331eb2fa193be9e2cf12c0ac00ce946beb92ae251354eb794b618"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_KD_from_RF_artifact.pt",
+        "sha256": "b4b3072e010bc6cfa0fcfa17e49ed4996fa6242d833a0b5d1726dda9d1d2032f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_KD_from_RF_fp32.pt",
+        "sha256": "4814ceaf245c43a46d2a91119fcba9b5ded2d8d7f3b34192e9aced6d11ec69d1"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "67352c34583e4d3fb28be102b1cccc42c42c1535909109335082ad1810fed3e5"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "8565a00c851d7b0d812449736a17abcb6e2088e1a7e7f14c55aebba36948c80f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "42ca48359e285e56993663e0ff8623ef6a6e163ff73a5eceb15ee6a56559b6f5"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_8192/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "8730afc2895a8dad6859fb9f09b7bd567ed06ca87da3c3a77ced5b853ef1e8a7"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/RF_teacher_test_predictions.csv",
+        "sha256": "ef288309126c8fa4282cba5079b035049ba9977f089fb5253959a283e9c63869"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/rf_train_probabilities.npy",
+        "sha256": "f9ea3d12eba0327d01b9a28303f578ce5387480dee6fa4f433ca2420125d6524"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/seed_completion.json",
+        "sha256": "175fcbcf5f4d34d3f20062530eabf532e8f8ba440d5271dd3f7ba79cbb70eee1"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_KD_from_RF_artifact.pt",
+        "sha256": "ae1a7a1ab713d0043bfbdd1213fd6081185b393f372a1434b3f2baa7bab4aa65"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_KD_from_RF_fp32.pt",
+        "sha256": "ebaa394c8cbfbb7a56def1a45acf32da49a65447811bcabfbb08509e4e557496"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_KD_from_RF_test_predictions.csv",
+        "sha256": "5ca8b2581b4b60d2a37c9ae88af61efb1ad80c4c76aa73f6a07afa258f7e3e49"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_Small_MLP_scratch_artifact.pt",
+        "sha256": "5ca2bfb4c84777525c5e51196fd2ae0fe16e5ebffbc38ffea02eebe3d5aa231a"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_Small_MLP_scratch_fp32.pt",
+        "sha256": "31052b1fd9e029ba22602c1fdd593caa9c6c2e64e335aa137657e88e92369c17"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_A_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "662e5d01e94cdcc276d2ff219b936cdde6982fb2c0a43fd85d693d691cf0e2de"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_KD_from_RF_artifact.pt",
+        "sha256": "ff2607dee875722620c72d7222e63ed4ee5efdbed87f5e9c7df6ec5255b4c253"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_KD_from_RF_fp32.pt",
+        "sha256": "a31ef458e0790ccb743ae99ce2fe015c8cd2ca06244f781b81af98718090eb92"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_KD_from_RF_test_predictions.csv",
+        "sha256": "e583864854fc47c63bc40939ed62eea7cb4e220680e059e72d5a428c4f3e76ee"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_Small_MLP_scratch_artifact.pt",
+        "sha256": "4ba412d03e00fbdea02d1d960f72d494bdc0f040b3aa7ca5e5ca1ce3bf4d5e42"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_Small_MLP_scratch_fp32.pt",
+        "sha256": "10f82513ed5a8cafa5e2eaf40e13ec6098220cad6609e8141af8c3a7474e8d0f"
+      },
+      {
+        "path": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed/seed_9999/student_B_Small_MLP_scratch_test_predictions.csv",
+        "sha256": "6123415498a992fe2c117d376fdfb6239a20eaf21815167713b5de1cfe535a25"
+      }
+    ]
+  },
+  "test_group_audit": {
+    "rows": 56301,
+    "exact_feature_groups": 54174,
+    "repeated_rows_beyond_one_per_group": 2127,
+    "mixed_label_groups": 0,
+    "maximum_group_size": 19
+  },
+  "primary_tests": {
+    "student_A": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "kl_teacher_to_student_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.20160314834559348,
+        0.21344369096723112,
+        0.21903971876905468,
+        0.32935514794575343,
+        0.186293937461526,
+        0.18293743998755982,
+        0.1602849537871507,
+        0.18689096236398295,
+        0.20737532282239393,
+        0.18634337070373394
+      ],
+      "rf_kd_values": [
+        0.015551189729500089,
+        0.016810975907085603,
+        0.012653985816456177,
+        0.019561645889385318,
+        0.018424011105522036,
+        0.015891388481035124,
+        0.0170243669343624,
+        0.01634947315685273,
+        0.014441927609240294,
+        0.015080763784986032
+      ],
+      "transfer_gain_values": [
+        0.1860519586160934,
+        0.1966327150601455,
+        0.2063857329525985,
+        0.30979350205636813,
+        0.16786992635600398,
+        0.16704605150652468,
+        0.1432605868527883,
+        0.17054148920713022,
+        0.19293339521315364,
+        0.1712626069187479
+      ],
+      "transfer_gain_mean": 0.19117779647395544,
+      "transfer_gain_sample_std": 0.045465748127733026,
+      "transfer_gain_median": 0.17865728276742066,
+      "transfer_gain_95_percent_t_interval": [
+        0.1586535595656588,
+        0.22370203338225209
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_two_students": 0.00390625,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_B": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "kl_teacher_to_student_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.2190381977639723,
+        0.19681884171214112,
+        0.20497321377635006,
+        0.2146844942952614,
+        0.21343149862844432,
+        0.16826470099336718,
+        0.19237641326009514,
+        0.23553473849364384,
+        0.1853310785010313,
+        0.23915248901181774
+      ],
+      "rf_kd_values": [
+        0.013377078048835565,
+        0.013083949295642256,
+        0.009807963301508758,
+        0.01770812675787361,
+        0.01338072626114706,
+        0.012686039780795286,
+        0.013277988843811095,
+        0.013699771640271913,
+        0.01167128450435538,
+        0.013894084801362165
+      ],
+      "transfer_gain_values": [
+        0.20566111971513673,
+        0.18373489241649887,
+        0.1951652504748413,
+        0.1969763675373878,
+        0.20005077236729726,
+        0.1555786612125719,
+        0.17909842441628404,
+        0.22183496685337192,
+        0.17365979399667594,
+        0.22525840421045557
+      ],
+      "transfer_gain_mean": 0.19370186532005212,
+      "transfer_gain_sample_std": 0.021476465530981773,
+      "transfer_gain_median": 0.19607080900611454,
+      "transfer_gain_95_percent_t_interval": [
+        0.17833852738662337,
+        0.20906520325348088
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_two_students": 0.00390625,
+      "reject_holm_alpha_0_05": true
+    }
+  },
+  "secondary_tests": {
+    "student_A:js_T4": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "js_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.03967498971505664,
+        0.04704950993687426,
+        0.04315350930690473,
+        0.05682013875162557,
+        0.04276445760251323,
+        0.03890606184181492,
+        0.04117441989522242,
+        0.039397010951365774,
+        0.04205099992282825,
+        0.044117333476523364
+      ],
+      "rf_kd_values": [
+        0.00422701350955173,
+        0.00457997689812858,
+        0.0034594910440374355,
+        0.005312324607787126,
+        0.004950896216740877,
+        0.0043251208140111675,
+        0.004607233632290668,
+        0.004429947616055899,
+        0.003942011388706828,
+        0.0040820068783057615
+      ],
+      "transfer_gain_values": [
+        0.03544797620550491,
+        0.042469533038745684,
+        0.039694018262867295,
+        0.05150781414383844,
+        0.037813561385772354,
+        0.034580941027803756,
+        0.036567186262931754,
+        0.03496706333530988,
+        0.038108988534121424,
+        0.040035326598217603
+      ],
+      "transfer_gain_mean": 0.03911924087951131,
+      "transfer_gain_sample_std": 0.005015798450664454,
+      "transfer_gain_median": 0.03796127495994689,
+      "transfer_gain_95_percent_t_interval": [
+        0.035531154818871535,
+        0.042707326940151086
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_A:l1_T4": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "l1_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.37242326122480496,
+        0.42026211908654065,
+        0.4088787717383319,
+        0.4360705364833458,
+        0.3976717375953352,
+        0.3728715331778122,
+        0.40812780916446445,
+        0.3851090800265776,
+        0.4078193143213197,
+        0.41665533636985314
+      ],
+      "rf_kd_values": [
+        0.05996666164731327,
+        0.06258929169608045,
+        0.055387179690529344,
+        0.06611896729415044,
+        0.0669341817830281,
+        0.060672892661230014,
+        0.06198704756190722,
+        0.061180068070815656,
+        0.05765742208355889,
+        0.05883925022505288
+      ],
+      "transfer_gain_values": [
+        0.31245659957749167,
+        0.3576728273904602,
+        0.35349159204780256,
+        0.36995156918919536,
+        0.3307375558123071,
+        0.3121986405165822,
+        0.34614076160255725,
+        0.32392901195576196,
+        0.3501618922377608,
+        0.35781608614480026
+      ],
+      "transfer_gain_mean": 0.341455653647472,
+      "transfer_gain_sample_std": 0.02028756888912183,
+      "transfer_gain_median": 0.34815132692015904,
+      "transfer_gain_95_percent_t_interval": [
+        0.3269428011372831,
+        0.3559685061576609
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_A:top2_overlap_T1": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "top2_overlap_T1",
+      "orientation": "rf_kd_minus_scratch; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.8935836379074833,
+        0.8796286041274413,
+        0.9707977996825046,
+        0.8323919223243622,
+        0.8826281980285746,
+        0.8748846310038025,
+        0.8760660095248644,
+        0.8825543618710082,
+        0.950871266659283,
+        0.8877690404991324
+      ],
+      "rf_kd_values": [
+        0.967715140104109,
+        0.9683888950419021,
+        0.9870140657880164,
+        0.9503267249972311,
+        0.9603315243474729,
+        0.965823088566471,
+        0.9648170709196293,
+        0.972625244582272,
+        0.9847251449034592,
+        0.9676782220253258
+      ],
+      "transfer_gain_values": [
+        0.07413150219662568,
+        0.0887602909144608,
+        0.016216266105511856,
+        0.11793480267286893,
+        0.07770332631889831,
+        0.0909384575626685,
+        0.08875106139476496,
+        0.09007088271126373,
+        0.03385387824417618,
+        0.07990918152619342
+      ],
+      "transfer_gain_mean": 0.07582696496474324,
+      "transfer_gain_sample_std": 0.029583882308027516,
+      "transfer_gain_median": 0.08433012146047919,
+      "transfer_gain_95_percent_t_interval": [
+        0.05466393045027239,
+        0.09698999947921409
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_A:hard_agreement_T1": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "hard_agreement_T1",
+      "orientation": "rf_kd_minus_scratch; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.9840329309262746,
+        0.9887215269317384,
+        0.9881677557499907,
+        0.986986377228929,
+        0.9896813969801012,
+        0.9887030678923469,
+        0.9884446413408646,
+        0.9903828404769816,
+        0.9851035552109868,
+        0.9895706427437516
+      ],
+      "rf_kd_values": [
+        0.9899767416103666,
+        0.9898475283346254,
+        0.9899398235315834,
+        0.9890907077195703,
+        0.9900690368073245,
+        0.9899029054528002,
+        0.9903274633588068,
+        0.9903274633588068,
+        0.9900690368073245,
+        0.9899767416103666
+      ],
+      "transfer_gain_values": [
+        0.005943810684091999,
+        0.0011260014028869891,
+        0.0017720677815926678,
+        0.002104330490641293,
+        0.00038763982722334056,
+        0.0011998375604533873,
+        0.0018828220179422095,
+        -5.5377118174715356e-05,
+        0.004965481596337695,
+        0.00040609886661502337
+      ],
+      "transfer_gain_mean": 0.001973271310960989,
+      "transfer_gain_sample_std": 0.0019772619377433757,
+      "transfer_gain_median": 0.0014859526710230275,
+      "transfer_gain_95_percent_t_interval": [
+        0.000558823328883327,
+        0.0033877192930386515
+      ],
+      "positive_seed_count": 9,
+      "negative_seed_count": 1,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 53.0,
+        "p_value_two_sided": 0.00390625,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_A:macro_class_kl_T4": {
+      "student": "student_A",
+      "weighting": "exact_group_balanced",
+      "metric": "macro_class_kl_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.4851540983929601,
+        0.46359008152357895,
+        0.5663306854856508,
+        0.5242376930332073,
+        0.37384695519452027,
+        0.5781308267094406,
+        0.3494134434949584,
+        0.5179716687486261,
+        0.5519538193846243,
+        0.42813399945823355
+      ],
+      "rf_kd_values": [
+        0.08112878099918666,
+        0.09015851000312955,
+        0.0679004012270385,
+        0.09332219664617479,
+        0.09160108984859039,
+        0.08109375567878659,
+        0.08824986785491776,
+        0.09116861113226515,
+        0.08357018149932846,
+        0.07942747612474098
+      ],
+      "transfer_gain_values": [
+        0.40402531739377345,
+        0.37343157152044937,
+        0.4984302842586123,
+        0.4309154963870325,
+        0.2822458653459299,
+        0.49703707103065403,
+        0.26116357564004067,
+        0.42680305761636095,
+        0.4683836378852958,
+        0.34870652333349256
+      ],
+      "transfer_gain_mean": 0.39911424004116414,
+      "transfer_gain_sample_std": 0.08296053702345553,
+      "transfer_gain_median": 0.4154141875050672,
+      "transfer_gain_95_percent_t_interval": [
+        0.33976784695840023,
+        0.45846063312392804
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_B:js_T4": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "js_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.04113143263242615,
+        0.03959805122272736,
+        0.03610070670319992,
+        0.045253464911569605,
+        0.043702820266944734,
+        0.03819438294672056,
+        0.03993379509580467,
+        0.04278716773859663,
+        0.03677280320805332,
+        0.04633877401924979
+      ],
+      "rf_kd_values": [
+        0.003653769151415401,
+        0.0035366839197366598,
+        0.002689296757961977,
+        0.004795918347938253,
+        0.00356078600103843,
+        0.0034535756402940643,
+        0.0035317909923711123,
+        0.003716582314830546,
+        0.003185300940657576,
+        0.00376494487603459
+      ],
+      "transfer_gain_values": [
+        0.037477663481010746,
+        0.0360613673029907,
+        0.03341140994523794,
+        0.040457546563631354,
+        0.040142034265906304,
+        0.0347408073064265,
+        0.036402004103433555,
+        0.03907058542376608,
+        0.03358750226739574,
+        0.0425738291432152
+      ],
+      "transfer_gain_mean": 0.03739247498030142,
+      "transfer_gain_sample_std": 0.003104394745038589,
+      "transfer_gain_median": 0.036939833792222154,
+      "transfer_gain_95_percent_t_interval": [
+        0.035171724760579025,
+        0.03961322520002381
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_B:l1_T4": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "l1_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.3727458770902659,
+        0.3759029104685917,
+        0.3565554813109101,
+        0.3911459462113328,
+        0.39424973484454084,
+        0.3843677419720855,
+        0.3781716723468609,
+        0.3780953578241191,
+        0.3702318740410964,
+        0.4095236362430683
+      ],
+      "rf_kd_values": [
+        0.054463366165424805,
+        0.05329601129436804,
+        0.04794422300405919,
+        0.06202742700059497,
+        0.054541761062954976,
+        0.05207059698972373,
+        0.05542344510081659,
+        0.05270602372712372,
+        0.05015609373167182,
+        0.05472274710994543
+      ],
+      "transfer_gain_values": [
+        0.3182825109248411,
+        0.32260689917422364,
+        0.3086112583068509,
+        0.3291185192107378,
+        0.33970797378158585,
+        0.3322971449823618,
+        0.3227482272460443,
+        0.3253893340969954,
+        0.32007578030942463,
+        0.3548008891331229
+      ],
+      "transfer_gain_mean": 0.3273638537166189,
+      "transfer_gain_sample_std": 0.012770027467947328,
+      "transfer_gain_median": 0.32406878067151984,
+      "transfer_gain_95_percent_t_interval": [
+        0.3182287263779877,
+        0.3364989810552501
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_B:top2_overlap_T1": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "top2_overlap_T1",
+      "orientation": "rf_kd_minus_scratch; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.8920330785985897,
+        0.8809945730424189,
+        0.9756709860818843,
+        0.8249160113707683,
+        0.8774688965186251,
+        0.8746169749326245,
+        0.879277882379001,
+        0.8852955292206593,
+        0.9575534389190387,
+        0.888193598405139
+      ],
+      "rf_kd_values": [
+        0.9755879204046222,
+        0.9756709860818843,
+        0.98856462509691,
+        0.9531971056226234,
+        0.9683242884040315,
+        0.9700317495477535,
+        0.9675490087495847,
+        0.9772030863513863,
+        0.9859711300623916,
+        0.9707239635249382
+      ],
+      "transfer_gain_values": [
+        0.08355484180603245,
+        0.09467641303946539,
+        0.012893639015025715,
+        0.12828109425185508,
+        0.09085539188540637,
+        0.09541477461512904,
+        0.08827112637058376,
+        0.09190755713072696,
+        0.028417691143352908,
+        0.08253036511979917
+      ],
+      "transfer_gain_mean": 0.07968028943773768,
+      "transfer_gain_sample_std": 0.03382000261291726,
+      "transfer_gain_median": 0.08956325912799507,
+      "transfer_gain_95_percent_t_interval": [
+        0.05548691700864139,
+        0.10387366186683397
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    },
+    "student_B:hard_agreement_T1": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "hard_agreement_T1",
+      "orientation": "rf_kd_minus_scratch; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.9915088418798685,
+        0.9908443164617713,
+        0.9924871709676228,
+        0.9910658249344704,
+        0.991305792446561,
+        0.9927271384797135,
+        0.9919703178646583,
+        0.9911027430132536,
+        0.9927640565584966,
+        0.991084283973862
+      ],
+      "rf_kd_values": [
+        0.990770480304205,
+        0.992837892716063,
+        0.9936316314099014,
+        0.990862775501163,
+        0.9932255325432865,
+        0.9931332373463285,
+        0.9946284195370473,
+        0.9914719238010854,
+        0.992210285376749,
+        0.9905120537527227
+      ],
+      "transfer_gain_values": [
+        -0.0007383615756635376,
+        0.0019935762542917512,
+        0.001144460442278561,
+        -0.00020304943330740066,
+        0.001919740096725464,
+        0.00040609886661502337,
+        0.0026581016723890016,
+        0.0003691807878317688,
+        -0.0005537711817475977,
+        -0.0005722302211392805
+      ],
+      "transfer_gain_mean": 0.0006423745708273754,
+      "transfer_gain_sample_std": 0.0012215799975152696,
+      "transfer_gain_median": 0.00038763982722339607,
+      "transfer_gain_95_percent_t_interval": [
+        -0.00023149111659080007,
+        0.0015162402582455509
+      ],
+      "positive_seed_count": 6,
+      "negative_seed_count": 4,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 23.0,
+        "p_value_two_sided": 0.275390625,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.275390625,
+      "reject_holm_alpha_0_05": false
+    },
+    "student_B:macro_class_kl_T4": {
+      "student": "student_B",
+      "weighting": "exact_group_balanced",
+      "metric": "macro_class_kl_T4",
+      "orientation": "scratch_minus_rf_kd; positive means RF-KD is closer to teacher",
+      "scratch_values": [
+        0.5140318435157727,
+        0.5378664239389936,
+        0.5835077014227306,
+        0.5076878671718014,
+        0.5110361280100293,
+        0.45577399955495307,
+        0.5136750257899884,
+        0.4924626504560111,
+        0.5018572225887284,
+        0.6594044261477647
+      ],
+      "rf_kd_values": [
+        0.07188829919516752,
+        0.0720851458309159,
+        0.05235954311796359,
+        0.08205304982473557,
+        0.06934165069425272,
+        0.06405763849614897,
+        0.06659704566989766,
+        0.07768362487222993,
+        0.06765175214342423,
+        0.07319112526651668
+      ],
+      "transfer_gain_values": [
+        0.44214354432060515,
+        0.46578127810807773,
+        0.531148158304767,
+        0.42563481734706576,
+        0.4416944773157766,
+        0.3917163610588041,
+        0.4470779801200907,
+        0.4147790255837812,
+        0.4342054704453042,
+        0.586213300881248
+      ],
+      "transfer_gain_mean": 0.45803944134855207,
+      "transfer_gain_sample_std": 0.058082013088464446,
+      "transfer_gain_median": 0.44191901081819085,
+      "transfer_gain_95_percent_t_interval": [
+        0.4164900721730405,
+        0.4995888105240636
+      ],
+      "positive_seed_count": 10,
+      "negative_seed_count": 0,
+      "zero_seed_count": 0,
+      "exact_paired_wilcoxon": {
+        "statistic_abs_signed_rank_sum": 55.0,
+        "p_value_two_sided": 0.001953125,
+        "nonzero_difference_count": 10,
+        "zero_difference_count": 0,
+        "enumerated_sign_assignments": 1024,
+        "rank_tie_method": "average",
+        "zero_method": "wilcox",
+        "enumeration": "exhaustive"
+      },
+      "holm_adjusted_p_across_secondary_family": 0.01953125,
+      "reject_holm_alpha_0_05": true
+    }
+  },
+  "route_diagnostics": {
+    "42:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.622583661615617,
+      "teacher_accuracy": 0.9966608053142928,
+      "student_accuracy": 0.9814035274684286,
+      "student_teacher_hard_disagreements": 968,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 9.723724365695574e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "5942a687a5d55d3146188596d184cbfe3c14e01f117b39acecc2cfb4755a6e3f"
+    },
+    "42:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7941426599862738,
+      "teacher_accuracy": 0.9966608053142928,
+      "student_accuracy": 0.9860393243459263,
+      "student_teacher_hard_disagreements": 690,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.978992462241095e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "32dcb823f1602595fee5a60906a31eae5cec1b2df5c65bb091580c1f002ac36a"
+    },
+    "42:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6106954781168816,
+      "teacher_accuracy": 0.9966608053142928,
+      "student_accuracy": 0.9884726736647662,
+      "student_teacher_hard_disagreements": 587,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.176477050894412e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "3c2e132d4c9ba2e487dead7db95b739108196292689d68be149cb682aaa2f1ed"
+    },
+    "42:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8093437933872845,
+      "teacher_accuracy": 0.9966608053142928,
+      "student_accuracy": 0.987229356494556,
+      "student_teacher_hard_disagreements": 640,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 6.300762939726035e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "bddd7b25bb8b8faaef8a3ea67dca8d95de95384f86c9a44ab954d85a5fc3b1bf"
+    },
+    "123:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.5740589994583541,
+      "teacher_accuracy": 0.9967673753574536,
+      "student_accuracy": 0.9852045256744996,
+      "student_teacher_hard_disagreements": 763,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.128426742547095e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "ff1d50d31a59c7be33cd2e3b89c3af9f3a0e0d17ee41ae612c61d16c050879f3"
+    },
+    "123:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7657349350614436,
+      "teacher_accuracy": 0.9967673753574536,
+      "student_accuracy": 0.9856840908687234,
+      "student_teacher_hard_disagreements": 723,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 9.176422118839511e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "d7943a2ccc9602621ecdb2cb0b0034ede0a328ef4137d7073f75b1133b0e9f6e"
+    },
+    "123:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6000658045734376,
+      "teacher_accuracy": 0.9967673753574536,
+      "student_accuracy": 0.9876556366671995,
+      "student_teacher_hard_disagreements": 630,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.802116394531097e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "b441b39780f104e79bd88cf263273313a401b16be1d2beee4cf642a7487ca201"
+    },
+    "123:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7898859665094066,
+      "teacher_accuracy": 0.9967673753574536,
+      "student_accuracy": 0.9896627058133959,
+      "student_teacher_hard_disagreements": 506,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.1755844115698437e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "656aa6d3e35497929e0de4eb677f133e681adae5d889b9a6480adb65aac697b5"
+    },
+    "456:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6500477646054085,
+      "teacher_accuracy": 0.9969094687483349,
+      "student_accuracy": 0.9845651054155343,
+      "student_teacher_hard_disagreements": 792,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.456417083715692e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "4dd03eb22a36c8911ba0c82cf98133254a304ac8a3ec5f9bd2bb6a2610066b69"
+    },
+    "456:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8137431607071859,
+      "teacher_accuracy": 0.9969094687483349,
+      "student_accuracy": 0.9852222873483597,
+      "student_teacher_hard_disagreements": 762,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 7.764321136582986e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "e9f243007cd354e0948c1e8605a75f8d211df661d8296227bd45ac94b57087f5"
+    },
+    "456:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6323858041031197,
+      "teacher_accuracy": 0.9969094687483349,
+      "student_accuracy": 0.989804799204277,
+      "student_teacher_hard_disagreements": 491,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.336454772519872e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "46c05b20b28c54665aac56270d7926aac2ad82ad82da1ddf165ba96e6f6b6ee8"
+    },
+    "456:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8397000947308874,
+      "teacher_accuracy": 0.9969094687483349,
+      "student_accuracy": 0.9907994529404451,
+      "student_teacher_hard_disagreements": 430,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 3.8795928958279546e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "3672af2403fc3ed53dec2153659bc68162400a04194f688e039b7c3bc3349f79"
+    },
+    "789:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.5796050637436918,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9838013534395481,
+      "student_teacher_hard_disagreements": 852,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 6.588159179310438e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "b61daec12c549864a11fad57c143a71f6152ef03f01d447e0602f85e2c7cd05a"
+    },
+    "789:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.774971013251767,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9841388252428909,
+      "student_teacher_hard_disagreements": 821,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 2.2366173553223234e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "6f20d597a9e59667e7fdb2644ddffbca368badec5745f1500de49aef17d8ab31"
+    },
+    "789:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6302127614458555,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9883128186000248,
+      "student_teacher_hard_disagreements": 595,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.756703949060359e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "cb1206dc75981502f63ff81640f07a14eb177e398278b59389c130ec97a70479"
+    },
+    "789:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7896028000933243,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.987105024777535,
+      "student_teacher_hard_disagreements": 654,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 3.798583984027104e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "a354f5311083bafcc026a98235ecc21154a1a7c349f30ce8cbcd45afd76cfa9d"
+    },
+    "1001:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.5887137417483176,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9868385996696328,
+      "student_teacher_hard_disagreements": 665,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.0890078735448228e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "4b1a86c4e0d38744f1a3f52f5ce06581c5adcad218322f57c2e2083060cca6a7"
+    },
+    "1001:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7626688650784804,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9865899362355909,
+      "student_teacher_hard_disagreements": 692,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.11520500184481e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "79c45df225e5f554d118248e012f29ff493b6bf74b10b55c1b261a2e5d18dd55"
+    },
+    "1001:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.604261843659503,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9888811921635495,
+      "student_teacher_hard_disagreements": 564,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.780104064794344e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "505ab4f615cdd3bdbd9290eb5fe570b2a6a443127fa40e617050bf9eda38c259"
+    },
+    "1001:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8065070030156888,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9900001776167386,
+      "student_teacher_hard_disagreements": 488,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.334922790201091e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "96ec3994fb7e6af30fe2ebcccdc34db3ea09cda123668a07e7bebfc47a72e043"
+    },
+    "2024:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6125566257408344,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9856840908687234,
+      "student_teacher_hard_disagreements": 740,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.937384033316562e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "bcbf121d22822cc85c62ae50810b59f37988b8d18f6c19c8af72f849d3fad869"
+    },
+    "2024:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8030617544340751,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9860926093675068,
+      "student_teacher_hard_disagreements": 721,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.0146102142338798e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "c73e2fb89b62e868e892c1a456c447fcabc42cfe0d114db087cb691f4c12c59f"
+    },
+    "2024:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6155612541290006,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.9898936075735777,
+      "student_teacher_hard_disagreements": 504,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 7.137695312575687e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "bb12bd6491448e9d06961377cd63fbdb5c313aa02e440eb25c103ff8746f1ea2"
+    },
+    "2024:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.823569952483995,
+      "teacher_accuracy": 0.996802898705174,
+      "student_accuracy": 0.990408696115522,
+      "student_teacher_hard_disagreements": 464,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.7629760746570327e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "bb2854e434409bb131ee76c176ee73f805a2190debd8ac28cb82a63bf5774dd1"
+    },
+    "3141:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.5958504659514873,
+      "teacher_accuracy": 0.9967140903358732,
+      "student_accuracy": 0.9848137688495764,
+      "student_teacher_hard_disagreements": 794,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 9.379280090371367e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "165d4a55fbc4c91c35c94be31cc39fe1b9a1cde82be7a5c5b0468e9a280f91cb"
+    },
+    "3141:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.772509279781822,
+      "teacher_accuracy": 0.9967140903358732,
+      "student_accuracy": 0.9867675529741923,
+      "student_teacher_hard_disagreements": 649,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 9.722099304498855e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "fb5fc5a6cbfdc770efce6a47161bf46d23609a7bc0c575b029b078158b10ffe2"
+    },
+    "3141:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6138128312575353,
+      "teacher_accuracy": 0.9967140903358732,
+      "student_accuracy": 0.9889877622067104,
+      "student_teacher_hard_disagreements": 547,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.090393066509158e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "2e383de2acce135db19df30820a568f0faad57ae26e619852c57547ee013b584"
+    },
+    "3141:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7930431297785699,
+      "teacher_accuracy": 0.9967140903358732,
+      "student_accuracy": 0.9922736718708371,
+      "student_teacher_hard_disagreements": 350,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.759269713883185e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "79bd99d6d8af59e47276f5a3f6c12986d42382d482de337329630855ef65bc3e"
+    },
+    "5678:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6321667866460468,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9874957816024582,
+      "student_teacher_hard_disagreements": 627,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.4943991851756877e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "4e8f56d1b18779fab80448dfe158525d988a845acebbae129b7aa8afefd4055c"
+    },
+    "5678:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7800970982748262,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9864833661924299,
+      "student_teacher_hard_disagreements": 682,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 9.515202331611405e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "ceb7bc33fab20db5b97e35d882c7fa9d273ff01e50f89befec3b8b3b32c007e7"
+    },
+    "5678:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6259129845601813,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9883128186000248,
+      "student_teacher_hard_disagreements": 584,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.3057655335632106e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "b11b630bdf9f1e24e4f507f8d2a0277ba0e7a4aab424438ab78cbd44ebc91225"
+    },
+    "5678:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8021104081869277,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9879753467966821,
+      "student_teacher_hard_disagreements": 588,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.420921325161032e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "861f430f7ec8d7a56ee734fd6d0378a81112b463e77b10104228a41bd8a76a79"
+    },
+    "8192:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.5965763165926992,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9820251860535337,
+      "student_teacher_hard_disagreements": 964,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 7.320396423482478e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "4093ee8b0510a70ec056f5bb6dcf562906e307dd2bec87f02fa0a145dce00ecf"
+    },
+    "8192:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7658580955913145,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9863945578231292,
+      "student_teacher_hard_disagreements": 697,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 8.255889892838653e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "c9bc997665c543c478493805898522331890b151810e950f0bb52f98f87d4057"
+    },
+    "8192:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6161512746848348,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9908172146143053,
+      "student_teacher_hard_disagreements": 457,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.82579803451344e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "809548b06032fd410f39dfe69fff45366242a72ce0cb8472520bad0b987f2f33"
+    },
+    "8192:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.7938551880246629,
+      "teacher_accuracy": 0.9967496136835935,
+      "student_accuracy": 0.9889167155112698,
+      "student_teacher_hard_disagreements": 547,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.3981246944380104e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "d9df65eec48006960265841cd04e76ba33ca0fce178c2948a46423c0bbeb3597"
+    },
+    "9999:student_A:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6284100959604527,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9859682776504858,
+      "student_teacher_hard_disagreements": 730,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 5.970889281892156e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "b80cc8d653998ae7648dcbb3a85ab951f499cbdd6fef806df027fca5a5ea9354"
+    },
+    "9999:student_A:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8253127273226972,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9857906609118844,
+      "student_teacher_hard_disagreements": 723,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 1.040135574337242e-06,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "d23b0e7d12ec249e1bf7bb0284c0294cdc36fdafec745f5d2cf43841b9e8c80e"
+    },
+    "9999:student_B:scratch": {
+      "margin_spearman_rho_T1_row_weighted": 0.6468887240644039,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.9888456688158292,
+      "student_teacher_hard_disagreements": 564,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.1483154300525626e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "558b47bfeb4e370c80a3f3af91385a3e9db3b6d8b9eb564da2f72c670be621e0"
+    },
+    "9999:student_B:rf_kd": {
+      "margin_spearman_rho_T1_row_weighted": 0.8374690290212947,
+      "teacher_accuracy": 0.9966963286620131,
+      "student_accuracy": 0.986856361343493,
+      "student_teacher_hard_disagreements": 666,
+      "max_within_exact_group_probability_delta": 0.0,
+      "checkpoint_t1_maximum_absolute_probability_delta": 4.783157349086409e-07,
+      "checkpoint_t4_source": "direct softmax(checkpoint logits / 4)",
+      "checkpoint_t4_computation_dtype": "float64 from original float32 logits",
+      "trained_state_sha256": "46a8c1c885205b4c1e5ad1e4383d8e7ad50911b428b059873ea1f9cbf2e4f994"
+    }
+  },
+  "interpretation": "Positive transfer gain means RF-KD reproduces the RF response distribution more closely than the matched scratch model under checkpoint-logit T=4 replay. Classification macro-F1 is a separate outcome and is not reinterpreted by this transfer analysis.",
+  "claim_boundary": "This analysis tests held-out in-distribution response-distribution transfer from the calibrated RF to each checkpoint-reconstructed student and compares RF-KD with matched scratch under the same T=4 output contract used by KD and XAI. It does not establish causal mechanism transfer, off-manifold decision-boundary equivalence, explanation transfer, or deployment fidelity."
+}

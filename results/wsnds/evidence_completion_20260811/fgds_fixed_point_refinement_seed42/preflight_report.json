@@ -1,0 +1,583 @@
+{
+  "status": "passed",
+  "mode": "read-only preflight",
+  "protocol_id": "wsnds_fgds_seed42_frozen_fixed_point_refinement_v1",
+  "source_protocol_id": "wsnds_feature_group_split_train_only_scaler_5seed_v1",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "rf_soft_target_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452",
+  "numeric_implementation_sources": {
+    "strict_export_module": {
+      "path": "deployment/firmware_export/wsnds_rfkd_hil/export_fgds_seed42_deployment.py",
+      "sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82",
+      "size_bytes": 52811
+    },
+    "legacy_numeric_exporter": {
+      "path": "deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py",
+      "sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88",
+      "size_bytes": 47073
+    },
+    "training_common_module": {
+      "path": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+      "sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+      "size_bytes": 19294
+    },
+    "firmware_model_c": {
+      "path": "deployment/hardware_hil/firmware/common/cukd_model.c",
+      "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add",
+      "size_bytes": 2290
+    },
+    "firmware_preprocess_c": {
+      "path": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+      "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c",
+      "size_bytes": 1027
+    }
+  },
+  "kd_hyperparameters": {
+    "T": 4.0,
+    "alpha": 0.7
+  },
+  "selection_metric": "exact integer-simulator validation macro-F1 only",
+  "test_chronology": "Previously available source-model test evidence is verified during preflight. No new refinement candidate is evaluated on test data before validation-only checkpoint selection.",
+  "students": {
+    "student_A": {
+      "student": "student_A",
+      "hidden_dims": [
+        32,
+        16
+      ],
+      "frozen_schedule": [
+        {
+          "source_prefix": "net.0",
+          "input_frac": 8,
+          "weight_frac": 5,
+          "accum_frac": 13,
+          "output_frac": 9,
+          "output_shift": 4
+        },
+        {
+          "source_prefix": "net.2",
+          "input_frac": 9,
+          "weight_frac": 6,
+          "accum_frac": 15,
+          "output_frac": 9,
+          "output_shift": 6
+        },
+        {
+          "source_prefix": "net.4",
+          "input_frac": 9,
+          "weight_frac": 5,
+          "accum_frac": 14,
+          "output_frac": 9,
+          "output_shift": 5
+        }
+      ],
+      "source": {
+        "checkpoint_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_A_KD_from_RF_fp32.pt",
+        "checkpoint_sha256": "f1302fa76ee6739673cbb4a7b949c0addcab29337376993b9c3a7641b8caefa9",
+        "state_content_sha256": "52cc65b3088f9e78a7b86ab066305ed85a932c7b85a6f8a5cdcd8b68d795eab2",
+        "strict_export_report_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_A_seed42\\strict_export_report.json",
+        "strict_export_report_sha256": "652b46071adb1921e932e97af999d9d91dbd80f18f3c7e55db30ab55da6987d0",
+        "strict_export_id": "2b09ff0189b2c1db270c887fcb7cd86b3ba736481ef6cc4178a3f5d4374863a8",
+        "fixed_metrics": {
+          "accuracy": 0.9848137688495764,
+          "macro_precision": 0.9001661848652601,
+          "macro_recall": 0.9138758843523072,
+          "macro_f1": 0.9056937003135953,
+          "per_class_precision": [
+            0.8287101248266296,
+            0.8931159420289855,
+            0.8051892811569545,
+            0.9986860426349748,
+            0.9751295336787564
+          ],
+          "per_class_recall": [
+            0.7515723270440252,
+            0.9959595959595959,
+            0.8808748255002327,
+            0.9971411787742315,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.7882585751978892,
+            0.941738299904489,
+            0.8413333333333334,
+            0.9979130128060669,
+            0.9592252803261978
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1195,
+              0,
+              395,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              247,
+              0,
+              1893,
+              9,
+              0
+            ],
+            [
+              0,
+              59,
+              63,
+              50924,
+              24
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "float_metrics": {
+          "accuracy": 0.9862524644322481,
+          "macro_precision": 0.9065384793541152,
+          "macro_recall": 0.9273422197717984,
+          "macro_f1": 0.9160761302322431,
+          "per_class_precision": [
+            0.8009367681498829,
+            0.8931159420289855,
+            0.8606870229007634,
+            0.99876431821748,
+            0.9791883454734651
+          ],
+          "per_class_recall": [
+            0.8603773584905661,
+            0.9959595959595959,
+            0.8394602140530479,
+            0.9970824358723321,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.8295936931473621,
+            0.941738299904489,
+            0.8499411071849234,
+            0.9979226683912439,
+            0.9611848825331971
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1368,
+              0,
+              222,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              340,
+              0,
+              1804,
+              5,
+              0
+            ],
+            [
+              0,
+              59,
+              70,
+              50921,
+              20
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "input_saturation_audit": {
+          "rows": 56301,
+          "values": 957117,
+          "raw_input_saturation_count": 0,
+          "integer_preprocess_saturation_count": 0,
+          "minimum_preprocessed_q": -483,
+          "maximum_preprocessed_q": 17141
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56301,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -586088,
+              "accumulator_maximum": 432134,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 27008,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -1782700,
+              "accumulator_maximum": 1693915,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 26467,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -649687,
+              "accumulator_maximum": 304910,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -20302,
+              "activation_maximum_before_clip": 9528,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "numeric_assertions": {
+          "signed_shift_truncates_toward_zero": true,
+          "torch_numpy_round_to_even_match": true,
+          "fake_fixed_vs_numpy_integer_rows": 335,
+          "sample_selection": "up to 64 validation rows per class plus per-feature minima and maxima",
+          "classes_covered": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "device": "cpu",
+          "fake_fixed_vs_numpy_integer_logits_exact": true
+        },
+        "preserved_full_test_logits_exact": true,
+        "preserved_full_test_predictions_exact": true
+      }
+    },
+    "student_B": {
+      "student": "student_B",
+      "hidden_dims": [
+        64,
+        32
+      ],
+      "frozen_schedule": [
+        {
+          "source_prefix": "net.0",
+          "input_frac": 8,
+          "weight_frac": 5,
+          "accum_frac": 13,
+          "output_frac": 9,
+          "output_shift": 4
+        },
+        {
+          "source_prefix": "net.2",
+          "input_frac": 9,
+          "weight_frac": 4,
+          "accum_frac": 13,
+          "output_frac": 9,
+          "output_shift": 4
+        },
+        {
+          "source_prefix": "net.4",
+          "input_frac": 9,
+          "weight_frac": 5,
+          "accum_frac": 14,
+          "output_frac": 9,
+          "output_shift": 5
+        }
+      ],
+      "source": {
+        "checkpoint_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\confirmation_runs_v2\\remote_winterfell_feature_group_5seed_20260805\\feature_group_5seed\\seed_42\\student_B_KD_from_RF_fp32.pt",
+        "checkpoint_sha256": "1109ce2621a406fc52cf4a7e9fe248981ffdf8b085d5b66dcb83d1eed510066f",
+        "state_content_sha256": "dd4d5719a4af2bcda1fe72365f6015d5806ee5f018d70123fb50f25f3adc45d9",
+        "strict_export_report_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\deployment\\firmware_export\\wsnds_rfkd_hil\\generated_fgds_student_B_seed42\\strict_export_report.json",
+        "strict_export_report_sha256": "c5e45b8c4196b493ac85e9a4e38f8a96feafbe501444f89c0715da46bff4ed60",
+        "strict_export_id": "325064ed0260f138c42df206c2af1dbe873cd0ed35de1b966966e5de670b9485",
+        "fixed_metrics": {
+          "accuracy": 0.9860038009982061,
+          "macro_precision": 0.9041352115825836,
+          "macro_recall": 0.9261806200310622,
+          "macro_f1": 0.9145641200681947,
+          "per_class_precision": [
+            0.8205445544554455,
+            0.8931159420289855,
+            0.8481651376146789,
+            0.9986463421811548,
+            0.960204081632653
+          ],
+          "per_class_recall": [
+            0.8339622641509434,
+            0.9959595959595959,
+            0.8604001861330851,
+            0.9967495594282357,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.827199001871491,
+            0.941738299904489,
+            0.8542388542388543,
+            0.9976970492831453,
+            0.9519473950429944
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1326,
+              0,
+              264,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              289,
+              0,
+              1849,
+              11,
+              0
+            ],
+            [
+              1,
+              59,
+              67,
+              50904,
+              39
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "float_metrics": {
+          "accuracy": 0.9872115948206959,
+          "macro_precision": 0.9140187823378657,
+          "macro_recall": 0.9354647889010911,
+          "macro_f1": 0.9223807931422797,
+          "per_class_precision": [
+            0.7883795309168443,
+            0.8931159420289855,
+            0.9077163712200208,
+            0.998627370237465,
+            0.9822546972860126
+          ],
+          "per_class_recall": [
+            0.930188679245283,
+            0.9959595959595959,
+            0.8101442531409958,
+            0.9971999216761308,
+            0.9438314944834504
+          ],
+          "per_class_f1": [
+            0.8534333525678015,
+            0.941738299904489,
+            0.8561593312023604,
+            0.9979131354894334,
+            0.9626598465473146
+          ],
+          "per_class_support": [
+            1590,
+            495,
+            2149,
+            51070,
+            997
+          ],
+          "confusion_matrix": [
+            [
+              1479,
+              0,
+              111,
+              0,
+              0
+            ],
+            [
+              0,
+              493,
+              0,
+              2,
+              0
+            ],
+            [
+              396,
+              0,
+              1741,
+              12,
+              0
+            ],
+            [
+              1,
+              59,
+              66,
+              50927,
+              17
+            ],
+            [
+              0,
+              0,
+              0,
+              56,
+              941
+            ]
+          ]
+        },
+        "input_saturation_audit": {
+          "rows": 56301,
+          "values": 957117,
+          "raw_input_saturation_count": 0,
+          "integer_preprocess_saturation_count": 0,
+          "minimum_preprocessed_q": -483,
+          "maximum_preprocessed_q": 17141
+        },
+        "parameter_saturation_audit": {
+          "layers": [
+            {
+              "layer": 0,
+              "source_prefix": "net.0",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "source_prefix": "net.2",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "source_prefix": "net.4",
+              "weight_saturation_count": 0,
+              "bias_saturation_count": 0
+            }
+          ],
+          "weight_saturation_count": 0,
+          "bias_saturation_count": 0
+        },
+        "activation_and_accumulator_audit": {
+          "rows": 56301,
+          "layers": [
+            {
+              "layer": 0,
+              "accumulator_minimum": -652638,
+              "accumulator_maximum": 312273,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 19517,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 1,
+              "accumulator_minimum": -629510,
+              "accumulator_maximum": 422039,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": 0,
+              "activation_maximum_before_clip": 26377,
+              "activation_saturation_count": 0
+            },
+            {
+              "layer": 2,
+              "accumulator_minimum": -463883,
+              "accumulator_maximum": 192621,
+              "accumulator_int32_overflow_count": 0,
+              "activation_minimum_before_clip": -14496,
+              "activation_maximum_before_clip": 6019,
+              "activation_saturation_count": 0
+            }
+          ],
+          "accumulator_int32_overflow_count": 0,
+          "activation_saturation_count": 0
+        },
+        "numeric_assertions": {
+          "signed_shift_truncates_toward_zero": true,
+          "torch_numpy_round_to_even_match": true,
+          "fake_fixed_vs_numpy_integer_rows": 335,
+          "sample_selection": "up to 64 validation rows per class plus per-feature minima and maxima",
+          "classes_covered": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "device": "cpu",
+          "fake_fixed_vs_numpy_integer_logits_exact": true
+        },
+        "preserved_full_test_logits_exact": true,
+        "preserved_full_test_predictions_exact": true
+      }
+    }
+  },
+  "claim_boundary": {
+    "software_only": true,
+    "hardware_replayed": false,
+    "may_replace_existing_hardware_evidence": false,
+    "model_state_scope": "one preserved training seed (42) per student"
+  }
+}

@@ -24,3 +24,37 @@ deployment/hardware_hil/host/verify_fgds_transfer.py -text whitespace=cr-at-eol
 deployment/hardware_hil/host/verify_results_fgds_strict.py -text whitespace=cr-at-eol
 deployment/hardware_hil/scripts/run_fgds_hil.sh -text whitespace=cr-at-eol
 results/hardware_hil/fgds_seed42/compile_evidence/** -text whitespace=-trailing-space
+
+# Result manifests below verify exact bytes. Preserve those bytes on every OS.
+results/hardware_hil/fgds_seed42/** -text whitespace=-trailing-space
+results/wireless_hil/** -text whitespace=-trailing-space
+results/wsnds/confirmation_runs_v2/remote_winterfell_feature_group_5seed_20260805/** -text whitespace=-trailing-space
+results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/** -text whitespace=-trailing-space
+results/runtime/onnx_openvino/wsnds/fgds_seed42_exact/** -text whitespace=-trailing-space
+results/evidence_registry/** -text whitespace=-trailing-space
+results/hardware_hil/final_fgds_seed42_v1/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260811/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260812/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260813/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260811/**/*.npz filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260811/**/*.joblib filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260811/**/*.pt filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260812/**/*.npz filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260813/**/*.npz filter=lfs diff=lfs merge=lfs -text
+
+# Executed sources are referenced by SHA-256 in the evidence above.
+experiments/wsnds/leakage_free_rerun/tier15_common.py -text whitespace=cr-at-eol
+experiments/wsnds/leakage_free_rerun/run_feature_group_10seed_confirmation.py -text whitespace=cr-at-eol
+experiments/wsnds/leakage_free_rerun/analyze_feature_group_confirmation.py -text whitespace=cr-at-eol
+deployment/firmware_export/wsnds_rfkd_hil/export_fgds_runtime.py -text whitespace=cr-at-eol
+experiments/evidence/build_fgds_evidence_registry.py -text whitespace=cr-at-eol
+
+# Wi-Fi UDP HIL bundles and their bundler also use exact-byte provenance hashes.
+deployment/wireless_hil/** -text whitespace=-trailing-space
+
+# Final-HIL sources and MSP430 artifacts are referenced by exact SHA-256 values.
+deployment/final_hil/** -text whitespace=-trailing-space
+deployment/firmware_export/wsnds_final_hil/** -text whitespace=-trailing-space
+deployment/msp430/current_fgds_static/** -text whitespace=-trailing-space
+deployment/hardware_hil/host/generate_fgds_balanced_timing_cohort.py -text whitespace=cr-at-eol
+experiments/wsnds/evidence_completion/** -text whitespace=cr-at-eol

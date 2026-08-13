@@ -1,0 +1,290 @@
+{
+  "schema": "cukd_final_hil_bundle_manifest_v1",
+  "status": "passed",
+  "protocol_id": "cukd_final_hil_bundle_v1",
+  "board": "esp32c3",
+  "transport": "usb_serial",
+  "student": "A",
+  "route": "scratch",
+  "seed": 42,
+  "model_sha256": "5942a687a5d55d3146188596d184cbfe3c14e01f117b39acecc2cfb4755a6e3f",
+  "checkpoint_file_sha256": "b73b177dc74231886d324b1ac5313a00a97ad903d6c81f9148804ab15e75bf65",
+  "export_id": "26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61",
+  "bundle_id": "981739137d7b05dad6dcf07d18e427ef68d566f7c3ce91a5eeebd51dd8e59bf2",
+  "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0",
+  "runtime_identity_query": "CUKDID?",
+  "runtime_identity_response": "CUKDF1,wsnds_feature_group_split_train_only_scaler_10seed_v2,42,A,scratch,5942a687a5d55d3146188596d184cbfe3c14e01f117b39acecc2cfb4755a6e3f,26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61,981739137d7b05dad6dcf07d18e427ef68d566f7c3ce91a5eeebd51dd8e59bf2,c3,usb,fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0",
+  "bundle_identity_payload": {
+    "protocol_id": "cukd_final_hil_bundle_v1",
+    "board": "esp32c3",
+    "transport": "usb_serial",
+    "final_export_identity": {
+      "protocol": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+      "seed": 42,
+      "student": "A",
+      "route": "scratch",
+      "checkpoint_file_sha256": "b73b177dc74231886d324b1ac5313a00a97ad903d6c81f9148804ab15e75bf65",
+      "trained_state_sha256": "5942a687a5d55d3146188596d184cbfe3c14e01f117b39acecc2cfb4755a6e3f",
+      "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+      "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+      "test_source_indices_sha256": "7c0e5c678af1f9a79749dda2d9b752dabe5fc8c4c5bc135c47d174ed594ff7e2",
+      "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+      "route_provenance": {
+        "kd_hyperparameters": null,
+        "teacher_soft_target_provenance": null,
+        "teacher_probability_file_sha256": null
+      },
+      "quantization_policy_sha256": "824e64a08fbe565ab4fc7c6313043a104440e3506dde9b4d78b5bad4a2ede482",
+      "core_files": [
+        {
+          "path": "model_weights.h",
+          "size_bytes": 6811,
+          "sha256": "7757a3a3d377612ff965287add303d622f9ae5c4b6d44eba4047fa83f531fb95"
+        },
+        {
+          "path": "preprocess_metadata.h",
+          "size_bytes": 1400,
+          "sha256": "0072cf13c0691ffec9772ae5745e4d61ab27ead5673dee6d3a0e0858c4576342"
+        },
+        {
+          "path": "preprocess_metadata.json",
+          "size_bytes": 2652,
+          "sha256": "590f56e3c5935775277b3f88e5186b323844adf20d9e8f4999132b26cd9081fa"
+        },
+        {
+          "path": "preprocess_int_metadata.h",
+          "size_bytes": 895,
+          "sha256": "934fc0ecce8277e254a28242a39f94569d95e05a660b5d5db68318b9db7014cc"
+        },
+        {
+          "path": "preprocess_int_metadata.json",
+          "size_bytes": 1537,
+          "sha256": "bacd4afe946cc18c7c2143845cce24c19e6ed98aeb07a575f55076e83857fd29"
+        },
+        {
+          "path": "test_vectors.h",
+          "size_bytes": 17616277,
+          "sha256": "b2669638fec3f527ce273f742aeccf94d66de597f015de71a482d8daf2a8e650"
+        },
+        {
+          "path": "hil_replay_vectors.csv",
+          "size_bytes": 4399794,
+          "sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625"
+        },
+        {
+          "path": "hil_reference_predictions.csv",
+          "size_bytes": 2429520,
+          "sha256": "c4e7f0ab3357f6e0fe1874f8f6983d72ac38187be62896b19f38aeeb0d4544b1"
+        },
+        {
+          "path": "equivalence_report.json",
+          "size_bytes": 938014,
+          "sha256": "ec568260d3080fe7d095782c600e90073eced7f7f44557acc65b54e720da1ece"
+        }
+      ],
+      "source_snapshots": [
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_final_hil/export_final_seed42.py",
+          "snapshot_path": "source_snapshot/python/export_final_seed42.py",
+          "size_bytes": 98283,
+          "sha256": "552399971495f9a00ed37e13c9dba6bf8ae9933f8c5a5b309f13f600e0a0a6b9"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_fgds_seed42_deployment.py",
+          "snapshot_path": "source_snapshot/python/export_fgds_seed42_deployment.py",
+          "size_bytes": 52811,
+          "sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py",
+          "snapshot_path": "source_snapshot/python/export_wsnds_student_a_rfkd_int8.py",
+          "size_bytes": 47073,
+          "sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88"
+        },
+        {
+          "origin_relative_path": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+          "snapshot_path": "source_snapshot/python/tier15_common.py",
+          "size_bytes": 19294,
+          "sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/wsnds_train_only_self_test.c",
+          "snapshot_path": "source_snapshot/c/wsnds_train_only_self_test.c",
+          "size_bytes": 2195,
+          "sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.c",
+          "snapshot_path": "source_snapshot/c/cukd_model.c",
+          "size_bytes": 2290,
+          "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.h",
+          "snapshot_path": "source_snapshot/c/cukd_model.h",
+          "size_bytes": 389,
+          "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+          "snapshot_path": "source_snapshot/c/cukd_preprocess.c",
+          "size_bytes": 1027,
+          "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.h",
+          "snapshot_path": "source_snapshot/c/cukd_preprocess.h",
+          "size_bytes": 363,
+          "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+        }
+      ],
+      "export_id": "26ac336a48759e430a8bd1002c0add04fba235af3cb4fd72e9e391e5dc854f61"
+    },
+    "final_export_manifest_sha256": "14c566b2992bb460a265b73b48914c386a17d1600fde5a328820412016f78b2f",
+    "build_contract_id": "fc6e27f0815af386359dd8a62f3e8b5b32f5a0c12a3b61ea44c2c808b5c56ce0",
+    "template_source": {
+      "origin": "deployment/hardware_hil/firmware/esp32c3/src/main.cpp",
+      "name": "main.cpp",
+      "size_bytes": 3057,
+      "sha256": "2c6cf1a178111321a5e8bde64f0c4a7ebc58311388f787c379c6d88ac1bdcf49"
+    },
+    "template_snapshot_file": "final_source_template.txt",
+    "source_files": [
+      {
+        "origin": "deployment/hardware_hil/firmware/esp32c3/src/main.cpp",
+        "name": "main.cpp",
+        "size_bytes": 3057,
+        "sha256": "2c6cf1a178111321a5e8bde64f0c4a7ebc58311388f787c379c6d88ac1bdcf49"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_model.h",
+        "name": "cukd_model.h",
+        "size_bytes": 389,
+        "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_model.c",
+        "name": "cukd_model.c",
+        "size_bytes": 2290,
+        "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_preprocess.h",
+        "name": "cukd_preprocess.h",
+        "size_bytes": 363,
+        "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+        "name": "cukd_preprocess.c",
+        "size_bytes": 1027,
+        "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_protocol.h",
+        "name": "cukd_protocol.h",
+        "size_bytes": 1041,
+        "sha256": "c7a6880519e322c581045144d43c76dc280b4e2d6e9119d81f555fff45d2d9fb"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_protocol.c",
+        "name": "cukd_protocol.c",
+        "size_bytes": 5004,
+        "sha256": "449dd20a451e1d095bf57d1a5bef14cb3eba2344f628f031127cae847367fffe"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_A_scratch/model_weights.h",
+        "name": "model_weights.h",
+        "size_bytes": 6811,
+        "sha256": "7757a3a3d377612ff965287add303d622f9ae5c4b6d44eba4047fa83f531fb95"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_A_scratch/preprocess_int_metadata.h",
+        "name": "preprocess_int_metadata.h",
+        "size_bytes": 895,
+        "sha256": "934fc0ecce8277e254a28242a39f94569d95e05a660b5d5db68318b9db7014cc"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_A_scratch/cukd_export_identity.h",
+        "name": "cukd_export_identity.h",
+        "size_bytes": 554,
+        "sha256": "319b6cec63e9a806bb20f52a4b8993bc71aa1a12b3b550a0baa7497469f73b11"
+      }
+    ],
+    "transformed_sketch_sha256": "efb9c2ff85f1aad61e8f735f9b10233b92855a3f58d75a84bfe938e0d698ada9",
+    "bundle_builder_sha256": "44eb68abfd7ac405a68506b6288ca1271379d749e6f9bcb263715d7709b48719"
+  },
+  "template_snapshot_file": "final_source_template.txt",
+  "sketch_file": "student_A_scratch__esp32c3__usb_serial.ino",
+  "transformed_sketch_sha256": "efb9c2ff85f1aad61e8f735f9b10233b92855a3f58d75a84bfe938e0d698ada9",
+  "file_count_excluding_manifest": 13,
+  "files": [
+    {
+      "path": "cukd_export_identity.h",
+      "size_bytes": 554,
+      "sha256": "319b6cec63e9a806bb20f52a4b8993bc71aa1a12b3b550a0baa7497469f73b11"
+    },
+    {
+      "path": "cukd_final_bundle_identity.h",
+      "size_bytes": 887,
+      "sha256": "1e17f2c64780730cb6758d5983d66191af867162e0bac8899449658af32f2033"
+    },
+    {
+      "path": "cukd_model.c",
+      "size_bytes": 2290,
+      "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+    },
+    {
+      "path": "cukd_model.h",
+      "size_bytes": 389,
+      "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+    },
+    {
+      "path": "cukd_preprocess.c",
+      "size_bytes": 1027,
+      "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+    },
+    {
+      "path": "cukd_preprocess.h",
+      "size_bytes": 363,
+      "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    },
+    {
+      "path": "cukd_protocol.c",
+      "size_bytes": 5004,
+      "sha256": "449dd20a451e1d095bf57d1a5bef14cb3eba2344f628f031127cae847367fffe"
+    },
+    {
+      "path": "cukd_protocol.h",
+      "size_bytes": 1041,
+      "sha256": "c7a6880519e322c581045144d43c76dc280b4e2d6e9119d81f555fff45d2d9fb"
+    },
+    {
+      "path": "final_build_contract.json",
+      "size_bytes": 738,
+      "sha256": "38b39ad255dd768639386f71d35b4ff55ba22e8f1bc4db2e62ec6fcf4e90583b"
+    },
+    {
+      "path": "final_source_template.txt",
+      "size_bytes": 3057,
+      "sha256": "2c6cf1a178111321a5e8bde64f0c4a7ebc58311388f787c379c6d88ac1bdcf49"
+    },
+    {
+      "path": "model_weights.h",
+      "size_bytes": 6811,
+      "sha256": "7757a3a3d377612ff965287add303d622f9ae5c4b6d44eba4047fa83f531fb95"
+    },
+    {
+      "path": "preprocess_int_metadata.h",
+      "size_bytes": 895,
+      "sha256": "934fc0ecce8277e254a28242a39f94569d95e05a660b5d5db68318b9db7014cc"
+    },
+    {
+      "path": "student_A_scratch__esp32c3__usb_serial.ino",
+      "size_bytes": 3135,
+      "sha256": "efb9c2ff85f1aad61e8f735f9b10233b92855a3f58d75a84bfe938e0d698ada9"
+    }
+  ],
+  "claim_boundary": "Hash-bound build and runtime provenance for replay firmware. This is not cryptographic attestation by the MCU or compiler frontend.",
+  "manifest_payload_sha256": "40d8c7be0f3c0a84ef90cf9171f1f7d42f833878bc70825ecd8f7a8a195b8b29"
+}

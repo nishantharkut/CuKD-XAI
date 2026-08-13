@@ -1,0 +1,93 @@
+{
+  "dataset": "WSN-DS",
+  "preprocessing_contract": "Feature-group-disjoint split over all 17 raw features, followed by StandardScaler fit on training rows only.",
+  "target_col": "Attack type",
+  "feature_names": [
+    "Time",
+    "Is_CH",
+    "who CH",
+    "Dist_To_CH",
+    "ADV_S",
+    "ADV_R",
+    "JOIN_S",
+    "JOIN_R",
+    "SCH_S",
+    "SCH_R",
+    "Rank",
+    "DATA_S",
+    "DATA_R",
+    "Data_Sent_To_BS",
+    "dist_CH_To_BS",
+    "send_code",
+    "Expaned Energy"
+  ],
+  "class_names": [
+    "Blackhole",
+    "Flooding",
+    "Grayhole",
+    "Normal",
+    "TDMA"
+  ],
+  "input_dim": 17,
+  "num_classes": 5,
+  "scaler": {
+    "mean": [
+      1064.2243809044344,
+      0.11540177805238046,
+      274226.1139410443,
+      22.605620703155957,
+      0.2683974263626205,
+      6.933980937997002,
+      0.7806382224052907,
+      0.744116065401206,
+      0.2899117838876875,
+      0.7479414333497332,
+      9.702551898000358,
+      44.9236528259286,
+      74.00422583019638,
+      4.530890895014054,
+      22.50370452444914,
+      2.5054710770908897,
+      0.30502365420708233
+    ],
+    "scale": [
+      899.5595348801019,
+      0.3195061934842562,
+      388132.1613874138,
+      21.93862087226303,
+      2.0766252079142435,
+      7.033945599107605,
+      0.41381419517035667,
+      4.728564913028583,
+      2.7729802016672616,
+      0.43419470935128646,
+      14.681246650145388,
+      42.6151447706504,
+      230.86788894980725,
+      19.477624822773652,
+      50.197784611558916,
+      2.4085681702192914,
+      0.6686162178549081
+    ]
+  },
+  "split_sizes": {
+    "train": 262197,
+    "val": 56163,
+    "test": 56301
+  },
+  "limitations": [
+    "Feature extraction is not implemented on TelosB in this artifact.",
+    "Scaler constants are exported for reproducibility and host/gateway preprocessing.",
+    "The fixed-point C core consumes already standardized and quantized feature vectors."
+  ],
+  "protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_hashes": {
+    "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+    "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+    "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+  },
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "scaler_fit_partition": "train only"
+}

@@ -1,0 +1,439 @@
+{
+  "protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+  "seed": 123,
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "execution_contract_sha256": "21722565d0ec4b9e6e25a8e0a48617db0e7c4debff4891295dd4e5ef32ffb3ad",
+  "status": "complete",
+  "teacher_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "calibration_method": "isotonic",
+    "calibration_cv": 3
+  },
+  "teacher_metrics": {
+    "accuracy": 0.9967673753574536,
+    "macro_precision": 0.9780032373144198,
+    "macro_recall": 0.9818634760582476,
+    "macro_f1": 0.979514651725023,
+    "per_class_precision": [
+      0.989321608040201,
+      0.924953095684803,
+      0.9804923362749651,
+      0.9984338599479259,
+      0.9968152866242038
+    ],
+    "per_class_recall": [
+      0.9905660377358491,
+      0.9959595959595959,
+      0.9823173569101907,
+      0.9986489132563149,
+      0.9418254764292878
+    ],
+    "per_class_f1": [
+      0.9899434318038969,
+      0.9591439688715954,
+      0.9814039981403998,
+      0.9985413750232499,
+      0.9685404847859721
+    ],
+    "per_class_support": [
+      1590,
+      495,
+      2149,
+      51070,
+      997
+    ],
+    "confusion_matrix": [
+      [
+        1575,
+        0,
+        15,
+        0,
+        0
+      ],
+      [
+        0,
+        493,
+        0,
+        2,
+        0
+      ],
+      [
+        17,
+        0,
+        2111,
+        21,
+        0
+      ],
+      [
+        0,
+        40,
+        26,
+        51001,
+        3
+      ],
+      [
+        0,
+        0,
+        1,
+        57,
+        939
+      ]
+    ]
+  },
+  "teacher_fit_seconds": 68.82665061950684,
+  "teacher_soft_target_provenance": {
+    "source_type": "fresh_calibrated_rf_soft_targets",
+    "rf_seed": 123,
+    "rf_config": {
+      "n_estimators": 500,
+      "max_depth": 15,
+      "calibration_method": "isotonic",
+      "calibration_cv": 3
+    },
+    "calibration_audit": {
+      "strategy": "stratified_group_kfold",
+      "folds": 3,
+      "group_overlap_per_fold": [
+        0,
+        0,
+        0
+      ],
+      "unique_groups": 252799
+    },
+    "train_probability_content_sha256": "7c94a5189f80e48855c4ffce6d9779540c2638e87e171fafd00b57ff890c81b8"
+  },
+  "student_results": {
+    "student_A_scratch": {
+      "route": "scratch",
+      "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+      "plain_state_dict_sha256": "20298be97e2219429126b296e93a28896805c234a5f6f9134e688847020df3f4",
+      "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+      "rich_artifact_sha256": "e5df5413addc56e1ea17ab1da0c85e1f99aaa09489e94db67c91d008276c9538",
+      "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+      "test_predictions_sha256": "035512e5b72a72ccb727003652cf5d2cc2b8328c1c78e757680111df7c6fd3cf",
+      "initial_state_sha256": "6e67b7a786c24f40346b22c056e1f6e3eb69c416adbac7fd4a9b961c35a1c23d",
+      "trained_state_sha256": "ff1d50d31a59c7be33cd2e3b89c3af9f3a0e0d17ee41ae612c61d16c050879f3",
+      "metrics": {
+        "accuracy": 0.9852045256744996,
+        "macro_precision": 0.8947080488346787,
+        "macro_recall": 0.9366098830848355,
+        "macro_f1": 0.9127184098496748,
+        "per_class_precision": [
+          0.781591263650546,
+          0.8633975481611208,
+          0.8896907216494845,
+          0.9988007706523021,
+          0.9400599400599401
+        ],
+        "per_class_recall": [
+          0.9452830188679245,
+          0.9959595959595959,
+          0.80316426244765,
+          0.9948110436655571,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.8556789069171649,
+          0.924953095684803,
+          0.8442161897774517,
+          0.996801914927013,
+          0.9419419419419419
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1503,
+            0,
+            86,
+            0,
+            1
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            420,
+            0,
+            1726,
+            3,
+            0
+          ],
+          [
+            0,
+            78,
+            128,
+            50805,
+            59
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      }
+    },
+    "student_A_rf_kd": {
+      "route": "rf_kd",
+      "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+      "plain_state_dict_sha256": "b229473f42f657ed37badf33a782946df49f4ba162c17d2c1446edeab136341a",
+      "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "39703c308dbe8032a476f2af3d9ec43189235056892a4b267f4e706683b316b8",
+      "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+      "test_predictions_sha256": "c6911d823e6978791a5259a02a202df191aee2cb2415bf8f1fef980abcaab184",
+      "initial_state_sha256": "6e67b7a786c24f40346b22c056e1f6e3eb69c416adbac7fd4a9b961c35a1c23d",
+      "trained_state_sha256": "d7943a2ccc9602621ecdb2cb0b0034ede0a328ef4137d7073f75b1133b0e9f6e",
+      "metrics": {
+        "accuracy": 0.9856840908687234,
+        "macro_precision": 0.9034881346999137,
+        "macro_recall": 0.9242541755005774,
+        "macro_f1": 0.9125468419852775,
+        "per_class_precision": [
+          0.7796514896008994,
+          0.8931159420289855,
+          0.8678589170392449,
+          0.9986665620833006,
+          0.9781477627471384
+        ],
+        "per_class_recall": [
+          0.8723270440251573,
+          0.9959595959595959,
+          0.8129362494183341,
+          0.9972195026434306,
+          0.9428284854563691
+        ],
+        "per_class_f1": [
+          0.8233897298901751,
+          0.941738299904489,
+          0.8395002402691014,
+          0.9979425077890777,
+          0.9601634320735445
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1387,
+            0,
+            203,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            392,
+            0,
+            1747,
+            10,
+            0
+          ],
+          [
+            0,
+            59,
+            62,
+            50928,
+            21
+          ],
+          [
+            0,
+            0,
+            1,
+            56,
+            940
+          ]
+        ]
+      }
+    },
+    "student_B_scratch": {
+      "route": "scratch",
+      "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+      "plain_state_dict_sha256": "f6c416cb2baec384d26c24077497591ca32a7b188713de60a131431b53f9a4e7",
+      "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+      "rich_artifact_sha256": "b6e038bb0ed550121079e1e8fc8406016ed3c380bb7c27afd9675c08a1e4a9df",
+      "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+      "test_predictions_sha256": "e163a2e3452f220195bd4077134d3aa6ce4f9ed8866f8e6a76c14b0ecd3d2090",
+      "initial_state_sha256": "560cf69176ee4c42c6bf19c75104290ab7f1862c9b2ba281a10692d7b321d3f0",
+      "trained_state_sha256": "b441b39780f104e79bd88cf263273313a401b16be1d2beee4cf642a7487ca201",
+      "metrics": {
+        "accuracy": 0.9876556366671995,
+        "macro_precision": 0.9086048154468397,
+        "macro_recall": 0.94145044128313,
+        "macro_f1": 0.9240639331723862,
+        "per_class_precision": [
+          0.8494882600842866,
+          0.8679577464788732,
+          0.8800370541917555,
+          0.9988609359963864,
+          0.9466800804828974
+        ],
+        "per_class_recall": [
+          0.8874213836477988,
+          0.9959595959595959,
+          0.8841321544904607,
+          0.995907577834345,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.868040602891418,
+          0.9275634995296331,
+          0.8820798514391829,
+          0.9973820706154586,
+          0.945253641386238
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1411,
+            0,
+            179,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            249,
+            0,
+            1900,
+            0,
+            0
+          ],
+          [
+            1,
+            75,
+            80,
+            50861,
+            53
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      }
+    },
+    "student_B_rf_kd": {
+      "route": "rf_kd",
+      "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+      "plain_state_dict_sha256": "7c7cc8e1e8ec357ddb27c1c10bd451e2d4a4c0a72b960ec00bc3551512f29e16",
+      "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+      "rich_artifact_sha256": "9c3e769ef4f9a7d11bd9b9ed990c7f6e8d58c276bb8d34cd5597ff78f32c07f9",
+      "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+      "test_predictions_sha256": "3f320244734e702ed9feb68bd4f2fb37176add806ac3b41544ef136a2e55b478",
+      "initial_state_sha256": "560cf69176ee4c42c6bf19c75104290ab7f1862c9b2ba281a10692d7b321d3f0",
+      "trained_state_sha256": "656aa6d3e35497929e0de4eb677f133e681adae5d889b9a6480adb65aac697b5",
+      "metrics": {
+        "accuracy": 0.9896627058133959,
+        "macro_precision": 0.9281605758089745,
+        "macro_recall": 0.9444185861064401,
+        "macro_f1": 0.9356459288940758,
+        "per_class_precision": [
+          0.8778195488721805,
+          0.8931159420289855,
+          0.8900091659028414,
+          0.9986277738571316,
+          0.9812304483837331
+        ],
+        "per_class_recall": [
+          0.8811320754716981,
+          0.9959595959595959,
+          0.9036761284318288,
+          0.9974936361856276,
+          0.9438314944834504
+        ],
+        "per_class_f1": [
+          0.879472693032015,
+          0.941738299904489,
+          0.8967905795428307,
+          0.9980603828294901,
+          0.9621676891615542
+        ],
+        "per_class_support": [
+          1590,
+          495,
+          2149,
+          51070,
+          997
+        ],
+        "confusion_matrix": [
+          [
+            1401,
+            0,
+            189,
+            0,
+            0
+          ],
+          [
+            0,
+            493,
+            0,
+            2,
+            0
+          ],
+          [
+            195,
+            0,
+            1942,
+            12,
+            0
+          ],
+          [
+            0,
+            59,
+            51,
+            50942,
+            18
+          ],
+          [
+            0,
+            0,
+            0,
+            56,
+            941
+          ]
+        ]
+      }
+    }
+  },
+  "wall_seconds": 412.38227677345276
+}

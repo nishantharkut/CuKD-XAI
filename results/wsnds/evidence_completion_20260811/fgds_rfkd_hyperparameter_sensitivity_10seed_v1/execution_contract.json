@@ -1,0 +1,131 @@
+{
+  "analysis_role": "prespecified_factorial_sensitivity_only",
+  "base_lineage_contract_file_sha256": "1f13d16162d295e1e7582fc6530910ccb5089bf9cda0e61ca300901e3805a30c",
+  "base_lineage_semantic_sha256": "5d2d3d711a197a124758949376df33e326b47c530ad7a0b6fc3fb600f6f2a002",
+  "base_runner_source_sha256": "6b76bb0eba54691d7d1ac43324e95160ff21328374c991f0b34843d167a3546e",
+  "checkpoint_resume_policy": {
+    "checkpoint_inference_replay_required": true,
+    "exact_argmax_required": true,
+    "exact_file_inventory_and_sha256_required": true,
+    "incomplete_or_unknown_artifacts": "refuse; never overwrite or auto-delete",
+    "maximum_probability_delta": 1e-06,
+    "metrics_recomputed": true,
+    "state_content_hash_required": true
+  },
+  "common_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+  "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+  "environment": {
+    "cublas_workspace_config": ":4096:8",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "cudnn_version": 90100,
+    "deterministic_algorithms_enabled": true,
+    "deterministic_algorithms_warn_only": false,
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "scikit_learn": "1.8.0",
+    "scipy": "1.17.1",
+    "torch": "2.5.1+cu121"
+  },
+  "execution_fingerprint_sha256": "ca2245fabce8438cdc61f4e02093edb937334b2736401fa829af5e20870f4203",
+  "factorial_grid": {
+    "alpha": [
+      0.3,
+      0.5,
+      0.7
+    ],
+    "cell_count_per_student": 9,
+    "temperature": [
+      1.0,
+      2.0,
+      4.0
+    ],
+    "total_training_jobs": 180
+  },
+  "inference": {
+    "holm_global_family_size": 18,
+    "holm_within_student_family_size": 9,
+    "paired_test_metric": "test macro-F1",
+    "paired_tests": [
+      "exact enumerated Wilcoxon signed-rank",
+      "exact sign-flip mean difference"
+    ],
+    "primary_test": "exact enumerated Wilcoxon signed-rank",
+    "reporting_rule": "Wilcoxon results govern inferential statements. Sign-flip results are reported only as sensitivity evidence.",
+    "sample_standard_deviation_ddof": 1,
+    "sensitivity_test": "exact sign-flip mean difference"
+  },
+  "lineage_anchor": {
+    "alpha": 0.7,
+    "exact_argmax_required": true,
+    "exact_trained_state_hash_required": true,
+    "maximum_probability_delta_vs_base_csv": 5e-06,
+    "purpose": "Reproduce the completed base RF-KD state and predictions. This is a logic/provenance gate and is not a selected optimum.",
+    "temperature": 4.0
+  },
+  "metrics": [
+    "accuracy",
+    "macro_precision",
+    "macro_recall",
+    "macro_f1",
+    "per_class precision/recall/F1/support",
+    "confusion matrix",
+    "15-bin ECE",
+    "analytical neural resource counts"
+  ],
+  "minibatch_order_contract_file_sha256": "3052b23e04137491400cf1838bb4b61a63b0618830769a4ce96cf9d1fff035b2",
+  "minibatch_order_contract_semantic_sha256": "5729542086df6b55173f19a29a42323b66d14c26d7731e2b850060e3e3b99118",
+  "paired_reference": "Persisted scratch checkpoint from the same seed, student architecture, clean split, scaler, initialization lineage, and minibatch-order contract.",
+  "partition_reuse_boundary": "All 180 jobs reuse one fixed validation partition for early stopping and one fixed test partition for reporting. Report every declared cell. Do not choose a cell using these results and call it independently tested.",
+  "protocol_id": "wsnds_fgds_rfkd_hyperparameter_sensitivity_10seed_v1",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "script_sha256": "78bbfdc804fd298e6268a20f6e2cd6381c4e2be95e36274d35d0779de155798a",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "selection_policy": {
+    "allowed_use": "descriptive RF-KD hyperparameter sensitivity only",
+    "optimization_performed": false,
+    "primary_model_replaced": false,
+    "winning_cell_selected": false
+  },
+  "source_snapshots": {
+    "bound_base_runner_source.py": "6b76bb0eba54691d7d1ac43324e95160ff21328374c991f0b34843d167a3546e",
+    "bound_common_source.py": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+    "executed_sensitivity_source.py": "78bbfdc804fd298e6268a20f6e2cd6381c4e2be95e36274d35d0779de155798a"
+  },
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "students": {
+    "student_A": [
+      32,
+      16
+    ],
+    "student_B": [
+      64,
+      32
+    ]
+  },
+  "training_config": {
+    "batch_size": 256,
+    "epochs": 30,
+    "lr": 0.001,
+    "patience": 8,
+    "weight_decay": 0.001
+  }
+}
