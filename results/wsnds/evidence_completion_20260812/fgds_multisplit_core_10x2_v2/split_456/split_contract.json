@@ -1,0 +1,71 @@
+{
+  "protocol_id": "wsnds_fgds_multisplit_core_10x2_v2",
+  "execution_contract_id": "72201c5b0ff2164342d2dd4fb0d48fc32b8a201754117c69c413176ea0bb8794",
+  "split_seed": 456,
+  "rf_seed": 42,
+  "split_policy": "stratified_exact_feature_group_split",
+  "split_sizes": {
+    "train": 262457,
+    "validation": 56067,
+    "test": 56137
+  },
+  "class_counts": {
+    "train": [
+      7110,
+      2330,
+      10283,
+      238096,
+      4638
+    ],
+    "validation": [
+      1394,
+      489,
+      2169,
+      51012,
+      1003
+    ],
+    "test": [
+      1545,
+      493,
+      2144,
+      50958,
+      997
+    ]
+  },
+  "split_indices_content_sha256": "1f65eae8902b3f5533156937e383c4c49ddfa0698cc95897f217396f9475781d",
+  "scaler_content_sha256": "0c05b6c1c0fdf956a6edf9ec084e92fb5617a1a578ff51150edb0d6f9c80c3de",
+  "scaler_fit_partition": "train only",
+  "feature_group_audit": {
+    "train_validation_feature_overlap": 0,
+    "train_test_feature_overlap": 0,
+    "validation_test_feature_overlap": 0,
+    "num_feature_groups": 361156,
+    "conflicting_label_feature_groups": 3,
+    "mixed_label_group_assignment": {
+      "train": {
+        "groups": 1,
+        "rows": 2
+      },
+      "validation": {
+        "groups": 1,
+        "rows": 2
+      },
+      "test": {
+        "groups": 1,
+        "rows": 2
+      }
+    },
+    "group_stratification_label": "majority label; smallest class index breaks ties"
+  },
+  "rf_calibration_audit": {
+    "strategy": "stratified_group_kfold",
+    "folds": 3,
+    "group_overlap_per_fold": [
+      0,
+      0,
+      0
+    ],
+    "unique_groups": 252799
+  },
+  "teacher_train_probability_content_sha256": "38bdc7f183afcd222ef1ba51e7d98a2b2f0dcfab52b256b8c31fde1ca25ffcbd"
+}

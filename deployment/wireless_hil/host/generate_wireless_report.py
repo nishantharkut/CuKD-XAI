@@ -91,7 +91,9 @@ def verify_inventory(root: Path, manifest_path: Path, manifest: dict[str, Any]) 
         raise RuntimeError(f"Inventory differs from files on disk: {manifest_path}")
 
 
-def verify_run(label: str, metrics_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+def verify_run(
+    label: str, metrics_path: Path
+) -> tuple[dict[str, Any], dict[str, Any], Path, dict[str, Any]]:
     metrics_path = metrics_path.resolve()
     if metrics_path.name != "full_56301_metrics.json":
         raise RuntimeError(f"{label} is not a full_56301 metrics artifact")
@@ -140,7 +142,7 @@ def verify_run(label: str, metrics_path: Path) -> tuple[dict[str, Any], dict[str
     connection = read_json(root / "connection.json")
     if connection.get("session_id") != completion.get("session_id"):
         raise RuntimeError(f"Connection/completion session differs: {label}")
-    return metrics, connection
+    return metrics, connection, completion_path, completion
 
 
 def resolve_portable(evidence_path: Path, item: dict[str, Any]) -> Path:
@@ -299,11 +301,17 @@ def main() -> int:
 
     verified_runs: dict[str, dict[str, Any]] = {}
     connections: dict[str, dict[str, Any]] = {}
+    completion_paths: dict[str, Path] = {}
+    completions: dict[str, dict[str, Any]] = {}
     verified_compiles: dict[str, dict[str, Any]] = {}
     for label in EXPECTED_LABELS:
-        metrics, connection = verify_run(label, runs[label])
+        metrics, connection, completion_path, completion = verify_run(
+            label, runs[label]
+        )
         verified_runs[label] = metrics
         connections[label] = connection
+        completion_paths[label] = completion_path
+        completions[label] = completion
         verified_compiles[label] = verify_compile(label, compiles[label], metrics)
 
     for student in ["student_A", "student_B"]:
@@ -385,6 +393,15 @@ def main() -> int:
             label: {
                 "metrics_path_recorded": str(runs[label].resolve()),
                 "metrics_sha256": sha256_file(runs[label].resolve()),
+                "completion_manifest_path_recorded": str(
+                    completion_paths[label].resolve()
+                ),
+                "completion_manifest_sha256": sha256_file(
+                    completion_paths[label].resolve()
+                ),
+                "session_id": completions[label]["session_id"],
+                "export_id": completions[label]["export_id"],
+                "wireless_bundle_id": completions[label]["wireless_bundle_id"],
                 "compile_path_recorded": str(compiles[label].resolve()),
                 "compile_sha256": sha256_file(compiles[label].resolve()),
             }

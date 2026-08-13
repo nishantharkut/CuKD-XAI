@@ -1,0 +1,659 @@
+{
+  "protocol_id": "wsnds_fgds_group_balanced_route_sensitivity_10seed_v1",
+  "created_utc": "2026-08-12T10:18:00.160418+00:00",
+  "analyzer_source_sha256": "84686fbc00100e0ffb67c5f5ad8e0d344010dfc78ee63b0c9418a511ab7d91a4",
+  "dataset": {
+    "recorded_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\data\\wsnds\\WSN-DS.csv",
+    "sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "rows": 374661,
+    "features": 17
+  },
+  "clean_data_contract": {
+    "base_protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+    "base_execution_contract_sha256": "21722565d0ec4b9e6e25a8e0a48617db0e7c4debff4891295dd4e5ef32ffb3ad",
+    "base_preprocessing_contract_sha256": "2c2499caa28fec5e3e4253596631d3e8fd0dc8ac65623b3e9080c02f4bd30c22",
+    "base_aggregate_results_sha256": "91da6486726fcc19887e7c9fcf362982e1c70b02b9289d126572c819398748db",
+    "base_root_manifest_sha256": "6bb4a7d9456ea3bd93dbb479c4ea9c34b9061881179c943521b18db96b491e92",
+    "shared_data_contract_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+    "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+    "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+    "split_hashes": {
+      "train": "7edf0fb5e7302a98a9805c7244939d49fbfefeabbbfec0436733a8b4a6e210ff",
+      "validation": "0340d10b7440b79860a41ee06b18f1ad9c45569d982828217cf918b3d885e71c",
+      "test": "5904d9481c89bb277be4d46e89ecfd061a8ce60b734c5fdaa4031e4e4d485993"
+    },
+    "transformed_split_hashes": {
+      "train": "16976a825a38f962d03ce204dff919dd04c3af965dbe339a7abec4fe79cefddd",
+      "validation": "d50d168518c042743a847eb5b7d3e663370a5c04c3a46faf566ea5a032ac18a1",
+      "test": "f2465bbd93dcc99b30b08947bcf7c524fd1e04a07455d7f6328be83ded49008a"
+    },
+    "exact_raw_feature_group_overlap": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    },
+    "test_rows": 56301
+  },
+  "full_route_contract": {
+    "protocol_id": "wsnds_feature_group_disjoint_controlled_full_routes_10seed_v2",
+    "recorded_root": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\evidence_completion_20260811\\fgds_controlled_full_routes_10seed_v2",
+    "execution_contract_sha256": "965d75911a0dc3c49cdd17e979f584f6015e96fe73bf1cd2f7a4e33d33200e04",
+    "root_manifest_sha256": "f6013ec8cf2a49593c3d47d98fd0111b10843a06ad38c116f74f947b68e5b8b8",
+    "executed_source_recorded_path": "C:\\N Drive\\Research\\Cukd-XAI\\CuKD-XAI\\results\\wsnds\\evidence_completion_20260811\\fgds_controlled_full_routes_10seed_v2\\executed_full_routes_source.py",
+    "executed_source_sha256": "f2f4f8e8b5e22bf590b4c4917dbed1bb83bdb17283441bba4100fd19d72475c5",
+    "aggregate_results_sha256": "81079e3f9285d81beed6afa024a8d205db7ec52b64debf5eb49b9d039659b084",
+    "finalization_contract_sha256": "53c44c60fb4b7772a633965236847e75e7856c100190ca9dacfb7f7155c4225a",
+    "finalizer_protocol_id": "wsnds_fgds_controlled_full_routes_float32_ece_finalizer_v1",
+    "continuation_contract_sha256": "8d8d6cf73689953d521bda8c85cc6b2c0b11b5a08d8788dc27a9955bc5af9815",
+    "continuation_manifest_sha256": "bca61a714c9ed16e884adcae48dcaba291fd21010b8204e9d59a7fcffd122b69",
+    "interrupted_archive_manifest_sha256": "445508f00be5d3524b2ef9906299de0832f7aa46456354872f9e767f9376d7c3"
+  },
+  "base_seed_bindings": {
+    "42": {
+      "seed_manifest_sha256": "0ed0e6708e3f1a9f9e3fc78315a1dc49d3c26a4bea53a17494d9c62f6e14f57b",
+      "seed_completion_sha256": "25e36afaf33b68ec5433887f03fcd888966e40b966c465fec2ca912fcb82d87b",
+      "rf_test_predictions_sha256": "25cbfc52c5bad6b4d9a710f20c2b7659d609b19d8eb4dd9a7a2a9c0cc92eae31",
+      "rf_train_probabilities_sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "b73b177dc74231886d324b1ac5313a00a97ad903d6c81f9148804ab15e75bf65",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "69150834c04e7c36fd1e810f5a0d78d5b22e1b1295896df7df2e0aaf219a4674",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "e1bad0a144299e101a3e6648223500cbe44c154980059352bae97c92d849c202"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "2b2b000084d010a05cbb00159de5100990d4ffd0ab039a4c9955a0f66a3d59b8",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "beaad1a927f23aecde03ab1f09b5d558cc0e846a3ebe997154cd2bfbfb78f8f3",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "e374fb674ce60c65d1bff2be2d4a5843f6ab5532ab87cf7ec0e9e77b4bd648c7"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "dc51eee44e11a4bdb092b9718330d1df7af7ddb4c39d8c09b1b11233948cc937",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "c7a73c6d283da4565cf990f440ff483df4132d094544b89dda51b194c41e8678",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "5683d29faa91d8c748f71d9e37f9ebd9763123a7a1c8aa1c4a5265e36fe332d2"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "cab27197376a0e3b10d8fd90c5f328557043e010faa766749ece20d5d7c37c2e",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "e238bdb4ea58620fe8c7d828ce0217d8cf19a81a172a408f29bf106efc44af56",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "a038824ce129b848595d4d55322db365d34b6a7fb5574fde612895fcb0173329"
+        }
+      }
+    },
+    "123": {
+      "seed_manifest_sha256": "f02aeabec63dd7f4db75253dc4d49dbce0e59370967e97a7ada527f808a4b15d",
+      "seed_completion_sha256": "5b33a409d39549aeda92eea9611a18b5b75c932670ed4eeac84fc44aaeb7decb",
+      "rf_test_predictions_sha256": "a7f34cfc18293affbffa469403e4f689c138aefc8aa52fede06ce71c64b01327",
+      "rf_train_probabilities_sha256": "c13b92865da78db7773a4e2d0c92b2247ce49150686a8fdcaa08de9572720758",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "20298be97e2219429126b296e93a28896805c234a5f6f9134e688847020df3f4",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "e5df5413addc56e1ea17ab1da0c85e1f99aaa09489e94db67c91d008276c9538",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "035512e5b72a72ccb727003652cf5d2cc2b8328c1c78e757680111df7c6fd3cf"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "b229473f42f657ed37badf33a782946df49f4ba162c17d2c1446edeab136341a",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "39703c308dbe8032a476f2af3d9ec43189235056892a4b267f4e706683b316b8",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "c6911d823e6978791a5259a02a202df191aee2cb2415bf8f1fef980abcaab184"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "f6c416cb2baec384d26c24077497591ca32a7b188713de60a131431b53f9a4e7",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "b6e038bb0ed550121079e1e8fc8406016ed3c380bb7c27afd9675c08a1e4a9df",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "e163a2e3452f220195bd4077134d3aa6ce4f9ed8866f8e6a76c14b0ecd3d2090"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "7c7cc8e1e8ec357ddb27c1c10bd451e2d4a4c0a72b960ec00bc3551512f29e16",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "9c3e769ef4f9a7d11bd9b9ed990c7f6e8d58c276bb8d34cd5597ff78f32c07f9",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "3f320244734e702ed9feb68bd4f2fb37176add806ac3b41544ef136a2e55b478"
+        }
+      }
+    },
+    "456": {
+      "seed_manifest_sha256": "c6d07e136612b2365c8702701631bcf7c50229a024e79648736b1a125fe4ad75",
+      "seed_completion_sha256": "d0521dd4e5ab74ec8099fab00ce4c6eff5c9fc2d789a4607eef4caf773e86a55",
+      "rf_test_predictions_sha256": "5abfd11a876723ac4bd0e3405a849791ee1fe4566517c5a3e5bea8ee49d96212",
+      "rf_train_probabilities_sha256": "f4b83c63ac9a23861f0be7ba6c36e15f2a2178c27ab3ae6b0cef307136bad349",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "b649908477b96e04636eca19015156b59ee51a01c695aa5cb7313651352d4589",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "61f47c2cae99afcdfafee4e7084bb498db194087d8a31c95e5f19838c45d391c",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "0087df4f9befcbb96f7684a3ba130605e8fc1422b639687460604863caed0ed4"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "f4265ef5284db60239978b21da5803372d697bae4fe50605ffe86300f679ecc6",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "0cd6d58a4cfbd22877eb6fb6faff7a7d563efc3d84fda66b1d4bbc1ae6b84432",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "3dc09ff7412a6c32dd66bafe9ebab1c734885b15e30d4cb2cd79a43205ef2cf8"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "4ae5478e58d78a33aabeb6a1c27ddf4088973e46349227d6efe187b242139888",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "bd15543264de71891a120b457822f399044b8aa51afb5b741c8c5541365f412a",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "83d1eb331a2115ddc1b93d42b03e4166cafab7c005a3bff5c9d9db18712cb011"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "7e93b3368c560fb579c2cbecba603623ed7e9d0fa898d65a9df3b54f7a91f110",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "f0a4cb1f961c2ca3b3008cc6b3faa4d240c31d620d767586a4de7631ad2e9d0b",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "2cc4fa8bb8c6ce6a18b4926dfdab8182b25b47cb19603a59fbc959b74870f2af"
+        }
+      }
+    },
+    "789": {
+      "seed_manifest_sha256": "4f152ca3782fbb2cb5898196410260b5da5c069f763672cff47646c2455fa981",
+      "seed_completion_sha256": "79f16bed75af7bbb98b84fb4da2fef2b3be8dd86ad4420599b651b0e64ba8260",
+      "rf_test_predictions_sha256": "ceef70bb2ae2a57653d44cc4023c0ab81d5d8a8beb5b2ba81cb5d4135010f243",
+      "rf_train_probabilities_sha256": "6e54ef05570170e92ed60db46b3d39a294b9edfb1c2f2286bf28e5e04a474d11",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "92be595ac9f19464ed4d0476feebd9646a06f8072a1c057c2ee88cb805e1ec83",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "239863c6c025553a8d6b843759d389f738deafa7e03d9b82ac9189781c96ce3e",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "9e5e0e893227f89d9934c92cfc5e4015f5459e2364505ae8de2c047fc95aae0d"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "c365b7de7ab00783033b95e58a5cf5fae5b1ef4e45b8251af14fc293fdd9ffcf",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "3b48eebcdaec0c43df5d236d51622ed4a66ec75ffc0266feeb7511fe8693136a",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "9903bab51aeaab6ed70df711443d08c6429dca9a9a336a19833cefd0672cdb28"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "fcdc6d7470d00adec62eef2d9b316f4f777b01e1b6d9a45eb72228cf32e6432e",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "658b649ea082e0a780f27bf907b93c987f193c0aadb16264d73ed1988115dff1",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "44c72af71d95ebc76c86cb7a4c4b16cfe274808c18834b156ab3caafecaca8fe"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "c4d5916d5e64e13526510bf4552c627167c5b7b69a789e2ee3c63231befaf014",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "83091e0fcf8bade737c6ae3bde7819c698931ead9c7b9d5fc204152c14456d8d",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "cdeb32976df267a9e972c7e056da6a543839b8bdccbcc99657ad571c0691be5a"
+        }
+      }
+    },
+    "1001": {
+      "seed_manifest_sha256": "c84608df28cb7f5729d4249fab614f20806c2022fc6756009cc05c603c230460",
+      "seed_completion_sha256": "4b4baae90e2b9464dd10fe91afd2c535f9c28e76543224e96671d9099de27185",
+      "rf_test_predictions_sha256": "62e2c64031651445aa048dc66ccb4d13421dba384025acfc6ef7089d5471a43f",
+      "rf_train_probabilities_sha256": "18a049cbed1347ee64af8f45a36add9a8e6e6f32b39ce7083ec02adc84b7729d",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "206ae7a9656e8baff776e4c4af6c1b9eb1f2a9f4cf9a151e6a349a1ba58689f1",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "a48b67c2915b439810be1b46b427fbdea6ced56fb785f035a707ffdb76e00dd0",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "417fa055d97ac4cd1b0f83675c34b16b6f5cf0c1eec0b289b05d0a7299a6731d"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "1cf7bf34f3c190eb10c38ba9bee534c40da0852bdb7bfa5575847a09433fef82",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "2814def5aa249a64225327ece4486ba57fb835732129887412498153cb6e54b3",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "ee4ef97e7ac1233db1a428584bb26488daa13fa5be8693ce6ca2c7e82ba286fc"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "b6af68ac41bc7f065a723ccb1739c1f1316ec04e60ca6b91ed8a9a6f51d6a1eb",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "cc9364f2b28c405035ade28e689f63792d33b51fb459f3287432c5676278a35f",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "3c4acb8ebbec07864fb3a967492a94ef209f8e5add0680602f8bb554a741b837"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "94f36c2fa1b13a3d6fd10e26a31b6719214abd5f98b6778c95cf0ebc1c3bf59f",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "98ceab5ef909eb988b343c260fcdfd6fe2f9ddac4e27624b4f21db37415d84bd",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "c79264153cc9381b4309ba3b2ab892f795a55d62afea3ae2ca819dd823061bc1"
+        }
+      }
+    },
+    "2024": {
+      "seed_manifest_sha256": "333285cad70f7a59d42941add90f9659efcfe530c5496791a319f6de8911c7a0",
+      "seed_completion_sha256": "508e9ace3eca77c7b0c758fa99029f7723f5b9807d435db9e7cf1ab3cbc67f4a",
+      "rf_test_predictions_sha256": "5cb05c672f2009fd75b8886f7dbdbb3c3fa00e0c8f4f1b8f61b97d68b746bdf0",
+      "rf_train_probabilities_sha256": "9ab9569eeb9e32695472188c1094507076a064e9550825fe18ee3f10efebb331",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "0d9018b509008533812a4ed49cb465ac7e6faeaaca0d0cee8fb591f88a61ef74",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "7ac0bc029aa38df60668d50d98bd1ef851db566b7bb1cbb5b9c20beb6dddd064",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "15242cbcc17839903eb026bc50e69cc1bbfb934efb5407d36ae0f59870f865b5"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "f4c5ffe5cede88ecd7f371aa937ed9ed90de0c8b795a3a4e39fe55d7de03ac95",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "f1bbb6bb01989d076eeadf85695f755c79d8b5a5e8dfe79d3ac785f9e3fc797d",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "d8fcf0bc5b01b0a9f243b99facc72198c1bb72a981621cc1cb31760a4bbb84d0"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "166bf17fa528bd95079198642dabf2bce0580a1ad51c524ed5fe5a23f4d9e9c8",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "bfa05850563baa2bc9541b85dce0159f8248726949f83b176dd795cbc13e4701",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "2e336bbaeda3aaf2df8981358d13dc176ee782391b9e11ffc63100fb72874d52"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "c512382440e422ff4f3540701d7818b2f87ecd7af8d57f2a4be2e9155a6486a4",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "b9658e42857fe6d6ed5986389711c21b7a30d90176049630453f8165c3ddfc31",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "356e7023a44d43467383004bda546ca13c8dcc70a2ddb0f835662b3cdcadffb0"
+        }
+      }
+    },
+    "3141": {
+      "seed_manifest_sha256": "630da705cc2687926e6d132faea9f9e154250c1b20ea57ad5be7723c3688aed7",
+      "seed_completion_sha256": "bd39e2bedd0ba19db735da37779a1c401a7edc4431dadcbb4c26736ae61d8f83",
+      "rf_test_predictions_sha256": "152c56bc29698409dc4f1efce937a1757b06567b5cbe24fca5e27327114dd95e",
+      "rf_train_probabilities_sha256": "ee9fb93da4f9cf949b7442ebdc7ca37713b3df1700f044f266a7f389c2c254a2",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "3643c156ae118d0c317681e9c176340a81a2b55b400d9cb43782d470351460cb",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "c4aa98edfa176f2ac38cf33de46ae7928e6c53bc017b0a237d7ee8d99d8f724b",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "ac2acc7ea9a1acb8d3a859f16bef1b3f3dabe1169c6020d4e877191fb4a61b84"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "e26151644d399d5ccc0de294628b5d5dae15c4b91abbcd2d632499f019cd8ac7",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "e5cf47321cc89195f936eaace793789ff578cfaedc5b57ca1bbb8ff5e10b35d6",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "735a10f880dbb005b2bee5973832437f9452af5f6a963c4c380d5f002e6cba3e"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "680797da6a874759008d1631e21f1bf6f68b48fe1d4ab2628080d1491b0d6ea5",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "ac4f8319ef97230b53d95fa1c0968caafc153d0112288f6c620870f1a739880a",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "dc2edb678b89cf8c9b430e02047da45d6f5929f3ac202d2702fa28937b19ccf7"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "1192c8ae9ce8983ed62b93d872157360dfc0493a69c526f59ae64ca51b7a97a4",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "6a3886210acfdd09f38f78f9eec7ee3326ea188e9f6ed671176ffd57aeb304a3",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "738eac38fcf1d59de86bc06d7e450eb783eaa3ce18d9febd959b0fbaba53c99c"
+        }
+      }
+    },
+    "5678": {
+      "seed_manifest_sha256": "843c6b05b87fe8766511682232c9efb40dc01c87d5e3e5eeac1c4e455e6ab8af",
+      "seed_completion_sha256": "a2ab8235549f797826b237a12bb738b4def9819e8502a6cfeac15f049cd14645",
+      "rf_test_predictions_sha256": "d777e8c6b954b0e50469bbf1207f871c532542a832cdf61ca84a366854d74397",
+      "rf_train_probabilities_sha256": "3da66079efc88037f5bd35645aff9b113f72715005b453c8aa70bf1d0db2b8d3",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "e592c0ecd4f7e0edc79c4979351c8c35a88e63cdb35b0fd577a0069ad7f5cd73",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "326dbb7598bb843247aa588d4650a2626e5110672a515b0cd571f6f768154f26",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "1414d5cad1d659b9530c15268ff632aa0a99a36fa66fb21d7338e857e1061bfe"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "45c79826c9bc50f0b6d1c982fc42e4c037c5f692ddb4a07d95cdee71c83a4c89",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "a6cb5392a32ee73d943093cd75e88a13351f5aa340bab148c8e6c5966a329621",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "0fd3fb4bb5b15af14fd5ff02a58ba729c4ee00e7bb88be40d1a70057c622e0ac"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "b086e0248e56567015ba540c1a73d4464d28f07bd732a5eba8fff2f21d7f2ae3",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "cc263d6e02bd8b92b0c1c8e9d2799451ce1e483f304d5d3cb096af25380cd855",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "36059fa25db31039cc468a749a1eab7deb81ecd02ea240b7487bc66cda547d6f"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "3e80c77f023be5db1d18d72ea71ce866311a765d0e10381500b886afa26f21c9",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "0533dc08caa256b0cc57ac46f1a1d5953ed3aebee39ae4f17a8fba934ab46ad9",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "70275372af94e4cfd33c999200bf943290cd359efef14f0d0eaea40c24fc3c42"
+        }
+      }
+    },
+    "8192": {
+      "seed_manifest_sha256": "678643d192dfbe9cee030eca2fc9c2b967565fe8371ccd0218c72d15b63c36a7",
+      "seed_completion_sha256": "c4f784247f72bff38773ba240bc2c80eb2c88da087f08c3a08dd5f984a144d35",
+      "rf_test_predictions_sha256": "6b7f2bc53f161f36c6978a51fc601986f94929b8534fe4869bf7e60242fbb203",
+      "rf_train_probabilities_sha256": "6b6b6b63db237de39445abc298ca079af4f404a1cc8d1fc050a500f8f3d2ac87",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "c6569fcc13b4b8473738e43dec72d6e0ac4288646c1e67e61d5a2c2274808a7f",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "0dc10538b6ac78525537c254b9abca61c48df1b348b2623810ffb831a5142d4c",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "2da18e9d26a331eb2fa193be9e2cf12c0ac00ce946beb92ae251354eb794b618"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "30271d33bbb7b7d4349f72a85e25457adb3f13ff1797b88229c8bfbb4bfba55b",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "6b0b1287e3505c98e76e40c3f77cac1453f8829e3afc5bed8055e2415a095ec6",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "2075b733248d9483182251b94f032baf5b601a30d35bf6798e68597ee88320fd"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "42ca48359e285e56993663e0ff8623ef6a6e163ff73a5eceb15ee6a56559b6f5",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "8565a00c851d7b0d812449736a17abcb6e2088e1a7e7f14c55aebba36948c80f",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "8730afc2895a8dad6859fb9f09b7bd567ed06ca87da3c3a77ced5b853ef1e8a7"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "4814ceaf245c43a46d2a91119fcba9b5ded2d8d7f3b34192e9aced6d11ec69d1",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "b4b3072e010bc6cfa0fcfa17e49ed4996fa6242d833a0b5d1726dda9d1d2032f",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "67352c34583e4d3fb28be102b1cccc42c42c1535909109335082ad1810fed3e5"
+        }
+      }
+    },
+    "9999": {
+      "seed_manifest_sha256": "a904efe9dfee13fb05e6b6ef90d97308d7d73fac8a645742e2c99410ee84a852",
+      "seed_completion_sha256": "175fcbcf5f4d34d3f20062530eabf532e8f8ba440d5271dd3f7ba79cbb70eee1",
+      "rf_test_predictions_sha256": "ef288309126c8fa4282cba5079b035049ba9977f089fb5253959a283e9c63869",
+      "rf_train_probabilities_sha256": "f9ea3d12eba0327d01b9a28303f578ce5387480dee6fa4f433ca2420125d6524",
+      "scratch_and_rfkd_artifacts": {
+        "student_A_scratch": {
+          "plain_state_dict": "student_A_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "31052b1fd9e029ba22602c1fdd593caa9c6c2e64e335aa137657e88e92369c17",
+          "rich_artifact": "student_A_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "5ca2bfb4c84777525c5e51196fd2ae0fe16e5ebffbc38ffea02eebe3d5aa231a",
+          "test_predictions": "student_A_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "662e5d01e94cdcc276d2ff219b936cdde6982fb2c0a43fd85d693d691cf0e2de"
+        },
+        "student_A_rf_kd": {
+          "plain_state_dict": "student_A_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "ebaa394c8cbfbb7a56def1a45acf32da49a65447811bcabfbb08509e4e557496",
+          "rich_artifact": "student_A_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "ae1a7a1ab713d0043bfbdd1213fd6081185b393f372a1434b3f2baa7bab4aa65",
+          "test_predictions": "student_A_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "5ca8b2581b4b60d2a37c9ae88af61efb1ad80c4c76aa73f6a07afa258f7e3e49"
+        },
+        "student_B_scratch": {
+          "plain_state_dict": "student_B_Small_MLP_scratch_fp32.pt",
+          "plain_state_dict_sha256": "10f82513ed5a8cafa5e2eaf40e13ec6098220cad6609e8141af8c3a7474e8d0f",
+          "rich_artifact": "student_B_Small_MLP_scratch_artifact.pt",
+          "rich_artifact_sha256": "4ba412d03e00fbdea02d1d960f72d494bdc0f040b3aa7ca5e5ca1ce3bf4d5e42",
+          "test_predictions": "student_B_Small_MLP_scratch_test_predictions.csv",
+          "test_predictions_sha256": "6123415498a992fe2c117d376fdfb6239a20eaf21815167713b5de1cfe535a25"
+        },
+        "student_B_rf_kd": {
+          "plain_state_dict": "student_B_KD_from_RF_fp32.pt",
+          "plain_state_dict_sha256": "a31ef458e0790ccb743ae99ce2fe015c8cd2ca06244f781b81af98718090eb92",
+          "rich_artifact": "student_B_KD_from_RF_artifact.pt",
+          "rich_artifact_sha256": "ff2607dee875722620c72d7222e63ed4ee5efdbed87f5e9c7df6ec5255b4c253",
+          "test_predictions": "student_B_KD_from_RF_test_predictions.csv",
+          "test_predictions_sha256": "e583864854fc47c63bc40939ed62eea7cb4e220680e059e72d5a428c4f3e76ee"
+        }
+      }
+    }
+  },
+  "full_route_seed_bindings": {
+    "42": {
+      "seed_manifest_sha256": "83b722a6748a7e40071cdc178d205d21ed25e6c88a8e8353ebf794d1e0cbad3f",
+      "seed_completion_sha256": "8cc7eb1fb8c7899ea60b755217fb0b3057717fad9951bd7554672e701252e160"
+    },
+    "123": {
+      "seed_manifest_sha256": "6cb9e1fffb220ebbf9afd6e33c38beee09f565e480a63c70a332899de0ca6e0c",
+      "seed_completion_sha256": "64075a74f9eec54df3e1ee1d4fc9992933d2b77be87d047afd0d2ebf9b273382"
+    },
+    "456": {
+      "seed_manifest_sha256": "c6cc0584656df1fa7562b4beecf3ca38b7e314ccc002f34dd9dba4abdf8ee5dc",
+      "seed_completion_sha256": "7faefe2ff39c19ae27579faa0f848db4108042dc0d09fc45c960d7182c7029de"
+    },
+    "789": {
+      "seed_manifest_sha256": "a34d88cac443a265d3c0cccf3cb954f17fbe18c07751e4b3fdcbfff09c975ced",
+      "seed_completion_sha256": "7a197ad6bdf947176cae61893bfdc63e5e0f332fd68fad39217d7a35e0368c67"
+    },
+    "1001": {
+      "seed_manifest_sha256": "129548d439107a8b46237748f83f302b07fc533a915ed6c6de72aaf5f299f5b0",
+      "seed_completion_sha256": "be67e1902312455c27cd7118ff4ed63c0a0ae148817a3af3d1b91186545c8eb2"
+    },
+    "2024": {
+      "seed_manifest_sha256": "3e2807348fb678a7da5baf271103da44d2fd2f840dd6a97e82fbc40dee19588c",
+      "seed_completion_sha256": "bfac96f2213f4b5cbdbaf9214ac217219059043b6d454560cb1c572aec53b1aa"
+    },
+    "3141": {
+      "seed_manifest_sha256": "14ab28e03fe202b22ec1870e8d7768a748da6c22fa2b98dc844576fa781f7f22",
+      "seed_completion_sha256": "cff56e39caee7117448d28d15facf9a90bb8a0880838a3c5417a2ea4ad27901d"
+    },
+    "5678": {
+      "seed_manifest_sha256": "57bfc5c68b4f3100500317321fdd342331d44a7e0ec9062b87469309da7d9cd5",
+      "seed_completion_sha256": "ccc0519595d6ea036754ffc88779b9a242f4c192d64456c9ff663b61d285dc21"
+    },
+    "8192": {
+      "seed_manifest_sha256": "af87ef7c338fb23edcb3a2001fbbf57ed2055b55ef8b56d91504b6eb5ddd2e1b",
+      "seed_completion_sha256": "745254f092f0d149da9d58da4dd7d65f9a4700351177e936447f74e31331d016"
+    },
+    "9999": {
+      "seed_manifest_sha256": "e0b24cfb98bf0f29c521f5c286f6c273344cc11d83451ec27c6cdc501fba34cb",
+      "seed_completion_sha256": "70559d42e9de3828a86871d2cf602ad9d96f85de68198a2d034604a13bd91680"
+    }
+  },
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "teacher_routes": [
+    "A_RF_500_uncalibrated",
+    "A_calibrated_RF_KD_teacher",
+    "B_Full_MLP",
+    "C_CL_MLP_loss_fair",
+    "C_CL_MLP_loss_ext",
+    "C2_CL_MLP_domain",
+    "G_random_pacing_teacher",
+    "I_SMOTE_MLP_teacher"
+  ],
+  "student_routes": [
+    "D_Small_MLP",
+    "E_KD_from_RF",
+    "E2_KD_from_MLP",
+    "F_KD_from_CL_MLP_fair",
+    "F_KD_from_CL_MLP_ext",
+    "G_KD_random_pacing",
+    "I_KD_from_SMOTE_MLP",
+    "J_CoDistill_RF_CL"
+  ],
+  "aliases_excluded_from_inference": {
+    "C_CL_MLP_loss": "C_CL_MLP_loss_fair",
+    "F_KD_from_CL_MLP": "F_KD_from_CL_MLP_fair"
+  },
+  "inference_route_policy": "Only the canonical teacher_routes and student_routes are analyzed. Alias records must identify their canonical source and contain exactly equal metrics, but aliases are not duplicated as inferential routes.",
+  "views": {
+    "row_level": "All persisted test rows, used to validate the source metrics.",
+    "inverse_test_group_size": "All rows weighted by one divided by exact within-test feature-group size.",
+    "pure_group_representative": "Smallest source-row index per label-pure exact test feature group; all mixed groups excluded."
+  },
+  "grouping": {
+    "features_only": true,
+    "feature_count": 17,
+    "input_representation": "finite float32 values parsed from the raw 17 WSN-DS feature columns",
+    "equality": "bit-exact little-endian float32 rows after canonicalizing signed zero",
+    "labels_used_to_form_group_ids": false,
+    "labels_used_only_for_purity_audit": true,
+    "deterministic_representative": "minimum source_row_index",
+    "prediction_consistency": {
+      "predicted_class_equality": "exact",
+      "probability_max_abs_delta_tolerance": 2e-06,
+      "tolerance_scope": "persisted float32 and decimal probability representations only",
+      "probabilities_used_for_group_weighting": false
+    },
+    "test_group_count": 54174,
+    "repeated_group_count": 1499,
+    "rows_in_repeated_groups": 3626,
+    "mixed_label_group_count": 0,
+    "mixed_label_row_count": 0,
+    "pure_group_count": 54174
+  },
+  "statistics": {
+    "unit": "paired algorithmic run seed on one fixed test split",
+    "seed_count": 10,
+    "standard_deviation": "sample SD across seeds, ddof=1",
+    "primary_inference_policy": {
+      "view": "row_level",
+      "test": "exact paired Wilcoxon signed-rank test",
+      "multiplicity_control": "Holm adjustment within each predeclared route family: teacher, Student A, and Student B",
+      "rationale": "The row-level view preserves the benchmark's empirical test-record distribution. Equal-weight exact-group and pure representative views are reported as repeated-pattern sensitivity analyses."
+    },
+    "paired_tests": [
+      "exact paired Wilcoxon signed-rank test by exhaustive sign enumeration of nonzero paired differences; absolute signed-rank statistic, average ranks for ties, and zero_method=wilcox",
+      "exact enumeration of all 2^10 sign assignments for the absolute mean difference"
+    ],
+    "teacher_comparisons": [
+      [
+        "C_CL_MLP_loss_fair",
+        "B_Full_MLP"
+      ],
+      [
+        "C_CL_MLP_loss_ext",
+        "B_Full_MLP"
+      ]
+    ],
+    "student_comparisons": [
+      [
+        "E_KD_from_RF",
+        "D_Small_MLP"
+      ],
+      [
+        "E2_KD_from_MLP",
+        "D_Small_MLP"
+      ],
+      [
+        "F_KD_from_CL_MLP_fair",
+        "E2_KD_from_MLP"
+      ],
+      [
+        "F_KD_from_CL_MLP_ext",
+        "E2_KD_from_MLP"
+      ],
+      [
+        "F_KD_from_CL_MLP_fair",
+        "D_Small_MLP"
+      ],
+      [
+        "F_KD_from_CL_MLP_fair",
+        "G_KD_random_pacing"
+      ],
+      [
+        "F_KD_from_CL_MLP_fair",
+        "I_KD_from_SMOTE_MLP"
+      ],
+      [
+        "E_KD_from_RF",
+        "E2_KD_from_MLP"
+      ],
+      [
+        "I_KD_from_SMOTE_MLP",
+        "E2_KD_from_MLP"
+      ],
+      [
+        "J_CoDistill_RF_CL",
+        "E_KD_from_RF"
+      ],
+      [
+        "J_CoDistill_RF_CL",
+        "E2_KD_from_MLP"
+      ],
+      [
+        "J_CoDistill_RF_CL",
+        "F_KD_from_CL_MLP_fair"
+      ]
+    ],
+    "holm_families": "separate view:teacher, view:student_A, and view:student_B families; a view-global family is also reported; no correction is pooled across the three distinct views",
+    "supersession": "For route inference, exhaustive Wilcoxon p-values and their Holm adjustments from this analyzer supersede approximate Wilcoxon fields in the source full-route aggregate. Training outputs and metrics are not changed."
+  },
+  "claim_boundaries": [
+    "This is post-processing of one fixed 56,301-row WSN-DS test partition; no new split or model fit is performed.",
+    "The inferential unit is the paired algorithmic run seed, with ten seeds for every unique route.",
+    "Primary inference uses the row-level view, the exact paired Wilcoxon signed-rank test, and Holm adjustment within each predeclared teacher or student route family.",
+    "View-global Holm results are reported as a stricter multiplicity sensitivity analysis; they do not replace the predeclared family-wise primary policy.",
+    "The inverse-size view retains every row and assigns each exact test feature group total weight one; mixed-label rows keep their recorded labels.",
+    "The representative view keeps the smallest source-row index from each label-pure exact feature group and excludes every mixed-label group and row.",
+    "No mixed-label feature group is assigned a majority label in either sensitivity view.",
+    "The sensitivity views quantify within-test repeated-pattern weighting and do not estimate performance on a new dataset, new partition, live traffic, or independent network events.",
+    "Holm families are declared separately by view for teachers, Student A routes, and Student B routes; view-global adjustments are also reported.",
+    "Alias route names are excluded from inference because they duplicate an already included route exactly.",
+    "Per-class route deltas are descriptive because no per-class hypothesis-test family is performed.",
+    "Predicted classes must agree exactly within every exact-feature group. Persisted probability vectors are audited with a maximum absolute tolerance of 2e-6 for float32 and decimal serialization effects; group weighting does not use probabilities.",
+    "The exact paired p-values in this analysis supersede the full-route runner's approximate Wilcoxon fields; saved models, predictions, and performance metrics are unchanged."
+  ],
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scipy": "1.17.1",
+    "scikit_learn": "1.8.0"
+  },
+  "execution_fingerprint_sha256": "650caade46345143fb31d08212391a14bba0add57a5020039c887b2263489949"
+}

@@ -290,6 +290,49 @@ class StrictUdpSessionTests(unittest.TestCase):
         self.assertEqual(result.ignored_by_category["wrong_endpoint"], 1)
         self.assertEqual(result.ignored_by_category["wrong_attempt"], 1)
 
+    def test_future_attempt_response_is_fatal(self):
+        device_port = free_udp_port()
+        host_port = free_udp_port()
+
+        def server() -> None:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as device:
+                device.bind(("127.0.0.1", device_port))
+                request_payload, host = device.recvfrom(1024)
+                request = decode_wireless_envelope(
+                    request_payload, expected_prefix=REQUEST_ENVELOPE_PREFIX
+                )
+                response = encode_wireless_envelope(
+                    prefix=RESPONSE_ENVELOPE_PREFIX,
+                    session_id=request.session_id,
+                    stage_id=request.stage_id,
+                    transaction_id=request.transaction_id,
+                    attempt=request.attempt + 1,
+                    inner_text="PONG",
+                )
+                device.sendto(response, host)
+
+        thread = threading.Thread(target=server, daemon=True)
+        thread.start()
+        session = StrictUdpSession(
+            device_ip="127.0.0.1",
+            device_port=device_port,
+            host_port=host_port,
+            session_id=SESSION,
+            timeout_seconds=0.05,
+            max_attempts=3,
+        )
+        try:
+            with self.assertRaisesRegex(RuntimeError, "has not been sent"):
+                session.exchange(
+                    stage_id=STAGE,
+                    transaction_id=TRANSACTION,
+                    inner_text="PING",
+                )
+        finally:
+            session.close()
+        thread.join(timeout=1.0)
+        self.assertFalse(thread.is_alive())
+
     def test_matching_device_error_is_not_ignored(self):
         device_port = free_udp_port()
         host_port = free_udp_port()
@@ -699,6 +742,29 @@ class WirelessHostPipelineIntegrationTests(unittest.TestCase):
 
 
 class WirelessFirmwareStaticTests(unittest.TestCase):
+    def test_timed_inference_includes_prediction_argmax(self):
+        sketch = (
+            ROOT
+            / "deployment"
+            / "wireless_hil"
+            / "firmware"
+            / "cukd_wireless_fgds"
+            / "cukd_wireless_fgds.ino"
+        ).read_text(encoding="utf-8")
+        inference_body = sketch[
+            sketch.index("cukd_forward_q15(input_q15, logits)") : sketch.index(
+                "if (!cukd_format_response_line"
+            )
+        ]
+        self.assertLess(
+            inference_body.index("cukd_forward_q15(input_q15, logits)"),
+            inference_body.index("cukd_argmax_logits(logits)"),
+        )
+        self.assertLess(
+            inference_body.index("cukd_argmax_logits(logits)"),
+            inference_body.index("const uint32_t inference_end = cukd_now_us()"),
+        )
+
     def test_firmware_disables_esp_persistence_before_wifi_initialization(self):
         sketch = (
             ROOT

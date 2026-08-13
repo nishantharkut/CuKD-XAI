@@ -1,0 +1,68 @@
+{
+  "protocol_id": "wsnds_fgds_behavioral_transfer_logits_10seed_v5",
+  "analysis_status": "post_hoc_secondary_evidence",
+  "analysis_status_reason": "The behavioral-transfer question was specified after the finalized prediction artifacts had been inspected; inferential outputs are therefore reported as secondary evidence rather than preregistered confirmation.",
+  "source_protocol_id": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+  "source_run_root": "results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed",
+  "dataset": {
+    "path": "data/wsnds/WSN-DS.csv",
+    "sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9"
+  },
+  "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+  "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "test_rows_per_seed": 56301,
+  "test_exact_feature_groups": 54174,
+  "statistical_unit": "paired training-run/model seed on one fixed feature-group-disjoint split; the same seed also controls RF construction and student training",
+  "primary_metric": {
+    "name": "kl_teacher_to_student_T4",
+    "weighting": "one total unit per exact raw-feature group",
+    "direction": "teacher to student",
+    "temperature": 4.0,
+    "teacher_T4_definition": "softmax(log(max(calibrated_RF_probability, 1e-8)) / 4), matching KD",
+    "student_T4_definition": "softmax(saved_checkpoint_logits / 4), matching KD and XAI",
+    "student_T4_computation_dtype": "float64 evaluation of the original float32 checkpoint logits to avoid float32 exponential underflow; no student probability floor",
+    "teacher_probability_floor": 1e-08,
+    "student_probability_floor": null,
+    "checkpoint_T1_replay_absolute_tolerance": 3e-06,
+    "checkpoint_T1_replay_requirement": "bounded probability drift plus exact hard-label equality across all rows",
+    "comparison": "scratch minus RF-KD; positive means RF-KD is closer",
+    "multiplicity": "Holm adjustment across Student A and Student B"
+  },
+  "secondary_test_metrics": [
+    "js_T4",
+    "l1_T4",
+    "top2_overlap_T1",
+    "hard_agreement_T1",
+    "macro_class_kl_T4"
+  ],
+  "secondary_multiplicity": "Holm adjustment across ten student-metric tests",
+  "row_weighted_sensitivity": true,
+  "per_class_results": "descriptive; no class-wise null-hypothesis tests",
+  "software_dependencies": {
+    "analysis_source_sha256": "105f6a0e7ed42f54f9492e03063a64f5f44c8f383ed74a3ac93b2ef38049b423",
+    "checkpoint_inference_runtime": {
+      "device": "cpu",
+      "torch_deterministic_algorithms": true,
+      "torch_intraop_threads": 1
+    },
+    "weighted_reduction": "fixed row order with Python math.fsum for numerator and denominator",
+    "statistics_source": "experiments/wsnds/evidence_completion/analyze_fgds_group_balanced_routes.py",
+    "statistics_source_sha256": "84686fbc00100e0ffb67c5f5ad8e0d344010dfc78ee63b0c9418a511ab7d91a4",
+    "common_source": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+    "common_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47"
+  },
+  "claim_boundary": "This analysis tests held-out in-distribution response-distribution transfer from the calibrated RF to each checkpoint-reconstructed student and compares RF-KD with matched scratch under the same T=4 output contract used by KD and XAI. It does not establish causal mechanism transfer, off-manifold decision-boundary equivalence, explanation transfer, or deployment fidelity.",
+  "execution_contract_id": "eaf68690e61a6ee59529aec302697fd8288d63fb322d32c2edad08f83d44bc1b"
+}

@@ -1,0 +1,313 @@
+{
+  "schema": "cukd_final_hil_bundle_manifest_v1",
+  "status": "passed",
+  "protocol_id": "cukd_final_hil_bundle_v1",
+  "board": "arduino_r4",
+  "transport": "usb_serial",
+  "student": "B",
+  "route": "rf_kd",
+  "seed": 42,
+  "model_sha256": "bddd7b25bb8b8faaef8a3ea67dca8d95de95384f86c9a44ab954d85a5fc3b1bf",
+  "checkpoint_file_sha256": "cab27197376a0e3b10d8fd90c5f328557043e010faa766749ece20d5d7c37c2e",
+  "export_id": "77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280",
+  "bundle_id": "1f4212e5d26e25f204be70daf5c68c9e28712e8a782455d75c692dce9cac0378",
+  "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97",
+  "runtime_identity_query": "CUKDID?",
+  "runtime_identity_response": "CUKDF1,wsnds_feature_group_split_train_only_scaler_10seed_v2,42,B,rf_kd,bddd7b25bb8b8faaef8a3ea67dca8d95de95384f86c9a44ab954d85a5fc3b1bf,77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280,1f4212e5d26e25f204be70daf5c68c9e28712e8a782455d75c692dce9cac0378,r4,usb,0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97",
+  "bundle_identity_payload": {
+    "protocol_id": "cukd_final_hil_bundle_v1",
+    "board": "arduino_r4",
+    "transport": "usb_serial",
+    "final_export_identity": {
+      "protocol": "wsnds_feature_group_split_train_only_scaler_10seed_v2",
+      "seed": 42,
+      "student": "B",
+      "route": "rf_kd",
+      "checkpoint_file_sha256": "cab27197376a0e3b10d8fd90c5f328557043e010faa766749ece20d5d7c37c2e",
+      "trained_state_sha256": "bddd7b25bb8b8faaef8a3ea67dca8d95de95384f86c9a44ab954d85a5fc3b1bf",
+      "dataset_sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+      "split_indices_sha256": "3d4061aa020122d4c5c5b2f7722de71e0c223c533869d3fdfa1f10784a0a0473",
+      "test_source_indices_sha256": "7c0e5c678af1f9a79749dda2d9b752dabe5fc8c4c5bc135c47d174ed594ff7e2",
+      "scaler_sha256": "5303fb570aeb82ffaf88e2d4cceda94a7611762f67c86761990e6a4f09af5dd6",
+      "route_provenance": {
+        "kd_hyperparameters": {
+          "T": 4.0,
+          "alpha": 0.7
+        },
+        "teacher_soft_target_provenance": {
+          "source_type": "fresh_calibrated_rf_soft_targets",
+          "rf_seed": 42,
+          "rf_config": {
+            "n_estimators": 500,
+            "max_depth": 15,
+            "calibration_method": "isotonic",
+            "calibration_cv": 3
+          },
+          "calibration_audit": {
+            "strategy": "stratified_group_kfold",
+            "folds": 3,
+            "group_overlap_per_fold": [
+              0,
+              0,
+              0
+            ],
+            "unique_groups": 252799
+          },
+          "train_probability_content_sha256": "809755ca6ec3e8e317648e08947e41cc5f0fbcb1377a3e272d283a050888e452"
+        },
+        "teacher_probability_file_sha256": "df4c961c8510296336425639e86d0c862a25629bcb99267a42729637f5a127bf"
+      },
+      "quantization_policy_sha256": "abb2ba2bc5ad56ded0f94bfec590bcf54b787f7c6a387e1a072e21a146f135ab",
+      "core_files": [
+        {
+          "path": "model_weights.h",
+          "size_bytes": 14725,
+          "sha256": "283835b93de1c3acb1fe29d1765c3e61e62fd30660e6d89d2eb20d450ba22c01"
+        },
+        {
+          "path": "preprocess_metadata.h",
+          "size_bytes": 1400,
+          "sha256": "0072cf13c0691ffec9772ae5745e4d61ab27ead5673dee6d3a0e0858c4576342"
+        },
+        {
+          "path": "preprocess_metadata.json",
+          "size_bytes": 2652,
+          "sha256": "590f56e3c5935775277b3f88e5186b323844adf20d9e8f4999132b26cd9081fa"
+        },
+        {
+          "path": "preprocess_int_metadata.h",
+          "size_bytes": 895,
+          "sha256": "6d9dccf3bcee753625df80f3246a18766a4d2f7c5f404164c2025a7928f6d05c"
+        },
+        {
+          "path": "preprocess_int_metadata.json",
+          "size_bytes": 1537,
+          "sha256": "a3e14932b112eda26be1523fe6cc70c016448f1703d782c2fcfe23c8f88861f2"
+        },
+        {
+          "path": "test_vectors.h",
+          "size_bytes": 18605450,
+          "sha256": "f4e78bb9d631fd923bb0803ba1bc58da54d775e938e9e9dcb76382a31daa1283"
+        },
+        {
+          "path": "hil_replay_vectors.csv",
+          "size_bytes": 4399794,
+          "sha256": "4fbd435fd8db4c5825b0d35eded193ca6809e3354ae1c2c0af4fff2af766e625"
+        },
+        {
+          "path": "hil_reference_predictions.csv",
+          "size_bytes": 2772923,
+          "sha256": "e10aa38417c92831796281f9adb2f71a506df1b566b28f916d191d0c4599a1e5"
+        },
+        {
+          "path": "equivalence_report.json",
+          "size_bytes": 938051,
+          "sha256": "11f4981abafea3afa9e933d07573e18acd7ca8f4b88f444b65e1fba0ad704a0d"
+        }
+      ],
+      "source_snapshots": [
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_final_hil/export_final_seed42.py",
+          "snapshot_path": "source_snapshot/python/export_final_seed42.py",
+          "size_bytes": 98283,
+          "sha256": "552399971495f9a00ed37e13c9dba6bf8ae9933f8c5a5b309f13f600e0a0a6b9"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_fgds_seed42_deployment.py",
+          "snapshot_path": "source_snapshot/python/export_fgds_seed42_deployment.py",
+          "size_bytes": 52811,
+          "sha256": "6a28dd51f5e237d26d9b0228cb3a33af88af156989843699b61af4907b2c6a82"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/export_wsnds_student_a_rfkd_int8.py",
+          "snapshot_path": "source_snapshot/python/export_wsnds_student_a_rfkd_int8.py",
+          "size_bytes": 47073,
+          "sha256": "51d20bc557ad89c306aa113972c85584845e5b765f5e6d16a010d54294d50f88"
+        },
+        {
+          "origin_relative_path": "experiments/wsnds/leakage_free_rerun/tier15_common.py",
+          "snapshot_path": "source_snapshot/python/tier15_common.py",
+          "size_bytes": 19294,
+          "sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47"
+        },
+        {
+          "origin_relative_path": "deployment/firmware_export/wsnds_rfkd_hil/wsnds_train_only_self_test.c",
+          "snapshot_path": "source_snapshot/c/wsnds_train_only_self_test.c",
+          "size_bytes": 2195,
+          "sha256": "ad5d64e0151f73b3c333ba9467c6f8717e0331256d663021ce8fe286de04f1b0"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.c",
+          "snapshot_path": "source_snapshot/c/cukd_model.c",
+          "size_bytes": 2290,
+          "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_model.h",
+          "snapshot_path": "source_snapshot/c/cukd_model.h",
+          "size_bytes": 389,
+          "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+          "snapshot_path": "source_snapshot/c/cukd_preprocess.c",
+          "size_bytes": 1027,
+          "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+        },
+        {
+          "origin_relative_path": "deployment/hardware_hil/firmware/common/cukd_preprocess.h",
+          "snapshot_path": "source_snapshot/c/cukd_preprocess.h",
+          "size_bytes": 363,
+          "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+        }
+      ],
+      "export_id": "77227718b44dffd4b4926634aa0719a211be82052a827a99d22929b7af142280"
+    },
+    "final_export_manifest_sha256": "af5c80a92869f265f5352d476425e34d4d881ddd4e1152ec2edd27bb24bb53b8",
+    "build_contract_id": "0f195f40a888abc69d72bf8bdeec4867bc479122c636abb1ee5eea51f4ee8f97",
+    "template_source": {
+      "origin": "deployment/hardware_hil/firmware/arduino_r4/cukd_hil_r4/cukd_hil_r4.ino",
+      "name": "cukd_hil_r4.ino",
+      "size_bytes": 3122,
+      "sha256": "936c4387eedf074b74378e787ddb4747362743c1d13ac2e32f2763a74c846dda"
+    },
+    "template_snapshot_file": "final_source_template.txt",
+    "source_files": [
+      {
+        "origin": "deployment/hardware_hil/firmware/arduino_r4/cukd_hil_r4/cukd_hil_r4.ino",
+        "name": "cukd_hil_r4.ino",
+        "size_bytes": 3122,
+        "sha256": "936c4387eedf074b74378e787ddb4747362743c1d13ac2e32f2763a74c846dda"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_model.h",
+        "name": "cukd_model.h",
+        "size_bytes": 389,
+        "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_model.c",
+        "name": "cukd_model.c",
+        "size_bytes": 2290,
+        "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_preprocess.h",
+        "name": "cukd_preprocess.h",
+        "size_bytes": 363,
+        "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_preprocess.c",
+        "name": "cukd_preprocess.c",
+        "size_bytes": 1027,
+        "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_protocol.h",
+        "name": "cukd_protocol.h",
+        "size_bytes": 1041,
+        "sha256": "c7a6880519e322c581045144d43c76dc280b4e2d6e9119d81f555fff45d2d9fb"
+      },
+      {
+        "origin": "deployment/hardware_hil/firmware/common/cukd_protocol.c",
+        "name": "cukd_protocol.c",
+        "size_bytes": 5004,
+        "sha256": "449dd20a451e1d095bf57d1a5bef14cb3eba2344f628f031127cae847367fffe"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_B_rf_kd/model_weights.h",
+        "name": "model_weights.h",
+        "size_bytes": 14725,
+        "sha256": "283835b93de1c3acb1fe29d1765c3e61e62fd30660e6d89d2eb20d450ba22c01"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_B_rf_kd/preprocess_int_metadata.h",
+        "name": "preprocess_int_metadata.h",
+        "size_bytes": 895,
+        "sha256": "6d9dccf3bcee753625df80f3246a18766a4d2f7c5f404164c2025a7928f6d05c"
+      },
+      {
+        "origin": "results/hardware_hil/final_fgds_seed42_v1/exports/student_B_rf_kd/cukd_export_identity.h",
+        "name": "cukd_export_identity.h",
+        "size_bytes": 552,
+        "sha256": "3801a93b84bdc92d377591bba4aa64335ade2f03782f2fccce07a2321942e33f"
+      }
+    ],
+    "transformed_sketch_sha256": "c76663e58395fb52b3abe8392788d07f16fce3d823c7d1fe9cd6bdb1d7e79df3",
+    "bundle_builder_sha256": "44eb68abfd7ac405a68506b6288ca1271379d749e6f9bcb263715d7709b48719"
+  },
+  "template_snapshot_file": "final_source_template.txt",
+  "sketch_file": "student_B_rf_kd__arduino_r4__usb_serial.ino",
+  "transformed_sketch_sha256": "c76663e58395fb52b3abe8392788d07f16fce3d823c7d1fe9cd6bdb1d7e79df3",
+  "file_count_excluding_manifest": 13,
+  "files": [
+    {
+      "path": "cukd_export_identity.h",
+      "size_bytes": 552,
+      "sha256": "3801a93b84bdc92d377591bba4aa64335ade2f03782f2fccce07a2321942e33f"
+    },
+    {
+      "path": "cukd_final_bundle_identity.h",
+      "size_bytes": 890,
+      "sha256": "bfb62fc80c59922ec0617d66e7f577f4c03aa4057c84e92e886c004c7c9f41d1"
+    },
+    {
+      "path": "cukd_model.c",
+      "size_bytes": 2290,
+      "sha256": "93996f9f08ae7a3467815b74701354443245c7cf8ae7388d4d6e175babf85add"
+    },
+    {
+      "path": "cukd_model.h",
+      "size_bytes": 389,
+      "sha256": "30d48808d29c3569c94ce322ddb99b7d074f5d94dd7590fd9bc00da659d8a648"
+    },
+    {
+      "path": "cukd_preprocess.c",
+      "size_bytes": 1027,
+      "sha256": "ada75f46863b6bb1ae4dd1121edaf992f030008fe1b636f83e75a7af7e95537c"
+    },
+    {
+      "path": "cukd_preprocess.h",
+      "size_bytes": 363,
+      "sha256": "76afc6dc475a18a1085ab9d54e522fca86397d4268b34325eb1cff75429b3521"
+    },
+    {
+      "path": "cukd_protocol.c",
+      "size_bytes": 5004,
+      "sha256": "449dd20a451e1d095bf57d1a5bef14cb3eba2344f628f031127cae847367fffe"
+    },
+    {
+      "path": "cukd_protocol.h",
+      "size_bytes": 1041,
+      "sha256": "c7a6880519e322c581045144d43c76dc280b4e2d6e9119d81f555fff45d2d9fb"
+    },
+    {
+      "path": "final_build_contract.json",
+      "size_bytes": 755,
+      "sha256": "148381a4eed2a8df78c00dc317efc06184ca861bbaed71ae4473e35df3500168"
+    },
+    {
+      "path": "final_source_template.txt",
+      "size_bytes": 3122,
+      "sha256": "936c4387eedf074b74378e787ddb4747362743c1d13ac2e32f2763a74c846dda"
+    },
+    {
+      "path": "model_weights.h",
+      "size_bytes": 14725,
+      "sha256": "283835b93de1c3acb1fe29d1765c3e61e62fd30660e6d89d2eb20d450ba22c01"
+    },
+    {
+      "path": "preprocess_int_metadata.h",
+      "size_bytes": 895,
+      "sha256": "6d9dccf3bcee753625df80f3246a18766a4d2f7c5f404164c2025a7928f6d05c"
+    },
+    {
+      "path": "student_B_rf_kd__arduino_r4__usb_serial.ino",
+      "size_bytes": 3200,
+      "sha256": "c76663e58395fb52b3abe8392788d07f16fce3d823c7d1fe9cd6bdb1d7e79df3"
+    }
+  ],
+  "claim_boundary": "Hash-bound build and runtime provenance for replay firmware. This is not cryptographic attestation by the MCU or compiler frontend.",
+  "manifest_payload_sha256": "f037fa70fcc9b26a24ccc4d0d4e36febc8159ab3329a69a561b72b09ff68db5a"
+}

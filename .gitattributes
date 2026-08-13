@@ -32,6 +32,15 @@ results/wsnds/confirmation_runs_v2/remote_winterfell_feature_group_5seed_2026080
 results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/** -text whitespace=-trailing-space
 results/runtime/onnx_openvino/wsnds/fgds_seed42_exact/** -text whitespace=-trailing-space
 results/evidence_registry/** -text whitespace=-trailing-space
+results/hardware_hil/final_fgds_seed42_v1/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260811/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260812/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260813/** -text whitespace=-trailing-space
+results/wsnds/evidence_completion_20260811/**/*.npz filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260811/**/*.joblib filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260811/**/*.pt filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260812/**/*.npz filter=lfs diff=lfs merge=lfs -text
+results/wsnds/evidence_completion_20260813/**/*.npz filter=lfs diff=lfs merge=lfs -text
 
 # Executed sources are referenced by SHA-256 in the evidence above.
 experiments/wsnds/leakage_free_rerun/tier15_common.py -text whitespace=cr-at-eol
@@ -42,3 +51,10 @@ experiments/evidence/build_fgds_evidence_registry.py -text whitespace=cr-at-eol
 
 # Wi-Fi UDP HIL bundles and their bundler also use exact-byte provenance hashes.
 deployment/wireless_hil/** -text whitespace=-trailing-space
+
+# Final-HIL sources and MSP430 artifacts are referenced by exact SHA-256 values.
+deployment/final_hil/** -text whitespace=-trailing-space
+deployment/firmware_export/wsnds_final_hil/** -text whitespace=-trailing-space
+deployment/msp430/current_fgds_static/** -text whitespace=-trailing-space
+deployment/hardware_hil/host/generate_fgds_balanced_timing_cohort.py -text whitespace=cr-at-eol
+experiments/wsnds/evidence_completion/** -text whitespace=cr-at-eol

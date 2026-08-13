@@ -1,0 +1,409 @@
+{
+  "alpha": 0.5,
+  "analysis_role": "factorial_sensitivity_only",
+  "anchor_reproduction_check": null,
+  "base_rf_target_content_sha256": "7c94a5189f80e48855c4ffce6d9779540c2638e87e171fafd00b57ff890c81b8",
+  "base_rf_target_file_sha256": "c13b92865da78db7773a4e2d0c92b2247ce49150686a8fdcaa08de9572720758",
+  "checkpoint_sha256": "2cf1b83745dc082325d675aeabe0ff454d1b9806e039c0f3e9c6a8d7c8dedaf0",
+  "checkpoint_size_bytes": 22276,
+  "execution_contract_sha256": "6420b12445b1d12f4a71e4beba944e7589c7bf7d1c7596f0d0c1d89ab884847f",
+  "initial_state_sha256": "560cf69176ee4c42c6bf19c75104290ab7f1862c9b2ba281a10692d7b321d3f0",
+  "minibatch_order_contract_semantic_sha256": "5729542086df6b55173f19a29a42323b66d14c26d7731e2b850060e3e3b99118",
+  "protocol_id": "wsnds_fgds_rfkd_hyperparameter_sensitivity_10seed_v1",
+  "resource_counts": {
+    "fp32_parameter_payload_bytes": 13588,
+    "hidden_activation_values_per_record": 96,
+    "linear_flops_per_record_multiply_add_as_two": 6592,
+    "linear_macs_per_record": 3296,
+    "scope": "Analytical neural-core counts. They exclude framework, optimizer, serialization, firmware, preprocessing, communication, peak RAM, latency, energy, and RF-teacher storage.",
+    "trainable_parameters": 3397
+  },
+  "seed": 123,
+  "selection_eligible": false,
+  "status": "complete",
+  "student": "student_B",
+  "temperature": 2.0,
+  "test_metrics": {
+    "accuracy": 0.9882595335784444,
+    "confusion_matrix": [
+      [
+        1429,
+        0,
+        161,
+        0,
+        0
+      ],
+      [
+        0,
+        493,
+        0,
+        2,
+        0
+      ],
+      [
+        296,
+        0,
+        1843,
+        10,
+        0
+      ],
+      [
+        0,
+        60,
+        46,
+        50934,
+        30
+      ],
+      [
+        0,
+        0,
+        0,
+        56,
+        941
+      ]
+    ],
+    "ece_15_bin": 0.0010040548774684235,
+    "fp32_parameter_payload_bytes": 13588,
+    "hidden_activation_values_per_record": 96,
+    "linear_flops_per_record_multiply_add_as_two": 6592,
+    "linear_macs_per_record": 3296,
+    "macro_f1": 0.9270223505041937,
+    "macro_precision": 0.9173403653869079,
+    "macro_recall": 0.9386956814221605,
+    "per_class_f1": [
+      0.8621417797888387,
+      0.9408396946564885,
+      0.8778280542986425,
+      0.9980014107688691,
+      0.9563008130081301
+    ],
+    "per_class_precision": [
+      0.8284057971014492,
+      0.891500904159132,
+      0.8990243902439025,
+      0.9986667189521979,
+      0.9691040164778579
+    ],
+    "per_class_recall": [
+      0.8987421383647799,
+      0.9959595959595959,
+      0.8576081898557468,
+      0.9973369884472293,
+      0.9438314944834504
+    ],
+    "per_class_support": [
+      1590,
+      495,
+      2149,
+      51070,
+      997
+    ],
+    "scope": "Analytical neural-core counts. They exclude framework, optimizer, serialization, firmware, preprocessing, communication, peak RAM, latency, energy, and RF-teacher storage.",
+    "trainable_parameters": 3397
+  },
+  "test_predictions_sha256": "3f09a9fae8660ba83e319eab35ce69341bd84ac02ba345f741e7ecd491c98a89",
+  "trained_state_sha256": "e33caad038a16858234c5f01de5ffa800fe14575cf71979d81b464e6845d69f8",
+  "training": {
+    "alpha": 0.5,
+    "best_epoch": 22,
+    "best_validation_macro_f1_during_training": 0.9332507549352949,
+    "early_stopped": false,
+    "epochs_completed": 30,
+    "minibatch_order_contract_prefix": [
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7876014049792069971,
+        "epoch": 1,
+        "index_order_sha256": "af1bc14d18048029f67161d88e7064148e038481c8419a8532828e1145abb649",
+        "sampler_seed": 8670141418297620520
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 936923395897064368,
+        "epoch": 2,
+        "index_order_sha256": "7df3d04b60b7470fed50b1b7cd263665ee4ab0a3b6c33fe54a3d6c7e5c567a05",
+        "sampler_seed": 5586624595231065965
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 2768270784381958206,
+        "epoch": 3,
+        "index_order_sha256": "828cf5d23960e4d0864f525c5f173d0e8e0e0123be76bf83b781d62263ad0a9d",
+        "sampler_seed": 3227383422700060320
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7574044694620837875,
+        "epoch": 4,
+        "index_order_sha256": "3a3590ce093030f37bf8e3c99eed6fa58475619941675aa715f43b988f83c157",
+        "sampler_seed": 7512980882820537987
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 3937086560843210290,
+        "epoch": 5,
+        "index_order_sha256": "002dd1d4f8e051844739bf87f08bbcdeec9f8956494e88f76e5fdb6c9142009b",
+        "sampler_seed": 1977650394160871904
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 2817385494103750995,
+        "epoch": 6,
+        "index_order_sha256": "9981ef0afeb353bef6f713563b003154b73feb9f8a8833bfdecf8dfe60578969",
+        "sampler_seed": 3189787001807641233
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 5960267803111551782,
+        "epoch": 7,
+        "index_order_sha256": "49adaea6561f2df3e9053024bc8d6f9ab096b703a8684265794fbf34a419b156",
+        "sampler_seed": 8979601829718015618
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 2926535882389407768,
+        "epoch": 8,
+        "index_order_sha256": "3fdc7ce0e6bb8b2fa57c397cc0f8631b05b93887a611c94fb1aaa4adbcf9a5a7",
+        "sampler_seed": 3540176595092957364
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 8215652242558179066,
+        "epoch": 9,
+        "index_order_sha256": "3b34242277ab072c8ef79163aa2627ac91b9a3c6081c9667b537c2ca0c1a4127",
+        "sampler_seed": 1583557853568296148
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 6397659101184475395,
+        "epoch": 10,
+        "index_order_sha256": "4ae02d43c489e46620db24a3a743360561ad234d2a5036ba71dc812e5a276275",
+        "sampler_seed": 8107388188395069027
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 344337206976124298,
+        "epoch": 11,
+        "index_order_sha256": "797465f6422ac9950429f1b8081a1609f3fdda9088e4fc3bdce102f322f90d1d",
+        "sampler_seed": 7309694502239076248
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 6201194944021693055,
+        "epoch": 12,
+        "index_order_sha256": "b55fd77bf8a08d62f5454aaeab2670e8e71620728fc57389791526f46e6a2e39",
+        "sampler_seed": 2057768694063284381
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 6014869712540642779,
+        "epoch": 13,
+        "index_order_sha256": "4f7541666674e6573ce68e1165aeb74dc266ded166e01dd838b52da67d6baf62",
+        "sampler_seed": 7283145080883311628
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 6159847268150334123,
+        "epoch": 14,
+        "index_order_sha256": "c0b1efb6f618a0e28fc8918a571537a4181477e111e90bd3d705f08723c1e995",
+        "sampler_seed": 6202065921846571013
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 2078000422248793673,
+        "epoch": 15,
+        "index_order_sha256": "ae43739c9bf74934b4fad7735158f6741ebbe2936d79d0350b334fc1cdfcd581",
+        "sampler_seed": 3171824286694092518
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 438281496359002771,
+        "epoch": 16,
+        "index_order_sha256": "ad3f589fb029971529daa46d88432788637e9f338ba538e2c233ed9837d233ae",
+        "sampler_seed": 8983344868186568887
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 8490912327386928630,
+        "epoch": 17,
+        "index_order_sha256": "2b6dfc9d9f585f7a3e1f85198f3e76c571f9aad09814beac9c6635f493f2309f",
+        "sampler_seed": 5594281913981330599
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 5022656758135937755,
+        "epoch": 18,
+        "index_order_sha256": "2a9052c4371ebf0aee03ecaf2f0cda4b00247580d867563059c4ab57ce44f62a",
+        "sampler_seed": 2730051771993612923
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 1684390709747682983,
+        "epoch": 19,
+        "index_order_sha256": "f1ec9ff127e6eeb14cf68a765d538c1119c4c3504fc0387a403743887ff26c61",
+        "sampler_seed": 8658314882717176166
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 1440354798740756268,
+        "epoch": 20,
+        "index_order_sha256": "cbdcf9469b5219d2c750bfc03573e551025731b92f15d037309d1801b6b5e4ca",
+        "sampler_seed": 5642811126045549764
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 877200674560168430,
+        "epoch": 21,
+        "index_order_sha256": "6da0e72f98294607bd01cdadd719aec5f3af98dd169f89612eebddb56153fbd8",
+        "sampler_seed": 3293755767518844419
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7714217212105366302,
+        "epoch": 22,
+        "index_order_sha256": "ff7d4ba100bcafa4ef3668de5a919b5410374219fda18646a84c3068c0441314",
+        "sampler_seed": 8676449509057733298
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7812426587612985454,
+        "epoch": 23,
+        "index_order_sha256": "a8999a4f0f219b925406b7c18dccdf6ef055d22ce539fa9f1a4e5f08c1ff9678",
+        "sampler_seed": 2546724139642324701
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 3213828777643737258,
+        "epoch": 24,
+        "index_order_sha256": "f88fc550cf9e311b4ce4022974c92daeaac156848a153fb6f1885854be1d3f3d",
+        "sampler_seed": 3013126377427310001
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 8749764100210979209,
+        "epoch": 25,
+        "index_order_sha256": "2d588f7aa6cda3c17485589692c4e610a79fb39d59d247a7e53461e71a480d68",
+        "sampler_seed": 1149444228597355261
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 6903972522842969501,
+        "epoch": 26,
+        "index_order_sha256": "6e9bccbc6e503dc41f34716e2f8e847419bd42b2b60a35873689d3ecc9fc0416",
+        "sampler_seed": 487769719035141590
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 3167395748789319099,
+        "epoch": 27,
+        "index_order_sha256": "202954be7c5da8693adef532d632ce1b057f380e4f27ef023cfd5cd56f7d04da",
+        "sampler_seed": 1342091743506401661
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 3682481289272123392,
+        "epoch": 28,
+        "index_order_sha256": "be9972fab8120d1394bf9a133aaeada02007656afa0a2b2ad9293166df97fb3c",
+        "sampler_seed": 2062045989662946889
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7847280582118415518,
+        "epoch": 29,
+        "index_order_sha256": "02010c80afa4d936b34c87238e3e604d630a8aa8416b254aec91f379636fb00f",
+        "sampler_seed": 2628066840092822630
+      },
+      {
+        "batch_count": 1025,
+        "discarded_global_rng_draw": 7750423148750399274,
+        "epoch": 30,
+        "index_order_sha256": "e92b1400c6c1bbe1b1efcb006887246cf003d7da765b9f274c2f579cb6157137",
+        "sampler_seed": 5429984017005630485
+      }
+    ],
+    "teacher_target_content_sha256": "4405f72a78ef131aefdb74d5b2e3e462adacf2c5d128f4d84d19a50744fd33ac",
+    "temperature": 2.0,
+    "wall_seconds": 137.46217309999338
+  },
+  "training_history_sha256": "b1e4ad807d0a0e10b6d65d53667d64dc5a95f4eda28c92d92cf10f513bf5d86d",
+  "transformed_teacher_target_content_sha256": "4405f72a78ef131aefdb74d5b2e3e462adacf2c5d128f4d84d19a50744fd33ac",
+  "validation_metrics": {
+    "accuracy": 0.9893524206328009,
+    "confusion_matrix": [
+      [
+        1426,
+        0,
+        93,
+        0,
+        0
+      ],
+      [
+        0,
+        488,
+        0,
+        0,
+        0
+      ],
+      [
+        287,
+        0,
+        1900,
+        9,
+        0
+      ],
+      [
+        0,
+        60,
+        45,
+        50822,
+        32
+      ],
+      [
+        0,
+        0,
+        3,
+        69,
+        929
+      ]
+    ],
+    "ece_15_bin": 0.002401578578760869,
+    "fp32_parameter_payload_bytes": 13588,
+    "hidden_activation_values_per_record": 96,
+    "linear_flops_per_record_multiply_add_as_two": 6592,
+    "linear_macs_per_record": 3296,
+    "macro_f1": 0.9332507549352949,
+    "macro_precision": 0.923810755858181,
+    "macro_recall": 0.9458736948483055,
+    "per_class_f1": [
+      0.8824257425742574,
+      0.9420849420849421,
+      0.8968609865470852,
+      0.9978892390461324,
+      0.9469928644240571
+    ],
+    "per_class_precision": [
+      0.8324576765907764,
+      0.8905109489051095,
+      0.9309162175404213,
+      0.998467583497053,
+      0.9667013527575442
+    ],
+    "per_class_recall": [
+      0.9387755102040817,
+      1.0,
+      0.8652094717668488,
+      0.9973115641986695,
+      0.9280719280719281
+    ],
+    "per_class_support": [
+      1519,
+      488,
+      2196,
+      50959,
+      1001
+    ],
+    "scope": "Analytical neural-core counts. They exclude framework, optimizer, serialization, firmware, preprocessing, communication, peak RAM, latency, energy, and RF-teacher storage.",
+    "trainable_parameters": 3397
+  },
+  "validation_predictions_sha256": "acd464a04326aa69326b4366ddeb5e18dafc8f7a0c67994166a73a78e7daf833"
+}

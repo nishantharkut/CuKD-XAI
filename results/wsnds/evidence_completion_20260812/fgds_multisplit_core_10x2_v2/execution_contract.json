@@ -1,0 +1,95 @@
+{
+  "protocol_id": "wsnds_fgds_multisplit_core_10x2_v2",
+  "dataset": {
+    "path": "data/wsnds/WSN-DS.csv",
+    "sha256": "c65d05b983a85753bd62b6f76c5739fc52fe0c14cbb7644255cee4742f5ff7c9",
+    "row_count": 374661,
+    "class_count": 5
+  },
+  "split_seeds": [
+    42,
+    123,
+    456,
+    789,
+    1001,
+    2024,
+    3141,
+    5678,
+    8192,
+    9999
+  ],
+  "optimizer_seeds_per_split": [
+    42,
+    123
+  ],
+  "rf_seed_fixed_across_splits": 42,
+  "split_policy": "70/15/15 approximate row ratios from stratified majority-label exact-feature groups; both split stages use the split seed; mixed-label groups remain intact",
+  "scaler_fit_partition": "training partition of each split only",
+  "student_routes": [
+    "scratch",
+    "rf_kd"
+  ],
+  "students": {
+    "student_A": [
+      32,
+      16
+    ],
+    "student_B": [
+      64,
+      32
+    ]
+  },
+  "kd_hyperparameters": {
+    "T": 4.0,
+    "alpha": 0.7
+  },
+  "kd_hyperparameter_boundary": "Historical fixed values; no multi-split validation or test retuning",
+  "training_config": {
+    "epochs": 30,
+    "batch_size": 256,
+    "lr": 0.001,
+    "weight_decay": 0.001,
+    "patience": 8
+  },
+  "teacher_config": {
+    "n_estimators": 500,
+    "max_depth": 15,
+    "calibration_method": "isotonic",
+    "calibration_cv": 3
+  },
+  "teacher_calibration": "three-fold StratifiedGroupKFold within each training partition",
+  "summary_unit": "split-level mean over two paired optimizer seeds",
+  "primary_outcome": "RF-KD minus scratch test macro-F1",
+  "inference_policy": "descriptive split sensitivity only; overlapping repeated holdouts are not treated as independent inferential units",
+  "multiplicity": "not applicable because no multi-split hypothesis test is performed",
+  "retained_artifacts": "compact metrics, hashes, split contracts, split test indices, true labels, and predicted labels",
+  "intentionally_not_retained": "RF objects, RF train probabilities, student checkpoints, test probabilities, copied dataset",
+  "software": {
+    "executed_source_sha256": "ef03c2379734beec1c4d0c70799f2cc4647e96883cd26e027899600e4f95d337",
+    "common_source_sha256": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+    "rf_source_sha256": "6b76bb0eba54691d7d1ac43324e95160ff21328374c991f0b34843d167a3546e",
+    "source_snapshots": {
+      "executed_multisplit_source.py": "ef03c2379734beec1c4d0c70799f2cc4647e96883cd26e027899600e4f95d337",
+      "bound_common_source.py": "78c79a377a57a2bc9ef6b532ed280b352cb5ba246d862409f874253cc768ff47",
+      "bound_rf_source.py": "6b76bb0eba54691d7d1ac43324e95160ff21328374c991f0b34843d167a3546e"
+    }
+  },
+  "environment": {
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.8.0",
+    "torch": "2.5.1+cu121",
+    "cuda_available": true,
+    "cuda_version": "12.1",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "cublas_workspace_config": ":4096:8",
+    "deterministic_algorithms_enabled": true,
+    "deterministic_algorithms_warn_only": false,
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false
+  },
+  "execution_contract_id": "72201c5b0ff2164342d2dd4fb0d48fc32b8a201754117c69c413176ea0bb8794"
+}

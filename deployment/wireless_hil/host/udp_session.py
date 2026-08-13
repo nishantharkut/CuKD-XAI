@@ -209,8 +209,12 @@ class StrictUdpSession:
                     category = "wrong_stage"
                 elif envelope.transaction_id != transaction_id:
                     category = "wrong_transaction"
-                elif envelope.attempt != attempt:
+                elif envelope.attempt < attempt:
                     category = "wrong_attempt"
+                elif envelope.attempt > attempt:
+                    raise RuntimeError(
+                        "UDP response carries an attempt number that has not been sent"
+                    )
                 else:
                     category = ""
                 if category:
