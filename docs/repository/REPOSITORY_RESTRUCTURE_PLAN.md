@@ -136,9 +136,9 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 | `Results - ...` folders | `results/wsnds/legacy_runs/` | Historical WSN-DS result outputs. |
 | `WSN-DS.csv` | `data/wsnds/WSN-DS.csv` | Dataset should not sit at root. |
 | `Edge-IIOT-run/WSN-DS.csv` | `data/wsnds/edge_iiot_copy/WSN-DS.csv` or archive with note | Preserve duplicate exactly, but document why it exists. |
-| `*.su`, `gpu_temp.log`, `cleanup_untrack_paths.txt` | `archive/scratch/` | Preserve scratch/build outputs without cluttering root. |
+| `*.su`, `gpu_temp.log`, `cleanup_untrack_paths.txt` | `research_history/development_records/` | Preserve scratch/build outputs without cluttering root. |
 | `test_hardware_export_e2e.py` | `tests/hardware/test_hardware_export_e2e.py` | Tests should live under `tests/`. |
-| `tmp/` | `archive/scratch/tmp/` | Preserve temporary files without root clutter. |
+| `tmp/` | `research_history/development_records/tmp/` | Preserve temporary files without root clutter. |
 
 ## Implementation Phases
 
@@ -206,11 +206,11 @@ Move historical folders first because they are least likely to break imports.
 
 - [ ] Move root scratch/build leftovers:
   ```powershell
-  git mv gpu_temp.log archive/scratch/gpu_temp.log
-  git mv cleanup_untrack_paths.txt archive/scratch/cleanup_untrack_paths.txt
-  git mv msp430_smoke_main.su archive/scratch/msp430_smoke_main.su
-  git mv wsnds_preprocess_int16.su archive/scratch/wsnds_preprocess_int16.su
-  git mv wsnds_student_a_rfkd_int8_inference.su archive/scratch/wsnds_student_a_rfkd_int8_inference.su
+  git mv gpu_temp.log research_history/development_records/gpu_temp.log
+  git mv cleanup_untrack_paths.txt research_history/development_records/cleanup_untrack_paths.txt
+  git mv msp430_smoke_main.su research_history/development_records/msp430_smoke_main.su
+  git mv wsnds_preprocess_int16.su research_history/development_records/wsnds_preprocess_int16.su
+  git mv wsnds_student_a_rfkd_int8_inference.su research_history/development_records/wsnds_student_a_rfkd_int8_inference.su
   ```
 
 - [ ] Verify no deletes:
