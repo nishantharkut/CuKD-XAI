@@ -83,5 +83,5 @@ Start from these files when reviewing the research:
 | What are the exact result claims? | `docs/research/RESULTS_AND_EVIDENCE.md` |
 | What did hardware HIL prove? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
 | What did Edge-IIoT prove? | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md` |
-| What was changed in the repository structure? | `docs/repository/REPOSITORY_RESTRUCTURE_PLAN.md` |
-| Were old path references audited? | `docs/repository/PATH_REFERENCE_AUDIT.md` |
+| What was changed in the repository structure? | `research_history/documentation_snapshots/repository_restructure/REPOSITORY_RESTRUCTURE_PLAN.md` |
+| Were old path references audited? | `research_history/documentation_snapshots/repository_restructure/PATH_REFERENCE_AUDIT.md` |

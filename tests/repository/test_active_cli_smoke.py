@@ -32,7 +32,7 @@ REQUIRED_EVIDENCE_FILES = [
     "docs/research/PROJECT_TECHNICAL_BRIEF.md",
     "docs/research/RESULTS_AND_EVIDENCE.md",
     "docs/repository/REPOSITORY_MAP.md",
-    "docs/repository/PATH_REFERENCE_AUDIT.md",
+    "research_history/documentation_snapshots/repository_restructure/PATH_REFERENCE_AUDIT.md",
     "results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md",
     "results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv",
     "results/hardware_hil/reports/final_postprocessing/compile_framework_baseline.csv",

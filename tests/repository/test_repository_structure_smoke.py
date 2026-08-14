@@ -100,7 +100,13 @@ class RepositoryStructureSmokeTests(unittest.TestCase):
         self.assertEqual(offenders, [])
 
     def test_path_reference_audit_has_no_active_review_rows(self):
-        audit = ROOT / "docs" / "repository" / "path_reference_audit.csv"
+        audit = (
+            ROOT
+            / "research_history"
+            / "documentation_snapshots"
+            / "repository_restructure"
+            / "path_reference_audit.csv"
+        )
         with audit.open(newline="", encoding="utf-8-sig") as handle:
             rows = list(csv.DictReader(handle))
         active_rows = [row for row in rows if row["category"] == "active_review"]
