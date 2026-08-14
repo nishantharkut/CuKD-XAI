@@ -1,6 +1,6 @@
 ﻿# CuKD-XAI Results and Evidence Ledger
 
-This file records the current project results for professor discussion. Tables are rounded for readability where appropriate. Use the cited source files for exact unrounded values.
+This file records the current project results for technical review and manuscript preparation. Tables are rounded for readability where appropriate. Use the cited source files for exact unrounded values.
 
 ## Source Snapshot
 
@@ -20,7 +20,7 @@ This file records the current project results for professor discussion. Tables a
 | WSN-DS Student A 10-seed table | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv` |
 | WSN-DS Student B 10-seed table | `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv` |
 | WSN-DS combined J/co-distill output | `results/wsnds/final_results/2026-05-30-10seed-plus-j/cukd_xai_results_with_J.json`, `results/wsnds/final_results/2026-05-30-10seed-plus-j/j_only_results.json` |
-| SHAP explanation alignment summary | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json` |
+| SHAP explanation alignment summary | `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json` |
 | ONNX/OpenVINO runtime | `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
 | HIL fidelity | `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
 | HIL cycles/MAC | `results/hardware_hil/reports/final_postprocessing/cycles_per_mac.csv` |
@@ -31,7 +31,7 @@ This file records the current project results for professor discussion. Tables a
 | MSP430 cross-compile footprint | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md` |
 | Edge-IIoT strict rankings | `results/edge_iiot/strict_generalization/edgeiiot_v23_config_rankings.csv` |
 | Edge-IIoT literature-comparable rankings | `results/edge_iiot/literature_comparable/edgeiiot_v23_config_rankings.csv` |
-| Edge-IIoT literature comparison | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| Edge-IIoT literature comparison | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md` |
 
 ## WSN-DS 10-Seed Results
 
@@ -107,7 +107,7 @@ Sources: WSN-DS CSVs above and `results/hardware_hil/reports/final_postprocessin
 
 ## SHAP Explanation Alignment
 
-Source: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md` and raw SHAP data in `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
+Source: `docs/research/RELATED_WORK_RESULTS_COMPARISON.md` and raw SHAP data in `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 | Metric | Value |
 |---|---:|
@@ -293,7 +293,7 @@ Important comparison caution: many IDS papers report a plain `F1-score` without 
 
 ### WSN-DS and WSN/IoT IDS Papers
 
-| Paper / work | Dataset and method | Reported paper result | Paper resource evidence | Closest CuKD-XAI comparison | Safe professor interpretation | Source |
+| Paper / work | Dataset and method | Reported paper result | Paper resource evidence | Closest CuKD-XAI comparison | Scope-aware interpretation | Source |
 |---|---|---:|---|---|---|---|
 | Almomani et al. 2016, WSN-DS dataset paper | Original WSN-DS dataset and baseline IDS models | ANN baseline around `96.6%` accuracy in older repo context; exact macro-F1 not used here | Model footprint/latency NR | Student B `J`: accuracy `98.913%`, macro-F1 `93.353%`, `13.27 KB`; Student A `E`: accuracy `98.688%`, macro-F1 `91.997%`, `4.64 KB` | Use this as the dataset origin and baseline context, not as modern SOTA. | https://doi.org/10.1155/2016/4731953 |
 | Ghadi et al. 2024, IEEE Access review | WSN security review | No direct benchmark table for CuKD-XAI comparison | Review motivates the conflict between energy efficiency and security complexity | Use as motivation only | This is the base/background paper, not a result baseline. It supports the resource-constrained WSN framing. | `docs/literature/papers/base_paper.pdf`, https://doi.org/10.1109/ACCESS.2024.3355312 |
@@ -309,7 +309,7 @@ Important comparison caution: many IDS papers report a plain `F1-score` without 
 | Salmi and Oughdir 2022/2023 CNN-LSTM WSN DoS | WSN-DS / WSN DoS deep-learning baseline | Older repo notes cite around `97%` accuracy | Resource evidence NR | Student B `J`: `98.913%` accuracy and `13.27 KB` | Use as an earlier deep-learning WSN-DS/DoS baseline, but verify the exact venue/year/metric before manuscript use. | Listed in `docs/archive/updates/2026-04-12/CuKD_XAI_EXECUTION_PLAN.md`; source URL noted in repo: https://journalofbigdata.springeropen.com/articles/10.1186/s40537-023-00692-w |
 | Benaddi et al. 2025, SHAP-guided Kronecker KD | TON-IoT, not WSN-DS; SHAP feature pruning + KD + Kronecker student | Table II: student FP32 accuracy `0.9968`, macro-F1 `0.9863`; INT8 accuracy `0.9969`, macro-F1 `0.9867` | Table II: teacher `769,922` params / `3021.53 KB`; student `3,042` params / `22.29 KB`; FP32 mean latency `1.29 ms` | CuKD-XAI WSN-DS Student B `13.27 KB`, Student A `4.64 KB`; Edge-IIoT Student C selected-capacity `61.06 KB` | This is the closest KD/compression/XAI-style related work, but on TON-IoT and with Kronecker layers. It helps justify that compression+XAI IDS is active; our distinction is WSN-DS RF-to-student compression plus HIL/MSP430 evidence and SHAP faithfulness audit. | `docs/literature/papers/benaddi_2025.pdf`, https://arxiv.org/abs/2512.19488 |
 
-Note on Benaddi et al.: the checked arXiv HTML/PDF table reports `3,042` student parameters, while a method paragraph in the same paper text states `1,282` parameters. Use the table values for comparison unless the professor asks specifically about that inconsistency.
+Note on Benaddi et al.: the checked arXiv HTML/PDF table reports `3,042` student parameters, while a method paragraph in the same paper text states `1,282` parameters. Use the table values for comparison unless specifically investigating that inconsistency.
 
 ### Broader XAI/KD/IoT IDS Landscape
 
@@ -317,7 +317,7 @@ This table is for discussion breadth. Most rows are not direct WSN-DS competitor
 
 Primary local source: `docs/archive/updates/2026-04-12/XAI_IDS_WSN_IoT_Literature_Map_2023_2026.md`. Verification levels follow that file and `docs/archive/updates/2026-04-12/CuKD_XAI_EXECUTION_PLAN.md`: **PDF/local** means a local PDF or extracted text exists; **primary-link** means the row is backed by a DOI/publisher/arXiv URL in the repo; **context-only** means useful for positioning but not enough for a numeric claim.
 
-| Work | Main idea | Dataset(s) | Reported result/resource in local literature map | Relation to CuKD-XAI | Use in professor discussion |
+| Work | Main idea | Dataset(s) | Reported result/resource in local literature map | Relation to CuKD-XAI | Use in research positioning |
 |---|---|---|---|---|---|
 | Hossain and Islam 2025, federated SHAP-KD | Federated IoT botnet IDS with SHAP-based feature knowledge sharing | IoT botnet/N-BaIoT context | Accuracy `99.99%` across botnet types in local map | Shows SHAP+KD exists for IoT, but not WSN-DS | Use to avoid overclaiming "first SHAP+KD IDS"; claim WSN-DS-specific compression/evidence instead. |
 | Okey et al. 2026 RAID-KL | 1D-CNN teacher-student KD with adaptive KL-JS loss and SHAP | CICIoT2023, CICIoMT2024, NIMSLABIoT2025 | `91.24%` compression, `11.3%` CPU reduction, `64.33%` memory reduction | KD/compression IDS related work, different datasets | Shows resource-aware KD is active; CuKD-XAI must differentiate via WSN-DS + HIL/MSP430. |
@@ -326,7 +326,7 @@ Primary local source: `docs/archive/updates/2026-04-12/XAI_IDS_WSN_IoT_Literatur
 | Benaddi et al. 2025 | SHAP feature pruning + Kronecker KD | TON-IoT | Student `0.9968` accuracy, `0.9863` macro-F1, `22.29 KB` | Closest methodological analogue | Already in direct table; keep as must-cite. |
 | Self-attention XAI framework 2025 | SA-DNN with learnable feature gating plus SHAP/LIME | BoT-IoT, N-BaIoT, UNSW-NB15 | `99.3%` BoT-IoT accuracy, `99.6%` N-BaIoT accuracy | XAI/attention IDS context | Shows attention/XAI is active; not a compression comparator. |
 | Dong et al. 2026 SHAP-NGBoost | SHAP-enhanced natural-gradient boosting | UNSW-NB15, CICIDS2017, N-BaIoT | Outperforms mainstream baselines in local map | Tree/boosting XAI context | Supports claim that tree/boosting methods dominate raw metrics. |
-| Rajkumar and Shalinie 2025 QNN+SHAP | Quantum neural IDS interpreted by SHAP | CIC-IoT2022, SDN-DDoS24 | `0.98` expectation value; `113 ms` latency | Emerging XAI method, not directly comparable | Mention only if professor asks about non-classical IDS/XAI trends. |
+| Rajkumar and Shalinie 2025 QNN+SHAP | Quantum neural IDS interpreted by SHAP | CIC-IoT2022, SDN-DDoS24 | `0.98` expectation value; `113 ms` latency | Emerging XAI method, not directly comparable | Include only when discussing non-classical IDS/XAI trends. |
 | Versatile XAI framework 2025 | ANOVA + SHAP + LIME, XGBoost detector | CIC-DDoS2019, CICIoT2023, 5G PFCP | F1 `>=99%`; LIME time `36s -> 4.9s`; about `70%` dimensionality reduction | XAI efficiency context | Shows XAI runtime/feature reduction is studied outside WSN-DS. |
 | Alabbadi and Bajaber 2025 | CNN/DNN/TabNet with SHAP/LIME over IoT streams | TON-IoT sub-datasets | Network `99.24%`; IoT average `99.96%` in local map | XAI on TON-IoT, not WSN-DS | Good context for SHAP/LIME saturation in IoT IDS. |
 | Bin Hulayyil et al. 2025 | Explainable AI-based IDS in IoT systems | CUSmartHome, IoT23 | Efficiency demonstrated; exact metric not retained | General IoT XAI context | Do not use numerically unless source is reopened. |
@@ -336,7 +336,7 @@ Primary local source: `docs/archive/updates/2026-04-12/XAI_IDS_WSN_IoT_Literatur
 | Gaspar and Silva 2024 | SHAP/LIME applicability on MLP IDS | IoT IDS datasets | Demonstrates SHAP/LIME applicability on MLP | Directly relevant to our student MLP explanations | Shows SHAP on MLP is not new; our audit is teacher-student faithfulness. |
 | Samout et al. 2025 | XAI models for big-data WSN IDS | KDD Cup 99, agricultural/WSN framing | High accuracy/precision/recall/F1 in local map | WSN framing but not WSN-DS | Context only; not a direct WSN-DS result. |
 | Rule-induction IoT IDS 2025 | Inherently interpretable rule induction with ensembles | CIC-IDS2017, CICIoT2023 | XGBoost `99.91%` on CIC-IDS2017; `98.54%` on CICIoT2023 | Alternative explainability path | Helps explain why SHAP is only one XAI route. |
-| Trustworthy adaptive AI IIoT 2025 | Online/adaptive ensemble with SHAP | Industrial IoT traffic | `96.4%` accuracy, `2.1%` FPR, `35 ms` edge detection time | IIoT real-time/XAI context | Useful if professor asks about online/adaptive IDS gap. |
+| Trustworthy adaptive AI IIoT 2025 | Online/adaptive ensemble with SHAP | Industrial IoT traffic | `96.4%` accuracy, `2.1%` FPR, `35 ms` edge detection time | IIoT real-time/XAI context | Useful when discussing the online/adaptive IDS gap. |
 | Khan et al. 2025 VANET SHAP transformer | Transformer + SHAP for VANET IDS | VeReMi extension | Multiclass `96.15%`; binary `98.28%` | Non-WSN XAI transformer context | Not directly comparable; shows SHAP/transformers in IDS are active. |
 | L-XAIDS 2025 | LIME + ELI5 framework | Network IDS datasets | Higher detection rate and lower FPR vs three approaches | LIME-focused XAI context | Supports that LIME is co-dominant with SHAP. |
 | CNN + SHAP/LIME IoT 2025 | Lightweight 1D-CNN with SHAP/LIME | TON-IoT | Resource-efficient; SHAP used for feature selection | Lightweight CNN XAI context | Not a KD/WSN-DS comparator. |
@@ -350,7 +350,7 @@ Broad-field conclusion from the local literature map: **SHAP/XAI for IDS is comm
 
 The Edge-IIoT comparison is supporting evidence, not the main WSN-DS paper claim. Source table: `results/edge_iiot/literature_metric_gap/edgeiiot_literature_metric_comparison.md`.
 
-| Paper / work | Reported paper result | Our closest selected-capacity result | Safe professor interpretation | Source |
+| Paper / work | Reported paper result | Our closest selected-capacity result | Scope-aware interpretation | Source |
 |---|---|---|---|---|
 | Ferrag et al. 2022 Edge-IIoTset | Original 15-class DNN accuracy `94.67%`; RF `80.83%`, SVM `77.61%`, KNN `79.18%`, DT `67.11%` | Student C RF-KD accuracy `96.85%`, macro-F1 `82.44%`, `61.06 KB` | Our selected-capacity route beats the original Edge-IIoTset DNN accuracy, but F1 was not reported in that original baseline table. | https://doi.org/10.1109/ACCESS.2022.3165809 |
 | Diab et al. 2025 hardware-aware Edge-IIoT | LightGBM accuracy `95.25%`, F1 `94.74%`, `74.93 KB` flash; HW-NAS 1D-CNN accuracy `96.73%`, F1 `97.24%`, `190.34 KB` flash | Student C RF-KD accuracy `96.85%`, macro-F1 `82.44%`, `61.06 KB` | Our accuracy/storage are competitive, but their F1 basis is unspecified in the generated comparison, so avoid claiming macro-F1 superiority. | https://arxiv.org/abs/2512.02272 |

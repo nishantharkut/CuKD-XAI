@@ -1,6 +1,6 @@
-﻿# CuKD-XAI End-to-End Professor Brief
+﻿# CuKD-XAI End-to-End Technical Brief
 
-This document is a discussion guide for explaining the complete CuKD-XAI project end to end. All paths are relative to the repository root. Numeric claims are backed by the result files cited inline and summarized in `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`.
+This document is a discussion guide for explaining the complete CuKD-XAI project end to end. All paths are relative to the repository root. Numeric claims are backed by the result files cited inline and summarized in `docs/research/RESULTS_AND_EVIDENCE.md`.
 
 ## One-Minute Thesis
 
@@ -20,7 +20,7 @@ Primary source files:
 | Fixed-point C and MSP430 | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`, `deployment/msp430/msp430_build_v2/` |
 | Hardware HIL replay | `deployment/hardware_hil/host/`, `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
 | Edge-IIoT stress/generalization | `experiments/edge_iiot/strict_generalization/cukd_xai_edgeiiot_v23_generalization.py`, `experiments/edge_iiot/literature_comparable/cukd_xai_edgeiiot_v23_literature_comparable.py` |
-| Related work positioning | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| Related work positioning | `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md` |
 
 ## End-to-End Pipeline
 
@@ -66,7 +66,7 @@ flowchart LR
 5. **Explainability audit**
    - SHAP is used to compare student and teacher feature-importance rankings.
    - The important result is not "we used SHAP"; the important result is that the compressed student has useful prediction performance but low teacher-student global SHAP rank agreement.
-   - Source summary: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`; raw SHAP block: `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
+   - Source summary: `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`; raw SHAP block: `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 6. **Deployment proof**
    - Software deployment route exports/evaluates ONNX and OpenVINO artifacts.
@@ -98,7 +98,7 @@ flowchart LR
    - Edge-IIoT is used as a stress/generalization check.
    - The strict route intentionally removes leakage/identifier/source/payload-style columns and is much harder.
    - The literature-comparable selected-capacity route shows stronger numbers and allows cautious literature comparison.
-   - Sources: `results/edge_iiot/strict_generalization/`, `results/edge_iiot/literature_comparable/`, and `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`.
+   - Sources: `results/edge_iiot/strict_generalization/`, `results/edge_iiot/literature_comparable/`, and `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md`.
 
 ## Model and Compression Structure
 
@@ -176,9 +176,9 @@ Boundary to state clearly:
 | MSP430F1611 target-toolchain memory feasibility | Full TinyOS/Contiki/RIOT integration |
 | ONNX/OpenVINO software runtime artifact checks | INT8 speedup claim |
 
-## Code Walkthrough Order for Professor
+## Code Walkthrough Order
 
-Use this order if the professor asks to see the code:
+Use this order during a technical review of the code:
 
 1. `experiments/wsnds/main/cukd_xai_colab.py`
    - Shows imports, `TeacherMLP`, `StudentMLP`, training functions, KD function, quantization helper, RF teacher, run loop, SHAP section, and result export.
@@ -223,12 +223,12 @@ The safest related-work framing is:
 
 Source files:
 
-- `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
-- `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+- `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`
+- `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md`
 
-For exact paper-by-paper numbers, open `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` and use the section **Verified Base and Related-Paper Comparison**. That table separates the paper-reported result, our closest comparable result, and the safe interpretation.
+For exact paper-by-paper numbers, open `docs/research/RESULTS_AND_EVIDENCE.md` and use the section **Verified Base and Related-Paper Comparison**. That table separates the paper-reported result, our closest comparable result, and the scope-aware interpretation.
 
-## Professor-Style Discussion Brief
+## Research Discussion Brief
 
 His Mamba/channel-prediction paper style is direct: first define the domain need, then the technical gap, then the proposed method, then quantified results, then limitations. Use that same structure instead of starting with every experiment detail.
 
@@ -260,7 +260,7 @@ The paper should be written as a resource-aware and explanation-audited IDS comp
 
 ### If He Asks "How Does It Compare With Base Papers?"
 
-Use this short table verbally, then open `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` for exact sources. The evidence file now has two comparison layers:
+Use this short table verbally, then open `docs/research/RESULTS_AND_EVIDENCE.md` for exact sources. The evidence file now has two comparison layers:
 
 1. **Direct WSN-DS / WSN competitors:** original WSN-DS, Talukder, MLSTL-WSN, Birahim, Pandey, GSWO-CatBoost, Alfarra, Xiao, Vidhya, Rana, Salmi.
 2. **Broader XAI/KD/IoT IDS landscape:** Benaddi, Hossain, Okey RAID-KL, DistillGuard, IEEE TCE KD, SHAP/LIME/attention/rule-induction papers, and XAI survey papers.
@@ -338,7 +338,7 @@ This work demonstrates that WSN-DS intrusion detection can be compressed from an
 - Do not claim INT8 speedup from the current runtime evidence.
 - Do not claim co-distillation always improves.
 
-## Professor Questions and Safe Answers
+## Review Questions and Evidence-Based Answers
 
 Use these as spoken answers. Keep them factual and bounded; do not add claims that are not in the evidence files.
 
@@ -438,7 +438,7 @@ Use these as spoken answers. Keep them factual and bounded; do not add claims th
 | Where is hardware evidence? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` and its companion CSV files. |
 | Where is MSP430 evidence? | `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`. |
 | Where is Edge-IIoT evidence? | Strict route: `results/edge_iiot/strict_generalization/`; selected-capacity route: `results/edge_iiot/literature_comparable/`. |
-| What should I open first if asked to show proof? | Open `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`, then the cited CSV/report for the specific number being discussed. |
+| What should I open first if asked to show proof? | Open `docs/research/RESULTS_AND_EVIDENCE.md`, then the cited CSV/report for the specific number being discussed. |
 
 ### Limitations and Future Work Questions
 
@@ -452,12 +452,12 @@ Use these as spoken answers. Keep them factual and bounded; do not add claims th
 
 ## Files to Keep Open During the Discussion
 
-1. `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`
-2. `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+1. `docs/research/RESULTS_AND_EVIDENCE.md`
+2. `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`
 3. `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_A.csv`
 4. `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_student_B.csv`
 5. `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
 6. `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`
-7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md`
 
 

@@ -132,8 +132,8 @@ Hardware replay validates the generated fixed-point model execution over saved W
 | Hardware replay outputs | [`results/hardware_hil/board_replay/`](results/hardware_hil/board_replay/) |
 | Final HIL tables | [`results/hardware_hil/reports/final_postprocessing/`](results/hardware_hil/reports/final_postprocessing/) |
 | Compile footprint logs | [`results/hardware_hil/compile_logs/`](results/hardware_hil/compile_logs/) |
-| Professor-facing evidence ledger | [`docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`](docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md) |
-| End-to-end professor brief | [`docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`](docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md) |
+| Research evidence ledger | [`docs/research/RESULTS_AND_EVIDENCE.md`](docs/research/RESULTS_AND_EVIDENCE.md) |
+| End-to-end technical brief | [`docs/research/PROJECT_TECHNICAL_BRIEF.md`](docs/research/PROJECT_TECHNICAL_BRIEF.md) |
 | Literature comparison material | [`docs/literature/`](docs/literature/) |
 | Artifact review guide | [`ARTIFACT.md`](ARTIFACT.md) |
 | Citation metadata | [`CITATION.cff`](CITATION.cff) |
@@ -145,8 +145,8 @@ Hardware replay validates the generated fixed-point model execution over saved W
 
 | Reviewer goal | Recommended path |
 |---|---|
-| Understand the complete project before a professor discussion | Read [`docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`](docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md), then this README |
-| Check whether a claim is backed by evidence | Use [`docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`](docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md) and the linked result files |
+| Understand the complete project before a technical discussion | Read [`docs/research/PROJECT_TECHNICAL_BRIEF.md`](docs/research/PROJECT_TECHNICAL_BRIEF.md), then this README |
+| Check whether a claim is backed by evidence | Use [`docs/research/RESULTS_AND_EVIDENCE.md`](docs/research/RESULTS_AND_EVIDENCE.md) and the linked result files |
 | Inspect final WSN-DS results | Start with [`results/wsnds/final_results/2026-05-30-10seed-plus-j/`](results/wsnds/final_results/2026-05-30-10seed-plus-j/) |
 | Inspect deployment and hardware evidence | Start with [`results/hardware_hil/reports/final_postprocessing/`](results/hardware_hil/reports/final_postprocessing/) |
 | Inspect Edge-IIoT support evidence | Start with [`results/edge_iiot/literature_metric_gap/`](results/edge_iiot/literature_metric_gap/) |
@@ -175,7 +175,7 @@ CuKD-XAI/
   experiments/   Research experiment implementations
   results/       Paper-facing metrics, tables, figures, runtime outputs, and HIL evidence
   deployment/    Firmware export, hardware tooling, and embedded deployment assets
-  docs/          Professor brief, literature notes, reproduction notes, and repository documentation
+  docs/          Research briefs, literature notes, reproduction notes, and repository documentation
   tests/         Static, export, and hardware-HIL checks
   archive/       Preserved historical runs, old packages, and scratch outputs
 ```

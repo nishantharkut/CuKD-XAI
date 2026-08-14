@@ -21,8 +21,8 @@ The artifact supports these evidence categories:
 
 | Review question | Start here |
 |---|---|
-| What is the project and complete evidence chain? | `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md` |
-| What exact claims are supported by files? | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
+| What is the project and complete evidence chain? | `docs/research/PROJECT_TECHNICAL_BRIEF.md` |
+| What exact claims are supported by files? | `docs/research/RESULTS_AND_EVIDENCE.md` |
 | What are the final WSN-DS tables and figures? | `results/wsnds/final_results/2026-05-30-10seed-plus-j/` |
 | What did hardware replay prove? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
 | What did Edge-IIoT add? | `results/edge_iiot/literature_metric_gap/edgeiiot_literature_metric_comparison.md` |

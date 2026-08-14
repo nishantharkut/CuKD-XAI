@@ -134,7 +134,7 @@ ONNX/OpenVINO are software deployment checks. Fixed-point C and HIL replay are t
 
 Link the table to:
 
-- `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`
+- `docs/research/RESULTS_AND_EVIDENCE.md`
 - `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
 
 ## Repository Layout Section
@@ -149,7 +149,9 @@ After restructure, README should show:
 | `deployment/hardware_hil/` | Firmware HIL host tools, board bundles, and runbooks. |
 | `deployment/msp430/` | MSP430F1611 memory-feasibility evidence. |
 | `results/` | Generated result tables, runtime evidence, HIL outputs, and historical outputs. |
-| `docs/professor/` | Professor-facing evidence ledger and project brief. |
+| `docs/research/` | Technical brief, evidence ledger, and related-work comparison. |
+| `docs/publication/` | Manuscript preparation and writing guidance. |
+| `docs/literature/reference_papers/` | Reference papers used for research and writing review. |
 | `docs/literature/` | Papers and comparison material. |
 | `archive/` | Preserved historical runs, old notebooks, and scratch outputs. |
 ```

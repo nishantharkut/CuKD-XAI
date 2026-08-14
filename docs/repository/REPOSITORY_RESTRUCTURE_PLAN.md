@@ -13,12 +13,12 @@ Make the repository look like a professional research/engineering evidence packa
 - Use `git mv` for tracked files and directories.
 - Keep every historical result somewhere discoverable.
 - Separate move-only changes from content-edit changes.
-- Keep the current evidence chain intact: WSN-DS results, Edge-IIoT results, hardware HIL, MSP430, papers, and professor docs.
+- Keep the current evidence chain intact: WSN-DS results, Edge-IIoT results, hardware HIL, MSP430, papers, and research documentation.
 - After every restructuring batch, run deletion checks before continuing.
 
 ## Current Top-Level Problem
 
-The repository currently mixes active code, final evidence files, old notebooks, old result folders, datasets, hardware work, paper PDFs, scratch logs, and professor-facing notes at the root. That makes the project look less focused than the research actually is.
+The repository currently mixes active code, final evidence files, old notebooks, old result folders, datasets, hardware work, paper PDFs, scratch logs, and research-facing notes at the root. That makes the project look less focused than the research actually is.
 
 Examples of root-level items that should be organized:
 
@@ -78,8 +78,8 @@ CuKD-XAI/
     edge_iiot/
 
   docs/
-    professor/
-    paper/
+    research/
+    publication/
     literature/
       papers/
       comparison_tables/
@@ -107,7 +107,7 @@ CuKD-XAI/
 - Use `results/` for generated outputs/results.
 - Use `experiments/` for runnable pipelines and notebooks.
 - Use `deployment/` for firmware, HIL, MSP430, ONNX/OpenVINO, and deployment-oriented code.
-- Use `docs/` for human-facing explanation, professor notes, paper material, and literature.
+- Use `docs/` for human-facing explanation, research briefs, publication material, and literature.
 
 ## Proposed Move Map
 
@@ -126,7 +126,7 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 | `Hardware Deployment Run/hardware_export/` | `deployment/firmware_export/wsnds_rfkd/` | Fixed-point C export pipeline. |
 | `hardware_export/` | `deployment/msp430/` | MSP430 and older fixed-point export evidence. |
 | `Papers/` | `docs/literature/papers/` | Literature belongs under docs. |
-| `PROFESSOR_RESULTS_COMPARISON.md` | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md` | Professor-facing evidence. |
+| `PROFESSOR_RESULTS_COMPARISON.md` | `docs/research/RELATED_WORK_RESULTS_COMPARISON.md` | Related-work evidence and comparison. |
 | `ACCURACY_IMPROVEMENT_PLAN.md` | `docs/paper/ACCURACY_IMPROVEMENT_PLAN.md` | Research planning material. |
 | `WORK_DIVISION.md` | `docs/project/WORK_DIVISION.md` | Project management material. |
 | `WORK_DIVISION_FLOW.md` | `docs/project/WORK_DIVISION_FLOW.md` | Project management material. |
@@ -219,16 +219,16 @@ Move historical folders first because they are least likely to break imports.
   ```
   Expected: no output.
 
-### Phase 4: Move Literature and Professor Materials
+### Phase 4: Move Literature and Research Materials
 
 - [ ] Move papers:
   ```powershell
   git mv Papers docs/literature/papers
   ```
 
-- [ ] Move professor comparison:
+- [ ] Move related-work comparison:
   ```powershell
-  git mv PROFESSOR_RESULTS_COMPARISON.md docs/professor/PROFESSOR_RESULTS_COMPARISON.md
+  git mv PROFESSOR_RESULTS_COMPARISON.md docs/research/RELATED_WORK_RESULTS_COMPARISON.md
   ```
 
 - [ ] Move planning docs:
@@ -369,7 +369,7 @@ This phase may require content edits because moved paths can break tests or READ
 
 - [ ] Replace the current quick-start README with a polished research README.
 - [ ] Include badges, table of contents, project diagram, core results table, repository map, setup, reproduction, hardware boundary, citation, and claim boundaries.
-- [ ] Keep claims consistent with `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`.
+- [ ] Keep claims consistent with `docs/research/RESULTS_AND_EVIDENCE.md`.
 
 ### Phase 11: Verification
 
@@ -402,7 +402,7 @@ This phase may require content edits because moved paths can break tests or READ
 
 - [ ] Run link/path scan:
   ```powershell
-  rg -n "README|docs/professor|deployment/hardware_hil|experiments/wsnds|results/wsnds" README.md docs experiments deployment
+  rg -n "README|docs/research|docs/publication|deployment/hardware_hil|experiments/wsnds|results/wsnds" README.md docs experiments deployment
   ```
 
 ## PR Strategy

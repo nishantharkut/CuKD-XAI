@@ -8,7 +8,7 @@ This report is generated from completed Edge-IIoTset confusion matrices. It does
 - Classes: `15`
 - Input dimension: `49`
 
-## Key Interpretation for Professor
+## Key Interpretation
 
 - F1 is compared apples-to-apples only when the paper states the averaging type: macro-to-macro, weighted-to-weighted, or micro-to-micro.
 - If a paper reports plain `F1-score` without stating macro/weighted/micro, the matched F1 gap is `NR`; the table separately shows an explicitly non-apples-to-apples best-F1 reference gap.

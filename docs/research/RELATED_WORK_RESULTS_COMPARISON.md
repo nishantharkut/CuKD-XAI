@@ -1,4 +1,4 @@
-﻿# CuKD-XAI Results and Literature Comparison for Professor
+﻿# CuKD-XAI Results and Literature Comparison
 
 Prepared: 2026-05-31  
 Project: CuKD-XAI for lightweight explainable intrusion detection
@@ -267,7 +267,7 @@ Interpretation:
 
 ## 8. Extended Paper-by-Paper Metric Comparison
 
-Use this section when presenting to a professor or writing the related-work/results comparison. The table separates comparable metrics from missing/non-comparable metrics. If a field is not available in the current repo context, it is explicitly marked instead of inferred.
+Use this section when presenting the research or writing the related-work/results comparison. The table separates comparable metrics from missing or non-comparable metrics. If a field is not available in the current repository context, it is explicitly marked instead of inferred.
 
 ### 8.1 WSN-DS Papers
 
@@ -307,7 +307,7 @@ The following metrics were discussed during planning, but the exact paper PDFs/D
 | CNN-GRU hybrid 2026 | Acc `96.88%` | Our Edge selected-capacity students are below this in macro-F1; teacher/LightGBM accuracy is comparable or higher | Verify if binary, multiclass, or selected attack classes. Do not overclaim. |
 | Heavy DL / ensemble Edge-IIoT baselines | Acc `>=99%` up to `99.99%` | Our strict protocol is much lower; literature-comparable teacher accuracy is `98.23-98.67%` but macro-F1 about `0.886-0.888` | If those papers keep leakage/identity columns or use binary labels, they are not fair direct comparators. |
 
-## 9. What to Present to Professor
+## 9. Recommended Presentation Sequence
 
 ### 9.1 Main Technical Message
 
@@ -320,7 +320,7 @@ The following metrics were discussed during planning, but the exact paper PDFs/D
 5. ONNX/OpenVINO deployment proof shows the student artifacts are portable and extremely fast in software runtime testing.
 6. The SHAP result is novel and scientifically useful: distillation transfers task performance but not teacher explanation ranking.
 
-### 9.2 Suggested Professor-Facing Comparison Statement
+### 9.2 Suggested Comparison Statement
 
 > Compared with WSN-DS SOTA papers that report `99.7-99.94%` accuracy/F1 using RF, LightGBM, CatBoost, or ensemble methods, our method sacrifices about `4.5-5.9` macro-F1 points against the RF teacher but reduces serialized model size by about `6,410x-18,315x`. Unlike prior WSN-DS SHAP papers, we do not only explain the final model; we quantify whether the compressed student preserves the teacher's feature-importance ranking, and we find that it does not. This gives the paper a compression-deployment contribution and an explanation-faithfulness contribution.
 

@@ -4,7 +4,7 @@ This package contains the updated Markdown documentation, the fixed-point export
 
 Start with:
 
-- `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+- `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`
 - `deployment/msp430/README.md`
 - `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`
 - `deployment/msp430/WSN_MOTE_HARDWARE_REQUEST.md`

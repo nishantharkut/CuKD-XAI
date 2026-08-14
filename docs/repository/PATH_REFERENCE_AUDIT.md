@@ -43,5 +43,5 @@ When adding new scripts or docs, use the current top-level structure:
 - `deployment/` for firmware/HIL/MSP430 implementation
 - `results/` for generated evidence and tables
 - `data/` for dataset copies
-- `docs/` for papers, reproduction, and professor-facing material
+- `docs/` for papers, reproduction, and research and publication material
 - `archive/` only for preserved historical material

@@ -1,8 +1,8 @@
-﻿# CuKD-XAI Professor-Style Writing Playbook
+﻿# CuKD-XAI Manuscript Writing Guide
 
-This document prepares you to discuss CuKD-XAI in the writing style seen in the professor's submitted Mamba/channel-prediction paper:
+This document extracts structural conventions from the selected Mamba/channel-prediction reference paper:
 
-`docs/professor/1571311381 paper.pdf`
+`docs/literature/reference_papers/lightweight_accurate_channel_prediction_using_mamba.pdf`
 
 That paper is titled:
 
@@ -10,7 +10,7 @@ That paper is titled:
 
 The goal here is not to copy wording. The goal is to understand the style: how the paper frames a problem, introduces a method, claims contributions, organizes experiments, and presents results. This document maps that style onto CuKD-XAI.
 
-## 1. What His Paper Style Looks Like
+## 1. Reference Paper Style
 
 ### 1.1 Title Style
 
@@ -94,7 +94,7 @@ The Mamba paper introduction works like this:
 
 ### 3.1 CuKD-XAI Introduction Flow
 
-Use this sequence with the professor:
+Use this sequence during manuscript planning and technical review:
 
 ```text
 Paragraph 1: WSNs are used in critical environments, so intrusion detection must be accurate and reliable.
@@ -132,7 +132,7 @@ The main contributions are as follows:
 5. We validate the deployment path through ONNX/OpenVINO runtime checks, fixed-point C export, MCU-class HIL replay on ESP32-C3 and Arduino R4, and MSP430F1611 target-toolchain memory-feasibility evidence.
 ```
 
-Important: If professor says this is too many contributions, combine 2 and 3.
+If the contribution list is too long, combine items 2 and 3.
 
 ## 5. Methodology Structure
 
@@ -177,7 +177,7 @@ F. Deployment-Oriented Export
 
 ### 5.2 Algorithm Block to Propose
 
-This is the kind of algorithm block that matches his paper style:
+This is the kind of algorithm block that matches the reference paper's style:
 
 ```text
 Algorithm 1: CuKD-XAI Compression and Validation Pipeline
@@ -199,7 +199,7 @@ Ensure: trained student, compression metrics, SHAP alignment, deployment evidenc
 
 ## 6. Results Section in His Style
 
-His paper reports results with specific, quantified comparisons. For CuKD-XAI, the results should be organized around claims, not just many tables.
+The reference paper reports results with specific, quantified comparisons. For CuKD-XAI, the results should be organized around claims, not just many tables.
 
 ### 6.1 Result Claim 1: Teacher Accuracy vs Size
 
@@ -231,7 +231,7 @@ Source: `results/wsnds/final_results/2026-05-30-10seed-plus-j/wsnds_results_stud
 The teacher-student SHAP rank Spearman correlation is near zero, indicating that predictive distillation does not automatically preserve the teacher's global feature-importance ordering.
 ```
 
-Source: `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
+Source: `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`, `results/wsnds/legacy_runs/2026-05-30-10seed/cukd_xai_results.json`.
 
 ### 6.5 Result Claim 5: Hardware-Path Validation
 
@@ -243,29 +243,29 @@ Source: `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv`.
 
 ## 7. Figure and Table Plan
 
-His paper uses a figure/table-heavy IEEE structure. CuKD-XAI should have a similar visual plan.
+The reference paper uses a figure/table-heavy IEEE structure. CuKD-XAI should have a similar visual plan.
 
 ### 7.1 Must-Have Figures
 
 | Figure | Purpose | Existing or needed |
 |---|---|---|
-| Overall CuKD-XAI pipeline | Shows data -> teachers -> students -> SHAP -> deployment | Mermaid diagram in `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md` |
-| Model compression structure | Shows RF teacher to Student A/B to fixed-point firmware | Mermaid diagram in professor brief |
+| Overall CuKD-XAI pipeline | Shows data -> teachers -> students -> SHAP -> deployment | Mermaid diagram in `docs/research/PROJECT_TECHNICAL_BRIEF.md` |
+| Model compression structure | Shows RF teacher to Student A/B to fixed-point firmware | Mermaid diagram in the technical brief |
 | Pareto frontier | Shows accuracy/macro-F1 vs size | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/pareto_frontier_with_J.png` |
 | Per-class F1 | Shows minority-class behavior | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/per_class_f1_student_A_with_J.png`, `per_class_f1_student_B_with_J.png` |
 | SHAP summary or rank comparison | Shows explanation audit | Existing: `results/wsnds/final_results/2026-05-30-10seed-plus-j/shap_summary_student.png`; rank audit in JSON/docs |
-| Hardware HIL flow | Shows host serial replay and MCU verification | Mermaid diagram in professor brief |
+| Hardware HIL flow | Shows host serial replay and MCU verification | Mermaid diagram in the technical brief |
 
 ### 7.2 Must-Have Tables
 
 | Table | Purpose | Source |
 |---|---|---|
-| WSN-DS 10-seed Student A results | Ultra-small comparison | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
-| WSN-DS 10-seed Student B results | Accuracy-compression comparison | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
-| Compression table | RF vs students vs fixed-point | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
+| WSN-DS 10-seed Student A results | Ultra-small comparison | `docs/research/RESULTS_AND_EVIDENCE.md` |
+| WSN-DS 10-seed Student B results | Accuracy-compression comparison | `docs/research/RESULTS_AND_EVIDENCE.md` |
+| Compression table | RF vs students vs fixed-point | `docs/research/RESULTS_AND_EVIDENCE.md` |
 | Runtime/deployment table | ONNX/OpenVINO evidence | `results/runtime/onnx_openvino/wsnds/runtime_from_existing_outputs/wsnds_existing_artifact_runtime_summary.csv` |
 | HIL table | ESP32-C3 and Arduino R4 validation | `results/hardware_hil/reports/final_postprocessing/hil_fidelity.csv` |
-| Related work table | Honest comparison with WSN-DS and Edge-IIoT papers | `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| Related work table | Honest comparison with WSN-DS and Edge-IIoT papers | `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`, `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md` |
 
 ## 8. How to Talk to Him in His Writing Language
 
@@ -376,15 +376,15 @@ Better safe versions:
 
 ## 11. Meeting Checklist
 
-Before sitting with him, open these files:
+Before a technical review, open these files:
 
-1. `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md`
-2. `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md`
-3. `docs/professor/CUKD_XAI_PROFESSOR_WRITING_STYLE_PLAYBOOK.md`
-4. `docs/professor/PROFESSOR_RESULTS_COMPARISON.md`
+1. `docs/research/PROJECT_TECHNICAL_BRIEF.md`
+2. `docs/research/RESULTS_AND_EVIDENCE.md`
+3. `docs/publication/MANUSCRIPT_WRITING_GUIDE.md`
+4. `docs/research/RELATED_WORK_RESULTS_COMPARISON.md`
 5. `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md`
 6. `deployment/msp430/MSP430_CROSS_COMPILE_REPORT.md`
-7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md`
+7. `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md`
 
 Start with this:
 

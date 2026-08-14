@@ -11,7 +11,7 @@ This map explains the restructured repository after the no-delete organization p
 | `deployment/` | Firmware export, hardware-in-loop, and MSP430 deployment evidence. |
 | `results/` | Generated outputs, result tables, runtime evidence, and historical results. |
 | `data/` | Dataset files and preserved duplicate copies from historical runs. |
-| `docs/` | Professor notes, literature, reproduction guides, and repository documentation. |
+| `docs/` | Research briefs, literature, reproduction guides, and repository documentation. |
 | `tests/` | Preserved static, export, and hardware checks. |
 | `archive/` | Historical runs, old packages, update packs, and scratch files. |
 
@@ -48,7 +48,9 @@ This map explains the restructured repository after the no-delete organization p
 
 | Path | Contents |
 |---|---|
-| `docs/professor/` | End-to-end professor brief, results evidence ledger, writing-style playbook, and professor paper PDF. |
+| `docs/research/` | Technical brief, results evidence ledger, and related-work comparison. |
+| `docs/publication/` | Manuscript preparation and writing guidance. |
+| `docs/literature/reference_papers/` | Reference papers used for research and writing review. |
 | `docs/literature/papers/` | Local PDF/source-paper collection. |
 | `docs/literature/comparison_tables/` | Generated comparison tables for related work. |
 | `docs/reproduction/wsnds/` | WSN-DS reproduction guides. |
@@ -77,9 +79,9 @@ Start from these files when reviewing the research:
 
 | Question | File |
 |---|---|
-| What is the whole project? | `docs/professor/CUKD_XAI_E2E_PROFESSOR_BRIEF.md` |
-| What are the exact result claims? | `docs/professor/CUKD_XAI_RESULTS_EVIDENCE.md` |
+| What is the whole project? | `docs/research/PROJECT_TECHNICAL_BRIEF.md` |
+| What are the exact result claims? | `docs/research/RESULTS_AND_EVIDENCE.md` |
 | What did hardware HIL prove? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
-| What did Edge-IIoT prove? | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON_FOR_PROFESSOR.md` |
+| What did Edge-IIoT prove? | `docs/literature/comparison_tables/EDGEIIOT_LITERATURE_COMPARISON.md` |
 | What was changed in the repository structure? | `docs/repository/REPOSITORY_RESTRUCTURE_PLAN.md` |
 | Were old path references audited? | `docs/repository/PATH_REFERENCE_AUDIT.md` |
