@@ -153,7 +153,7 @@ After restructure, README should show:
 | `docs/publication/` | Manuscript preparation and writing guidance. |
 | `docs/literature/reference_papers/` | Reference papers used for research and writing review. |
 | `docs/literature/` | Papers and comparison material. |
-| `archive/` | Preserved historical runs, old notebooks, and scratch outputs. |
+| `research_history/` | Preserved historical runs, old notebooks, and scratch outputs. |
 ```
 
 ## Reproducibility Section

@@ -44,4 +44,4 @@ When adding new scripts or docs, use the current top-level structure:
 - `results/` for generated evidence and tables
 - `data/` for dataset copies
 - `docs/` for papers, reproduction, and research and publication material
-- `archive/` only for preserved historical material
+- `research_history/` only for preserved historical material

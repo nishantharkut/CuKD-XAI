@@ -392,9 +392,9 @@ Primary result files:
 
 Local literature/context files:
 
-- `docs/archive/updates/2026-04-12/CuKD_XAI_MASTER_DOCUMENT.md`
-- `docs/archive/updates/2026-04-12/XAI_IDS_WSN_IoT_Literature_Map_2023_2026.md`
-- `docs/archive/updates/2026-04-12/MONDAY_PRESENTATION_PACK.md`
+- `research_history/documentation_snapshots/updates/2026-04-12/CuKD_XAI_MASTER_DOCUMENT.md`
+- `research_history/documentation_snapshots/updates/2026-04-12/XAI_IDS_WSN_IoT_Literature_Map_2023_2026.md`
+- `research_history/documentation_snapshots/updates/2026-04-12/MONDAY_PRESENTATION_PACK.md`
 - `docs/literature/papers/base_paper.pdf`
 - `docs/literature/papers/sota_wsn_ds_2025.pdf`
 - `docs/literature/papers/alfarra_2025.pdf`

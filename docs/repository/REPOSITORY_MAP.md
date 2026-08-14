@@ -13,7 +13,7 @@ This map explains the restructured repository after the no-delete organization p
 | `data/` | Dataset files and preserved duplicate copies from historical runs. |
 | `docs/` | Research briefs, literature, reproduction guides, and repository documentation. |
 | `tests/` | Preserved static, export, and hardware checks. |
-| `archive/` | Historical runs, old packages, update packs, and scratch files. |
+| `research_history/` | Historical runs, old packages, update packs, and scratch files. |
 
 ## Experiments
 
@@ -55,7 +55,7 @@ This map explains the restructured repository after the no-delete organization p
 | `docs/literature/comparison_tables/` | Generated comparison tables for related work. |
 | `docs/reproduction/wsnds/` | WSN-DS reproduction guides. |
 | `docs/reproduction/edge_iiot/` | Edge-IIoT reproduction guide. |
-| `docs/archive/updates/` | Historical planning/update material. |
+| `research_history/documentation_snapshots/updates/` | Historical planning/update material. |
 | `docs/repository/` | Repository restructuring plan, README blueprint, path-reference audit, inventories, and this map. |
 
 ## Data
@@ -65,12 +65,13 @@ This map explains the restructured repository after the no-delete organization p
 | `data/wsnds/WSN-DS.csv` | Main WSN-DS CSV copy used by the restructured repository. |
 | `data/wsnds/copies/` | Preserved duplicate dataset copies from historical runs. |
 
-## Archive
+## Research History
 
 | Path | Contents |
 |---|---|
 | `research_history/experiment_snapshots/` | Old notebooks, previous project runs, and preserved final-file duplicates. |
 | `research_history/software_snapshots/` | Preserved software and hardware package snapshots. |
+| `research_history/documentation_snapshots/` | Superseded planning notes and project updates. |
 | `research_history/development_records/` | Scratch logs, extracted paper text, notebook checkpoints, and local IDE files. |
 
 ## Evidence Entry Points

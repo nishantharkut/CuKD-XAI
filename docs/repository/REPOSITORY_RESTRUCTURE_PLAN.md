@@ -84,18 +84,17 @@ CuKD-XAI/
       papers/
       comparison_tables/
     repository/
-    archive/
 
   tests/
     hardware/
     export/
     static/
 
-  archive/
-    old_runs/
-    old_updates/
-    old_packages/
-    scratch/
+  research_history/
+    experiment_snapshots/
+    software_snapshots/
+    documentation_snapshots/
+    development_records/
 ```
 
 ## Naming Rules
@@ -103,7 +102,7 @@ CuKD-XAI/
 - Use lowercase folder names with hyphens or underscores consistently.
 - Prefer no spaces in new folder names.
 - Preserve exact filenames where they are evidence files unless the filename itself is misleading.
-- Use `archive/` for historical material, not `delete`.
+- Use `research_history/` for historical material, not `delete`.
 - Use `results/` for generated outputs/results.
 - Use `experiments/` for runnable pipelines and notebooks.
 - Use `deployment/` for firmware, HIL, MSP430, ONNX/OpenVINO, and deployment-oriented code.
@@ -130,12 +129,12 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 | `ACCURACY_IMPROVEMENT_PLAN.md` | `docs/paper/ACCURACY_IMPROVEMENT_PLAN.md` | Research planning material. |
 | `WORK_DIVISION.md` | `docs/project/WORK_DIVISION.md` | Project management material. |
 | `WORK_DIVISION_FLOW.md` | `docs/project/WORK_DIVISION_FLOW.md` | Project management material. |
-| `Claude-.md` | `docs/archive/assistant-notes/Claude-.md` | Historical assistant note. |
-| `Update - 12 april 2026/` | `docs/archive/updates/2026-04-12/` | Historical planning/update pack. |
+| `Claude-.md` | `research_history/documentation_snapshots/assistant-notes/Claude-.md` | Historical assistant note. |
+| `Update - 12 april 2026/` | `research_history/documentation_snapshots/updates/2026-04-12/` | Historical planning/update pack. |
 | `Archive/`, `Archive_v2/`, `archive-v3-27 may/`, `V4/` | `research_history/experiment_snapshots/` | Historical old versions. |
 | `Results - ...` folders | `results/wsnds/legacy_runs/` | Historical WSN-DS result outputs. |
 | `WSN-DS.csv` | `data/wsnds/WSN-DS.csv` | Dataset should not sit at root. |
-| `Edge-IIOT-run/WSN-DS.csv` | `data/wsnds/edge_iiot_copy/WSN-DS.csv` or archive with note | Preserve duplicate exactly, but document why it exists. |
+| `Edge-IIOT-run/WSN-DS.csv` | `data/wsnds/edge_iiot_copy/WSN-DS.csv` or a documented historical copy | Preserve duplicate exactly, but document why it exists. |
 | `*.su`, `gpu_temp.log`, `cleanup_untrack_paths.txt` | `research_history/development_records/` | Preserve scratch/build outputs without cluttering root. |
 | `test_hardware_export_e2e.py` | `tests/hardware/test_hardware_export_e2e.py` | Tests should live under `tests/`. |
 | `tmp/` | `research_history/development_records/tmp/` | Preserve temporary files without root clutter. |
@@ -179,7 +178,7 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 
 - [ ] Create empty target directories with `.gitkeep` only where needed:
   ```powershell
-  New-Item -ItemType Directory -Force experiments, deployment, results, data, tests, archive | Out-Null
+  New-Item -ItemType Directory -Force experiments, deployment, results, data, tests, research_history | Out-Null
   ```
 - [ ] Do not move files yet.
 - [ ] Check:
@@ -191,7 +190,7 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 
 Move historical folders first because they are least likely to break imports.
 
-- [ ] Move old archive folders:
+- [ ] Move historical folders:
   ```powershell
   git mv Archive research_history/experiment_snapshots/Archive
   git mv Archive_v2 research_history/experiment_snapshots/Archive_v2
@@ -201,7 +200,7 @@ Move historical folders first because they are least likely to break imports.
 
 - [ ] Move old updates:
   ```powershell
-  git mv "Update - 12 april 2026" "docs/archive/updates/2026-04-12"
+  git mv "Update - 12 april 2026" "research_history/documentation_snapshots/updates/2026-04-12"
   ```
 
 - [ ] Move root scratch/build leftovers:
@@ -236,7 +235,7 @@ Move historical folders first because they are least likely to break imports.
   git mv ACCURACY_IMPROVEMENT_PLAN.md docs/paper/ACCURACY_IMPROVEMENT_PLAN.md
   git mv WORK_DIVISION.md docs/project/WORK_DIVISION.md
   git mv WORK_DIVISION_FLOW.md docs/project/WORK_DIVISION_FLOW.md
-  git mv Claude-.md docs/archive/assistant-notes/Claude-.md
+  git mv Claude-.md research_history/documentation_snapshots/assistant-notes/Claude-.md
   ```
 
 - [ ] Verify no deletes:
@@ -310,7 +309,7 @@ Move historical folders first because they are least likely to break imports.
   git mv hardware_export deployment/msp430
   ```
 
-- [ ] Move remaining `Hardware Deployment Run` docs or tests into archive if any files remain:
+- [ ] Move remaining `Hardware Deployment Run` docs or tests into `research_history/` if any files remain:
   ```powershell
   Get-ChildItem "Hardware Deployment Run" -Recurse -Force
   ```
@@ -410,7 +409,7 @@ This phase may require content edits because moved paths can break tests or READ
 Use multiple commits or multiple PRs. The safest path is:
 
 1. PR 1: add restructuring plan and README blueprint only.
-2. PR 2: move archive/history/scratch/literature files.
+2. PR 2: move research-history and literature files.
 3. PR 3: move active WSN-DS, Edge-IIoT, and deployment paths.
 4. PR 4: rewrite README and update references.
 

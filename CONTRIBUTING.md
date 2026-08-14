@@ -7,7 +7,7 @@ Changes should preserve traceability and avoid weakening the claim boundary.
 
 - Do not remove evidence files. Move files only when preserving them under a
   clearer location.
-- Do not rewrite historical material in `archive/` unless the change is itself
+- Do not rewrite historical material in `research_history/` unless the change is itself
   documented as an archival correction.
 - Do not add new claims unless they are backed by a result file, report, or
   reproducible script in the repository.

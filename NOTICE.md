@@ -14,7 +14,7 @@ The license does not re-license:
 - Local copies of third-party papers, PDFs, or extracted paper text.
 - Vendor/toolchain output from Arduino, OpenVINO, ONNX Runtime, PyTorch, or
   platform-specific build tools.
-- Historical files preserved in `archive/` when those files carry their own
+- Historical files preserved in `research_history/` when those files carry their own
   upstream context or were imported from earlier project snapshots.
 
 ## Dataset And Paper Use

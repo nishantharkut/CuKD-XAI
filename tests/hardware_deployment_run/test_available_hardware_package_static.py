@@ -7,7 +7,12 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PACKAGE_ROOT = ROOT / "archive" / "old-packages" / "cukd_available_hardware_package_20260603"
+PACKAGE_ROOT = (
+    ROOT
+    / "research_history"
+    / "software_snapshots"
+    / "cukd_available_hardware_package_20260603"
+)
 HARDWARE_EXPORT = PACKAGE_ROOT / "hardware_export"
 PLAN = HARDWARE_EXPORT / "AVAILABLE_HARDWARE_TEST_PLAN.md"
 SKETCH = (

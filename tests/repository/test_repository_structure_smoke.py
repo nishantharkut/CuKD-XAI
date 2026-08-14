@@ -21,7 +21,6 @@ EXPECTED_TOP_LEVEL = {
     ".gitattributes",
     ".gitignore",
     "ARTIFACT.md",
-    "archive",
     "CITATION.cff",
     "CONTRIBUTING.md",
     "data",
@@ -29,10 +28,12 @@ EXPECTED_TOP_LEVEL = {
     "docs",
     "experiments",
     "LICENSE",
+    "manuscript",
     "NOTICE.md",
     "pytest.ini",
     "README.md",
     "requirements.txt",
+    "research_history",
     "results",
     "tests",
 }
@@ -47,7 +48,7 @@ def is_excluded_from_active_scan(path: Path) -> bool:
         return True
     if path.suffix not in TEXT_SUFFIXES:
         return True
-    if "archive" in parts:
+    if "research_history" in parts:
         return True
     if "build" in parts:
         return True
@@ -60,11 +61,16 @@ def is_excluded_from_active_scan(path: Path) -> bool:
 
 class RepositoryStructureSmokeTests(unittest.TestCase):
     def test_tracked_top_level_layout_is_professional(self):
-        tracked = ROOT / "docs" / "repository" / "tracked_files_after_restructure.txt"
+        proc = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=ROOT,
+            capture_output=True,
+            check=True,
+        )
         top_levels = {
-            line.split("/", 1)[0]
-            for line in tracked.read_text(encoding="ascii").splitlines()
-            if line.strip()
+            raw.decode("utf-8").split("/", 1)[0]
+            for raw in proc.stdout.split(b"\0")
+            if raw
         }
         self.assertEqual(top_levels, EXPECTED_TOP_LEVEL)
 
@@ -100,8 +106,8 @@ class RepositoryStructureSmokeTests(unittest.TestCase):
         active_rows = [row for row in rows if row["category"] == "active_review"]
         self.assertEqual(active_rows, [])
 
-    def test_archive_is_explicitly_historical(self):
-        readme = ROOT / "archive" / "README.md"
+    def test_research_history_is_explicitly_historical(self):
+        readme = ROOT / "research_history" / "README.md"
         text = readme.read_text(encoding="utf-8").lower()
         for token in ["historical", "traceability", "not the current runnable entrypoints"]:
             self.assertIn(token, text)

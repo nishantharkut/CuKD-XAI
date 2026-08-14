@@ -7,8 +7,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 EXPORTER = (
     ROOT
-    / "archive"
-    / "old-packages"
+    / "research_history"
+    / "software_snapshots"
     / "msp430_legacy_export_archive"
     / "export_wsnds_student_a_rfkd_int8.py"
 )

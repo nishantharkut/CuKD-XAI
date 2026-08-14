@@ -150,7 +150,7 @@ Hardware replay validates the generated fixed-point model execution over saved W
 | Inspect final WSN-DS results | Start with [`results/wsnds/final_results/2026-05-30-10seed-plus-j/`](results/wsnds/final_results/2026-05-30-10seed-plus-j/) |
 | Inspect deployment and hardware evidence | Start with [`results/hardware_hil/reports/final_postprocessing/`](results/hardware_hil/reports/final_postprocessing/) |
 | Inspect Edge-IIoT support evidence | Start with [`results/edge_iiot/literature_metric_gap/`](results/edge_iiot/literature_metric_gap/) |
-| Understand moved historical material | Read [`archive/README.md`](archive/README.md) and [`docs/repository/REPOSITORY_MAP.md`](docs/repository/REPOSITORY_MAP.md) |
+| Understand moved historical material | Read [`research_history/README.md`](research_history/README.md) and [`docs/repository/REPOSITORY_MAP.md`](docs/repository/REPOSITORY_MAP.md) |
 
 ---
 
@@ -177,10 +177,10 @@ CuKD-XAI/
   deployment/    Firmware export, hardware tooling, and embedded deployment assets
   docs/          Research briefs, literature notes, reproduction notes, and repository documentation
   tests/         Static, export, and hardware-HIL checks
-  archive/       Preserved historical runs, old packages, and scratch outputs
+  research_history/       Preserved historical runs, old packages, and scratch outputs
 ```
 
-The structure is intentionally separated by purpose: **experiments produce evidence**, **results preserve evidence**, **deployment holds deployable assets**, and **archive keeps historical material without polluting the active research surface**.
+The structure is intentionally separated by purpose: **experiments produce evidence**, **results preserve evidence**, **deployment holds deployable assets**, and **research history retains earlier material without obscuring the active research surface**.
 
 ---
 
