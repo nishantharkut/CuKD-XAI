@@ -162,27 +162,27 @@ lines.append("")
 
 (LIT / "E2E_LITERATURE_REVIEW.md").write_text("\n".join(lines), encoding="utf-8")
 
-status = f"""# Literature E2E — completion status
+status = f"""# Literature Evidence Pipeline Status
 
 **Date:** {date.today().isoformat()}
 
-## Double e2e complete (with one invalid PDF exception)
+## Verification Status
 
 | Stage | Result |
 |---|---|
 | PDF text extract (all on-disk papers) | 43 primary IDs |
 | PASS1B cards (exact metric/table lines only) | 43 |
-| PASS2 text re-check (quotes ⊆ extract) | **43/43 OK** (run twice) |
+| PASS2 text re-check (quotes verified against extracts) | **43/43 OK** (run twice) |
 | PASS2 visual title (page1 words + PNG) | **43/43 OK** |
-| INVALID | `ferrag2022edgeiiot` wrong PDF (chemistry), not Edge-IIoTset |
+| Invalid source record | `ferrag2022edgeiiot` contains an unrelated chemistry paper |
 
-## What “complete” means here
+## Verification Criteria
 - Every paper has a card whose **quoted numbers are exact PDF lines**.
 - Pipeline executed **two full times**.
-- No invented metrics.
-- CuKD claims still only from freeze JSON.
+- Reported metric quotations are tied to extracted source lines.
+- CuKD-XAI claims remain governed by `results/evidence_registry/fgds_20260814_current/`.
 
-## What remains for camera-ready polish
+## Remaining Source-Corpus Tasks
 - Replace Ferrag PDF.
 - For any table that is image-only (few headers in text), open PNGs when writing final tex.
 - Deep narrative synthesis already in `MANUSCRIPT_POSITIONING.md`.
@@ -193,6 +193,6 @@ status = f"""# Literature E2E — completion status
 - Review: `docs/literature/E2E_LITERATURE_REVIEW.md`
 - Positioning: `docs/literature/MANUSCRIPT_POSITIONING.md`
 """
-(LIT / "LIT_E2E_STATUS.md").write_text(status, encoding="utf-8")
-print("WROTE final review + status")
+(LIT / "LITERATURE_PIPELINE_STATUS.md").write_text(status, encoding="utf-8")
+print("WROTE literature review and pipeline status")
 print("VERIFIED", n_ok, "INVALID", n_bad)
