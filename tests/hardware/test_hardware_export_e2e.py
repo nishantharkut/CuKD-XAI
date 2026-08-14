@@ -9,7 +9,7 @@ EXPORTER = (
     ROOT
     / "research_history"
     / "software_snapshots"
-    / "msp430_legacy_export_archive"
+    / "msp430_legacy_export_snapshot"
     / "export_wsnds_student_a_rfkd_int8.py"
 )
 
