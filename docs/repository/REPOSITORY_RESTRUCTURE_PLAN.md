@@ -132,7 +132,7 @@ This is the high-level mapping. It should be implemented with `git mv` in small 
 | `WORK_DIVISION_FLOW.md` | `docs/project/WORK_DIVISION_FLOW.md` | Project management material. |
 | `Claude-.md` | `docs/archive/assistant-notes/Claude-.md` | Historical assistant note. |
 | `Update - 12 april 2026/` | `docs/archive/updates/2026-04-12/` | Historical planning/update pack. |
-| `Archive/`, `Archive_v2/`, `archive-v3-27 may/`, `V4/` | `archive/old-runs/` | Historical old versions. |
+| `Archive/`, `Archive_v2/`, `archive-v3-27 may/`, `V4/` | `research_history/experiment_snapshots/` | Historical old versions. |
 | `Results - ...` folders | `results/wsnds/legacy_runs/` | Historical WSN-DS result outputs. |
 | `WSN-DS.csv` | `data/wsnds/WSN-DS.csv` | Dataset should not sit at root. |
 | `Edge-IIOT-run/WSN-DS.csv` | `data/wsnds/edge_iiot_copy/WSN-DS.csv` or archive with note | Preserve duplicate exactly, but document why it exists. |
@@ -193,10 +193,10 @@ Move historical folders first because they are least likely to break imports.
 
 - [ ] Move old archive folders:
   ```powershell
-  git mv Archive archive/old-runs/Archive
-  git mv Archive_v2 archive/old-runs/Archive_v2
-  git mv "archive-v3-27 may" "archive/old-runs/archive-v3-27 may"
-  git mv V4 archive/old-runs/V4
+  git mv Archive research_history/experiment_snapshots/Archive
+  git mv Archive_v2 research_history/experiment_snapshots/Archive_v2
+  git mv "archive-v3-27 may" "research_history/experiment_snapshots/archive-v3-27 may"
+  git mv V4 research_history/experiment_snapshots/V4
   ```
 
 - [ ] Move old updates:
@@ -337,7 +337,7 @@ Move historical folders first because they are least likely to break imports.
   git mv Final/wsnds_deployment_qat_outputs results/runtime/onnx_openvino/wsnds
   ```
 
-- [ ] Move remaining `Final/` contents into `archive/old-runs/Final` or a more precise artifact folder after inspecting:
+- [ ] Move remaining `Final/` contents into `research_history/experiment_snapshots/Final` or a more precise artifact folder after inspecting:
   ```powershell
   git ls-files Final
   ```
