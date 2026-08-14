@@ -50,8 +50,7 @@ This map explains the restructured repository after the no-delete organization p
 |---|---|
 | `docs/research/` | Technical brief, results evidence ledger, and related-work comparison. |
 | `docs/publication/` | Manuscript preparation and writing guidance. |
-| `docs/literature/reference_papers/` | Reference papers used for research and writing review. |
-| `docs/literature/papers/` | Local PDF/source-paper collection. |
+| `docs/literature/papers/` | Source-paper corpus and associated review artifacts. |
 | `docs/literature/comparison_tables/` | Generated comparison tables for related work. |
 | `docs/reproduction/wsnds/` | WSN-DS reproduction guides. |
 | `docs/reproduction/edge_iiot/` | Edge-IIoT reproduction guide. |

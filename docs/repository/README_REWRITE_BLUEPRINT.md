@@ -151,7 +151,6 @@ After restructure, README should show:
 | `results/` | Generated result tables, runtime evidence, HIL outputs, and historical outputs. |
 | `docs/research/` | Technical brief, evidence ledger, and related-work comparison. |
 | `docs/publication/` | Manuscript preparation and writing guidance. |
-| `docs/literature/reference_papers/` | Reference papers used for research and writing review. |
 | `docs/literature/` | Papers and comparison material. |
 | `research_history/` | Preserved historical runs, old notebooks, and scratch outputs. |
 ```

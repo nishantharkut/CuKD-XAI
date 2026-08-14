@@ -2,7 +2,7 @@
 
 This document extracts structural conventions from the selected Mamba/channel-prediction reference paper:
 
-`docs/literature/reference_papers/lightweight_accurate_channel_prediction_using_mamba.pdf`
+`docs/literature/papers/lightweight_accurate_channel_prediction_using_mamba.pdf`
 
 That paper is titled:
 
