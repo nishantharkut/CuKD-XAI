@@ -70,7 +70,7 @@ This map explains the restructured repository after the no-delete organization p
 | Path | Contents |
 |---|---|
 | `archive/old-runs/` | Old notebooks, previous project runs, and preserved final-file duplicates. |
-| `archive/old-packages/` | Old hardware package snapshots. |
+| `research_history/software_snapshots/` | Preserved software and hardware package snapshots. |
 | `archive/scratch/` | Scratch logs, extracted paper text, notebook checkpoints, and local IDE files. |
 
 ## Evidence Entry Points
