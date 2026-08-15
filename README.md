@@ -202,16 +202,17 @@ The group-aware Edge-IIoTset study uses 40 inputs and 15 classes with 1,556,588/
 
 ## Reproducibility
 
-The reference environment uses Python 3.11. Create an isolated environment and run the repository smoke checks before executing data-dependent experiments:
+The reference environment uses Python 3.11. Dataset and selected model artifacts use Git LFS. Install Git LFS before cloning, then create an isolated Python environment and run the fast reviewer checks:
 
 ```bash
+git lfs install
 python -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-python -m pytest tests/repository -q
+python -m pytest tests/repository/test_active_cli_smoke.py tests/repository/test_repository_structure_smoke.py -q
 ```
 
-The full training, Edge-IIoTset, firmware, and hardware procedures require their recorded datasets, toolchains, or boards. [`ARTIFACT.md`](ARTIFACT.md) defines the review order and evidence boundaries.
+The full test suite requires hydrated LFS objects and performs expensive artifact checks. Full training, Edge-IIoTset, firmware, and physical HIL additionally require the recorded datasets, compute stack, toolchains, or boards. [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) gives the verified review and regeneration commands; [`ARTIFACT.md`](ARTIFACT.md) defines artifact scope and claim boundaries.
 
 | Layer | Status |
 |---|---|
@@ -231,6 +232,7 @@ The full training, Edge-IIoTset, firmware, and hardware procedures require their
 
 ```text
 CuKD-XAI/
+  REPRODUCIBILITY.md  Reviewer verification and regeneration guide
   data/          Dataset files and preserved dataset copies
   experiments/   Research experiment implementations
   results/       Paper-facing metrics, tables, figures, runtime outputs, and HIL evidence

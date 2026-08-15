@@ -33,6 +33,7 @@ CLI_HELP_MODULES = [
 
 REQUIRED_EVIDENCE_FILES = [
     "README.md",
+    "REPRODUCIBILITY.md",
     "ARTIFACT.md",
     "CITATION.cff",
     "CONTRIBUTING.md",
