@@ -1,13 +1,40 @@
-# WSN-DS train-only-scaler confirmation workspace
+# WSN-DS Feature-Group-Disjoint Experiments
 
-This additive workspace does not replace the archived WSN-DS experiments or
-their results. Despite the historical directory name, the active random-row
-rerun must not be described as fully leakage-free: the scaler is corrected,
-but exact feature duplicates can still cross its fixed row-level partitions.
+This workspace contains the current ten-seed feature-group-disjoint primary
+driver plus preserved predecessor protocols. The authoritative current result
+is registry `cukd_fgds_evidence_registry_20260814_v3`; the random-row,
+scaler-only, and five-seed confirmation routes below are historical lineages.
+
+## Current Primary Route
+
+`run_feature_group_10seed_confirmation.py` implements protocol
+`wsnds_feature_group_split_train_only_scaler_10seed_v2`:
+
+1. exact raw 17-feature groups remain within one partition;
+2. `StandardScaler` is fitted on training only;
+3. scratch and RF-KD Student A/B use paired initialization per seed;
+4. ten optimizer seeds run on one fixed split; and
+5. every seed, split, scaler, checkpoint, prediction file, and aggregate is
+   manifest-bound.
+
+The current rows are 262,197 training, 56,163 validation, and 56,301 test.
+Cross-partition exact feature-group overlap is zero.
+
+Run preflight and training only into a new output root:
+
+```text
+python experiments/wsnds/leakage_free_rerun/run_feature_group_10seed_confirmation.py --mode preflight --dataset-csv data/wsnds/WSN-DS.csv --output-root results/reproductions/wsnds_fgds_review
+python experiments/wsnds/leakage_free_rerun/run_feature_group_10seed_confirmation.py --mode duplicate-sensitivity --dataset-csv data/wsnds/WSN-DS.csv --output-root results/reproductions/wsnds_fgds_review --device cuda --confirm-training
+python experiments/wsnds/leakage_free_rerun/analyze_feature_group_confirmation.py --run-dir results/reproductions/wsnds_fgds_review/feature_group_10seed --output-dir results/reproductions/wsnds_fgds_review/feature_group_10seed_analysis
+```
+
+The preserved CLI value `duplicate-sensitivity` names the current finalized
+ten-seed group-disjoint mode. See `REPRODUCIBILITY.md` for environment, Git
+LFS, extended-analysis, and hardware instructions.
 
 ## Evidence routes
 
-### Active v1 statistical rerun
+### Historical active-v1 statistical rerun
 
 The process recorded in
 `results/wsnds/leakage_free_rerun/main_10seed/executed_source_snapshot/`
@@ -35,7 +62,7 @@ The active-v1 SHAP audit compares a curriculum-teacher student with an
 independently fitted RF. It is a cross-model attribution comparison, not an
 attribution-transfer test for the headline RF-KD student.
 
-### Exact-duplicate sensitivity route
+### Historical five-seed exact-duplicate sensitivity route
 
 `run_tier15_confirmation.py --mode duplicate-sensitivity` groups rows by all
 17 raw model features before splitting. It keeps every feature group within
@@ -60,7 +87,7 @@ The passed data-only preflight is at
 feature groups, nonzero feature-group overlap under the archived split, and
 zero feature-group overlap under the sensitivity split.
 
-### Focused deployment route
+### Historical focused deployment route
 
 `run_tier15_confirmation.py --mode deployment` trains only seed-42 RF-KD
 Student A and Student B. It binds the existing seed-42 calibrated-RF soft
@@ -80,7 +107,7 @@ The corrected fixed-point exporter and hardware tools are:
 The historical exporter still reproduces the archived global-scaler lineage;
 do not use it for corrected deployment models.
 
-## Safe commands
+## Historical Commands
 
 Data-only preflight, with no model training:
 

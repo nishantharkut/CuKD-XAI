@@ -179,7 +179,7 @@ The group-aware Edge-IIoTset study uses 40 inputs and 15 classes with 1,556,588/
 | Final USB campaign | [`final_hil_summary.json`](results/hardware_hil/final_fgds_seed42_v1/final_campaign_usb_v1/final_hil_summary.json) |
 | MSP430 static summary | [`msp430_static_summary.json`](deployment/msp430/current_fgds_static/artifacts/msp430_static_summary.json) |
 | Edge-IIoTset group-aware summary | [`edge_group_aware_summary.json`](results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_summary.json) |
-| Research overview | [`PROJECT_TECHNICAL_BRIEF.md`](docs/research/PROJECT_TECHNICAL_BRIEF.md) |
+| Historical project evolution | [`PROJECT_TECHNICAL_BRIEF.md`](docs/research/PROJECT_TECHNICAL_BRIEF.md) |
 | Literature corpus and comparisons | [`docs/literature/`](docs/literature/) |
 | Artifact review guide | [`ARTIFACT.md`](ARTIFACT.md) |
 | Citation metadata | [`CITATION.cff`](CITATION.cff) |

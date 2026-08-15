@@ -1,5 +1,11 @@
 ﻿# CuKD-XAI End-to-End Technical Brief
 
+> **Historical synthesis:** This brief predates the finalized ten-seed
+> feature-group-disjoint evidence and final USB campaign. Its 56,200-row and
+> May-result references document earlier lineages. Current claims and values
+> are defined by
+> `results/evidence_registry/fgds_20260814_current/EVIDENCE_REGISTRY.md`.
+
 This document is a discussion guide for explaining the complete CuKD-XAI project end to end. All paths are relative to the repository root. Numeric claims are backed by the result files cited inline and summarized in `docs/research/RESULTS_AND_EVIDENCE.md`.
 
 ## One-Minute Thesis

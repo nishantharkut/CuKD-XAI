@@ -3,7 +3,40 @@
 This folder contains the dedicated hardware-in-the-loop validation package for
 the CuKD-XAI WSN-DS RF-KD student models.
 
-## Scope
+The current final campaign is controlled by `python -m deployment.final_hil`.
+Earlier 56,200-row and four-pair FG-DS packages remain preserved as separate
+historical execution lineages.
+
+## Current Final Campaign
+
+| Property | Current contract |
+|---|---|
+| Dataset protocol | WSN-DS exact-feature-group-disjoint split, train-only scaler |
+| Test rows | 56,301 |
+| Models replayed | Seed-42 Student A scratch, Student A RF-KD, Student B RF-KD |
+| Blocked model | Student B scratch, retained as a fixed-point gate failure |
+| Boards | ESP32-C3 and Arduino UNO R4 WiFi |
+| Final transport | USB serial |
+| Completed sessions | 6 model-board sessions |
+| Full replay rows | 337,806 |
+
+Current evidence:
+
+- `results/hardware_hil/final_fgds_seed42_v1/campaign/campaign_contract.json`
+- `results/hardware_hil/final_fgds_seed42_v1/cohort/final_timing_cohort_manifest.json`
+- `results/hardware_hil/final_fgds_seed42_v1/final_campaign_usb_v1/final_hil_summary.json`
+- `results/hardware_hil/final_fgds_seed42_v1/blocked/student_B_scratch.json`
+
+Current host interface:
+
+```text
+python -m deployment.final_hil --help
+```
+
+See `REPRODUCIBILITY.md` for the verified review order and physical-rerun
+requirements. Do not overwrite the sealed campaign directories.
+
+## Preserved Earlier Package Scope
 
 This package validates MCU-class test-vector replay for the WSN-DS RF-KD
 fixed-point student models:
@@ -31,7 +64,7 @@ latency on available MCU boards. It must be reported separately from:
 Do not mix ESP32-C3 or Arduino R4 latency with MSP430 memory evidence as if
 they came from the same physical device.
 
-## Reused Artifacts
+## Historical Reused Artifacts
 
 This package reuses:
 
@@ -45,7 +78,7 @@ This package reuses:
 Generated headers such as `model_weights.h` and `preprocess_int_metadata.h`
 must be copied or included in the board firmware build.
 
-## Execution Order
+## Historical 56,200-Row Execution Order
 
 1. Generate fixed-point model and reference artifacts from `deployment/firmware_export/wsnds_rfkd_hil`.
 2. Build the ESP32-C3 firmware.
@@ -56,7 +89,7 @@ must be copied or included in the board firmware build.
 7. Verify MCU logs against fixed-point reference predictions.
 8. Generate report tables.
 
-## Paper-Safe Claim
+## Historical Package Claim Boundary
 
 The hardware experiments validate firmware-level fixed-point execution of the
 compressed WSN-DS Student A and Student B IDS cores on available MCU-class
@@ -66,7 +99,7 @@ physical TelosB deployment.
 
 
 
-## Beginner Runbook
+## Historical Beginner Runbooks
 
 Start with `deployment/hardware_hil/docs/00_READ_THIS_FIRST.md`, then follow:
 
@@ -82,7 +115,12 @@ Official hardware documentation links are collected in `deployment/hardware_hil/
 
 Student B capacity runbook: `deployment/hardware_hil/docs/10_STUDENT_B_HIL_RUNBOOK.md`.
 
-Final compact evidence table: `results/hardware_hil/reports/final_hardware_hil_results_table.md`.
+Historical compact evidence table: `results/hardware_hil/reports/final_hardware_hil_results_table.md`.
+
+The later 56,301-row four-pair FG-DS RF-KD runbook is
+`deployment/hardware_hil/docs/12_FGDS_SEED42_HIL_RUNBOOK.md`. It is a separate
+lineage from both the 56,200-row package above and the current six-session
+final USB campaign.
 
 
 

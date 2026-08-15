@@ -20,26 +20,30 @@ Changes should preserve traceability and avoid weakening the claim boundary.
 Run the smoke checks from the repository root:
 
 ```powershell
-py -3.11 -m pytest -q
+py -3.11 -m pytest tests/repository/test_active_cli_smoke.py tests/repository/test_repository_structure_smoke.py -q
+py -3.11 -m pytest tests/hardware tests/hardware_deployment_run -q
 py -3.11 -m compileall -q experiments deployment tests
+py -3.11 experiments/wsnds/leakage_free_rerun/verify_protected_sources.py verify
 ```
 
-For hardware-evidence changes, also run:
+The full suite requires all relevant Git LFS objects and is intentionally not
+the quick pre-change check:
 
 ```powershell
-py -3.11 deployment\hardware_hil\host\analyze_final_hil_evidence.py `
-    --project-root . `
-    --output-dir results\hardware_hil\reports\final_postprocessing
+git lfs fsck
+py -3.11 -m pytest -q
 ```
 
-For Edge-IIoT literature-metric changes, also run:
+For current evidence-registry changes, run the read-only verifier:
 
 ```powershell
-py -3.11 experiments\edge_iiot\literature_comparable\edgeiiot_literature_metric_gap_analysis.py `
-    --repo-root . `
-    --artifact-dir results\edge_iiot\literature_comparable `
-    --output-dir results\edge_iiot\literature_metric_gap
+py -3.11 -m experiments.evidence.build_fgds_evidence_registry `
+    --output-dir results/evidence_registry/fgds_20260814_current `
+    --verify-existing
 ```
+
+Use `REPRODUCIBILITY.md` for experiment-specific regeneration commands. Never
+write a rerun into a sealed evidence directory.
 
 ## Review Checklist
 

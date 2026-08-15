@@ -27,6 +27,7 @@ making a public archival release.
 
 ## Research Claim Boundary
 
-The repository supports the evidence described in the README and professor
-evidence documents. It does not claim live WSN packet capture, physical TelosB
-deployment, energy profiling, or full packet-to-feature extraction.
+The repository supports only the evidence and boundaries recorded in
+`results/evidence_registry/fgds_20260814_current/`. It does not claim live WSN
+packet capture, physical TelosB deployment, energy profiling, or full
+packet-to-feature extraction.

@@ -32,6 +32,7 @@ EXPECTED_TOP_LEVEL = {
     "NOTICE.md",
     "pytest.ini",
     "README.md",
+    "REPRODUCIBILITY.md",
     "requirements.txt",
     "research_history",
     "results",

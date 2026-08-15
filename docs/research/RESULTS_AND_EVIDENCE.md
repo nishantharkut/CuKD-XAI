@@ -1,6 +1,12 @@
 ﻿# CuKD-XAI Results and Evidence Ledger
 
-This file records the current project results for technical review and manuscript preparation. Tables are rounded for readability where appropriate. Use the cited source files for exact unrounded values.
+> **Historical ledger:** This document preserves the pre-FG-DS result
+> synthesis. It is not the current claim ledger. Use
+> `results/evidence_registry/fgds_20260814_current/EVIDENCE_REGISTRY.md`,
+> `claim_boundaries.csv`, and `evidence_registry.json` for reviewer-facing
+> results and provenance.
+
+This file records an earlier project result synthesis for technical review and manuscript preparation. Tables are rounded for readability where appropriate. Use the cited source files for exact unrounded values within that historical lineage.
 
 ## Source Snapshot
 

@@ -21,29 +21,41 @@ The artifact supports these evidence categories:
 
 | Review question | Start here |
 |---|---|
-| What is the project and complete evidence chain? | `docs/research/PROJECT_TECHNICAL_BRIEF.md` |
-| What exact claims are supported by files? | `docs/research/RESULTS_AND_EVIDENCE.md` |
-| What are the final WSN-DS tables and figures? | `results/wsnds/final_results/2026-05-30-10seed-plus-j/` |
-| What did hardware replay prove? | `results/hardware_hil/reports/final_postprocessing/final_postprocessing_analysis.md` |
-| What did Edge-IIoT add? | `results/edge_iiot/literature_metric_gap/edgeiiot_literature_metric_comparison.md` |
+| What is the current evidence chain? | `results/evidence_registry/fgds_20260814_current/EVIDENCE_REGISTRY.md` |
+| What exact claims and exclusions apply? | `results/evidence_registry/fgds_20260814_current/claim_boundaries.csv` |
+| What are the primary WSN-DS results? | `results/wsnds/confirmation_runs_v2/local_feature_group_10seed_20260811/feature_group_10seed_analysis/feature_group_10seed_analysis.json` |
+| What did final hardware replay prove? | `results/hardware_hil/final_fgds_seed42_v1/final_campaign_usb_v1/final_hil_summary.json` |
+| What did Edge-IIoTset add? | `results/leftover_e2e_closure/04_edge_group_aware/edge_group_aware_summary.json` |
+| How can the evidence be verified or regenerated? | `REPRODUCIBILITY.md` |
 | How is the repository organized? | `docs/repository/REPOSITORY_MAP.md` |
 
 ## Reproducibility Status
 
 | Level | Status |
 |---|---|
-| Evidence inspection | Supported by tracked reports, CSVs, JSON files, and figures. |
-| Smoke testing | Supported by `pytest` and Python compile checks. |
-| Post-processing regeneration | Supported for HIL evidence and Edge-IIoT metric-gap tables. |
-| Full training rerun | Code is preserved, but full reruns are compute- and data-dependent. |
-| Hardware replay rerun | Requires ESP32-C3 or Arduino R4, flashed firmware, and USB serial access. |
+| Evidence inspection | Supported by the tracked registry, reports, CSVs, JSON files, and figures. |
+| Registry verification | Supported by hash-bound manifests after required Git LFS objects are hydrated. |
+| Smoke testing | Supported by current CLI, repository, export, and HIL host-side tests. |
+| Primary training rerun | Supported by the ten-seed feature-group-disjoint driver and analysis program. |
+| Extended WSN-DS rerun | Supported by separate full-route, sensitivity, behavioral, XAI, and fixed-point programs. |
+| Hardware replay rerun | Requires ESP32-C3 and Arduino R4 boards, flashed firmware, toolchains, and serial access. |
 | Live WSN deployment | Not included in this artifact. |
 
 ## Minimal Review Commands
 
 ```powershell
-py -3.11 -m pytest -q
+git lfs install
+py -3.11 -m pytest tests/repository/test_active_cli_smoke.py tests/repository/test_repository_structure_smoke.py -q
+py -3.11 -m pytest tests/hardware tests/hardware_deployment_run -q
 py -3.11 -m compileall -q experiments deployment tests
+```
+
+Deep registry verification requires hydrated LFS objects:
+
+```powershell
+py -3.11 -m experiments.evidence.build_fgds_evidence_registry `
+    --output-dir results/evidence_registry/fgds_20260814_current `
+    --verify-existing
 ```
 
 The repository intentionally does not include a Dockerfile. The active artifact
@@ -55,4 +67,5 @@ hardware bundles, and measured outputs rather than a single service container.
 Use this artifact to support paper writing and reviewer discussion around
 resource-aware explainable IDS compression. Do not use it to claim live WSN
 packet capture, energy measurement, physical TelosB deployment, or full
-packet-to-feature extraction.
+packet-to-feature extraction. The current registry also records two unexecuted
+planned items: ten-seed scratch-controlled XAI and final-lineage Wi-Fi HIL.

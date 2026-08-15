@@ -1,5 +1,12 @@
 # CuKD-XAI Manuscript
 
+> **Status:** `main.tex`, its generated material, and the validation rules in
+> this directory belong to an earlier manuscript draft. They do not yet encode
+> the current feature-group-disjoint registry
+> `cukd_fgds_evidence_registry_20260814_v3`. Use
+> `results/evidence_registry/fgds_20260814_current/` as the result authority
+> until the manuscript is rebuilt and revalidated against that registry.
+
 This directory contains the evidence-backed IEEE journal manuscript for the complete CuKD-XAI research program. The paper covers the primary WSN-DS experiments, explanation audit, software conversion, fixed-point deployment, four hardware-in-the-loop replays, MSP430F1611 cross-compilation, and two Edge-IIoTset robustness protocols. It is not a summary assembled from manually copied headline values: result tables and plots are generated from the repository's CSV and JSON evidence.
 
 ## Manuscript Contents
