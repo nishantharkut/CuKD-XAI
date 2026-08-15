@@ -1,5 +1,8 @@
 ﻿# Student B HIL Runbook
 
+> **Historical 56,200-row Student B route:** This runbook extends the original
+> random-row package. It is not the current FG-DS final campaign.
+
 This runbook adds the WSN-DS Student B RF-KD hardware replay path without overwriting the completed Student A evidence.
 
 ## Scope

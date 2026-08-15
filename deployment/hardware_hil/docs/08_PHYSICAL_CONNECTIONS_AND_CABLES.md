@@ -1,5 +1,9 @@
 ﻿# Physical Connections And Cables
 
+> **Historical package wiring guide:** The USB safety guidance remains useful,
+> but the commands and row counts in the linked early runbooks are not the
+> current final campaign contract.
+
 This experiment uses USB serial only. There is no breadboard wiring and no GPIO jumper wiring for the ESP32-C3 or Arduino R4 HIL runs.
 
 ## 1. Safety Rule

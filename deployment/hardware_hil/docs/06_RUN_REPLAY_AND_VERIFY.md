@@ -1,5 +1,9 @@
 ﻿# Run Replay And Verify
 
+> **Historical 56,200-row replay route:** Use these commands only to reproduce
+> that preserved lineage. The current campaign interface is
+> `python -m deployment.final_hil`.
+
 Run these commands on the Raspberry Pi 5 host from the repository root.
 
 Set variables first:

@@ -1,6 +1,9 @@
 ﻿# Generate Replay Assets
 
-This step creates the model headers, integer preprocessing metadata, replay CSV, and reference CSV used by the hardware run.
+> **Historical 56,200-row asset route:** These commands reproduce an earlier
+> random-row lineage. They are not the current final FG-DS exporter.
+
+This step creates the model headers, integer preprocessing metadata, replay CSV, and reference CSV used by that historical hardware run.
 
 ## Full 56,200-Vector Export
 

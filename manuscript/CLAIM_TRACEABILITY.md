@@ -1,6 +1,11 @@
 # CuKD-XAI Manuscript Claim Traceability
 
-This ledger records the evidence used by `main.tex`. Generated table fragments are reproducible views; the CSV, JSON, source code, and raw logs listed here remain the authoritative artifacts.
+> **Earlier manuscript ledger:** This file records the evidence used by the
+> current historical `main.tex` draft. It is not the current research claim
+> ledger. Use `results/evidence_registry/fgds_20260814_current/` until the
+> manuscript is rebuilt.
+
+This ledger records the evidence used by `main.tex`. Generated table fragments are reproducible views; the CSV, JSON, source code, and raw logs listed here remain authoritative only for that earlier manuscript lineage.
 
 ## WSN-DS Dataset and Protocol
 

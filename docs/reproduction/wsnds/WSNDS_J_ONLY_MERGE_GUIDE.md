@@ -1,6 +1,9 @@
 ﻿# WSN-DS J-only Merge Guide
 
-This route is for the time-efficient final path: keep the completed existing 10-seed v2.3 results, run only Config J (`J_CoDistill_RF_CL`) over the same seeds, then merge and recompute aggregates/statistics/figures.
+> **Historical v2.3 merge route:** This guide reproduces an earlier random-row
+> result extension. It is not the current controlled FG-DS full-route matrix.
+
+This route keeps the completed existing 10-seed v2.3 results, runs only Config J (`J_CoDistill_RF_CL`) over the same seeds, then merges and recomputes aggregates/statistics/figures.
 
 ## Files
 

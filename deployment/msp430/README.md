@@ -1,6 +1,10 @@
 ﻿# WSN-DS Student A RF-KD End-to-End Fixed-Point Export
 
-This folder is the hardware-facing export path for the mote-scale CuKD-XAI result. It does not modify the training notebooks or the existing WSN-DS/Edge-IIoT results.
+> **Historical exporter:** The commands and 0.9200 result below belong to the
+> original random-row lineage. Current FG-DS static MSP430F1611 evidence is in
+> `deployment/msp430/current_fgds_static/` and the current evidence registry.
+
+This folder is the hardware-facing export path for that earlier mote-scale CuKD-XAI result. It does not modify the training notebooks or the existing WSN-DS/Edge-IIoT results.
 
 ## Correct Research Framing
 

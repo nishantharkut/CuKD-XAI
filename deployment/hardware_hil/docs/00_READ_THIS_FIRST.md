@@ -1,6 +1,10 @@
 ﻿# Hardware HIL: Read This First
 
-This folder is for the final hardware-in-the-loop validation of the CuKD-XAI WSN-DS Student A RF-KD model.
+> **Historical 56,200-row runbook:** This file documents the original
+> random-row HIL package. The current final campaign uses 56,301 FG-DS rows and
+> `python -m deployment.final_hil`; see `REPRODUCIBILITY.md`.
+
+This folder is for the original hardware-in-the-loop validation of the CuKD-XAI WSN-DS Student A RF-KD model.
 
 ## What This Proves
 

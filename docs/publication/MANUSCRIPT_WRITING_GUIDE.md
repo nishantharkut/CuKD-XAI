@@ -1,5 +1,9 @@
 ﻿# CuKD-XAI Manuscript Writing Guide
 
+> **Writing reference only:** The structural guidance remains useful, but any
+> embedded CuKD-XAI values or claim language predating 2026-08-14 must be
+> replaced from the current evidence registry.
+
 This document extracts structural conventions from the selected Mamba/channel-prediction reference paper:
 
 `docs/literature/papers/lightweight_accurate_channel_prediction_using_mamba.pdf`

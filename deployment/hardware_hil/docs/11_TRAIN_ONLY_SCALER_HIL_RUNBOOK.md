@@ -1,6 +1,10 @@
 # Train-only-scaler WSN-DS HIL runbook
 
-This is the corrected WSN-DS deployment lineage. It creates new artifacts and
+> **Historical scaler-only correction:** This lineage corrected scaler fitting
+> but retained a random-row split. It is superseded for current claims by the
+> ten-seed feature-group-disjoint lineage and final USB campaign.
+
+This is the train-only-scaler WSN-DS deployment lineage. It creates new artifacts and
 does not modify or relabel the archived global-scaler models or HIL evidence.
 
 ## Experimental boundary

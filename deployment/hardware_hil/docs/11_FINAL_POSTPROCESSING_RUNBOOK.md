@@ -1,6 +1,10 @@
 ﻿# Final Post-Processing Runbook
 
-This is the final analysis layer after the Student A and Student B HIL runs.
+> **Historical post-processing:** This report layer belongs to the original
+> 56,200-row Student A/B HIL results. It is not the current final campaign
+> report.
+
+This is the analysis layer after those historical Student A and Student B HIL runs.
 It does not run new models and does not change firmware behavior.
 
 ## What This Adds

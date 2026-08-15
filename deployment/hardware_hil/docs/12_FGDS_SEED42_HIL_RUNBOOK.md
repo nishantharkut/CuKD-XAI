@@ -2,6 +2,11 @@
 
 ## 1. Experiment Contract
 
+> **Completed predecessor FG-DS lineage:** This four-pair RF-KD campaign is
+> valid within its recorded lineage. The later final USB campaign also tests
+> Student A scratch, retains Student B scratch as gate-blocked, and reports six
+> eligible sessions under `results/hardware_hil/final_fgds_seed42_v1/`.
+
 This run is the hardware confirmation for the WSN-DS feature-group-disjoint
 (FG-DS), train-only-scaler, seed-42 RF-KD Student A and Student B models.
 

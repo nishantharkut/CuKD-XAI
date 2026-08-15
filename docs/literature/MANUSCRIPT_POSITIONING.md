@@ -1,6 +1,10 @@
 # CuKD-XAI manuscript positioning (freeze-safe)
 
-**Authority:** `results/paper_strength_e2e/06_claim_freeze.json`  
+> **Historical positioning record:** The authority below predates registry
+> `cukd_fgds_evidence_registry_20260814_v3` and must not drive current result
+> claims.
+
+**Historical authority:** `results/paper_strength_e2e/06_claim_freeze.json`
 **Lit evidence:** `docs/literature/papers/reviews/`  
 **Do not use:** marketing claims from the invalidated Claude draft abstract.
 
