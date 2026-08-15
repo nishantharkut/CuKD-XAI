@@ -16,6 +16,16 @@ from experiments.wsnds.evidence_completion import analyze_fgds_behavioral_transf
 
 
 analysis = logits_analysis
+LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/v1"
+
+
+def skip_without_hydrated_dataset(test_case: unittest.TestCase) -> None:
+    dataset = logits_analysis.DEFAULT_DATASET
+    if not dataset.is_file():
+        test_case.skipTest("WSN-DS dataset is not available")
+    with dataset.open("rb") as handle:
+        if handle.read(len(LFS_POINTER_PREFIX)) == LFS_POINTER_PREFIX:
+            test_case.skipTest("WSN-DS Git LFS object is not hydrated")
 
 
 class BehavioralTransferUnitTests(unittest.TestCase):
@@ -101,6 +111,7 @@ class BehavioralTransferIntegrationTests(unittest.TestCase):
     def test_persisted_output_verifies_when_present(self):
         if not analysis.DEFAULT_OUTPUT.exists():
             self.skipTest("Behavioral-transfer output has not been generated")
+        skip_without_hydrated_dataset(self)
         result = analysis.verify_existing(analysis.DEFAULT_OUTPUT)
         self.assertEqual(result["status"], "verified")
         self.assertEqual(result["protocol_id"], analysis.PROTOCOL_ID)
@@ -180,6 +191,7 @@ class CheckpointLogitBehavioralTransferTests(unittest.TestCase):
     def test_v2_persisted_output_verifies_when_present(self):
         if not logits_analysis.DEFAULT_OUTPUT.exists():
             self.skipTest("Checkpoint-logit behavioral output has not been generated")
+        skip_without_hydrated_dataset(self)
         result = logits_analysis.verify_existing(logits_analysis.DEFAULT_OUTPUT)
         self.assertEqual(result["status"], "verified")
         self.assertEqual(result["verified_seeds"], 10)
