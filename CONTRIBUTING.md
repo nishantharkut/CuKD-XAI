@@ -23,7 +23,6 @@ Run the smoke checks from the repository root:
 py -3.11 -m pytest tests/repository/test_active_cli_smoke.py tests/repository/test_repository_structure_smoke.py -q
 py -3.11 -m pytest tests/hardware tests/hardware_deployment_run -q
 py -3.11 -m compileall -q experiments deployment tests
-py -3.11 experiments/wsnds/leakage_free_rerun/verify_protected_sources.py verify
 ```
 
 The full suite requires all relevant Git LFS objects and is intentionally not
@@ -44,6 +43,10 @@ py -3.11 -m experiments.evidence.build_fgds_evidence_registry `
 
 Use `REPRODUCIBILITY.md` for experiment-specific regeneration commands. Never
 write a rerun into a sealed evidence directory.
+
+The protected-source verifier is a local restructuring baseline over hydrated
+working-tree bytes. Run it only in the original preservation workspace; it is
+not a portable clean-clone check.
 
 ## Review Checklist
 

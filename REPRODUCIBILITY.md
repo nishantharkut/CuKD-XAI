@@ -139,7 +139,6 @@ These checks do not train models or access boards:
 python -m pytest tests/repository/test_active_cli_smoke.py tests/repository/test_repository_structure_smoke.py -q
 python -m pytest tests/hardware tests/hardware_deployment_run -q
 python -m compileall -q experiments deployment tests
-python experiments/wsnds/leakage_free_rerun/verify_protected_sources.py verify
 ```
 
 The first test validates current reviewer-facing entrypoints and current
@@ -157,6 +156,12 @@ python -m pytest -q
 An unsmudged LFS pointer is text metadata, not the underlying CSV, checkpoint,
 or NumPy archive. Data-dependent failures in an LFS-skipped checkout do not
 test the research logic.
+
+`verify_protected_sources.py` is intentionally not an external clone check. It
+verifies a machine-local, hydrated working-tree snapshot created during the
+no-delete restructuring pass and is sensitive to checkout line endings and
+local manuscript cache files. Use Git history, `git diff --name-status`, Git
+LFS integrity, and the current evidence manifests for reviewer verification.
 
 ## 4. Verify Current Sealed Evidence
 
