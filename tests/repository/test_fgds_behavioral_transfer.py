@@ -12,8 +12,10 @@ import torch.nn.functional as F
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from experiments.wsnds.evidence_completion import analyze_fgds_behavioral_transfer as analysis
 from experiments.wsnds.evidence_completion import analyze_fgds_behavioral_transfer_logits as logits_analysis
+
+
+analysis = logits_analysis
 
 
 class BehavioralTransferUnitTests(unittest.TestCase):
@@ -32,7 +34,18 @@ class BehavioralTransferUnitTests(unittest.TestCase):
             [[0.70, 0.20, 0.05, 0.03, 0.02], [0.1, 0.1, 0.1, 0.1, 0.6]],
             dtype=np.float64,
         )
-        metrics = analysis.per_row_metrics(probabilities, probabilities)
+        softened = analysis.soften(probabilities, 4.0)
+        old_rows = analysis.EXPECTED_TEST_ROWS
+        try:
+            analysis.EXPECTED_TEST_ROWS = 2
+            metrics = analysis.per_row_metrics(
+                probabilities,
+                probabilities,
+                softened,
+                softened,
+            )
+        finally:
+            analysis.EXPECTED_TEST_ROWS = old_rows
         np.testing.assert_allclose(metrics["kl_teacher_to_student_T4"], 0.0, atol=1e-15)
         np.testing.assert_allclose(metrics["js_T4"], 0.0, atol=1e-15)
         np.testing.assert_allclose(metrics["l1_T4"], 0.0, atol=1e-15)
