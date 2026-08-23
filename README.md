@@ -208,17 +208,8 @@ Not claimed:
 
 ---
 
-## Publication Positioning
-
-The defensible novelty is not raw accuracy alone. The contribution is the combined evidence chain:
-
-1. High-performing IDS teacher compressed into KB-scale students.
-2. Compression evaluated across accuracy, macro-F1, per-class behavior, and model footprint.
-3. Explanation behavior audited rather than assumed.
-4. Software and firmware deployment paths tested with concrete evidence files.
-5. MCU replay and MSP430 memory evidence used to narrow the gap between notebook results and constrained-device feasibility.
-
-This makes the work stronger as a **resource-aware explainable IDS compression evidence package** than as a pure leaderboard paper.
+# Rights
+Copyright (c) 2026 Nishant Harkut. All rights reserved. No open-source license is granted by this repository at this stage.
 
 ---
 
